@@ -1,0 +1,42 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+Style/Documentation:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+    - 'db/migrate/*'
+
+Metrics/MethodLength:
+  Enabled: true
+  Exclude:
+    - 'db/migrate/*'
+
+
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'config/initializers/devise.rb'
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+    - 'bin/**/*'
+    - 'tmp/**/*'
+    - 'Guardfile'
+    - 'spec/rails_helper.rb'
+Style/SymbolArray:
+  Exclude:
+    - 'config/routes.rb'
