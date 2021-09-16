@@ -1,0 +1,25 @@
+<h1>New Space</h1>
+
+<%= form_with model: space do |form| %>
+
+  <div>
+    <%= form.label :address %>
+    <%= form.text_field :address, class: "border-4" %>
+  </div>
+  <div>
+    <%= form.label :latitude %>
+    <%= form.text_field :lat, class: "border-4" %>
+  </div>
+  <div>
+    <%= form.label :longitude %>
+    <%= form.text_field :long, class: "border-4" %>
+  </div>
+  <div>
+    <%= form.label :organization_id %>
+    <%= form.text_field :organization_id, class: "border-4" %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
