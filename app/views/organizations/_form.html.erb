@@ -1,0 +1,13 @@
+<h1>New Organization</h1>
+
+<%= form_with model: organization do |form| %>
+
+  <div>
+    <%= form.label :orgnr %>
+    <%= form.text_field :orgnr, class: "border-4" %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
