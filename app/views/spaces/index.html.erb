@@ -1,0 +1,21 @@
+<div class="mt-4 mx-4">
+  <h1 class="text-2xl">Spaces</h1>
+
+  <%= render partial: "form", locals: { space: @space } %>
+
+  <div>
+    <% @spaces.each do |space| %>
+      <div class="border-2 border-green-400 mt-4">
+        <p>Address: <%= space.address %></p>
+        <p>Latitude: <%= space.lat %></p>
+        <p>Longitude: <%= space.long %></p>
+        <%= link_to 'Show', space_path(space), class: "border-2 border-blue-400" %>
+        <%= link_to 'Edit', edit_space_path(space), class: "border-2 border-blue-400" %>
+      </div>
+    <% end %>
+  </div>
+
+  <br/>
+
+  <%= link_to 'Create New', new_space_path, class: "border-2 border-blue-400" %>
+</div>
