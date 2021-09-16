@@ -33,6 +33,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'fabrication'
+  gem 'faker'
 end
 
 group :development do
@@ -44,12 +46,11 @@ group :development do
   gem 'rack-mini-profiler', '~> 2.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'dotenv-rails'
-  gem 'fabrication'
-  gem 'faker'
   gem 'foreman'
   gem 'guard'
   gem 'guard-livereload', require: false
   gem 'overcommit'
+  gem 'rails-erd'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
@@ -64,4 +65,5 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'devise', '~> 4.8'
 
 gem 'hotwire-rails'
+gem 'paper_trail'
 gem 'tailwindcss-rails-webpacker', '~> 0.1.2'
