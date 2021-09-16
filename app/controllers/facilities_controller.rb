@@ -11,13 +11,9 @@ class FacilitiesController < ApplicationController
   end
 
   def create
-    @facility = Facility.new(facility_params)
+    @facility = Facility.create!(facility_params)
 
-    if @facility.save
-      redirect_to facilities_path
-    else
-      render :new, status: :unprocessable_entity
-    end
+    redirect_to facilities_path
   end
 
   def edit

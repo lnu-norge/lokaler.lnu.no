@@ -12,13 +12,9 @@ class SpacesController < ApplicationController
 
   def create
     space_type = SpaceType.find_or_create_by!(type_name: 'Skole')
-    @space = Space.new(space_type: space_type, **space_params)
+    @space = Space.create!(space_type: space_type, **space_params)
 
-    if @space.save
-      redirect_to spaces_path
-    else
-      render :new, status: :unprocessable_entity
-    end
+    redirect_to spaces_path
   end
 
   def edit
