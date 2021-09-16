@@ -4,13 +4,17 @@
 // that code so it'll be compiled.
 
 import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
+import "@hotwired/turbo-rails"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
 Rails.start()
-Turbolinks.start()
 ActiveStorage.start()
 
 import "stylesheets/application"
-require("controllers")
+import "controllers"
+
+document.addEventListener("turbo:load", () => {
+  // TODO: it's here just to check turbo gets loaded. Remove later.
+  console.log("turbo!")
+})
