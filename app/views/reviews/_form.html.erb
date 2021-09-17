@@ -19,11 +19,11 @@
   </div>
   <div>
     <%= form.label :user_id %>
-    <%= form.text_field :user_id, class: "border-4" %>
+    <%= form.collection_select :user_id, User.all, :id, :email, class: "border-4" %>
   </div>
   <div>
     <%= form.label :space_id %>
-    <%= form.text_field :space_id, class: "border-4" %>
+    <%= form.collection_select :space_id, Space.all, :id, :address, class: "border-4" %>
   </div>
 
   <div>
