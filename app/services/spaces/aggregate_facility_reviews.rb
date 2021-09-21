@@ -9,6 +9,7 @@ module Spaces
 
     def call # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
       space.aggregated_facility_reviews.destroy_all
+      space.reload
 
       a = space.facilities.order(:created_at).map do |facility|
         [facility.id, AggregatedFacilityReview.create!(experience: 'unknown', space: space, facility: facility)]
