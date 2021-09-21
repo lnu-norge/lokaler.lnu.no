@@ -4,6 +4,7 @@ module.exports = {
     enabled: ["production"].includes(process.env.NODE_ENV),
     content: [
       './**/*.html.erb',
+      './app/assets/images/**/*.svg',
       './app/helpers/**/*.rb',
       './app/javascript/**/*.js',
     ],
