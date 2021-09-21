@@ -1,6 +1,16 @@
 
 <div class="border-2 border-green-400 mt-4">
-  <p>Address: <%= @space.address %></p>
+
+    <div class="flex gap-4">
+
+      <div class="star flex gap-2">
+        <%= inline_svg_tag 'place' %>
+        <span>
+          <%= @space.address %>
+        </span>
+      </div>
+
+    </div>
   <p>Latitude: <%= @space.lat %></p>
   <p>Longitude: <%= @space.long %></p>
 </div>
