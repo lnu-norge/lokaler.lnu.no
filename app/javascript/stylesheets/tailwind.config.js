@@ -10,7 +10,11 @@ module.exports = {
   },
   darkMode: 'media', // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        '2/3': '66.666667%',
+      }
+    },
   },
   variants: {
     extend: {},
