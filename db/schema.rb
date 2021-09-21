@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_21_093842) do
+ActiveRecord::Schema.define(version: 2021_09_21_103923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "aggregated_facility_reviews", force: :cascade do |t|
+    t.bigint "facility_id", null: false
+    t.bigint "space_id", null: false
+    t.integer "experience"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["facility_id"], name: "index_aggregated_facility_reviews_on_facility_id"
+    t.index ["space_id"], name: "index_aggregated_facility_reviews_on_space_id"
+  end
 
   create_table "facilities", force: :cascade do |t|
     t.string "title"
@@ -99,6 +109,8 @@ ActiveRecord::Schema.define(version: 2021_09_21_093842) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "aggregated_facility_reviews", "facilities"
+  add_foreign_key "aggregated_facility_reviews", "spaces"
   add_foreign_key "facilities", "spaces"
   add_foreign_key "facility_reviews", "facilities"
   add_foreign_key "facility_reviews", "reviews"
