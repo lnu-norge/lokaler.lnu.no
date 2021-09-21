@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_16_090202) do
+ActiveRecord::Schema.define(version: 2021_09_21_093842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,12 +21,6 @@ ActiveRecord::Schema.define(version: 2021_09_16_090202) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["space_id"], name: "index_facilities_on_space_id"
-  end
-
-  create_table "organizations", force: :cascade do |t|
-    t.integer "orgnr"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -42,6 +36,12 @@ ActiveRecord::Schema.define(version: 2021_09_16_090202) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
+  create_table "space_owners", force: :cascade do |t|
+    t.integer "orgnr"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "space_types", force: :cascade do |t|
     t.string "type_name"
     t.datetime "created_at", precision: 6, null: false
@@ -52,11 +52,11 @@ ActiveRecord::Schema.define(version: 2021_09_16_090202) do
     t.string "address"
     t.string "lat"
     t.string "long"
-    t.bigint "organization_id", null: false
+    t.bigint "space_owner_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "space_type_id"
-    t.index ["organization_id"], name: "index_spaces_on_organization_id"
+    t.index ["space_owner_id"], name: "index_spaces_on_space_owner_id"
     t.index ["space_type_id"], name: "index_spaces_on_space_type_id"
   end
 
@@ -88,6 +88,6 @@ ActiveRecord::Schema.define(version: 2021_09_16_090202) do
   add_foreign_key "facilities", "spaces"
   add_foreign_key "reviews", "spaces"
   add_foreign_key "reviews", "users"
-  add_foreign_key "spaces", "organizations"
+  add_foreign_key "spaces", "space_owners"
   add_foreign_key "spaces", "space_types"
 end
