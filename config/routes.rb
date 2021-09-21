@@ -10,8 +10,12 @@ Rails.application.routes.draw do
              }
 
   devise_scope :user do
-    root to: 'devise/sessions#new'
+    authenticated :user do
+      root to: 'spaces#index'
+    end
   end
+
+  root to: 'devise/sessions#new', as: 'unauthenticated_root'
 
   resources 'facilities'
   resources 'spaces'
