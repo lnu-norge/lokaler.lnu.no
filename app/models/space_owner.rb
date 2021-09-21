@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class Organization < ApplicationRecord
+class SpaceOwner < ApplicationRecord
   has_many :spaces, dependent: :restrict_with_exception
 end
