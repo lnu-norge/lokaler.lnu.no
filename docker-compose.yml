@@ -1,0 +1,38 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    volumes:
+      - lokaler_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DOCKERIZED: "true"
+      DATABASE_URL: "postgresql://postgres:password@db/lokaler_lnu_no_development?pool=5"
+
+  webpack:
+    build: .
+    volumes:
+      - .:/myapp
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://postgres:password@db/lokaler_lnu_no_development?pool=5"
+      CONTAINER_ROLE: webpack
+  
+
+volumes:
+  lokaler_db:
+    driver: local
+
+  ## Run the following after the server has started for the first time:
+  ## docker-compose run web rake db:create db:migrate
