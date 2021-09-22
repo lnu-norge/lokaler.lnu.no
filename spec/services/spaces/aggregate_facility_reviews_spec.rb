@@ -18,9 +18,15 @@ RSpec.describe Spaces::AggregateFacilityReviews, type: :service do
     expect(space.reload.aggregated_facility_reviews.first.experience).to eq('likely')
   end
 
-  it 'turns into unlikely' do
+  it 'turns into impossible' do
     Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
     Fabricate(:facility_review, space: space, experience: 'was_not_available', facility: facility)
+    expect(space.reload.aggregated_facility_reviews.first.experience).to eq('impossible')
+  end
+
+  it 'turns into unlikely' do
+    Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
+    Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
     expect(space.reload.aggregated_facility_reviews.first.experience).to eq('unlikely')
   end
 end

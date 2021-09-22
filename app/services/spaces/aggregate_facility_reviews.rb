@@ -30,6 +30,8 @@ module Spaces
             aggregate.maybe!
           elsif (aggregate.likely? && positive_review(review)) || (aggregate.unlikely? && negative_review(review))
             next # unchanged
+          elsif impossible_review(review)
+            aggregate.impossible!
           else
             raise "Unhandled aggregation combination #{agg.experience}:#{review.experience}"
           end
@@ -46,7 +48,11 @@ module Spaces
     end
 
     def negative_review(review)
-      review.was_not_available? || review.was_not_allowed?
+      review.was_not_allowed?
+    end
+
+    def impossible_review(review)
+      review.was_not_available?
     end
 
     attr_reader :space
