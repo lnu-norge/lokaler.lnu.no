@@ -28,9 +28,7 @@ TODO:
     <!-- Space image(s) -->
 
     <div class="relative pb-2/3">
-      <img 
-        src="https://viken.no/handlers/bv.ashx/i48f11c61-ea16-4c71-9981-0763295eb81f/w600/h600/kdf02ea5781c1/coverp.png" 
-        class="bg-gray-300 absolute rounded-lg h-full w-full object-cover" />
+      <%= render partial: "image_list", locals: { images: space.images } %>
     </div>
     
     <!-- Space title -->

@@ -1,0 +1,6 @@
+<div>
+  <p class="block">Images:</p>
+  <% images.each do |image| %>
+    <image class="bg-gray-300 absolute rounded-lg h-full w-full object-cover" src="<%=(url_for(image))%>">
+  <% end %>
+</div>
