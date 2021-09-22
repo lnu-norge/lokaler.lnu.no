@@ -1,0 +1,99 @@
+<% 
+
+=begin 
+
+Partial for rendering a space listing in the search results.
+
+TODO: 
+- Remove hard coded values, and replace with dynamic ones from Rails.
+  - Image. (TBD: How do we choose which image to show?)
+  - Title (Frederik II -> space.title)
+  - School_Level (VGS -> space.school_level)!? We might want to eliminate this one
+  - Rating (4.2 -> space.rating)
+  - Number of Ratings (5 -> space.number_of_ratings)
+  - Type (Skole -> space.type)!? We might want to eliminate this one
+  - Number of people it fits (1200 elever -> space.fits_people)!? We might want to change this one to say something other than elever
+  - Facility listing based on search (currently, overnatting, kjøkken, lydanlegg, dansegulv)
+    - Probability for each facility, as shown below
+    - Icon for each? Not currently shown, but in Figma
+
+=end
+
+%>
+
+<%= link_to space_path(space) do %>
+
+  <div class="mt-4 mb-12 max-w-lg hover:opacity-70">
+
+    <!-- Space image(s) -->
+
+    <div class="relative pb-2/3">
+      <img 
+        src="https://viken.no/handlers/bv.ashx/i48f11c61-ea16-4c71-9981-0763295eb81f/w600/h600/kdf02ea5781c1/coverp.png" 
+        class="bg-gray-300 absolute rounded-lg h-full w-full object-cover" />
+    </div>
+    
+    <!-- Space title -->
+
+    <h3 class="text-xl mt-4 mb-2.5 font-bold">Frederik II <span class="font-normal">VGS</span></h3>
+
+    <!-- Meta information listing -->
+
+    <div class="flex gap-4 mb-2.5">
+
+      <div class="flex gap-2">
+        <%= inline_svg_tag 'star' %>
+        <span>
+          4.2 
+          <span class="opacity-50">(5)</span>
+        </span>
+      </div>
+
+      <div class="flex gap-2">
+          <%= inline_svg_tag 'building' %>
+          <span>
+            Skole
+            <span>(1200 elever)</span>
+          </span>
+      </div>
+
+    </div>
+
+    <!-- Filtered facilites listing -->
+
+    <ul class="grid grid-cols-2 gap-2 mt-2">
+      <li class="flex items-center gap-1.5" title="Sannsynlig! Andre har fått lov">
+        Overnatting
+        <span>
+           <%= inline_svg_tag 'facility_status/likely' %>
+        </span>
+      </li>
+      <li class="flex items-center gap-1.5"  title="Usannsynlig: Ingen eller få har fått lov">
+        Kjøkken
+        <span>
+           <%= inline_svg_tag 'facility_status/unlikely' %>
+        </span>
+      </li>
+      <li class="flex items-center gap-1.5" title="Kanskje: Ikke alle får lov">
+        Dansegulv
+        <span>
+           <%= inline_svg_tag 'facility_status/maybe' %>
+        </span>
+      </li>
+      <li class="flex items-center gap-1.5" title="Usikkert: Ingen har spurt om lydanlegg">
+        Lydanlegg
+        <span>
+           <%= inline_svg_tag 'facility_status/unknown' %>
+        </span>
+      </li>
+      <li class="flex items-center gap-1.5" title="Umulig: Frederik II har ikke flyplass">
+        Flyplass
+        <span>
+           <%= inline_svg_tag 'facility_status/impossible' %>
+        </span>
+      </li>
+    </ul>
+
+  </div>
+
+<% end %>
