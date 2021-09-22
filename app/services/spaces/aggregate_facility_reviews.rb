@@ -11,7 +11,7 @@ module Spaces
       space.aggregated_facility_reviews.destroy_all
       space.reload
 
-      a = space.facilities.order(:created_at).map do |facility|
+      aggregated_reviews = space.facilities.order(:created_at).map do |facility|
         [facility.id, AggregatedFacilityReview.create!(experience: 'unknown', space: space, facility: facility)]
       end.to_h
 
@@ -19,16 +19,16 @@ module Spaces
       # for a single aggregated review and we don't want to be hitting the DB for every 'experience' change
       AggregatedFacilityReview.transaction do
         space.facility_reviews.limit(10).each do |review|
-          agg = a[review.facility.id]
-          next unless agg
+          aggregate = aggregated_reviews[review.facility.id]
+          next unless aggregate
 
-          if agg.unknown? && positive_review(review)
-            agg.likely!
-          elsif agg.unknown? && negative_review(review)
-            agg.unlikely!
-          elsif (agg.unlikely? && positive_review(review)) || (agg.likely? && negative_review(review))
-            agg.maybe!
-          elsif (agg.likely? && positive_review(review)) || (agg.unlikely? && negative_review(review))
+          if aggregate.unknown? && positive_review(review)
+            aggregate.likely!
+          elsif aggregate.unknown? && negative_review(review)
+            aggregate.unlikely!
+          elsif (aggregate.unlikely? && positive_review(review)) || (aggregate.likely? && negative_review(review))
+            aggregate.maybe!
+          elsif (aggregate.likely? && positive_review(review)) || (aggregate.unlikely? && negative_review(review))
             next # unchanged
           else
             raise "Unhandled aggregation combination #{agg.experience}:#{review.experience}"
@@ -36,7 +36,7 @@ module Spaces
         end
       end
 
-      a
+      aggregated_reviews
     end
 
     private
