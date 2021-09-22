@@ -31,6 +31,13 @@ class SpacesController < ApplicationController
     end
   end
 
+  def upload_image
+    @space = Space.find(params[:id])
+    @space.images.attach(params[:image])
+    @space.save!
+    redirect_to spaces_path
+  end
+
   private
 
   def space_params
