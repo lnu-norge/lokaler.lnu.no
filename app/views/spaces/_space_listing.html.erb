@@ -1,10 +1,10 @@
-<% 
+<%
 
-=begin 
+=begin
 
 Partial for rendering a space listing in the search results.
 
-TODO: 
+TODO:
 - Remove hard coded values, and replace with dynamic ones from Rails.
   - Image. (TBD: How do we choose which image to show?)
   - Title (Frederik II -> space.title)
@@ -27,10 +27,8 @@ TODO:
 
     <!-- Space image(s) -->
 
-    <div class="relative pb-2/3">
-      <%= render partial: "image_list", locals: { images: space.images } %>
-    </div>
-    
+    <%= render partial: "image_list", locals: { images: space.images } %>
+
     <!-- Space title -->
 
     <h3 class="text-xl mt-4 mb-2.5 font-bold">Frederik II <span class="font-normal">VGS</span></h3>
@@ -42,7 +40,7 @@ TODO:
       <div class="flex gap-2">
         <%= inline_svg_tag 'star' %>
         <span>
-          4.2 
+          4.2
           <span class="opacity-50">(5)</span>
         </span>
       </div>
