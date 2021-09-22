@@ -10,17 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2021_09_21_103923) do
-=======
 ActiveRecord::Schema.define(version: 2021_09_22_082655) do
->>>>>>> Add image upload
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-<<<<<<< HEAD
-=======
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,7 +43,6 @@ ActiveRecord::Schema.define(version: 2021_09_22_082655) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
->>>>>>> Add image upload
   create_table "aggregated_facility_reviews", force: :cascade do |t|
     t.bigint "facility_id", null: false
     t.bigint "space_id", null: false
@@ -144,11 +137,8 @@ ActiveRecord::Schema.define(version: 2021_09_22_082655) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
-<<<<<<< HEAD
-=======
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
->>>>>>> Add image upload
   add_foreign_key "aggregated_facility_reviews", "facilities"
   add_foreign_key "aggregated_facility_reviews", "spaces"
   add_foreign_key "facilities", "spaces"
