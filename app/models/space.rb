@@ -7,6 +7,7 @@ class Space < ApplicationRecord
   has_many :facility_reviews, dependent: :restrict_with_exception
   has_many :reviews, dependent: :restrict_with_exception
   has_many :aggregated_facility_reviews, dependent: :restrict_with_exception
+
   belongs_to :space_owner
   belongs_to :space_type
 
