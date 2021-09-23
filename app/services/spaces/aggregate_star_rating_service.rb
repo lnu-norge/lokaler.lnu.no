@@ -8,7 +8,7 @@ module Spaces
     end
 
     def call
-      star_rating = space.reviews.sum(&:star_rating)
+      star_rating = space.reviews.all.sum(&:star_rating)
 
       space.update!(star_rating: star_rating / space.reviews.count)
     end
