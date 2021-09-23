@@ -8,7 +8,6 @@
 
   <div>
     <% @spaces.each do |space| %>
-      <%= render partial: "space_dev_information", locals: { space: space } %>
       <%= render partial: "space_listing", locals: { space: space } %>
     <% end %>
   </div>
