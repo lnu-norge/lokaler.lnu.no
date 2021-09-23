@@ -10,6 +10,12 @@ class Space < ApplicationRecord
   belongs_to :space_owner
   belongs_to :space_type
 
+  has_rich_text :how_to_book
+  has_rich_text :who_can_use
+  has_rich_text :pricing
+  has_rich_text :terms
+  has_rich_text :more_info
+
   def aggregate_facility_reviews
     Spaces::AggregateFacilityReviews.call(space: self)
   end

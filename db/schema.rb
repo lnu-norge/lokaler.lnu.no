@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_22_085806) do
+ActiveRecord::Schema.define(version: 2021_09_22_092854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,12 +112,18 @@ ActiveRecord::Schema.define(version: 2021_09_22_085806) do
 
   create_table "spaces", force: :cascade do |t|
     t.string "address"
-    t.string "lat"
-    t.string "long"
+    t.decimal "lat"
+    t.decimal "lng"
     t.bigint "space_owner_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "space_type_id"
+    t.string "title"
+    t.string "organization_number"
+    t.string "post_number"
+    t.string "post_address"
+    t.string "municipality_code"
+    t.integer "fits_people"
     t.index ["space_owner_id"], name: "index_spaces_on_space_owner_id"
     t.index ["space_type_id"], name: "index_spaces_on_space_type_id"
   end
