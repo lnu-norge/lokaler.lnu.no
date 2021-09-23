@@ -18,3 +18,6 @@ document.addEventListener("turbo:load", () => {
   // TODO: it's here just to check turbo gets loaded. Remove later.
   console.log("turbo!")
 })
+
+require("trix")
+require("@rails/actiontext")

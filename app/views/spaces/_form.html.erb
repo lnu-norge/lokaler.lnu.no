@@ -1,22 +1,84 @@
-<h1>New Space</h1>
-
 <%= form_with model: space do |form| %>
-
+  <div>
+    <%= form.label :title %> *
+    <%= form.text_field :title, class: "border-4" %>
+  </div>
   <div>
     <%= form.label :address %>
     <%= form.text_field :address, class: "border-4" %>
   </div>
   <div>
+    <%= form.label :post_number %>
+    <%= form.text_field :post_number, class: "border-4" %>
+  </div>
+  <div>
+    <%= form.label :post_address %>
+    <%= form.text_field :post_address, class: "border-4" %>
+  </div>
+  <div>
+    <%= form.label :municipality_code %>
+    <%= form.text_field :municipality_code, class: "border-4" %>
+  </div>
+
+  <div>
     <%= form.label :latitude %>
-    <%= form.text_field :lat, class: "border-4" %>
+    <%= form.number_field :lat, step: 0.0001, class: "border-4" %>
   </div>
   <div>
     <%= form.label :longitude %>
-    <%= form.text_field :long, class: "border-4" %>
+    <%= form.number_field :lng, step: 0.0001, class: "border-4" %>
   </div>
   <div>
+    <%= form.label :organization_number %>
+    <%= form.text_field :organization_number, class: "border-4" %>
+  </div>
+  <div>
+    <%= form.label :fits_people %>
+    <%= form.number_field :fits_people, class: "border-4" %>
+  </div>
+
+  <div>
+    <h3 class="font-bold text-xl mt-4 mb-2">
+      <%= form.label :how_to_book %>
+    </h3>
+    <%= form.rich_text_area :how_to_book %>
+  </div>
+
+  <div>
+    <h3 class="font-bold text-xl mt-4 mb-2">
+      <%= form.label :who_can_use %>
+    </h3>
+    <%= form.rich_text_area :who_can_use %>
+  </div>
+
+  <div>
+    <h3 class="font-bold text-xl mt-4 mb-2">
+      <%= form.label :pricing %>
+    </h3>
+    <%= form.rich_text_area :pricing %>
+  </div>
+
+  <div>
+    <h3 class="font-bold text-xl mt-4 mb-2">
+      <%= form.label :terms %>
+    </h3>
+    <%= form.rich_text_area :terms %>
+  </div>
+
+  <div>
+    <h3 class="font-bold text-xl mt-4 mb-2">
+      <%= form.label :more_info %>
+    </h3>
+    <%= form.rich_text_area :more_info %>
+  </div>
+
+  <div>
     <%= form.label :space_owner_id %>
-    <%= form.text_field :space_owner_id, class: "border-4" %>
+    <%= form.collection_select :space_owner_id, SpaceOwner.all, :id, :orgnr, class: "border-4" %>
+  </div>
+  <div>
+    <%= form.label :space_type_id %>
+    <%= form.collection_select :space_type_id, SpaceType.all, :id, :type_name, class: "border-4" %>
   </div>
 
   <div>

@@ -6,13 +6,8 @@ Partial for rendering a space listing in the search results.
 
 TODO:
 - Remove hard coded values, and replace with dynamic ones from Rails.
-  - Image. (TBD: How do we choose which image to show?)
-  - Title (Frederik II -> space.title)
-  - School_Level (VGS -> space.school_level)!? We might want to eliminate this one
   - Rating (4.2 -> space.rating)
   - Number of Ratings (5 -> space.number_of_ratings)
-  - Type (Skole -> space.type)!? We might want to eliminate this one
-  - Number of people it fits (1200 elever -> space.fits_people)!? We might want to change this one to say something other than elever
   - Facility listing based on search (currently, overnatting, kjøkken, lydanlegg, dansegulv)
     - Probability for each facility, as shown below
     - Icon for each? Not currently shown, but in Figma
@@ -27,11 +22,13 @@ TODO:
 
     <!-- Space image(s) -->
 
-    <%= render partial: "image_list", locals: { images: space.images } %>
+    <%= render partial: "index_image_list", locals: { images: space.images } %>
 
     <!-- Space title -->
 
-    <h3 class="text-xl mt-4 mb-2.5 font-bold">Frederik II <span class="font-normal">VGS</span></h3>
+    <h3 class="text-xl mt-4 mb-2.5 font-bold">
+      <%= space.title %>
+    </h3>
 
     <!-- Meta information listing -->
 
@@ -48,8 +45,10 @@ TODO:
       <div class="flex gap-2">
           <%= inline_svg_tag 'building' %>
           <span>
-            Skole
-            <span>(1200 elever)</span>
+            <%= space.space_type.type_name %>
+            <% if space.fits_people %>
+                <span>(<%= space.fits_people %> elever)</span>
+            <% end %>
           </span>
       </div>
 
@@ -89,7 +88,8 @@ TODO:
         </span>
       </li>
     </ul>
-
   </div>
-
 <% end %>
+<div style="margin-top: -32px">
+  <%= render partial: "space_dev_information", locals: { space: space } %>
+</div>
