@@ -1,0 +1,15 @@
+.space {
+  h1 {
+    @apply text-3xl mt-6 mb-3 font-bold;
+  }
+  h2 {
+    @apply text-2xl mt-6 mb-3 font-bold;
+  }
+  h3 {
+    @apply text-xl mt-6 mb-3 font-bold;
+  }
+
+  hr {
+    @apply my-8;
+  }
+}
