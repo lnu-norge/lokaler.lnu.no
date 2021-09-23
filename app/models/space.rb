@@ -18,6 +18,10 @@ class Space < ApplicationRecord
   has_rich_text :more_info
 
   def aggregate_facility_reviews
-    Spaces::AggregateFacilityReviews.call(space: self)
+    Spaces::AggregateFacilityReviewsService.call(space: self)
+  end
+
+  def aggregate_star_rating
+    Spaces::AggregateStarRatingService.call(space: self)
   end
 end

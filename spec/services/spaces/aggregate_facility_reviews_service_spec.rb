@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Spaces::AggregateFacilityReviews, type: :service do
+RSpec.describe Spaces::AggregateFacilityReviewsService do
   let(:space) { Fabricate(:space) }
   let(:facility) { Fabricate(:facility, space: space) }
 
