@@ -13,6 +13,14 @@
     border-b-4
   " onclick="
     console.log('Space data', <%= space.to_json %>);
+    <% space.images.each do |image| %>
+      console.log('image:', '<%= url_for(image) %>');
+    <% end %>
+    console.log('How to book', <%= space.how_to_book.to_json %>);
+    console.log('who_can_use', <%= space.who_can_use.to_json %>);
+    console.log('pricing', <%= space.pricing.to_json %>);
+    console.log('terms', <%= space.terms.to_json %>);
+    console.log('more_info', <%= space.more_info.to_json %>);
     ">
       Paste full data to console.log
     </button>
