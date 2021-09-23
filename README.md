@@ -110,6 +110,11 @@ Ruby on Rails is a great coding language to learn if you are a beginnner as well
 ## If you know coding from before
 If you know an other language like Javascript/React/Node, Phyton, Java, C (and all the variants) then picking up Ruby on Rails is fairly straight forward. Go to [Rails Tutorial](https://www.railstutorial.org/), the book costs a bit of money, but the older versions of the course is freely available on the site.
 
+We use Hotwire, Turbo, StimulusJS and Tailwind in the project.
+To learn [Hotwire and StimulsJS](https://hotwired.dev/) read the documentation and if you want see this in action then this [youtube tutorial](https://www.youtube.com/watch?v=NtTfYfWAzw0) is a good starting point.
+
+[Tailwind](https://tailwindcss.com/) is our framework for styling. It takes a bit of time to get used to, but once you do then most people tend to fall in love with it. Hard to describe - needs to be tried. This [youtube tutorial](https://www.youtube.com/watch?v=UBOj6rqRUME) is a great resource.
+
 ## If you are starting from Scratch
 We recommend [The Odin Project](https://www.theodinproject.com/) if you are starting from scratch. It is completly free, it teaches you everything you need to know and more. It starts off witht the basics and by the time you are done with the course you are a junior developer with impressive skills. This course will take a complete beginner about 3-6 months to complete.
 
