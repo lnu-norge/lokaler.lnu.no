@@ -7,7 +7,6 @@ Partial for rendering a space listing in the search results.
 TODO:
 - Remove hard coded values, and replace with dynamic ones from Rails.
   - Image. (TBD: How do we choose which image to show?)
-  - Title (Frederik II -> space.title)
   - School_Level (VGS -> space.school_level)!? We might want to eliminate this one
   - Rating (4.2 -> space.rating)
   - Number of Ratings (5 -> space.number_of_ratings)
@@ -31,7 +30,9 @@ TODO:
 
     <!-- Space title -->
 
-    <h3 class="text-xl mt-4 mb-2.5 font-bold">Frederik II <span class="font-normal">VGS</span></h3>
+    <h3 class="text-xl mt-4 mb-2.5 font-bold">
+      <%= space.title %>
+      <span class="font-normal">VGS</span></h3>
 
     <!-- Meta information listing -->
 

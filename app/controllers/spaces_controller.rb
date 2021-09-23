@@ -2,7 +2,7 @@
 
 class SpacesController < ApplicationController
   def index
-    @spaces = Space.all
+    @spaces = Space.all.order updated_at: :desc
     @space = Space.new
   end
 
