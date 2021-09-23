@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/AbcSize, Rails/CreateTableWithTimestamps
+
 # This migration comes from active_storage (originally 20170806125915)
 class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
-  def change # rubocop:disable Metrics/AbcSize
+  def change
     create_table :active_storage_blobs do |t|
       t.string   :key,          null: false
       t.string   :filename,     null: false
@@ -37,3 +39,5 @@ class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
     end
   end
 end
+
+# rubocop:enable Metrics/AbcSize, Rails/CreateTableWithTimestamps
