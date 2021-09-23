@@ -6,6 +6,21 @@
   <div>
     <% @spaces.each do |space| %>
       <%= render partial: "space_listing", locals: { space: space } %>
+      <div class="border-2 border-green-400 mt-4">
+        <p>Address: <%= space.address %></p>
+        <p>Latitude: <%= space.lat %></p>
+        <p>Longitude: <%= space.long %></p>
+        <%= link_to 'Show', space_path(space), class: "border-2 border-blue-400" %>
+        <%= link_to 'Edit', edit_space_path(space), class: "border-2 border-blue-400" %>
+        <%= form_with url: spaces_upload_image_path, class: "border border-green-400 m-2 p-2" do |f| %>
+          <p class="block text-xl">
+          Upload Image
+          </p>
+          <%= f.hidden_field :id, value: space.id %>
+          <%= f.file_field :image, class: "block" %>
+          <%= f.submit :upload, class: "block p-2 bg-blue-400" %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </div>
