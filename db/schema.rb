@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 2021_09_22_092854) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "space_type_id"
-    t.string "title"
+    t.string "title", null: false
     t.string "organization_number"
     t.string "post_number"
     t.string "post_address"

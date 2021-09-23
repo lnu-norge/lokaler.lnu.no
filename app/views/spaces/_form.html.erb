@@ -1,7 +1,10 @@
 <h1>New Space</h1>
 
 <%= form_with model: space do |form| %>
-
+  <div>
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "border-4" %>
+  </div>
   <div>
     <%= form.label :address %>
     <%= form.text_field :address, class: "border-4" %>
@@ -12,11 +15,11 @@
   </div>
   <div>
     <%= form.label :longitude %>
-    <%= form.text_field :long, class: "border-4" %>
+    <%= form.text_field :lng, class: "border-4" %>
   </div>
   <div>
     <%= form.label :space_owner_id %>
-    <%= form.text_field :space_owner_id, class: "border-4" %>
+    <%= form.collection_select :space_owner_id, SpaceOwner.all, :id, :orgnr, class: "border-4" %>
   </div>
 
   <div>
