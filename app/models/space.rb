@@ -17,6 +17,8 @@ class Space < ApplicationRecord
   has_rich_text :terms
   has_rich_text :more_info
 
+  validates :star_rating, numericality: { greater_than_or_equal_to: 0, less_than: 6 }
+
   def aggregate_facility_reviews
     Spaces::AggregateFacilityReviewsService.call(space: self)
   end
