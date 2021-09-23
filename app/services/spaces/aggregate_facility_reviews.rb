@@ -32,8 +32,10 @@ module Spaces
             next # unchanged
           elsif impossible_review(review)
             aggregate.impossible!
+          elsif aggregate.impossible? && negative_review(review)
+            aggregate.impossible!
           else
-            raise "Unhandled aggregation combination #{agg.experience}:#{review.experience}"
+            raise "Unhandled aggregation combination #{aggregate.experience}:#{review.experience}"
           end
         end
       end
