@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2021_09_22_092854) do
+=======
+ActiveRecord::Schema.define(version: 2021_09_23_070806) do
+>>>>>>> Aggregate star rating for a space
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,12 +122,16 @@ ActiveRecord::Schema.define(version: 2021_09_22_092854) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "space_type_id"
+<<<<<<< HEAD
     t.string "title", null: false
     t.string "organization_number"
     t.string "post_number"
     t.string "post_address"
     t.string "municipality_code"
     t.integer "fits_people"
+=======
+    t.integer "star_rating", default: 0, null: false
+>>>>>>> Aggregate star rating for a space
     t.index ["space_owner_id"], name: "index_spaces_on_space_owner_id"
     t.index ["space_type_id"], name: "index_spaces_on_space_type_id"
   end
