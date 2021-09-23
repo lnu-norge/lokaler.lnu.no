@@ -37,6 +37,7 @@ AllCops:
     - 'tmp/**/*'
     - 'Guardfile'
     - 'spec/rails_helper.rb'
+    - 'db/migrate/**/*'
 Style/SymbolArray:
   Exclude:
     - 'config/routes.rb'
