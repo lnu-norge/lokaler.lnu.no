@@ -37,3 +37,5 @@ yarn-debug.log*
 
 # Ignore Rubymine config files
 .idea
+/tailwind.config.js
+!app/**/tailwind.config.js

@@ -2,7 +2,7 @@
 
 class SpacesController < ApplicationController
   def index
-    @spaces = Space.all
+    @spaces = Space.all.order updated_at: :desc
     @space = Space.new
   end
 
@@ -41,6 +41,23 @@ class SpacesController < ApplicationController
   private
 
   def space_params
-    params.require(:space).permit(:address, :lat, :long, :space_owner_id)
+    params.require(:space).permit(
+      :title,
+      :address,
+      :lat,
+      :lng,
+      :space_owner_id,
+      :space_type_id,
+      :post_number,
+      :post_address,
+      :municipality_code,
+      :organization_number,
+      :fits_people,
+      :how_to_book,
+      :who_can_use,
+      :pricing,
+      :terms,
+      :more_info
+    )
   end
 end
