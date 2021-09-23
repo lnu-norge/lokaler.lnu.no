@@ -1,28 +1,26 @@
-# Lokaler.lnu.no
+# Lokaler fra LNU
+---
+Landsrådet for Norges barne- og ungdomsorganisasjoner or LNU has created this open source project to help its members more easily find and book suitable spaces or venues. These spaces can be anything from a school to a community center.
 
-## Lisens
-Lisens: [AGPL 3.0. Se egen lisensfil](./LICENSE).
+The problem this app aims to solve is that booking these types of venues can take a long time, it can be difficult to find suitable venues and find venues that can accommodate the needs the members have. This process can take up to a year. This project wants to use its members feedback to maintain the database and the idea is to create a mix between a booking type of site and a wiki.
 
-LNU har også (c) på lokaler.lnu.no, og kan velge å dobbelt-lisensiere kildekoden om de ønsker det.
+### Want to contribute!
+Want to help and contribute to this project? Read how on [om.lokaler.lnu.no/bidra](https://om.lokaler.lnu.no/bidra/).
 
-## Bidra gjerne!
+You can raise issues here on our github page or submit your own PR's.
+We will review these and give you feedback.
 
-Ønsker du å hjelpe til? Les hvordan på [om.lokaler.lnu.no/bidra](https://om.lokaler.lnu.no/bidra/)
+### What is Lokaler.lnu.no?
+Lokaler.lnu.no is built by [LNU](https://lnu.no) and this project is finaced with subsidies from [Bufdir](https://www.bufdir.no/).
 
-PR tas imot med takk.
+If you want to read more about the project go to [om.lokaler.lnu.no](https://om.lokaler.lnu.no/)
 
-Bugs rapporteres her i Github som issues.
+# Installation
+---
+If you want to install this project on your computer then follow the guides below.
+If you find bugs, please submit them.
 
-## Hva er Lokaler.lnu.no?
-
-Målet med lokaler.lnu.no er å gjøre det enklere å finne og dele informasjon om lokaler for barne- og ungdomsfrivilligheten.
-
-Lokaler.lnu.no er bygget av [LNU](https://lnu.no). Bygggingen er finansiert av tilskudd fra Bufdir.
-
-Les gjerne mer om prosjektet på [om.lokaler.lnu.no](https://om.lokaler.lnu.no/)
-
-
-## Install
+## Install (If you have Ruby and Rails already installed)
 1. Open your terminal
 2. Go to the folder you want the repository
 > TIP! This is the command: cd myfolder/myOtherFolder
@@ -30,17 +28,18 @@ Les gjerne mer om prosjektet på [om.lokaler.lnu.no](https://om.lokaler.lnu.no/)
 4. Go into the folder lokaler.lnu.no
 5. Run the command: bundle install
 > TIP! After this command you  should see a long list of green and white lines
-6. Now run the command: rails db:create db:migrate
-7. Lastly run the yarn command
+6.Rrun the command: yarn
+7. Now run the command: rails db:create db:migrate
 
 Congratulations!!! You have now setup the project.
 
 ###  Run application
 To run the application there are two options:
 #### I only want to see the application and play around
-1. While in the folder lokaler.lnu.no run the command:
-> foreman s -f Procfile.dev
+1. In the terminal and while in the folder lokaler.lnu.no run the command:
+> rails s
 2. Now go to your browser and go to website: http://localhost:3000/
+It takes a little time for the applilcation to bundle itself so if it does not show up straight away then wait up to a minute. If you get errors please let us know.
 
 You can now signup and use the app locally on your machine.
 
@@ -58,16 +57,17 @@ You can active that now inside your browser and the browser will automatically r
 [Live Reload for Chrome](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
 [Live Reload for Firefox](https://addons.mozilla.org/nb-NO/firefox/addon/livereload-web-extension/)
 
-## Install instructions Ruby on Rails
+# Install instructions Ruby on Rails
+---
 To get this project up and running on your computer you will need to install a few things on your system - Ruby, Rails, Yarn and PostgresQL. It is slightly different how you do this depending on whether you are on Ubuntu, Mac or Windows.
-### Ubuntu or other Linux versions
+## Ubuntu or other Linux versions
 1. Follow the instructions in this guide: https://gorails.com/setup/ubuntu/20.04
 2. We recommend using the Rbenv option, only because we can support you if issues.
 3. Skip the git setup if you already have it
 4. The MySQL part is optional, but you have to setup Postgres.
 
 That should be it.
-### Apple MacOS
+## Apple MacOS
 1. Follow the instructions in this guide: https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-macos
 > IMPORTANT- for  STEP 2
 > When prompted to run the command: rbenv install 2.6.3
@@ -89,7 +89,7 @@ https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 > TIP - If you want to follow a guide then this guide is okay. They install a much older version then you will be doing but it should be very similar.
 >https://www.postgresqltutorial.com/install-postgresql-macos/
 
-### Windows
+## Windows
 If you are on Windows we recommend using Windows Subsystem for Linux version 2 if possible.
 
 #### WSL2
@@ -102,3 +102,17 @@ If you are on Windows we recommend using Windows Subsystem for Linux version 2 i
 4. Now that you have Ubuntu, or other Linux, installed on your Windows computer you are ready to install the rest. You can now follow the Ubuntu guide above - just make sure you are using the newly installed Ubuntu terminal instead of Powershell or CMD.
 > TIP! You can use any terminal you want, but it makes things a bit harder. Google it if you want.
 5. After everything is finished you will need a Code Editor if you want to contribute (Sublime, VS-Code, or any other).
+
+# Want to learn to code or learn Rails?
+---
+Ruby on Rails is a great coding language to learn if you are a beginnner as well as a seasoned developer. What makes people love Ruby on Rails is that making apps are quite straight forward - and does not necessary involve thousands of hours of coding. Once you know Ruby on Rails you will be able to create a prototype application in as little as a week. The language is quite verbose and therefore becomes easier for beginners to read then some other languages. Apps built with Ruby on Rails, Twitter (the first 10 years), Github, Stripe, Shopify, Airbnb and many more.
+
+## If you know coding from before
+If you know an other language like Javascript/React/Node, Phyton, Java, C (and all the variants) then picking up Ruby on Rails is fairly straight forward. Go to [Rails Tutorial](https://www.railstutorial.org/), the book costs a bit of money, but the older versions of the course is freely available on the site.
+
+## If you are starting from Scratch
+We recommend [The Odin Project](https://www.theodinproject.com/) if you are starting from scratch. It is completly free, it teaches you everything you need to know and more. It starts off witht the basics and by the time you are done with the course you are a junior developer with impressive skills. This course will take a complete beginner about 3-6 months to complete.
+
+They have a Discord channel for help and they offer two paths - Rails and Javascript (Node). If you choose one, then the other will be easy afterwards.
+
+Let us know if we can help you out in any way, and feel free to clone this project to experiment your new found knowledge on as you progress in the course.
