@@ -65,6 +65,6 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'devise', '~> 4.8'
 
 gem 'hotwire-rails'
+gem 'inline_svg'
 gem 'paper_trail'
 gem 'tailwindcss-rails-webpacker', '~> 0.1.2'
-gem 'inline_svg'
