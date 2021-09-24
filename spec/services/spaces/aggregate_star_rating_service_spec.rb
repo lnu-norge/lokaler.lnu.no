@@ -5,12 +5,28 @@ require 'rails_helper'
 RSpec.describe Spaces::AggregateStarRatingService do
   let(:space) { Fabricate(:space) }
 
-  it 'rating equal 4' do
+  it 'Rating is calculated by averaging all reviews' do
     Fabricate(:review, space: space, star_rating: 3)
     Fabricate(:review, space: space, star_rating: 5)
     Fabricate(:review, space: space, star_rating: 5)
     Fabricate(:review, space: space, star_rating: 4)
 
     expect(space.reload.star_rating).to eq((3.0 + 5.0 + 5.0 + 4.0) / 4)
+  end
+
+  it 'Rating equals nil if there are no reviews' do
+    Fabricate(:review, space: space, star_rating: 3)
+    Fabricate(:review, space: space, star_rating: 5)
+    space.reviews.destroy_all
+
+    expect(space.reload.star_rating).to eq(nil)
+  end
+
+  it 'Rating can be calculated even if there are reviews with nil stars' do
+    Fabricate(:review, space: space, star_rating: 3)
+    Fabricate(:review, space: space, star_rating: 5)
+    Fabricate(:review, space: space, star_rating: nil)
+
+    expect(space.reload.star_rating).to eq((3.0 + 5.0) / 2)
   end
 end
