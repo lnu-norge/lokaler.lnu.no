@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Spaces
-  class AggregateFacilityReviews < ApplicationService
+  class AggregateFacilityReviewsService < ApplicationService
     def initialize(space:)
       @space = space
       super()
