@@ -31,6 +31,7 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
   end
 
   it 'Is unknown if no reviews, and turns back into unknown if all facility reviews are deleted' do
+    facility # ensure that the facility object is made
     space.facility_reviews.destroy_all
     expect(space.reload.aggregated_facility_reviews.first.experience).to eq('unknown')
 
