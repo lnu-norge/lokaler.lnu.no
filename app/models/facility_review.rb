@@ -9,4 +9,5 @@ class FacilityReview < ApplicationRecord
   belongs_to :review, optional: true
 
   after_save { space.aggregate_facility_reviews }
+  after_destroy { space.aggregate_facility_reviews }
 end
