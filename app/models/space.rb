@@ -19,6 +19,11 @@ class Space < ApplicationRecord
 
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
 
+  after_create do
+    aggregate_facility_reviews
+    aggregate_star_rating
+  end
+
   def aggregate_facility_reviews
     Spaces::AggregateFacilityReviewsService.call(space: self)
   end

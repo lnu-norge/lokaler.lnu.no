@@ -4,7 +4,7 @@ class Review < ApplicationRecord
   belongs_to :user
   belongs_to :space
 
-  validates :star_rating, presence: true, numericality: { greater_than: 0, less_than: 6 }
+  validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
 
   after_save { space.aggregate_star_rating }
   after_destroy { space.aggregate_star_rating }
