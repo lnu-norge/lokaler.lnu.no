@@ -8,11 +8,16 @@ module Spaces
     end
 
     def call
-      space.update!(star_rating: nil) if space.reviews.count.zero?
+      if space.reviews.count.zero?
+        space.update!(star_rating: nil)
+        return
+      end
 
       star_rating = space.reviews.all.sum(&:star_rating)
 
       space.update!(star_rating: star_rating / space.reviews.count)
+
+      space.star_rating
     end
 
     private
