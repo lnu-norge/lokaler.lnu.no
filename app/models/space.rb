@@ -17,7 +17,18 @@ class Space < ApplicationRecord
   has_rich_text :terms
   has_rich_text :more_info
 
+  validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
+
+  after_create do
+    aggregate_facility_reviews
+    aggregate_star_rating
+  end
+
   def aggregate_facility_reviews
-    Spaces::AggregateFacilityReviews.call(space: self)
+    Spaces::AggregateFacilityReviewsService.call(space: self)
+  end
+
+  def aggregate_star_rating
+    Spaces::AggregateStarRatingService.call(space: self)
   end
 end
