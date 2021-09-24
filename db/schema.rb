@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 2021_09_23_133358) do
     t.string "title"
     t.string "comment"
     t.integer "price"
-    t.decimal "star_rating", null: false
+    t.decimal "star_rating"
     t.bigint "user_id", null: false
     t.bigint "space_id", null: false
     t.datetime "created_at", precision: 6, null: false

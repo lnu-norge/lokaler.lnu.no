@@ -13,9 +13,11 @@ module Spaces
         return
       end
 
-      star_rating = space.reviews.all.sum(&:star_rating)
+      reviews_with_rating = space.reviews.where.not(star_rating: nil)
 
-      space.update!(star_rating: star_rating / space.reviews.count)
+      star_rating = reviews_with_rating.all.sum(&:star_rating)
+
+      space.update!(star_rating: star_rating / reviews_with_rating.count)
 
       space.star_rating
     end
