@@ -10,13 +10,13 @@
 
 # Seeds are split into different files, based on environment:
 ActiveRecord::Base.transaction do
-  ['common', Rails.env].each do |seedfile|
-    seed_file = Rails.root.join "/db/seeds/#{seedfile}.rb"
-    next unless File.exist?(seed_file)
+  ['common', Rails.env].each do |possible_seed_file|
+    file = Rails.root.join('db', 'seeds', "#{possible_seed_file}.rb")
+    next unless File.exist?(file)
 
     # rubocop:disable  Rails/Output
-    puts "- - Seeding data from file: #{seedfile}"
+    puts "- - Seeding data from file: #{possible_seed_file}"
     # rubocop:enable  Rails/Output
-    require seed_file
+    require file
   end
 end
