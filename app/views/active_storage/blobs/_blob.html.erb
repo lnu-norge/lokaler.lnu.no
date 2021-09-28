@@ -1,14 +1,21 @@
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %>">
-  <% if blob.representable? %>
-    <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]) %>
-  <% end %>
+  <% if blob.representable? # Is an image, or is representable as an image. Let the user view it. %>
 
-  <figcaption class="attachment__caption">
+    <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]) %>
+
     <% if caption = blob.try(:caption) %>
-      <%= caption %>
-    <% else %>
-      <span class="attachment__name"><%= blob.filename %></span>
-      <span class="attachment__size"><%= number_to_human_size blob.byte_size %></span>
+      <figcaption class="attachment__caption">
+        <%= caption %>
+      </figcaption>
     <% end %>
-  </figcaption>
+
+  <% else # Not an image or representable as an image, just let the user download it  %>
+    <%= link_to blob do %>
+      <figcaption class="attachment__file">
+        <span class="attachment__name"><%= blob.filename %></span>
+        <span class="attachment__size">(<%= number_to_human_size blob.byte_size %>)</span>
+      </figcaption>
+    <% end %>
+
+<% end %>
 </figure>
