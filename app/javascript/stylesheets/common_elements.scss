@@ -1,0 +1,6 @@
+.link {
+  @apply text-pink-700;
+  &:hover {
+    @apply underline;
+  }
+}
