@@ -39,3 +39,6 @@ yarn-debug.log*
 .idea
 /tailwind.config.js
 !app/**/tailwind.config.js
+
+# Mac ignores:
+.DS_Store
