@@ -1,5 +1,5 @@
-<figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %>">
-  <% if blob.representable? # Is an image, or is representable as an image. Let the user view it. %>
+<% if blob.representable? # Is an image, or is representable as an image. Let the user view it. %>
+  <figure class="attachment attachment--preview attachment--<%= blob.filename.extension %>">
 
     <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]) %>
 
@@ -8,14 +8,15 @@
         <%= caption %>
       </figcaption>
     <% end %>
-
+  </figure>
   <% else # Not an image or representable as an image, just let the user download it  %>
+  <figure class="attachment--<%= blob.filename.extension %> my-2 block">
     <%= link_to blob do %>
-      <figcaption class="attachment__file">
+      <figcaption class="attachment__link link block b-0">
         <span class="attachment__name"><%= blob.filename %></span>
         <span class="attachment__size">(<%= number_to_human_size blob.byte_size %>)</span>
       </figcaption>
     <% end %>
+  </figure>
 
 <% end %>
-</figure>
