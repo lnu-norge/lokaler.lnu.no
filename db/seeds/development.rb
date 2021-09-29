@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Decelopment only seeds
+# Development only seeds
 
 ## Create a User:
 User.create(
