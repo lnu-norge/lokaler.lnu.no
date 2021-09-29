@@ -1,6 +1,14 @@
+a,
 .link {
   @apply text-pink-700;
   &:hover {
     @apply underline;
+  }
+}
+
+a.unstyled-link {
+  color: inherit;
+  &:hover {
+    text-decoration: none;
   }
 }
