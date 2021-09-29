@@ -3,14 +3,28 @@ import { Controller } from "stimulus"
 
 export default class extends Controller {
   initialize() {
-    // TODO: Move this key to an env variable
-    mapboxgl.accessToken = 'pk.eyJ1IjoibWF0aGlhczIzNCIsImEiOiJja3R3eHExazYwejRpMzBteGgwamNsa3pqIn0.yQvHP3QMwl7T827tlDS78Q';
+    mapboxgl.accessToken = this.element.dataset.apiKey;
 
-    const map = new mapboxgl.Map({
+    this.map = new mapboxgl.Map({
       container: 'map-frame',
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-74.5, 40],
-      zoom: 9
+      center: [9.610, 59.178],
+      zoom: 15
     });
+
+    this.map.on('moveend', () => {
+      const center = this.map.getBounds().getCenter()
+      this.addMarker({lat: center.lat, lng: center.lng, text: "Test Marker"})
+    });
+
+  }
+
+  addMarker(marker) {
+    const element = document.createElement('div')
+    element.className = "rounded p-1 border border-black bg-white"
+    element.innerText = marker.text
+    new mapboxgl.Marker(element)
+      .setLngLat([marker.lng, marker.lat])
+      .addTo(this.map)
   }
 }
