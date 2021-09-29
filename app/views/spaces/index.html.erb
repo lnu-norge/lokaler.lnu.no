@@ -1,11 +1,11 @@
+<div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" data-markers="<%= @space_map_markers %>" >
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+  <div class="w-full h-96" id="map-frame">
+  </div>
+</div>
+
 <div class="mt-4 mx-4">
   <h1 class="text-2xl">Spaces</h1>
-
-  <div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
-    <div class="absolute w-96 h-96" id="map-frame">
-    </div>
-  </div>
-
   <details class="p-4 cursor-pointer border-4 border-green-400 bg-green-50">
     <summary class="text-green-600 font-bold">Create new space</summary>
     <%= render partial: "form", locals: { space: @space } %>
