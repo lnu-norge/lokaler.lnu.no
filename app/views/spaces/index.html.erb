@@ -1,7 +1,7 @@
 <div class="mt-4 mx-4">
   <h1 class="text-2xl">Spaces</h1>
 
-  <div data-controller="mapbox">
+  <div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
     <div class="absolute w-96 h-96" id="map-frame">
     </div>
   </div>
