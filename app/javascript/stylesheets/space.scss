@@ -1,12 +1,20 @@
 .space {
+  h1, h2, h3 {
+    @apply mt-6 font-bold;
+  }
+
+  p, ul, ol, h3, h2, h1 {
+    @apply mb-3;
+  }
+
   h1 {
-    @apply text-3xl mt-6 mb-3 font-bold;
+    @apply text-3xl;
   }
   h2 {
-    @apply text-2xl mt-6 mb-3 font-bold;
+    @apply text-2xl;
   }
   h3 {
-    @apply text-xl mt-6 mb-3 font-bold;
+    @apply text-xl;
   }
 
   hr {
