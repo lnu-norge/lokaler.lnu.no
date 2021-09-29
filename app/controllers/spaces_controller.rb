@@ -3,6 +3,9 @@
 class SpacesController < ApplicationController
   def index
     @spaces = Space.all.order updated_at: :desc
+    @space_map_markers = @spaces.map do |space|
+      { lat: space.lat, lng: space.lng, title: space.title }
+    end.to_json
     @space = Space.new
   end
 
