@@ -1,0 +1,19 @@
+<%
+  mapbox_zoom = 12
+  map_height = 250
+  map_width = 400
+  mapbox_static_map_url =  "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static"
+  mapbox_static_map_url += "/pin-l-circle+db2777(#{@space.lng},#{@space.lat})"
+  mapbox_static_map_url += "/#{@space.lng},#{@space.lat},#{mapbox_zoom}"
+  mapbox_static_map_url += "/#{map_width}x#{map_height}?logo=false&@2x&"
+  mapbox_static_map_url += "&access_token=#{ENV["MAPBOX_API_KEY"]}"
+
+  google_maps_url =  "https://www.google.com/maps?q="
+  google_maps_url += ERB::Util.url_encode(
+    "#{@space.title}, #{@space.address}, #{@space.post_number} #{@space.post_address}"
+  )
+%>
+  <a href="<%= google_maps_url %>">
+    <img class="block hover:opacity-80 my-3 object-none" src="<%= mapbox_static_map_url %>" />
+    <p class="inline">Åpne i Google Maps</p>
+  </a>

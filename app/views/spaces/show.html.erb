@@ -114,7 +114,7 @@
   <hr />
 
   <h2>Hvor er det?</h2>
-  <div class="flex gap-2">
+  <div class="flex gap-1 mb-3">
     <%= inline_svg_tag 'place' %>
     <span>
       <%= @space.address %>,
@@ -123,9 +123,7 @@
     </span>
   </div>
 
-  <p>KART MANGLER</p>
-  <p>MANGLER LENKE TIL GMAPS</p>
-
+  <%= render partial: "static_map" %>
 
   <hr />
 
