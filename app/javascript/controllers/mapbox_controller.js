@@ -27,9 +27,10 @@ export default class extends Controller {
     // If marker is already added, then just update that element, otherwise, create a new one
     const element = this.markers[space.id]
         ? this.markers[space.id].getElement()
-        : document.createElement('div')
+        : document.createElement('a')
 
-    element.className = "flex items-center gap-2 text-base rounded-full py-1 px-4 border border-gray-100 hover:border-pink-500 bg-white shadow-lg cursor-pointer"
+    element.href = space.url
+    element.className = "flex unstyled-link items-center gap-2 text-base rounded-full py-1 px-4 border border-gray-100 hover:border-pink-500 bg-white shadow-lg cursor-pointer"
     element.innerHTML = /*html*/`
         <span class="font-bold">${space.title}</span>
         <span class="inline-flex items-center gap-0.5 ${space.starRating ? 'text-pink-500' : 'text-gray-300'}">

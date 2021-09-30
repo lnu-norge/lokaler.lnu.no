@@ -53,7 +53,8 @@ class SpacesController < ApplicationController
         lng: space.lng,
         id: space.id,
         title: space.title,
-        starRating: space.star_rating
+        starRating: space.star_rating,
+        url: space_url(space)
       }
     end
 
