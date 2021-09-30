@@ -48,7 +48,13 @@ class SpacesController < ApplicationController
     )
 
     response = spaces.map do |space|
-      { lat: space.lat, lng: space.lng, title: space.title }
+      {
+        lat: space.lat,
+        lng: space.lng,
+        id: space.id,
+        title: space.title,
+        starRating: space.star_rating
+      }
     end
 
     render json: response
