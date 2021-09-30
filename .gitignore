@@ -42,3 +42,6 @@ yarn-debug.log*
 
 # Mac ignores:
 .DS_Store
+
+# Ignores local .env file
+.env

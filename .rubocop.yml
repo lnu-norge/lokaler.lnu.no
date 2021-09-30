@@ -19,7 +19,7 @@ Metrics/BlockLength:
     - 'db/migrate/*'
 
 Metrics/MethodLength:
-  Enabled: true
+  Max: 20
   Exclude:
     - 'db/migrate/*'
 
