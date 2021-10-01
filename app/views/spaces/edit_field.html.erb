@@ -1,0 +1,4 @@
+<h1>Editing field '<%= @field %>' on <%= @space.title %></h1>
+<%= turbo_frame_tag "#{dom_id(@space)}-#{@field}" do %>
+  <%= render partial: "spaces/edit/#{@field}" %>
+<% end %>
