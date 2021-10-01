@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "#{dom_id(@space)}-#{field}" do %>
+  <%= capture(&block) %>
+  <%= link_to 'Redigér', edit_field_path(@space, field) %>
+<% end %>
