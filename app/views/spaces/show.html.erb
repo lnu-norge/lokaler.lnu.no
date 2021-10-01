@@ -11,10 +11,15 @@
 <main class="space px-4">
 
   <!-- Space title -->
+  <%= turbo_frame_tag "#{dom_id(@space)}-title" do %>
+    <h1>
+      <%= @space.title %>
+    </h1>
 
-  <h1>
-    <%= @space.title %>
-  </h1>
+    <%= link_to 'Redigér', edit_field_path(@space, 'title') %>
+  <% end %>
+
+
 
   <!-- Meta information listing -->
 
