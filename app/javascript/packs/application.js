@@ -19,5 +19,5 @@ document.addEventListener("turbo:load", () => {
   console.log("turbo!")
 })
 
-require("trix")
+require("../custom/custom_trix")
 require("@rails/actiontext")
