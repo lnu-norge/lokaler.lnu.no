@@ -42,19 +42,23 @@
     </div>
 
   </div>
-  <div class="flex gap-2">
-    <%= inline_svg_tag 'place' %>
-    <span>
-      <%= @space.address %>,
-      <%= @space.post_number %>
-      <%= @space.post_address %>
-    </span>
-  </div>
+  <%= editable_inline 'address' do %>
+    <div class="flex gap-2">
+      <%= inline_svg_tag 'place' %>
+      <span>
+        <%= @space.address %>,
+        <%= @space.post_number %>
+        <%= @space.post_address %>
+      </span>
+    </div>
+  <% end %>
 
   <hr />
 
-  <h2>Hvordan booker vi?</h2>
-  <%= @space.how_to_book %>
+  <%= editable_inline 'how_to_book' do %>
+    <h2>Hvordan booker vi?</h2>
+    <%= @space.how_to_book %>
+  <% end %>
 
   <hr />
 
@@ -104,15 +108,17 @@
 
   <hr />
 
-  <h2>Hvem får bruke lokalet?</h2>
-
-  <%= @space.who_can_use %>
+  <%= editable_inline 'who_can_use' do %>
+    <h2>Hvem får bruke lokalet?</h2>
+    <%= @space.who_can_use %>
+  <% end %>
 
   <hr />
 
-  <h2>Pris</h2>
-
-  <%= @space.pricing %>
+  <%= editable_inline 'pricing' do %>
+    <h2>Pris</h2>
+    <%= @space.pricing %>
+  <% end %>
 
   <hr />
 
@@ -132,16 +138,17 @@
 
   <hr />
 
-  <h2>Mer om lokalet</h2>
-  <%= @space.more_info %>
-
+  <%= editable_inline 'more_info' do %>
+    <h2>Mer om lokalet</h2>
+    <%= @space.more_info %>
+  <% end %>
 
   <hr />
 
-  <h2>Vilkår for å bruke lokalet</h2>
-  <%= @space.terms %>
-
-
+  <%= editable_inline 'terms' do %>
+    <h2>Vilkår for å bruke lokalet</h2>
+    <%= @space.terms %>
+  <% end %>
 
   <hr />
 
