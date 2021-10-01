@@ -1,4 +1,10 @@
 <%= turbo_frame_tag "#{dom_id(@space)}-#{field}" do %>
   <%= capture(&block) %>
-  <%= link_to 'Redigér', edit_field_path(@space, field) %>
+  <%= link_to edit_field_path(@space, field), class: 'unstyled-link edit-button' do %>
+    <span class="text">
+      Redigér
+    </span>
+    <%= inline_svg 'edit', alt: 'Redigér', title: 'Redigér' %>
+  <% end %>
 <% end %>
+
