@@ -5,7 +5,7 @@ module SpacesHelper
     render partial: "spaces/edit/#{partial}", locals: { form: form }
   end
 
-  def editable_inline(field, title = { h2: nil }, &block)
+  def inline_editable(field, title = { h2: nil }, &block)
     render partial: 'spaces/editable_inline', locals: {
       field: field,
       title_tag: title.first[0],
