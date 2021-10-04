@@ -1,0 +1,26 @@
+<div class="flex gap-4 mb-2.5">
+  <div class="flex gap-2">
+    <%= inline_svg_tag 'star' %>
+    <span>
+        4.2
+        <span class="opacity-50">(5)</span>
+      </span>
+  </div>
+  <div class="flex gap-2">
+    <%= inline_svg_tag 'building' %>
+    <span>
+      <%= @space.space_type.type_name %>
+      <% if @space.fits_people %>
+        <span>(<%= @space.fits_people %> elever)</span>
+      <% end %>
+    </span>
+  </div>
+</div>
+<div class="flex gap-2">
+  <%= inline_svg_tag 'place' %>
+  <span>
+    <%= @space.address %>,
+    <%= @space.post_number %>
+    <%= @space.post_address %>
+  </span>
+</div>

@@ -17,7 +17,8 @@
     )}
   ].join
 %>
-  <a href="<%= google_maps_url %>">
-    <img alt=""  class="block hover:opacity-80 my-3 object-none" src="<%= mapbox_static_map_url %>" />
-    <p class="inline">Åpne i Google Maps</p>
-  </a>
+
+<a href="<%= google_maps_url %>">
+  <%= image_tag mapbox_static_map_url, class: 'block hover:opacity-80 my-3 object-none' %>
+  <p class="inline">Åpne i Google Maps</p>
+</a>
