@@ -10,13 +10,11 @@
 
 <main class="space px-4">
 
-  <!-- Space title -->
+  <!-- Space title and basics -->
 
-  <h1>
-    <%= @space.title %>
-  </h1>
+  <%= inline_editable :basics, h1:  @space.title  do %>
 
-  <!-- Meta information listing -->
+    <!-- Meta information listing -->
 
   <div class="flex gap-4 mb-2.5">
 
@@ -39,19 +37,21 @@
     </div>
 
   </div>
-  <div class="flex gap-2">
-    <%= inline_svg_tag 'place' %>
-    <span>
-      <%= @space.address %>,
-      <%= @space.post_number %>
-      <%= @space.post_address %>
-    </span>
-  </div>
+    <div class="flex gap-2">
+      <%= inline_svg_tag 'place' %>
+      <span>
+        <%= @space.address %>,
+        <%= @space.post_number %>
+        <%= @space.post_address %>
+      </span>
+    </div>
+  <% end %>
 
   <hr />
 
-  <h2>Hvordan booker vi?</h2>
-  <%= @space.how_to_book %>
+  <%= inline_editable :how_to_book, h2: 'Hvordan booker vi?' do %>
+    <%= @space.how_to_book %>
+  <% end %>
 
   <hr />
 
@@ -101,19 +101,20 @@
 
   <hr />
 
-  <h2>Hvem får bruke lokalet?</h2>
-
-  <%= @space.who_can_use %>
-
-  <hr />
-
-  <h2>Pris</h2>
-
-  <%= @space.pricing %>
+  <%= inline_editable :who_can_use, h2: 'Hvem får bruke lokalet?' do %>
+    <%= @space.who_can_use %>
+  <% end %>
 
   <hr />
 
-  <h2>Hvor er det?</h2>
+  <%= inline_editable :pricing, h2: 'Pris' do %>
+    <%= @space.pricing %>
+  <% end %>
+
+  <hr />
+
+  <%= inline_editable :address, h2: 'Hvor er det?' do %>
+
   <div class="flex gap-2">
     <%= inline_svg_tag 'place' %>
     <span>
@@ -127,18 +128,18 @@
   <p>MANGLER LENKE TIL GMAPS</p>
 
 
+  <% end %>
   <hr />
 
-  <h2>Mer om lokalet</h2>
-  <%= @space.more_info %>
-
+  <%= inline_editable :more_info, h2: 'Mer om lokalet' do %>
+    <%= @space.more_info %>
+  <% end %>
 
   <hr />
 
-  <h2>Vilkår for å bruke lokalet</h2>
-  <%= @space.terms %>
-
-
+  <%= inline_editable :terms, h2: 'Vilkår for å bruke lokalet' do %>
+    <%= @space.terms %>
+  <% end %>
 
   <hr />
 
