@@ -14,18 +14,23 @@ class SpacesController < ApplicationController
     space_type = SpaceType.find_or_create_by!(type_name: 'Skole')
     @space = Space.create!(space_type: space_type, **space_params)
 
-    redirect_to spaces_path
+    redirect_to space_path(@space)
   end
 
   def edit
     @space = Space.find(params[:id])
   end
 
+  def edit_field
+    @space = Space.find(params[:id])
+    @field = params[:field]
+  end
+
   def update
     @space = Space.find(params[:id])
 
     if @space.update(space_params)
-      redirect_to spaces_path
+      redirect_to space_path(@space)
     else
       render :edit, status: :unprocessable_entity
     end
