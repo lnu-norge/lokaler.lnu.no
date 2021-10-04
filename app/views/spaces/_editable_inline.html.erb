@@ -1,0 +1,19 @@
+<%= turbo_frame_tag "#{dom_id(@space)}-#{field}", class: 'inline-editing' do %>
+  <section>
+    <header class="editable-header-type-<%= title_tag %> flex gap-3 items-baseline">
+      <%= content_tag title_tag, class: 'mt-0' do %>
+       <%= title_text %>
+      <% end %>
+      <%= link_to edit_field_path(@space, field), class: 'unstyled-link edit-button collapsable' do %>
+      <span class="text">
+        Redigér
+      </span>
+        <%= inline_svg 'edit', alt: 'Redigér', title: 'Redigér' %>
+      <% end %>
+    </header>
+    <main>
+      <%= capture(&block) %>
+    </main>
+  </section>
+<% end %>
+

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   resources 'facilities'
   resources 'spaces'
+  get '/spaces/:id/edit/:field', to: 'spaces#edit_field', as: 'edit_field'
   resources 'space_owners'
   resources 'reviews'
 
