@@ -35,9 +35,9 @@ TODO:
     <div class="flex gap-4 mb-2.5">
 
       <div class="flex gap-2">
-        <%= inline_svg_tag 'star' %>
+        <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'}" %>
         <span>
-          4.2
+          <%=  space.star_rating || '-' %>
           <span class="opacity-50">(5)</span>
         </span>
       </div>
