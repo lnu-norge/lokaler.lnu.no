@@ -48,7 +48,14 @@ class SpacesController < ApplicationController
     )
 
     response = spaces.map do |space|
-      { lat: space.lat, lng: space.lng, title: space.title }
+      html = render_to_string partial: 'map_marker', locals: { space: space }
+
+      {
+        lat: space.lat,
+        lng: space.lng,
+        id: space.id,
+        html: html
+      }
     end
 
     render json: response
