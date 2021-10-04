@@ -26,12 +26,15 @@ module SpacesHelper
   # Can also be combined with HTML attributes for the iamge tag
   # static_map_of @space, zoom: 4, class: "p-4"
   def static_map_of(space, zoom: 12, height: 250, width: 400, **html_options)
-    static_map_image_url = %W[
-      https://api.mapbox.com/styles/v1/mapbox/streets-v11/static
-      /pin-l-circle+db2777(#{space.lng},#{space.lat})
-      /#{space.lng},#{space.lat},#{zoom}
-      /#{width}x#{height}?logo=false&@2x&
-      &access_token=#{ENV['MAPBOX_API_KEY']}
+    color_of_pin = 'db2777' # Tailwind pink-600
+    static_map_image_url = [
+      'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static',
+      "/pin-l-circle+#{color_of_pin}(#{space.lng},#{space.lat})", # Type, color, and position of pin
+      "/#{space.lng},#{space.lat},#{zoom}", # Position of map
+      "/#{width}x#{height}", # Size of map
+      '?logo=false', # Hide mapbox logo
+      '&@2x', # Render at 2x for retina
+      "&access_token=#{ENV['MAPBOX_API_KEY']}"
     ].join
     image_tag static_map_image_url, html_options
   end
