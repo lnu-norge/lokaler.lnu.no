@@ -1,0 +1,4 @@
+<div>
+  <%= form.label :space_type_id %>
+  <%= form.collection_select :space_type_id, SpaceType.all, :id, :type_name, class: "border-4" %>
+</div>

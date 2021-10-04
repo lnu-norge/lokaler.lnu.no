@@ -21,4 +21,10 @@
   hr {
     @apply my-8;
   }
+
+  header {
+    h2 {
+      @apply mt-0;
+    }
+  }
 }
