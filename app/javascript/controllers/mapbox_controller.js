@@ -26,16 +26,16 @@ export default class extends Controller {
   addMarker(space) {
     // If marker is already added, then just update that element, otherwise, create a new one
     const element = this.markers[space.id]
-        ? this.markers[space.id].getElement()
-        : document.createElement('div')
+      ? this.markers[space.id].getElement()
+      : document.createElement('div')
 
     element.innerHTML = space.html
 
     if (!this.markers[space.id]) {
       // Need to add new markers to this.markers, to keep track:
       this.markers[space.id] = new mapboxgl.Marker(element)
-          .setLngLat([space.lng, space.lat])
-          .addTo(this.map)
+        .setLngLat([space.lng, space.lat])
+        .addTo(this.map)
     }
   }
 
@@ -45,20 +45,20 @@ export default class extends Controller {
   }
 
   async loadNewMapPosition() {
-		document.getElementById("space-listing").innerText = "Laster..."
+    document.getElementById("space-listing").innerText = "Laster..."
 
     const northWest = this.map.getBounds().getNorthWest()
     const southEast = this.map.getBounds().getSouthEast()
     const fetchSpacesInRectUrl = `/spaces_in_rect?north_west_lat=${northWest.lat}&north_west_lng=${northWest.lng}&south_east_lat=${southEast.lat}&south_east_lng=${southEast.lng}`
     const spacesInRect = await (await fetch(fetchSpacesInRectUrl)).json()
 
-		// Replace the spaces list with the new view rendered by the server
-		document.getElementById("space-listing").innerHTML = spacesInRect.listing
+    // Replace the spaces list with the new view rendered by the server
+    document.getElementById("space-listing").innerHTML = spacesInRect.listing
 
-		const markers = spacesInRect.markers
+    const markers = spacesInRect.markers
     // Remove markers that are no longer relevant
     Object.keys(this.markers).forEach(key => {
-      if (markers.find( space => space.id === key)) return;
+      if (markers.find(space => space.id === key)) return;
       this.removeMarker(key)
     })
 
