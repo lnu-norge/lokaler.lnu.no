@@ -36,10 +36,9 @@ PreCommit:
     config: coffeelint.json
 
   EsLint:
-    enabled: false
-    required_executable: 'yarn'
-    command: ['yarn', 'lint']
-    flags: ['--fix', '--format=compact']
+    enabled: true
+    on_warn: fail
+    command: ['eslint', 'app/javascript/controllers/**/*.js']
 
   AuthorName:
     enabled: false
