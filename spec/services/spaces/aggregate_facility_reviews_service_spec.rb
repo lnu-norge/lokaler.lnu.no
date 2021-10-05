@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Spaces::AggregateFacilityReviewsService do
   let(:space) { Fabricate(:space) }
-  let(:facility) { Fabricate(:facility, space: space) }
+  let(:facility) { Fabricate(:facility) }
 
   it 'turns into maybe if there are mixed reviews' do
     Fabricate(:facility_review, space: space, experience: 'was_allowed', facility: facility)
