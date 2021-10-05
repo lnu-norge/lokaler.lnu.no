@@ -2,4 +2,5 @@
 
 Fabricator(:facility) do
   title { Faker::Lorem.sentences(number: 1) }
+  facility_category
 end
