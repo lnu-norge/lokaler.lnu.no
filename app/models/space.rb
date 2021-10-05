@@ -23,6 +23,10 @@ class Space < ApplicationRecord
     aggregate_star_rating
   end
 
+  def reviews_for_facility(facility)
+    AggregatedFacilityReview.find_by(space: self, facility: facility)
+  end
+
   def aggregate_facility_reviews
     Spaces::AggregateFacilityReviewsService.call(space: self)
   end
