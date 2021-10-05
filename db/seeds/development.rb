@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Common seeds:
+require './db/seeds/spaces/common'
+
 # Development only seeds
 
 ## Create a User:
