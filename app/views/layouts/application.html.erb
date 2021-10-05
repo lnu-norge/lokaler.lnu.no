@@ -12,12 +12,13 @@
   </head>
 
   <body>
-    <nav class="grid grid-cols-12 mt-2">
     <% if current_user %>
+      <nav class="grid grid-cols-12 mt-2">
         <%= link_to "Signout", destroy_user_session_path, class: "col-start-11 col-span-1 p-1 font-l text-center border-4 border-green-400 bg-green-100 rounded-md", method: :delete %>
+      </nav>
     <% end %>
-    </nav>
-    <main data-controller="example">
+    <main data-controller="example" class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <%= render 'shared/flash' %>
       <%= yield %>
     </main>
   </body>
