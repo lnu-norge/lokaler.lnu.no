@@ -13,14 +13,14 @@ export default class extends Controller {
     });
 
     this.map.on('moveend', () => {
-      this.loadMarkers()
+      this.loadNewMapPosition()
     });
 
     // Hash for storing markers, based on
     // { spaceId: mapBoxMarker }
     this.markers = {}
 
-    this.loadMarkers()
+    this.loadNewMapPosition()
   }
 
   addMarker(space) {
@@ -44,21 +44,26 @@ export default class extends Controller {
     delete this.markers[key]
   }
 
-  async loadMarkers() {
+  async loadNewMapPosition() {
+		document.getElementById("space-listing").innerText = "Laster..."
 
     const northWest = this.map.getBounds().getNorthWest()
     const southEast = this.map.getBounds().getSouthEast()
     const fetchSpacesInRectUrl = `/spaces_in_rect?north_west_lat=${northWest.lat}&north_west_lng=${northWest.lng}&south_east_lat=${southEast.lat}&south_east_lng=${southEast.lng}`
     const spacesInRect = await (await fetch(fetchSpacesInRectUrl)).json()
 
+		// Replace the spaces list with the new view rendered by the server
+		document.getElementById("space-listing").innerHTML = spacesInRect.listing
+
+		const markers = spacesInRect.markers
     // Remove markers that are no longer relevant
     Object.keys(this.markers).forEach(key => {
-      if (spacesInRect.find( space => space.id === key)) return;
+      if (markers.find( space => space.id === key)) return;
       this.removeMarker(key)
     })
 
     // Add or update the ones we want to show:
-    spacesInRect.forEach(space => {
+    markers.forEach(space => {
       this.addMarker(space)
     });
   }
