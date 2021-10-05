@@ -94,8 +94,4 @@ RSpec.configure do |config|
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
 
-  # Load seeds for test too:
-  config.before(:suite) do
-    Rails.application.load_seed
-  end
 end
