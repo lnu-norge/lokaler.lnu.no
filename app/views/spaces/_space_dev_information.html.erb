@@ -1,5 +1,5 @@
-<div class="border-2 w-min bg-green-50 border-green-400 mb-12 p-4">
-  <h3 class="cursor-pointer whitespace-nowrap font-bold text-green-600">
+<div class="border-2 bg-green-50 border-green-400 mb-12 p-4">
+  <h3 class="cursor-pointer font-bold text-green-600">
     Dev information on  "<%= space.title %>", id: <%= space.id %>
   </h3>
   <p>
@@ -37,6 +37,8 @@
   <% end %>
   <p>Images: </p>
   <% space.images.each do |image| %>
-    <%= url_for(image) %>
+    <p class="truncate">
+      <%= url_for(image) %>
+    </p>
   <% end %>
 </div>
