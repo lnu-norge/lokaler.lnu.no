@@ -10,7 +10,10 @@
     <%= form.label :icon %>
     <%= form.text_field :icon, class: "border-4" %>
   </div>
-
+  <div>
+    <%= form.label :facility_category %>
+    <%= form.collection_select :facility_categories, FacilityCategory.all, :id, :title, class: "border-4" %>
+  </div>
   <div>
     <%= form.submit %>
   </div>
