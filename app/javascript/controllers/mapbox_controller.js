@@ -5,10 +5,18 @@ export default class extends Controller {
   initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
 
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.initializeMap({ lat: position.coords.latitude, lng: position.coords.longitude });
+    }, () => {
+      this.initializeMap({ lat: 59.22, lng: 10.92 });
+    }, { timeout: 60000 });
+  }
+
+  initializeMap(position) {
     this.map = new mapboxgl.Map({
       container: 'map-frame',
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [10.925860, 59.223840],
+      center: [position.lng, position.lat],
       zoom: 11,
     });
 
