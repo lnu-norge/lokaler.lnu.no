@@ -11,7 +11,7 @@ module Spaces
       space.aggregated_facility_reviews.destroy_all
       space.reload
 
-      aggregated_reviews = space.facilities.order(:created_at).map do |facility|
+      aggregated_reviews = Facility.all.order(:created_at).map do |facility|
         [facility.id, AggregatedFacilityReview.create!(experience: 'unknown', space: space, facility: facility)]
       end.to_h
 
