@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_05_083313) do
+ActiveRecord::Schema.define(version: 2021_10_05_114554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,14 @@ ActiveRecord::Schema.define(version: 2021_10_05_083313) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "icon"
+    t.bigint "facility_category_id"
+    t.index ["facility_category_id"], name: "index_facilities_on_facility_category_id"
+  end
+
+  create_table "facility_categories", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "facility_reviews", force: :cascade do |t|
@@ -157,6 +165,7 @@ ActiveRecord::Schema.define(version: 2021_10_05_083313) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "aggregated_facility_reviews", "facilities"
   add_foreign_key "aggregated_facility_reviews", "spaces"
+  add_foreign_key "facilities", "facility_categories"
   add_foreign_key "facility_reviews", "facilities"
   add_foreign_key "facility_reviews", "reviews"
   add_foreign_key "facility_reviews", "spaces"

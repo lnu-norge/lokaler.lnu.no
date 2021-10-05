@@ -25,8 +25,13 @@ facilities = [
   }
 ]
 
+category = FacilityCategory.find_or_create_by(title: 'Universell utforming')
+
 facilities.each do |facility|
   Facility.find_or_create_by(
-    facility
+    {
+      facility_category: category,
+      **facility
+    }
   )
 end
