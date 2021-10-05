@@ -7,36 +7,19 @@ module Spaces
       super()
     end
 
-    def call # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
+    def call
       space.aggregated_facility_reviews.destroy_all
       space.reload
 
       aggregated_reviews = Facility.all.order(:created_at).map do |facility|
-        [facility.id, AggregatedFacilityReview.create!(experience: 'unknown', space: space, facility: facility)]
-      end.to_h
+        AggregatedFacilityReview.create!(experience: 'unknown', space: space, facility: facility)
+      end
 
       # Start a transaction because we may be modifying the 'experience' field many times
       # for a single aggregated review and we don't want to be hitting the DB for every 'experience' change
       AggregatedFacilityReview.transaction do
-        space.facility_reviews.limit(10).each do |review|
-          aggregate = aggregated_reviews[review.facility.id]
-          next unless aggregate
-
-          if aggregate.unknown? && positive_review(review)
-            aggregate.likely!
-          elsif aggregate.unknown? && negative_review(review)
-            aggregate.unlikely!
-          elsif (aggregate.unlikely? && positive_review(review)) || (aggregate.likely? && negative_review(review))
-            aggregate.maybe!
-          elsif (aggregate.likely? && positive_review(review)) || (aggregate.unlikely? && negative_review(review))
-            next # unchanged
-          elsif impossible_review(review)
-            aggregate.impossible!
-          elsif aggregate.impossible? && negative_review(review)
-            aggregate.impossible!
-          else
-            raise "Unhandled aggregation combination #{aggregate.experience}:#{review.experience}"
-          end
+        aggregated_reviews.each do |aggregate|
+          aggregate_reviews(space, aggregate)
         end
       end
 
@@ -55,6 +38,26 @@ module Spaces
 
     def impossible_review(review)
       review.was_not_available?
+    end
+
+    def aggregate_reviews(space, aggregate) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      space.facility_reviews.where(facility: aggregate.facility).limit(5).each do |review|
+        if aggregate.unknown? && positive_review(review)
+          aggregate.likely!
+        elsif aggregate.unknown? && negative_review(review)
+          aggregate.unlikely!
+        elsif (aggregate.unlikely? && positive_review(review)) || (aggregate.likely? && negative_review(review))
+          aggregate.maybe!
+        elsif (aggregate.likely? && positive_review(review)) || (aggregate.unlikely? && negative_review(review))
+          next # unchanged
+        elsif impossible_review(review)
+          aggregate.impossible!
+        elsif aggregate.impossible? && negative_review(review)
+          aggregate.impossible!
+        else
+          raise "Unhandled aggregation combination #{aggregate.experience}:#{review.experience}"
+        end
+      end
     end
 
     attr_reader :space
