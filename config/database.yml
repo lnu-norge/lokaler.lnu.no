@@ -81,6 +81,5 @@ test:
 #
 production:
   <<: *default
-  database: lokaler_lnu_no_production
-  username: lokaler_lnu_no
-  password: <%= ENV['LOKALER_LNU_NO_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+
