@@ -6,18 +6,28 @@ export default class extends Controller {
     mapboxgl.accessToken = this.element.dataset.apiKey;
 
     navigator.geolocation.getCurrentPosition((position) => {
-      this.initializeMap({ lat: position.coords.latitude, lng: position.coords.longitude });
+      this.initializeMap({
+        center: [position.coords.longitude, position.coords.latitude],
+        zoom: 11,
+      });
     }, () => {
-      this.initializeMap({ lat: 59.22, lng: 10.92 });
+      fetch('/rect_for_spaces').then((response) => response.json()).then((rectForSpaces) => {
+        const { northEast, southWest } = rectForSpaces;
+        this.initializeMap({
+          bounds: new mapboxgl.LngLatBounds(
+            new mapboxgl.LngLat(southWest.lng, southWest.lat),
+            new mapboxgl.LngLat(northEast.lng, northEast.lat),
+          ),
+        });
+      });
     }, { timeout: 60000 });
   }
 
-  initializeMap(position) {
+  initializeMap(options) {
     this.map = new mapboxgl.Map({
       container: 'map-frame',
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [position.lng, position.lat],
-      zoom: 11,
+      ...options,
     });
 
     this.map.on('moveend', () => {
