@@ -11,7 +11,6 @@
     </div>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'mt-8 space-y-6') do |f| %>
-      <input type="hidden" name="remember" value="true">
       <div class="rounded-md shadow-sm -space-y-px">
         <div>
           <%= f.label :email, 'E-post', class: 'sr-only' %>
