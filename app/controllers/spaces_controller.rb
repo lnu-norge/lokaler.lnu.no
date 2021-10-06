@@ -43,6 +43,22 @@ class SpacesController < ApplicationController
     redirect_to spaces_path
   end
 
+  def rect_for_spaces
+    spaces_in_rect = Space.rect_of_spaces
+
+    # We add a padding of 0.02 degrees here so the spaces close to the corners do not get clipped out
+    render json: {
+      northEast: {
+        lat: spaces_in_rect[:north_east][:lat] + 0.02,
+        lng: spaces_in_rect[:north_east][:lng] + 0.02
+      },
+      southWest: {
+        lat: spaces_in_rect[:south_west][:lat] - 0.02,
+        lng: spaces_in_rect[:south_west][:lng] - 0.02
+      }
+    }
+  end
+
   def spaces_in_rect
     spaces = Space.where(
       ':north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng',
