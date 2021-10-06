@@ -2,6 +2,8 @@
 
 class SendgridMailer
   def self.send(to, template_id, **subsitutions)
+    return unless Rails.env.production?
+
     data = {
       personalizations: [
         {
