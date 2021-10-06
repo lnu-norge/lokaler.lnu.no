@@ -1,0 +1,3 @@
+.flash {
+  @apply transition-opacity duration-500 ease-in-out fixed inset-0 flex items-start px-4 py-6 pointer-events-none sm:p-6;
+}
