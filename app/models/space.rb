@@ -27,6 +27,26 @@ class Space < ApplicationRecord
     AggregatedFacilityReview.find_by(space: self, facility: facility)
   end
 
+  def self.rect_of_spaces
+    south_west_lat = 90
+    south_west_lng = 180
+
+    north_east_lat = -90
+    north_east_lng = -180
+
+    # Eventually this method will take some search parameters
+    # but currently we just use the all the spaces in the db
+    Space.all.find_each do |space|
+      south_west_lat = space.lat if space.lat < south_west_lat
+      south_west_lng = space.lng if space.lng < south_west_lng
+      north_east_lat = space.lat if space.lat > north_east_lat
+      north_east_lng = space.lng if space.lng > north_east_lng
+    end
+
+    { south_west: { lat: south_west_lat, lng: south_west_lng },
+      north_east: { lat: north_east_lat, lng: north_east_lng } }
+  end
+
   def aggregate_facility_reviews
     Spaces::AggregateFacilityReviewsService.call(space: self)
   end
