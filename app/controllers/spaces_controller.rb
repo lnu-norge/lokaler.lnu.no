@@ -52,7 +52,7 @@ class SpacesController < ApplicationController
       south_east_lng: params[:south_east_lng]
     )
 
-    response = spaces.map do |space|
+    markers = spaces.map do |space|
       html = render_to_string partial: 'map_marker', locals: { space: space }
 
       {
@@ -63,7 +63,8 @@ class SpacesController < ApplicationController
       }
     end
 
-    render json: response
+    render json: { listing: render_to_string(partial: 'space_listings', locals: { spaces: spaces.limit(10) }),
+                   markers: markers }
   end
 
   private
