@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-Fabricator(:facility) do
+Fabricator(:facility_category) do
   title { Faker::Lorem.sentences(number: 1) }
-  facility_category
 end

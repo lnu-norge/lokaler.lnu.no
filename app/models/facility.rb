@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class Facility < ApplicationRecord
-  belongs_to :space
+  belongs_to :facility_category
 
-  after_create { space.aggregate_facility_reviews }
+  def category
+    facility_category.title
+  end
 end
