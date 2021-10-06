@@ -55,6 +55,10 @@ group :development do
   gem 'rubocop-rspec'
 end
 
+group :production do
+  gem 'rails_12factor'
+end
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'capybara'
 gem 'rspec-rails'

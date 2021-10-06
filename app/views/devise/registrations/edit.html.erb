@@ -1,0 +1,43 @@
+<div class="max-w-md w-full space-y-8">
+  <div>
+    <%= image_tag 'logo.svg', alt: 'LNU logo', width: 200, height: 200, class: 'mx-auto h-12 w-auto' %>
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      Rediger din bruker
+    </h2>
+    <p class="mt-2 text-center text-sm text-gray-600">
+      eller
+      <%= link_to 'slett din konto', registration_path(resource_name), data: { confirm: "Er du sikker?" }, method: :delete, class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
+    </p>
+  </div>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'mt-8 space-y-6'), html: { method: :put } do |f| %>
+    <div class="rounded-md shadow-sm -space-y-px">
+      <div>
+        <%= f.label :email, 'E-post', class: 'sr-only' %>
+        <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'emailField', placeholder: 'epost@epost.no', autofocus: true, required: true %>
+      </div>
+      <div class="relative">
+        <%= f.label :password, 'Passord', class: 'sr-only' %>
+        <% if @minimum_password_length %>
+          <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%= @minimum_password_length %> tegn er minimum passord lengde</p>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: 'passwordField z-0', placeholder: '******', minlength: '6', required: true %>
+      </div>
+      <div>
+        <%= f.label :password_confirmation, 'Passord', class: 'sr-only' %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'passwordField fieldLast z-10', placeholder: '******', required: true %>
+      </div>
+      <div class="relative">
+        <%= f.label :current_password, 'Passord', class: 'sr-only' %>
+          <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20">Vi må ha ditt nåværende passord for å gjøre forandringene</p>
+        <%= f.password_field :current_password, autocomplete: "current-password", class: 'passwordField z-0', placeholder: '******', minlength: '6', required: true %>
+      </div>
+    </div>
+    <div class="mt-4">
+      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: "Oppdater din konto" } %>
+    </div>
+  <% end %>
+</div>
+
+
+<%= link_to "Back", :back %>
