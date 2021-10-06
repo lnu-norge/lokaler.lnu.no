@@ -1,25 +1,36 @@
-<h2>Change your password</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+<div class="max-w-md w-full space-y-8">
+  <div>
+    <%= image_tag 'logo.svg', alt: 'LNU logo', width: 200, height: 200, class: 'mx-auto h-12 w-auto' %>
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      Endre ditt passord
+    </h2>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), class: 'mt-8 space-y-6'), html: { method: :put } do |f| %>
+    <%= f.hidden_field :reset_password_token %>
+    <div class="rounded-md shadow-sm -space-y-px">
+      <div class="relative">
+        <%= f.label :password, 'Nytt Passord', class: 'sr-only' %>
+        <% if @minimum_password_length %>
+          <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%= @minimum_password_length %> tegn er minimum passord lengde</p>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: 'passwordField z-0', placeholder: '******', minlength: '6', required: true %>
+      </div>
+      <div>
+        <%= f.label :password_confirmation, 'Passord', class: 'sr-only' %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'passwordField fieldLast z-10', placeholder: '******', required: true %>
+      </div>
+    </div>
+    <div class="mt-4">
+      <%= button_tag :submit, class: 'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-lnu-pink hover:bg-lnu-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lnu-pink' do %>
+        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+          <!-- Heroicon name: solid/lock-closed -->
+          <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+          </svg>
+        </span>
+        Forandre ditt passord
+      <% end %>
+    </div>
+  <% end %>
+</div>
