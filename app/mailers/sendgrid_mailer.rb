@@ -16,7 +16,7 @@ class SendgridMailer
         }
       ],
       from: {
-        email: 'no-reply@lnu.no'
+        email: ENV['SENDGRID_FROM_EMAIL']
       },
       template_id: template_id
     }
