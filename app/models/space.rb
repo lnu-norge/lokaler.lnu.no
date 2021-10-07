@@ -28,13 +28,16 @@ class Space < ApplicationRecord
   end
 
   def facilities_in_category(category)
-    Facility.where(facility_category: category).all.map do |facility|
-      review_for_facility = reviews_for_facility(facility)
+    AggregatedFacilityReview
+      .where(space: self)
+      .includes(:facility)
+      .where(facilities: { facility_category: category })
+      .map do |result|
       {
-        title: facility.title,
-        icon: facility.icon,
-        review: review_for_facility.experience,
-        tooltip: review_for_facility.tooltip
+        title: result.facility.title,
+        icon: result.facility.icon,
+        review: result.experience,
+        tooltip: result.tooltip
       }
     end
   end
