@@ -2,6 +2,7 @@
 
 class SendgridMailer
   def self.send(to, template_id, **subsitutions)
+    # Comment line under if you want to TEST emails from application
     return unless Rails.env.production?
 
     data = {
