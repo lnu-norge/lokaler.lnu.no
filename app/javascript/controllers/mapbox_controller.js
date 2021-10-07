@@ -30,15 +30,27 @@ export default class extends Controller {
       ...options,
     });
 
-    this.map.on('moveend', () => {
-      this.loadNewMapPosition();
-    });
+    this.setupEventCallbacks();
 
     // Hash for storing markers, based on
     // { spaceId: mapBoxMarker }
     this.markers = {};
 
     this.loadNewMapPosition();
+  }
+
+  setupEventCallbacks() {
+    this.loadPositionOn('dragend');
+    this.loadPositionOn('zoomend');
+    this.loadPositionOn('rotateend');
+    this.loadPositionOn('pitchend');
+    this.loadPositionOn('boxzoomend');
+  }
+
+  loadPositionOn(event) {
+    this.map.on(event, () => {
+      this.loadNewMapPosition();
+    });
   }
 
   addMarker(space) {
