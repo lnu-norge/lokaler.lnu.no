@@ -24,6 +24,7 @@ class SpacesController < ApplicationController
   def edit_field
     @space = Space.find(params[:id])
     @field = params[:field]
+    render 'spaces/edit/edit_field'
   end
 
   def update
@@ -69,7 +70,7 @@ class SpacesController < ApplicationController
     )
 
     markers = spaces.map do |space|
-      html = render_to_string partial: 'map_marker', locals: { space: space }
+      html = render_to_string partial: 'spaces/index/map_marker', locals: { space: space }
 
       {
         lat: space.lat,
@@ -79,8 +80,12 @@ class SpacesController < ApplicationController
       }
     end
 
-    render json: { listing: render_to_string(partial: 'space_listings', locals: { spaces: spaces.limit(10) }),
-                   markers: markers }
+    render json: {
+      listing: render_to_string(
+        partial: 'spaces/index/space_listings', locals: { spaces: spaces.limit(10) }
+      ),
+      markers: markers
+    }
   end
 
   private
