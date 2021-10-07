@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Common seeds:
-require './db/seeds/spaces/common'
+require './db/seeds/common'
 
 # Development only seeds
 

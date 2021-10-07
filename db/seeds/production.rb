@@ -3,4 +3,4 @@
 # Production seeds
 
 # Common seeds:
-require './db/seeds/spaces/common'
+require './db/seeds/common'
