@@ -37,8 +37,7 @@ PreCommit:
 
   EsLint:
     enabled: true
-    on_warn: fail
-    command: ['eslint', 'app/javascript/controllers/**/*.js']
+    command: ['eslint', 'app/javascript/controllers/**/*.js', '--fix']
 
   AuthorName:
     enabled: false
