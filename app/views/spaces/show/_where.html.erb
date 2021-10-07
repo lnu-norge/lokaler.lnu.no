@@ -1,0 +1,13 @@
+<%= inline_editable :address, h2: 'Hvor er det?' do %>
+
+  <div class="flex gap-1 mb-3">
+    <%= inline_svg_tag 'place' %>
+    <span>
+      <%= @space.address %>,
+      <%= @space.post_number %>
+      <%= @space.post_address %>
+    </span>
+  </div>
+  <%= render partial: "spaces/show/static_map" %>
+
+<% end %>

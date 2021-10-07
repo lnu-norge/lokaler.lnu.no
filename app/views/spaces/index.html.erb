@@ -9,7 +9,7 @@
     <h1 class="text-2xl">Spaces</h1>
     <details class="p-4 cursor-pointer border-4 border-green-400 bg-green-50">
       <summary class="text-green-600 font-bold">Create new space</summary>
-      <%= render partial: "form", locals: { space: @space } %>
+      <%= render partial: "spaces/create/form", locals: { space: @space } %>
     </details>
 
     <div id="space-listing">

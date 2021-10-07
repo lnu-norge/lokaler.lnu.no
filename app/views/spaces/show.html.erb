@@ -6,143 +6,45 @@
 
 <!-- Space image(s) -->
 
-<%= render partial: "show_image_list", locals: { images: @space.images } %>
+<%= render partial: "spaces/show/image_header", locals: { images: @space.images } %>
 
 <main class="space px-4">
 
-  <!-- Space title and basics -->
-
-  <%= inline_editable :basics, h1:  @space.title  do %>
-
-    <!-- Meta information listing -->
-
-  <div class="flex gap-4 mb-2.5">
-
-    <div class="flex gap-2">
-      <%= inline_svg_tag 'star' %>
-      <span>
-          4.2
-          <span class="opacity-50">(5)</span>
-        </span>
-    </div>
-
-    <div class="flex gap-2">
-      <%= inline_svg_tag 'building' %>
-      <span>
-            <%= @space.space_type.type_name %>
-        <% if @space.fits_people %>
-                <span>(<%= @space.fits_people %> elever)</span>
-            <% end %>
-          </span>
-    </div>
-
-  </div>
-    <div class="flex gap-2">
-      <%= inline_svg_tag 'place' %>
-      <span>
-        <%= @space.address %>,
-        <%= @space.post_number %>
-        <%= @space.post_address %>
-      </span>
-    </div>
-  <% end %>
-
+  <%= render partial: 'spaces/show/basics' %>
   <hr />
 
   <%= inline_editable :how_to_book, h2: 'Hvordan booker vi?' do %>
     <%= @space.how_to_book %>
   <% end %>
-
   <hr />
 
-<!-- Filtered facilites listing -->
-  <h2>Fasiliteter</h2>
-  <h3>Vi ser etter:</h3>
-  MANGLER
-
-  <h3>Andre fasiteter:</h3>
-
-  <ul class="grid grid-cols-2 gap-2 mt-2">
-    <li class="flex items-center gap-1.5" title="Sannsynlig! Andre har fått lov">
-      Overnatting
-      <span>
-           <%= inline_svg_tag 'facility_status/likely' %>
-        </span>
-    </li>
-    <li class="flex items-center gap-1.5"  title="Usannsynlig: Ingen eller få har fått lov">
-      Kjøkken
-      <span>
-           <%= inline_svg_tag 'facility_status/unlikely' %>
-        </span>
-    </li>
-    <li class="flex items-center gap-1.5" title="Kanskje: Ikke alle får lov">
-      Dansegulv
-      <span>
-           <%= inline_svg_tag 'facility_status/maybe' %>
-        </span>
-    </li>
-    <li class="flex items-center gap-1.5" title="Usikkert: Ingen har spurt om lydanlegg">
-      Lydanlegg
-      <span>
-           <%= inline_svg_tag 'facility_status/unknown' %>
-        </span>
-    </li>
-    <li class="flex items-center gap-1.5" title="Umulig: Frederik II har ikke flyplass">
-      Flyplass
-      <span>
-           <%= inline_svg_tag 'facility_status/impossible' %>
-        </span>
-    </li>
-  </ul>
-
-  <h3>Er lokalet universelt utformet?</h3>
-  MANGLER
-
-
+  <%= render partial: 'spaces/show/facilities' %>
   <hr />
 
   <%= inline_editable :who_can_use, h2: 'Hvem får bruke lokalet?' do %>
     <%= @space.who_can_use %>
   <% end %>
-
   <hr />
 
   <%= inline_editable :pricing, h2: 'Pris' do %>
     <%= @space.pricing %>
   <% end %>
-
   <hr />
 
-  <%= inline_editable :address, h2: 'Hvor er det?' do %>
-
-  <div class="flex gap-1 mb-3">
-    <%= inline_svg_tag 'place' %>
-    <span>
-      <%= @space.address %>,
-      <%= @space.post_number %>
-      <%= @space.post_address %>
-    </span>
-  </div>
-
-  <%= render partial: "static_map" %>
-
-  <% end %>
+  <%= render partial: 'spaces/show/where' %>
   <hr />
 
   <%= inline_editable :more_info, h2: 'Mer om lokalet' do %>
     <%= @space.more_info %>
   <% end %>
-
   <hr />
 
   <%= inline_editable :terms, h2: 'Vilkår for å bruke lokalet' do %>
     <%= @space.terms %>
   <% end %>
-
   <hr />
 
-  <h2>Erfaringer</h2>
-  <p>MANGLER</p>
+  <%= render partial: 'spaces/show/reviews' %>
 
   <%= render partial: "space_dev_information", locals: { space: @space } %>
 
