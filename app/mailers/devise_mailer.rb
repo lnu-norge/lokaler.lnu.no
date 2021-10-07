@@ -7,6 +7,6 @@ class DeviseMailer < Devise::Mailer
     SendgridMailer.send(record.email,
                         ENV['SENDGRID_RESET_TEMPLATE_ID'],
                         user_id: record.id,
-                        token: token)
+                        url: Rails.application.routes.url_helpers.edit_user_password_url(@resource, reset_password_token: token)) # rubocop:disable Layout/LineLength
   end
 end
