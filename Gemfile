@@ -46,6 +46,7 @@ group :development do
   gem 'foreman'
   gem 'guard'
   gem 'guard-livereload', require: false
+  gem 'guard-rspec', require: false
   gem 'listen', '~> 3.3'
   gem 'overcommit'
   gem 'rack-mini-profiler', '~> 2.0'
