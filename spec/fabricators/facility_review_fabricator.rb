@@ -5,5 +5,5 @@ Fabricator(:facility_review) do
   space
   user
   review
-  experience 'allowed'
+  experience 'was_allowed'
 end
