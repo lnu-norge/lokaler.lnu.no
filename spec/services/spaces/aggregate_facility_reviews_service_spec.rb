@@ -56,8 +56,7 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
     experience :was_allowed
     experience :was_not_allowed
     2.times do
-      other_facility = Fabricate(:facility)
-      experience :was_allowed, other_facility
+      experience :was_allowed, Fabricate(:facility)
     end
     expect(space.reload.reviews_for_facility(facility).experience).to eq('maybe')
   end
