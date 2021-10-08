@@ -17,9 +17,15 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
     expect(space.reload.reviews_for_facility(facility).experience).to eq('maybe')
   end
 
-  it 'turns into likely if there are more positive reviews' do
-    experience :was_allowed
-    experience :was_allowed_but_bad
+  it 'turns into likely if there are over 2/3 positive reviews' do
+    experience :was_not_allowed
+    3.times { experience :was_allowed }
+    expect(space.reload.reviews_for_facility(facility).experience).to eq('likely')
+  end
+
+  it 'turns into likely if there are over 2/3 positive reviews, even if those are only the last five' do
+    10.times { experience :was_not_allowed }
+    4.times { experience :was_allowed }
     expect(space.reload.reviews_for_facility(facility).experience).to eq('likely')
   end
 
@@ -29,8 +35,9 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
     expect(space.reload.reviews_for_facility(facility).experience).to eq('impossible')
   end
 
-  it 'turns into unlikely if there are mostly negative reviews' do
-    3.times { experience :was_not_allowed }
+  it 'turns into unlikely if there are over 2/3 negative reviews' do
+    experience :was_allowed
+    2.times { experience :was_not_allowed }
     expect(space.reload.reviews_for_facility(facility).experience).to eq('unlikely')
   end
 
