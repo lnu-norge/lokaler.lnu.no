@@ -29,9 +29,8 @@ class Space < ApplicationRecord
 
   def facilities_in_category(category)
     AggregatedFacilityReview
-      .where(space: self)
       .includes(:facility)
-      .where(facilities: { facility_category: category })
+      .where(space: self, facilities: { facility_category: category })
       .map do |result|
       {
         title: result.facility.title,
