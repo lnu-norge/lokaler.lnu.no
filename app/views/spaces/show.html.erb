@@ -13,7 +13,7 @@
   <%= render partial: 'spaces/show/basics' %>
   <hr />
 
-  <%= inline_editable :how_to_book, h2: 'Hvordan booker vi?' do %>
+  <%= inline_editable :how_to_book, h2: Facility.human_attribute_name(:how_to_book) do %>
     <%= @space.how_to_book %>
   <% end %>
   <hr />
@@ -21,12 +21,12 @@
   <%= render partial: 'spaces/show/facilities' %>
   <hr />
 
-  <%= inline_editable :who_can_use, h2: 'Hvem får bruke lokalet?' do %>
+  <%= inline_editable :who_can_use, h2: Facility.human_attribute_name(:who_can_use) do %>
     <%= @space.who_can_use %>
   <% end %>
   <hr />
 
-  <%= inline_editable :pricing, h2: 'Pris' do %>
+  <%= inline_editable :pricing, h2: Facility.human_attribute_name(:price) do %>
     <%= @space.pricing %>
   <% end %>
   <hr />
@@ -34,12 +34,12 @@
   <%= render partial: 'spaces/show/where' %>
   <hr />
 
-  <%= inline_editable :more_info, h2: 'Mer om lokalet' do %>
+  <%= inline_editable :more_info, h2: Facility.human_attribute_name(:more_info) do %>
     <%= @space.more_info %>
   <% end %>
   <hr />
 
-  <%= inline_editable :terms, h2: 'Vilkår for å bruke lokalet' do %>
+  <%= inline_editable :terms, h2: Facility.human_attribute_name(:terms) do %>
     <%= @space.terms %>
   <% end %>
   <hr />

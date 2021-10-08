@@ -37,7 +37,6 @@ class Space < ApplicationRecord
         title: result.facility.title,
         icon: result.facility.icon,
         review: result.experience,
-        tooltip: result.tooltip
       }
     end
   end
