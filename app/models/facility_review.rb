@@ -6,7 +6,7 @@ class FacilityReview < ApplicationRecord
   belongs_to :facility
   belongs_to :space
   belongs_to :user
-  belongs_to :review, optional: true
+  belongs_to :review
 
   after_save { space.aggregate_facility_reviews }
   after_destroy { space.aggregate_facility_reviews }
