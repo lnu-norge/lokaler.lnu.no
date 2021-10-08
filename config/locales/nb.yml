@@ -1,0 +1,23 @@
+nb:
+  tooltips:
+    facility_experience:
+      unknown: 'Usikkert. Ingen har spurt!'
+      impossible: 'Umulig. De har ikke.'
+      unlikely: 'Usannsynlig. Ingen eller få har fått lov'
+      maybe: 'Kanskje! Ikke alle for lov'
+      likely: 'Sannsynlig: Andre har fått lov!'
+  space_listing:
+    no_results: 'Ingen resultater'
+  activerecord:
+    models:
+      facility:
+        one: 'Fasilitet'
+        other: 'Fasiliteter'
+    attributes:
+      facility:
+        how_to_book: 'Hvordan booker vi?'
+        who_can_use: 'Hvem får bruke lokalet?'
+        more_info: 'Mer om lokalet'
+        terms: 'Vilkår for å bruke lokalet'
+        price: 'Pris'
+
