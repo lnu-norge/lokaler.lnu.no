@@ -27,6 +27,20 @@ class Space < ApplicationRecord
     AggregatedFacilityReview.find_by(space: self, facility: facility)
   end
 
+  def facilities_in_category(category)
+    AggregatedFacilityReview
+      .includes(:facility)
+      .where(space: self, facilities: { facility_category: category })
+      .map do |result|
+      {
+        title: result.facility.title,
+        icon: result.facility.icon,
+        review: result.experience,
+        tooltip: result.tooltip
+      }
+    end
+  end
+
   def self.rect_of_spaces
     south_west_lat = 90
     south_west_lng = 180
