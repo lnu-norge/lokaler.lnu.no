@@ -1,0 +1,14 @@
+<h2>Erfaringer</h2>
+
+<button>Legg til erfaring</button>
+
+<ul>
+  <li>
+    <%= render partial: 'spaces/show/review_none_yet' unless @space.reviews.any? %>
+  </li>
+  <% @space.reviews.each do |review| %>
+    <li>
+      <%= render partial: 'spaces/show/review_card', locals: {review: review}  %>
+    </li>
+  <% end %>
+</ul>
