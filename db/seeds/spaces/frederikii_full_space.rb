@@ -73,3 +73,6 @@ images = %w[
 end
 
 frederikii_space.images.attach images
+
+require_relative '../reviews/reviews'
+demo_reviews_for_space(frederikii_space)
