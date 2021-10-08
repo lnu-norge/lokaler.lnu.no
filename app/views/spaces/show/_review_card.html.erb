@@ -1,0 +1,11 @@
+<%= review.title %>
+<%= review.comment %>
+<%= review.user.first_name %>
+<%= review.user.last_name %>
+<%= review.user.email %>
+<%= review.star_rating %>
+<%= review.price %> NOK
+<% review.facility_reviews.each do |facility_review| %>
+  <%= facility_review.experience %>
+  <%= facility_review.facility.title %>
+<% end %>
