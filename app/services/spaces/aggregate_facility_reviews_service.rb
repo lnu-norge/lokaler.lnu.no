@@ -19,7 +19,7 @@ module Spaces
       # for a single aggregated review and we don't want to be hitting the DB for every 'experience' change
       AggregatedFacilityReview.transaction do
         aggregated_reviews.each do |aggregated_review|
-          aggregate_reviews(space, aggregated_review)
+          aggregate_reviews(aggregated_review)
         end
       end
 
@@ -40,7 +40,7 @@ module Spaces
       review.was_not_available?
     end
 
-    def aggregate_reviews(space, aggregated_review) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def aggregate_reviews(aggregated_review) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       reviews = space.facility_reviews.where(facility: aggregated_review.facility).order(created_at: :desc).limit(5)
       return aggregated_review.unknown! if reviews.count.zero?
 
