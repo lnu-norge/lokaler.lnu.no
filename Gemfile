@@ -51,9 +51,15 @@ group :development do
   gem 'overcommit'
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'rails-erd'
+  gem 'rubocop', require: false
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'rspec-rails'
 end
 
 group :production do
@@ -61,9 +67,6 @@ group :production do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'capybara'
-gem 'rspec-rails'
-gem 'rubocop', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'devise', '~> 4.8'
