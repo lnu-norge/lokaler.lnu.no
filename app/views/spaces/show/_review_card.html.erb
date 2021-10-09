@@ -1,15 +1,30 @@
-<h3><%= review.title %></h3>
-<p><%= review.comment %></p>
-<div>
-  <div class="avatar">
+<div class="flex gap-1">
+  <%= inline_svg 'star', class: 'text-pink-600' if review.star_rating %>
+  <%= review.star_rating %>
+  <%= inline_svg 'x' unless review.star_rating %>
+  <%= 'Ikke brukt lokalet' unless review.star_rating %>
+</div>
+
+<h3 class="small-mt"><%= review.title %></h3>
+<p class="overflow-hidden max-h-24"><%= review.comment %></p>
+
+<div class="flex gap-2 items-center">
+  <div class="avatar flex-shrink-0">
     <%= image_tag review.user.gravatar_url %>
   </div>
-  <%= review.user.first_name %>
-  <%= review.user.last_name %>
-  <%= review.user.email %>
+  <div class="overflow-hidden">
+    <div class="font-bold truncate">
+      <%= review.user.first_name %>
+      <%= review.user.last_name %>
+    </div>
+    <div class="truncate">
+     <%= 'Ukjent organisasjon' %>
+    </div>
+  </div>
 </div>
-<%= review.star_rating %>
-<%= review.price %> NOK
+
+<div class="">
+  <%= review.price %> NOK
 <% review.facility_reviews.each do |facility_review| %>
   <%= facility_review.experience %>
   <%= facility_review.facility.title %>
