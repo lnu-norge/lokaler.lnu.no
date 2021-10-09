@@ -11,15 +11,12 @@
 
   <ul class="grid grid-cols-2 gap-2 mt-2">
     <% @space.facilities_in_category(facilityCategory).each do |facility| %>
-      <li
-        class="flex items-center gap-1.5"
-        title="<%= facility[:tooltip] %>">
-        <%= inline_svg "facilities/#{facility[:icon]}" %>
-        <%= facility[:title] %>
-        <span>
-         <%= inline_svg_tag "facility_status/#{facility[:review]}" %>
-      </span>
-      </li>
+      <%= render partial: 'spaces/show/facility_item', locals: {
+        icon: facility[:icon],
+        title: facility[:title],
+        review: facility[:review],
+        tooltip: facility[:tooltip]
+      } %>
     <% end %>
   </ul>
 <% end %>
