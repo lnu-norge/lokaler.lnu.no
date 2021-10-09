@@ -1,14 +1,17 @@
-<h2>Erfaringer</h2>
+<div class="flex gap-2 items-baseline justify-between">
+  <h2>Erfaringer</h2>
+  <%= link_to 'Legg til erfaring', new_review_path, class: 'inline-block border border-pink-600 py-2 px-4 rounded-md' %>
+</div>
 
-<button>Legg til erfaring</button>
 
-<ul class="horizontal-cards">
-  <li class="horizontal-card">
-    <%= render partial: 'spaces/show/review_none_yet' if @space.reviews.any? %>
-  </li>
-  <% @space.reviews.each do |review| %>
-    <li class="horizontal-card">
-      <%= render partial: 'spaces/show/review_card', locals: {review: review}  %>
-    </li>
-  <% end %>
-</ul>
+<% if @space.reviews.any? %>
+  <ul class="horizontal-cards">
+    <% @space.reviews.each do |review| %>
+      <li class="horizontal-card">
+        <%=  render partial: 'spaces/show/review_card', locals: {review: review}   %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <%= render partial: 'spaces/show/review_none_yet' %>
+<% end %>
