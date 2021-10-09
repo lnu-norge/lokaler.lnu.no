@@ -1,8 +1,13 @@
-<%= review.title %>
-<%= review.comment %>
-<%= review.user.first_name %>
-<%= review.user.last_name %>
-<%= review.user.email %>
+<h3><%= review.title %></h3>
+<p><%= review.comment %></p>
+<div>
+  <div class="avatar">
+    <%= image_tag review.user.gravatar_url %>
+  </div>
+  <%= review.user.first_name %>
+  <%= review.user.last_name %>
+  <%= review.user.email %>
+</div>
 <%= review.star_rating %>
 <%= review.price %> NOK
 <% review.facility_reviews.each do |facility_review| %>

@@ -6,5 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  include Gravtastic
+  gravtastic default: 'retro'
+
   has_many :reviews, dependent: :restrict_with_exception
 end
