@@ -2,6 +2,9 @@
 .trix-content {
   h1, h2, h3 {
     @apply mt-6 font-bold;
+    &.small-mt {
+      @apply mt-4;
+    }
   }
 
   p, ul, ol, h3, h2, h1 {
