@@ -2,12 +2,12 @@
 
 <button>Legg til erfaring</button>
 
-<ul>
-  <li>
-    <%= render partial: 'spaces/show/review_none_yet' unless @space.reviews.any? %>
+<ul class="horizontal-cards">
+  <li class="horizontal-card">
+    <%= render partial: 'spaces/show/review_none_yet' if @space.reviews.any? %>
   </li>
   <% @space.reviews.each do |review| %>
-    <li>
+    <li class="horizontal-card">
       <%= render partial: 'spaces/show/review_card', locals: {review: review}  %>
     </li>
   <% end %>

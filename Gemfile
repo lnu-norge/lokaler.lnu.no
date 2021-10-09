@@ -71,6 +71,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'devise', '~> 4.8'
 
+gem 'gravtastic'
 gem 'hotwire-rails'
 gem 'inline_svg'
 gem 'paper_trail'
