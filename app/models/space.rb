@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Space < ApplicationRecord
-  has_paper_trail
+  has_paper_trail skip: [:star_rating]
+
   has_many_attached :images
   has_many :facility_reviews, dependent: :restrict_with_exception
   has_many :aggregated_facility_reviews, dependent: :restrict_with_exception
