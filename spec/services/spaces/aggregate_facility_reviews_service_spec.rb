@@ -7,28 +7,38 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
   let(:facility_category) { Fabricate(:facility_category) }
   let(:facility) { Fabricate(:facility, facility_category: facility_category) }
 
+  def experience(experience, other_facility = nil)
+    Fabricate(:facility_review, space: space, experience: experience, facility: other_facility || facility)
+  end
+
   it 'turns into maybe if there are mixed reviews' do
-    Fabricate(:facility_review, space: space, experience: 'was_allowed', facility: facility)
-    Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
-    expect(space.reload.reviews_for_facility(facility).experience).to eq('maybe')
+    experience :was_allowed
+    experience :was_not_allowed
+    expect(space.reload.reviews_for_facility(facility)).to eq('maybe')
   end
 
-  it 'turns into likely if there are positive reviews' do
-    Fabricate(:facility_review, space: space, experience: 'was_allowed', facility: facility)
-    Fabricate(:facility_review, space: space, experience: 'was_allowed_but_bad', facility: facility)
-    expect(space.reload.reviews_for_facility(facility).experience).to eq('likely')
+  it 'turns into likely if there are over 2/3 positive reviews' do
+    experience :was_not_allowed
+    3.times { experience :was_allowed }
+    expect(space.reload.reviews_for_facility(facility)).to eq('likely')
   end
 
-  it 'turns into impossible if the facility does not exist' do
-    Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
-    Fabricate(:facility_review, space: space, experience: 'was_not_available', facility: facility)
-    expect(space.reload.reviews_for_facility(facility).experience).to eq('impossible')
+  it 'turns into likely if there are over 2/3 positive reviews, even if those are only the last five' do
+    10.times { experience :was_not_allowed }
+    4.times { experience :was_allowed }
+    expect(space.reload.reviews_for_facility(facility)).to eq('likely')
   end
 
-  it 'turns into unlikely if there are negative reviews' do
-    Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
-    Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
-    expect(space.reload.reviews_for_facility(facility).experience).to eq('unlikely')
+  it 'turns into impossible if half or more say it does not exist' do
+    experience :was_not_allowed
+    experience :was_not_available
+    expect(space.reload.reviews_for_facility(facility)).to eq('impossible')
+  end
+
+  it 'turns into unlikely if there are over 2/3 negative reviews' do
+    experience :was_allowed
+    2.times { experience :was_not_allowed }
+    expect(space.reload.reviews_for_facility(facility)).to eq('unlikely')
   end
 
   it 'Is unknown if no reviews, and turns back into unknown if all facility reviews are deleted' do
@@ -36,20 +46,18 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
     space.facility_reviews.destroy_all
     expect(space.reload.aggregated_facility_reviews.first.experience).to eq('unknown')
 
-    Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
-    Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
+    2.times { experience :was_not_allowed }
     space.facility_reviews.destroy_all
 
-    expect(space.reload.reviews_for_facility(facility).experience).to eq('unknown')
+    expect(space.reload.reviews_for_facility(facility)).to eq('unknown')
   end
 
   it 'Works even if there are unrelated facilities and reviews' do
+    experience :was_allowed
+    experience :was_not_allowed
     2.times do
-      other_facility = Fabricate(:facility)
-      Fabricate(:facility_review, space: space, experience: 'was_allowed', facility: other_facility)
+      experience :was_allowed, Fabricate(:facility)
     end
-    Fabricate(:facility_review, space: space, experience: 'was_allowed', facility: facility)
-    Fabricate(:facility_review, space: space, experience: 'was_not_allowed', facility: facility)
-    expect(space.reload.reviews_for_facility(facility).experience).to eq('maybe')
+    expect(space.reload.reviews_for_facility(facility)).to eq('maybe')
   end
 end

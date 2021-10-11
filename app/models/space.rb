@@ -25,7 +25,7 @@ class Space < ApplicationRecord
   end
 
   def reviews_for_facility(facility)
-    AggregatedFacilityReview.find_by(space: self, facility: facility)
+    AggregatedFacilityReview.find_by(space: self, facility: facility).experience
   end
 
   def facilities_in_category(category)

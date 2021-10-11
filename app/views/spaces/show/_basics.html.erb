@@ -7,10 +7,10 @@
   <div class="flex gap-4 mb-2.5">
 
     <div class="flex gap-2">
-      <%= inline_svg_tag 'star' %>
+      <%= inline_svg_tag 'star', class: @space.star_rating ? "text-pink-600" : "text-gray-300" %>
       <span>
-          4.2
-          <span class="opacity-50">(5)</span>
+          <%= @space.star_rating || '-' %>
+          <span class="opacity-50">(<%=  @space.reviews.count %>)</span>
         </span>
     </div>
 

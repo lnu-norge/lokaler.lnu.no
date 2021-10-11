@@ -1,0 +1,58 @@
+<div class="flex gap-1">
+  <%= inline_svg 'star', class: 'text-pink-600' if review.star_rating %>
+  <%= review.star_rating %>
+  <%= inline_svg 'x' unless review.star_rating %>
+  <%= 'Ikke brukt lokalet' unless review.star_rating %>
+</div>
+
+<h3 class="small-mt"><%= review.title %></h3>
+<p class="overflow-hidden">
+  <% if review.comment.length > 88 %>
+    <%= truncate(review.comment, length: 88) %>
+    <%= link_to 'Les mer', review %>
+  <% else %>
+    <%= review.comment %>
+  <% end %>
+</p>
+
+<div class="flex gap-2 items-center mb-3">
+  <div class="avatar flex-shrink-0">
+    <%= image_tag review.user.gravatar_url %>
+  </div>
+  <div class="overflow-hidden text-sm leading-snug">
+    <div class="font-bold truncate">
+      <%= review.user.first_name %>
+      <%= review.user.last_name %>
+    </div>
+    <div class="truncate text-gray-500">
+     <%= 'Ukjent organisasjon' %>
+    </div>
+  </div>
+</div>
+
+<% if review.price  %>
+  <div class="flex gap-1">
+    <%= inline_svg 'money' %>
+    <% if (review.price == 0)  %>
+      Gratis
+    <% else %>
+     <%= review.price %> kr
+    <% end %>
+  </div>
+<% end %>
+
+<% if review.facility_reviews.any? %>
+  <hr class="my-1" />
+  <ul>
+  <% review.facility_reviews.each do |facility_review| %>
+    <li class="flex gap-1">
+        <%= render partial: 'spaces/show/facility_item', locals: {
+          title: facility_review.facility.title,
+          icon: facility_review.facility.icon,
+          review: facility_review.experience_icon,
+          tooltip: facility_review.experience_tooltip
+        } %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

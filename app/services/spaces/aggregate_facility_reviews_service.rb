@@ -18,8 +18,8 @@ module Spaces
       # Start a transaction because we may be modifying the 'experience' field many times
       # for a single aggregated review and we don't want to be hitting the DB for every 'experience' change
       AggregatedFacilityReview.transaction do
-        aggregated_reviews.each do |aggregate|
-          aggregate_reviews(space, aggregate)
+        aggregated_reviews.each do |aggregated_review|
+          aggregate_reviews(aggregated_review)
         end
       end
 
@@ -40,24 +40,26 @@ module Spaces
       review.was_not_available?
     end
 
-    def aggregate_reviews(space, aggregate) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      space.facility_reviews.where(facility: aggregate.facility).limit(5).each do |review|
-        if aggregate.unknown? && positive_review(review)
-          aggregate.likely!
-        elsif aggregate.unknown? && negative_review(review)
-          aggregate.unlikely!
-        elsif (aggregate.unlikely? && positive_review(review)) || (aggregate.likely? && negative_review(review))
-          aggregate.maybe!
-        elsif (aggregate.likely? && positive_review(review)) || (aggregate.unlikely? && negative_review(review))
-          next # unchanged
-        elsif impossible_review(review)
-          aggregate.impossible!
-        elsif aggregate.impossible? && negative_review(review)
-          aggregate.impossible!
-        else
-          raise "Unhandled aggregation combination #{aggregate.experience}:#{review.experience}"
-        end
-      end
+    def aggregate_reviews(aggregated_review) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      reviews = space.facility_reviews.where(facility: aggregated_review.facility).order(created_at: :desc).limit(5)
+      return aggregated_review.unknown! if reviews.count.zero?
+
+      # Set criteria:
+      impossible_threshold = (reviews.count / 2.0).ceil
+      positive_threshold = (reviews.count / 3.0 * 2.0).ceil
+      negative_threshold = (reviews.count / 3.0 * 2.0).ceil
+
+      # count each type:
+      impossible_count = reviews.count { |review| impossible_review(review) }
+      positive_count = reviews.count { |review| positive_review(review) }
+      negative_count = reviews.count { |review| negative_review(review) }
+
+      return aggregated_review.impossible! if impossible_count >= impossible_threshold
+      return aggregated_review.likely! if positive_count >= positive_threshold
+      return aggregated_review.unlikely! if negative_count >= negative_threshold
+
+      # Nothing else fits, so it's a maybe!
+      aggregated_review.maybe!
     end
 
     attr_reader :space

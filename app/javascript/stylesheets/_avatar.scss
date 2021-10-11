@@ -1,0 +1,13 @@
+.avatar {
+  @apply w-10 h-10 relative flex justify-center items-center;
+  img {
+    @apply absolute inset-0;
+    @apply rounded-full object-fill;
+  }
+  &:after {
+    content: '';
+    @apply absolute inset-0;
+    @apply rounded-full;
+    @apply shadow-inner;
+  }
+}
