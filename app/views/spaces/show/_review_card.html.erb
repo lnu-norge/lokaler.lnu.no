@@ -2,14 +2,14 @@
   <%= inline_svg 'star', class: 'text-pink-600' if review.star_rating %>
   <%= review.star_rating %>
   <%= inline_svg 'x' unless review.star_rating %>
-  <%= 'Ikke brukt lokalet' unless review.star_rating %>
+  <%= t('reviews.not_used') unless review.star_rating %>
 </div>
 
 <h3 class="small-mt"><%= review.title %></h3>
 <p class="overflow-hidden">
   <% if review.comment.length > 88 %>
     <%= truncate(review.comment, length: 88) %>
-    <%= link_to 'Les mer', review %>
+    <%= link_to t('read_more'), review %>
   <% else %>
     <%= review.comment %>
   <% end %>
@@ -25,7 +25,7 @@
       <%= review.user.last_name %>
     </div>
     <div class="truncate text-gray-500">
-     <%= 'Ukjent organisasjon' %>
+     <%= t('reviews.unknown_org') %>
     </div>
   </div>
 </div>
@@ -50,7 +50,7 @@
           title: facility_review.facility.title,
           icon: facility_review.facility.icon,
           review: facility_review.experience_icon,
-          tooltip: facility_review.experience_tooltip
+          tooltip: t("tooltips.facility_single_experience.#{facility_review.experience}")
         } %>
     </li>
   <% end %>

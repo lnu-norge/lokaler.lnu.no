@@ -1,0 +1,44 @@
+nb:
+  tooltips:
+    facility_single_experience:
+      was_allowed: 'Fikk lov'
+      was_allowed_but_bad: 'Fikk lov, men dårlig opplevelse'
+      was_not_allowed: 'Fikk ikke lov'
+      was_not_available: 'De har ikke'
+      havent_asked: 'Ikke spurt'
+    facility_aggregated_experience:
+      unknown: 'Usikkert. Ingen har spurt!'
+      impossible: 'Umulig. De har ikke.'
+      unlikely: 'Usannsynlig. Ingen eller få har fått lov'
+      maybe: 'Kanskje! Ikke alle for lov'
+      likely: 'Sannsynlig: Andre har fått lov!'
+  space_listing:
+    no_results: 'Ingen resultater'
+  reviews:
+    add_review: 'Legg til erfaring'
+    add_first: 'Legg til den første!'
+    no_reviews: 'Ingen erfaringer loggført.'
+    in_contact: 'Har du vært i kontakt med dem?'
+    unknown_org: 'Ukjent organisasjon'
+    not_used: 'Ikke brukt lokalet'
+  activerecord:
+    models:
+      facility:
+        one: 'Fasilitet'
+        other: 'Fasiliteter'
+      space:
+        one: 'Lokale'
+        other: 'Lokaler'
+      review:
+        one: 'Erfaring'
+        other: 'Erfaringer'
+    attributes:
+      space:
+        how_to_book: 'Hvordan booker vi?'
+        who_can_use: 'Hvem får bruke lokalet?'
+        more_info: 'Mer om lokalet'
+        terms: 'Vilkår for å bruke lokalet'
+        pricing: 'Pris'
+        address: 'Hvor er det?'
+  read_more: 'Les mer'
+
