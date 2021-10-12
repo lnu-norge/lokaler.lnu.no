@@ -28,10 +28,11 @@ nb:
         one: 'Erfaring'
         other: 'Erfaringer'
     attributes:
-      facility:
+      space:
         how_to_book: 'Hvordan booker vi?'
         who_can_use: 'Hvem får bruke lokalet?'
         more_info: 'Mer om lokalet'
         terms: 'Vilkår for å bruke lokalet'
-        price: 'Pris'
+        pricing: 'Pris'
+        address: 'Hvor er det?'
 
