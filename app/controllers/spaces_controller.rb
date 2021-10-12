@@ -108,7 +108,7 @@ class SpacesController < ApplicationController
       :pricing,
       :terms,
       :more_info,
-      space_owner_attributes: %i[id how_to_book]
+      space_owner_attributes: %i[id how_to_book pricing terms who_can_use]
     )
   end
 end

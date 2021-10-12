@@ -1,14 +1,4 @@
-<div>
-  <h3 class="font-bold text-xl mt-4 mb-2">
-    <%= form.label :how_to_book %>
-  </h3>
-  <%= form.rich_text_area :how_to_book %>
-</div>
-<%= form.fields_for :space_owner do |space_owner_form| %>
-  <div>
-    <h3 class="font-bold text-xl mt-4 mb-2">
-      <%= space_owner_form.label t("Felles for #{@space.space_owner.title}") %>
-    </h3>
-    <%= space_owner_form.rich_text_area :how_to_book %>
-  </div>
-<% end %>
+<%= render partial: 'spaces/edit/edit_rich_text', locals: {
+  form: form,
+  field: :how_to_book
+} %>

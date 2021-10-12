@@ -14,6 +14,9 @@ nb:
       likely: 'Sannsynlig: Andre har fått lov!'
   space_listing:
     no_results: 'Ingen resultater'
+  space_show:
+    only_for_space: "Kun for %{title}:"
+    common_to_all_owned_by: 'Felles for %{owner_title}:'
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
