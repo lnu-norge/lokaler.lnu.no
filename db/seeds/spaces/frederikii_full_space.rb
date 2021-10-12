@@ -59,6 +59,9 @@ frederikii_space = Space.create(
   more_info: more_info
 )
 
+require_relative '../reviews/reviews'
+demo_reviews_for_space(frederikii_space)
+
 ## Attach some sample images
 images = %w[
   ./db/seeds/images/outside_school.jpg
@@ -72,7 +75,10 @@ images = %w[
   }
 end
 
+## NB! We don't know why, but seeding images does not work unless it's the last thing
+# that's done in the file. Presumably, we have to wait for the image to upload or
+# attach properly, but neither sleep 5, nor any other attempts at saving the space
+# has worked. To reproduce, simply reload with frederikii_space.reload after the images
+# are attached, and they will not be uploaded. Please fix if you know how!
+# Might be related to https://github.com/rails/rails/issues/37304#issuecomment-546246357
 frederikii_space.images.attach images
-
-require_relative '../reviews/reviews'
-demo_reviews_for_space(frederikii_space)
