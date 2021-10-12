@@ -1,11 +1,12 @@
 <%= inline_editable :how_to_book, h2: 'Hvordan booker vi?' do %>
   <%= @space.how_to_book %>
-<% end %>
 
-<% if  @space.space_owner.how_to_book %>
+  <% if  @space.space_owner.how_to_book %>
 
-  <%= inline_editable :space_owner_how_to_book, h3: "Felles for #{ @space.space_owner.title }" do %>
+
+    <h3><%= t("Felles for #{@space.space_owner.title}") %></h3>
     <%= @space.space_owner.how_to_book %>
+
   <% end %>
 
 <% end %>
