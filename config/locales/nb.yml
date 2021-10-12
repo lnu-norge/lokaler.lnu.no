@@ -1,6 +1,12 @@
 nb:
   tooltips:
-    facility_experience:
+    facility_single_experience:
+      was_allowed: 'Fikk lov'
+      was_allowed_but_bad: 'Fikk lov, men dårlig opplevelse'
+      was_not_allowed: 'Fikk ikke lov'
+      was_not_available: 'De har ikke'
+      havent_asked: 'Ikke spurt'
+    facility_aggregated_experience:
       unknown: 'Usikkert. Ingen har spurt!'
       impossible: 'Umulig. De har ikke.'
       unlikely: 'Usannsynlig. Ingen eller få har fått lov'
