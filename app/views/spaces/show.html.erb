@@ -13,9 +13,7 @@
   <%= render partial: 'spaces/show/basics' %>
   <hr />
 
-  <%= inline_editable :how_to_book  do %>
-    <%= @space.how_to_book %>
-  <% end %>
+  <%= render partial: 'spaces/show/how_to_book' %>
   <hr />
 
   <%= render partial: 'spaces/show/facilities' %>

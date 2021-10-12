@@ -33,6 +33,6 @@ class SpaceOwnersController < ApplicationController
   private
 
   def space_owner_params
-    params.require(:space_owner).permit(:orgnr)
+    params.require(:space_owner).permit(:orgnr, :title, :how_to_book, :about)
   end
 end
