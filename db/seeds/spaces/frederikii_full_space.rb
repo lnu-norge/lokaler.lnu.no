@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 ## Space Owner
-require '../../../db/seeds/space_owners/viken'
+require './db/seeds/space_owners/viken'
+viken = create_viken
 
 ## Space Type
 vgs = SpaceType.create(

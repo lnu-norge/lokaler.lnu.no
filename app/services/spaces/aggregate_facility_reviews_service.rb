@@ -40,7 +40,7 @@ module Spaces
       review.was_not_available?
     end
 
-    def aggregate_reviews(aggregated_review) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def aggregate_reviews(aggregated_review) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
       reviews = space.facility_reviews.where(facility: aggregated_review.facility).order(created_at: :desc).limit(5)
       return aggregated_review.unknown! if reviews.count.zero?
 
