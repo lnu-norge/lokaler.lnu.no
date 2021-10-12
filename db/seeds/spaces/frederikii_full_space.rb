@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 ## Space Owner
-viken = SpaceOwner.create(
-  orgnr: '921693230'
-)
+require '../../../db/seeds/space_owners/viken'
 
 ## Space Type
 vgs = SpaceType.create(
@@ -14,26 +12,13 @@ vgs = SpaceType.create(
 how_to_book = "<p>All booking foregår gjennom resepsjonen.
 Ta først kontakt med dem og spør om vi kan leie,
  og så vil du bli bedt om å fylle ut
-<a href='#'>skjema for Viken fylke</a>.</p>
-<p>Du kan også lese <a href='#'>tekst om hvordan
-låne fra Viken fylkeskommune</a>.</p>"
-who_can_use = '<p>Alle frivillige organisasjoner
-kan ta kontakt. Barne- og ungdoms- organisasjoner
-og organisasjoner med tilknytning til Østfold
- prioriteres.<br /><a href="#">Last ned kommunens
-veileder (PDF)</a></p>'
-pricing = "<p>Ved overnatting må vi betale for
-vask og vakthold, ellers gratis.<br />
-<a href='#'>Last ned prisliste (PDF)</a></p>"
+<a href='#'>skjema for Viken fylke</a>.</p>"
+who_can_use = nil
+pricing = nil
 terms = '<p>Må rydde så klasserom, pulter, og
 annet er likt som når man kom.</p>
 <p>Ta før-og-etter-bilder for å sikre at alt
- er som det var når dere tok over. </p>
-<ul>
-  <li><a href="#">Vlikår for overnatting (PDF)</a></li>
-  <li><a href="#">Brannrutiner for overnatting (PDF)</a></li>
-  <li><a href="#">Nattevaktskjema for overnatting (PDF)</a></li>
-</ul>'
+ er som det var når dere tok over. </p>'
 more_info = '<p>Frederik II er delt i to bygg.
 Avdeling Frydenberg ligger i øst, og Christianlund
 i vest. Man kan leie begge samtidig, eller seperat.</p>'
