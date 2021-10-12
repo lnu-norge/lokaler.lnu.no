@@ -1,0 +1,8 @@
+<%= form.fields_for :space_owner do |space_owner_form| %>
+  <div>
+    <h3 class="font-bold text-xl mt-4 mb-2">
+      <%= space_owner_form.label :how_to_book %>
+    </h3>
+    <%= space_owner_form.rich_text_area :how_to_book %>
+  </div>
+<% end %>

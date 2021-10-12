@@ -9,6 +9,8 @@ class Space < ApplicationRecord
   has_many :reviews, dependent: :restrict_with_exception
 
   belongs_to :space_owner
+  accepts_nested_attributes_for :space_owner
+
   belongs_to :space_type
 
   has_rich_text :how_to_book
