@@ -1,6 +1,4 @@
-<div>
-  <h3 class="font-bold text-xl mt-4 mb-2">
-    <%= form.label :pricing %>
-  </h3>
-  <%= form.rich_text_area :pricing %>
-</div>
+<%= render partial: 'spaces/edit/edit_rich_text', locals: {
+  form: form,
+  field: :pricing
+} %>

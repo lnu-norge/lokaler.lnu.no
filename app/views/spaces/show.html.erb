@@ -20,12 +20,20 @@
   <hr />
 
   <%= inline_editable :who_can_use  do %>
-    <%= @space.who_can_use %>
+    <%= render partial: 'spaces/show/rich_text_with_space_owner_addendum',
+               locals: {
+                 field: :who_can_use
+               }
+    %>
   <% end %>
   <hr />
 
   <%= inline_editable :pricing do %>
-    <%= @space.pricing %>
+    <%= render partial: 'spaces/show/rich_text_with_space_owner_addendum',
+               locals: {
+                 field: :pricing
+               }
+    %>
   <% end %>
   <hr />
 
@@ -33,12 +41,20 @@
   <hr />
 
   <%= inline_editable :more_info do %>
-    <%= @space.more_info %>
+    <%= render partial: 'spaces/show/rich_text_with_space_owner_addendum',
+               locals: {
+                 field: :more_info
+               }
+    %>
   <% end %>
   <hr />
 
   <%= inline_editable :terms do %>
-    <%= @space.terms %>
+    <%= render partial: 'spaces/show/rich_text_with_space_owner_addendum',
+               locals: {
+                 field: :terms
+               }
+    %>
   <% end %>
   <hr />
 

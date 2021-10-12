@@ -1,12 +1,10 @@
-<%= inline_editable :how_to_book, h2: 'Hvordan booker vi?' do %>
+<%= inline_editable :how_to_book  do %>
   <%= @space.how_to_book %>
 
-  <% if  @space.space_owner.how_to_book %>
-
-
-    <h3><%= t("Felles for #{@space.space_owner.title}") %></h3>
-    <%= @space.space_owner.how_to_book %>
-
+  <% if  @space.space_owner.how_to_book.present? and @space.how_to_book.present? %>
+    <h3><%= t('space_show.common_to_all_owned_by', owner_title: @space.space_owner.title) %></h3>
   <% end %>
+
+  <%= @space.space_owner.how_to_book %>
 
 <% end %>

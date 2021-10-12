@@ -1,0 +1,14 @@
+<%
+  # Get the same field for both Space and SpaceOwner
+  field_in_space = @space.respond_to?(field) && @space.public_send(field).present? ? @space.public_send(field) : nil
+  field_in_space_owner = @space.space_owner.respond_to?(field)  && @space.space_owner.public_send(field).present? ? @space.space_owner.public_send(field) : nil
+%>
+
+<%= field_in_space %>
+
+<% if field_in_space and field_in_space_owner %>
+  <h3><%= t('space_show.common_to_all_owned_by',
+            owner_title: @space.space_owner.title) %></h3>
+<% end %>
+
+<%= field_in_space_owner %>
