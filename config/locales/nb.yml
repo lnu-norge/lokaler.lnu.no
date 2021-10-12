@@ -14,7 +14,6 @@ nb:
     no_reviews: 'Ingen erfaringer loggført.'
     in_contact: 'Har du vært i kontakt med dem?'
     unknown_org: 'Ukjent organisasjon'
-    read_more: 'Les mer'
     not_used: 'Ikke brukt lokalet'
   activerecord:
     models:
@@ -35,4 +34,5 @@ nb:
         terms: 'Vilkår for å bruke lokalet'
         pricing: 'Pris'
         address: 'Hvor er det?'
+  read_more: 'Les mer'
 
