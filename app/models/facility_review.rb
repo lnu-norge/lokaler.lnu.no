@@ -25,19 +25,4 @@ class FacilityReview < ApplicationRecord
       :unknown
     end
   end
-
-  def experience_tooltip
-    case experience
-    when 'was_allowed'
-      'Fikk lov'
-    when 'was_allowed_but_bad'
-      'Fikk lov, men dårlig opplevelse'
-    when 'was_not_allowed'
-      'Fikk ikke lov'
-    when 'was_not_available'
-      'De har ikke'
-    else
-      'Ikke spurt'
-    end
-  end
 end

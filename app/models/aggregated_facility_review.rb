@@ -5,21 +5,4 @@ class AggregatedFacilityReview < ApplicationRecord
 
   belongs_to :facility
   belongs_to :space
-
-  def tooltip
-    case experience
-    when 'unknown'
-      'Usikkert. Ingen har spurt!'
-    when 'impossible'
-      'Umulig. De har ikke.'
-    when 'unlikely'
-      'Usannsynlig. Ingen eller få har fått lov'
-    when 'maybe'
-      'Kanskje! Ikke alle får lov'
-    when 'likely'
-      'Sannsynlig! Andre har fått lov!'
-    else
-      'Vet ikke'
-    end
-  end
 end
