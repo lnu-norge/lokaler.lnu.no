@@ -38,7 +38,7 @@ class Space < ApplicationRecord
       {
         title: result.facility.title,
         icon: result.facility.icon,
-        review: result.experience,
+        review: result.experience
       }
     end
   end
