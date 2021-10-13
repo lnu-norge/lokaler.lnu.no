@@ -13,27 +13,21 @@
   <%= render partial: 'spaces/show/basics' %>
   <hr />
 
-  <%= render partial: 'spaces/show/how_to_book' %>
+  <%= inline_editable :how_to_book  do %>
+    <%= render_space_and_owner_field @space, :how_to_book %>
+  <% end %>
   <hr />
 
   <%= render partial: 'spaces/show/facilities' %>
   <hr />
 
   <%= inline_editable :who_can_use  do %>
-    <%= render partial: 'spaces/show/rich_text_with_space_owner_addendum',
-               locals: {
-                 field: :who_can_use
-               }
-    %>
+    <%= render_space_and_owner_field @space, :who_can_use %>
   <% end %>
   <hr />
 
   <%= inline_editable :pricing do %>
-    <%= render partial: 'spaces/show/rich_text_with_space_owner_addendum',
-               locals: {
-                 field: :pricing
-               }
-    %>
+    <%= render_space_and_owner_field @space, :pricing %>
   <% end %>
   <hr />
 
@@ -41,20 +35,12 @@
   <hr />
 
   <%= inline_editable :more_info do %>
-    <%= render partial: 'spaces/show/rich_text_with_space_owner_addendum',
-               locals: {
-                 field: :more_info
-               }
-    %>
+    <%= render_space_and_owner_field @space, :more_info %>
   <% end %>
   <hr />
 
   <%= inline_editable :terms do %>
-    <%= render partial: 'spaces/show/rich_text_with_space_owner_addendum',
-               locals: {
-                 field: :terms
-               }
-    %>
+    <%= render_space_and_owner_field @space, :terms %>
   <% end %>
   <hr />
 

@@ -6,11 +6,23 @@ module SpacesHelper
   end
 
   def inline_editable(field, title_tag = :h2, title_text = Space.human_attribute_name(field), &block)
-    render partial: 'spaces/edit/editable_inline', locals: {
+    render partial: 'spaces/edit/common/editable_inline', locals: {
       field: field,
       title_tag: title_tag,
       title_text: title_text,
       block: block
+    }
+  end
+
+  def render_space_and_owner_field(space, field)
+    field_in_space = space.public_send(field) if space.respond_to?(field) && space.public_send(field).present?
+    if space.space_owner.respond_to?(field) && space.space_owner.public_send(field).present?
+      field_in_space_owner = space.space_owner.public_send(field)
+    end
+
+    render partial: 'spaces/show/common/render_space_and_owner_field', locals: {
+      field_in_space: field_in_space,
+      field_in_space_owner: field_in_space_owner
     }
   end
 

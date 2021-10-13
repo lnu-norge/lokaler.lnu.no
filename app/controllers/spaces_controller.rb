@@ -24,7 +24,7 @@ class SpacesController < ApplicationController
   def edit_field
     @space = Space.find(params[:id])
     @field = params[:field]
-    render 'spaces/edit/edit_field'
+    render 'spaces/edit/common/edit_field'
   end
 
   def update
