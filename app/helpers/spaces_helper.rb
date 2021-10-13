@@ -15,10 +15,14 @@ module SpacesHelper
   end
 
   def render_space_and_owner_field(space, field)
-    field_in_space = space.public_send(field) if space.respond_to?(field) && space.public_send(field).present?
-    if space.space_owner.respond_to?(field) && space.space_owner.public_send(field).present?
-      field_in_space_owner = space.space_owner.public_send(field)
-    end
+    # rubocop:disable Style/IfUnlessModifier
+    field_in_space = (if space.respond_to?(field) && space.public_send(field).present?
+                        space.public_send(field)
+                      end)
+    field_in_space_owner = (if space.space_owner.respond_to?(field) && space.space_owner.public_send(field).present?
+                              space.space_owner.public_send(field)
+                            end)
+    # rubocop:enable Style/IfUnlessModifier
 
     render partial: 'spaces/show/common/render_space_and_owner_field', locals: {
       field_in_space: field_in_space,
