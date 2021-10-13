@@ -1,6 +1,4 @@
-<div>
-  <h3 class="font-bold text-xl mt-4 mb-2">
-    <%= form.label :more_info %>
-  </h3>
-  <%= form.rich_text_area :more_info %>
-</div>
+<%= render partial: 'spaces/edit/common/edit_rich_text', locals: {
+  form: form,
+  field: :more_info
+} %>

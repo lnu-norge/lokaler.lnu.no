@@ -24,7 +24,7 @@ class SpacesController < ApplicationController
   def edit_field
     @space = Space.find(params[:id])
     @field = params[:field]
-    render 'spaces/edit/edit_field'
+    render 'spaces/edit/common/edit_field'
   end
 
   def update
@@ -107,7 +107,8 @@ class SpacesController < ApplicationController
       :who_can_use,
       :pricing,
       :terms,
-      :more_info
+      :more_info,
+      space_owner_attributes: %i[id how_to_book pricing terms who_can_use]
     )
   end
 end

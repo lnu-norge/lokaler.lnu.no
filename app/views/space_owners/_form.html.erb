@@ -3,9 +3,42 @@
 <%= form_with model: space_owner do |form| %>
 
   <div>
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "border-4" %>
+  </div>
+
+  <div>
     <%= form.label :orgnr %>
     <%= form.text_field :orgnr, class: "border-4" %>
   </div>
+
+  <h3 class="font-bold text-xl mt-4 mb-2">
+    <%= form.label :how_to_book %>
+  </h3>
+  <%= form.rich_text_area :how_to_book %>
+
+  <h3 class="font-bold text-xl mt-4 mb-2">
+    <%= form.label :terms %>
+  </h3>
+  <%= form.rich_text_area :terms %>
+
+  <h3 class="font-bold text-xl mt-4 mb-2">
+    <%= form.label :pricing %>
+  </h3>
+  <%= form.rich_text_area :pricing %>
+
+  <h3 class="font-bold text-xl mt-4 mb-2">
+    <%= form.label :who_can_use %>
+  </h3>
+  <%= form.rich_text_area :who_can_use %>
+
+
+
+  <h3 class="font-bold text-xl mt-4 mb-2">
+    <%= form.label :about %>
+  </h3>
+  <%= form.rich_text_area :about %>
+
 
   <div>
     <%= form.submit %>

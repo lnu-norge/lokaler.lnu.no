@@ -14,7 +14,7 @@
   <hr />
 
   <%= inline_editable :how_to_book  do %>
-    <%= @space.how_to_book %>
+    <%= render_space_and_owner_field @space, :how_to_book %>
   <% end %>
   <hr />
 
@@ -22,12 +22,12 @@
   <hr />
 
   <%= inline_editable :who_can_use  do %>
-    <%= @space.who_can_use %>
+    <%= render_space_and_owner_field @space, :who_can_use %>
   <% end %>
   <hr />
 
   <%= inline_editable :pricing do %>
-    <%= @space.pricing %>
+    <%= render_space_and_owner_field @space, :pricing %>
   <% end %>
   <hr />
 
@@ -35,12 +35,12 @@
   <hr />
 
   <%= inline_editable :more_info do %>
-    <%= @space.more_info %>
+    <%= render_space_and_owner_field @space, :more_info %>
   <% end %>
   <hr />
 
   <%= inline_editable :terms do %>
-    <%= @space.terms %>
+    <%= render_space_and_owner_field @space, :terms %>
   <% end %>
   <hr />
 
