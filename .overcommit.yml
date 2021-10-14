@@ -35,9 +35,9 @@ PreCommit:
     enabled: true
     config: coffeelint.json
 
-  EsLint:
-    enabled: true
-    command: ['eslint', 'app/javascript/controllers/**/*.js', '--fix']
+#  EsLint:
+#    enabled: true
+#    command: ['eslint', 'app/javascript/controllers/**/*.js', '--fix']
 
   AuthorName:
     enabled: false
