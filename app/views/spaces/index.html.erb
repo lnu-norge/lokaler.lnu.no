@@ -1,20 +1,21 @@
-<%= render partial: "spaces/index/search_form" %>
 
-<div class="md:grid grid-cols-2">
-  <div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
-    <div class="w-full h-96 md:h-screen" id="map-frame">
+<div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
+  <%= render partial: "spaces/index/search_form" %>
+  <div class="md:grid grid-cols-2">
+    <div>
+      <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+      <div class="w-full h-96 md:h-screen" id="map-frame">
+      </div>
     </div>
-  </div>
+    <div class="md:h-screen overflow-auto pt-4 px-4 static">
+      <h1 class="text-2xl"><%= Space.model_name.human(count: 2) %></h1>
+      <details class="p-4 cursor-pointer border-4 border-green-400 bg-green-50">
+        <summary class="text-green-600 font-bold">Create new space</summary>
+        <%= render partial: "spaces/create/form", locals: { space: @space } %>
+      </details>
 
-  <div class="md:h-screen overflow-auto pt-4 px-4 static">
-    <h1 class="text-2xl"><%= Space.model_name.human(count: 2) %></h1>
-    <details class="p-4 cursor-pointer border-4 border-green-400 bg-green-50">
-      <summary class="text-green-600 font-bold">Create new space</summary>
-      <%= render partial: "spaces/create/form", locals: { space: @space } %>
-    </details>
-
-    <div id="space-listing">
+      <div id="space-listing">
+      </div>
     </div>
   </div>
 </div>
