@@ -1,4 +1,5 @@
-<%= form_with class: "m-4", data: { action: "mapbox#submitSearch" } do |f| %>
+<%= form_with class: "m-4",
+  data: { action: "mapbox#submitSearch" } do |f| %>
   <div class="my-4">
     <%= f.label :location, class: "text-xl font-bold" %>
     <div class="mt-2">
@@ -7,11 +8,12 @@
         class: "w-full appearance-none rounded shadow border border-gray-300 focus:ring-lnu-pink focus:border-lnu-pink",
         data: { mapbox_target: "location" }%>
     </div>
-    <%= f.submit :search, data: { disable_with: false } %>
+    <%= f.submit :search, class: "w-full appearance-none rounded shadow border border-gray-300 p-4 my-4", data: { disable_with: false } %>
   </div>
-  <hr />
 
-  <p class="text-xl font-bold">Fasiliteter</p>
+  <p class="text-md text-center mt-2 mb-1">Flere filtere</p>
+  <hr />
+  <p class="text-xl font-bold mt-4">Fasiliteter</p>
 
   <% FacilityCategory.all.each do |category| %>
     <div class="my-4">

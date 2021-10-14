@@ -1,6 +1,7 @@
-
 <div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
-  <%= render partial: "spaces/index/search_form" %>
+  <div class="fixed z-50 insert-0 overflow-hidden bg-white h-screen">
+    <%= render partial: "spaces/index/search_form" %>
+  </div>
   <div class="md:grid grid-cols-2">
     <div>
       <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">

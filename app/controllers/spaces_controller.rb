@@ -61,6 +61,10 @@ class SpacesController < AuthenticateController
   end
 
   def spaces_search # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    # location = params[:location]
+    # space_types = params[:space_types]
+    # facilities = params[:facilities]
+
     spaces = Space.where(
       ':north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng',
       north_west_lat: params[:north_west_lat],

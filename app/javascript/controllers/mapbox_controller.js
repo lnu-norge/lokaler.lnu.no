@@ -27,17 +27,6 @@ export default class extends Controller {
   submitSearch(event) {
     event.preventDefault();
 
-    console.log("Location: " + this.locationTarget.value);
-
-    this.spaceTypeTargets.forEach(t => {
-      if(t.checked)
-        console.log(t.id +`(${t.name}): `+ t.checked)
-    });
-
-    this.facilityTargets.forEach(t => {
-      if(t.checked)
-        console.log(t.id +`(${t.name}): `+ t.checked)
-    });
     this.loadNewMapPosition();
   }
 
@@ -93,20 +82,44 @@ export default class extends Controller {
     delete this.markers[key];
   }
 
-  async loadNewMapPosition() {
-    //document.getElementById('space-listing').innerText = 'Laster...';
+  buildSearchURL() {
 
+    // TODO: extract url building to it's own function
     const northWest = this.map.getBounds().getNorthWest();
     const southEast = this.map.getBounds().getSouthEast();
+
+    let facilitiesString = "";
+
+    this.facilityTargets.forEach(t => {
+      if(t.checked)
+        facilitiesString += `facilities[]=${t.name}&`;
+    });
+
+    let spaceTypesString = "";
+    this.spaceTypeTargets.forEach(t => {
+      if(t.checked)
+        spaceTypesString += `space_types[]=${t.name}&`;
+    });
+
+
     const fetchSpacesInRectUrl = [
       '/spaces_search?',
       `north_west_lat=${northWest.lat}&`,
       `north_west_lng=${northWest.lng}&`,
       `south_east_lat=${southEast.lat}&`,
       `south_east_lng=${southEast.lng}&`,
-      `facilities=${"1,2,3,4,5"}&`,
+      `location=${this.locationTarget.value}&`,
+      facilitiesString,
+      spaceTypesString,
     ].join('');
-    const spacesInRect = await (await fetch(fetchSpacesInRectUrl)).json();
+
+    return fetchSpacesInRectUrl;
+  }
+
+  async loadNewMapPosition() {
+    //document.getElementById('space-listing').innerText = 'Laster...';
+
+    const spacesInRect = await (await fetch(this.buildSearchURL())).json();
 
     // Replace the spaces list with the new view rendered by the server
     document.getElementById('space-listing').innerHTML = spacesInRect.listing;
