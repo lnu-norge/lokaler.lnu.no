@@ -60,7 +60,7 @@ class SpacesController < ApplicationController
     }
   end
 
-  def spaces_in_rect
+  def spaces_search # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     spaces = Space.where(
       ':north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng',
       north_west_lat: params[:north_west_lat],
@@ -71,7 +71,6 @@ class SpacesController < ApplicationController
 
     markers = spaces.map do |space|
       html = render_to_string partial: 'spaces/index/map_marker', locals: { space: space }
-
       {
         lat: space.lat,
         lng: space.lng,

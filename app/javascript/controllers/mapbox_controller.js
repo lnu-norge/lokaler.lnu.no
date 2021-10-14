@@ -2,6 +2,7 @@ import mapboxgl from 'mapbox-gl';
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
+  static targets = [ "facility", "spaceType", "location" ]
   initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
 
@@ -21,6 +22,23 @@ export default class extends Controller {
         });
       });
     }, { timeout: 60000 });
+  }
+
+  submitSearch(event) {
+    event.preventDefault();
+
+    console.log("Location: " + this.locationTarget.value);
+
+    this.spaceTypeTargets.forEach(t => {
+      if(t.checked)
+        console.log(t.id +`(${t.name}): `+ t.checked)
+    });
+
+    this.facilityTargets.forEach(t => {
+      if(t.checked)
+        console.log(t.id +`(${t.name}): `+ t.checked)
+    });
+    this.loadNewMapPosition();
   }
 
   initializeMap(options) {
@@ -45,6 +63,7 @@ export default class extends Controller {
     this.loadPositionOn('rotateend');
     this.loadPositionOn('pitchend');
     this.loadPositionOn('boxzoomend');
+    this.loadPositionOn('touchend')
   }
 
   loadPositionOn(event) {
@@ -75,11 +94,18 @@ export default class extends Controller {
   }
 
   async loadNewMapPosition() {
-    document.getElementById('space-listing').innerText = 'Laster...';
+    //document.getElementById('space-listing').innerText = 'Laster...';
 
     const northWest = this.map.getBounds().getNorthWest();
     const southEast = this.map.getBounds().getSouthEast();
-    const fetchSpacesInRectUrl = `/spaces_in_rect?north_west_lat=${northWest.lat}&north_west_lng=${northWest.lng}&south_east_lat=${southEast.lat}&south_east_lng=${southEast.lng}`;
+    const fetchSpacesInRectUrl = [
+      '/spaces_search?',
+      `north_west_lat=${northWest.lat}&`,
+      `north_west_lng=${northWest.lng}&`,
+      `south_east_lat=${southEast.lat}&`,
+      `south_east_lng=${southEast.lng}&`,
+      `facilities=${"1,2,3,4,5"}&`,
+    ].join('');
     const spacesInRect = await (await fetch(fetchSpacesInRectUrl)).json();
 
     // Replace the spaces list with the new view rendered by the server

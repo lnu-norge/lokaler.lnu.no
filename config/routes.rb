@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   resources 'space_owners'
   resources 'reviews'
 
-  get 'spaces_in_rect', to: 'spaces#spaces_in_rect'
+  get 'spaces_search', to: 'spaces#spaces_search'
   get 'rect_for_spaces', to: 'spaces#rect_for_spaces'
   post 'spaces/upload_image', to: 'spaces#upload_image'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

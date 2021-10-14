@@ -1,31 +1,33 @@
-<%= form_with class: "m-4" do |f| %>
-  <div class="my-4 w-full p-4 rounded shadow border border-gray-300">
-    <p>2 Lokaler i liste</p>
-    <p>Ingen kontaktet</p>
-  </div>
-  <hr />
-
-  <p class="my-4 font-bold text-center">Endre filter</p>
-
+<%= form_with class: "m-4", data: { action: "mapbox#submitSearch" } do |f| %>
   <div class="my-4">
     <%= f.label :location, class: "text-xl font-bold" %>
     <div class="mt-2">
-      <%= f.text_field :location, placeholder: "Fredrikstad", class: "w-full appearance-none rounded shadow border border-gray-300 focus:ring-lnu-pink focus:border-lnu-pink" %>
+      <%= f.text_field :location,
+        placeholder: "Fredrikstad",
+        class: "w-full appearance-none rounded shadow border border-gray-300 focus:ring-lnu-pink focus:border-lnu-pink",
+        data: { mapbox_target: "location" }%>
     </div>
+    <%= f.submit :search, data: { disable_with: false } %>
   </div>
   <hr />
 
+  <p class="text-xl font-bold">Fasiliteter</p>
+
   <% FacilityCategory.all.each do |category| %>
     <div class="my-4">
-      <%= f.label category.title, class: "text-xl mb-4 font-bold" %>
+      <%= f.label category.title, class: "text-l mb-4 font-bold" %>
       <div class="mt-2">
         <% category.facilities.each do |facility| %>
           <%= f.label facility.title, class: "flex my-1" do %>
-            <%= f.check_box facility.title, name: "facility[#{category.id}][#{facility.id}]", class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded" %>
-            <%= inline_svg "facilities/#{facility.icon}", class: "mx-2" %>
-            <%= facility.title %>
-          <% end %>
+            <%= f.check_box facility.title,
+              class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+              name: facility.id,
+              data: { mapbox_target: "facility" }
+            %>
+          <%= inline_svg "facilities/#{facility.icon}", class: "mx-2" %>
+          <%= facility.title %>
         <% end %>
+      <% end %>
       </div>
     </div>
     <hr />
@@ -35,8 +37,13 @@
     <%= f.label :space_types, class: "text-xl mb-4 font-bold" %>
     <div class="mt-2">
       <% SpaceType.all.each do |space_type| %>
-        <%= f.label space_type.type_name, class:"flex my-1" do %>
-          <%= f.check_box space_type.type_name, name: "space_type[#{space_type.id}]", class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded mr-2" %>
+        <%= f.label space_type.type_name, class: "flex my-1" do %>
+          <%=
+            f.check_box space_type.type_name,
+              class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded mr-2",
+              name: space_type.id,
+              data: { mapbox_target: "spaceType" }
+            %>
           <%= space_type.type_name %>
         <% end %>
       <% end %>
