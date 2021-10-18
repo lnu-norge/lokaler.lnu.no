@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SpacesController < AuthenticateController
+  include SpacesConcern
+
   def index
     @spaces = Space.all.order updated_at: :desc
     @space = Space.new
@@ -61,9 +63,9 @@ class SpacesController < AuthenticateController
   end
 
   def spaces_search # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    # location = params[:location]
-    # space_types = params[:space_types]
-    # facilities = params[:facilities]
+    # location = params[:location] # Currently not used
+    space_types = params[:space_types]
+    facilities = params[:facilities]
 
     spaces = Space.where(
       ':north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng',
@@ -72,6 +74,9 @@ class SpacesController < AuthenticateController
       south_east_lat: params[:south_east_lat],
       south_east_lng: params[:south_east_lng]
     )
+
+    spaces = filter_on_space_types(spaces, space_types)
+    spaces = filter_on_facilities(spaces, facilities)
 
     markers = spaces.map do |space|
       html = render_to_string partial: 'spaces/index/map_marker', locals: { space: space }
@@ -85,7 +90,7 @@ class SpacesController < AuthenticateController
 
     render json: {
       listing: render_to_string(
-        partial: 'spaces/index/space_listings', locals: { spaces: spaces.limit(10) }
+        partial: 'spaces/index/space_listings', locals: { spaces: spaces.first(10) }
       ),
       markers: markers
     }
