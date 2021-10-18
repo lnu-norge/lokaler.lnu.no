@@ -22,6 +22,22 @@ export default class extends Controller {
         });
       });
     }, { timeout: 60000 });
+
+
+    this.spaceTypeTargets.forEach(spaceType => {
+      spaceType.onchange = () => {
+        this.loadNewMapPosition();
+      };
+    });
+    this.facilityTargets.forEach(spaceType => {
+      spaceType.onchange = () => {
+        this.loadNewMapPosition();
+      };
+    });
+
+    this.locationTarget.onchange = () => {
+      this.loadNewMapPosition();
+    };
   }
 
   submitSearch(event) {
