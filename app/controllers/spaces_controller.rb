@@ -63,7 +63,6 @@ class SpacesController < AuthenticateController
   end
 
   def spaces_search # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    # location = params[:location] # Currently not used
     space_types = params[:space_types]
     facilities = params[:facilities]
 

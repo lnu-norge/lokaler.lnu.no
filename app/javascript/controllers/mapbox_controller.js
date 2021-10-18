@@ -104,6 +104,26 @@ export default class extends Controller {
     }
   }
 
+  async submitSearch(event) {
+    event.preventDefault();
+    const url =`https://api.mapbox.com/geocoding/v5/mapbox.places/${this.locationTarget.value}.json?access_token=${mapboxgl.accessToken}`;
+    const result = await (await fetch(url)).json();
+
+    // TODO: Show error to user
+    if(result.features.length == 0)
+      return;
+
+    // TODO: Display a list of features to the user
+    // this list is essentially location matches from mapbox
+    const feature = result.features[0];
+
+    if(feature.bbox == undefined)
+      this.map.flyTo({ center: feature.center, zoom: 10 });
+    else {
+      this.map.fitBounds(feature.bbox);
+    }
+  }
+
   removeMarker(key) {
     this.markers[key].remove();
     delete this.markers[key];
@@ -132,7 +152,6 @@ export default class extends Controller {
       `north_west_lng=${northWest.lng}&`,
       `south_east_lat=${southEast.lat}&`,
       `south_east_lng=${southEast.lng}&`,
-      `location=${this.locationTarget.value}&`,
       facilitiesString,
       spaceTypesString,
     ].join('');
