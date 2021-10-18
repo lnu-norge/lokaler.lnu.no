@@ -7,23 +7,19 @@ module SpacesConcern
     return spaces if space_types.nil?
 
     spaces.select do |space|
-      space_types.include?(space.space_type.id.to_s)
+      space_types.include?(space.space_type_id.to_s)
     end
   end
 
   def filter_on_facilities(spaces, facilities) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     return spaces if facilities.nil?
 
-    spaces.select do |space|
-      has_all_selected_facilities = true
-
+    spaces.reject do |space|
       space.aggregated_facility_reviews.select do |review|
-        if facilities.include?(review.facility.id.to_s) && (review.unknown? || review.impossible? || review.unlikely?)
-          has_all_selected_facilities = false
+        if facilities.include?(review.facility_id.to_s) && (review.unknown? || review.impossible? || review.unlikely?)
+          review
         end
-      end
-
-      space if has_all_selected_facilities
+      end.empty?
     end
   end
 end
