@@ -3,47 +3,42 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
   static targets = [ "facility", "spaceType", "location" ]
-  initialize() {
+
+  async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
 
-    navigator.geolocation.getCurrentPosition((position) => {
+    const position = await this.requestPosition();
+
+    if(position != null) {
       this.initializeMap({
         center: [position.coords.longitude, position.coords.latitude],
         zoom: 11,
       });
-    }, () => {
-      fetch('/rect_for_spaces').then((response) => response.json()).then((rectForSpaces) => {
-        const { northEast, southWest } = rectForSpaces;
-        this.initializeMap({
-          bounds: new mapboxgl.LngLatBounds(
-            new mapboxgl.LngLat(southWest.lng, southWest.lat),
-            new mapboxgl.LngLat(northEast.lng, northEast.lat),
-          ),
-        });
+    }
+    else {
+      const {northEast, southWest} = await (await fetch('/rect_for_spaces')).json();
+      this.initializeMap({
+        bounds: new mapboxgl.LngLatBounds(
+          new mapboxgl.LngLat(southWest.lng, southWest.lat),
+          new mapboxgl.LngLat(northEast.lng, northEast.lat),
+        ),
       });
-    }, { timeout: 60000 });
-
-
-    this.spaceTypeTargets.forEach(spaceType => {
-      spaceType.onchange = () => {
-        this.loadNewMapPosition();
-      };
-    });
-    this.facilityTargets.forEach(spaceType => {
-      spaceType.onchange = () => {
-        this.loadNewMapPosition();
-      };
-    });
-
-    this.locationTarget.onchange = () => {
-      this.loadNewMapPosition();
-    };
+    }
   }
 
-  submitSearch(event) {
-    event.preventDefault();
+  requestPosition() {
+    var options = {
+      enableHighAccuracy: true,
+      timeout:    5000,   // time in millis when error callback will be invoked
+      maximumAge: 0,      // max cached age of gps data, also in millis
+    };
 
-    this.loadNewMapPosition();
+    return new Promise((resolve) => {
+      navigator.geolocation.getCurrentPosition(
+        pos => { resolve(pos); },
+        _ => { resolve(null); },
+        options);
+    });
   }
 
   initializeMap(options) {
@@ -69,6 +64,22 @@ export default class extends Controller {
     this.loadPositionOn('pitchend');
     this.loadPositionOn('boxzoomend');
     this.loadPositionOn('touchend')
+
+    this.spaceTypeTargets.forEach(spaceType => {
+      spaceType.onchange = () => {
+        this.loadNewMapPosition();
+      };
+    });
+
+    this.facilityTargets.forEach(spaceType => {
+      spaceType.onchange = () => {
+        this.loadNewMapPosition();
+      };
+    });
+
+    this.locationTarget.onchange = () => {
+      this.loadNewMapPosition();
+    };
   }
 
   loadPositionOn(event) {
@@ -99,8 +110,6 @@ export default class extends Controller {
   }
 
   buildSearchURL() {
-
-    // TODO: extract url building to it's own function
     const northWest = this.map.getBounds().getNorthWest();
     const southEast = this.map.getBounds().getSouthEast();
 
@@ -116,7 +125,6 @@ export default class extends Controller {
       if(t.checked)
         spaceTypesString += `space_types[]=${t.name}&`;
     });
-
 
     const fetchSpacesInRectUrl = [
       '/spaces_search?',
