@@ -37,7 +37,7 @@ TODO:
       <div class="flex gap-2">
         <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'}" %>
         <span>
-          <%=  space.star_rating || '-' %>
+          <%=  space.star_rating.truncate(2) || '-' %>
           <span class="opacity-50">(5)</span>
         </span>
       </div>
