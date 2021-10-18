@@ -78,6 +78,9 @@ class SpacesController < ApplicationController
     spaces = filter_on_space_types(spaces, space_types)
     spaces = filter_on_facilities(spaces, facilities)
 
+    # Only show the 20 best matches on the map
+    spaces = spaces.first(20)
+
     markers = spaces.map do |space|
       html = render_to_string partial: 'spaces/index/map_marker', locals: { space: space }
       {
