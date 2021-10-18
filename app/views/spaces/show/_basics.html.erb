@@ -9,7 +9,7 @@
     <div class="flex gap-2">
       <%= inline_svg_tag 'star', class: @space.star_rating ? "text-pink-600" : "text-gray-300" %>
       <span>
-          <%= @space.star_rating || '-' %>
+          <%= @space.star_rating.truncate(2) || '-' %>
           <span class="opacity-50">(<%=  @space.reviews.count %>)</span>
         </span>
     </div>
