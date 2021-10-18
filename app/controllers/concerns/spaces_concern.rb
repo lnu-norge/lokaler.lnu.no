@@ -25,7 +25,7 @@ module SpacesConcern
       next if match_count.zero?
 
       OpenStruct.new(match_count: match_count, space: space)
-    end
+    end.compact
 
     result.sort_by(&:match_count).map(&:space)
   end

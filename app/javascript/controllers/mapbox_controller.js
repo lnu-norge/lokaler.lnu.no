@@ -77,8 +77,8 @@ export default class extends Controller {
       };
     });
 
-    this.locationTarget.onchange = () => {
-      this.loadNewMapPosition();
+    this.locationTarget.onchange = (event) => {
+      this.submitSearch(event)
     };
   }
 
@@ -105,16 +105,12 @@ export default class extends Controller {
   }
 
   async submitSearch(event) {
-    event.preventDefault();
-    const url =`https://api.mapbox.com/geocoding/v5/mapbox.places/${this.locationTarget.value}.json?access_token=${mapboxgl.accessToken}`;
+    const url =`https://api.mapbox.com/geocoding/v5/mapbox.places/${event.target.value}.json?access_token=${mapboxgl.accessToken}`;
     const result = await (await fetch(url)).json();
 
-    // TODO: Show error to user
     if(result.features.length == 0)
       return;
 
-    // TODO: Display a list of features to the user
-    // this list is essentially location matches from mapbox
     const feature = result.features[0];
 
     if(feature.bbox == undefined)
