@@ -3,5 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Space, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'can create a space' do
+    expect(Fabricate(:space)).to be_truthy
+  end
 end
