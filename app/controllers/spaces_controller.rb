@@ -74,7 +74,7 @@ class SpacesController < ApplicationController
       south_east_lng: params[:south_east_lng]
     )
 
-    spaces = filter_on_space_types(spaces, space_types)
+    spaces = spaces.filter_on_space_types(space_types)
     spaces = filter_on_facilities(spaces, facilities)
 
     # Only show the 20 best matches on the map
