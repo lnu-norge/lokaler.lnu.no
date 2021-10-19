@@ -11,6 +11,11 @@ class Space < ApplicationRecord
   belongs_to :space_owner
   accepts_nested_attributes_for :space_owner
   scope :filter_on_space_types, ->(space_type_ids) { where(space_type_id: space_type_ids) }
+  scope :filter_on_facilities, ->(facilities) do
+    includes(:aggregated_facility_reviews)
+      .where('aggregated_facility_reviews.experience': AggregatedFacilityReview::ALLOW_FACILITY_LISTING)
+      .where('aggregated_facility_reviews.facility_id': facilities)
+  end
 
   belongs_to :space_type
 

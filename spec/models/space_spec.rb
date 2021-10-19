@@ -7,6 +7,27 @@ RSpec.describe Space, type: :model do
     expect(Fabricate(:space)).to be_truthy
   end
 
+  describe 'filter on factilites' do
+    subject { Space.filter_on_facilities(facilities).count }
+
+    let(:space1) { Fabricate(:space) }
+    let(:kitchen) { Fabricate(:facility, title: 'kitchen') }
+    let(:toilet) { Fabricate(:facility, title: 'toilet') }
+
+    before do
+      Fabricate(:facility_review, space: space1, facility: kitchen)
+      Fabricate(:facility_review, space: space1, facility: toilet)
+    end
+
+    context "kitchen" do
+      let(:facilities) { kitchen.id }
+
+      it "when only one space has got it" do
+        expect(subject).to eq(1)
+      end
+    end
+  end
+
   describe 'filter on space types' do
     subject { Space.filter_on_space_types(space_types).count }
 
