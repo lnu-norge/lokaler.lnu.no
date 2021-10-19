@@ -40,4 +40,8 @@ RSpec.describe Review, type: :model do
     expect { review.reload }.to raise_error(ActiveRecord::RecordNotFound)
     expect { facility_review.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
+
+  it 'can create a review' do
+    expect(Fabricate(:review)).to be_truthy
+  end
 end
