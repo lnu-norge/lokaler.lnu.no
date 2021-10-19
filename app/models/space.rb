@@ -10,6 +10,7 @@ class Space < ApplicationRecord
 
   belongs_to :space_owner
   accepts_nested_attributes_for :space_owner
+  scope :filter_on_space_types, ->(space_type_ids) { where(space_type_id: space_type_ids) }
 
   belongs_to :space_type
 
@@ -69,5 +70,9 @@ class Space < ApplicationRecord
 
   def aggregate_star_rating
     Spaces::AggregateStarRatingService.call(space: self)
+  end
+
+  def star_rating_s
+    star_rating.truncate(2) || ' - '
   end
 end
