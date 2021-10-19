@@ -21,6 +21,7 @@ If you want to install this project on your computer then follow the guides belo
 If you find bugs, please submit them.
 
 ## Install (If you have Ruby and Rails already installed)
+
 1. Open your terminal
 2. Go to the folder you want the repository
 > TIP! This is the command: cd myfolder/myOtherFolder
@@ -28,7 +29,7 @@ If you find bugs, please submit them.
 4. Go into the folder lokaler.lnu.no
 5. Run the command: bundle install
 > TIP! After this command you  should see a long list of green and white lines
-6.Rrun the command: yarn
+6. Run the command: yarn
 7. Now run the command: rails db:create db:migrate
 
 Congratulations!!! You have now setup the project.
