@@ -74,7 +74,8 @@ class SpacesController < AuthenticateController
       south_east_lng: params[:south_east_lng]
     )
 
-    spaces = spaces.filter_on_space_types(space_types).filter_on_facilities(facilities)
+    spaces = spaces.filter_on_space_types(space_types) unless space_types.nil?
+    spaces = spaces.filter_on_facilities(facilities) unless facilities.nil?
 
     # Only show the 20 best matches on the map
     spaces = spaces.first(20)
