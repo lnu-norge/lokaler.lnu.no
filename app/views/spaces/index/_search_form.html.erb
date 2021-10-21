@@ -1,10 +1,11 @@
 <%= form_with class: "m-4" do |f| %>
   <div class="my-4">
-    <%= f.label :location, class: "text-xl font-bold" %>
+    <%= f.label t("space_filter.location"), class: "text-xl font-bold" %>
     <div class="mt-2">
       <div data-mapbox-target="location">
-        <select id="locationInput" class="w-full rounded shadow border border-gray-300 focus:ring-lnu-pink focus:border-lnu-pink"
-                placeholder="Fredrikstad"
+        <select id="locationInput"
+                class="w-full rounded shadow border border-gray-300 focus:ring-lnu-pink focus:border-lnu-pink"
+                placeholder=<%= t("space_filter.location") %>
                 data-controller="locationsearch"
                 data-api-key="<%= ENV["MAPBOX_API_KEY"]%>">
         </select>
@@ -12,9 +13,9 @@
     </div>
   </div>
 
-  <p class="text-md text-center mt-2 mb-1">Flere filtere</p>
+  <p class="text-md text-center mt-2 mb-1"><%= t("space_filter.more_filters") %></p>
   <hr />
-  <p class="text-xl font-bold mt-4">Fasiliteter</p>
+  <p class="text-xl font-bold mt-4"><%= Facility.model_name.human(count: 2) %></p>
 
   <% FacilityCategory.all.each do |category| %>
     <div class="my-4">
@@ -37,7 +38,7 @@
   <% end %>
 
   <div class="my-4">
-    <%= f.label :space_types, class: "text-xl mb-4 font-bold" %>
+    <p class="text-xl font-bold mt-4"><%= SpaceType.model_name.human(count: 2) %></p>
     <div class="mt-2">
       <% SpaceType.all.each do |space_type| %>
         <%= f.label space_type.type_name, class: "flex my-1" do %>

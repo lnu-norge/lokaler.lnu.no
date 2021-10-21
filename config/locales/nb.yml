@@ -17,6 +17,9 @@ nb:
   space_show:
     only_for_space: "Kun for %{title}:"
     common_to_all_owned_by: 'Felles for %{owner_title}:'
+  space_filter:
+    location: 'Sted'
+    more_filters: 'Flere filtere'
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
@@ -35,6 +38,9 @@ nb:
       review:
         one: 'Erfaring'
         other: 'Erfaringer'
+      space_type:
+        one: 'Lokaltype'
+        other: 'Lokaltyper'
     attributes:
       space:
         how_to_book: 'Hvordan booker vi?'
