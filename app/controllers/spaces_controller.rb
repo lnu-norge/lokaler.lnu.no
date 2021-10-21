@@ -61,10 +61,8 @@ class SpacesController < AuthenticateController
   end
 
   def spaces_search # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    space_types = params[:space_types]
-    facilities = params[:facilities]
-    space_types = space_types.map(&:to_i) unless space_types.nil?
-    facilities = facilities.map(&:to_i) unless facilities.nil?
+    space_types = params[:space_types]&.map(&:to_i)
+    facilities = params[:facilities]&.map(&:to_i)
 
     spaces = Space.filter_on_location(
       params[:north_west_lat],
@@ -74,9 +72,8 @@ class SpacesController < AuthenticateController
     )
 
     spaces = spaces.filter_on_space_types(space_types) unless space_types.nil?
-    spaces = filter_on_facilities(spaces, facilities) unless facilities.nil?
+    spaces = Space.filter_on_facilities(spaces, facilities) unless facilities.nil?
 
-    # Only show the 20 best matches on the map
     spaces = spaces.first(20)
 
     markers = spaces.map do |space|
