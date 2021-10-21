@@ -80,8 +80,10 @@ class Space < ApplicationRecord
   end
 
   # Move this somewhere better, either a service or figure out a way to make it a scope
+  # NOTE: this expects a scope for spaces but returns an array
+  # preferably we would find some way to return a scope too
   def self.filter_on_facilities(spaces, facilities) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-    results = spaces.filter_map do |space|
+    results = spaces.includes(:aggregated_facility_reviews).filter_map do |space|
       match_count = 0
       space.aggregated_facility_reviews.each do |review|
         next unless facilities.include?(review.facility_id)

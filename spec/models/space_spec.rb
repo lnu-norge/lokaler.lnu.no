@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Space, type: :model do
   describe 'filter on factilites' do
-    subject(:filter_subject) { described_class.filter_on_facilities([space1, space2], facilities) }
+    subject(:filter_subject) { described_class.filter_on_facilities(described_class.all, facilities) }
 
     let(:space1) { Fabricate(:space) }
     let(:space2) { Fabricate(:space) }
