@@ -12,6 +12,9 @@ RSpec/ExampleLength:
 RSpec/MultipleExpectations:
   Enabled: false
 
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: true
   Exclude:

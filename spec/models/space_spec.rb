@@ -3,30 +3,60 @@
 require 'rails_helper'
 
 RSpec.describe Space, type: :model do
-
   describe 'filter on factilites' do
-    subject { Space.filter_on_facilities(facilities).count }
+    subject(:filter_subject) { described_class.filter_on_facilities([space1, space2], facilities) }
 
     let(:space1) { Fabricate(:space) }
+    let(:space2) { Fabricate(:space) }
     let(:kitchen) { Fabricate(:facility, title: 'kitchen') }
     let(:toilet) { Fabricate(:facility, title: 'toilet') }
+    let(:shower) { Fabricate(:facility, title: 'shower') }
 
     before do
-      Fabricate(:facility_review, space: space1, facility: kitchen)
-      Fabricate(:facility_review, space: space1, facility: toilet)
+      review_space1 = Fabricate(:review, space: space1)
+      review_space2 = Fabricate(:review, space: space2)
+
+      Fabricate(:facility_review, space: space1, review: review_space1, facility: kitchen)
+      Fabricate(:facility_review, space: space1, review: review_space1, facility: shower)
+      Fabricate(:facility_review, space: space1, review: review_space1, facility: toilet,
+                                  experience: :was_not_available)
+
+      Fabricate(:facility_review, space: space2, review: review_space2, facility: kitchen)
+      Fabricate(:facility_review, space: space2, review: review_space2, facility: shower)
+      Fabricate(:facility_review, space: space2, review: review_space2, facility: toilet)
     end
 
-    context "kitchen" do
-      let(:facilities) { kitchen.id }
+    context 'with kitchen' do
+      let(:facilities) { [kitchen.id] }
 
-      it "when only one space has got it" do
-        expect(subject).to eq(1)
+      it 'when both spaces have kitchen' do
+        expect(filter_subject.count).to eq(2)
+      end
+    end
+
+    context 'with toilet' do
+      let(:facilities) { [toilet.id] }
+
+      it 'when only one space have toilet' do
+        expect(filter_subject.count).to eq(2)
+      end
+    end
+
+    context 'with kitchen & toilet' do
+      let(:facilities) { [kitchen.id, toilet.id] }
+
+      it 'when both spaces has either kitchen or toilet' do
+        expect(filter_subject.count).to eq(2)
+      end
+
+      it 'with correct order' do
+        expect(filter_subject.first).to eq(space2)
       end
     end
   end
 
   describe 'filter on space types' do
-    subject { Space.filter_on_space_types(space_types).count }
+    subject { described_class.filter_on_space_types(space_types).count }
 
     let(:space_type_a) { Fabricate(:space_type, type_name: 'A') }
     let(:space_type_b) { Fabricate(:space_type, type_name: 'B') }
