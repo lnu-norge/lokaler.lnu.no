@@ -118,7 +118,7 @@ export default class extends Controller {
     const feature = result.features[0];
 
     if(feature.bbox == undefined)
-      this.map.flyTo({ center: feature.center, zoom: 10 });
+      this.map.flyTo({ center: feature.center, zoom: 12 });
     else {
       this.map.fitBounds(feature.bbox);
     }
@@ -133,18 +133,13 @@ export default class extends Controller {
     const northWest = this.map.getBounds().getNorthWest();
     const southEast = this.map.getBounds().getSouthEast();
 
-    let facilitiesString = "";
+    const facilitiesString = this.facilityTargets.map(t =>
+      t.checked ? `facilities[]=${t.name}&` : ''
+    );
 
-    this.facilityTargets.forEach(t => {
-      if(t.checked)
-        facilitiesString += `facilities[]=${t.name}&`;
-    });
-
-    let spaceTypesString = "";
-    this.spaceTypeTargets.forEach(t => {
-      if(t.checked)
-        spaceTypesString += `space_types[]=${t.name}&`;
-    });
+    const spaceTypesString = this.spaceTypeTargets.map(t =>
+      t.checked ? `space_types[]=${t.name}&` : ''
+    );
 
     const fetchSpacesInRectUrl = [
       '/spaces_search?',
