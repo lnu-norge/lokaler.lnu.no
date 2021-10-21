@@ -5,7 +5,6 @@ class AggregatedFacilityReview < ApplicationRecord
   belongs_to :facility
   belongs_to :space
 
-  ALLOW_FACILITY_LISTING = [:maybe, :likely] # + :unknown,
+  ALLOW_FACILITY_LISTING = %i[maybe likely].freeze # + :unknown,
   scope :has_it, -> { where(experience: ALLOW_FACILITY_LISTING) }
-
 end
