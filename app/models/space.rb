@@ -78,6 +78,6 @@ class Space < ApplicationRecord
   end
 
   def star_rating_s
-    star_rating.truncate(2) || ' - '
+    star_rating || ' - '
   end
 end
