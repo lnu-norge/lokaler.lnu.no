@@ -6,7 +6,7 @@
   <div>
     <% @facilities.each do |facility| %>
       <div class="border-2 border-green-400 mt-4">
-        <p>Title: <%= facility.title %></p>
+        <h2>Title: <%= facility.title %></h2>
         <p>Icon: <%= inline_svg_tag "facilities/#{facility.icon}" %></p>
         <p>Category: <%= facility.category %></p>
         <%= link_to 'Show', facility_path(facility), class: "border-2 border-blue-400" %>
