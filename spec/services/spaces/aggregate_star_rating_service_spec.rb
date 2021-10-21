@@ -11,7 +11,7 @@ RSpec.describe Spaces::AggregateStarRatingService do
     Fabricate(:review, space: space, star_rating: 5)
     Fabricate(:review, space: space, star_rating: 4)
 
-    expect(space.reload.star_rating).to eq((3.0 + 5.0 + 5.0 + 4.0) / 4)
+    expect(space.reload.star_rating).to eq(4.3)
   end
 
   it 'Rating equals nil if there are no reviews' do
