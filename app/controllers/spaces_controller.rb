@@ -60,21 +60,8 @@ class SpacesController < ApplicationController
     }
   end
 
-  def spaces_search # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    space_types = params[:space_types]&.map(&:to_i)
-    facilities = params[:facilities]&.map(&:to_i)
-
-    spaces = Space.filter_on_location(
-      params[:north_west_lat],
-      params[:north_west_lng],
-      params[:south_east_lat],
-      params[:south_east_lng]
-    )
-
-    spaces = spaces.filter_on_space_types(space_types) unless space_types.nil?
-    spaces = Space.filter_on_facilities(spaces, facilities) unless facilities.nil?
-
-    spaces = spaces.first(20)
+  def spaces_search
+    spaces = filter_spaces(params).first(20)
 
     markers = spaces.map do |space|
       html = render_to_string partial: 'spaces/index/map_marker', locals: { space: space }
@@ -95,6 +82,22 @@ class SpacesController < ApplicationController
   end
 
   private
+
+  def filter_spaces(params)
+    space_types = params[:space_types]&.map(&:to_i)
+    facilities = params[:facilities]&.map(&:to_i)
+
+    spaces = Space.filter_on_location(
+      params[:north_west_lat],
+      params[:north_west_lng],
+      params[:south_east_lat],
+      params[:south_east_lng]
+    )
+
+    spaces = spaces.filter_on_space_types(space_types) unless space_types.nil?
+    spaces = Space.filter_on_facilities(spaces, facilities) unless facilities.nil?
+    spaces
+  end
 
   def space_params
     params.require(:space).permit(

@@ -37,7 +37,7 @@ TODO:
       <div class="flex gap-2">
         <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'}" %>
         <span>
-          <%=  space.star_rating.truncate(2) || '-' %>
+          <%=  space.star_rating_s %>
           <span class="opacity-50">(5)</span>
         </span>
       </div>
@@ -90,3 +90,6 @@ TODO:
     </ul>
   </div>
 <% end %>
+<div style="margin-top: -32px">
+  <%= render partial: "space_dev_information", locals: { space: space } %>
+</div>
