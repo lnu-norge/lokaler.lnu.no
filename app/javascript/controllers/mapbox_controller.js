@@ -2,7 +2,7 @@ import mapboxgl from 'mapbox-gl';
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = [ "facility", "spaceType", "location" ]
+  static targets = [ "facility", "spaceType", "location", "searchBox" ]
 
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
@@ -24,6 +24,10 @@ export default class extends Controller {
         ),
       });
     }
+  }
+
+  toggleSearchBox() {
+    this.searchBoxTarget.classList.toggle("hidden");
   }
 
   requestPosition() {
