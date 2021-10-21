@@ -118,7 +118,7 @@ export default class extends Controller {
     const feature = result.features[0];
 
     if(feature.bbox == undefined)
-      this.map.flyTo({ center: feature.center, zoom: 10 });
+      this.map.flyTo({ center: feature.center, zoom: 12 });
     else {
       this.map.fitBounds(feature.bbox);
     }
