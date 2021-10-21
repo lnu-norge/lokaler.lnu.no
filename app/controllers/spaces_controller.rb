@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class SpacesController < AuthenticateController
-  include SpacesConcern
-
   def index
     @spaces = Space.all.order updated_at: :desc
     @space = Space.new
@@ -65,13 +63,14 @@ class SpacesController < AuthenticateController
   def spaces_search # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     space_types = params[:space_types]
     facilities = params[:facilities]
+    space_types = space_types.map(&:to_i) unless space_types.nil?
+    facilities = facilities.map(&:to_i) unless facilities.nil?
 
-    spaces = Space.where(
-      ':north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng',
-      north_west_lat: params[:north_west_lat],
-      north_west_lng: params[:north_west_lng],
-      south_east_lat: params[:south_east_lat],
-      south_east_lng: params[:south_east_lng]
+    spaces = Space.filter_on_location(
+      params[:north_west_lat],
+      params[:north_west_lng],
+      params[:south_east_lat],
+      params[:south_east_lng]
     )
 
     spaces = spaces.filter_on_space_types(space_types) unless space_types.nil?
