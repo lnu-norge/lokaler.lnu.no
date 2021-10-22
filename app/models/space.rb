@@ -88,8 +88,10 @@ class Space < ApplicationRecord
       space.aggregated_facility_reviews.each do |review|
         next unless facilities.include?(review.facility_id)
 
-        # The more correct matches the lower the number
+        # The more correct matches the lower the number.
         # this is so the sort_by later will be correct as it sorts by lowest first
+        # we could do a reverse on the result of sort_by but this will incur
+        # a performance overhead
         if review.maybe? || review.likely?
           match_count -= 1
         elsif review.impossible?
