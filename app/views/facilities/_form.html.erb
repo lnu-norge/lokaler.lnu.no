@@ -12,7 +12,7 @@
   </div>
   <div>
     <%= form.label :facility_category %>
-    <%= form.collection_select :facility_categories, FacilityCategory.all, :id, :title, class: "border-4" %>
+    <%= form.collection_select :facility_category_id, FacilityCategory.all, :id, :title, class: "border-4" %>
   </div>
   <div>
     <%= form.submit %>
