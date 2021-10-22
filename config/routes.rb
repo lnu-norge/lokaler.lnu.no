@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   root to: 'devise/sessions#new', as: 'unauthenticated_root'
 
   # Resources
-  resources 'facilities', excep: 'new'
+  resources 'facilities', except: 'new'
   resources 'space_owners', except: 'new'
   resources 'reviews'
 

@@ -33,6 +33,6 @@ class FacilitiesController < AuthenticateController
   private
 
   def facility_params
-    params.require(:facility).permit(:title, :icon, :space_id)
+    params.require(:facility).permit(:title, :icon, :facility_category_id)
   end
 end
