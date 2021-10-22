@@ -1,5 +1,5 @@
-.emailField {
-  @apply appearance-none rounded-none relative block w-full px-3 py-2 rounded-t-md focus:outline-none focus:z-10 sm:text-sm;
+.textField {
+  @apply appearance-none rounded-none relative block w-full px-3 py-2 focus:outline-none focus:z-10 sm:text-sm;
   @apply border border-gray-300 placeholder-gray-500 text-gray-900 focus:ring-lnu-pink focus:border-lnu-pink;
 }
 
@@ -9,5 +9,9 @@
 }
 
 .fieldLast {
-  @apply rounded-b-md
+  @apply rounded-b-md;
+}
+
+.fieldFirst {
+  @apply rounded-t-md;
 }
