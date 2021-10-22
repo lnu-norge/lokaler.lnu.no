@@ -3,5 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe FacilityReview, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'can generate an review' do
+    expect(Fabricate(:facility_review)).to be_truthy
+  end
 end

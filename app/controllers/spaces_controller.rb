@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpacesController < ApplicationController
+class SpacesController < AuthenticateController
   def index
     @spaces = Space.all.order updated_at: :desc
     @space = Space.new

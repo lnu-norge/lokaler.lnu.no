@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpaceOwnersController < ApplicationController
+class SpaceOwnersController < AuthenticateController
   def index
     @space_owners = SpaceOwner.all
     @space_owner = SpaceOwner.new

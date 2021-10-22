@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FacilitiesController < ApplicationController
+class FacilitiesController < AuthenticateController
   def index
     @facilities = Facility.all
     @facility = Facility.new
@@ -33,6 +33,6 @@ class FacilitiesController < ApplicationController
   private
 
   def facility_params
-    params.require(:facility).permit(:title, :space_id)
+    params.require(:facility).permit(:title, :icon, :facility_category_id)
   end
 end

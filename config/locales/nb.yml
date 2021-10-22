@@ -45,3 +45,9 @@ nb:
         address: 'Hvor er det?'
   read_more: 'Les mer'
 
+  devise:
+    sessions:
+      user:
+        signed_out: "Logget ut"
+        signed_in: "Logget inn"
+
