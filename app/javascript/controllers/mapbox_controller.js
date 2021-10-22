@@ -109,18 +109,18 @@ export default class extends Controller {
   }
 
   async submitSearch(event) {
-    const url =`https://api.mapbox.com/geocoding/v5/mapbox.places/${event.target.value}.json?access_token=${mapboxgl.accessToken}`;
+    const url =`https://ws.geonorge.no/stedsnavn/v1/sted?sok=${event.target.value}&fuzzy=true`
     const result = await (await fetch(url)).json();
 
-    if(result.features.length == 0)
+    if(result.navn.length == 0)
       return;
 
-    const feature = result.features[0];
+    const location = result.navn[0].geojson.geometry;
 
-    if(feature.bbox == undefined)
-      this.map.flyTo({ center: feature.center, zoom: 12 });
+    if(location.type == "Point")
+      this.map.flyTo({ center: location.coordinates, zoom: 17 });
     else {
-      this.map.fitBounds(feature.bbox);
+      this.map.fitBounds(location.coordinates)
     }
   }
 

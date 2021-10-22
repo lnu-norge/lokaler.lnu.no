@@ -7,7 +7,6 @@ export default class extends Controller {
   };
 
   connect() {
-    this.accessToken = this.element.dataset.apiKey;
     this.tomselect = new TomSelect('#locationInput', {
       valueField: 'text',
       labelField: 'text',
@@ -22,14 +21,12 @@ export default class extends Controller {
     if(search == "")
       callback([]);
 
-    const url =`https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=${this.accessToken}`;
+    const url =`https://ws.geonorge.no/stedsnavn/v1/sted?sok=${search}&fuzzy=true`
 
-    const data = [];
+    const result = await (await fetch(url)).json();
 
-    const features = await (await fetch(url)).json();
-
-    features.features.forEach((feature) => {
-      data.push({text: feature.text});
+    const data = result.navn.map((name) => {
+      return { text: name.stedsnavn[0].skrivemåte }
     });
 
     callback(data);
