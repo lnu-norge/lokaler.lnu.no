@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ReviewsController < ApplicationController
+class ReviewsController < AuthenticateController
   def index
     @reviews = Review.all
     @review = Review.new

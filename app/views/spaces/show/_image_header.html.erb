@@ -1,8 +1,7 @@
 <div class="overflow-auto flex gap-2">
 <% images.each do |image| %>
   <div class="relative pb-2/3 w-full inline-block flex-shrink-0">
-    <image class="bg-gray-300 absolute h-full w-full object-cover" src="<%=(url_for(image))%>">
-    </image>
+    <img class="bg-gray-300 absolute h-full w-full object-cover" src="<%=(url_for(image))%>" />
   </div>
 <% end %>
 </div>
