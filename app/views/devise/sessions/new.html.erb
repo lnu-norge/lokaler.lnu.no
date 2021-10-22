@@ -2,11 +2,11 @@
   <div>
     <%= image_tag 'logo.svg', alt: 'LNU logo', width: 200, height: 200, class: 'mx-auto h-12 w-auto' %>
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-      Logg inn til din bruker
+       <%=  t('devise.sessions.user.heading_new') %>
     </h2>
     <p class="mt-2 text-center text-sm text-gray-600">
-      eller
-      <%= link_to 'registrer deg her', new_registration_path(resource_name), class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
+       <%=  t('devise.registrations.user.or') %>
+      <%= link_to t('devise.sessions.user.register_instead'), new_registration_path(resource_name), class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
     </p>
   </div>
 
@@ -14,11 +14,11 @@
     <input type="hidden" name="remember" value="true">
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
-        <%= f.label :email, 'E-post', class: 'sr-only' %>
-        <%= f.email_field :email, autocomplete: 'email', class: 'emailField', placeholder: 'epost@epost.no', autofocus: true, required: true %>
+        <%= f.label :email, t('devise.registrations.user.email'), class: 'sr-only' %>
+        <%= f.email_field :email, autocomplete: 'email', class: 'fieldFirst textField', placeholder: 'epost@epost.no', autofocus: true, required: true %>
       </div>
       <div>
-        <%= f.label :password, 'Passord', class: 'sr-only' %>
+        <%= f.label :password, t('devise.registrations.user.password'), class: 'sr-only' %>
         <%= f.password_field :password, autocomplete: "current-password", class: 'passwordField fieldLast', placeholder: '******', required: true %>
       </div>
     </div>
@@ -26,15 +26,15 @@
       <div class="flex items-center">
         <% if devise_mapping.rememberable? %>
           <%= f.check_box :remember_me, class: "h-4 w-4 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded" %>
-          <%= f.label :remember_me, 'Husk meg', class: 'ml-2 block text-sm text-gray-900' %>
+          <%= f.label :remember_me, t('devise.sessions.user.remember_me'), class: 'ml-2 block text-sm text-gray-900' %>
         <% end %>
       </div>
       <div class="text-sm">
-        <%= link_to 'Glemt passordet ditt', new_password_path(resource_name), class: 'font-medium p-2 rounded text-lnu-blue hover:text-lnu-pink focus:outline-none focus:ring-2 focus:outline-ring-offset-2 focus:ring-lnu-pink' %>
+        <%= link_to t('devise.sessions.user.forgot_password'), new_password_path(resource_name), class: 'font-medium p-2 rounded text-lnu-blue hover:text-lnu-pink focus:outline-none focus:ring-2 focus:outline-ring-offset-2 focus:ring-lnu-pink' %>
       </div>
     </div>
     <div class="mt-4">
-      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: "Logg inn" } %>
+      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: t('devise.sessions.user.submit_login') } %>
     </div>
   <% end %>
 </div>
