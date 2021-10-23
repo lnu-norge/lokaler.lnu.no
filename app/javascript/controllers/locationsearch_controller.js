@@ -20,7 +20,7 @@ export default class extends Controller {
   }
 
   async searchMapbox(search, callback) {
-    if(search == "")
+    if(search === "")
       callback([]);
 
     const url =`https://ws.geonorge.no/stedsnavn/v1/sted?sok=${search}&fuzzy=true`
