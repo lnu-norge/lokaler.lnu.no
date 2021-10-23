@@ -118,7 +118,7 @@ export default class extends Controller {
     const location = result.navn[0].geojson.geometry;
 
     if(location.type === "Point")
-      this.map.flyTo({ center: location.coordinates, zoom: 17 });
+      this.map.flyTo({ center: location.coordinates, zoom: 12 });
     else {
       this.map.fitBounds(location.coordinates)
     }
