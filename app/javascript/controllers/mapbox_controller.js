@@ -31,7 +31,7 @@ export default class extends Controller {
   }
 
   requestPosition() {
-    var options = {
+    const options = {
       enableHighAccuracy: true,
       timeout:    5000,   // time in millis when error callback will be invoked
       maximumAge: 0,      // max cached age of gps data, also in millis
@@ -112,12 +112,12 @@ export default class extends Controller {
     const url =`https://ws.geonorge.no/stedsnavn/v1/sted?sok=${event.target.value}&fuzzy=true`
     const result = await (await fetch(url)).json();
 
-    if(result.navn.length == 0)
+    if(result.navn.length === 0)
       return;
 
     const location = result.navn[0].geojson.geometry;
 
-    if(location.type == "Point")
+    if(location.type === "Point")
       this.map.flyTo({ center: location.coordinates, zoom: 17 });
     else {
       this.map.fitBounds(location.coordinates)
@@ -141,7 +141,7 @@ export default class extends Controller {
       t.checked ? `space_types[]=${t.name}&` : ''
     );
 
-    const fetchSpacesInRectUrl = [
+    return [
       '/spaces_search?',
       `north_west_lat=${northWest.lat}&`,
       `north_west_lng=${northWest.lng}&`,
@@ -150,8 +150,6 @@ export default class extends Controller {
       facilitiesString,
       spaceTypesString,
     ].join('');
-
-    return fetchSpacesInRectUrl;
   }
 
   async loadNewMapPosition() {
