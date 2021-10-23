@@ -14,17 +14,17 @@
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
         <%= f.label :first_name, t('devise.registrations.user.first_name'), class: 'sr-only' %>
-        <%= f.text_field :first_name, autofocus: true, autocomplete: 'first-name', class: 'fieldFirst textField', placeholder: t('devise.registrations.user.first_name'), autofocus: true, required: true %>
+        <%= f.text_field :first_name, autofocus: true, autocomplete: 'first-name', class: 'fieldFirst textField', placeholder: t('devise.registrations.user.first_name'), required: true %>
       </div>
 
       <div>
         <%= f.label :last_name, t('devise.registrations.user.last_name'), class: 'sr-only' %>
-        <%= f.text_field :last_name, autofocus: true, autocomplete: 'last-name', class: 'textField', placeholder: t('devise.registrations.user.last_name'), required: true %>
+        <%= f.text_field :last_name, autocomplete: 'last-name', class: 'textField', placeholder: t('devise.registrations.user.last_name'), required: true %>
       </div>
 
       <div>
         <%= f.label :email, t('devise.registrations.user.email'), class: 'sr-only' %>
-        <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'textField', placeholder: 'epost@epost.no', required: true %>
+        <%= f.email_field :email, autocomplete: 'email', class: 'textField', placeholder: 'epost@epost.no', required: true %>
       </div>
       <div class="relative">
         <%= f.label :password, t('devise.registrations.user.password'), class: 'sr-only' %>
