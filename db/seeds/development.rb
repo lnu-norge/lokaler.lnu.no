@@ -9,7 +9,9 @@ require './db/seeds/common'
 User.create(
   email: 'user@example.com',
   password: 'user_password',
-  password_confirmation: 'user_password'
+  password_confirmation: 'user_password',
+  first_name: 'Kari',
+  last_name: 'Nordmann'
 )
 
 # Fake, empty Space data for Gudeberg school:
