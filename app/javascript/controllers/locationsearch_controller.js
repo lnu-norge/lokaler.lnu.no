@@ -11,6 +11,8 @@ export default class extends Controller {
       valueField: 'text',
       labelField: 'text',
       searchField: 'text',
+      allowEmptyOption: true,
+      create: true,
       load: (search, callback) => {
         this.searchMapbox(search, callback)
       }}
