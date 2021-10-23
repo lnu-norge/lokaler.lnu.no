@@ -171,9 +171,11 @@ export default class extends Controller {
   flyToGeoNorgeLocation(place) {
     const location = place.geojson.geometry;
 
-    if(location.type === "Point")
-      this.map.flyTo({ center: location.coordinates, zoom: 12 });
-    else if (location.type === "MultiPoint") {
+    if (location.type === "Point") {
+      return this.map.flyTo({ center: location.coordinates, zoom: 12 });
+    }
+
+    if (location.type === "MultiPoint") {
       // MultiPoints can have arbitrary amounts of points, and so needs to be fit
       // as described here:  https://docs.mapbox.com/mapbox-gl-js/example/zoomto-linestring/
       const bounds = new mapboxgl.LngLatBounds(
@@ -183,16 +185,16 @@ export default class extends Controller {
       for (const coord of location.coordinates) {
         bounds.extend(coord);
       }
-      this.map.fitBounds(bounds, {
+      return this.map.fitBounds(bounds, {
         padding: 100
       });
-    } else {
-      // Unsure about location type given, use the center given instead
-      const point = [
-        place.representasjonspunkt.øst,
-        place.representasjonspunkt.nord
-      ];
-      this.map.flyTo({ center: point, zoom: 12 })
     }
+
+    // Unsure about location type given, use the center given by representasjonspunkt instead
+    const point = [
+      place.representasjonspunkt.øst,
+      place.representasjonspunkt.nord
+    ];
+    return this.map.flyTo({ center: point, zoom: 12 })
   }
 }
