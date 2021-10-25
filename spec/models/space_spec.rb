@@ -96,4 +96,15 @@ RSpec.describe Space, type: :model do
       it { is_expected.to be_zero }
     end
   end
+
+  describe 'paper trails for space' do
+    let(:space) { Fabricate(:space) }
+
+    it 'when changing field, create a new version' do
+      expect(space.versions.count).to eq(1)
+      space.update(title: 'Hello World')
+      expect(space.versions.count).to eq(2)
+      expect(space.versions.last.event).to eq('update')
+    end
+  end
 end
