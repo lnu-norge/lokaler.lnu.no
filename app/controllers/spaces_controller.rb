@@ -60,18 +60,11 @@ class SpacesController < AuthenticateController
     }
   end
 
-  def spaces_in_rect
-    spaces = Space.where(
-      ':north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng',
-      north_west_lat: params[:north_west_lat],
-      north_west_lng: params[:north_west_lng],
-      south_east_lat: params[:south_east_lat],
-      south_east_lng: params[:south_east_lng]
-    )
+  def spaces_search
+    spaces = filter_spaces(params).first(20)
 
     markers = spaces.map do |space|
       html = render_to_string partial: 'spaces/index/map_marker', locals: { space: space }
-
       {
         lat: space.lat,
         lng: space.lng,
@@ -82,13 +75,29 @@ class SpacesController < AuthenticateController
 
     render json: {
       listing: render_to_string(
-        partial: 'spaces/index/space_listings', locals: { spaces: spaces.limit(10) }
+        partial: 'spaces/index/space_listings', locals: { spaces: spaces.first(10) }
       ),
       markers: markers
     }
   end
 
   private
+
+  def filter_spaces(params)
+    space_types = params[:space_types]&.map(&:to_i)
+    facilities = params[:facilities]&.map(&:to_i)
+
+    spaces = Space.filter_on_location(
+      params[:north_west_lat],
+      params[:north_west_lng],
+      params[:south_east_lat],
+      params[:south_east_lng]
+    )
+
+    spaces = spaces.filter_on_space_types(space_types) unless space_types.nil?
+    spaces = Space.filter_on_facilities(spaces, facilities) unless facilities.nil?
+    spaces
+  end
 
   def space_params
     params.require(:space).permit(

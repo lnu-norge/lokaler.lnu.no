@@ -79,10 +79,6 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 
   # Allow IP from Docker
-  class Application < Rails::Application
-    # Check if we use Docker to allow docker ip through web-console
-    if ENV['DOCKERIZED'] == 'true'
-      config.web_console.whitelisted_ips = ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16']
-    end
-  end
+  # Check if we use Docker to allow docker ip through web-console
+  config.web_console.whitelisted_ips = ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16'] if ENV['DOCKERIZED'] == 'true'
 end

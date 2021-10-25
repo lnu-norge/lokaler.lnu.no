@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   # Spaces routes
   resources 'spaces', except: 'new'
   get '/spaces/:id/edit/:field', to: 'spaces#edit_field', as: 'edit_field'
-  get 'spaces_in_rect', to: 'spaces#spaces_in_rect'
+  get 'spaces_search', to: 'spaces#spaces_search'
   get 'rect_for_spaces', to: 'spaces#rect_for_spaces'
   post 'spaces/upload_image', to: 'spaces#upload_image'
 
