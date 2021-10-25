@@ -2,7 +2,7 @@
   <div>
     <%= image_tag 'logo.svg', alt: 'LNU logo', width: 200, height: 200, class: 'mx-auto h-12 w-auto' %>
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-      <%  t('devise.registrations.user.heading_edit') %>%
+      <%= t('devise.registrations.user.heading_edit') %>
     </h2>
     <p class="mt-2 text-center text-sm text-gray-600">
       eller
@@ -10,21 +10,21 @@
     </p>
   </div>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'mt-8 space-y-6'), html: { method: :put } do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'mt-8 space-y-6', html: { method: :put }) do |f| %>
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
         <%= f.label :first_name, t('devise.registrations.user.first_name'), class: 'sr-only' %>
-        <%= f.text_field :first_name, autofocus: true, autocomplete: 'first-name', class: 'fieldFirst textField', placeholder: t('devise.registrations.user.first_name'), autofocus: true, required: true %>
+        <%= f.text_field :first_name, autofocus: true, autocomplete: 'first-name', class: 'fieldFirst textField', placeholder: t('devise.registrations.user.first_name'), required: true %>
       </div>
 
       <div>
         <%= f.label :last_name, t('devise.registrations.user.last_name'), class: 'sr-only' %>
-        <%= f.text_field :last_name, autofocus: true, autocomplete: 'last-name', class: 'textField', placeholder: t('devise.registrations.user.last_name'), required: true %>
+        <%= f.text_field :last_name, autocomplete: 'last-name', class: 'textField', placeholder: t('devise.registrations.user.last_name'), required: true %>
       </div>
 
       <div>
         <%= f.label :email, t('devise.registrations.user.email'), class: 'sr-only' %>
-        <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'textField', placeholder: 'epost@epost.no', required: true %>
+        <%= f.email_field :email, autocomplete: 'email', class: 'textField', placeholder: 'epost@epost.no', required: true %>
       </div>
       <div class="relative">
         <%= f.label :password, t('devise.registrations.user.password'), class: 'sr-only' %>
