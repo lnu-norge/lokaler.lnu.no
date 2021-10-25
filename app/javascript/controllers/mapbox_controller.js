@@ -172,7 +172,7 @@ export default class extends Controller {
     const location = place.geojson.geometry;
 
     if (location.type === "Point") {
-      return this.map.flyTo({ center: location.coordinates, zoom: 12 });
+      this.flyToPoint(location.coordinates)
     }
 
     if (location.type === "MultiPoint") {
@@ -195,6 +195,11 @@ export default class extends Controller {
       place.representasjonspunkt.øst,
       place.representasjonspunkt.nord
     ];
-    return this.map.flyTo({ center: point, zoom: 12 })
+    return this.flyToPoint(point)
+  }
+
+  flyToPoint(point) {
+    this.map.flyTo({ center: point, zoom: 12 })
   }
 }
+
