@@ -2,7 +2,7 @@ import mapboxgl from 'mapbox-gl';
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = [ "facility", "spaceType", "location", "searchBox" ]
+  static targets = [ "facility", "spaceType", "location", "searchBox", "form" ]
 
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
@@ -83,6 +83,11 @@ export default class extends Controller {
 
     this.locationTarget.onchange = (event) => {
       this.submitSearch(event)
+    };
+
+    this.formTarget.onsubmit = (event) => {
+      // To stop the form from submitting, as that currently does nothing but refresh the page.
+      event.preventDefault()
     };
   }
 
