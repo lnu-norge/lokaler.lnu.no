@@ -2,25 +2,47 @@ import mapboxgl from 'mapbox-gl';
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  initialize() {
+  static targets = [ "facility", "spaceType", "location", "searchBox", "form" ]
+
+  async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
 
-    navigator.geolocation.getCurrentPosition((position) => {
+    const position = await this.requestPosition();
+
+    if(position != null) {
       this.initializeMap({
         center: [position.coords.longitude, position.coords.latitude],
         zoom: 11,
       });
-    }, () => {
-      fetch('/rect_for_spaces').then((response) => response.json()).then((rectForSpaces) => {
-        const { northEast, southWest } = rectForSpaces;
-        this.initializeMap({
-          bounds: new mapboxgl.LngLatBounds(
-            new mapboxgl.LngLat(southWest.lng, southWest.lat),
-            new mapboxgl.LngLat(northEast.lng, northEast.lat),
-          ),
-        });
+    }
+    else {
+      const {northEast, southWest} = await (await fetch('/rect_for_spaces')).json();
+      this.initializeMap({
+        bounds: new mapboxgl.LngLatBounds(
+          new mapboxgl.LngLat(southWest.lng, southWest.lat),
+          new mapboxgl.LngLat(northEast.lng, northEast.lat),
+        ),
       });
-    }, { timeout: 60000 });
+    }
+  }
+
+  toggleSearchBox() {
+    this.searchBoxTarget.classList.toggle("hidden");
+  }
+
+  requestPosition() {
+    const options = {
+      enableHighAccuracy: true,
+      timeout:    5000,   // time in millis when error callback will be invoked
+      maximumAge: 0,      // max cached age of gps data, also in millis
+    };
+
+    return new Promise((resolve) => {
+      navigator.geolocation.getCurrentPosition(
+        pos => { resolve(pos); },
+        _ => { resolve(null); },
+        options);
+    });
   }
 
   initializeMap(options) {
@@ -45,6 +67,28 @@ export default class extends Controller {
     this.loadPositionOn('rotateend');
     this.loadPositionOn('pitchend');
     this.loadPositionOn('boxzoomend');
+    this.loadPositionOn('touchend')
+
+    this.spaceTypeTargets.forEach(spaceType => {
+      spaceType.onchange = () => {
+        this.loadNewMapPosition();
+      };
+    });
+
+    this.facilityTargets.forEach(spaceType => {
+      spaceType.onchange = () => {
+        this.loadNewMapPosition();
+      };
+    });
+
+    this.locationTarget.onchange = (event) => {
+      this.submitSearch(event)
+    };
+
+    this.formTarget.onsubmit = (event) => {
+      // To stop the form from submitting, as that currently does nothing but refresh the page.
+      event.preventDefault()
+    };
   }
 
   loadPositionOn(event) {
@@ -69,18 +113,49 @@ export default class extends Controller {
     }
   }
 
+  async submitSearch(event) {
+    const url =`https://ws.geonorge.no/stedsnavn/v1/sted?sok=${event.target.value}&fuzzy=true`
+    const result = await (await fetch(url)).json();
+
+    if(result.navn.length === 0)
+      return;
+
+    const place = result.navn[0]
+    this.flyToGeoNorgeLocation(place)
+  }
+
   removeMarker(key) {
     this.markers[key].remove();
     delete this.markers[key];
   }
 
-  async loadNewMapPosition() {
-    document.getElementById('space-listing').innerText = 'Laster...';
-
+  buildSearchURL() {
     const northWest = this.map.getBounds().getNorthWest();
     const southEast = this.map.getBounds().getSouthEast();
-    const fetchSpacesInRectUrl = `/spaces_in_rect?north_west_lat=${northWest.lat}&north_west_lng=${northWest.lng}&south_east_lat=${southEast.lat}&south_east_lng=${southEast.lng}`;
-    const spacesInRect = await (await fetch(fetchSpacesInRectUrl)).json();
+
+    const facilitiesString = this.facilityTargets.map(t =>
+      t.checked ? `facilities[]=${t.name}&` : ''
+    );
+
+    const spaceTypesString = this.spaceTypeTargets.map(t =>
+      t.checked ? `space_types[]=${t.name}&` : ''
+    );
+
+    return [
+      '/spaces_search?',
+      `north_west_lat=${northWest.lat}&`,
+      `north_west_lng=${northWest.lng}&`,
+      `south_east_lat=${southEast.lat}&`,
+      `south_east_lng=${southEast.lng}&`,
+      facilitiesString,
+      spaceTypesString,
+    ].join('');
+  }
+
+  async loadNewMapPosition() {
+    //document.getElementById('space-listing').innerText = 'Laster...';
+
+    const spacesInRect = await (await fetch(this.buildSearchURL())).json();
 
     // Replace the spaces list with the new view rendered by the server
     document.getElementById('space-listing').innerHTML = spacesInRect.listing;
@@ -97,4 +172,39 @@ export default class extends Controller {
       this.addMarker(space);
     });
   }
+
+  flyToGeoNorgeLocation(place) {
+    const location = place.geojson.geometry;
+
+    if (location.type === "Point") {
+      this.flyToPoint(location.coordinates)
+    }
+
+    if (location.type === "MultiPoint") {
+      // MultiPoints can have arbitrary amounts of points, and so needs to be fit
+      // as described here:  https://docs.mapbox.com/mapbox-gl-js/example/zoomto-linestring/
+      const bounds = new mapboxgl.LngLatBounds(
+          location.coordinates[0],
+          location.coordinates[0]
+      );
+      for (const coord of location.coordinates) {
+        bounds.extend(coord);
+      }
+      return this.map.fitBounds(bounds, {
+        padding: 100
+      });
+    }
+
+    // Unsure about location type given, use the center given by representasjonspunkt instead
+    const point = [
+      place.representasjonspunkt.øst,
+      place.representasjonspunkt.nord
+    ];
+    return this.flyToPoint(point)
+  }
+
+  flyToPoint(point) {
+    this.map.flyTo({ center: point, zoom: 12 })
+  }
 }
+

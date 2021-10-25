@@ -1,7 +1,7 @@
 <%= link_to space, class: "flex unstyled-link items-center gap-2 text-base rounded-full py-1 px-4 border border-gray-100 hover:border-pink-500 bg-white shadow-lg cursor-pointer" do %>
    <span class="font-bold"><%= space.title %></span>
      <span class="inline-flex items-center gap-0.5 <%= space.star_rating ? 'text-pink-500' : 'text-gray-300' %>">
-         <%= space.star_rating || ' - ' %>
-         <%= inline_svg 'star' %>
+         <%= space.star_rating_s %>
+         <%= inline_svg_tag 'star' %>
      </span>
  <% end %>

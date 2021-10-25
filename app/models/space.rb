@@ -10,6 +10,14 @@ class Space < ApplicationRecord
 
   belongs_to :space_owner
   accepts_nested_attributes_for :space_owner
+  scope :filter_on_space_types, ->(space_type_ids) { where(space_type_id: space_type_ids) }
+  scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
+    where(':north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng',
+          north_west_lat: north_west_lat,
+          north_west_lng: north_west_lng,
+          south_east_lat: south_east_lat,
+          south_east_lng: south_east_lng)
+  }
 
   belongs_to :space_type
 
@@ -69,5 +77,35 @@ class Space < ApplicationRecord
 
   def aggregate_star_rating
     Spaces::AggregateStarRatingService.call(space: self)
+  end
+
+  # Move this somewhere better, either a service or figure out a way to make it a scope
+  # NOTE: this expects a scope for spaces but returns an array
+  # preferably we would find some way to return a scope too
+  def self.filter_on_facilities(spaces, facilities) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    results = spaces.includes(:aggregated_facility_reviews).filter_map do |space|
+      match_count = 0
+      space.aggregated_facility_reviews.each do |review|
+        next unless facilities.include?(review.facility_id)
+
+        # The more correct matches the lower the number.
+        # this is so the sort_by later will be correct as it sorts by lowest first
+        # we could do a reverse on the result of sort_by but this will incur
+        # a performance overhead
+        if review.maybe? || review.likely?
+          match_count -= 1
+        elsif review.impossible?
+          match_count += 1
+        end
+      end
+
+      OpenStruct.new(match_count: match_count, space: space)
+    end
+
+    results.sort_by(&:match_count).map(&:space)
+  end
+
+  def star_rating_s
+    star_rating || ' - '
   end
 end
