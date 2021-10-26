@@ -8,9 +8,11 @@
   <ul class="horizontal-cards">
     <% @space.reviews.each do |review| %>
       <li class="horizontal-card">
-        <%=  render partial: 'reviews/review_card', locals: {review: review}   %>
+        <%= turbo_frame_tag review do %>
+          <%=  render partial: 'reviews/review_card', locals: {review: review}   %>
+        <% end %>
       </li>
-    <% end %>
+  <% end %>
   </ul>
 <% else %>
   <%= render partial: 'spaces/show/review_none_yet' %>
