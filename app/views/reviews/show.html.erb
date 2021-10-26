@@ -1,10 +1,12 @@
-<nav>
-  <%= link_to 'Tilbake til lokalet', @review.space %>
-</nav>
-<main class="space">
-  <%= render partial: 'reviews/review_card', locals: {
-    review: @review,
-    show_full_review: true
-  } %>
-</main>
+<%= turbo_frame_tag @review do %>
+  <nav>
+    <%= link_to 'Tilbake til lokalet', @review.space %>
+  </nav>
+  <main class="space">
+    <%= render partial: 'reviews/review_card', locals: {
+      review: @review,
+      show_full_review: true
+    } %>
+  </main>
+<% end %>
 
