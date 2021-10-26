@@ -28,35 +28,19 @@ module Spaces
 
     private
 
-    def positive_review(review)
-      review.was_allowed? || review.was_allowed_but_bad?
-    end
-
-    def negative_review(review)
-      review.was_not_allowed?
-    end
-
-    def impossible_review(review)
-      review.was_not_available?
-    end
-
     def aggregate_reviews(aggregated_review) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
       reviews = space.facility_reviews.where(facility: aggregated_review.facility).order(created_at: :desc).limit(5)
-      return aggregated_review.unknown! if reviews.count.zero?
+      count = reviews.count
+      return aggregated_review.unknown! if count.zero?
 
       # Set criteria:
-      impossible_threshold = (reviews.count / 2.0).ceil
-      positive_threshold = (reviews.count / 3.0 * 2.0).ceil
-      negative_threshold = (reviews.count / 3.0 * 2.0).ceil
+      impossible_threshold = (count / 2.0).ceil
+      positive_threshold = (count / 3.0 * 2.0).ceil
+      negative_threshold = (count / 3.0 * 2.0).ceil
 
-      # count each type:
-      impossible_count = reviews.count { |review| impossible_review(review) }
-      positive_count = reviews.count { |review| positive_review(review) }
-      negative_count = reviews.count { |review| negative_review(review) }
-
-      return aggregated_review.impossible! if impossible_count >= impossible_threshold
-      return aggregated_review.likely! if positive_count >= positive_threshold
-      return aggregated_review.unlikely! if negative_count >= negative_threshold
+      return aggregated_review.impossible! if reviews.impossible.count >= impossible_threshold
+      return aggregated_review.likely! if  reviews.positive.count >= positive_threshold
+      return aggregated_review.unlikely! if reviews.negative.count >= negative_threshold
 
       # Nothing else fits, so it's a maybe!
       aggregated_review.maybe!
