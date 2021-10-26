@@ -26,7 +26,6 @@ Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
 
-
 Rails/EnvironmentVariableAccess:
   Enabled: false
 
@@ -41,6 +40,8 @@ AllCops:
     - 'Guardfile'
     - 'spec/rails_helper.rb'
     - 'db/migrate/**/*'
+
 Style/SymbolArray:
+  MinSize: 4
   Exclude:
     - 'config/routes.rb'
