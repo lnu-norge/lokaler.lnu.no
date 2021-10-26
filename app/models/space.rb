@@ -84,7 +84,7 @@ class Space < ApplicationRecord
   # preferably we would find some way to return a scope too
   def self.filter_on_facilities(spaces, facilities) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     results = spaces.includes(:aggregated_facility_reviews).filter_map do |space|
-      match_count = 0
+      score = 0
       space.aggregated_facility_reviews.each do |review|
         next unless facilities.include?(review.facility_id)
 
@@ -93,16 +93,16 @@ class Space < ApplicationRecord
         # we could do a reverse on the result of sort_by but this will incur
         # a performance overhead
         if review.maybe? || review.likely?
-          match_count -= 1
+          score -= 1
         elsif review.impossible?
-          match_count += 1
+          score += 1
         end
       end
 
-      OpenStruct.new(match_count: match_count, space: space)
+      OpenStruct.new(score: score, space: space)
     end
 
-    results.sort_by(&:match_count).map(&:space)
+    results.sort_by(&:score).map(&:space)
   end
 
   def star_rating_s
