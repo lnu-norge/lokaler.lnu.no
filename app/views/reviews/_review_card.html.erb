@@ -1,3 +1,5 @@
+<% show_full_review = false unless local_assigns[:show_full_review].present? %>
+
 <div class="flex gap-1">
   <%= inline_svg 'star', class: 'text-pink-600' if review.star_rating %>
   <%= review.star_rating %>
@@ -7,11 +9,11 @@
 
 <h3 class="small-mt"><%= review.title %></h3>
 <p class="overflow-hidden">
-  <% if review.comment.length > 88 %>
+  <% if show_full_review || review.comment.length <= 88 %>
+    <%= review.comment %>
+  <% else %>
     <%= truncate(review.comment, length: 88) %>
     <%= link_to t('read_more'), review %>
-  <% else %>
-    <%= review.comment %>
   <% end %>
 </p>
 

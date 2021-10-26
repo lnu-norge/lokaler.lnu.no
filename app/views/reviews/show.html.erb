@@ -1,6 +1,10 @@
-<div class="border-2 border-green-400 mt-4">
-  <h1>Title: <%= @review.title %></h1>
-  <p>Comment: <%= @review.comment %></p>
-  <p>Price: <%= @review.price %></p>
-  <p>Star Rating: <%= @review.star_rating %></p>
-</div>
+<nav>
+  <%= link_to 'Tilbake til lokalet', @review.space %>
+</nav>
+<main class="space">
+  <%= render partial: 'reviews/review_card', locals: {
+    review: @review,
+    show_full_review: true
+  } %>
+</main>
+
