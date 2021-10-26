@@ -8,7 +8,7 @@
   <ul class="horizontal-cards">
     <% @space.reviews.each do |review| %>
       <li class="horizontal-card">
-        <%=  render partial: 'spaces/show/review_card', locals: {review: review}   %>
+        <%=  render partial: 'reviews/review_card', locals: {review: review}   %>
       </li>
     <% end %>
   </ul>
