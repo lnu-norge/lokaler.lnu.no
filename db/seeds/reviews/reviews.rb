@@ -9,7 +9,9 @@ God kommunikasjon.
 
 Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal og ta med medbrakt.'
 
+  org = Fabricate(:organization)
   user = Fabricate(:user)
+  user.organizations << org
 
   positive_review = Review.create(
     title: 'Ryddig og hyggelig skole!',
@@ -17,7 +19,8 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
     price: 5400,
     comment: positive_review_comment,
     star_rating: 4.5,
-    space: space
+    space: space,
+    organization: org
   )
   FacilityReview.create(
     facility: Facility.first,
@@ -54,14 +57,17 @@ Det er diskriminering av oss!
 
 Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!'
 
+  negative_org = Fabricate(:organization)
   negative_user = Fabricate(:user)
+  negative_user.organizations << negative_org
 
   negative_review = Review.create(
     title: 'Ville ikke la oss overnatte!',
     user: negative_user,
     comment: negative_review_comment,
     star_rating: nil,
-    space: space
+    space: space,
+    organization: negative_org
   )
   FacilityReview.create(
     facility: Facility.first,

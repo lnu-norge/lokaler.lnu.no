@@ -6,6 +6,9 @@ require:
 Style/Documentation:
   Enabled: false
 
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
 RSpec/ExampleLength:
   Enabled: false
 
