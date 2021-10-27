@@ -1,0 +1,27 @@
+<%
+  # Locals:
+  # facilities: Pre-iltered list of AggregatedFacilityReviews for space.
+%>
+
+<% FacilityCategory.all.each do |category| %>
+  <%
+    facilities_in_category = facilities.in_category(category)
+  %>
+
+  <% unless facilities_in_category.empty?  %>
+    <%= tag.h3 category.title unless category.id == "1" %>
+    <ul>
+      <% facilities_in_category.each do |facility_review| %>
+        <%
+          icon = facility_review.facility.icon
+          title = facility_review.facility.title
+        %>
+        <li
+          class="flex items-center gap-1.5">
+          <%= inline_svg "facilities/#{icon}" %>
+          <%= title %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end  %>

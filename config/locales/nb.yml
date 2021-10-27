@@ -67,6 +67,7 @@ nb:
       one_weekend: 'En helg'
       other: 'Annet'
     form:
+      new_review_about_space: 'Ny erfaring om %{space_title}:'
       have_you_been_there?: 'Har dere brukt lokalet?'
       no_not_allowed: 'Nei, fikk ikke lov'
       no_only_contacted: 'Nei, kun vært i kontakt'
