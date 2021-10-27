@@ -20,10 +20,13 @@ Rails.application.routes.draw do
   # Resources
   resources "facilities", except: "new"
   resources "space_owners", except: "new"
-  resources "reviews"
-  resources "admin"
+
+  # Review routes
+  resources 'reviews', except: 'new'
+  get '/spaces/:space_id/new_review', to: 'reviews#new', as: 'new_review'
 
   # Admin routes
+  resources "admin"
   post "admin/revert_changes", to: "admin#revert_changes"
 
   # Spaces routes
