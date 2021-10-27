@@ -44,6 +44,7 @@
       </div>
     </div>
     <div class="mt-4">
+      <%= f.label :organizations %>
       <%= f.collection_select :organization_ids, Organization.all, :id, :name, { }, { multiple: "true", data: { controller: "multiselect" } } %>
     </div>
     <div class="mt-4">
