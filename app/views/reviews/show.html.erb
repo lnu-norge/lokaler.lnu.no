@@ -1,14 +1,8 @@
-<%= turbo_frame_tag @review do %>
-  <div class="modal">
-    <nav>
-      <%= link_to 'Tilbake til lokalet', @review.space %>
-    </nav>
-    <main class="space">
-      <%= render partial: 'reviews/review_card', locals: {
-        review: @review,
-        show_full_review: true
-      } %>
-    </main>
-  </div>
-<% end %>
-
+<%=
+  modal_content_for @review, @review.space do
+    render partial: 'reviews/review_card', locals: {
+      review: @review,
+      show_full_review: true
+    }
+  end
+%>
