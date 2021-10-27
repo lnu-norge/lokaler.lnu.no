@@ -16,6 +16,14 @@ class ReviewsController < AuthenticateController
     redirect_to reviews_path
   end
 
+  def new
+    @space = Space.find(params[:space_id])
+    @review = Review.new(space: @space)
+    @facilities_no_data = @space.aggregated_facility_reviews.unknown
+    @facilities_has_data = @space.aggregated_facility_reviews.neither_unknown_nor_impossible
+    @facilities_hidden = @space.aggregated_facility_reviews.impossible
+  end
+
   def edit
     @review = Review.find(params[:id])
   end
