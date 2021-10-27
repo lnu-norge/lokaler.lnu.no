@@ -3,7 +3,7 @@
 <div class="flex gap-1">
   <%= inline_svg 'star', class: 'text-pink-600' if review.star_rating %>
   <%= review.star_rating %>
-  <%= inline_svg 'x' unless review.star_rating %>
+  <%= ' - ' unless review.star_rating %>
   <%= t('reviews.not_used') unless review.star_rating %>
 </div>
 
@@ -13,7 +13,7 @@
     <%= review.comment %>
   <% else %>
     <%= truncate(review.comment, length: 88) %>
-    <%= link_to t('read_more'), review %>
+    <%= modal_link_to t('read_more'), review %>
   <% end %>
 </p>
 
