@@ -1,0 +1,14 @@
+.modal {
+  @apply relative;
+  @apply max-w-lg;
+  @apply z-50;
+  @apply bg-white;
+  @apply p-8 rounded-lg drop-shadow-xl;
+  @apply overflow-y-auto;
+}
+
+.modal-background {
+  @apply inset-0 fixed z-10;
+  @apply flex items-center justify-center;
+  @apply bg-gray-700 bg-opacity-75 transition-opacity;
+}
