@@ -7,7 +7,7 @@ class SpacesController < AuthenticateController
   end
 
   def show
-    @space = Space.find(params[:id])
+    @space = Space.includes(:space_contacts).where(id: params[:id]).first
   end
 
   def create
