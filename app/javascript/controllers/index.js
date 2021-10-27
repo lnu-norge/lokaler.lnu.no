@@ -3,8 +3,6 @@
 
 import { application } from "./application"
 
-require("../../javascript/stylesheets/tom-select.css")
-
 import AutofilladdressController from "./autofilladdress_controller"
 application.register("autofilladdress", AutofilladdressController)
 
@@ -19,6 +17,9 @@ application.register("locationsearch", LocationsearchController)
 
 import MapboxController from "./mapbox_controller"
 application.register("mapbox", MapboxController)
+
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
 
 import MultiselectController from "./multiselect_controller"
 application.register("multiselect", MultiselectController)
