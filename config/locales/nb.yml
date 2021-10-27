@@ -23,6 +23,12 @@ nb:
   space_filter:
     location: 'Sted'
     more_filters: 'Flere filtere'
+  admin:
+    user: 'Bruker'
+    field: 'Felt'
+    event: 'Hendelse'
+    changes: 'Endringer'
+    changed_at: 'Endringstidspunkt'
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
@@ -30,12 +36,45 @@ nb:
     in_contact: 'Har du vært i kontakt med dem?'
     unknown_org: 'Ukjent organisasjon'
     not_used: 'Ikke brukt lokalet'
-  admin:
-    user: 'Bruker'
-    field: 'Felt'
-    event: 'Hendelse'
-    changes: 'Endringer'
-    changed_at: 'Endringstidspunkt'
+    data:
+      one_room: 'Ett rom'
+      more_rooms: 'Flere rom'
+      whole_space: 'Hele lokalet'
+      one_evening: 'En kveld'
+      one_weekend: 'En helg'
+      other: 'Annet'
+    form:
+      have_you_been_there?: 'Har dere brukt lokalet?'
+      no_not_allowed: 'Nei, fikk ikke lov'
+      no_only_contacted: 'Nei, kun vært i kontakt'
+      this_space_is_new_to_us!: 'Dette lokalet er nytt for oss!'
+      were_you_allowed_to_use: 'Fikk dere lov å bruke disse fasilitetene?'
+      are_you_allowed_to_use: 'Får man lov til å bruke disse fasilitetene?'
+      show_facilities_others_said_wasnt_here: 'Vis fasiliteter andre har sagt ikke finnes i lokalet'
+      do_you_know_which_facilities_exist_and_can_be_loaned?: 'Vet du om de har følgende fasiliteter, og om man får lov til å låne dem?'
+      i_dont_know: 'Vet ikke'
+      is_not_available: 'De har ikke'
+      is_not_allowed: 'Ikke lov'
+      is_allowed: 'Får lov'
+      what_impression_did_you_get: 'Hvor bra totalinntrykk fikk du?'
+      why_were_you_not_allowed: 'Kort, hvorfor fikk dere ikke lov?'
+      for_example_not_allowed_to_sleep_in: 'F.eks. “Ville ikke la oss overnatte”'
+      how_would_you_summarize_the_experience?: 'Kort, hvordan vil du beskrive opplevelsen?'
+      for_example_roomy_but_smelly:  'F.eks. "God plass, men lukter rart"'
+      what_do_you_want_to_say_to_others?: 'Hva vil du si til andre som vurderer ta kontakt?'
+      what_did_you_experience_any_tips_for_others': 'Hva erfarte dere? Noen tips til nestemann?'
+      'lastly_about_your_visit:': 'Til sist, litt om besøket deres:'
+      how_much_of_the_space_did_you_use?: 'Hvor mye av lokalet brukte dere?'
+      how_long_did_you_use_the_space?: 'Hvor lenge brukte dere lokalet?'
+      did_you_have_to_pay?: 'Måtte dere betale?'
+      how_much?: 'Hvor mye?'
+  generic:
+    yes: 'Ja'
+    no: 'Nei'
+  multistep_form_navigation:
+    back: 'Tilbake'
+    save_and_go_to_next: 'Lagre og gå til neste'
+    save: 'Lagre'
   activerecord:
     models:
       facility:
