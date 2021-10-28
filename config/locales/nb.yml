@@ -70,8 +70,8 @@ nb:
       did_you_have_to_pay?: 'Måtte dere betale?'
       how_much?: 'Hvor mye?'
   generic:
-    yes: 'Ja'
-    no: 'Nei'
+    'yes': 'Ja'
+    'no': 'Nei'
   multistep_form_navigation:
     back: 'Tilbake'
     save_and_go_to_next: 'Lagre og gå til neste'
