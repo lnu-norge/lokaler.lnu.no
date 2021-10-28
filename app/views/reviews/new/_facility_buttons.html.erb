@@ -7,18 +7,18 @@
 %>
 <li
   class="flex items-center gap-1.5">
-  <%= form_with do |form| %>
+  <%= form_with model: FacilityReview.new do |form| %>
   <fieldset>
     <legend>
       <%= inline_svg "facilities/#{icon}" %>
       <%= title %>
     </legend>
-    <% FacilityReview.experiences.keys.each do |value|  %>
-      <%= form.label :experience, t("reviews.form.facility_experience_particular_tense.#{value}") %>
+    <%= form.label :"experience_nil", t('reviews.form.facility_experience_particular_tense.dont_know') %>
+    <%= form.radio_button :experience, nil %>
+    <% FacilityReview.experiences.keys.reverse.each do |value|  %>
+      <%= form.label :"experience_#{value}", t("reviews.form.facility_experience_particular_tense.#{value}") %>
       <%= form.radio_button :experience, value %>
     <% end  %>
-    <%= form.label :experience, t('reviews.form.facility_experience_particular_tense.dont_know') %>
-    <%= form.radio_button :experience, nil %>
   </fieldset>
   <% end  %>
 </li>
