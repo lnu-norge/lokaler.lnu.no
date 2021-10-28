@@ -8,6 +8,8 @@ class Review < ApplicationRecord
   belongs_to :organization
 
   has_many :facility_reviews, dependent: :destroy
+  accepts_nested_attributes_for :facility_reviews,
+                                reject_if: proc { |attributes| attributes['experience'] == 'unknown' }
 
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
   validates :organization, presence: true
