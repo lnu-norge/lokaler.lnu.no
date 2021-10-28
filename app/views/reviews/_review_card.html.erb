@@ -3,13 +3,21 @@
 <div class="flex gap-1">
   <%= inline_svg 'star', class: 'text-pink-600' if review.star_rating %>
   <%= review.star_rating %>
-  <%= ' - ' unless review.star_rating %>
-  <%= t('reviews.not_used') unless review.star_rating %>
+  <% unless review.star_rating %>
+    -
+    <% if review.type_of_contact %>
+      <%= t("activerecord.attributes.review.#{review.type_of_contact}") %>
+    <% else  %>
+      <%= t('reviews.not_used') %>
+    <% end %>
+  <% end %>
 </div>
 
 <h3 class="small-mt"><%= review.title %></h3>
 <p class="overflow-hidden">
-  <% if show_full_review || review.comment.length <= 88 %>
+  <% if show_full_review  %>
+    <%= simple_format review.comment %>
+  <% elsif review.comment.length <= 88 %>
     <%= review.comment %>
   <% else %>
     <%= truncate(review.comment, length: 88) %>
@@ -57,14 +65,16 @@
   </div>
 <% end %>
 
-<div class="flex gap-1">
-  <%= inline_svg 'money' %>
-  <% if review.price %>
-    <%= review.price %> kr
-  <% else %>
-    <%= t('reviews.data.did_not_pay') %>
-  <% end %>
-</div>
+<% if review.been_there? %>
+  <div class="flex gap-1">
+    <%= inline_svg 'money' %>
+    <% if review.price %>
+      <%= review.price %> kr
+    <% else %>
+      <%= t('reviews.data.did_not_pay') %>
+    <% end %>
+  </div>
+<% end %>
 
 <% if review.facility_reviews.any? %>
   <hr class="my-1" />

@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_085452) do
     t.string "how_much_custom"
     t.integer "how_long"
     t.string "how_long_custom"
+    t.integer "type_of_contact"
     t.index ["space_id"], name: "index_reviews_on_space_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end

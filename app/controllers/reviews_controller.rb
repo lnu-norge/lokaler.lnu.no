@@ -65,6 +65,7 @@ class ReviewsController < AuthenticateController
       :price, :star_rating,
       :how_much, :how_much_custom,
       :how_long, :how_long_custom,
+      :type_of_contact,
       :space_id,
       facility_reviews_attributes: %i[facility_id experience]
     )

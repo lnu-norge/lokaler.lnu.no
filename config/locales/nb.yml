@@ -118,6 +118,9 @@ nb:
         how_long_custom: 'Hvor lenge brukte dere lokalet'
         price: 'Pris'
         title: 'Tittel'
+        only_contacted: 'Kun kontaktet dem'
+        been_there: 'Brukt lokalet'
+        not_allowed_to_use: 'Fikk ikke lov'
   read_more: 'Les mer'
 
   devise:
