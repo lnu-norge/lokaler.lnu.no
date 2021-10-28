@@ -1,24 +1,26 @@
 <% # Locals:
    # - facility (one Facility)
+   # - form (Form for a new or editing Review)
 %>
 <%
   icon = facility.icon
   title = facility.title
+  facility_review = FacilityReview.new(facility: facility)
 %>
 <li
   class="flex items-center gap-1.5">
-  <%= form_with model: FacilityReview.new do |form| %>
-  <fieldset>
-    <legend>
-      <%= inline_svg "facilities/#{icon}" %>
-      <%= title %>
-    </legend>
-    <%= form.label :"experience_nil", t('reviews.form.facility_experience_particular_tense.dont_know') %>
-    <%= form.radio_button :experience, nil %>
-    <% FacilityReview.experiences.keys.reverse.each do |value|  %>
-      <%= form.label :"experience_#{value}", t("reviews.form.facility_experience_particular_tense.#{value}") %>
-      <%= form.radio_button :experience, value %>
-    <% end  %>
-  </fieldset>
+  <%= form.fields_for "facility_#{facility.id}", facility_review do |f| %>
+    <fieldset>
+        <legend>
+          <%= inline_svg "facilities/#{icon}" %>
+          <%= title %>
+        </legend>
+        <%= f.radio_button :"experience", nil %>
+        <%= f.label :"experience", t('reviews.form.facility_experience_particular_tense.dont_know') %>
+        <% FacilityReview.experiences.keys.reverse.each do |value|  %>
+          <%= f.radio_button :"experience", value %>
+          <%= f.label :"experience_#{value}", t("reviews.form.facility_experience_particular_tense.#{value}") %>
+        <% end  %>
+      </fieldset>
   <% end  %>
 </li>
