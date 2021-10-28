@@ -7,8 +7,10 @@
 }
 
 .star-rating {
-  width: min-content;
   padding: 0.3rem;
+  legend {
+    margin-bottom: -0.5em;
+  }
 }
 
 .star-rating>div {
