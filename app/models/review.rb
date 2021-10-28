@@ -14,6 +14,9 @@ class Review < ApplicationRecord
   enum how_much: { custom_how_much: 0, whole_space: 1, one_room: 2 }
   enum how_long: { custom_how_long: 0, one_weekend: 1, one_evening: 2 }
 
+  validates :title, presence: true, length: { minimum: 4, maximum: 80 }
+  validates :user, presence: true
+  validates_associated :facility_reviews
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
   validates :organization, presence: true
 
