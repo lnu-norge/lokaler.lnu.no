@@ -9,12 +9,13 @@
 %>
 <li
   class="flex items-center gap-1.5">
-  <%= form.fields_for "facility_#{facility.id}", facility_review do |f| %>
+  <%= form.fields_for "facility_reviews_attributes[#{facility.id}]", facility_review do |f| %>
     <fieldset>
         <legend>
           <%= inline_svg "facilities/#{icon}" %>
           <%= title %>
         </legend>
+        <%= f.hidden_field :facility_id, value: facility.id %>
         <%= f.radio_button :"experience", :unknown, checked: true %>
         <%= f.label :"experience_unknown", t('reviews.form.facility_experience_particular_tense.dont_know') %>
         <% FacilityReview.experiences.keys.reverse.each do |value|  %>

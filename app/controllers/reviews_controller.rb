@@ -11,8 +11,10 @@ class ReviewsController < AuthenticateController
   end
 
   def create
-    @review = Review.create!(review_params)
-
+    params = parse_before_create review_params
+    @review = Review.new(params)
+    @review.validate!
+    @review.save!
     redirect_to reviews_path
   end
 
@@ -40,7 +42,27 @@ class ReviewsController < AuthenticateController
 
   private
 
+  def parse_before_create(review_params)
+    review_params['facility_reviews_attributes'] = parse_facility_reviews(review_params)
+    review_params['user'] = current_user
+    review_params
+  end
+
+  def parse_facility_reviews(review_params)
+    review_params['facility_reviews_attributes']
+      .values
+      .filter { |facility_review| facility_review[:experience] != 'unknown' }
+      .map do |facility_review|
+        facility_review[:user] = current_user
+        facility_review[:space_id] = review_params['space_id']
+        facility_review
+      end
+  end
+
   def review_params
-    params.require(:review).permit(:title, :comment, :price, :star_rating, :user_id, :space_id)
+    params.require(:review).permit(
+      :title, :comment, :price, :star_rating, :space_id,
+      facility_reviews_attributes: %i[facility_id experience]
+    )
   end
 end
