@@ -61,7 +61,11 @@ class ReviewsController < AuthenticateController
 
   def review_params
     params.require(:review).permit(
-      :title, :comment, :price, :star_rating, :space_id,
+      :title, :comment,
+      :price, :star_rating,
+      :how_much, :how_much_custom,
+      :how_long, :how_long_custom,
+      :space_id,
       facility_reviews_attributes: %i[facility_id experience]
     )
   end

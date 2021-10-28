@@ -61,20 +61,24 @@
 
     <fieldset>
       <legend><%= t('reviews.form.how_much_of_the_space_did_you_use?') %></legend>
-      <% ['one_room', 'more_rooms', 'whole_space'].each do |value|  %>
+      <%  Review.how_muches.keys.reverse.each do |value|  %>
         <%= form.radio_button :how_much, value %>
         <%= form.label :"how_much_#{value}", t("reviews.data.#{value}") %>
       <% end  %>
     </fieldset>
+    <%= form.label :how_much_custom, t('reviews.data.custom_how_much') %>
+    <%= form.text_field :how_much_custom %>
     <hr />
 
     <fieldset>
       <legend><%= t('reviews.form.how_long_did_you_use_the_space?') %></legend>
-      <% ['one_evening', 'one_weekend', 'other'].each do |value|  %>
+      <% Review.how_longs.keys.reverse.each do |value|  %>
         <%= form.radio_button :how_long, value %>
         <%= form.label :"how_long_#{value}", t("reviews.data.#{value}") %>
       <% end  %>
     </fieldset>
+    <%= form.label :how_long_custom, t('reviews.data.custom_how_long') %>
+    <%= form.text_field :how_long_custom %>
     <hr />
 
     <fieldset>
