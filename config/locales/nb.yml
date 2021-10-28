@@ -64,7 +64,9 @@ nb:
       whole_space: 'Hele lokalet'
       one_evening: 'En kveld'
       one_weekend: 'En helg'
-      other: 'Annet'
+      custom_how_long: 'Annet'
+      custom_how_much: 'Annet'
+      did_not_pay: 'Gratis'
     form:
       new_review_about_space: 'Ny erfaring om %{space_title}:'
       have_you_been_there?: 'Har dere brukt lokalet?'

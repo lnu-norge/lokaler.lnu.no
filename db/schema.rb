@@ -120,6 +120,10 @@ ActiveRecord::Schema.define(version: 2021_11_01_085452) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "organization_id", null: false
     t.index ["organization_id"], name: "index_reviews_on_organization_id"
+    t.integer "how_much"
+    t.string "how_much_custom"
+    t.integer "how_long"
+    t.string "how_long_custom"
     t.index ["space_id"], name: "index_reviews_on_space_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
