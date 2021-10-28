@@ -11,7 +11,6 @@ RSpec.describe "reviews/index.html.erb", type: :view do
 
     expect(rendered).to match /h1/
     expect(rendered).to match /form/
-    expect(rendered).to match /h2/
     expect(rendered).to match /#{reviews.first.title}/
     expect(rendered).to match /#{reviews.second.comment}/
     expect(rendered).to match /#{reviews.second.price}/
