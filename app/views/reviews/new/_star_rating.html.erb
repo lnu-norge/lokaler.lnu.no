@@ -1,5 +1,5 @@
 <fieldset class="star-rating">
-  <legend><%= t('reviews.form.what_impression_did_you_get') %></legend>
+  <legend class="h2"><%= t('reviews.form.what_impression_did_you_get') %></legend>
   <div>
     <% (1..5).each do | score | %>
       <input type="radio" name="rating" value="<%= score %>" id="rating<%= score %>" />
