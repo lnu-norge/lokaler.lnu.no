@@ -71,11 +71,12 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "devise", "~> 4.8"
 
 gem "diffy"
-gem "gravtastic"
-gem "hotwire-rails"
+gem 'gravtastic'
+gem 'hotwire-rails'
 gem "http"
-gem "inline_svg"
+gem 'inline_svg'
 gem "kaminari"
-gem "paper_trail"
-gem "sendgrid-ruby"
-gem "tailwindcss-rails-webpacker", "~> 0.1.2"
+gem 'paper_trail'
+gem 'rails-i18n'
+gem 'sendgrid-ruby'
+gem 'tailwindcss-rails-webpacker', '~> 0.1.2'

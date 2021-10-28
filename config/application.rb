@@ -38,6 +38,7 @@ module LokalerLnuNo
     config.generators.system_tests = nil
 
     # Set default i18n translation to norwegian
+    config.i18n.available_locales = :nb
     config.i18n.default_locale = :nb
   end
 end
