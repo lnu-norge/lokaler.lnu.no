@@ -1,11 +1,11 @@
 <% # Locals:
    # - facility (one Facility)
    # - form (Form for a new or editing Review)
+   # - facility_review (a new or old facility)
 %>
 <%
   icon = facility.icon
   title = facility.title
-  facility_review = FacilityReview.new(facility: facility)
 %>
 <li
   class="flex items-center gap-1.5">
@@ -15,8 +15,8 @@
           <%= inline_svg "facilities/#{icon}" %>
           <%= title %>
         </legend>
-        <%= f.radio_button :"experience", nil %>
-        <%= f.label :"experience", t('reviews.form.facility_experience_particular_tense.dont_know') %>
+        <%= f.radio_button :"experience", :unknown, checked: true %>
+        <%= f.label :"experience_unknown", t('reviews.form.facility_experience_particular_tense.dont_know') %>
         <% FacilityReview.experiences.keys.reverse.each do |value|  %>
           <%= f.radio_button :"experience", value %>
           <%= f.label :"experience_#{value}", t("reviews.form.facility_experience_particular_tense.#{value}") %>

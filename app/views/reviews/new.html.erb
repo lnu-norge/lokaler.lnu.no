@@ -43,15 +43,18 @@
       %>
     <% end  %>
 
-    <%= render partial: 'reviews/new/star_rating' %>
+    <%= render partial: 'reviews/new/star_rating', locals: {
+      star_rating: @review.star_rating,
+      form: form
+    } %>
 
     <hr />
 
-    <%= form.text_field :title, placeholder: t('reviews.form.for_example_not_allowed_to_sleep_in'), class: "block w-full my-2" %>
     <%= form.label :title, t('reviews.form.how_would_you_summarize_the_experience?'), class: 'h2' %>
+    <%= form.text_field :title, placeholder: t('reviews.form.for_example_not_allowed_to_sleep_in'), class: "block w-full my-2" %>
 
-    <%= form.text_area :comment, size: '12x12', placeholder: t('reviews.form.what_did_you_experience_any_tips_for_others'), class: "block w-full my-2" %>
     <%= form.label :comment, t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
+    <%= form.text_area :comment, size: '12x12', placeholder: t('reviews.form.what_did_you_experience_any_tips_for_others'), class: "block w-full my-2" %>
 
     <h2><%= t('reviews.form.lastly_about_your_visit:') %></h2>
 
@@ -83,6 +86,8 @@
     <%= form.label :price, t('reviews.form.how_much?') %>
     <%= form.telephone_field :price, min: 0 %> NOK
     <hr />
+
+    <%= form.submit t('multistep_form_navigation.save') %>
 
   </div>
 <% end  %>

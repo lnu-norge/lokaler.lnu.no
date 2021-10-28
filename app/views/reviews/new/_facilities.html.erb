@@ -16,6 +16,7 @@
           <%= render partial: 'reviews/new/facility_buttons',
                      locals: {
                        facility: facility_review.facility,
+                       facility_review: FacilityReview.new(facility: facility_review.facility),
                        form: form
                      }
           %>
