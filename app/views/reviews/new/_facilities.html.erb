@@ -1,6 +1,7 @@
 <%
   # Locals:
-  # facilities: Pre-iltered list of AggregatedFacilityReviews for space.
+  # facilities: Pre-filtered list of AggregatedFacilityReviews for space.
+  # form: Form for a Review
 %>
 
 <% FacilityCategory.all.each do |category| %>
@@ -15,6 +16,7 @@
           <%= render partial: 'reviews/new/facility_buttons',
                      locals: {
                        facility: facility_review.facility,
+                       form: form
                      }
           %>
       <% end %>
