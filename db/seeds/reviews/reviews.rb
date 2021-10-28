@@ -28,7 +28,8 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
     comment: positive_review_comment,
     star_rating: 4.5,
     space: space,
-    organization: org
+    organization: org,
+    type_of_contact: :been_there
   )
   FacilityReview.create(
     facility: Facility.first,
@@ -83,7 +84,8 @@ Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!"
     comment: negative_review_comment,
     star_rating: nil,
     space: space,
-    organization: negative_org
+    organization: negative_org,
+    type_of_contact: :not_allowed_to_use
   )
   FacilityReview.create(
     facility: Facility.first,
