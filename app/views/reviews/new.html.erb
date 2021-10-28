@@ -7,17 +7,17 @@
       <legend class="h2"><%= t('reviews.form.have_you_been_there?') %></legend>
         <%= form.radio_button :type_of_contact, :been_there %>
         <%= form.label :type_of_contact_been_there do %>
-          <%= t('generic.yes') %> <%= inline_svg 'facility_status/likely' %>
+          <%= t('generic.yes') %> <%= inline_svg 'facility_status/likely', class: 'inline-block' %>
         <% end %>
 
-        <%= form.radio_button :type_of_contact, :not_allowed %>
-        <%= form.label :type_of_contact_not_allowed do %>
-          <%= t('reviews.form.no_not_allowed') %> <%= inline_svg 'facility_status/unlikely' %>
+        <%= form.radio_button :type_of_contact, :not_allowed_to_use %>
+        <%= form.label :type_of_contact_not_allowed_to_use do %>
+          <%= t('reviews.form.no_not_allowed') %> <%= inline_svg 'facility_status/unlikely', class: 'inline-block' %>
         <% end %>
 
         <%= form.radio_button :type_of_contact, :only_contacted %>
         <%= form.label :type_of_contact_only_contacted do %>
-          <%= t('reviews.form.no_only_contacted') %> <%= inline_svg 'facility_status/unknown' %>
+          <%= t('reviews.form.no_only_contacted') %> <%= inline_svg 'facility_status/unknown', class: 'inline-block' %>
         <% end %>
     </fieldset>
 
@@ -52,7 +52,7 @@
     <hr />
 
     <%= form.label :title, t('reviews.form.how_would_you_summarize_the_experience?'), class: 'h2' %>
-    <%= form.text_field :title, placeholder: t('reviews.form.for_example_not_allowed_to_sleep_in'), class: "block w-full my-2" %>
+    <%= form.text_field :title, placeholder: t('reviews.form.for_example_roomy_but_smelly'), class: "block w-full my-2" %>
 
     <%= form.label :comment, t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
     <%= form.text_area :comment, size: '12x12', placeholder: t('reviews.form.what_did_you_experience_any_tips_for_others'), class: "block w-full my-2" %>
