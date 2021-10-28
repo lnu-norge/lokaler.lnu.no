@@ -1,0 +1,24 @@
+<% # Locals:
+   # - facility (one Facility)
+%>
+<%
+  icon = facility.icon
+  title = facility.title
+%>
+<li
+  class="flex items-center gap-1.5">
+  <%= form_with do |form| %>
+  <fieldset>
+    <legend>
+      <%= inline_svg "facilities/#{icon}" %>
+      <%= title %>
+    </legend>
+    <% FacilityReview.experiences.keys.each do |value|  %>
+      <%= form.label :experience, t("tooltips.facility_single_experience.#{value}") %>
+      <%= form.radio_button :experience, value %>
+    <% end  %>
+    <%= form.label :experience, t("reviews.form.i_dont_know") %>
+    <%= form.radio_button :experience, nil %>
+  </fieldset>
+  <% end  %>
+</li>
