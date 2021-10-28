@@ -4,26 +4,20 @@
 
     <fieldset>
       <legend class="h2"><%= t('reviews.form.have_you_been_there?') %></legend>
-      <ul>
-        <li>
-          <button>
-            <%= t('generic.yes') %> <%= inline_svg 'facility_status/likely' %>
-          </button>
-        </li>
-        <li>
-          <button>
-            <%= t('reviews.form.no_not_allowed') %> <%= inline_svg 'facility_status/unlikely' %>
-          </button>
-        </li>
-        <li>
-          <button>
-            <%= t('reviews.form.no_only_contacted') %> <%= inline_svg 'facility_status/unknown' %>
-          </button>
-        </li>
-      </ul>
+        <%= form.label :type_of_contact_been_there do %>
+          <%= t('generic.yes') %> <%= inline_svg 'facility_status/likely' %>
+        <% end %>
+        <%= form.radio_button :type_of_contact, :been_there %>
 
+        <%= form.label :type_of_contact_not_allowed do %>
+        <%= t('reviews.form.no_not_allowed') %> <%= inline_svg 'facility_status/unlikely' %>
+        <% end %>
+        <%= form.radio_button :type_of_contact, :not_allowed %>
 
-
+        <%= form.label :type_of_contact_only_contacted do %>
+        <%= t('reviews.form.no_only_contacted') %> <%= inline_svg 'facility_status/unknown' %>
+        <% end %>
+        <%= form.radio_button :type_of_contact, :only_contacted %>
     </fieldset>
 
     <% unless @facilities_has_data.empty? %>
@@ -62,7 +56,7 @@
     <fieldset>
       <legend><%= t('reviews.form.how_much_of_the_space_did_you_use?') %></legend>
       <% ['one_room', 'more_rooms', 'whole_space'].each do |value|  %>
-        <%= form.label :how_much, t("reviews.data.#{value}") %>
+        <%= form.label :"how_much_#{value}", t("reviews.data.#{value}") %>
         <%= form.radio_button :how_much, value %>
       <% end  %>
     </fieldset>
@@ -71,7 +65,7 @@
     <fieldset>
       <legend><%= t('reviews.form.how_long_did_you_use_the_space?') %></legend>
       <% ['one_evening', 'one_weekend', 'other'].each do |value|  %>
-        <%= form.label :how_long, t("reviews.data.#{value}") %>
+        <%= form.label :"how_long_#{value}", t("reviews.data.#{value}") %>
         <%= form.radio_button :how_long, value %>
       <% end  %>
     </fieldset>
@@ -80,7 +74,7 @@
     <fieldset>
       <legend><%= t('reviews.form.did_you_have_to_pay?') %></legend>
       <% ['yes', 'no'].each do |value|  %>
-        <%= form.label :payment, t("generic.#{value}") %>
+        <%= form.label :"payment_#{value}", t("generic.#{value}") %>
         <%= form.radio_button :payment, value %>
       <% end  %>
     </fieldset>
