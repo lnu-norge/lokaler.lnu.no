@@ -1,30 +1,70 @@
-<div class="content">
-  <h1><%= t('reviews.form.new_review_about_space', space_title: @space.title) %></h1>
+<%= form_with model: @review do |form| %>
+  <div class="content">
+    <h1><%= t('reviews.form.new_review_about_space', space_title: @space.title) %></h1>
 
-  <h2><%= t('reviews.form.have_you_been_there?') %></h2>
+    <h2><%= t('reviews.form.have_you_been_there?') %></h2>
 
-  <% unless @facilities_has_data.empty? %>
-    <h2><%= t('reviews.form.were_you_allowed_to_use') %></h2>
+    <% unless @facilities_has_data.empty? %>
+      <h2><%= t('reviews.form.were_you_allowed_to_use') %></h2>
 
-    <%=
-      render partial: 'reviews/new/facilities', locals: {
-        facilities: @facilities_has_data
-      }
-    %>
-  <% end  %>
+      <%=
+        render partial: 'reviews/new/facilities', locals: {
+          facilities: @facilities_has_data
+        }
+      %>
+    <% end  %>
 
-  <% unless @facilities_no_data.empty? %>
-    <h2><%= t('reviews.form.this_space_is_new_to_us!') %></h2>
-    <h2><%= t('reviews.form.do_you_know_which_facilities_exist_and_can_be_loaned?') %></h2>
+    <% unless @facilities_no_data.empty? %>
+      <h2><%= t('reviews.form.this_space_is_new_to_us!') %></h2>
+      <h2><%= t('reviews.form.do_you_know_which_facilities_exist_and_can_be_loaned?') %></h2>
 
-    <%=
-      render partial: 'reviews/new/facilities', locals: {
-        facilities: @facilities_no_data
-      }
-    %>
-  <% end  %>
+      <%=
+        render partial: 'reviews/new/facilities', locals: {
+          facilities: @facilities_no_data
+        }
+      %>
+    <% end  %>
 
-  <h2>Hvor bra totalintrykk fikk du?</h2>
-  <%= render partial: 'reviews/new/star_rating' %>
+    <%= render partial: 'reviews/new/star_rating' %>
 
-</div>
+    <hr />
+
+    <%= form.label :title, t('reviews.form.how_would_you_summarize_the_experience?'), class: 'h2' %>
+    <%= form.text_field :title, placeholder: t('reviews.form.for_example_not_allowed_to_sleep_in'), class: "block w-full my-2" %>
+
+    <%= form.label :comment, t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
+    <%= form.text_area :comment, size: '12x12', placeholder: t('reviews.form.what_did_you_experience_any_tips_for_others'), class: "block w-full my-2" %>
+
+    <h2><%= t('reviews.form.lastly_about_your_visit:') %></h2>
+
+    <fieldset>
+      <legend><%= t('reviews.form.how_much_of_the_space_did_you_use?') %></legend>
+      <% ['one_room', 'more_rooms', 'whole_space'].each do |value|  %>
+        <%= form.label :how_much, t("reviews.data.#{value}") %>
+        <%= form.radio_button :how_much, value %>
+      <% end  %>
+    </fieldset>
+    <hr />
+
+    <fieldset>
+      <legend><%= t('reviews.form.how_long_did_you_use_the_space?') %></legend>
+      <% ['one_evening', 'one_weekend', 'other'].each do |value|  %>
+        <%= form.label :how_long, t("reviews.data.#{value}") %>
+        <%= form.radio_button :how_long, value %>
+      <% end  %>
+    </fieldset>
+    <hr />
+
+    <fieldset>
+      <legend><%= t('reviews.form.did_you_have_to_pay?') %></legend>
+      <% ['yes', 'no'].each do |value|  %>
+        <%= form.label :payment, t("generic.#{value}") %>
+        <%= form.radio_button :payment, value %>
+      <% end  %>
+    </fieldset>
+    <%= form.label :price, t('reviews.form.how_much?') %>
+    <%= form.telephone_field :price, min: 0 %> NOK
+    <hr />
+
+  </div>
+<% end  %>
