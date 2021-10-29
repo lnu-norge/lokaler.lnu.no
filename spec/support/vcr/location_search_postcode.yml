@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&postnummer=3060&side=0&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 29 Oct 2021 11:07:56 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '5910'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+      Access-Control-Expose-Headers:
+      - Content-Length,Content-Range
+    body:
+      encoding: ASCII-8BIT
+      string: '{"adresser":[{"adressekode":5136,"adressenavn":"Gjerrudveien","adressetekst":"Gjerrudveien
+        48A","adressetekstutenadressetilleggsnavn":"Gjerrudveien 48A","adressetilleggsnavn":null,"bokstav":"A","bruksenhetsnummer":[],"bruksnummer":7,"festenummer":0,"gardsnummer":328,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":48,"objtype":"Vegadresse","oppdateringsdato":"2021-09-14T07:56:56","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.65254280759855,"lon":10.372673203838243},"stedfestingverifisert":false,"undernummer":null},{"adressekode":5335,"adressenavn":"Orelundveien","adressetekst":"Orelundveien
+        1","adressetekstutenadressetilleggsnavn":"Orelundveien 1","adressetilleggsnavn":null,"bokstav":"","bruksenhetsnummer":[],"bruksnummer":151,"festenummer":0,"gardsnummer":322,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":1,"objtype":"Vegadresse","oppdateringsdato":"2021-01-14T18:45:45","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.61642637827625,"lon":10.401631023622443},"stedfestingverifisert":true,"undernummer":null},{"adressekode":5335,"adressenavn":"Orelundveien","adressetekst":"Orelundveien
+        3A","adressetekstutenadressetilleggsnavn":"Orelundveien 3A","adressetilleggsnavn":null,"bokstav":"A","bruksenhetsnummer":[],"bruksnummer":152,"festenummer":0,"gardsnummer":322,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":3,"objtype":"Vegadresse","oppdateringsdato":"2021-01-14T18:45:45","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.6164331915551,"lon":10.402253495283233},"stedfestingverifisert":true,"undernummer":null},{"adressekode":5130,"adressenavn":"Fjordgl\u00f8ttveien","adressetekst":"Fjordgl\u00f8ttveien
+        13","adressetekstutenadressetilleggsnavn":"Fjordgl\u00f8ttveien 13","adressetilleggsnavn":null,"bokstav":"","bruksenhetsnummer":[],"bruksnummer":180,"festenummer":0,"gardsnummer":318,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":13,"objtype":"Vegadresse","oppdateringsdato":"2021-01-14T18:45:45","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.612579020302846,"lon":10.403379651098053},"stedfestingverifisert":false,"undernummer":null},{"adressekode":5421,"adressenavn":"Skjoldveien","adressetekst":"Skjoldveien
+        10A","adressetekstutenadressetilleggsnavn":"Skjoldveien 10A","adressetilleggsnavn":null,"bokstav":"A","bruksenhetsnummer":[],"bruksnummer":139,"festenummer":0,"gardsnummer":322,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":10,"objtype":"Vegadresse","oppdateringsdato":"2021-01-14T18:45:45","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.615999898754325,"lon":10.395559859086651},"stedfestingverifisert":false,"undernummer":null},{"adressekode":5038,"adressenavn":"Boker\u00f8yveien","adressetekst":"Boker\u00f8yveien
+        28","adressetekstutenadressetilleggsnavn":"Boker\u00f8yveien 28","adressetilleggsnavn":null,"bokstav":"","bruksenhetsnummer":[],"bruksnummer":62,"festenummer":0,"gardsnummer":312,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":28,"objtype":"Vegadresse","oppdateringsdato":"2021-01-14T18:45:45","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.59113524764947,"lon":10.404845340901849},"stedfestingverifisert":false,"undernummer":null},{"adressekode":5038,"adressenavn":"Boker\u00f8yveien","adressetekst":"Boker\u00f8yveien
+        14","adressetekstutenadressetilleggsnavn":"Boker\u00f8yveien 14","adressetilleggsnavn":null,"bokstav":"","bruksenhetsnummer":[],"bruksnummer":63,"festenummer":0,"gardsnummer":312,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":14,"objtype":"Vegadresse","oppdateringsdato":"2021-01-14T18:45:45","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.59097600743437,"lon":10.402943433827314},"stedfestingverifisert":false,"undernummer":null},{"adressekode":5038,"adressenavn":"Boker\u00f8yveien","adressetekst":"Boker\u00f8yveien
+        12","adressetekstutenadressetilleggsnavn":"Boker\u00f8yveien 12","adressetilleggsnavn":null,"bokstav":"","bruksenhetsnummer":[],"bruksnummer":57,"festenummer":0,"gardsnummer":312,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":12,"objtype":"Vegadresse","oppdateringsdato":"2021-05-19T06:23:23","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.59051374649466,"lon":10.402499077717527},"stedfestingverifisert":true,"undernummer":null},{"adressekode":5038,"adressenavn":"Boker\u00f8yveien","adressetekst":"Boker\u00f8yveien
+        22","adressetekstutenadressetilleggsnavn":"Boker\u00f8yveien 22","adressetilleggsnavn":null,"bokstav":"","bruksenhetsnummer":[],"bruksnummer":56,"festenummer":0,"gardsnummer":312,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":22,"objtype":"Vegadresse","oppdateringsdato":"2021-01-14T18:45:45","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.59174300832563,"lon":10.403613058996523},"stedfestingverifisert":false,"undernummer":null},{"adressekode":5038,"adressenavn":"Boker\u00f8yveien","adressetekst":"Boker\u00f8yveien
+        21","adressetekstutenadressetilleggsnavn":"Boker\u00f8yveien 21","adressetilleggsnavn":null,"bokstav":"","bruksenhetsnummer":[],"bruksnummer":1,"festenummer":0,"gardsnummer":316,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":21,"objtype":"Vegadresse","oppdateringsdato":"2021-01-14T18:45:45","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.59151745931449,"lon":10.408143512319288},"stedfestingverifisert":false,"undernummer":null}],"metadata":{"asciiKompatibel":true,"side":0,"sokeStreng":"utkoordsys=4258&treffPerSide=10&side=0&asciiKompatibel=true&postnummer=3060","totaltAntallTreff":2851,"treffPerSide":10,"viserFra":0,"viserTil":10}}
+
+        '
+  recorded_at: Fri, 29 Oct 2021 11:07:56 GMT
+recorded_with: VCR 6.0.0

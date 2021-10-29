@@ -20,10 +20,10 @@ module Spaces
           'utkoordsys=4258&',
           'treffPerSide=10&',
           'side=0&',
-          'asciiKompatibel=true&',
-          "sok=#{address}"
+          'asciiKompatibel=true'
         ].join
 
+      url += "&sok=#{address}" if address.present?
       url += "&postnummer=#{post_number}" if post_number.present?
       url
     end
