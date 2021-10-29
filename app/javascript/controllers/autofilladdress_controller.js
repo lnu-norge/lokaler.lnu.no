@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ["address", "postNumber", "postAddress", "municipalityCode"]
+  static targets = ["address", "postNumber", "postAddress", "municipalityCode", "mapHolder"]
 
   async connect() {
     this.addressTarget.onchange = () => { this.updateFields() };
@@ -21,9 +21,12 @@ export default class extends Controller {
     if(result == null)
       return;
 
+    console.log(result.map_image_html)
+
     this.addressTarget.value = result.address;
     this.postNumberTarget.value = result.post_number;
     this.postAddressTarget.value = result.post_address;
     this.municipalityCodeTarget.value = result.municipality_code;
+    this.mapHolderTarget.innerHTML = result.map_image_html;
   }
 }
