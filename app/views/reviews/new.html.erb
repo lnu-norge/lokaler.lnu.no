@@ -1,5 +1,10 @@
-<%=
-  modal_content_for :new_review_path, @review.space do
-    render partial: 'reviews/form'
-  end
-%>
+<%= modal_content_for :new_review_path, @review.space do %>
+
+    <div class="content">
+      <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
+      <%= render partial: 'reviews/form/type_of_contact', locals: {
+        review: @review
+      } %>
+    </div>
+
+<% end%>

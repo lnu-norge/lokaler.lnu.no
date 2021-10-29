@@ -70,8 +70,10 @@ nb:
     form:
       new_review_about_space: 'Ny erfaring om %{space_title}:'
       have_you_been_there?: 'Har dere brukt lokalet?'
-      no_not_allowed: 'Nei, fikk ikke lov'
-      no_only_contacted: 'Nei, kun vært i kontakt'
+      have_you_been_there_answers:
+        been_there: 'Ja'
+        only_contacted: 'Nei, kun vært i kontakt'
+        not_allowed_to_use: 'Nei, fikk ikke lov'
       this_space_is_new_to_us!: 'Dette lokalet er nytt for oss!'
       were_you_allowed_to_use: 'Fikk dere lov å bruke disse fasilitetene?'
       are_you_allowed_to_use: 'Får man lov til å bruke disse fasilitetene?'
