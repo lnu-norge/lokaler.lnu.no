@@ -1,0 +1,34 @@
+<h2><%= t('reviews.form.lastly_about_your_visit:') %></h2>
+
+<fieldset>
+  <legend><%= t('reviews.form.how_much_of_the_space_did_you_use?') %></legend>
+  <%  Review.how_muches.keys.reverse.each do |value|  %>
+    <%= form.radio_button :how_much, value %>
+    <%= form.label :"how_much_#{value}", t("reviews.data.#{value}") %>
+  <% end  %>
+</fieldset>
+<%= form.label :how_much_custom, t('reviews.data.custom_how_much') %>
+<%= form.text_field :how_much_custom %>
+<hr />
+
+<fieldset>
+  <legend><%= t('reviews.form.how_long_did_you_use_the_space?') %></legend>
+  <% Review.how_longs.keys.reverse.each do |value|  %>
+    <%= form.radio_button :how_long, value %>
+    <%= form.label :"how_long_#{value}", t("reviews.data.#{value}") %>
+  <% end  %>
+</fieldset>
+<%= form.label :how_long_custom, t('reviews.data.custom_how_long') %>
+<%= form.text_field :how_long_custom %>
+<hr />
+
+<fieldset>
+  <legend><%= t('reviews.form.did_you_have_to_pay?') %></legend>
+  <% ['yes', 'no'].each do |value|  %>
+    <%= form.radio_button :payment, value %>
+    <%= form.label :"payment_#{value}", t("generic.#{value}") %>
+  <% end  %>
+</fieldset>
+<%= form.label :price, t('reviews.form.how_much?') %>
+<%= form.telephone_field :price, min: 0 %> NOK
+<hr />
