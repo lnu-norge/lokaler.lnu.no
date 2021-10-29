@@ -97,6 +97,9 @@ nb:
       space_type:
         one: 'Lokaltype'
         other: 'Lokaltyper'
+      facility_review:
+        one: 'Fasilitetserfaring'
+        other: 'Fasilitetserfaringer'
     attributes:
       space:
         how_to_book: 'Hvordan booker vi?'
@@ -121,6 +124,7 @@ nb:
         only_contacted: 'Kun kontaktet dem'
         been_there: 'Brukt lokalet'
         not_allowed_to_use: 'Fikk ikke lov'
+        facility_reviews: 'Fasilitetserfaringer'
   read_more: 'Les mer'
 
   devise:
