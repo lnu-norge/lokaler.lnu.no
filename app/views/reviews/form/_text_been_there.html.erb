@@ -1,0 +1,5 @@
+<%= form.label :title, t('reviews.form.how_would_you_summarize_the_experience?'), class: 'h2' %>
+<%= form.text_field :title, placeholder: t('reviews.form.for_example_roomy_but_smelly'), class: "block w-full my-2" %>
+
+<%= form.label :comment, t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
+<%= form.text_area :comment, size: '12x12', placeholder: t('reviews.form.what_did_you_experience_any_tips_for_others'), class: "block w-full my-2" %>

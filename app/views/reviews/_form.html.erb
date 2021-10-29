@@ -1,59 +1,16 @@
 <%= form_with model: @review do |form| %>
   <%= form.hidden_field :space_id, value: @review.space.id %>
   <div class="content">
-    <h1><%= t('reviews.form.new_review_about_space', space_title: @space.title) %></h1>
+    <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
 
-    <fieldset>
-      <legend class="h2"><%= t('reviews.form.have_you_been_there?') %></legend>
-      <%= form.radio_button :type_of_contact, :been_there %>
-      <%= form.label :type_of_contact_been_there do %>
-        <%= t('generic.yes') %> <%= inline_svg 'facility_status/likely', class: 'inline-block' %>
-      <% end %>
+    <%= render partial: 'reviews/form/type_of_contact', locals: {
+      form: form
+    } %>
 
-      <%= form.radio_button :type_of_contact, :not_allowed_to_use %>
-      <%= form.label :type_of_contact_not_allowed_to_use do %>
-        <%= t('reviews.form.no_not_allowed') %> <%= inline_svg 'facility_status/unlikely', class: 'inline-block' %>
-      <% end %>
 
-      <%= form.radio_button :type_of_contact, :only_contacted %>
-      <%= form.label :type_of_contact_only_contacted do %>
-        <%= t('reviews.form.no_only_contacted') %> <%= inline_svg 'facility_status/unknown', class: 'inline-block' %>
-      <% end %>
-    </fieldset>
-
-    <% unless @facilities_has_data.empty? %>
-      <h2><%= t('reviews.form.were_you_allowed_to_use') %></h2>
-
-      <%=
-        render partial: 'reviews/new/facilities', locals: {
-          facilities: @facilities_has_data,
-          form: form
-        }
-      %>
-    <% end  %>
-
-    <% unless @facilities_hidden.empty? %>
-      <h2><%= t('reviews.form.show_facilities_others_said_wasnt_here') %></h2>
-
-      <%=
-        render partial: 'reviews/new/facilities', locals: {
-          facilities: @facilities_hidden,
-          form: form
-        }
-      %>
-    <% end  %>
-
-    <% unless @facilities_no_data.empty? %>
-      <h2><%= t('reviews.form.this_space_is_new_to_us!') %></h2>
-      <h2><%= t('reviews.form.do_you_know_which_facilities_exist_and_can_be_loaned?') %></h2>
-
-      <%=
-        render partial: 'reviews/new/facilities', locals: {
-          facilities: @facilities_no_data,
-          form: form
-        }
-      %>
-    <% end  %>
+    <%= render partial: 'reviews/form/facility_reviews', locals: {
+      form: form
+    } %>
 
     <%= render partial: 'reviews/new/star_rating', locals: {
       star_rating: @review.star_rating,
@@ -62,46 +19,13 @@
 
     <hr />
 
-    <%= form.label :title, t('reviews.form.how_would_you_summarize_the_experience?'), class: 'h2' %>
-    <%= form.text_field :title, placeholder: t('reviews.form.for_example_roomy_but_smelly'), class: "block w-full my-2" %>
+    <%= render partial: 'reviews/form/text_been_there', locals: {
+      form: form
+    } %>
 
-    <%= form.label :comment, t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
-    <%= form.text_area :comment, size: '12x12', placeholder: t('reviews.form.what_did_you_experience_any_tips_for_others'), class: "block w-full my-2" %>
-
-    <h2><%= t('reviews.form.lastly_about_your_visit:') %></h2>
-
-    <fieldset>
-      <legend><%= t('reviews.form.how_much_of_the_space_did_you_use?') %></legend>
-      <%  Review.how_muches.keys.reverse.each do |value|  %>
-        <%= form.radio_button :how_much, value %>
-        <%= form.label :"how_much_#{value}", t("reviews.data.#{value}") %>
-      <% end  %>
-    </fieldset>
-    <%= form.label :how_much_custom, t('reviews.data.custom_how_much') %>
-    <%= form.text_field :how_much_custom %>
-    <hr />
-
-    <fieldset>
-      <legend><%= t('reviews.form.how_long_did_you_use_the_space?') %></legend>
-      <% Review.how_longs.keys.reverse.each do |value|  %>
-        <%= form.radio_button :how_long, value %>
-        <%= form.label :"how_long_#{value}", t("reviews.data.#{value}") %>
-      <% end  %>
-    </fieldset>
-    <%= form.label :how_long_custom, t('reviews.data.custom_how_long') %>
-    <%= form.text_field :how_long_custom %>
-    <hr />
-
-    <fieldset>
-      <legend><%= t('reviews.form.did_you_have_to_pay?') %></legend>
-      <% ['yes', 'no'].each do |value|  %>
-        <%= form.radio_button :payment, value %>
-        <%= form.label :"payment_#{value}", t("generic.#{value}") %>
-      <% end  %>
-    </fieldset>
-    <%= form.label :price, t('reviews.form.how_much?') %>
-    <%= form.telephone_field :price, min: 0 %> NOK
-    <hr />
+    <%= render partial: 'reviews/form/more_about_your_stay', locals: {
+      form: form
+    } %>
 
     <nav class="fixed bottom-0 left-0 right-0 bg-gray-300 block p-4">
 
