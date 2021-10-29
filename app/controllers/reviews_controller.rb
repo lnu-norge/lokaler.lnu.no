@@ -12,10 +12,22 @@ class ReviewsController < AuthenticateController
 
   def create
     params = parse_before_create review_params
-    @review = Review.new(params)
-    @review.validate!
-    @review.save!
-    redirect_to reviews_path
+    @review = Review.create(params)
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.prepend(:reviews,
+                               partial: 'spaces/show/review_card',
+                               locals: { review: @review }),
+          turbo_stream.replace(:new_review_path,
+                               partial: 'spaces/show/review_link_to_new_review',
+                               locals: {
+                                 space: @review.space
+                               })
+        ]
+      end
+      format.html { redirect_to @review.space }
+    end
   end
 
   def new
