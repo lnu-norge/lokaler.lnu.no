@@ -11,15 +11,14 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   end
 
   def create # rubocop:disable Metrics/AbcSize
-    addresses = Space.search_for_address(
+    address = Space.search_for_address(
       address: params[:space][:address],
       post_number: params[:space][:post_number],
       post_address: params[:space][:post_address]
     )
 
-    return redirect_to spaces_path, alert: 'Unable to find address' if addresses.count > 1 || addresses.empty?
+    return redirect_to spaces_path, alert: 'Unable to find address' if address.nil?
 
-    address = addresses.first
     @space = Space.create!(
       **space_params,
       address: address.address,
@@ -33,15 +32,15 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   end
 
   def address_search
-    addresses = Space.search_for_address(
+    address = Space.search_for_address(
       address: params[:address],
       post_number: params[:post_number],
       post_address: params[:post_address]
     )
 
-    return render json: nil if addresses.count > 1 || addresses.empty?
+    return render json: nil if address.nil?
 
-    render json: addresses.first.to_h
+    render json: address.to_h
   end
 
   def edit
