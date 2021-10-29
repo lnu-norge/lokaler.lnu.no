@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Fabricator(:space) do
-  title { Faker::Name.name }
+  title { Faker::Name.first_name }
   address { Faker::Address.full_address }
   lat { Faker::Address.latitude }
   lng { Faker::Address.longitude }
