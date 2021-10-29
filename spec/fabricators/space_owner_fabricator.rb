@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Fabricator(:space_owner) do
-  title Faker::Nation.capital_city
+  title Faker::Name.first_name
   orgnr Faker::Number.number(digits: 9)
   about Faker::Lorem.paragraphs.map { |p| "<p>#{p}</p>" }.join
   how_to_book Faker::Lorem.paragraphs.map { |p| "<p>#{p}</p>" }.join
