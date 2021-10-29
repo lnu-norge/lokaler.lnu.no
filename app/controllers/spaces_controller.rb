@@ -18,8 +18,15 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     return redirect_to spaces_path, alert: 'Unable to find address' if addresses.count > 1 || addresses.empty?
 
     address = addresses.first
-    @space = Space.create!(space_type: space_type, **space_params, address: address.address,
-                           post_number: address.post_number, lat: address.lat, lng: address.lng)
+    @space = Space.create!(
+      space_type: space_type,
+      **space_params,
+      address: address.address,
+      post_address: address.post_address,
+      post_number: address.post_number,
+      lat: address.lat,
+      lng: address.lng
+    )
 
     redirect_to space_path(@space)
   end
@@ -27,7 +34,8 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   def address_search
     Spaces::LocationSearchService.call(
       address: params[:space][:address],
-      post_number: params[:space][:post_number]
+      post_number: params[:space][:post_number],
+      post_address: params[:space][:post_address]
     )
   end
 

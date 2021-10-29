@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 29 Oct 2021 11:07:55 GMT
+      - Fri, 29 Oct 2021 12:36:37 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -43,5 +43,5 @@ http_interactions:
         gate 32","totaltAntallTreff":1,"treffPerSide":10,"viserFra":0,"viserTil":10}}
 
         '
-  recorded_at: Fri, 29 Oct 2021 11:07:55 GMT
+  recorded_at: Fri, 29 Oct 2021 12:36:37 GMT
 recorded_with: VCR 6.0.0
