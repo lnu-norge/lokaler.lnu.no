@@ -33,7 +33,7 @@ class Review < ApplicationRecord
   after_save { space.aggregate_star_rating }
   after_destroy { space.aggregate_star_rating }
 
-  TYPE_OF_CONTACT_ICONS = {
+  ICONS_FOR_TYPE_OF_CONTACT = {
     'been_there' => 'facility_status/likely',
     'not_allowed_to_use' => 'facility_status/unlikely',
     'only_contacted' => 'facility_status/unknown'
