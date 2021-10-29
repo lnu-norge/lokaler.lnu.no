@@ -10,18 +10,28 @@
 <li
   class="flex items-center gap-1.5">
   <%= form.fields_for "facility_reviews_attributes[#{facility.id}]", facility_review do |f| %>
-    <fieldset>
-        <legend>
-          <%= inline_svg "facilities/#{icon}" %>
+    <%= f.hidden_field :facility_id, value: facility.id %>
+    <fieldset class="flex mt-3">
+        <legend class="flex gap-2 text-lg items-center mb-1 mt-3">
           <%= title %>
+          <%= inline_svg "facilities/#{icon}" %>
         </legend>
-        <%= f.hidden_field :facility_id, value: facility.id %>
-        <%= f.radio_button :"experience", :unknown, checked: true %>
-        <%= f.label :"experience_unknown", t('reviews.form.facility_experience_particular_tense.dont_know') %>
-        <% FacilityReview.experiences.keys.reverse.each do |value|  %>
-          <%= f.radio_button :"experience", value %>
-          <%= f.label :"experience_#{value}", t("reviews.form.facility_experience_particular_tense.#{value}") %>
-        <% end  %>
+        <div class="radio-slider">
+          <% [
+             *FacilityReview.experiences.keys,
+             'unknown',
+            ].reverse.each do |value|  %>
+            <%= f.radio_button :"experience", value, checked: value == 'unknown' %>
+            <%= f.label :"experience_#{value}" do %>
+              <span class="flex flex-col items-center gap-0.5 text-sm">
+                <%= inline_svg "facility_status/#{FacilityReview::ICON_FOR_EXPERIENCE[value]}",
+                   class: 'w-5 h-5 inline-block'
+                %>
+                <%= t("reviews.form.facility_experience_particular_tense.#{value}") %>
+              </span>
+            <% end %>
+          <% end  %>
+        </div>
       </fieldset>
   <% end  %>
 </li>
