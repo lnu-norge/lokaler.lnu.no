@@ -1,9 +1,9 @@
 .modal {
   @apply relative;
-  @apply max-w-lg;
+  @apply w-screen h-screen max-h-screen md:max-h-90vh md:max-w-prose;
   @apply z-50;
   @apply bg-white;
-  @apply p-8 rounded-lg drop-shadow-xl;
+  @apply p-8 md:rounded-lg md:drop-shadow-xl;
   @apply overflow-y-auto;
 }
 
