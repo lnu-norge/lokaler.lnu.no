@@ -28,7 +28,7 @@ module Spaces
 
     private
 
-    def aggregate_reviews(aggregated_review) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+    def aggregate_reviews(aggregated_review) # rubocop:disable Metrics/AbcSize
       reviews = space.facility_reviews.where(facility: aggregated_review.facility).order(created_at: :desc).limit(5)
       count = reviews.count
       return aggregated_review.unknown! if count.zero?
