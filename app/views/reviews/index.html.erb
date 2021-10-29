@@ -5,7 +5,7 @@
 
   <div>
     <% @reviews.each do |review| %>
-        <%= render partial: 'reviews/review_card', locals: {
+        <%= render partial: 'reviews/review_content', locals: {
           review: review
         } %>
         <%= link_to 'Show', review_path(review), class: "border-2 border-blue-400" %>

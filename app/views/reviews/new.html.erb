@@ -1,5 +1,5 @@
 <%=
-  modal_content_for new_review_path(@space), @review.space do
+  modal_content_for :new_review_path, @review.space do
     render partial: 'reviews/form'
   end
 %>
