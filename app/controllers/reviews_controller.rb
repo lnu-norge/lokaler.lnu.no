@@ -12,30 +12,42 @@ class ReviewsController < AuthenticateController
 
   def create
     params = parse_before_create review_params
-    @review = Review.create(params)
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.prepend(:reviews,
-                               partial: 'spaces/show/review_card',
-                               locals: { review: @review }),
-          turbo_stream.replace(:new_review_path,
-                               partial: 'spaces/show/review_link_to_new_review',
-                               locals: {
-                                 space: @review.space
-                               })
-        ]
+    @review = Review.new(params)
+    if @review.save
+      created_review
+    else
+      errored_review_attributes
+      # Different types of contact should be sent to different error forms
+      case @review.type_of_contact
+      when 'been_there'
+        render :new_been_there, status: :unprocessable_entity
+      when 'not_allowed_to_use'
+        render :new_not_allowed_to_use, status: :unprocessable_entity
+      when 'only_contacted'
+        render :new_only_contacted, status: :unprocessable_entity
+      else
+        render :new, status: :unprocessable_entity
       end
-      format.html { redirect_to @review.space }
     end
   end
 
   def new
-    @space = Space.find(params[:space_id])
-    @review = Review.new(space: @space)
-    @facilities_no_data = @space.aggregated_facility_reviews.unknown
-    @facilities_has_data = @space.aggregated_facility_reviews.neither_unknown_nor_impossible
-    @facilities_hidden = @space.aggregated_facility_reviews.impossible
+    new_review_attributes
+  end
+
+  def new_only_contacted
+    new_review_attributes
+    @review.type_of_contact = :only_contacted
+  end
+
+  def new_been_there
+    new_review_attributes
+    @review.type_of_contact = :been_there
+  end
+
+  def new_not_allowed_to_use
+    new_review_attributes
+    @review.type_of_contact = :not_allowed_to_use
   end
 
   def edit
@@ -53,6 +65,41 @@ class ReviewsController < AuthenticateController
   end
 
   private
+
+  def created_review
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.prepend(:reviews,
+                               partial: 'spaces/show/review_card',
+                               locals: { review: @review }),
+          turbo_stream.replace(:new_review_path,
+                               partial: 'spaces/show/review_link_to_new_review',
+                               locals: {
+                                 space: @review.space
+                               })
+        ]
+      end
+      format.html { redirect_to @review.space }
+    end
+  end
+
+  def new_review_attributes
+    @space = Space.find(params[:space_id]) unless defined? @review
+    @review = Review.new(space: @space) unless defined? @review
+    common_review_attributes
+  end
+
+  def errored_review_attributes
+    @space = @review.space
+    common_review_attributes
+  end
+
+  def common_review_attributes
+    @facilities_no_data = @space.aggregated_facility_reviews.unknown
+    @facilities_has_data = @space.aggregated_facility_reviews.neither_unknown_nor_impossible
+    @facilities_hidden = @space.aggregated_facility_reviews.impossible
+  end
 
   def parse_before_create(review_params)
     review_params['facility_reviews_attributes'] = parse_facility_reviews(review_params)
