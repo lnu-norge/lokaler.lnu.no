@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpacesController < AuthenticateController
+class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassLength
   def index
     @spaces = Space.all.order updated_at: :desc
     @space = Space.new
@@ -12,9 +12,23 @@ class SpacesController < AuthenticateController
 
   def create
     space_type = SpaceType.find_or_create_by!(type_name: 'Skole')
-    @space = Space.create!(space_type: space_type, **space_params)
+
+    addresses = address_search
+
+    return redirect_to spaces_path, alert: 'Unable to find address' if addresses.count > 1 || addresses.empty?
+
+    address = addresses.first
+    @space = Space.create!(space_type: space_type, **space_params, address: address.address,
+                           post_number: address.post_number, lat: address.lat, lng: address.lng)
 
     redirect_to space_path(@space)
+  end
+
+  def address_search
+    Spaces::LocationSearchService.call(
+      address: params[:space][:address],
+      post_number: params[:space][:post_number]
+    )
   end
 
   def edit
