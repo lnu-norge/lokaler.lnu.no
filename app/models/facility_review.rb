@@ -16,15 +16,13 @@ class FacilityReview < ApplicationRecord
   scope :negative, -> { where(experience: :was_not_allowed) }
 
   def experience_icon
-    case experience
-    when "was_allowed"
-      :likely
-    when "was_not_allowed"
-      :unlikely
-    when "was_not_available"
-      :impossible
-    else
-      :unknown
-    end
+    ICON_FOR_EXPERIENCE[experience]
   end
+
+  ICON_FOR_EXPERIENCE = {
+    'was_allowed' => 'likely',
+    'was_not_allowed' => 'unlikely',
+    'was_not_available' => 'impossible',
+    'unknown' => 'unknown'
+  }.freeze
 end
