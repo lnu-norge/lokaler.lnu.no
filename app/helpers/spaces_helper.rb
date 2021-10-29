@@ -38,11 +38,22 @@ module SpacesHelper
   # Can also be combined with HTML attributes for the iamge tag
   # static_map_of @space, zoom: 4, class: "p-4"
   def static_map_of(space, zoom: 12, height: 250, width: 400, **html_options)
+    static_map_of_lat_lng(
+      lat: space.lat,
+      lng: space.lng,
+      zoom: zoom,
+      height: height,
+      width: width,
+      html_options: html_options
+    )
+  end
+
+  def static_map_of_lat_lng(lat:, lng:, zoom: 12, height: 250, width: 400, **html_options) # rubocop:disable Metrics/ParameterLists
     color_of_pin = 'db2777' # Tailwind pink-600
     static_map_image_url = [
       'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static',
-      "/pin-l-circle+#{color_of_pin}(#{space.lng},#{space.lat})", # Type, color, and position of pin
-      "/#{space.lng},#{space.lat},#{zoom}", # Position of map
+      "/pin-l-circle+#{color_of_pin}(#{lng},#{lat})", # Type, color, and position of pin
+      "/#{lng},#{lat},#{zoom}", # Position of map
       "/#{width}x#{height}", # Size of map
       '?logo=false', # Hide mapbox logo
       '&@2x', # Render at 2x for retina
