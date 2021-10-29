@@ -1,0 +1,17 @@
+<fieldset>
+  <legend class="h2"><%= t('reviews.form.have_you_been_there?') %></legend>
+  <%= form.radio_button :type_of_contact, :been_there %>
+  <%= form.label :type_of_contact_been_there do %>
+    <%= t('generic.yes') %> <%= inline_svg 'facility_status/likely', class: 'inline-block' %>
+  <% end %>
+
+  <%= form.radio_button :type_of_contact, :not_allowed_to_use %>
+  <%= form.label :type_of_contact_not_allowed_to_use do %>
+    <%= t('reviews.form.no_not_allowed') %> <%= inline_svg 'facility_status/unlikely', class: 'inline-block' %>
+  <% end %>
+
+  <%= form.radio_button :type_of_contact, :only_contacted %>
+  <%= form.label :type_of_contact_only_contacted do %>
+    <%= t('reviews.form.no_only_contacted') %> <%= inline_svg 'facility_status/unknown', class: 'inline-block' %>
+  <% end %>
+</fieldset>
