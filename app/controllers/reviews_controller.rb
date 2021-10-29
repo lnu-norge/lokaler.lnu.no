@@ -14,20 +14,9 @@ class ReviewsController < AuthenticateController
     params = parse_before_create review_params
     @review = Review.new(params)
     if @review.save
-      created_review
+      create_success
     else
-      errored_review_attributes
-      # Different types of contact should be sent to different error forms
-      case @review.type_of_contact
-      when 'been_there'
-        render :new_been_there, status: :unprocessable_entity
-      when 'not_allowed_to_use'
-        render :new_not_allowed_to_use, status: :unprocessable_entity
-      when 'only_contacted'
-        render :new_only_contacted, status: :unprocessable_entity
-      else
-        render :new, status: :unprocessable_entity
-      end
+      create_error
     end
   end
 
@@ -57,7 +46,7 @@ class ReviewsController < AuthenticateController
 
   private
 
-  def created_review
+  def create_success
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
@@ -75,14 +64,25 @@ class ReviewsController < AuthenticateController
     end
   end
 
+  def create_error
+    @space = @review.space
+    common_review_attributes
+    # Different types of contact should be sent to different error forms
+    case @review.type_of_contact
+    when 'been_there'
+      render :new_been_there, status: :unprocessable_entity
+    when 'not_allowed_to_use'
+      render :new_not_allowed_to_use, status: :unprocessable_entity
+    when 'only_contacted'
+      render :new_only_contacted, status: :unprocessable_entity
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def new_review_attributes
     @space = Space.find(params[:space_id]) unless defined? @review
     @review = Review.new(space: @space) unless defined? @review
-    common_review_attributes
-  end
-
-  def errored_review_attributes
-    @space = @review.space
     common_review_attributes
   end
 
