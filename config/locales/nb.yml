@@ -28,7 +28,7 @@ nb:
       unknown: 'Usikkert. Ingen har spurt!'
       impossible: 'Umulig. De har ikke.'
       unlikely: 'Usannsynlig. Ingen eller få har fått lov'
-      maybe: 'Kanskje! Ikke alle for lov'
+      maybe: 'Kanskje! Ikke alle får lov'
       likely: 'Sannsynlig: Andre har fått lov!'
   address_search:
     didnt_find: 'Fant ikke adressen'
