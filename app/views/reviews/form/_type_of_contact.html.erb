@@ -1,17 +1,11 @@
-<fieldset>
-  <legend class="h2"><%= t('reviews.form.have_you_been_there?') %></legend>
-  <%= form.radio_button :type_of_contact, :been_there %>
-  <%= form.label :type_of_contact_been_there do %>
-    <%= t('generic.yes') %> <%= inline_svg 'facility_status/likely', class: 'inline-block' %>
-  <% end %>
-
-  <%= form.radio_button :type_of_contact, :not_allowed_to_use %>
-  <%= form.label :type_of_contact_not_allowed_to_use do %>
-    <%= t('reviews.form.no_not_allowed') %> <%= inline_svg 'facility_status/unlikely', class: 'inline-block' %>
-  <% end %>
-
-  <%= form.radio_button :type_of_contact, :only_contacted %>
-  <%= form.label :type_of_contact_only_contacted do %>
-    <%= t('reviews.form.no_only_contacted') %> <%= inline_svg 'facility_status/unknown', class: 'inline-block' %>
-  <% end %>
-</fieldset>
+<h2><%= t('reviews.form.have_you_been_there?') %></h2>
+<ul>
+  <% Review.type_of_contacts.keys.reverse.each do |type_of_contact| %>
+    <li>
+      <%= link_to new_review_with_type_of_contact_path(review.space, type_of_contact) do %>
+        <%= t("reviews.form.have_you_been_there_answers.#{type_of_contact}") %>
+        <%= inline_svg Review::TYPE_OF_CONTACT_ICONS[type_of_contact], class: 'inline-block' %>
+      <% end %>
+    </li>
+  <% end  %>
+</ul>

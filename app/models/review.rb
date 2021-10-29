@@ -13,7 +13,7 @@ class Review < ApplicationRecord
 
   enum how_much: { custom_how_much: 0, whole_space: 1, one_room: 2 }
   enum how_long: { custom_how_long: 0, one_weekend: 1, one_evening: 2 }
-  enum type_of_contact: { only_contacted: 0, been_there: 1, not_allowed_to_use: 2 }
+  enum type_of_contact: { only_contacted: 0, not_allowed_to_use: 1, been_there: 2 }
 
   validates :title,
             length: { minimum: 4, maximum: 80 },
@@ -32,4 +32,10 @@ class Review < ApplicationRecord
 
   after_save { space.aggregate_star_rating }
   after_destroy { space.aggregate_star_rating }
+
+  TYPE_OF_CONTACT_ICONS = {
+    'been_there' => 'facility_status/likely',
+    'not_allowed_to_use' => 'facility_status/unlikely',
+    'only_contacted' => 'facility_status/unknown'
+  }.freeze
 end
