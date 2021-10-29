@@ -69,6 +69,7 @@ gem 'devise', '~> 4.8'
 
 gem 'gravtastic'
 gem 'hotwire-rails'
+gem 'http'
 gem 'inline_svg'
 gem 'paper_trail'
 gem 'sendgrid-ruby'
