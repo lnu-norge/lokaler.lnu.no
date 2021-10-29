@@ -6,9 +6,10 @@ module Spaces
   class LocationSearchService < ApplicationService
     URL = 'https://ws.geonorge.no/adresser/v1/sok?'
 
-    def initialize(address:, post_number:)
+    def initialize(address: nil, post_number: nil, post_address: nil)
       @address = address
       @post_number = post_number
+      @post_address = post_address
 
       super()
     end
@@ -25,6 +26,7 @@ module Spaces
 
       url += "&sok=#{address}" if address.present?
       url += "&postnummer=#{post_number}" if post_number.present?
+      url += "&poststed=#{post_address}" if post_address.present?
       url
     end
 
@@ -37,12 +39,13 @@ module Spaces
                        lng: point['lon'],
                        address: address['adressetekst'],
                        post_number: address['postnummer'],
+                       post_address: address['poststed'],
                        municipality_code: address['kommunenummer'])
       end
     end
 
     private
 
-    attr_reader :address, :post_number
+    attr_reader :address, :post_number, :post_address
   end
 end
