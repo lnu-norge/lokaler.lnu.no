@@ -33,6 +33,8 @@ module Spaces
     def call
       result = JSON.parse(HTTP.get(build_url).body)
 
+      return [] if result['adresser'].nil?
+
       result['adresser'].map do |address|
         point = address['representasjonspunkt']
         OpenStruct.new(lat: point['lat'],
