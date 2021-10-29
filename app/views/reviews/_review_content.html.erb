@@ -13,17 +13,21 @@
   <% end %>
 </div>
 
-<h3 class="small-mt"><%= review.title %></h3>
-<p class="overflow-hidden">
-  <% if show_full_review  %>
-    <%= simple_format review.comment %>
-  <% elsif review.comment.length <= 88 %>
-    <%= review.comment %>
-  <% else %>
-    <%= truncate(review.comment, length: 88) %>
-    <%= modal_link_to t('read_more'), review %>
-  <% end %>
-</p>
+<% if review.title %>
+  <h3 class="small-mt"><%= review.title %></h3>
+<% end  %>
+<% if review.comment %>
+  <p>
+    <% if show_full_review  %>
+      <%= simple_format review.comment %>
+    <% elsif review.comment.length <= 88 %>
+      <%= review.comment %>
+    <% else %>
+      <%= truncate(review.comment, length: 88) %>
+      <%= modal_link_to t('read_more'), review %>
+    <% end %>
+  </p>
+<% end  %>
 
 <div class="flex gap-2 items-center mb-3">
   <div class="avatar flex-shrink-0">
