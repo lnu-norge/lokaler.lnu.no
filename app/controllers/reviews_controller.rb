@@ -35,19 +35,10 @@ class ReviewsController < AuthenticateController
     new_review_attributes
   end
 
-  def new_only_contacted
+  def new_with_type_of_contact
     new_review_attributes
-    @review.type_of_contact = :only_contacted
-  end
-
-  def new_been_there
-    new_review_attributes
-    @review.type_of_contact = :been_there
-  end
-
-  def new_not_allowed_to_use
-    new_review_attributes
-    @review.type_of_contact = :not_allowed_to_use
+    @review.type_of_contact = params[:type_of_contact]
+    render "new_#{params[:type_of_contact]}"
   end
 
   def edit
