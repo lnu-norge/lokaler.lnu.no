@@ -21,8 +21,6 @@ export default class extends Controller {
     if(result == null)
       return;
 
-    console.log(result.map_image_html)
-
     this.addressTarget.value = result.address;
     this.postNumberTarget.value = result.post_number;
     this.postAddressTarget.value = result.post_address;
