@@ -1,0 +1,11 @@
+
+<% changeset.each do |key, value| %>
+  <% next if key == "updated_at" %>
+
+  <% if value[0].nil? %>
+      <p><%= Space.human_attribute_name(key) %>: <%= value[1] %>
+  <% else %>
+    <% require 'differ/string' %>
+    <%= sanitize Differ.diff_by_word(value[1].to_s, value[0].to_s).format_as(:html) %>
+  <% end %>
+<% end %>

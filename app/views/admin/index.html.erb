@@ -1,0 +1,8 @@
+<p class="text-xl font-bold">Manage Space</p>
+<% Space.all.each do |space| %>
+  <%= link_to admin_path(space.id) do %>
+    <div class="m-4 p-4 shadow">
+      <%= space.title %>
+    </div>
+  <% end %>
+<% end %>

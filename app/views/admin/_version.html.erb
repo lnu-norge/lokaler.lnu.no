@@ -1,0 +1,24 @@
+<% versions.each do |version| %>
+  <div class="bg-white m-2 p-2 shadow relative rounded">
+    <% unless version.whodunnit.nil? %>
+      <p><strong>User:</strong> <%= User.find(version.whodunnit).email %></p>
+    <% end %>
+    <div>
+      <% unless version.item[:name].nil? %>
+        <p><strong>Field:</strong> <%= Space.human_attribute_name(version.item.name) %></p>
+      <% end %>
+      <p><strong>Event:</strong> <%= version.event %></p>
+      <p><strong>Changed at:</strong> <%= version.created_at %></p>
+      <%= render partial: "changeset", locals: { changeset: version.changeset } %>
+    </div>
+
+    <br>
+    <% unless version.event == "create" %>
+      <%= form_with url: admin_revert_changes_path do |f| %>
+        <%= f.hidden_field :id, value: version.id %>
+        <%= f.hidden_field :space_id, value: @space.id %>
+        <%= f.submit :undo, class: 'p-2 m-2 rounded bg-red-600 text-white absolute bottom-0 right-0' %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
