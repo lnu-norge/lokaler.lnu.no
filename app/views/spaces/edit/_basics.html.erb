@@ -13,7 +13,6 @@
   <%= form.number_field :fits_people, class: "border-4" %>
 </div>
 
-
 <div>
   <%= form.label :space_owner_id %>
   <%= form.collection_select :space_owner_id, SpaceOwner.all, :id, :title, class: "border-4" %>
@@ -24,29 +23,6 @@
   <%= form.text_field :organization_number, class: "border-4" %>
 </div>
 
-
-<div>
-  <%= form.label :address %>
-  <%= form.text_field :address, class: "border-4" %>
-</div>
-<div>
-  <%= form.label :post_number %>
-  <%= form.text_field :post_number, class: "border-4" %>
-</div>
-<div>
-  <%= form.label :post_address %>
-  <%= form.text_field :post_address, class: "border-4" %>
-</div>
-<div>
-  <%= form.label :municipality_code %>
-  <%= form.text_field :municipality_code, class: "border-4" %>
-</div>
-
-<div>
-  <%= form.label :latitude %>
-  <%= form.number_field :lat, step: 0.0001, class: "border-4" %>
-</div>
-<div>
-  <%= form.label :longitude %>
-  <%= form.number_field :lng, step: 0.0001, class: "border-4" %>
-</div>
+<%= render partial: 'spaces/edit/where', locals: {
+  form: form
+} %>

@@ -27,6 +27,8 @@ nb:
       unlikely: 'Usannsynlig. Ingen eller få har fått lov'
       maybe: 'Kanskje! Ikke alle for lov'
       likely: 'Sannsynlig: Andre har fått lov!'
+  address_search:
+    didnt_find: 'Fant ikke adressen'
   space_listing:
     no_results: 'Ingen resultater'
   space_show:
@@ -63,7 +65,10 @@ nb:
         more_info: 'Mer om lokalet'
         terms: 'Vilkår for å bruke lokalet'
         pricing: 'Pris'
-        address: 'Hvor er det?'
+        where: 'Hvor er det?'
+        address: 'Adresse'
+        post_number: 'Postnummer'
+        post_address: 'Poststed'
   read_more: 'Les mer'
 
   devise:

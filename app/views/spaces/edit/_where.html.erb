@@ -1,0 +1,18 @@
+<div data-controller="autofilladdress">
+  <div>
+    <%= form.label :address %>
+    <%= form.text_field :address, data: { "autofilladdress-target": "address" }, class: "border-4" %>
+  </div>
+  <div>
+    <%= form.label :post_number %>
+    <%= form.text_field :post_number, data: { "autofilladdress-target": "postNumber" }, class: "border-4" %>
+  </div>
+  <div>
+    <%= form.label :post_address %>
+    <%= form.text_field :post_address, data: { "autofilladdress-target": "postAddress" }, class: "border-4" %>
+  </div>
+
+  <div data-autofilladdress-target="mapHolder">
+    <%= render partial: "spaces/show/static_map" %>
+  </div>
+</div>

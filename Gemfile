@@ -60,6 +60,8 @@ end
 group :test do
   gem 'capybara'
   gem 'rspec-rails'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -69,6 +71,7 @@ gem 'devise', '~> 4.8'
 
 gem 'gravtastic'
 gem 'hotwire-rails'
+gem 'http'
 gem 'inline_svg'
 gem 'paper_trail'
 gem 'sendgrid-ruby'

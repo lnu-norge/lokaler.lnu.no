@@ -92,6 +92,22 @@ ActiveRecord::Schema.define(version: 2021_10_27_073656) do
     t.index ["user_id"], name: "index_facility_reviews_on_user_id"
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "orgnr"
+    t.string "website"
+    t.string "logo"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "organizations_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id", "user_id"], name: "index_organizations_users_on_organization_id_and_user_id", unique: true
+    t.index ["user_id", "organization_id"], name: "index_organizations_users_on_user_id_and_organization_id", unique: true
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.string "title"
     t.string "comment"
@@ -101,6 +117,8 @@ ActiveRecord::Schema.define(version: 2021_10_27_073656) do
     t.bigint "space_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_reviews_on_organization_id"
     t.index ["space_id"], name: "index_reviews_on_space_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
@@ -186,6 +204,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_073656) do
   add_foreign_key "facility_reviews", "reviews"
   add_foreign_key "facility_reviews", "spaces"
   add_foreign_key "facility_reviews", "users"
+  add_foreign_key "reviews", "organizations"
   add_foreign_key "reviews", "spaces"
   add_foreign_key "reviews", "users"
   add_foreign_key "spaces", "space_owners"
