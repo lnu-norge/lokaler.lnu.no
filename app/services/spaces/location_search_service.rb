@@ -37,12 +37,14 @@ module Spaces
 
       result['adresser'].map do |address|
         point = address['representasjonspunkt']
-        OpenStruct.new(lat: point['lat'],
-                       lng: point['lon'],
-                       address: address['adressetekst'],
-                       post_number: address['postnummer'],
-                       post_address: address['poststed'],
-                       municipality_code: address['kommunenummer'])
+        {
+          lat: point['lat'],
+          lng: point['lon'],
+          address: address['adressetekst'],
+          post_number: address['postnummer'],
+          post_address: address['poststed'],
+          municipality_code: address['kommunenummer']
+        }
       end
     end
 
