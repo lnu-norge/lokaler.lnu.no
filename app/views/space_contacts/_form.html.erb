@@ -1,6 +1,6 @@
-<%= form_with model: SpaceContact.new, class: 'mt-8 space-y-6' do |f| %>
-    <%= f.hidden_field :space_id, value: @space.id %>
-    <%= f.hidden_field :space_owner_id, value: @space.space_owner_id %>
+<%= form_with model: space_contact, class: 'mt-8 space-y-6', id: dom_id(space_contact) do |f| %>
+    <%= f.hidden_field :space_id, value: space_contact.space_id %>
+    <%= f.hidden_field :space_owner_id, value: space_contact.space_owner_id %>
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
         <%= f.label :title, "Tittel", class: 'sr-only' %>
@@ -33,7 +33,7 @@
           <!-- Heroicon name: figma contact -->
           <%= inline_svg_tag 'contact' %>
         </span>
-        Add contact
+        <%= t('space_contacts.submit') %>
       <% end %>
     </div>
   <% end %>
