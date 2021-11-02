@@ -14,3 +14,6 @@ application.register("mapbox", MapboxController)
 
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
+
+import ShowOnRadioButtonValueController from "./show_on_radio_button_value_controller"
+application.register("show-on-radio-button-value", ShowOnRadioButtonValueController)

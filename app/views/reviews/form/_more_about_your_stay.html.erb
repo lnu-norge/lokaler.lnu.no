@@ -1,58 +1,64 @@
 <h2><%= t('reviews.form.lastly_about_your_visit:') %></h2>
 
-<fieldset class="flex my-3">
-  <legend class="flex gap-2 text-lg items-center mb-1 mt-3">
-    <%= t('reviews.form.how_much_of_the_space_did_you_use?') %>
-  </legend>
-  <div class="radio-slider">
-  <%  Review.how_muches.keys.reverse.each do |value|  %>
-    <%= form.radio_button :how_much, value %>
-    <%= form.label :"how_much_#{value}" do  %>
-      <span class="flex px-2 py-2">
-        <%=  t("reviews.data.#{value}") %>
-      </span>
-    <% end  %>
-  <% end  %>
-  </div>
-</fieldset>
-<%= form.label :how_much_custom, t('reviews.data.custom_how_much') %>
-<%= form.text_field :how_much_custom %>
+<%= render partial: 'shared/radio_slider', locals: {
+  form: form,
+  field: :how_much,
+  legend: t('reviews.form.how_much_of_the_space_did_you_use?'),
+  values: Review.how_muches.keys.reverse,
+  labels: Review.how_muches.keys.reverse.map { |value|
+    render partial: 'reviews/form/radio_text_label', locals: { text: t("reviews.data.#{value}") }
+  },
+  custom_input: capture do %>
+    <div data-show-on-radio-button-value-target="elementToShow">
+      <%= form.label :how_much_custom, t('reviews.data.custom_how_much') %>
+      <%= form.text_field :how_much_custom %>
+    </div>
+  <% end
+} %>
+
 <hr />
 
-<fieldset class="flex my-3">
-  <legend class="flex gap-2 text-lg items-center mb-1 mt-3">
-    <%= t('reviews.form.how_long_did_you_use_the_space?') %>
-  </legend>
-  <div class="radio-slider">
-    <% Review.how_longs.keys.reverse.each do |value|  %>
-      <%= form.radio_button :how_long, value %>
-      <%= form.label :"how_long_#{value}" do  %>
-      <span class="flex px-2 py-2">
-        <%=  t("reviews.data.#{value}") %>
-      </span>
-      <% end  %>
-    <% end  %>
+<%= render partial: 'shared/radio_slider', locals: {
+  form: form,
+  field: :how_long,
+  legend: t('reviews.form.how_long_did_you_use_the_space?'),
+  values: Review.how_longs.keys.reverse,
+  labels: Review.how_longs.keys.reverse.map { |value|
+    render partial: 'reviews/form/radio_text_label', locals: { text: t("reviews.data.#{value}") }
+  },
+  custom_input: capture do %>
+  <div data-show-on-radio-button-value-target="elementToShow">
+    <%= form.label :how_long_custom, t('reviews.data.custom_how_long') %>
+    <%= form.text_field :how_long_custom %>
   </div>
-</fieldset>
-<%= form.label :how_long_custom, t('reviews.data.custom_how_long') %>
-<%= form.text_field :how_long_custom %>
+<% end
+ } %>
+
 <hr />
 
-<fieldset class="flex my-3">
-  <legend class="flex gap-2 text-lg items-center mb-1 mt-3">
-    <%= t('reviews.form.did_you_have_to_pay?') %>
-  </legend>
+<%= field_set_tag t('reviews.form.did_you_have_to_pay?'),
+                  class: "my-3",
+                  data: { controller: 'show-on-radio-button-value' } do   %>
   <div class="radio-slider">
-    <% ['yes', 'no'].each do |value|  %>
-      <%= form.radio_button :payment, value %>
+    <%  ['yes', 'no'].each_with_index do |value| %>
+      <%=
+        form.radio_button :payment,
+                          value,
+                          checked: (value == 'yes') && form.object.price?,
+                          data: {
+                            "show-on-radio-button-value-target":
+                              "radioButton#{' toggleOnChecked' if value.start_with? 'yes'}"
+                          }
+      %>
       <%= form.label :"payment_#{value}" do  %>
-      <span class="flex px-2 py-2">
-        <%=  t("generic.#{value}") %>
-      </span>
+        <%= render partial: 'reviews/form/radio_text_label', locals: { text: t("generic.#{value}") } %>
       <% end  %>
     <% end  %>
   </div>
-</fieldset>
-<%= form.label :price, t('reviews.form.how_much?') %>
-<%= form.telephone_field :price, min: 0 %> NOK
+  <div data-show-on-radio-button-value-target="elementToShow">
+    <%= form.label :price, t('reviews.form.how_much?') %>
+    <%= form.telephone_field :price, min: 0 %> NOK
+  </div>
+<% end %>
+
 <hr />
