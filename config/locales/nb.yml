@@ -1,4 +1,19 @@
 nb:
+  space_contacts:
+    contacts_heading: 'Kontakter'
+    contact_updated: 'Kontakt oppdatert!'
+    contact_deleted: 'Kontakt slettet!'
+    contact_not_deleted: 'Kontakt kunne ikke bli slettet!'
+    contact_created: 'Kontakt lagret!'
+    edit: 'Rediger kontakt'
+    delete: 'Slett kontakt'
+    phone: 'Telefon'
+    opening_hours: 'Åpningstider'
+    email: 'E-post'
+    url: 'Nettside'
+    description: 'Notat'
+    submit: "Lagre kontakt"
+    new_contact: 'Ny kontakt'
   tooltips:
     facility_single_experience:
       was_allowed: 'Fikk lov'
