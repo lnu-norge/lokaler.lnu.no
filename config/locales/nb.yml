@@ -12,6 +12,8 @@ nb:
       unlikely: 'Usannsynlig. Ingen eller få har fått lov'
       maybe: 'Kanskje! Ikke alle for lov'
       likely: 'Sannsynlig: Andre har fått lov!'
+  address_search:
+    didnt_find: 'Fant ikke adressen'
   space_listing:
     no_results: 'Ingen resultater'
   space_show:
