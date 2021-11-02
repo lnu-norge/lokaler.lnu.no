@@ -12,7 +12,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
   def create
     address_params = get_address_params(params)
-    return redirect_to spaces_path, alert: 'Unable to find address' if address_params.nil?
+    return redirect_to spaces_path, alert: t('address_search.didnt_find') if address_params.nil?
 
     @space = Space.create!(
       **space_params,
