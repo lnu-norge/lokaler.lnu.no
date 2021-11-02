@@ -26,3 +26,6 @@ application.register("multiselect", MultiselectController)
 
 import ResetFormController from "./reset_form_controller"
 application.register("reset-form", ResetFormController)
+
+import ShowOnRadioButtonValueController from "./show_on_radio_button_value_controller"
+application.register("show-on-radio-button-value", ShowOnRadioButtonValueController)

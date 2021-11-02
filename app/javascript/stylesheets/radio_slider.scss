@@ -2,7 +2,7 @@
   @apply overflow-hidden; // To hide the shadow from the buttons
   @apply bg-gray-50 border border-gray-200 shadow-inner;
   @apply p-0.5 rounded-xl;
-  @apply flex gap-1 items-stretch flex-wrap;
+  @apply inline-flex gap-1 items-stretch flex-wrap;
   &:focus-within {
     @apply border-gray-300 bg-gray-50;
   }
