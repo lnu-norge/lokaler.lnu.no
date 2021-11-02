@@ -38,8 +38,12 @@ class ReviewsController < AuthenticateController
 
   def update
     @review = Review.find(params[:id])
+    @space = @review.space
 
-    if @review.update(review_params)
+    common_review_attributes
+    params = parse_before_update(review_params, @review)
+
+    if @review.update(params)
       redirect_to reviews_path
     else
       render :edit, status: :unprocessable_entity
@@ -94,19 +98,27 @@ class ReviewsController < AuthenticateController
     @facilities_hidden = @space.aggregated_facility_reviews.impossible
   end
 
+  def parse_before_update(review_params, review)
+    review_params['facility_reviews_attributes'] = parse_facility_reviews(
+      review_params['facility_reviews_attributes'],
+      review
+    )
+    review_params
+  end
+
   def parse_before_create(review_params)
-    review_params['facility_reviews_attributes'] = parse_facility_reviews(review_params)
+    review_params['facility_reviews_attributes'] = parse_facility_reviews(review_params['facility_reviews_attributes'])
     review_params['user'] = current_user
     review_params
   end
 
-  def parse_facility_reviews(review_params)
-    review_params['facility_reviews_attributes']
+  def parse_facility_reviews(facility_reviews, review = nil) # rubocop:disable Metrics/AbcSize
+    facility_reviews
       .values
       .filter { |facility_review| facility_review[:experience] != 'unknown' }
       .map do |facility_review|
-        facility_review[:user] = current_user
-        facility_review[:space_id] = review_params['space_id']
+        facility_review[:user] = review&.user ? review.user : current_user
+        facility_review[:space_id] = review&.space&.id ? review.space.id : review_params['space_id']
         facility_review
       end
   end

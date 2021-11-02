@@ -12,11 +12,14 @@
   <% unless facilities_in_category.empty?  %>
     <%= tag.h3 category.title unless category.id == "1" %>
     <ul>
-      <% facilities_in_category.each do |facility_review| %>
+      <% facilities_in_category.each do |facility_review|
+        review = form.object
+        facility_review_data = review.facility_review_for(facility_review.facility) || FacilityReview.new(facility: facility_review.facility)
+      %>
           <%= render partial: 'reviews/new/facility_buttons',
                      locals: {
                        facility: facility_review.facility,
-                       facility_review: FacilityReview.new(facility: facility_review.facility),
+                       facility_review: facility_review_data,
                        form: form
                      }
           %>

@@ -33,6 +33,10 @@ class Review < ApplicationRecord
   after_save { space.aggregate_star_rating }
   after_destroy { space.aggregate_star_rating }
 
+  def facility_review_for(facility)
+    facility_reviews.find_by facility: facility.id
+  end
+
   ICONS_FOR_TYPE_OF_CONTACT = {
     'been_there' => 'facility_status/likely',
     'not_allowed_to_use' => 'facility_status/unlikely',

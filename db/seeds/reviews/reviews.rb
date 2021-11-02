@@ -26,10 +26,10 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
     user: user,
     price: 5400,
     comment: positive_review_comment,
-    star_rating: 4.5,
-    space: space,
+    star_rating: 4,
+    type_of_contact: :been_there,
     organization: org,
-    type_of_contact: :been_there
+    space: space
   )
   FacilityReview.create(
     facility: Facility.first,

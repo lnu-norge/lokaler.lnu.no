@@ -21,7 +21,8 @@
              *FacilityReview.experiences.keys,
              'unknown',
             ].reverse.each do |value|  %>
-            <%= f.radio_button :"experience", value, checked: value == 'unknown' %>
+            <%=
+              f.radio_button :"experience", value, checked: f.object.experience.nil? ? value == 'unknown' : value == f.object.experience  %>
             <%= f.label :"experience_#{value}" do %>
               <span class="flex flex-col items-center gap-0.5 text-sm">
                 <%= inline_svg "facility_status/#{FacilityReview::ICON_FOR_EXPERIENCE[value]}",
