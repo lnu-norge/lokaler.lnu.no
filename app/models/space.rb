@@ -79,6 +79,18 @@ class Space < ApplicationRecord
     Spaces::AggregateStarRatingService.call(space: self)
   end
 
+  def self.search_for_address(address:, post_number:, post_address:)
+    results = Spaces::LocationSearchService.call(
+      address: address,
+      post_number: post_number,
+      post_address: post_address
+    )
+
+    return nil if results.count > 1 || results.empty?
+
+    results.first
+  end
+
   # Move this somewhere better, either a service or figure out a way to make it a scope
   # NOTE: this expects a scope for spaces but returns an array
   # preferably we would find some way to return a scope too

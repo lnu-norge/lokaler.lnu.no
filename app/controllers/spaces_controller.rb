@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpacesController < AuthenticateController
+class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassLength
   def index
     @spaces = Space.all.order updated_at: :desc
     @space = Space.new
@@ -11,10 +11,27 @@ class SpacesController < AuthenticateController
   end
 
   def create
-    space_type = SpaceType.find_or_create_by!(type_name: 'Skole')
-    @space = Space.create!(space_type: space_type, **space_params)
+    address_params = get_address_params(params)
+    return redirect_to spaces_path, alert: t('address_search.didnt_find') if address_params.nil?
+
+    @space = Space.create!(
+      **space_params,
+      **address_params
+    )
 
     redirect_to space_path(@space)
+  end
+
+  def address_search
+    address = Space.search_for_address(
+      address: params[:address],
+      post_number: params[:post_number],
+      post_address: params[:post_address]
+    )
+
+    return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
+
+    render json: { **address, map_image_html: helpers.static_map_of_lat_lng(lat: address[:lat], lng: address[:lng]) }
   end
 
   def edit
@@ -29,8 +46,11 @@ class SpacesController < AuthenticateController
 
   def update
     @space = Space.find(params[:id])
-
-    if @space.update(space_params)
+    address_params = get_address_params(params)
+    if @space.update(
+      **space_params,
+      **address_params
+    )
       redirect_to space_path(@space)
     else
       render :edit, status: :unprocessable_entity
@@ -82,6 +102,14 @@ class SpacesController < AuthenticateController
   end
 
   private
+
+  def get_address_params(params)
+    Space.search_for_address(
+      address: params[:space][:address],
+      post_number: params[:space][:post_number],
+      post_address: params[:space][:post_address]
+    )
+  end
 
   def filter_spaces(params)
     space_types = params[:space_types]&.map(&:to_i)
