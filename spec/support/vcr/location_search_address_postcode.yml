@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&postnummer=3060&side=0&sok=Ankerveien%202&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 29 Oct 2021 12:36:37 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '787'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+      Access-Control-Expose-Headers:
+      - Content-Length,Content-Range
+    body:
+      encoding: ASCII-8BIT
+      string: '{"adresser":[{"adressekode":5005,"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        2","adressetekstutenadressetilleggsnavn":"Ankerveien 2","adressetilleggsnavn":null,"bokstav":"","bruksenhetsnummer":[],"bruksnummer":337,"festenummer":0,"gardsnummer":321,"kommunenavn":"DRAMMEN","kommunenummer":"3005","nummer":2,"objtype":"Vegadresse","oppdateringsdato":"2021-01-14T18:45:45","postnummer":"3060","poststed":"SVELVIK","representasjonspunkt":{"epsg":"EPSG:4258","lat":59.622597692013315,"lon":10.392915337658497},"stedfestingverifisert":false,"undernummer":null}],"metadata":{"asciiKompatibel":true,"side":0,"sokeStreng":"utkoordsys=4258&treffPerSide=10&side=0&asciiKompatibel=true&sok=Ankerveien
+        2&postnummer=3060","totaltAntallTreff":1,"treffPerSide":10,"viserFra":0,"viserTil":10}}
+
+        '
+  recorded_at: Fri, 29 Oct 2021 12:36:37 GMT
+recorded_with: VCR 6.0.0
