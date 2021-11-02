@@ -49,6 +49,8 @@ module SpacesHelper
   end
 
   def static_map_of_lat_lng(lat:, lng:, zoom: 12, height: 250, width: 400, **html_options) # rubocop:disable Metrics/ParameterLists
+    return static_map_placeholder(height: height, width: width, html_options: html_options) if lat.nil? || lng.nil?
+
     color_of_pin = 'db2777' # Tailwind pink-600
     static_map_image_url = [
       'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static',
@@ -60,6 +62,13 @@ module SpacesHelper
       "&access_token=#{ENV['MAPBOX_API_KEY']}"
     ].join
     image_tag static_map_image_url, html_options
+  end
+
+  def static_map_placeholder(height: 250, width: 400, **html_options)
+    tag.div t('address_search.didnt_find'),
+            style: "height: #{height}px; max-width: #{width}px",
+            class: 'bg-gray-100 border border-gray-200 flex justify-center items-center text-center',
+            **html_options
   end
 
   # Generates a link to an external map (Google maps, for example)

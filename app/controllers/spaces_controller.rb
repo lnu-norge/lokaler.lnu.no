@@ -29,7 +29,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       post_address: params[:post_address]
     )
 
-    return render json: nil if address.nil?
+    return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
 
     render json: { **address.to_h, map_image_html: helpers.static_map_of_lat_lng(lat: address.lat, lng: address.lng) }
   end

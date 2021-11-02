@@ -18,12 +18,12 @@ export default class extends Controller {
 
     const result = await (await fetch(url)).json();
 
-    if(result == null)
-      return;
+    if (result && result.address) {
+      this.addressTarget.value = result.address;
+      this.postNumberTarget.value = result.post_number;
+      this.postAddressTarget.value = result.post_address;
+    }
 
-    this.addressTarget.value = result.address;
-    this.postNumberTarget.value = result.post_number;
-    this.postAddressTarget.value = result.post_address;
     this.mapHolderTarget.innerHTML = result.map_image_html;
   }
 }
