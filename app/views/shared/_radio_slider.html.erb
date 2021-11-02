@@ -1,0 +1,31 @@
+<%
+  # Locals:
+  # form: Form
+  # values: array of values
+  # label: Equal length array of labels for the values
+  # legend: Optional string or HTML for legend
+  # custom_input: Optional input field to show if we have any option with a value starting with 'custom'
+
+  has_custom_input = defined? custom_input
+%>
+
+<%= field_set_tag legend, class: "my-3", data: has_custom_input && { controller: 'show-on-radio-button-value' } do   %>
+  <div class="radio-slider">
+    <%  values.each_with_index do |value, index|
+      label = labels[index]
+    %>
+      <%= form.radio_button field, value, data: has_custom_input && {
+        "show-on-radio-button-value-target":
+          "radioButton#{' toggleOnChecked' if value.start_with? 'custom'}"
+      } %>
+      <%= form.label :"#{field}_#{value}" do  %>
+        <%= label %>
+      <% end  %>
+    <% end  %>
+  </div>
+  <% if has_custom_input %>
+    <div data-show-on-radio-button-value-target="elementToShow">
+      <%= custom_input %>
+    </div>
+  <% end %>
+<% end %>
