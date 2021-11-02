@@ -4,7 +4,7 @@
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
         <%= f.label :title, "Tittel", class: 'sr-only' %>
-        <%= f.text_field :title, class: 'fieldFirst textField', required: true, placeholder: "Tittel" %>
+        <%= f.text_field :title, class: 'fieldFirst textField', required: true, placeholder: "Tittel", 'data-hidden-target': "title" %>
       </div>
       <div>
         <%= f.label :telephone, "Telefon", class: 'sr-only' %>

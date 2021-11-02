@@ -1,5 +1,10 @@
-<div id="<%= "#{ dom_id(@space)}-contacts" %>">
-  <h2>Add new contact</h2>
-  <%= render 'space_contacts/new' %>
+<div id="<%= "#{ dom_id(@space)}" %>-contacts" data-controller="hidden" class="grid">
+  <div class="flex">
+    <h2 class="flex-grow">Contacts</h2>
+    <button type="button" data-action="click->hidden#toggle" class="border-2 border-lnu-pink px-4 py-2 rounded-l hover:bg-lnu-pink hover:text-white">Add new contact</button>
+  </div>
+  <div data-hidden-target="hideToggle" class="hidden flex-none">
+    <%= render 'space_contacts/new' %>
+  </div>
   <%= render 'space_contacts/list' %>
 </div>
