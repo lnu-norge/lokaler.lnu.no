@@ -32,6 +32,8 @@ class ReviewsController < AuthenticateController
 
   def edit
     @review = Review.find(params[:id])
+    @space = @review.space
+    common_review_attributes
   end
 
   def update
