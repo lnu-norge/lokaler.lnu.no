@@ -4,7 +4,8 @@
     <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
 
     <%= render partial: 'reviews/form/type_of_contact', locals: {
-      form: form
+      form: form,
+      review: @review
     } %>
 
     <%= render partial: 'reviews/form/facility_reviews', locals: {
