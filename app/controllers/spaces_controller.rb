@@ -10,22 +10,13 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     @space = Space.find(params[:id])
   end
 
-  def create # rubocop:disable Metrics/AbcSize
-    address = Space.search_for_address(
-      address: params[:space][:address],
-      post_number: params[:space][:post_number],
-      post_address: params[:space][:post_address]
-    )
-
-    return redirect_to spaces_path, alert: 'Unable to find address' if address.nil?
+  def create
+    address_params = get_address_params(params)
+    return redirect_to spaces_path, alert: 'Unable to find address' if address_params.nil?
 
     @space = Space.create!(
       **space_params,
-      address: address.address,
-      post_address: address.post_address,
-      post_number: address.post_number,
-      lat: address.lat,
-      lng: address.lng
+      **address_params.to_h
     )
 
     redirect_to space_path(@space)
@@ -55,8 +46,11 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
   def update
     @space = Space.find(params[:id])
-
-    if @space.update(space_params)
+    address_params = get_address_params(params)
+    if @space.update(
+      **space_params,
+      **address_params.to_h
+    )
       redirect_to space_path(@space)
     else
       render :edit, status: :unprocessable_entity
@@ -108,6 +102,15 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   end
 
   private
+
+  def get_address_params(params)
+    # Returns OpenStruct as defined in location_search_service
+    Space.search_for_address(
+      address: params[:space][:address],
+      post_number: params[:space][:post_number],
+      post_address: params[:space][:post_address]
+    )
+  end
 
   def filter_spaces(params)
     space_types = params[:space_types]&.map(&:to_i)
