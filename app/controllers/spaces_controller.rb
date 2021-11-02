@@ -16,7 +16,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
     @space = Space.create!(
       **space_params,
-      **address_params.to_h
+      **address_params
     )
 
     redirect_to space_path(@space)
@@ -31,7 +31,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
     return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
 
-    render json: { **address.to_h, map_image_html: helpers.static_map_of_lat_lng(lat: address.lat, lng: address.lng) }
+    render json: { **address, map_image_html: helpers.static_map_of_lat_lng(lat: address[:lat], lng: address[:lng]) }
   end
 
   def edit
@@ -49,7 +49,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     address_params = get_address_params(params)
     if @space.update(
       **space_params,
-      **address_params.to_h
+      **address_params
     )
       redirect_to space_path(@space)
     else
@@ -104,7 +104,6 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   private
 
   def get_address_params(params)
-    # Returns OpenStruct as defined in location_search_service
     Space.search_for_address(
       address: params[:space][:address],
       post_number: params[:space][:post_number],
