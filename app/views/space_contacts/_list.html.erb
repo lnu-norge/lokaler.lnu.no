@@ -1,6 +1,6 @@
 <% @space.space_contacts.each do |contact| %>
-  <div class="mx-6">
-    <div class="border-t-2 border-gray-100 flex flex-cols-2">
+  <div class="mx-6 border-2 border-gray-100 p-2 mt-2 bg-gray-50">
+    <div class="flex flex-cols-2">
       <h3 class="flex-grow"><%= contact.title %></h3>
       <div class="place-self-end pb-1">
         <%= link_to edit_space_contact_path(contact), class: 'unstyled-link edit-button collapsable' do %>

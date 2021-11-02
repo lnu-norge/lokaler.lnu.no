@@ -14,10 +14,5 @@ ActiveStorage.start()
 import "stylesheets/application"
 import "controllers"
 
-document.addEventListener("turbo:load", () => {
-  // TODO: it's here just to check turbo gets loaded. Remove later.
-  console.log("turbo!")
-})
-
 require("../custom/custom_trix")
 require("@rails/actiontext")

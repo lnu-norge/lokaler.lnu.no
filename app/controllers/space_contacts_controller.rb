@@ -15,19 +15,19 @@ class SpaceContactsController < AuthenticateController
     redirect_to space_path(space_contact_params[:space_id])
   end
 
-  # def edit
-  #   @space_contact = SpaceContact.find(params[:id])
-  # end
+  def edit
+    @space_contact = SpaceContact.find(params[:id])
+  end
 
-  # def update
-  #   @space_contact = SpaceContact.find(params[:id])
+  def update
+    @space_contact = SpaceContact.find(params[:id])
 
-  #   if @space_contact.update(space_contact_params)
-  #     redirect_to spaces_path
-  #   else
-  #     render :edit, status: :unprocessable_entity
-  #   end
-  # end
+    if @space_contact.update(space_contact_params)
+      redirect_to space_path(space_contact_params[:space_id])
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
 
   private
 
