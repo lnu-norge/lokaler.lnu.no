@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'spaces/edit', type: :view do
+RSpec.describe "spaces/edit", type: :view do
   let(:space) { Fabricate :space }
 
-  it 'renders the page' do
+  it "renders the page" do
     assign(:space, space)
     render
 

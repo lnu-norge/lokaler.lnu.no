@@ -12,7 +12,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
   def create
     address_params = get_address_params(params)
-    return redirect_to spaces_path, alert: t('address_search.didnt_find') if address_params.nil?
+    return redirect_to spaces_path, alert: t("address_search.didnt_find") if address_params.nil?
 
     @space = Space.create!(
       **space_params,
@@ -41,7 +41,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   def edit_field
     @space = Space.find(params[:id])
     @field = params[:field]
-    render 'spaces/edit/common/edit_field'
+    render "spaces/edit/common/edit_field"
   end
 
   def update
@@ -84,7 +84,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     spaces = filter_spaces(params).first(20)
 
     markers = spaces.map do |space|
-      html = render_to_string partial: 'spaces/index/map_marker', locals: { space: space }
+      html = render_to_string partial: "spaces/index/map_marker", locals: { space: space }
       {
         lat: space.lat,
         lng: space.lng,
@@ -95,7 +95,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
     render json: {
       listing: render_to_string(
-        partial: 'spaces/index/space_listings', locals: { spaces: spaces.first(10) }
+        partial: "spaces/index/space_listings", locals: { spaces: spaces.first(10) }
       ),
       markers: markers
     }
