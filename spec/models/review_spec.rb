@@ -72,11 +72,13 @@ RSpec.describe Review, type: :model do
 end
 
 RSpec.describe Review, type: :request do
-  it 'will update a FacilityReview if the Review is updated, even if its set to unknown' do
-    user = Fabricate(:user)
-    review = Fabricate(:review, user: user)
-    space = review.space
-    facility = Fabricate(:facility)
+  let(:user) { Fabricate(:user) }
+  let(:review) { Fabricate(:review, user: user) }
+  let(:space) { review.space }
+  let(:facility) { Fabricate(:facility) }
+
+  before do
+    sign_in user
     Fabricate(
       :facility_review,
       space: space,
@@ -85,16 +87,20 @@ RSpec.describe Review, type: :request do
       facility: facility,
       experience: :was_not_allowed
     )
+  end
+
+  it 'can load the edit path' do
+    get edit_review_path(review)
+    expect(response).to have_http_status(:success)
+  end
+
+  it 'has loaded the facility review, and set it to unlikely' do
     expect(review.facility_reviews.count).to eq(1)
     space.aggregate_facility_reviews
     expect(space.reviews_for_facility(facility)).to eq('unlikely')
+  end
 
-    # Can load edit path
-    sign_in user
-    get edit_review_path(review)
-    expect(response).to have_http_status(:success)
-
-    ## Setting the facility to was_allowed will update the review
+  it 'will update the facility review if the Review is updated' do
     patch review_path(review), params: {
       review: {
         facility_reviews_attributes: {
@@ -105,12 +111,14 @@ RSpec.describe Review, type: :request do
         }
       }
     }
+    follow_redirect!
     expect(response).to have_http_status(:success)
     space.aggregate_facility_reviews
     expect(review.facility_reviews.count).to eq(1)
     expect(space.reviews_for_facility(facility.id)).to eq('likely')
+  end
 
-    ## Setting the facility to unknown will delete the facility review:
+  it 'will delete the facility review if the Review is updated, and it is set to unknown' do
     patch review_path(review), params: {
       review: {
         facility_reviews_attributes: {
@@ -121,6 +129,7 @@ RSpec.describe Review, type: :request do
         }
       }
     }
+    follow_redirect!
     expect(response).to have_http_status(:success)
     space.aggregate_facility_reviews
     expect(review.facility_reviews.count).to eq(0)
