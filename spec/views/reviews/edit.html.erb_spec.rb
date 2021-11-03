@@ -2,13 +2,15 @@
 
 require "rails_helper"
 
-RSpec.describe "reviews/edit", type: :view do
-  let(:review) { Fabricate :review }
+RSpec.describe 'reviews/edit', type: :request do
+  let(:user) { Fabricate :user }
+  let(:review) { Fabricate :review, user: user }
 
-  it "renders the page" do
-    assign(:review, review)
-    render
+  it 'renders the page' do
+    sign_in(user)
+    get edit_review_path(review)
 
+    rendered = response.body
     expect(rendered).to match /form/
     expect(rendered).to match /#{review.title}/
     expect(rendered).to match /#{review.comment}/
