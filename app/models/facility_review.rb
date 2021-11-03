@@ -15,6 +15,8 @@ class FacilityReview < ApplicationRecord
   scope :positive, -> { where(experience: [:was_allowed, :was_allowed_but_bad]) }
   scope :negative, -> { where(experience: :was_not_allowed) }
 
+  validates :facility, uniqueness: { scope: :review }
+
   def experience_icon
     ICON_FOR_EXPERIENCE[experience]
   end
