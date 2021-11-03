@@ -31,6 +31,7 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
 RSpec.configure do |config|
 
 
@@ -67,7 +68,7 @@ RSpec.configure do |config|
 
   config.include Devise::Test::ControllerHelpers, type: :view
   config.include Devise::Test::ControllerHelpers, type: :controller
-
+  config.include Devise::Test::IntegrationHelpers, type: :request
 
   VCR.configure do |config|
     config.cassette_library_dir = "spec/support/vcr"

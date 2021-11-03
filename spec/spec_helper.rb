@@ -16,6 +16,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  # Set locale, to make sure the tests run correctly:
   config.before(:suite) do
     Faker::Config.locale = 'en'
   end
