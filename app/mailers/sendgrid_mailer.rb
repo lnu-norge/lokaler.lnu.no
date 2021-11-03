@@ -17,12 +17,12 @@ class SendgridMailer
         }
       ],
       from: {
-        email: ENV['SENDGRID_FROM_EMAIL']
+        email: ENV["SENDGRID_FROM_EMAIL"]
       },
       template_id: template_id
     }
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-    response = sg.client.mail._('send').post(request_body: data)
+    sg = SendGrid::API.new(api_key: ENV["SENDGRID_API_KEY"])
+    response = sg.client.mail._("send").post(request_body: data)
 
     response.status_code
   end
