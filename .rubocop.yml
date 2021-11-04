@@ -6,6 +6,9 @@ require:
 Style/Documentation:
   Enabled: false
 
+Style/StringLiterals:
+  EnforcedStyle: double_quotes # To always allow #{interpolation}, and reduce fatigue from changing strings
+
 Rails/HasAndBelongsToMany:
   Enabled: false
 

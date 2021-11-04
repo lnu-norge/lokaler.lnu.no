@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'space_owners/index.html.erb', type: :view do
+RSpec.describe "space_owners/index.html.erb", type: :view do
   let(:space_owners) { Fabricate.times(3, :space_owner) }
 
-  it 'renders the page' do
+  it "renders the page" do
     assign(:space_owners, space_owners)
     render
 

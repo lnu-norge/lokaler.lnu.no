@@ -14,7 +14,7 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
   user.organizations << org
 
   positive_review = Review.create(
-    title: 'Ryddig og hyggelig skole!',
+    title: "Ryddig og hyggelig skole!",
     user: user,
     price: 5400,
     comment: positive_review_comment,
@@ -62,7 +62,7 @@ Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!'
   negative_user.organizations << negative_org
 
   negative_review = Review.create(
-    title: 'Ville ikke la oss overnatte!',
+    title: "Ville ikke la oss overnatte!",
     user: negative_user,
     comment: negative_review_comment,
     star_rating: nil,

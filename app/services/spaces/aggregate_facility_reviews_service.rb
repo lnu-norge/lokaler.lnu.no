@@ -12,7 +12,7 @@ module Spaces
       space.reload
 
       aggregated_reviews = Facility.all.order(:created_at).map do |facility|
-        AggregatedFacilityReview.create!(experience: 'unknown', space: space, facility: facility)
+        AggregatedFacilityReview.create!(experience: "unknown", space: space, facility: facility)
       end
 
       # Start a transaction because we may be modifying the 'experience' field many times
