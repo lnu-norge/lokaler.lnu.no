@@ -11,6 +11,11 @@
 <main class="space px-4">
 
   <%= render partial: 'spaces/show/basics' %>
+
+  <% if current_user&.admin? %>
+    <%= link_to "Show changelog", admin_path(@space) %>
+  <% end %>
+
   <hr />
 
   <%= inline_editable :how_to_book  do %>
@@ -47,6 +52,5 @@
   <%= render partial: 'spaces/show/reviews' %>
 
   <%= render partial: "space_dev_information", locals: { space: @space } %>
-
 
 </main>
