@@ -117,15 +117,14 @@ class Space < ApplicationRecord
     results.sort_by(&:score).map(&:space)
   end
 
-  def merge_paper_trail_versions # rubocop:disable Metrics/AbcSize
-    [
-      versions.to_a,
-      how_to_book.versions.to_a,
-      who_can_use.versions.to_a,
-      pricing.versions.to_a,
-      terms.versions.to_a,
-      more_info.versions.to_a
-    ].flatten.sort_by(&:created_at).reverse
+  def merge_paper_trail_versions
+    PaperTrail::Version
+      .or(PaperTrail::Version.where(item: self))
+      .or(PaperTrail::Version.where(item: how_to_book))
+      .or(PaperTrail::Version.where(item: who_can_use))
+      .or(PaperTrail::Version.where(item: pricing))
+      .or(PaperTrail::Version.where(item: terms))
+      .or(PaperTrail::Version.where(item: more_info))
   end
 
   def star_rating_s
