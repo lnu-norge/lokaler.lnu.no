@@ -3,7 +3,14 @@
 class AdminController < AuthenticateController
   before_action :authenticate_admin!
 
-  def index; end
+  def index
+    @current_page = params["page"].to_i || 1
+    @current_page = 1 if @current_page < 1
+
+    @versions = Kaminari.paginate_array(
+      PaperTrail::Version.all.includes(:item).order(created_at: :desc)
+    ).page(@current_page).per(50)
+  end
 
   def show
     @space = Space.find(params["id"])
@@ -23,7 +30,7 @@ class AdminController < AuthenticateController
 
     result.reify.save!
 
-    redirect_to admin_path(params[:space_id])
+    redirect_to admin_index_path
   end
 
   protected
