@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 ## Space Owner
-require './db/seeds/space_owners/viken'
+require "./db/seeds/space_owners/viken"
 viken = create_viken
 
 ## Space Type
 vgs = SpaceType.create(
-  type_name: 'VGS'
+  type_name: "VGS"
 )
 
 ## Rich text fields
@@ -26,17 +26,17 @@ i vest. Man kan leie begge samtidig, eller seperat.</p>'
 
 ## Full Space, without images
 frederikii_space = Space.create(
-  title: 'Frederik II',
-  address: 'Merkurveien 12',
-  post_number: '1613',
-  post_address: 'Fredrikstad',
+  title: "Frederik II",
+  address: "Merkurveien 12",
+  post_number: "1613",
+  post_address: "Fredrikstad",
   lat: 59.223840,
   lng: 10.925860,
   space_owner_id: viken.id,
   space_type_id: vgs.id,
-  organization_number: '974544466',
-  municipality_code: '3004',
-  fits_people: '1200',
+  organization_number: "974544466",
+  municipality_code: "3004",
+  fits_people: "1200",
   star_rating: 4.7,
   how_to_book: how_to_book,
   who_can_use: who_can_use,
@@ -45,7 +45,7 @@ frederikii_space = Space.create(
   more_info: more_info
 )
 
-require_relative '../reviews/reviews'
+require_relative "../reviews/reviews"
 demo_reviews_for_space(frederikii_space)
 
 ## Attach some sample images
@@ -57,7 +57,7 @@ images = %w[
   filename = File.basename(path)
   file = File.open(path)
   {
-    io: file, filename: filename, content_type: 'image/jpg'
+    io: file, filename: filename, content_type: "image/jpg"
   }
 end
 

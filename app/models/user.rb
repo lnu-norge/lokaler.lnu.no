@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   include Gravtastic
-  gravtastic default: 'retro'
+  gravtastic default: "retro"
 
   has_many :reviews, dependent: :restrict_with_exception
   has_and_belongs_to_many :organizations

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'active_support/core_ext/integer/time'
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Settings specified here will take precedence over those in config/application.rb.
@@ -18,13 +18,13 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp/caching-dev.txt').exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
@@ -76,9 +76,9 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
-  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  Rails.application.routes.default_url_options[:host] = "localhost:3000"
 
   # Allow IP from Docker
   # Check if we use Docker to allow docker ip through web-console
-  config.web_console.whitelisted_ips = ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16'] if ENV['DOCKERIZED'] == 'true'
+  config.web_console.whitelisted_ips = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"] if ENV["DOCKERIZED"] == "true"
 end

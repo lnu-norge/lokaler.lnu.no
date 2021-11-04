@@ -17,13 +17,13 @@ class FacilityReview < ApplicationRecord
 
   def experience_icon
     case experience
-    when 'was_allowed'
+    when "was_allowed"
       :likely
-    when 'was_allowed_but_bad'
+    when "was_allowed_but_bad"
       :maybe
-    when 'was_not_allowed'
+    when "was_not_allowed"
       :unlikely
-    when 'was_not_available'
+    when "was_not_available"
       :impossible
     else
       :unknown

@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
 # Common seeds:
-require './db/seeds/common'
+require "./db/seeds/common"
 
 # Development only seeds
 
 ## Create a User:
 User.create(
-  email: 'user@example.com',
-  password: 'user_password',
-  password_confirmation: 'user_password',
-  first_name: 'Kari',
-  last_name: 'Nordmann'
+  email: "user@example.com",
+  password: "user_password",
+  password_confirmation: "user_password",
+  first_name: "Kari",
+  last_name: "Nordmann"
 )
 
 # Fake, empty Space data for Gudeberg school:
-require './db/seeds/spaces/gudeberg_no_info'
+require "./db/seeds/spaces/gudeberg_no_info"
 
 # Fake school that does not want to be listed
-require './db/seeds/spaces/nabbetorp_no_booking'
+require "./db/seeds/spaces/nabbetorp_no_booking"
 
 # Fake, full Space data for Frederik II
-require './db/seeds/spaces/frederikii_full_space'
+require "./db/seeds/spaces/frederikii_full_space"

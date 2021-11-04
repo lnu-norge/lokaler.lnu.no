@@ -16,7 +16,7 @@
 # Load seeds based on environment::
 ActiveRecord::Base.transaction do
   [Rails.env].each do |possible_seed_file|
-    file = Rails.root.join('db', 'seeds', "#{possible_seed_file}.rb")
+    file = Rails.root.join("db", "seeds", "#{possible_seed_file}.rb")
     next unless File.exist?(file)
 
     # rubocop:disable  Rails/Output
