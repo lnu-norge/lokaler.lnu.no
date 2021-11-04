@@ -1,8 +1,14 @@
 <p class="text-xl font-bold">Manage Space</p>
 <% Space.all.each do |space| %>
-  <%= link_to admin_path(space.id) do %>
-    <div class="m-4 p-4 shadow">
-      <%= space.title %>
+  <%= link_to admin_path(space.id), class: "hover:no-underline" do %>
+    <div class="shadow-md m-4 flex rounded hover:bg-gray-50 bg-gray-100 h-32">
+      <% if space.images.attached? %>
+        <%= image_tag space.images.first.variant(resize: "200x200"), class: "rounded-l" %>
+      <% end %>
+      <div class="p-2 h-full text-gray-900 ">
+        <p><%= space.title %></p>
+        <p><%= space.address %></p>
+      </div>
     </div>
   <% end %>
 <% end %>
