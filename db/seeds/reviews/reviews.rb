@@ -9,8 +9,16 @@ God kommunikasjon.
 
 Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal og ta med medbrakt.'
 
-  org = Fabricate(:organization)
-  user = Fabricate(:user)
+  org = Organization.create(
+    name: "Unge Høyre"
+  )
+  user = User.create(
+    first_name: "Kari",
+    last_name: "Nordmann",
+    email: "test@test.no",
+    password: "password",
+    password_confirmation: "password"
+  )
   user.organizations << org
 
   positive_review = Review.create(
@@ -51,14 +59,22 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
     experience: :was_not_allowed
   )
 
-  negative_review_comment = 'De sa de ikke kunne tillate overnatting fordi bygge tikke tillot det! Bare tull!
+  negative_review_comment = "De sa de ikke kunne tillate overnatting fordi bygge tikke tillot det! Bare tull!
 
 Det er diskriminering av oss!
 
-Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!'
+Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!"
 
-  negative_org = Fabricate(:organization)
-  negative_user = Fabricate(:user)
+  negative_org = Organization.create(
+    name: "Satanistisk Ungdom"
+  )
+  negative_user = User.create(
+    first_name: "Judas",
+    last_name: "Beelzebub",
+    email: "test2@test.no",
+    password: "password",
+    password_confirmation: "password"
+  )
   negative_user.organizations << negative_org
 
   negative_review = Review.create(
