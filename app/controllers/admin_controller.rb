@@ -11,10 +11,8 @@ class AdminController < AuthenticateController
     @current_page = params["page"].to_i || 1
     @current_page = 1 if @current_page < 1
 
-    @versions = @space.merge_paper_trail_versions
+    @versions = @space.merge_paper_trail_versions.includes(:item).order(created_at: :desc)
 
-    # Merge all the versions into one list
-    # this may be a slow if there is a large amount of versions
     @versions = Kaminari.paginate_array(
       @versions
     ).page(@current_page).per(5)
