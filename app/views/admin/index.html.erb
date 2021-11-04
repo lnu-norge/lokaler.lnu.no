@@ -1,14 +1,23 @@
-<p class="text-xl font-bold">Manage Space</p>
-<% Space.all.each do |space| %>
-  <%= link_to admin_path(space.id), class: "hover:no-underline" do %>
-    <div class="shadow-md m-4 flex rounded hover:bg-gray-50 bg-gray-100 h-32">
-      <% if space.images.attached? %>
-        <%= image_tag space.images.first.variant(resize: "200x200"), class: "rounded-l" %>
-      <% end %>
-      <div class="p-2 h-full text-gray-900 ">
-        <p><%= space.title %></p>
-        <p><%= space.address %></p>
-      </div>
-    </div>
+<div class="relative bg-gray-100 shadow rounded p-2">
+  <% unless @current_page == 1 %>
+    <%= link_to :back,
+      admin_index_path(page: @current_page.to_i - 1),
+      class: "absolute right-16 top-0 p-2 bg-lnu-pink text-white" %>
   <% end %>
-<% end %>
+
+  <%= link_to :next,
+    admin_index_path(page: @current_page.to_i + 1),
+    class: "absolute right-0 top-0 p-2 bg-lnu-pink text-white"
+  %>
+
+  <br>
+
+  <%= turbo_stream_from "paper_trail_versions" %>
+
+  <%= turbo_frame_tag "paper_trail_versions" do %>
+    <% @versions.each do |version| %>
+      <%= render partial: "version", locals: {
+        version: version } %>
+    <% end %>
+  <% end %>
+</div>

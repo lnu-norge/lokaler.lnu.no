@@ -11,6 +11,8 @@
 
   <p class="text-lg"><%= Space.model_name.human %></p>
 
-  <%= render partial: "version", locals: {
-    versions: @versions } %>
+  <% @versions.each do |version| %>
+    <%= render partial: "version", locals: {
+      version: version } %>
+  <% end %>
 </div>
