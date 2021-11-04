@@ -15,13 +15,12 @@
 
 # Load seeds based on environment::
 ActiveRecord::Base.transaction do
-  [Rails.env].each do |possible_seed_file|
-    file = Rails.root.join("db", "seeds", "#{possible_seed_file}.rb")
-    next unless File.exist?(file)
+  possible_seed_file = ENV["SEED_FILE"] || Rails.env
+  file = Rails.root.join("db", "seeds", "#{possible_seed_file}.rb")
+  next unless File.exist?(file)
 
-    # rubocop:disable  Rails/Output
-    puts "- - Seeding data from file: #{possible_seed_file}"
-    # rubocop:enable  Rails/Output
-    require file
-  end
+  # rubocop:disable  Rails/Output
+  puts "- - Seeding data from file: #{possible_seed_file}"
+  # rubocop:enable  Rails/Output
+  require file
 end
