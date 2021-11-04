@@ -119,6 +119,7 @@ RSpec.describe Review, type: :request do
   end
 
   it 'will delete the facility review if the Review is updated, and it is set to unknown' do
+    expect(review.facility_reviews.count).to eq(1)
     patch review_path(review), params: {
       review: {
         facility_reviews_attributes: {

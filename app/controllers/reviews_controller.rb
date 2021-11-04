@@ -99,6 +99,7 @@ class ReviewsController < AuthenticateController
   end
 
   def parse_before_update(review_params, review)
+    destroy_unkown_facility_reviews(review_params['facility_reviews_attributes'], review)
     review_params['facility_reviews_attributes'] = parse_facility_reviews(
       review_params['facility_reviews_attributes'],
       review
@@ -120,6 +121,16 @@ class ReviewsController < AuthenticateController
         facility_review[:user] = review&.user ? review.user : current_user
         facility_review[:space_id] = review&.space&.id ? review.space.id : review_params['space_id']
         facility_review
+      end
+  end
+
+  # Unkown reviews (Where the user has no information) should be removed from the review before an update
+  def destroy_unkown_facility_reviews(facility_reviews, review)
+    facility_reviews
+      .values
+      .filter { |facility_review| facility_review[:experience] == 'unknown' }
+      .each do |unknown_review|
+        review.facility_reviews.find_by(facility: unknown_review['facility_id'])&.destroy
       end
   end
 
