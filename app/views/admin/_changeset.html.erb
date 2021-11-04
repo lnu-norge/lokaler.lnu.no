@@ -1,4 +1,3 @@
-
 <% changeset.each do |key, value| %>
   <% next if key == "updated_at" %>
 
@@ -7,7 +6,7 @@
   <% else %>
     <div>
       <strong><%= Space.human_attribute_name(key) %>:</strong>
-      <%= sanitize Diffy::Diff.new(value[1].to_s, value[0].to_s).to_s(:html) %>
+      <%= sanitize Diffy::Diff.new(value[0].to_s, value[1].to_s).to_s(:html) %>
     </div>
   <% end %>
 <% end %>
