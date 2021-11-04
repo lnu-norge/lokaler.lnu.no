@@ -108,7 +108,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       address: params[:space][:address],
       post_number: params[:space][:post_number],
       post_address: params[:space][:post_address]
-    )
+    ) || {}
   end
 
   def filter_spaces(params)
