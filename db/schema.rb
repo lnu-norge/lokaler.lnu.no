@@ -135,6 +135,8 @@ ActiveRecord::Schema.define(version: 2021_10_26_133957) do
     t.bigint "space_owner_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["space_id"], name: "index_space_contacts_on_space_id"
+    t.index ["space_owner_id"], name: "index_space_contacts_on_space_owner_id"
   end
 
   create_table "space_owners", force: :cascade do |t|
@@ -207,6 +209,8 @@ ActiveRecord::Schema.define(version: 2021_10_26_133957) do
   add_foreign_key "reviews", "organizations"
   add_foreign_key "reviews", "spaces"
   add_foreign_key "reviews", "users"
+  add_foreign_key "space_contacts", "space_owners"
+  add_foreign_key "space_contacts", "spaces"
   add_foreign_key "spaces", "space_owners"
   add_foreign_key "spaces", "space_types"
 end
