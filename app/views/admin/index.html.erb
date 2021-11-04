@@ -1,17 +1,4 @@
 <div class="relative bg-gray-100 shadow rounded p-2">
-  <% unless @current_page == 1 %>
-    <%= link_to :back,
-      admin_index_path(page: @current_page.to_i - 1),
-      class: "absolute right-16 top-0 p-2 bg-lnu-pink text-white" %>
-  <% end %>
-
-  <%= link_to :next,
-    admin_index_path(page: @current_page.to_i + 1),
-    class: "absolute right-0 top-0 p-2 bg-lnu-pink text-white"
-  %>
-
-  <br>
-
   <%= turbo_stream_from "paper_trail_versions" %>
 
   <%= turbo_frame_tag "paper_trail_versions" do %>
@@ -20,4 +7,16 @@
         version: version } %>
     <% end %>
   <% end %>
+
+  <br>
+  <% unless @current_page == 1 %>
+    <%= link_to :back,
+      admin_index_path(page: @current_page.to_i - 1),
+      class: "absolute right-16 bottom-0 p-2 bg-lnu-pink text-white" %>
+  <% end %>
+
+  <%= link_to :next,
+    admin_index_path(page: @current_page.to_i + 1),
+    class: "absolute right-0 bottom-0 p-2 bg-lnu-pink text-white"
+  %>
 </div>
