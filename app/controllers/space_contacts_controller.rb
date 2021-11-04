@@ -6,31 +6,25 @@ class SpaceContactsController < AuthenticateController
   def create
     @space_contact = SpaceContact.create!(space_contact_params)
 
-    if @space_contact.save
-      redirect_to space_path(@space_contact.space_id), notice: t('space_contacts.contact_created')
-    else
-      render turbo_stream: turbo_stream.replace(
-        @space_contact,
-        partial: 'space_contacts/form',
-        locals: { space_contact: @space_contact }
-      )
-    end
+    return if @space_contact.save
+
+    render turbo_stream: turbo_stream.replace(
+      @space_contact,
+      partial: 'space_contacts/form',
+      locals: { space_contact: @space_contact }
+    )
   end
 
   def update
-    if @space_contact.update(space_contact_params)
-      redirect_to space_path(@space_contact.space_id), notice: t('space_contacts.contact_updated')
-    else
-      render :edit, status: :unprocessable_entity
-    end
+    return if @space_contact.update(space_contact_params)
+
+    render :edit, status: :unprocessable_entity
   end
 
   def destroy
-    if @space_contact.destroy
-      redirect_to space_path(@space_contact.space_id), notice: t('space_contacts.contact_deleted')
-    else
-      flash.now[:error] = t('space_contacts.contact_not_deleted')
-    end
+    return if @space_contact.destroy
+
+    flash.now[:error] = t('space_contacts.contact_not_deleted')
   end
 
   private

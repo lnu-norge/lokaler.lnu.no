@@ -1,10 +1,10 @@
-<%= form_with model: space_contact, class: 'mt-8 space-y-6', id: dom_id(space_contact) do |f| %>
+<%= form_with model: space_contact, class: 'mt-8 space-y-6', data: { 'controller':"reset-form", action: 'turbo:submit-end->reset-form#reset' }, id: dom_id(space_contact) do |f| %>
     <%= f.hidden_field :space_id, value: space_contact.space_id %>
     <%= f.hidden_field :space_owner_id, value: space_contact.space_owner_id %>
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
         <%= f.label :title, "Tittel", class: 'sr-only' %>
-        <%= f.text_field :title, class: 'fieldFirst textField', required: true, placeholder: "Tittel", 'data-hidden-target': "title" %>
+        <%= f.text_field :title, class: 'fieldFirst textField', required: true, placeholder: "Tittel", 'data-hidden-target': "title", 'data-reset-form-target': "title" %>
       </div>
       <div>
         <%= f.label :telephone, "Telefon", class: 'sr-only' %>

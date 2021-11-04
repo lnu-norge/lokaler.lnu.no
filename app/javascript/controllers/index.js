@@ -3,6 +3,9 @@
 
 import { application } from "./application"
 
+import AutofilladdressController from "./autofilladdress_controller"
+application.register("autofilladdress", AutofilladdressController)
+
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
@@ -14,3 +17,9 @@ application.register("locationsearch", LocationsearchController)
 
 import MapboxController from "./mapbox_controller"
 application.register("mapbox", MapboxController)
+
+import MultiselectController from "./multiselect_controller"
+application.register("multiselect", MultiselectController)
+
+import ResetFormController from "./reset_form_controller"
+application.register("reset-form", ResetFormController)
