@@ -6,9 +6,9 @@ class AdminController < AuthenticateController
   def index; end
 
   def show
-    @space = Space.find(params['id'])
+    @space = Space.find(params["id"])
 
-    @current_page = params['page'].to_i || 1
+    @current_page = params["page"].to_i || 1
     @current_page = 1 if @current_page < 1
 
     @versions = @space.merge_paper_trail_versions
@@ -21,7 +21,7 @@ class AdminController < AuthenticateController
   end
 
   def revert_changes
-    result = PaperTrail::Version.find(params['id'])
+    result = PaperTrail::Version.find(params["id"])
 
     result.reify.save!
 
