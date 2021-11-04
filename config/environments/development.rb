@@ -81,4 +81,13 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Allow IP from Docker
   # Check if we use Docker to allow docker ip through web-console
   config.web_console.whitelisted_ips = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"] if ENV["DOCKERIZED"] == "true"
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = false
+    Bullet.bullet_logger = true
+    Bullet.console = true
+    Bullet.rails_logger = true
+    Bullet.add_footer = true
+  end
 end
