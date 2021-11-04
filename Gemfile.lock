@@ -94,7 +94,7 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.4.4)
-    differ (0.1.2)
+    diffy (3.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.7.6)
@@ -393,7 +393,7 @@ DEPENDENCIES
   byebug
   capybara
   devise (~> 4.8)
-  differ
+  diffy
   dotenv-rails
   fabrication
   faker

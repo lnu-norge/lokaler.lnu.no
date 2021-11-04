@@ -5,10 +5,9 @@
   <% if value[0].nil? %>
       <p><%= Space.human_attribute_name(key) %>: <%= value[1] %>
   <% else %>
-    <% require 'differ/string' %>
     <div>
       <strong><%= Space.human_attribute_name(key) %>:</strong>
-      <p><%= sanitize Differ.diff_by_word(value[1].to_s, value[0].to_s).format_as(:html) %></p>
+      <%= sanitize Diffy::Diff.new(value[1].to_s, value[0].to_s).to_s(:html) %>
     </div>
   <% end %>
 <% end %>
