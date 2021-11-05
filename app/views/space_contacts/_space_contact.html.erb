@@ -35,7 +35,7 @@
         <% end %>
         <% if space_contact.url? %>
           <strong><%= t('space_contacts.url') %>:</strong>
-          <%= link_to space_contact.url, space_contact.url %>
+          <%= link_to space_contact.url, "http://#{space_contact.url}" %>
         <% end %>
       </div>
       <div>
