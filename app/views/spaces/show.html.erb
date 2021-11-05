@@ -13,7 +13,7 @@
   <%= render partial: 'spaces/show/basics' %>
 
   <% if current_user&.admin? %>
-    <%= link_to "Show changelog", admin_path(@space) %>
+    <%= link_to t("space_show.show_changelog"), admin_path(@space) %>
   <% end %>
 
   <hr />
