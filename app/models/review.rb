@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Review < ApplicationRecord
+  has_paper_trail
+
   belongs_to :user
   belongs_to :space
   belongs_to :organization
