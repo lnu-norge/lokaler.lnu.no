@@ -16,6 +16,8 @@ nb:
     new_contact: 'Ny kontakt'
     at_least_one_error_message: 'Du må minst legge inn telefon, e-post, nettside eller en beskrivelse'
     abort: "Avbryt"
+    delete_confirmation: "Er du sikker?"
+    close_contact: "Lukk skjema"
   tooltips:
     facility_single_experience:
       was_allowed: 'Fikk lov'

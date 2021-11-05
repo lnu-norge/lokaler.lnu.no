@@ -1,7 +1,8 @@
 <div id="<%= "#{ dom_id(@space)}" %>-contacts" data-controller="hidden" class="grid">
   <div class="flex">
     <h2 class="flex-grow"><%= t('space_contacts.contacts_heading') %></h2>
-    <button type="button" data-action="click->hidden#toggle" class="border-2 border-lnu-pink rounded-l px-4 hover:bg-lnu-pink hover:text-white"><%= t('space_contacts.new_contact') %></button>
+    <button type="button" data-hidden-target="open" data-action="click->hidden#toggle" class="button"><%= t('space_contacts.new_contact') %></button>
+    <button type="button" data-hidden-target="close" data-action="click->hidden#toggle" class="button hidden"><%= t('space_contacts.close_contact') %></button>
   </div>
   <div data-hidden-target="hideToggle" class="hidden flex-none">
     <%= render partial: 'space_contacts/form', locals: { space_contact: @space_contact } %>
