@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_073656) do
     t.text "description"
     t.integer "priority"
     t.bigint "space_id"
-    t.bigint "space_owner_id", null: false
+    t.bigint "space_owner_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["space_id"], name: "index_space_contacts_on_space_id"

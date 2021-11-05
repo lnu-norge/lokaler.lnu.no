@@ -12,7 +12,7 @@ class CreateSpaceContacts < ActiveRecord::Migration[6.1]
       t.text :description
       t.integer :priority
       t.belongs_to :space, null: true, foreign_key: true
-      t.belongs_to :space_owner, null: false, foreign_key: true
+      t.belongs_to :space_owner, null: true, foreign_key: true
 
       t.timestamps
     end
