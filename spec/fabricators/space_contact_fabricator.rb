@@ -2,7 +2,7 @@
 
 Fabricator(:space_contact) do
   title { Faker::Name.name }
-  telephone { Faker::PhoneNumber.phone_number }
+  telephone { "40482128" }
   telephone_opening_hours { "Open from: #{opening_hours(10, 5)} to #{opening_hours(4, 0)}" }
   email { Faker::Internet.email }
   url { Faker::Internet.url }

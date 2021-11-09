@@ -10,6 +10,7 @@ class SpaceContact < ApplicationRecord
   after_update_commit { broadcast_replace_to "space_contacts", partial: "space_contacts/space_contact" }
   after_destroy_commit { broadcast_remove_to "space_contacts" }
 
+  include ParseUrlHelper
   before_validation :parse_url
 
   validates :title, presence: true
