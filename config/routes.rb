@@ -23,6 +23,10 @@ Rails.application.routes.draw do
   resources "reviews"
   resources "space_contacts", only: [:create, :edit, :update, :destroy, :show]
 
+  # Admin routes
+  resources "admin"
+  post "admin/revert_changes", to: "admin#revert_changes"
+
   # Spaces routes
   resources "spaces", except: "new"
   get "/spaces/:id/edit/:field", to: "spaces#edit_field", as: "edit_field"

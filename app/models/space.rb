@@ -118,6 +118,16 @@ class Space < ApplicationRecord
     results.sort_by(&:score).map(&:space)
   end
 
+  def merge_paper_trail_versions
+    PaperTrail::Version
+      .or(PaperTrail::Version.where(item: self))
+      .or(PaperTrail::Version.where(item: how_to_book))
+      .or(PaperTrail::Version.where(item: who_can_use))
+      .or(PaperTrail::Version.where(item: pricing))
+      .or(PaperTrail::Version.where(item: terms))
+      .or(PaperTrail::Version.where(item: more_info))
+  end
+
   def star_rating_s
     star_rating || " - "
   end
