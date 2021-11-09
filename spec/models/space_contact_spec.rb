@@ -5,15 +5,15 @@ require "rails_helper"
 RSpec.describe SpaceContact, type: :model do
   context "when creating a new space_contact" do
     it "can create a spaceContact for a space" do
-      expect { Fabricate(:space_contact) }.not_to raise_error(ActiveRecord::RecordInvalid)
+      expect { Fabricate(:space_contact) }.not_to raise_error
     end
 
     it "can create a spaceContact for a space_owner" do
-      expect { Fabricate(:space_contact, space: nil) }.not_to raise_error(ActiveRecord::RecordInvalid)
+      expect { Fabricate(:space_contact, space: nil) }.not_to raise_error
     end
 
     it "can create a spaceContact for a space without space_owner" do
-      expect { Fabricate(:space_contact, space_owner: nil) }.not_to raise_error(ActiveRecord::RecordInvalid)
+      expect { Fabricate(:space_contact, space_owner: nil) }.not_to raise_error
     end
 
     it "cannot create a spaceContact without space or space_owner" do
