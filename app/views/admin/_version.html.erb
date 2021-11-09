@@ -1,0 +1,32 @@
+<%= turbo_frame_tag dom_id(version) do %>
+  <div class="bg-white m-2 p-4 pb-0 shadow relative rounded">
+
+    <h3 class="text-xl">
+    <% if defined? version.item.record_type %>
+      <strong><%= link_to version.item.record.title, version.item.record  %></strong> (<em><%= version.item.record.class.model_name.human %></em>)
+    <% else %>
+      <strong><%= link_to (version.item[:title] || "ID: #{version.item.id}"), version.item %></strong> (<em><%= version.item.class.model_name.human %></em>)
+    <% end %>
+    </h3>
+
+    <% unless version.whodunnit.nil? %>
+      <p><strong><%= t("admin.user") %>:</strong> <%= User.find(version.whodunnit).email %></p>
+    <% end %>
+
+    <% unless version.item[:name].nil? %>
+      <p><strong><%= t("admin.field") %>:</strong> <%= version.item.class.human_attribute_name(version.item.name) %></p>
+    <% end %>
+
+    <p><strong><%= t("admin.event") %>:</strong> <%= version.event %></p>
+    <p><strong><%= t("admin.changed_at") %>:</strong> <%= version.created_at %></p>
+    <%= render partial: "admin/changeset", locals: { changeset: version.changeset } %>
+
+    <br>
+    <% unless version.event == "create" %>
+      <%= form_with url: admin_revert_changes_path do |f| %>
+        <%= f.hidden_field :id, value: version.id %>
+        <%= f.submit :undo, class: 'p-2 m-2 rounded bg-red-600 text-white absolute bottom-0 right-0' %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
