@@ -1,8 +1,10 @@
-<% changeset.each do |key, value| %>
-  <% next if key == "updated_at" %>
 
+<h4 class="font-bold"><%= t('admin.changes') %>:</h4>
+<div class="p-4 mt-3 border border-gray-100 shadow bg-gray-50">
+  <% changeset.each do |key, value| %>
+  <% next if key == "updated_at" %>
   <% if value[0].nil? %>
-      <p><%= Space.human_attribute_name(key) %>: <%= value[1] %>
+      <p><strong><%= Space.human_attribute_name(key) %></strong>: <%= value[1] %>
   <% else %>
     <div>
       <strong><%= Space.human_attribute_name(key) %>:</strong>
@@ -10,3 +12,4 @@
     </div>
   <% end %>
 <% end %>
+</div>

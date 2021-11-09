@@ -1,6 +1,13 @@
 <%= turbo_frame_tag dom_id(version) do %>
-  <div class="bg-white m-2 p-2 shadow relative rounded">
-    <h3><strong><%= version.item.class.model_name.human %>: </strong><%= version.item[:title] || version.item.id %></h3>
+  <div class="bg-white m-2 p-4 pb-0 shadow relative rounded">
+
+    <h3 class="text-xl">
+    <% if defined? version.item.record_type %>
+      <strong><%= link_to version.item.record.title, version.item.record  %></strong> (<em><%= version.item.record.class.model_name.human %></em>)
+    <% else %>
+      <strong><%= link_to (version.item[:title] || "ID: #{version.item.id}"), version.item %></strong> (<em><%= version.item.class.model_name.human %></em>)
+    <% end %>
+    </h3>
 
     <% unless version.whodunnit.nil? %>
       <p><strong><%= t("admin.user") %>:</strong> <%= User.find(version.whodunnit).email %></p>
