@@ -10,6 +10,8 @@ class SpaceContact < ApplicationRecord
   after_update_commit { broadcast_replace_to "space_contacts", partial: "space_contacts/space_contact" }
   after_destroy_commit { broadcast_remove_to "space_contacts" }
 
+  before_validation :parse_url
+
   validates :title, presence: true
   validates :telephone, phone: true, allow_blank: true
   validates :url, url: true, allow_blank: true
