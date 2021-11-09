@@ -34,6 +34,7 @@ nb:
     user: 'Bruker'
     field: 'Felt'
     event: 'Hendelse'
+    changes: 'Endringer'
     changed_at: 'Endringstidspunkt'
   activerecord:
     models:
