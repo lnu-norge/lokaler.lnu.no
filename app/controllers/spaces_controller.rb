@@ -61,6 +61,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     @space = Space.find(params[:id])
     @space.images.attach(params[:image])
     @space.save!
+    flash[:notice] = t("images.upload_success")
     redirect_to space_path(params[:id])
   end
 
