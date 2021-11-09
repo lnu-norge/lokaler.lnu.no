@@ -347,6 +347,9 @@ GEM
     unf_ext (0.0.8)
     unicode-display_width (2.0.0)
     uniform_notifier (1.14.2)
+    validate_url (1.0.13)
+      activemodel (>= 3.0.0)
+      public_suffix
     vcr (6.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -414,6 +417,7 @@ DEPENDENCIES
   tailwindcss-rails-webpacker (~> 0.1.2)
   turbolinks (~> 5)
   tzinfo-data
+  validate_url
   vcr
   web-console (>= 4.1.0)
   webmock
