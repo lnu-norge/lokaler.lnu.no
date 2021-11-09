@@ -12,6 +12,7 @@ class SpaceContact < ApplicationRecord
 
   validates :title, presence: true
   validates :telephone, phone: true, allow_blank: true
+  validates :url, url: true, allow_blank: true
   validate :any_present?
   validates :space, presence: true, unless: :space_owner
   validates :space_owner, presence: true, unless: :space
