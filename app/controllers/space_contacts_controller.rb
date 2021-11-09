@@ -10,7 +10,7 @@ class SpaceContactsController < AuthenticateController
 
     render turbo_stream: turbo_stream.replace(
       @space_contact,
-      partial: 'space_contacts/form',
+      partial: "space_contacts/form",
       locals: { space_contact: @space_contact }
     )
   end
@@ -24,7 +24,7 @@ class SpaceContactsController < AuthenticateController
   def destroy
     return if @space_contact.destroy
 
-    flash.now[:error] = t('space_contacts.contact_not_deleted')
+    flash.now[:error] = t("space_contacts.contact_not_deleted")
   end
 
   private

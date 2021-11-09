@@ -11,6 +11,7 @@ class SpaceContact < ApplicationRecord
   after_destroy_commit { broadcast_remove_to "space_contacts" }
 
   validates :title, presence: true
+  validates :telephone, phone: true, allow_blank: true
   validate :any_present?
   validates :space, presence: true, unless: :space_owner
   validates :space_owner, presence: true, unless: :space
