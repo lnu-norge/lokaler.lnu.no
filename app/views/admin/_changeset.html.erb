@@ -1,0 +1,15 @@
+
+<h4 class="font-bold"><%= t('admin.changes') %>:</h4>
+<div class="p-4 mt-3 border border-gray-100 shadow bg-gray-50">
+  <% changeset.each do |key, value| %>
+  <% next if key == "updated_at" %>
+  <% if value[0].nil? %>
+      <p><strong><%= Space.human_attribute_name(key) %></strong>: <%= value[1] %>
+  <% else %>
+    <div>
+      <strong><%= Space.human_attribute_name(key) %>:</strong>
+      <%= sanitize Diffy::Diff.new(value[0].to_s, value[1].to_s).to_s(:html) %>
+    </div>
+  <% end %>
+<% end %>
+</div>

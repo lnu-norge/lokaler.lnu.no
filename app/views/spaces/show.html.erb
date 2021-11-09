@@ -11,6 +11,11 @@
 <main class="space px-4">
 
   <%= render partial: 'spaces/show/basics' %>
+
+  <% if current_user&.admin? %>
+    <%= link_to t("space_show.show_changelog"), admin_path(@space) %>
+  <% end %>
+
   <hr />
 
   <%= inline_editable :how_to_book  do %>

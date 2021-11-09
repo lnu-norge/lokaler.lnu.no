@@ -19,6 +19,7 @@ nb:
   space_show:
     only_for_space: "Kun for %{title}:"
     common_to_all_owned_by: 'Felles for %{owner_title}:'
+    show_changelog: 'Vis endringshistorikk'
   space_filter:
     location: 'Sted'
     more_filters: 'Flere filtere'
@@ -29,6 +30,12 @@ nb:
     in_contact: 'Har du vært i kontakt med dem?'
     unknown_org: 'Ukjent organisasjon'
     not_used: 'Ikke brukt lokalet'
+  admin:
+    user: 'Bruker'
+    field: 'Felt'
+    event: 'Hendelse'
+    changes: 'Endringer'
+    changed_at: 'Endringstidspunkt'
   activerecord:
     models:
       facility:
@@ -54,6 +61,11 @@ nb:
         address: 'Adresse'
         post_number: 'Postnummer'
         post_address: 'Poststed'
+        organization_number: 'Organisasjonsnummer'
+        fits_people: 'Antall folk'
+        municipality_code: 'Kommunenummer'
+        lat: 'Breddegrad'
+        lng: 'Lengdegrad'
   read_more: 'Les mer'
 
   devise:
