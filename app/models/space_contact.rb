@@ -14,8 +14,8 @@ class SpaceContact < ApplicationRecord
   before_validation :parse_url
 
   validates :title, presence: true
-  validates :telephone, phone: true, allow_blank: true
-  validates :url, url: true, allow_blank: true
+  validates :telephone, phone: { allow_blank: true }
+  validates :url, url: { allow_blank: true, public_suffix: true }
   validate :any_present?
   validates :space, presence: true, unless: :space_owner
   validates :space_owner, presence: true, unless: :space
