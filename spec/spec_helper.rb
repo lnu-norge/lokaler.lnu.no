@@ -18,7 +18,7 @@
 RSpec.configure do |config|
   # Set locale, to make sure the tests run correctly:
   config.before(:suite) do
-    Faker::Config.locale = 'en'
+    Faker::Config.locale = "en"
   end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

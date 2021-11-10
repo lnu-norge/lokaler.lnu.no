@@ -57,10 +57,10 @@ class ReviewsController < AuthenticateController
       format.turbo_stream do
         render turbo_stream: [
           turbo_stream.prepend(:reviews,
-                               partial: 'spaces/show/review_card',
+                               partial: "spaces/show/review_card",
                                locals: { review: @review }),
           turbo_stream.replace(:new_review_path,
-                               partial: 'spaces/show/review_link_to_new_review',
+                               partial: "spaces/show/review_link_to_new_review",
                                locals: {
                                  space: @review.space
                                })
@@ -75,11 +75,11 @@ class ReviewsController < AuthenticateController
     common_review_attributes
     # Different types of contact should be sent to different error forms
     case @review.type_of_contact
-    when 'been_there'
+    when "been_there"
       render :new_been_there, status: :unprocessable_entity
-    when 'not_allowed_to_use'
+    when "not_allowed_to_use"
       render :new_not_allowed_to_use, status: :unprocessable_entity
-    when 'only_contacted'
+    when "only_contacted"
       render :new_only_contacted, status: :unprocessable_entity
     else
       render :new, status: :unprocessable_entity
@@ -99,27 +99,27 @@ class ReviewsController < AuthenticateController
   end
 
   def parse_before_update(review_params, review)
-    destroy_unkown_facility_reviews(review_params['facility_reviews_attributes'], review)
-    review_params['facility_reviews_attributes'] = parse_facility_reviews(
-      review_params['facility_reviews_attributes'],
+    destroy_unkown_facility_reviews(review_params["facility_reviews_attributes"], review)
+    review_params["facility_reviews_attributes"] = parse_facility_reviews(
+      review_params["facility_reviews_attributes"],
       review
     )
     review_params
   end
 
   def parse_before_create(review_params)
-    review_params['facility_reviews_attributes'] = parse_facility_reviews(review_params['facility_reviews_attributes'])
-    review_params['user'] = current_user
+    review_params["facility_reviews_attributes"] = parse_facility_reviews(review_params["facility_reviews_attributes"])
+    review_params["user"] = current_user
     review_params
   end
 
   def parse_facility_reviews(facility_reviews, review = nil) # rubocop:disable Metrics/AbcSize
     facility_reviews
       .values
-      .filter { |facility_review| facility_review[:experience] != 'unknown' }
+      .filter { |facility_review| facility_review[:experience] != "unknown" }
       .map do |facility_review|
         facility_review[:user] = review&.user ? review.user : current_user
-        facility_review[:space_id] = review&.space&.id ? review.space.id : review_params['space_id']
+        facility_review[:space_id] = review&.space&.id ? review.space.id : review_params["space_id"]
         facility_review
       end
   end
@@ -128,9 +128,9 @@ class ReviewsController < AuthenticateController
   def destroy_unkown_facility_reviews(facility_reviews, review)
     facility_reviews
       .values
-      .filter { |facility_review| facility_review[:experience] == 'unknown' }
+      .filter { |facility_review| facility_review[:experience] == "unknown" }
       .each do |unknown_review|
-        review.facility_reviews.find_by(facility: unknown_review['facility_id'])&.destroy
+        review.facility_reviews.find_by(facility: unknown_review["facility_id"])&.destroy
       end
   end
 

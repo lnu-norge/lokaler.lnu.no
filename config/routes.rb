@@ -24,11 +24,11 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources "space_contacts", only: [:create, :edit, :update, :destroy, :show]
 
   # Review routes
-  resources 'reviews', except: 'new'
-  get '/spaces/:space_id/new_review', to: 'reviews#new', as: 'new_review'
-  get '/spaces/:space_id/new_review/:type_of_contact',
-      to: 'reviews#new_with_type_of_contact',
-      as: 'new_review_with_type_of_contact'
+  resources "reviews", except: "new"
+  get "/spaces/:space_id/new_review", to: "reviews#new", as: "new_review"
+  get "/spaces/:space_id/new_review/:type_of_contact",
+      to: "reviews#new_with_type_of_contact",
+      as: "new_review_with_type_of_contact"
 
   # Admin routes
   resources "admin"
