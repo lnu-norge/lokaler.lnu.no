@@ -10,45 +10,10 @@
     </p>
   </div>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'mt-8 space-y-6', html: { method: :put }) do |f| %>
-    <div class="rounded-md shadow-sm -space-y-px">
-      <div>
-        <%= f.label :first_name, t('devise.registrations.user.first_name'), class: 'sr-only' %>
-        <%= f.text_field :first_name, autofocus: true, autocomplete: 'first-name', class: 'fieldFirst textField', placeholder: t('devise.registrations.user.first_name'), required: true %>
-      </div>
-
-      <div>
-        <%= f.label :last_name, t('devise.registrations.user.last_name'), class: 'sr-only' %>
-        <%= f.text_field :last_name, autocomplete: 'last-name', class: 'textField', placeholder: t('devise.registrations.user.last_name'), required: true %>
-      </div>
-
-      <div>
-        <%= f.label :email, t('devise.registrations.user.email'), class: 'sr-only' %>
-        <%= f.email_field :email, autocomplete: 'email', class: 'textField', placeholder: 'epost@epost.no', required: true %>
-      </div>
-      <div class="relative">
-        <%= f.label :password, t('devise.registrations.user.password'), class: 'sr-only' %>
-        <% if @minimum_password_length %>
-          <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%= @minimum_password_length %> <%=  t('devise.registrations.user.min_password_length') %></p>
-        <% end %>
-        <%= f.password_field :password, autocomplete: "new-password", class: 'passwordField z-0', placeholder: '******', minlength: '6', required: true %>
-      </div>
-      <div>
-        <%= f.label :password_confirmation, t('devise.registrations.user.password_confirmation'), class: 'sr-only' %>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'passwordField fieldLast z-10', placeholder: '******', required: true %>
-      </div>
-      <div class="relative">
-        <%= f.label :current_password, t('devise.registrations.user.current_password'), class: 'sr-only' %>
-          <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%=  t('devise.registrations.user.current_password_explanation') %></p>
-        <%= f.password_field :current_password, autocomplete: "current-password", class: 'passwordField z-0', placeholder: '******', minlength: '6', required: true %>
-      </div>
-    </div>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'vertical_form', html: { method: :put }) do |f| %>
+    <%= render partial: 'devise/shared/user_form', locals: { f: f } %>
     <div class="mt-4">
-      <%= f.label :organizations %>
-      <%= f.collection_select :organization_ids, Organization.all, :id, :name, { }, { multiple: "true", data: { controller: "multiselect" } } %>
-    </div>
-    <div class="mt-4">
-      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button:  t('devise.registrations.user.save_edit_registration') } %>
+      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button:  t('simple_form.labels.user.save_edit_registration') } %>
     </div>
   <% end %>
   <%= render 'devise/shared/back' %>
