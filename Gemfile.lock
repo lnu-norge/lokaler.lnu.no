@@ -215,6 +215,7 @@ GEM
     parser (3.0.1.1)
       ast (~> 2.4.1)
     pg (1.2.3)
+    phonelib (0.6.54)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -360,6 +361,9 @@ GEM
     unf_ext (0.0.8)
     unicode-display_width (2.0.0)
     uniform_notifier (1.14.2)
+    validate_url (1.0.13)
+      activemodel (>= 3.0.0)
+      public_suffix
     vcr (6.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -414,6 +418,7 @@ DEPENDENCIES
   overcommit
   paper_trail
   pg (~> 1.1)
+  phonelib
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.4, >= 6.1.4.1)
@@ -429,6 +434,7 @@ DEPENDENCIES
   tailwindcss-rails-webpacker (~> 0.1.2)
   turbolinks (~> 5)
   tzinfo-data
+  validate_url
   vcr
   web-console (>= 4.1.0)
   webmock

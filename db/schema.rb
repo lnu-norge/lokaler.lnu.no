@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 2021_11_01_085452) do
 
   # These are extensions that must be enabled in order to support this database
@@ -123,6 +124,22 @@ ActiveRecord::Schema.define(version: 2021_11_01_085452) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
+  create_table "space_contacts", force: :cascade do |t|
+    t.string "title"
+    t.string "telephone"
+    t.string "telephone_opening_hours"
+    t.string "email"
+    t.string "url"
+    t.text "description"
+    t.integer "priority"
+    t.bigint "space_id"
+    t.bigint "space_owner_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["space_id"], name: "index_space_contacts_on_space_id"
+    t.index ["space_owner_id"], name: "index_space_contacts_on_space_owner_id"
+  end
+
   create_table "space_owners", force: :cascade do |t|
     t.integer "orgnr"
     t.datetime "created_at", precision: 6, null: false
@@ -194,6 +211,8 @@ ActiveRecord::Schema.define(version: 2021_11_01_085452) do
   add_foreign_key "reviews", "organizations"
   add_foreign_key "reviews", "spaces"
   add_foreign_key "reviews", "users"
+  add_foreign_key "space_contacts", "space_owners"
+  add_foreign_key "space_contacts", "spaces"
   add_foreign_key "spaces", "space_owners"
   add_foreign_key "spaces", "space_types"
 end
