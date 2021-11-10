@@ -7,6 +7,7 @@ class Space < ApplicationRecord
   has_many :facility_reviews, dependent: :restrict_with_exception
   has_many :aggregated_facility_reviews, dependent: :restrict_with_exception
   has_many :reviews, dependent: :restrict_with_exception
+  has_many :space_contacts, dependent: :restrict_with_exception
 
   belongs_to :space_owner
   accepts_nested_attributes_for :space_owner
