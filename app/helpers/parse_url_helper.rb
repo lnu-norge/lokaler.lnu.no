@@ -5,6 +5,6 @@ require "uri"
 module ParseUrlHelper
   def parse_url
     uri = URI.parse(url)
-    self.url = "http://#{uri}" unless uri.scheme
+    self.url = "http://#{uri}" unless uri.scheme || url.blank?
   end
 end
