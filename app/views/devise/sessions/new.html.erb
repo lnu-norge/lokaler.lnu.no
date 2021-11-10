@@ -10,23 +10,20 @@
     </p>
   </div>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'mt-8 space-y-6') do |f| %>
+  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), class: 'vertical_form') do |f| %>
     <input type="hidden" name="remember" value="true">
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
-        <%= f.label :email, t('devise.registrations.user.email'), class: 'sr-only' %>
-        <%= f.email_field :email, autocomplete: 'email', class: 'fieldFirst textField', placeholder: 'epost@epost.no', autofocus: true, required: true %>
+        <%= f.input :email, input_html: { class: "fieldFirst" }, autocomplete: 'email', placeholder: 'epost@epost.no', autofocus: true, label_html: { class: "sr-only"} %>
       </div>
       <div>
-        <%= f.label :password, t('devise.registrations.user.password'), class: 'sr-only' %>
-        <%= f.password_field :password, autocomplete: "current-password", class: 'passwordField fieldLast', placeholder: '******', required: true %>
+        <%= f.input :password, input_html: { class: "fieldLast" }, autocomplete: "current-password",  placeholder: '******', required: true, label_html: { class: "sr-only" } %>
       </div>
     </div>
     <div class="flex items-center justify-between mt-4">
       <div class="flex items-center">
         <% if devise_mapping.rememberable? %>
-          <%= f.check_box :remember_me, class: "h-4 w-4 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded" %>
-          <%= f.label :remember_me, t('devise.sessions.user.remember_me'), class: 'ml-2 block text-sm text-gray-900' %>
+          <%= f.input :remember_me, as: :boolean %>
         <% end %>
       </div>
       <div class="text-sm">

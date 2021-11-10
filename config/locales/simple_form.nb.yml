@@ -1,0 +1,63 @@
+nb:
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Please review the problems below:"
+    # Examples
+    # labels:
+    #   defaults:
+    #     password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail to sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   defaults:
+    #     username: 'User name to sign in.'
+    #     password: 'No special characters, please.'
+    # include_blanks:
+    #   defaults:
+    #     age: 'Rather not say'
+    # prompts:
+    #   defaults:
+    #     age: 'Select your age'
+
+    devise:
+        sessions:
+          user:
+            signed_out: "Logget ut"
+            signed_in: "Logget inn"
+            heading_new: "Logg inn til din bruker"
+            register_instead: "registrer deg her"
+            remember_me: "Husk meg"
+            forgot_password: "Glemt passordet ditt"
+            submit_login: "Logg inn"
+            password_reset: "Send meg passord instruksjoner"
+            change_password: "Endre ditt passord"
+        registrations:
+          user:
+            first_name: "Fornavn"
+            last_name: "Etternavn"
+            email: "E-post"
+            password: "Passord"
+            password_confirmation: "Bekreft passord"
+            current_password: "Nåværende passord"
+            min_password_length: " tegn er minimum passordlengde"
+            current_password_explanation: "Vi må ha ditt nåværende passord for å gjøre forandringene"
+            submit_registration: "Registrer deg"
+            save_edit_registration: "Oppdater din konto"
+            heading_edit: "Rediger din bruker"
+            delete_account: "Slett din konto"
+            delete_account_confirmation: "Er du sikker?"
+            heading_new: "Registrer deg som bruker"
+            or: "eller"
+            logg_in_instead: "logg deg inn her"
+            back: "Tilbake"
