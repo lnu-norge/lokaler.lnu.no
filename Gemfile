@@ -75,11 +75,11 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "devise", "~> 4.8"
 
 gem "diffy"
-gem "kaminari"
 gem "gravtastic"
 gem "hotwire-rails"
 gem "http"
 gem "inline_svg"
+gem "kaminari"
 gem "paper_trail"
 gem "phonelib"
 gem "sendgrid-ruby"

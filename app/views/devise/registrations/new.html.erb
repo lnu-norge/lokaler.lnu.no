@@ -2,43 +2,16 @@
     <div>
       <%= image_tag 'logo.svg', alt: 'LNU logo', width: 200, height: 200, class: 'mx-auto h-12 w-auto' %>
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        <%= t('devise.registrations.user.heading_new') %>
+        <%= t('simple_form.labels.user.heading_new') %>
       </h2>
       <p class="mt-2 text-center text-sm text-gray-600">
-        <%=  t('devise.registrations.user.or') %>
-        <%= link_to t('devise.registrations.user.logg_in_instead'), new_session_path(resource_name), class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
+        <%=  t('simple_form.labels.user.or') %>
+        <%= link_to t('simple_form.labels.user.logg_in_instead'), new_session_path(resource_name), class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
       </p>
     </div>
 
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'vertical_form') do |f| %>
-      <div class="rounded-md shadow-sm -space-y-px">
-        <div>
-          <%= f.input :first_name, autofocus: true, autocomplete: 'first-name', input_html: { class: 'fieldFirst' }, placeholder: t('devise.registrations.user.first_name'), label_html: { class: "sr-only" }, required: true %>
-        </div>
-
-        <div>
-          <%= f.input :last_name,  autocomplete: 'last-name', input_html: { class: 'textField' }, placeholder: t('devise.registrations.user.last_name'), label_html: { class: "sr-only" }, required: true %>
-        </div>
-
-        <div>
-          <%= f.input :email, autocomplete: 'email', input_html: { class: 'textField' }, placeholder: 'epost@epost.no', label_html: { class: "sr-only" }, required: true %>
-        </div>
-        <div class="relative">
-          <% if @minimum_password_length %>
-            <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%= @minimum_password_length %> <%=  t('devise.registrations.user.min_password_length') %></p>
-          <% end %>
-          <%= f.input :password, autocomplete: "new-password", input_html: { class: "passwordField z-0" }, placeholder: '******', minlength: '6', label_html: { class: "sr-only" }, required: true %>
-        </div>
-        <div>
-          <%= f.input :password_confirmation, autocomplete: "new-password", input_html: { class: "passwordField z-10" }, placeholder: '******', label_html: { class: "sr-only" }, required: true %>
-        </div>
-        <div>
-          <%= f.collection_select :organization_ids, Organization.all, :id, :name, { }, { multiple: "true", data: { controller: "multiselect" }, input_html: { class: "fieldLast" }, placeholder: "Oransiasjoner" } %>
-        </div>
-      </div>
-      <div class="mt-4">
-        <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: t('devise.registrations.user.submit_registration') } %>
-      </div>
+      <%= render partial: 'devise/shared/user_form', locals %>
     <% end %>
   </div>
 </div>
