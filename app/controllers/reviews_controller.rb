@@ -99,7 +99,7 @@ class ReviewsController < AuthenticateController
   end
 
   def parse_before_update(review_params, review)
-    destroy_unkown_facility_reviews(review_params["facility_reviews_attributes"], review)
+    destroy_unknown_facility_reviews(review_params["facility_reviews_attributes"], review)
     review_params["facility_reviews_attributes"] = parse_facility_reviews(
       review_params["facility_reviews_attributes"],
       review
@@ -125,7 +125,7 @@ class ReviewsController < AuthenticateController
   end
 
   # Unkown reviews (Where the user has no information) should be removed from the review before an update
-  def destroy_unkown_facility_reviews(facility_reviews, review)
+  def destroy_unknown_facility_reviews(facility_reviews, review)
     facility_reviews
       .values
       .filter { |facility_review| facility_review[:experience] == "unknown" }
