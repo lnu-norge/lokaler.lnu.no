@@ -30,6 +30,10 @@ gem "image_processing"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false
 
+group :production do
+  gem "newrelic_rpm"
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "bullet"
