@@ -22,9 +22,9 @@ class FacilityReview < ApplicationRecord
   end
 
   ICON_FOR_EXPERIENCE = {
-    'was_allowed' => 'likely',
-    'was_not_allowed' => 'unlikely',
-    'was_not_available' => 'impossible',
-    'unknown' => 'unknown'
+    "was_allowed" => "likely",
+    "was_not_allowed" => "unlikely",
+    "was_not_available" => "impossible",
+    "unknown" => "unknown"
   }.freeze
 end

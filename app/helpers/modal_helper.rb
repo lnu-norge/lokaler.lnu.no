@@ -9,7 +9,7 @@ module ModalHelper
   end
 
   def modal_content_for(id, parent, &block)
-    render partial: 'shared/modal', locals: {
+    render partial: "shared/modal", locals: {
       id: id,
       parent: parent,
       block: block

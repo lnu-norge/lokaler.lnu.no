@@ -46,7 +46,7 @@ RSpec.describe Review, type: :model do
     expect(Fabricate(:review)).to be_truthy
   end
 
-  it 'can not create duplicate facility reviews' do
+  it "can not create duplicate facility reviews" do
     review = Fabricate(:review)
     facility = Fabricate(:facility)
     Fabricate(
@@ -89,24 +89,24 @@ RSpec.describe Review, type: :request do
     )
   end
 
-  it 'can load the edit path' do
+  it "can load the edit path" do
     get edit_review_path(review)
     expect(response).to have_http_status(:success)
   end
 
-  it 'has loaded the facility review, and set it to unlikely' do
+  it "has loaded the facility review, and set it to unlikely" do
     expect(review.facility_reviews.count).to eq(1)
     space.aggregate_facility_reviews
-    expect(space.reviews_for_facility(facility)).to eq('unlikely')
+    expect(space.reviews_for_facility(facility)).to eq("unlikely")
   end
 
-  it 'will update the facility review if the Review is updated' do
+  it "will update the facility review if the Review is updated" do
     patch review_path(review), params: {
       review: {
         facility_reviews_attributes: {
           "#{facility.id}": {
             facility_id: facility.id,
-            experience: 'was_allowed'
+            experience: "was_allowed"
           }
         }
       }
@@ -115,17 +115,17 @@ RSpec.describe Review, type: :request do
     expect(response).to have_http_status(:success)
     space.aggregate_facility_reviews
     expect(review.facility_reviews.count).to eq(1)
-    expect(space.reviews_for_facility(facility.id)).to eq('likely')
+    expect(space.reviews_for_facility(facility.id)).to eq("likely")
   end
 
-  it 'will delete the facility review if the Review is updated, and it is set to unknown' do
+  it "will delete the facility review if the Review is updated, and it is set to unknown" do
     expect(review.facility_reviews.count).to eq(1)
     patch review_path(review), params: {
       review: {
         facility_reviews_attributes: {
           "#{facility.id}": {
             facility_id: facility.id,
-            experience: 'unknown'
+            experience: "unknown"
           }
         }
       }
@@ -134,6 +134,6 @@ RSpec.describe Review, type: :request do
     expect(response).to have_http_status(:success)
     space.aggregate_facility_reviews
     expect(review.facility_reviews.count).to eq(0)
-    expect(space.reviews_for_facility(facility.id)).to eq('unknown')
+    expect(space.reviews_for_facility(facility.id)).to eq("unknown")
   end
 end
