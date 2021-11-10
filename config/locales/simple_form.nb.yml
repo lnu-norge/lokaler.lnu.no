@@ -16,7 +16,6 @@ nb:
         email: "E-post"
         signed_out: "Logget ut"
         signed_in: "Logget inn"
-        heading_new: "Logg inn til din bruker"
         register_instead: "registrer deg her"
         remember_me: "Husk meg"
         forgot_password: "Glemt passordet ditt"
@@ -27,7 +26,8 @@ nb:
         last_name: "Etternavn"
         password: "Passord"
         password_confirmation: "Bekreft passord"
-        current_password: "Nåværende passord"
+        current_password: "Skriv nytt passord her om du vil bytte"
+        confirm_password: "Bekreft passord"
         min_password_length: " tegn er minimum passordlengde"
         current_password_explanation: "Vi må ha ditt nåværende passord for å gjøre forandringene"
         submit_registration: "Registrer deg"
@@ -41,3 +41,5 @@ nb:
         back: "Tilbake"
         email_example: "epost@epost.no"
         organisation: "Organisasjon"
+        session:
+          heading_new: "Logg inn til din bruker"

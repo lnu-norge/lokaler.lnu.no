@@ -2,27 +2,25 @@
   <div>
     <%= image_tag 'logo.svg', alt: 'LNU logo', width: 200, height: 200, class: 'mx-auto h-12 w-auto' %>
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-      <%= t('devise.sessions.user.change_password') %>
+      <%= t('simple_form.labels.user.change_password') %>
     </h2>
   </div>
 
-  <%= form_for(resource, as: resource_name, url: password_path(resource_name), class: 'mt-8 space-y-6', html: { method: :put }) do |f| %>
+  <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), class: 'vertical_form', html: { method: :put }) do |f| %>
     <%= f.hidden_field :reset_password_token %>
     <div class="rounded-md shadow-sm -space-y-px">
       <div class="relative">
-        <%= f.label :password, 'Nytt Passord', class: 'sr-only' %>
         <% if @minimum_password_length %>
-          <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%= @minimum_password_length %> tegn er minimum passord lengde</p>
+          <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%= @minimum_password_lengtht %> <%= t("simple_form.labels.user.min_password_length") %></p>
         <% end %>
-        <%= f.password_field :password, autocomplete: "new-password", class: 'passwordField z-0', placeholder: '******', minlength: '6', required: true %>
+        <%= f.input :password, autocomplete: "new-password", input_html: { class: 'passwordField z-0' }, input_label: { class: "sr-only" },  placeholder: '******', minlength: '6', required: true %>
       </div>
       <div>
-        <%= f.label :password_confirmation, 'Passord', class: 'sr-only' %>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'passwordField fieldLast z-10', placeholder: '******', required: true %>
+        <%= f.input :password_confirmation, autocomplete: "new-password", input_html: { class: 'passwordField fieldLast z-10' }, input_label: { class: "sr-only" }, placeholder: '******', required: true %>
       </div>
     </div>
     <div class="mt-4">
-      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: "Endre ditt passord"} %>
+      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: t("simple_form.labels.user.change_password")} %>
     </div>
   <% end %>
 </div>

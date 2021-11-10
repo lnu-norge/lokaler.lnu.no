@@ -2,11 +2,11 @@
   <div>
     <%= image_tag 'logo.svg', alt: 'LNU logo', width: 200, height: 200, class: 'mx-auto h-12 w-auto' %>
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-       <%=  t('devise.sessions.user.heading_new') %>
+       <%=  t('simple_form.labels.user.session.heading_new') %>
     </h2>
     <p class="mt-2 text-center text-sm text-gray-600">
-       <%=  t('devise.registrations.user.or') %>
-      <%= link_to t('devise.sessions.user.register_instead'), new_registration_path(resource_name), class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
+       <%=  t('simple_form.labels.user.or') %>
+      <%= link_to t('simple_form.labels.user.register_instead'), new_registration_path(resource_name), class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
     </p>
   </div>
 
@@ -14,7 +14,7 @@
     <input type="hidden" name="remember" value="true">
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
-        <%= f.input :email, input_html: { class: "fieldFirst" }, autocomplete: 'email', placeholder: 'epost@epost.no', autofocus: true, label_html: { class: "sr-only"} %>
+        <%= f.input :email, input_html: { class: "fieldFirst" }, autocomplete: 'email', placeholder: t("simple_form.labels.user.email_example"), autofocus: true, label_html: { class: "sr-only"} %>
       </div>
       <div>
         <%= f.input :password, input_html: { class: "fieldLast" }, autocomplete: "current-password",  placeholder: '******', required: true, label_html: { class: "sr-only" } %>
@@ -27,11 +27,11 @@
         <% end %>
       </div>
       <div class="text-sm">
-        <%= link_to t('devise.sessions.user.forgot_password'), new_password_path(resource_name), class: 'font-medium p-2 rounded text-lnu-blue hover:text-lnu-pink focus:outline-none focus:ring-2 focus:outline-ring-offset-2 focus:ring-lnu-pink' %>
+        <%= link_to t('simple_form.labels.user.forgot_password'), new_password_path(resource_name), class: 'font-medium p-2 rounded text-lnu-blue hover:text-lnu-pink focus:outline-none focus:ring-2 focus:outline-ring-offset-2 focus:ring-lnu-pink' %>
       </div>
     </div>
     <div class="mt-4">
-      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: t('devise.sessions.user.submit_login') } %>
+      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: t('simple_form.labels.user.submit_login') } %>
     </div>
   <% end %>
 </div>

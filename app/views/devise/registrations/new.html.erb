@@ -11,7 +11,10 @@
     </div>
 
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'vertical_form') do |f| %>
-      <%= render partial: 'devise/shared/user_form', locals %>
+      <%= render partial: 'devise/shared/user_form', locals: { f: f } %>
+      <div class="mt-4">
+        <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: t('simple_form.labels.user.submit_registration') } %>
+      </div>
     <% end %>
   </div>
 </div>
