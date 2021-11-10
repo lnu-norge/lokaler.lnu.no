@@ -99,7 +99,6 @@ class ReviewsController < AuthenticateController
   end
 
   def parse_before_update(review_params, review)
-    destroy_unknown_facility_reviews(review_params["facility_reviews_attributes"], review)
     review_params["facility_reviews_attributes"] = parse_facility_reviews(
       review_params["facility_reviews_attributes"],
       review
@@ -113,24 +112,13 @@ class ReviewsController < AuthenticateController
     review_params
   end
 
-  def parse_facility_reviews(facility_reviews, review = nil) # rubocop:disable Metrics/AbcSize
+  def parse_facility_reviews(facility_reviews, review = nil)
     facility_reviews
       .values
-      .filter { |facility_review| facility_review[:experience] != "unknown" }
       .map do |facility_review|
         facility_review[:user] = review&.user ? review.user : current_user
         facility_review[:space_id] = review&.space&.id ? review.space.id : review_params["space_id"]
         facility_review
-      end
-  end
-
-  # Unkown reviews (Where the user has no information) should be removed from the review before an update
-  def destroy_unknown_facility_reviews(facility_reviews, review)
-    facility_reviews
-      .values
-      .filter { |facility_review| facility_review[:experience] == "unknown" }
-      .each do |unknown_review|
-        review.facility_reviews.find_by(facility: unknown_review["facility_id"])&.destroy
       end
   end
 
@@ -142,7 +130,7 @@ class ReviewsController < AuthenticateController
       :how_long, :how_long_custom,
       :type_of_contact,
       :space_id,
-      facility_reviews_attributes: %i[facility_id experience]
+      facility_reviews_attributes: %i[facility_id experience id]
     )
   end
 end

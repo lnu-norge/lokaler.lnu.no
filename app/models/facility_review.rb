@@ -6,6 +6,8 @@ class FacilityReview < ApplicationRecord
   belongs_to :user
   belongs_to :review
 
+  before_validation :destroy_if_unknown
+
   after_save { space.aggregate_facility_reviews }
   after_destroy { space.aggregate_facility_reviews }
 
@@ -27,4 +29,10 @@ class FacilityReview < ApplicationRecord
     "was_not_available" => "impossible",
     "unknown" => "unknown"
   }.freeze
+
+  private
+
+  def destroy_if_unknown
+    destroy if experience == "unknown"
+  end
 end
