@@ -9,7 +9,7 @@ class Review < ApplicationRecord
 
   has_many :facility_reviews, dependent: :destroy
   accepts_nested_attributes_for :facility_reviews,
-                                reject_if: proc { |attributes| attributes['experience'] == 'unknown' }
+                                reject_if: proc { |attributes| attributes["experience"] == "unknown" }
 
   enum how_much: { custom_how_much: 0, whole_space: 1, one_room: 2 }
   enum how_long: { custom_how_long: 0, one_weekend: 1, one_evening: 2 }
@@ -38,8 +38,8 @@ class Review < ApplicationRecord
   end
 
   ICONS_FOR_TYPE_OF_CONTACT = {
-    'been_there' => 'facility_status/likely',
-    'not_allowed_to_use' => 'facility_status/unlikely',
-    'only_contacted' => 'facility_status/unknown'
+    "been_there" => "facility_status/likely",
+    "not_allowed_to_use" => "facility_status/unlikely",
+    "only_contacted" => "facility_status/unknown"
   }.freeze
 end
