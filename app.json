@@ -1,0 +1,6 @@
+{
+  "name": "lnu-lokaler",
+  "scripts": {
+    "postdeploy": "rails db:schema:load db:seed"
+  }
+}
