@@ -11,6 +11,7 @@
   class="flex items-center gap-1.5">
   <%= form.fields_for "facility_reviews_attributes[#{facility.id}]", facility_review do |f| %>
     <%= f.hidden_field :facility_id, value: facility.id %>
+    <%= f.hidden_field :id, value: facility_review.id %>
     <fieldset class="flex mt-3">
         <legend class="flex gap-2 text-lg items-center mb-1 mt-3">
           <%= title %>
