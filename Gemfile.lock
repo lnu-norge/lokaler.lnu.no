@@ -194,6 +194,7 @@ GEM
     msgpack (1.4.2)
     multi_json (1.15.0)
     nenv (0.3.0)
+    newrelic_rpm (8.1.0)
     nio4r (2.5.8)
     nokogiri (1.12.4-arm64-darwin)
       racc (~> 1.4)
@@ -409,6 +410,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   kaminari
   listen (~> 3.3)
+  newrelic_rpm
   overcommit
   paper_trail
   pg (~> 1.1)
