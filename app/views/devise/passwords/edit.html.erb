@@ -11,7 +11,7 @@
     <div class="rounded-md shadow-sm -space-y-px">
       <div class="relative">
         <% if @minimum_password_length %>
-          <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%= @minimum_password_lengtht %> <%= t("simple_form.labels.user.min_password_length") %></p>
+          <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%= @minimum_password_length %> <%= t("simple_form.labels.user.min_password_length") %></p>
         <% end %>
         <%= f.input :password, autocomplete: "new-password", input_html: { class: 'passwordField z-0' }, input_label: { class: "sr-only" },  placeholder: '******', minlength: '6', required: true %>
       </div>
