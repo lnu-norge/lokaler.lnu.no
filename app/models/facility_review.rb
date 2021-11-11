@@ -6,12 +6,8 @@ class FacilityReview < ApplicationRecord
   belongs_to :user
   belongs_to :review
 
-  before_validation :destroy_if_unknown
-
   after_save { space.aggregate_facility_reviews }
   after_destroy { space.aggregate_facility_reviews }
-
-  enum experience: { was_allowed: 0, was_not_allowed: 2, was_not_available: 3 }
 
   scope :impossible, -> { where(experience: :was_not_available) }
   scope :positive, -> { where(experience: :was_allowed) }
@@ -30,9 +26,31 @@ class FacilityReview < ApplicationRecord
     "unknown" => "unknown"
   }.freeze
 
+  enum experience: { was_allowed: 0, was_not_allowed: 2, was_not_available: 3, unknown: 99 }
+
+  before_validation :validate_if_unknown
+  before_create :skip_if_unknown
+  before_update :destroy_if_unknown
+
   private
 
+  def validate_if_unknown
+    p "validate_if_unkown"
+    p experience
+    debugger if experience == "unknown"
+  end
+
+  def skip_if_unknown
+    p "skip_if_unknown"
+    p experience
+    debugger if experience == "unknown"
+    false if experience == "unknown"
+  end
+
   def destroy_if_unknown
+    p "destroy_if_unknown"
+    p experience
+    debugger if experience == "unknown"
     destroy if experience == "unknown"
   end
 end

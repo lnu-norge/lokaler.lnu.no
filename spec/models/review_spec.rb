@@ -76,9 +76,7 @@ RSpec.describe Review, type: :request do
   let(:review) { Fabricate(:review, user: user) }
   let(:space) { review.space }
   let(:facility) { Fabricate(:facility) }
-
-  before do
-    sign_in user
+  let(:facility_review) do
     Fabricate(
       :facility_review,
       space: space,
@@ -89,22 +87,29 @@ RSpec.describe Review, type: :request do
     )
   end
 
+  before do
+    sign_in user
+  end
+
   it "can load the edit path" do
     get edit_review_path(review)
     expect(response).to have_http_status(:success)
   end
 
   it "has loaded the facility review, and set it to unlikely" do
+    facility_review.reload
     expect(review.facility_reviews.count).to eq(1)
     space.aggregate_facility_reviews
     expect(space.reviews_for_facility(facility)).to eq("unlikely")
   end
 
   it "will update the facility review if the Review is updated" do
+    p "Pass was_allowed experience facility review update"
     patch review_path(review), params: {
       review: {
         facility_reviews_attributes: {
           "#{facility.id}": {
+            id: facility_review.id,
             facility_id: facility.id,
             experience: "was_allowed"
           }
@@ -119,11 +124,14 @@ RSpec.describe Review, type: :request do
   end
 
   it "will delete the facility review if the Review is updated, and it is set to unknown" do
+    facility_review.reload
     expect(review.facility_reviews.count).to eq(1)
+    p "Pass unknown experience facility review update"
     patch review_path(review), params: {
       review: {
         facility_reviews_attributes: {
           "#{facility.id}": {
+            id: facility_review.id,
             facility_id: facility.id,
             experience: "unknown"
           }
@@ -135,5 +143,24 @@ RSpec.describe Review, type: :request do
     space.aggregate_facility_reviews
     expect(review.facility_reviews.count).to eq(0)
     expect(space.reviews_for_facility(facility.id)).to eq("unknown")
+  end
+
+  it "will not create a new facility review if it's set to unknown, nor throw an error" do
+    facility_review.reload
+    expect(review.facility_reviews.count).to eq(1)
+    new_facility = Fabricate(:facility)
+    patch review_path(review), params: {
+      review: {
+        facility_reviews_attributes: {
+          "#{facility.id}": {
+            facility_id: new_facility.id,
+            experience: "unknown"
+          }
+        }
+      }
+    }
+    follow_redirect!
+    expect(response).to have_http_status(:success)
+    expect(review.facility_reviews.count).to eq(1)
   end
 end

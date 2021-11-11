@@ -39,10 +39,9 @@ class ReviewsController < AuthenticateController
   def update
     @review = Review.find(params[:id])
     @space = @review.space
-
     common_review_attributes
     params = parse_before_update(review_params, @review)
-
+    debugger
     if @review.update(params)
       redirect_to reviews_path
     else
