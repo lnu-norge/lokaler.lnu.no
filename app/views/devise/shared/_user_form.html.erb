@@ -1,30 +1,23 @@
 <div class="rounded-md shadow-sm -space-y-px">
   <div>
-    <%= f.input :first_name, autofocus: true, autocomplete: 'first-name', input_html: { class: 'fieldFirst' }, placeholder: t('simple_form.labels.user.first_name'), label_html: { class: "sr-only" }, required: true %>
+    <%= f.input :first_name, autofocus: true, input_html: { class: 'fieldFirst' }, required: true %>
   </div>
-
   <div>
-    <%= f.input :last_name,  autocomplete: 'last-name', input_html: { class: 'textField' }, placeholder: t('simple_form.labels.user.last_name'), label_html: { class: "sr-only" }, required: true %>
+    <%= f.input :last_name,  input_html: { class: 'textField' }, required: true %>
   </div>
-
   <div>
-    <%= f.input :email, autocomplete: 'email', input_html: { class: 'textField' }, placeholder: t('simple_form.labels.user.email_example'), label_html: { class: "sr-only" }, required: true %>
+    <%= f.input :email, input_html: { class: 'textField' }, required: true %>
   </div>
-  <% if action_name == "edit" %>
-    <div>
-      <%= f.input :current_password, autocomplete: "current-password", input_html: { class: "passwordField z-0" }, placeholder: t("simple_form.labels.user.current_password_explanation"), minlength: '6', label_html: { class: "sr-only" }, required: true %>
-    </div>
-  <% end %>
   <div class="relative">
     <% if @minimum_password_length %>
       <p class="absolute -bottom-1.5 left-2 -mt-px inline-block px-1 text-xs font-medium text-gray-500 bg-white z-20"><%= @minimum_password_length %> <%=  t('simple_form.labels.user.min_password_length') %></p>
     <% end %>
-    <%= f.input :password, autocomplete: "new-password", input_html: { class: "passwordField z-0" }, placeholder: t("simple_form.labels.user.password"), minlength: '6', label_html: { class: "sr-only" }, required: true %>
+    <%= f.input :password, input_html: { class: "passwordField z-0" }, minlength: '6', required: true %>
   </div>
   <div>
-    <%= f.input :password_confirmation, autocomplete: "new-password", input_html: { class: "passwordField z-10" }, placeholder: t("simple_form.labels.user.confirm_password"), label_html: { class: "sr-only" }, required: true %>
+    <%= f.input :password_confirmation, input_html: { class: "passwordField z-10" }, required: true %>
   </div>
   <div>
-    <%= f.collection_select :organization_ids, Organization.all, :id, :name, { }, { multiple: "true", data: { controller: "multiselect" }, placeholder: t("simple_form.labels.user.organisation") } %>
+    <%= f.collection_select :organization_ids, Organization.all, :id, :name, { }, { multiple: "true", data: { controller: "multiselect" }, placeholder: t("simple_form.placeholders.user.organization") } %>
   </div>
 </div>

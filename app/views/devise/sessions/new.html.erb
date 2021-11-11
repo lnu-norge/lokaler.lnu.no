@@ -14,10 +14,10 @@
     <input type="hidden" name="remember" value="true">
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
-        <%= f.input :email, input_html: { class: "fieldFirst" }, autocomplete: 'email', placeholder: t("simple_form.labels.user.email_example"), autofocus: true, label_html: { class: "sr-only"} %>
+        <%= f.input :email, input_html: { class: "fieldFirst" }, autofocus: true %>
       </div>
       <div>
-        <%= f.input :password, input_html: { class: "fieldLast" }, autocomplete: "current-password",  placeholder: '******', required: true, label_html: { class: "sr-only" } %>
+        <%= f.input :password, input_html: { class: "fieldLast" } %>
       </div>
     </div>
     <div class="flex items-center justify-between mt-4">

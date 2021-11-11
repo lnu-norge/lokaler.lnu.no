@@ -13,7 +13,7 @@
   <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, class: 'vertical_form') do |f| %>
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
-        <%= f.input :email, autofocus: true, autocomplete: 'email', html_input: { class: 'fieldFirst fieldLast' }, label_html: { class: "sr-only" }, placeholder: t("simple_form.labels.user.email_example"), required: true %>
+        <%= f.input :email, autofocus: true, html_input: { class: 'fieldFirst fieldLast' }, required: true %>
       </div>
     </div>
     <div class="mt-4">
