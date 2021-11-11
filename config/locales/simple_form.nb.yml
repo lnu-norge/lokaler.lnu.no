@@ -42,6 +42,14 @@ nb:
         logg_in_instead: "logg deg inn her"
         back: "Tilbake"
         email_example: "epost@epost.no"
-        organisation: "Organisasjon"
         session:
           heading_new: "Logg inn til din bruker"
+    placeholders:
+      user:
+        email: "epost@epost.no"
+        first_name: "Fornavn"
+        last_name: "Etternavn"
+        password: "******"
+        password_confirmation: "Bekreft passord"
+        current_password: "Skriv nytt passord her om du vil bytte"
+        organization: "Organisasjon"
