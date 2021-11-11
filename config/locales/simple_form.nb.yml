@@ -1,26 +1,28 @@
 nb:
   simple_form:
-    "yes": 'Yes'
-    "no": 'No'
+    "yes": 'Ja'
+    "no": 'Nei'
     required:
-      text: 'required'
+      text: 'påkrevd'
       mark: '*'
       # You can uncomment the line below if you need to overwrite the whole required html.
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     error_notification:
-      default_message: "Please review the problems below:"
+      default_message: "Vennligst se over feilene under:"
     # Examples
     labels:
       user:
         email: "E-post"
         signed_out: "Logget ut"
         signed_in: "Logget inn"
+        signout: "Logg ut"
+        edit_account: "Rediger konto"
         register_instead: "registrer deg her"
         remember_me: "Husk meg"
-        forgot_password: "Glemt passordet ditt"
+        forgot_password: "Glemt passordet ditt?"
         submit_login: "Logg inn"
-        password_reset: "Send meg passord instruksjoner"
+        password_reset: "Send instruksjoner for nytt passord"
         change_password: "Endre ditt passord"
         first_name: "Fornavn"
         last_name: "Etternavn"
