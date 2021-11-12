@@ -21,9 +21,10 @@ Rails.application.routes.draw do
   resources "facilities", except: "new"
   resources "space_owners", except: "new"
   resources "reviews"
-  resources "admin"
+  resources "space_contacts", only: [:create, :edit, :update, :destroy, :show]
 
   # Admin routes
+  resources "admin"
   post "admin/revert_changes", to: "admin#revert_changes"
 
   # Spaces routes
