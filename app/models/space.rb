@@ -61,6 +61,8 @@ class Space < ApplicationRecord
     # Eventually this method will take some search parameters
     # but currently we just use the all the spaces in the db
     Space.all.find_each do |space|
+      next unless space.lat.present? && space.lng.present?
+
       south_west_lat = space.lat if space.lat < south_west_lat
       south_west_lng = space.lng if space.lng < south_west_lng
       north_east_lat = space.lat if space.lat > north_east_lat
