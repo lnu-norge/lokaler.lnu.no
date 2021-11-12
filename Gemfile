@@ -30,6 +30,10 @@ gem "image_processing"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false
 
+group :production do
+  gem "newrelic_rpm"
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "bullet"
@@ -77,6 +81,8 @@ gem "http"
 gem "inline_svg"
 gem "kaminari"
 gem "paper_trail"
+gem "phonelib"
 gem "rails-i18n"
 gem "sendgrid-ruby"
 gem "tailwindcss-rails-webpacker", "~> 0.1.2"
+gem "validate_url"

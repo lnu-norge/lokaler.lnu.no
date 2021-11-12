@@ -7,7 +7,8 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   end
 
   def show
-    @space = Space.find(params[:id])
+    @space = Space.includes(:space_contacts).where(id: params[:id]).first
+    @space_contact = SpaceContact.new(space_id: @space.id, space_owner_id: @space.space_owner_id)
   end
 
   def create
@@ -61,7 +62,8 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     @space = Space.find(params[:id])
     @space.images.attach(params[:image])
     @space.save!
-    redirect_to spaces_path
+    flash[:notice] = t("images.upload_success")
+    redirect_to space_path(params[:id])
   end
 
   def rect_for_spaces

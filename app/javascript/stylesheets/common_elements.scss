@@ -12,3 +12,9 @@ a.unstyled-link {
     text-decoration: none;
   }
 }
+
+.button {
+  @apply w-40 px-4;
+  @apply hover:bg-lnu-pink hover:text-white;
+  @apply border-2 rounded-l border-lnu-pink;
+}
