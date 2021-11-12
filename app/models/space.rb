@@ -108,10 +108,14 @@ class Space < ApplicationRecord
         # this is so the sort_by later will be correct as it sorts by lowest first
         # we could do a reverse on the result of sort_by but this will incur
         # a performance overhead
-        if review.maybe? || review.likely?
+        if review.likely?
+          score -= 2
+        elsif review.maybe?
           score -= 1
-        elsif review.impossible?
+        elsif review.unlikely?
           score += 1
+        elsif review.impossible?
+          score += 2
         end
       end
 
