@@ -15,5 +15,8 @@ application.register("mapbox", MapboxController)
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
+import AutofilladdressController from "./autofilladdress_controller"
+application.register("autofilladdress", AutofilladdressController)
+
 import ShowOnRadioButtonValueController from "./show_on_radio_button_value_controller"
 application.register("show-on-radio-button-value", ShowOnRadioButtonValueController)
