@@ -3,6 +3,9 @@
 
 import { application } from "./application"
 
+import AutofilladdressController from "./autofilladdress_controller"
+application.register("autofilladdress", AutofilladdressController)
+
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
@@ -15,8 +18,8 @@ application.register("mapbox", MapboxController)
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
-import AutofilladdressController from "./autofilladdress_controller"
-application.register("autofilladdress", AutofilladdressController)
+import MultiselectController from "./multiselect_controller"
+application.register("multiselect", MultiselectController)
 
 import ShowOnRadioButtonValueController from "./show_on_radio_button_value_controller"
 application.register("show-on-radio-button-value", ShowOnRadioButtonValueController)
