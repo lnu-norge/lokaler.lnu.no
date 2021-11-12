@@ -111,10 +111,26 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   def parse_facility_reviews(facility_reviews, review = nil)
-    known_reviews = delete_all_unknown facility_reviews.values
+    # Converting to .values exists solely because I didn't manage to create a
+    # form with radio buttons that sent the facility_reviews in a way that could
+    # be automatically picked up by Rails AND still be seen as individual in the form itself.
+    # Thus, we have to parse what is sent from the form here into something
+    # that more closely resembles what the model expects:
+    # Changes welcome!
+    facility_review_values = facility_reviews.values
+
+    known_reviews = delete_all_unknown facility_review_values
     add_user_and_space known_reviews, review
   end
 
+  # Facility Reviews only not need a user or space attached, as
+  # they are attached to reviews, who have both of those already.
+  # However, refactoring that means changing a lot of how
+  # facility reviews are calculated. Feel free to submit a PR if you
+  # want to!
+  #
+  # In the meantime, this code makes sure that we have user and space
+  # set, even though the form doesn't send them for each facility review.
   def add_user_and_space(facility_reviews, review = nil)
     facility_reviews.map do |facility_review|
       facility_review[:user] = review&.user ? review.user : current_user
@@ -123,6 +139,9 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
     end
   end
 
+  # This should be done in the model, but I never figured out how.
+  # I tried to .destroy and filter on before_validation, but
+  # it only got roll-backed.
   def delete_all_unknown(facility_reviews)
     facility_reviews.each do |facility_review|
       destroy_if_unknown(facility_review)
