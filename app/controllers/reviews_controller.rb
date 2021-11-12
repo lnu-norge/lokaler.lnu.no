@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ReviewsController < AuthenticateController
+class ReviewsController < AuthenticateController # rubocop:disable Metrics/ClassLength
   def index
     @reviews = Review.all
     @review = Review.new
@@ -113,13 +113,34 @@ class ReviewsController < AuthenticateController
   end
 
   def parse_facility_reviews(facility_reviews, review = nil)
-    facility_reviews
-      .values
-      .map do |facility_review|
-        facility_review[:user] = review&.user ? review.user : current_user
-        facility_review[:space_id] = review&.space&.id ? review.space.id : review_params["space_id"]
-        facility_review
-      end
+    known_reviews = delete_all_unknown facility_reviews.values
+    add_user_and_space known_reviews, review
+  end
+
+  def add_user_and_space(facility_reviews, review = nil)
+    facility_reviews.map do |facility_review|
+      facility_review[:user] = review&.user ? review.user : current_user
+      facility_review[:space_id] = review&.space&.id ? review.space.id : review_params["space_id"]
+      facility_review
+    end
+  end
+
+  def delete_all_unknown(facility_reviews)
+    facility_reviews.each do |facility_review|
+      destroy_if_unknown(facility_review)
+    end
+
+    facility_reviews.filter do |facility_review|
+      facility_review[:experience] != "unknown"
+    end
+  end
+
+  def destroy_if_unknown(facility_review)
+    return false unless facility_review[:experience] == "unknown"
+    return false if facility_review[:id].blank?
+
+    current = FacilityReview.find(facility_review[:id])
+    current&.destroy
   end
 
   def review_params

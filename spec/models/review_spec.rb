@@ -76,9 +76,7 @@ RSpec.describe Review, type: :request do
   let(:review) { Fabricate(:review, user: user) }
   let(:space) { review.space }
   let(:facility) { Fabricate(:facility) }
-
-  before do
-    sign_in user
+  let(:facility_review) do
     Fabricate(
       :facility_review,
       space: space,
@@ -89,12 +87,17 @@ RSpec.describe Review, type: :request do
     )
   end
 
+  before do
+    sign_in user
+  end
+
   it "can load the edit path" do
     get edit_review_path(review)
     expect(response).to have_http_status(:success)
   end
 
   it "has loaded the facility review, and set it to unlikely" do
+    facility_review.reload
     expect(review.facility_reviews.count).to eq(1)
     space.aggregate_facility_reviews
     expect(space.reviews_for_facility(facility)).to eq("unlikely")
@@ -105,6 +108,7 @@ RSpec.describe Review, type: :request do
       review: {
         facility_reviews_attributes: {
           "#{facility.id}": {
+            id: facility_review.id,
             facility_id: facility.id,
             experience: "was_allowed"
           }
@@ -119,11 +123,13 @@ RSpec.describe Review, type: :request do
   end
 
   it "will delete the facility review if the Review is updated, and it is set to unknown" do
+    facility_review.reload
     expect(review.facility_reviews.count).to eq(1)
     patch review_path(review), params: {
       review: {
         facility_reviews_attributes: {
           "#{facility.id}": {
+            id: facility_review.id,
             facility_id: facility.id,
             experience: "unknown"
           }
