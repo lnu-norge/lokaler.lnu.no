@@ -8,8 +8,7 @@ class Review < ApplicationRecord
   belongs_to :organization
 
   has_many :facility_reviews, dependent: :destroy
-  accepts_nested_attributes_for :facility_reviews,
-                                reject_if: proc { |attributes| attributes["experience"] == "unknown" }
+  accepts_nested_attributes_for :facility_reviews
 
   enum how_much: { custom_how_much: 0, whole_space: 1, one_room: 2 }
   enum how_long: { custom_how_long: 0, one_weekend: 1, one_evening: 2 }
