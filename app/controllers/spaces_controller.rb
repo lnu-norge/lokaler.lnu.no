@@ -16,9 +16,9 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     return redirect_to spaces_path, alert: t("address_search.didnt_find") if address_params.nil?
 
     @space = Space.create!(
+      space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title]),
       **space_params,
-      **address_params,
-      space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title])
+      **address_params
     )
 
     redirect_to space_path(@space)
@@ -50,6 +50,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     @space = Space.find(params[:id])
     address_params = get_address_params(params)
     if @space.update(
+      space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title]),
       **space_params,
       **address_params
     )
