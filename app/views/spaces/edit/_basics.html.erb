@@ -1,28 +1,6 @@
-<div>
-  <%= form.label :title %> *
-  <%= form.text_field :title, class: "border-4" %>
-</div>
-
-<div>
-  <%= form.label :space_type_id %>
-  <%= form.collection_select :space_type_id, SpaceType.all, :id, :type_name, class: "border-4" %>
-</div>
-
-<div>
-  <%= form.label :fits_people %>
-  <%= form.number_field :fits_people, class: "border-4" %>
-</div>
-
-<div>
-  <%= form.label :space_owner_id %>
-  <%= form.collection_select :space_owner_id, SpaceOwner.all, :id, :title, class: "border-4" %>
-</div>
-
-<div>
-  <%= form.label :organization_number %>
-  <%= form.text_field :organization_number, class: "border-4" %>
-</div>
-
-<%= render partial: 'spaces/edit/where', locals: {
-  form: form
-} %>
+<%= edit_field 'title', form %>
+<%= edit_field 'space_type', form %>
+<%= edit_field 'fits_people', form %>
+<%= edit_field 'space_owner', form %>
+<%= edit_field 'organization_number', form %>
+<%= edit_field 'where', form %>
