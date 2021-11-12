@@ -34,7 +34,7 @@ module Spaces
       return aggregated_review.unknown! if count.zero?
 
       # Set criteria:
-      impossible_threshold = (count / 2.0).ceil
+      impossible_threshold = [(count / 2.0).ceil, 2].max
       positive_threshold = (count / 3.0 * 2.0).ceil
       negative_threshold = (count / 3.0 * 2.0).ceil
 
