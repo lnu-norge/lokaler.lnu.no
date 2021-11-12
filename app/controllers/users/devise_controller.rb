@@ -18,9 +18,5 @@ module Users
 
     self.responder = Responder
     respond_to :html, :turbo_stream
-
-    def update_resource(resource, params)
-      resource.update_without_password(params)
-    end
   end
 end
