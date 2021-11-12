@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   # Resources
   resources "facilities", except: "new"
   resources "space_owners", except: "new"
+  resources "space_contacts", only: [:create, :edit, :update, :destroy, :show]
 
   # Review routes
   resources "reviews", except: "new"
