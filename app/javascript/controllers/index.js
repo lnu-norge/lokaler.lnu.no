@@ -3,6 +3,8 @@
 
 import { application } from "./application"
 
+require("../../javascript/stylesheets/tom-select.css")
+
 import AutofilladdressController from "./autofilladdress_controller"
 application.register("autofilladdress", AutofilladdressController)
 
