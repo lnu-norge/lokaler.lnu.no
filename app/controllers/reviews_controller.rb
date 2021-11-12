@@ -93,8 +93,7 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   def common_review_attributes
-    @facilities_no_data = @space.aggregated_facility_reviews.unknown
-    @facilities_has_data = @space.aggregated_facility_reviews.neither_unknown_nor_impossible
+    @facilities_shown = @space.aggregated_facility_reviews.not_impossible
     @facilities_hidden = @space.aggregated_facility_reviews.impossible
   end
 
