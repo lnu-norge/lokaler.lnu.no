@@ -5,9 +5,8 @@ class AggregatedFacilityReview < ApplicationRecord
   belongs_to :facility
   belongs_to :space
 
-  scope :unknown, -> { where(experience: :unknown) }
   scope :impossible, -> { where(experience: :impossible) }
-  scope :neither_unknown_nor_impossible, -> { where.not(experience: [:unknown, :impossible]) }
+  scope :not_impossible, -> { where.not(experience: :impossible) }
   scope :in_category, lambda { |facility_category_id|
     joins(:facility).where("facility.facility_category_id": facility_category_id)
   }

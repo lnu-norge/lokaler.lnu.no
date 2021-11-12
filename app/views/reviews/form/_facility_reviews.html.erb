@@ -1,9 +1,9 @@
-<% unless @facilities_has_data.empty? %>
+<% unless @facilities_shown.empty? %>
   <h2><%= t('reviews.form.were_you_allowed_to_use') %></h2>
 
   <%=
     render partial: 'reviews/new/facilities', locals: {
-      facilities: @facilities_has_data,
+      facilities: @facilities_shown,
       form: form
     }
   %>
@@ -15,18 +15,6 @@
   <%=
     render partial: 'reviews/new/facilities', locals: {
       facilities: @facilities_hidden,
-      form: form
-    }
-  %>
-<% end  %>
-
-<% unless @facilities_no_data.empty? %>
-  <h2><%= t('reviews.form.this_space_is_new_to_us!') %></h2>
-  <h2><%= t('reviews.form.do_you_know_which_facilities_exist_and_can_be_loaned?') %></h2>
-
-  <%=
-    render partial: 'reviews/new/facilities', locals: {
-      facilities: @facilities_no_data,
       form: form
     }
   %>
