@@ -16,7 +16,8 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
     @space = Space.create!(
       **space_params,
-      **address_params
+      **address_params,
+      space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title])
     )
 
     redirect_to space_path(@space)
@@ -133,7 +134,6 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       :address,
       :lat,
       :lng,
-      :space_owner_id,
       :space_type_id,
       :post_number,
       :post_address,
