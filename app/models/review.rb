@@ -5,7 +5,7 @@ class Review < ApplicationRecord
 
   belongs_to :user
   belongs_to :space
-  belongs_to :organization
+  belongs_to :organization, optional: true
 
   has_many :facility_reviews, dependent: :destroy
   accepts_nested_attributes_for :facility_reviews
@@ -26,7 +26,6 @@ class Review < ApplicationRecord
   validates :how_long_custom, presence: true, if: :custom_how_long?
   validates :price, numericality: { greater_than: 0 }, allow_nil: true
   validates :star_rating, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }, if: :been_there?
-  validates :organization, presence: true
   validates :facility_reviews, presence: true, if: :only_contacted?
 
   after_save { space.aggregate_star_rating }

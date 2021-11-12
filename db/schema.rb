@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 
-ActiveRecord::Schema.define(version: 2021_11_02_165441) do
+ActiveRecord::Schema.define(version: 2021_11_12_181749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 2021_11_02_165441) do
     t.bigint "space_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organization_id", null: false
+    t.integer "organization_id"
     t.integer "how_much"
     t.string "how_much_custom"
     t.integer "how_long"
