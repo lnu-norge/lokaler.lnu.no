@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-Rails.application.routes.draw do
+Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   devise_for :users,
              path: "",
              path_names: {
                sign_in: "signin",
                sign_out: "signout",
                sign_up: "signup"
-             }
+             },
+             controllers: { registrations: "users/registrations" }
 
   devise_scope :user do
     authenticated :user do
