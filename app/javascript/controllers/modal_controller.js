@@ -7,7 +7,7 @@ export default class extends Controller {
   connect() {
     document.body.classList.add('overflow-hidden')
     this.backgroundTarget.onclick = (event) => {
-      // Check that we didn't click anything else it:
+      // Check that we didn't click anything else:
       if (event.target !== this.backgroundTarget) return
 
       // Then close the modal:
