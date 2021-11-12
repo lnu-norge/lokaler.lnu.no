@@ -1,20 +1,9 @@
-<% unless @facilities_shown.empty? %>
+<% unless @facility_reviews.empty? %>
   <h2><%= t('reviews.form.were_you_allowed_to_use') %></h2>
 
   <%=
     render partial: 'reviews/new/facilities', locals: {
-      facilities: @facilities_shown,
-      form: form
-    }
-  %>
-<% end  %>
-
-<% unless @facilities_hidden.empty? %>
-  <h2><%= t('reviews.form.show_facilities_others_said_wasnt_here') %></h2>
-
-  <%=
-    render partial: 'reviews/new/facilities', locals: {
-      facilities: @facilities_hidden,
+      facilities: @facility_reviews,
       form: form
     }
   %>
