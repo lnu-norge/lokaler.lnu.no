@@ -5,9 +5,8 @@ Locals:
 %>
 
 <% FacilityCategory.all.each do |category| %>
-  <%
-    facilities_in_category = facilities.in_category(category)
-  %>
+
+  <% facilities_in_category = facilities.in_category(category) %>
 
   <% unless facilities_in_category.empty?  %>
     <%= tag.h3 category.title unless category.id == "1" %>
