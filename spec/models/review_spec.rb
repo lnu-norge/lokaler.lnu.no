@@ -91,6 +91,43 @@ RSpec.describe Review, type: :request do
     sign_in user
   end
 
+  it "can load the new paths" do
+    get new_review_path(space_id: space.id)
+    expect(response).to have_http_status(:success)
+
+    get new_review_with_type_of_contact_path(
+      space_id: space.id,
+      type_of_contact: :not_allowed_to_use
+    )
+    expect(response).to have_http_status(:success)
+
+    get new_review_with_type_of_contact_path(
+      space_id: space.id,
+      type_of_contact: :only_contacted
+    )
+    expect(response).to have_http_status(:success)
+
+    get new_review_with_type_of_contact_path(
+      space_id: space.id,
+      type_of_contact: :been_there
+    )
+    expect(response).to have_http_status(:success)
+  end
+
+  it "can create a new review" do
+    expect(space.reviews.count).to eq(1)
+    post reviews_path, params: {
+      review: {
+        title: "They are all mean to me",
+        type_of_contact: :not_allowed_to_use,
+        space: space
+      }
+    }
+    follow_redirect!
+    expect(response).to have_http_status(:success)
+    expect(space.reviews.count).to eq(2)
+  end
+
   it "can load the edit path" do
     get edit_review_path(review)
     expect(response).to have_http_status(:success)
