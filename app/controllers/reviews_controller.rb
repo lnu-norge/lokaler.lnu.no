@@ -35,7 +35,7 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
     params = parse_before_update review_params, @review
 
     if @review.update(params)
-      redirect_to reviews_path
+      redirect_to space_path(@space)
     else
       render :edit, status: :unprocessable_entity
     end
