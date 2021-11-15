@@ -4,9 +4,10 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   before_action :set_review_from_id, only: [:show, :edit, :update]
   before_action :set_space_from_review, only: [:show, :edit, :update]
   before_action :set_new_review_attributes, only: [:new, :new_with_type_of_contact]
+  before_action :authorize_user, only: [:edit, :update]
 
   def index
-    @reviews = Review.all
+    @reviews = current_user.reviews
   end
 
   def show; end
@@ -44,6 +45,15 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   private
+
+  def authorize_user
+    return if @review.user && @review.user == current_user
+
+    # TODO: This t(string) should be something like "You are not authorized".
+    # TODO: Change it when the devise nb translations hit main.
+    flash[:alert] = t("devise.failure.unauthenticated")
+    redirect_back fallback_location: spaces_path
+  end
 
   def set_review_from_id
     @review = Review.find(params[:id])
