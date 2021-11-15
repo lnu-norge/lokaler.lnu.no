@@ -10,8 +10,7 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
     @reviews = Review.all
   end
 
-  def show
-  end
+  def show; end
 
   def create
     params = parse_before_create review_params
@@ -23,16 +22,14 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
     end
   end
 
-  def new
-  end
+  def new; end
 
   def new_with_type_of_contact
     @review.type_of_contact = params[:type_of_contact]
     render "new_#{params[:type_of_contact]}"
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     params = parse_before_update review_params, @review
