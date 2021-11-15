@@ -1,0 +1,17 @@
+<%= form_with model: space do |form| %>
+  <%= edit_field 'title', form %>
+  <%= edit_field 'where', form %>
+  <%= edit_field 'organization_number', form %>
+  <%= edit_field 'fits_people', form %>
+  <%= edit_field 'space_type', form %>
+  <%= edit_field 'space_owner', form %>
+  <%= edit_field 'how_to_book', form %>
+  <%= edit_field 'who_can_use', form %>
+  <%= edit_field 'pricing', form %>
+  <%= edit_field 'terms', form %>
+  <%= edit_field 'more_info', form %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
