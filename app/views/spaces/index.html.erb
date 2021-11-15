@@ -17,12 +17,15 @@
         class="absolute m-2 top-0 right-0 bg-lnu-pink p-2 text-white">Filter</button>
     </div>
     <div class="md:h-screen overflow-auto pt-4 px-4 static">
-      <h1 class="text-2xl"><%= Space.model_name.human(count: 2) %></h1>
-      <details class="p-4 cursor-pointer border-4 border-green-400 bg-green-50">
-        <summary class="text-green-600 font-bold">Create new space</summary>
-        <%= render partial: "spaces/create/form", locals: { space: @space } %>
-      </details>
-
+      <div class="flex">
+        <h1 class="text-2xl mt-1"><%= Space.model_name.human(count: 2) %></h1>
+        <%= link_to new_space_path, class: 'ml-2 unstyled-link edit-button collapsable' do %>
+          <span class="text">
+            Legg til lokale
+          </span>
+          <%= inline_svg 'plus', alt: t('space_listing.new_space'), title: t('space_listing.new_space'), class: "w-4 h-4" %>
+        <% end %>
+      </div>
       <div id="space-listing">
       </div>
     </div>
