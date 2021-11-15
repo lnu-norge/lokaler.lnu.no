@@ -21,7 +21,7 @@
         <h1 class="text-2xl mt-1"><%= Space.model_name.human(count: 2) %></h1>
         <%= link_to new_space_path, class: 'ml-2 unstyled-link edit-button collapsable' do %>
           <span class="text">
-            Legg til lokale
+            <%= t('space_listing.new_space') %>
           </span>
           <%= inline_svg 'plus', alt: t('space_listing.new_space'), title: t('space_listing.new_space'), class: "w-4 h-4" %>
         <% end %>
