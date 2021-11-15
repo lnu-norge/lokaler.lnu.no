@@ -36,6 +36,10 @@ class Space < ApplicationRecord
     aggregate_star_rating
   end
 
+  def reviews
+    Review.includes([:user, :facility_reviews]).where(space_id: id)
+  end
+
   def reviews_for_facility(facility)
     AggregatedFacilityReview.find_by(space: self, facility: facility).experience
   end

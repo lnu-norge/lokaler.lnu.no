@@ -89,9 +89,11 @@ RSpec.describe Review, type: :request do
 
   before do
     sign_in user
+    facility_review.reload
+    space.aggregate_facility_reviews
   end
 
-  it "can load the new paths" do
+  it "can load the new review paths" do
     get new_review_path(space_id: space.id)
     expect(response).to have_http_status(:success)
 
@@ -120,7 +122,7 @@ RSpec.describe Review, type: :request do
       review: {
         title: "They are all mean to me",
         type_of_contact: :not_allowed_to_use,
-        space: space
+        space_id: space.id
       }
     }
     follow_redirect!
@@ -134,9 +136,7 @@ RSpec.describe Review, type: :request do
   end
 
   it "has loaded the facility review, and set it to unlikely" do
-    facility_review.reload
     expect(review.facility_reviews.count).to eq(1)
-    space.aggregate_facility_reviews
     expect(space.reviews_for_facility(facility)).to eq("unlikely")
   end
 
@@ -160,7 +160,6 @@ RSpec.describe Review, type: :request do
   end
 
   it "will delete the facility review if the Review is updated, and it is set to unknown" do
-    facility_review.reload
     expect(review.facility_reviews.count).to eq(1)
     patch review_path(review), params: {
       review: {

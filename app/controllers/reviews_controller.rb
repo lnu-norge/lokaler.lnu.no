@@ -3,7 +3,6 @@
 class ReviewsController < AuthenticateController # rubocop:disable Metrics/ClassLength
   before_action :set_review_from_id, only: [:show, :edit, :update]
   before_action :set_space_from_review, only: [:show, :edit, :update]
-  before_action :set_facility_reviews, only: [:edit, :update, :new]
   before_action :set_new_review_attributes, only: [:new, :new_with_type_of_contact]
 
   def index
@@ -29,9 +28,12 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
     render "new_#{params[:type_of_contact]}"
   end
 
-  def edit; end
+  def edit
+    set_facility_reviews
+  end
 
   def update
+    set_facility_reviews
     params = parse_before_update review_params, @review
 
     if @review.update(params)
@@ -54,6 +56,7 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   def set_new_review_attributes
     @space = Space.find(params[:space_id]) unless defined? @review
     @review = Review.new(space: @space) unless defined? @review
+    set_facility_reviews
   end
 
   def set_facility_reviews
@@ -80,6 +83,7 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
 
   def create_error
     @space = @review.space
+    set_facility_reviews
     # Different types of contact should be sent to different error forms
     case @review.type_of_contact
     when "been_there"
@@ -94,15 +98,20 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   def parse_before_update(review_params, review)
-    review_params["facility_reviews_attributes"] = parse_facility_reviews(
-      review_params["facility_reviews_attributes"],
-      review
-    )
+    if review_params["facility_reviews_attributes"]
+      review_params["facility_reviews_attributes"] = parse_facility_reviews(
+        review_params["facility_reviews_attributes"],
+        review
+      )
+    end
     review_params
   end
 
   def parse_before_create(review_params)
-    review_params["facility_reviews_attributes"] = parse_facility_reviews(review_params["facility_reviews_attributes"])
+    if review_params["facility_reviews_attributes"]
+      review_params["facility_reviews_attributes"] =
+        parse_facility_reviews(review_params["facility_reviews_attributes"])
+    end
     review_params["user"] = current_user
     review_params
   end
