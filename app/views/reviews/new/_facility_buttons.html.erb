@@ -4,10 +4,6 @@ Locals:
 - form (Form for a new or editing Review)
 - facility_review (a new or old facility)
 %>
-<%
-  icon = facility.icon
-  title = facility.title
-%>
 <li
   class="flex items-center gap-1.5">
   <%= form.fields_for "facility_reviews_attributes[#{facility.id}]", facility_review do |f| %>
@@ -15,8 +11,8 @@ Locals:
     <%= f.hidden_field :id, value: facility_review.id %>
     <fieldset class="flex mt-3">
         <legend class="flex gap-2 text-lg items-center mb-1 mt-3">
-          <%= title %>
-          <%= inline_svg "facilities/#{icon}" %>
+          <%= facility.title %>
+          <%= inline_svg "facilities/#{facility.icon}" %>
         </legend>
         <div class="radio-slider">
           <% [
