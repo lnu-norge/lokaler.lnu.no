@@ -29,7 +29,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   post "admin/revert_changes", to: "admin#revert_changes"
 
   # Spaces routes
-  resources "spaces", except: "new"
+  resources "spaces"
   get "/spaces/:id/edit/:field", to: "spaces#edit_field", as: "edit_field"
   get "spaces_search", to: "spaces#spaces_search"
   get "rect_for_spaces", to: "spaces#rect_for_spaces"

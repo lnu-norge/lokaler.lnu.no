@@ -35,6 +35,7 @@ nb:
     didnt_find: 'Fant ikke adressen'
   space_listing:
     no_results: 'Ingen resultater'
+    new_space: 'Legg til nytt lokale'
   space_show:
     only_for_space: "Kun for %{title}:"
     common_to_all_owned_by: 'Felles for %{owner_title}:'
