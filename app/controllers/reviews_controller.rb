@@ -143,21 +143,10 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   # I tried to .destroy and filter on before_validation, but
   # it only got roll-backed.
   def delete_all_unknown(facility_reviews)
-    facility_reviews.each do |facility_review|
-      destroy_if_unknown(facility_review)
-    end
+    ids = facility_reviews.filter_map { |review| review[:id] if review[:experience] == "unknown" }
+    FacilityReview.where(id: ids).destroy_all
 
-    facility_reviews.filter do |facility_review|
-      facility_review[:experience] != "unknown"
-    end
-  end
-
-  def destroy_if_unknown(facility_review)
-    return false unless facility_review[:experience] == "unknown"
-    return false if facility_review[:id].blank?
-
-    current = FacilityReview.find(facility_review[:id])
-    current&.destroy
+    facility_reviews.delete_if { |review| review[:experience] == "unknown" }
   end
 
   def review_params
