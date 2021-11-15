@@ -109,6 +109,7 @@ If you are on Windows we recommend using Windows Subsystem for Linux version 2 i
 We deploy the main app to Heroku, following Herokus standard practice.
 
 In addition to the standard procedure, we have added an ENV variable ["SEED_FILE"](https://github.com/lnu-norge/lokaler.lnu.no/pull/66) for when you want Heroku (or any other system) to load a different seed file than the current environment dictates. Useful for Heroku, as Heroku always wants you to run in production mode - but you might want to seed with development data.
+To get sendgrid to work you will also need to set the ENV variable ["HOST"] to equal to the domain you are using, example: `ENV["HOST"] = "app.herokuapp.com`
 
 # Want to learn to code or learn Rails?
 ---
