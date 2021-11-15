@@ -1,0 +1,55 @@
+nb:
+  simple_form:
+    "yes": 'Ja'
+    "no": 'Nei'
+    required:
+      text: 'påkrevd'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Vennligst se over feilene under:"
+    # Examples
+    labels:
+      user:
+        email: "E-post"
+        signed_out: "Logget ut"
+        signed_in: "Logget inn"
+        signout: "Logg ut"
+        edit_account: "Rediger konto"
+        register_instead: "registrer deg her"
+        remember_me: "Husk meg"
+        forgot_password: "Glemt passordet ditt?"
+        submit_login: "Logg inn"
+        password_reset: "Send instruksjoner for nytt passord"
+        change_password: "Endre ditt passord"
+        first_name: "Fornavn"
+        last_name: "Etternavn"
+        password: "Passord"
+        password_confirmation: "Bekreft passord"
+        current_password: "Skriv nytt passord her om du vil bytte"
+        confirm_password: "Bekreft passord"
+        min_password_length: " tegn er minimum passordlengde"
+        current_password_explanation: "Vi må ha ditt nåværende passord for å gjøre forandringene"
+        submit_registration: "Registrer deg"
+        save_edit_registration: "Oppdater din konto"
+        heading_edit: "Rediger din bruker"
+        delete_account: "Slett din konto"
+        delete_account_confirmation: "Er du sikker?"
+        heading_new: "Registrer deg som bruker"
+        or: "eller"
+        logg_in_instead: "logg deg inn her"
+        back: "Tilbake"
+        email_example: "epost@epost.no"
+        session:
+          heading_new: "Logg inn til din bruker"
+    placeholders:
+      user:
+        email: "epost@epost.no"
+        first_name: "Fornavn"
+        last_name: "Etternavn"
+        password: "******"
+        password_confirmation: "Bekreft passord"
+        current_password: "Skriv nytt passord her om du vil bytte"
+        organization: "Organisasjon"
