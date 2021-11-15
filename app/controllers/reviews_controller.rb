@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class ReviewsController < AuthenticateController # rubocop:disable Metrics/ClassLength
+  before_action :set_review_from_id, only: [:show, :edit, :update]
+  before_action :set_space_from_review, only: [:show, :edit, :update]
+  before_action :set_facility_reviews, only: [:edit, :update, :new]
+  before_action :set_new_review_attributes, only: [:new, :new_with_type_of_contact]
+
   def index
     @reviews = Review.all
-    @review = Review.new
   end
 
   def show
-    @review = Review.find(params[:id])
   end
 
   def create
@@ -21,27 +24,18 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   def new
-    new_review_attributes
   end
 
   def new_with_type_of_contact
-    new_review_attributes
     @review.type_of_contact = params[:type_of_contact]
     render "new_#{params[:type_of_contact]}"
   end
 
   def edit
-    @review = Review.find(params[:id])
-    @space = @review.space
-    common_review_attributes
   end
 
   def update
-    @review = Review.find(params[:id])
-    @space = @review.space
-
-    common_review_attributes
-    params = parse_before_update(review_params, @review)
+    params = parse_before_update review_params, @review
 
     if @review.update(params)
       redirect_to reviews_path
@@ -51,6 +45,23 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   private
+
+  def set_review_from_id
+    @review = Review.find(params[:id])
+  end
+
+  def set_space_from_review
+    @space = @review.space
+  end
+
+  def set_new_review_attributes
+    @space = Space.find(params[:space_id]) unless defined? @review
+    @review = Review.new(space: @space) unless defined? @review
+  end
+
+  def set_facility_reviews
+    @facility_reviews = @space.aggregated_facility_reviews
+  end
 
   def create_success
     respond_to do |format|
@@ -72,7 +83,6 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
 
   def create_error
     @space = @review.space
-    common_review_attributes
     # Different types of contact should be sent to different error forms
     case @review.type_of_contact
     when "been_there"
@@ -84,16 +94,6 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
     else
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def new_review_attributes
-    @space = Space.find(params[:space_id]) unless defined? @review
-    @review = Review.new(space: @space) unless defined? @review
-    common_review_attributes
-  end
-
-  def common_review_attributes
-    @facility_reviews = @space.aggregated_facility_reviews
   end
 
   def parse_before_update(review_params, review)
