@@ -24,6 +24,11 @@ RSpec.describe Review, type: :request do
     space.aggregate_facility_reviews
   end
 
+  it "has loaded the test data correctly for the request tests to come" do
+    expect(review.facility_reviews.count).to eq(1)
+    expect(space.reviews_for_facility(facility)).to eq("unlikely")
+  end
+
   it "can load the new review paths" do
     get new_review_path(space_id: space.id)
     expect(response).to have_http_status(:success)
@@ -64,11 +69,6 @@ RSpec.describe Review, type: :request do
   it "can load the edit path" do
     get edit_review_path(review)
     expect(response).to have_http_status(:success)
-  end
-
-  it "has loaded the facility review, and set it to unlikely" do
-    expect(review.facility_reviews.count).to eq(1)
-    expect(space.reviews_for_facility(facility)).to eq("unlikely")
   end
 
   it "will update the facility review if the Review is updated" do
