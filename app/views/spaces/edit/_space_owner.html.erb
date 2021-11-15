@@ -1,4 +1,11 @@
 <div>
   <%= form.label :space_owner_id %>
-  <%= form.collection_select :space_owner_id, SpaceOwner.all, :id, :title, class: "border-4" %>
+  <%= form.collection_select :space_owner_title, SpaceOwner.all, :title, :title, { selected: @space&.space_owner&.title},
+    {
+      data: {
+        controller: "multiselect",
+        "multiselect-allow-new-value": "true"
+      }
+    }
+  %>
 </div>
