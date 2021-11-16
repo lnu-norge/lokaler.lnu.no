@@ -1,0 +1,34 @@
+.radio-slider {
+  @apply overflow-hidden; // To hide the shadow from the buttons
+  @apply bg-gray-50 border border-gray-200 shadow-inner;
+  @apply p-0.5 rounded-xl;
+  @apply inline-flex gap-1 items-stretch flex-wrap;
+  &:focus-within {
+    @apply border-gray-300 bg-gray-50;
+  }
+  input[type="radio"] {
+    @apply sr-only;
+  }
+  input[type="radio"] + label {
+    @apply bg-transparent rounded-xl;
+    @apply flex justify-center items-center;
+    @apply px-3 py-1.5;
+  }
+  input + label:focus,
+  input:focus + label,
+  input + label:hover,
+  input:checked + label {
+    @apply cursor-pointer;
+    @apply shadow-md bg-white;
+  }
+
+  &:hover {
+    input:checked + label {
+      @apply bg-opacity-50;
+      @apply cursor-pointer;
+      &:hover {
+        @apply bg-opacity-100;
+      }
+    }
+  }
+}

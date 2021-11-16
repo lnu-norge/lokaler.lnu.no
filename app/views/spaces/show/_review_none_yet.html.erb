@@ -1,4 +1,6 @@
 <p><strong><%= t('reviews.no_reviews') %></strong> <%= t('reviews.in_contact') %></p>
 <p>
-  <%= link_to t('reviews.add_first'), new_review_path, class: 'inline-block border border-pink-600 py-2 px-4 rounded-md' %>
+  <%= render partial: 'spaces/show/review_link_to_new_review', locals: {
+    space: @space
+  } %>
 </p>

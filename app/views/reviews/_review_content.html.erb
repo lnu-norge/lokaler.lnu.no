@@ -1,0 +1,97 @@
+<% show_full_review = false unless defined?(:show_full_review) %>
+
+<div class="flex gap-1">
+  <%= inline_svg 'star', class: 'text-pink-600' if review.star_rating %>
+  <%= review.star_rating %>
+  <% unless review.star_rating %>
+    -
+    <% if review.type_of_contact %>
+      <%= t("activerecord.attributes.review.#{review.type_of_contact}") %>
+    <% else  %>
+      <%= t('reviews.not_used') %>
+    <% end %>
+  <% end %>
+</div>
+
+<% if review.title %>
+  <h3 class="small-mt"><%= review.title %></h3>
+<% end  %>
+<% if review.comment %>
+  <p>
+    <% if show_full_review  %>
+      <%= simple_format review.comment %>
+    <% elsif review.comment.length <= 88 %>
+      <%= review.comment %>
+    <% else %>
+      <%= truncate(review.comment, length: 88) %>
+      <%= modal_link_to t('read_more'), review %>
+    <% end %>
+  </p>
+<% end  %>
+
+<div class="flex gap-2 items-center mb-3">
+  <div class="avatar flex-shrink-0">
+    <%= image_tag review.user.gravatar_url %>
+  </div>
+  <div class="overflow-hidden text-sm leading-snug">
+    <div class="font-bold truncate">
+      <%= review.user.first_name %>
+      <%= review.user.last_name %>
+    </div>
+    <div class="truncate text-gray-500">
+     <%= t('reviews.unknown_org') %>
+    </div>
+  </div>
+</div>
+
+
+<% if review.how_much  %>
+  <div class="flex gap-1">
+    <%= inline_svg 'building' %>
+    <% if review.how_much == 'custom_how_much' %>
+      <%= review.how_much_custom %>
+    <% else  %>
+        <%= t("reviews.data.#{review.how_much}") %>
+    <% end  %>
+
+  </div>
+<% end %>
+
+<% if review.how_long  %>
+  <div class="flex gap-1">
+    <%= inline_svg 'calendar' %>
+    <% if review.how_long == 'custom_how_long' %>
+      <%= review.how_long_custom %>
+    <% else  %>
+      <%= t("reviews.data.#{review.how_long}") %>
+    <% end  %>
+
+  </div>
+<% end %>
+
+<% if review.been_there? %>
+  <div class="flex gap-1">
+    <%= inline_svg 'money' %>
+    <% if review.price %>
+      <%= review.price %> kr
+    <% else %>
+      <%= t('reviews.data.did_not_pay') %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if review.facility_reviews.any? %>
+  <hr class="my-1" />
+  <ul>
+  <% review.facility_reviews.each do |facility_review| %>
+    <li class="flex gap-1">
+        <%= render partial: 'spaces/show/facility_item', locals: {
+          title: facility_review.facility.title,
+          icon: facility_review.facility.icon,
+          review: facility_review.experience_icon,
+          tooltip: t("tooltips.facility_single_experience.#{facility_review.experience}")
+        } %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

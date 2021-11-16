@@ -1,15 +1,15 @@
 <div class="flex gap-2 items-baseline justify-between">
   <h2><%= Review.model_name.human(count: 2) %></h2>
-  <%= link_to t('reviews.add_review'), new_review_path, class: 'inline-block border border-pink-600 py-2 px-4 rounded-md' %>
+  <%= render partial: 'spaces/show/review_link_to_new_review', locals: {
+    space: @space
+  } %>
 </div>
 
 
 <% if @space.reviews.any? %>
-  <ul class="horizontal-cards">
-    <% @space.reviews.each do |review| %>
-      <li class="horizontal-card">
-        <%=  render partial: 'spaces/show/review_card', locals: {review: review}   %>
-      </li>
+  <ul class="horizontal-cards" id="reviews">
+    <% @space.reviews.reverse.each do |review| %>
+      <%= render partial: 'spaces/show/review_card', locals: {review: review}  %>
     <% end %>
   </ul>
 <% else %>

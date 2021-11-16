@@ -1,32 +1,43 @@
-<h1>New Review</h1>
+<%= form_with model: @review do |form| %>
+  <%= form.hidden_field :space_id, value: @review.space.id %>
+  <div class="content">
+    <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
 
-<%= form_with model: review do |form| %>
-  <div>
-    <%= form.label :title %>
-    <%= form.text_field :title, class: "border-4" %>
-  </div>
-  <div>
-    <%= form.label :comment %>
-    <%= form.text_field :comment, class: "border-4" %>
-  </div>
-  <div>
-    <%= form.label :price %>
-    <%= form.text_field :price, class: "border-4" %>
-  </div>
-  <div>
-    <%= form.label :star_rating %>
-    <%= form.text_field :star_rating, class: "border-4" %>
-  </div>
-  <div>
-    <%= form.label :user_id %>
-    <%= form.collection_select :user_id, User.all, :id, :email, class: "border-4" %>
-  </div>
-  <div>
-    <%= form.label :space_id %>
-    <%= form.collection_select :space_id, Space.all, :id, :address, class: "border-4" %>
-  </div>
+    <%= render partial: 'reviews/form/type_of_contact', locals: {
+      form: form,
+      review: @review
+    } %>
 
-  <div>
-    <%= form.submit %>
+    <%= render partial: 'reviews/form/facility_reviews', locals: {
+      form: form
+    } %>
+
+    <%= render partial: 'reviews/new/star_rating', locals: {
+      star_rating: @review.star_rating,
+      form: form
+    } %>
+
+    <hr />
+
+    <%= render partial: 'reviews/form/text_been_there', locals: {
+      form: form
+    } %>
+
+    <%= render partial: 'reviews/form/more_about_your_stay', locals: {
+      form: form
+    } %>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-300 block p-4">
+
+      <% if @review.errors.any? %>
+        <% @review.errors.full_messages.each do |message|%>\
+          <p><%= message %> </p>
+        <%end%>
+      <%end%>
+
+
+      <%= form.submit t('multistep_form_navigation.save') %>
+    </nav>
+
   </div>
-<% end %>
+<% end  %>

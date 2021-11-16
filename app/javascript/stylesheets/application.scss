@@ -3,9 +3,12 @@
 @import "tailwindcss/utilities";
 
 @import "./common_elements.scss";
-@import "./space.scss";
+@import "./content.scss";
 @import "./editable.scss";
 @import "./devise.scss";
 @import "./flash.scss";
 @import "./horizontal_card";
 @import "./avatar";
+@import "./modal";
+@import "./star_picker";
+@import "./radio_slider";

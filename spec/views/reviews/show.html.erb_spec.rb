@@ -9,7 +9,6 @@ RSpec.describe "reviews/show.html.erb", type: :view do
     assign(:review, review)
     render
 
-    expect(rendered).to match /h1/
     expect(rendered).to match /#{review.title}/
     expect(rendered).to match /#{review.comment}/
     expect(rendered).to match /#{review.price}/

@@ -37,7 +37,7 @@ frederikii_space = Space.create(
   organization_number: "974544466",
   municipality_code: "3004",
   fits_people: "1200",
-  star_rating: 4.7,
+  star_rating: nil,
   how_to_book: how_to_book,
   who_can_use: who_can_use,
   pricing: pricing,
