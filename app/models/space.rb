@@ -11,6 +11,7 @@ class Space < ApplicationRecord
 
   belongs_to :space_owner
   accepts_nested_attributes_for :space_owner
+
   scope :filter_on_space_types, ->(space_type_ids) { where(space_type_id: space_type_ids) }
   scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
@@ -33,6 +34,10 @@ class Space < ApplicationRecord
   after_create do
     aggregate_facility_reviews
     aggregate_star_rating
+  end
+
+  def reviews
+    Review.includes([:user, :facility_reviews]).where(space_id: id)
   end
 
   def reviews_for_facility(facility)
@@ -107,10 +112,14 @@ class Space < ApplicationRecord
         # this is so the sort_by later will be correct as it sorts by lowest first
         # we could do a reverse on the result of sort_by but this will incur
         # a performance overhead
-        if review.maybe? || review.likely?
+        if review.likely?
+          score -= 2
+        elsif review.maybe?
           score -= 1
-        elsif review.impossible?
+        elsif review.unlikely?
           score += 1
+        elsif review.impossible?
+          score += 2
         end
       end
 

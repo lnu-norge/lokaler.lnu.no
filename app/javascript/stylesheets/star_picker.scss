@@ -1,0 +1,88 @@
+// Adapted from the code at https://devsday.ru/blog/details/49083
+
+:root{
+  --star-rating-size: 3rem;
+  --unchecked-image: url("../../assets/images/star--grey.svg");
+  --checked-image: url("../../assets/images/star--pink.svg");
+  --hovered-image: url("../../assets/images/star--pink-light.svg");
+  --max-stars: 5;
+}
+
+.star-rating {
+  padding: 0.3rem;
+  legend {
+    margin-bottom: -0.5em;
+  }
+}
+
+.star-rating>div {
+  @apply border-2 border-transparent;
+  position: relative;
+  height: var(--star-rating-size);
+  width: calc(var(--star-rating-size) * var(--max-stars));
+  background-image: var(--unchecked-image);
+  background-size: var(--star-rating-size) var(--star-rating-size);
+}
+
+.star-rating label {
+  position: absolute;
+  height: 100%;
+  background-size: var(--star-rating-size) var(--star-rating-size);
+}
+
+.star-rating label:nth-of-type(1) {
+  z-index: 10;
+  width: calc(100% / var(--max-stars) * 1);
+}
+
+.star-rating label:nth-of-type(2) {
+  z-index: 9;
+  width: calc(100% / var(--max-stars) * 2);
+}
+
+.star-rating label:nth-of-type(3) {
+  z-index: 8;
+  width: calc(100% / var(--max-stars) * 3);
+}
+
+.star-rating label:nth-of-type(4) {
+  z-index: 7;
+  width: calc(100% / var(--max-stars) * 4);
+}
+
+.star-rating label:nth-of-type(5) {
+  z-index: 6;
+  width: calc(100% / var(--max-stars) * 5);
+}
+
+.star-rating input:checked + label,
+.star-rating input:focus + label{
+  background-image: var(--checked-image);
+}
+
+.star-rating input:checked + label:hover,
+.star-rating label:hover {
+  cursor: pointer;
+  background-image: var(--hovered-image);
+}
+
+.star-rating>div:focus-within {
+  outline: 2px dotted lightpink;
+  outline-offset: 2px;
+  border-radius: 5px;
+}
+
+.star-rating input,
+.star-rating label>span{
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+  clip: rect(1px, 1px, 1px, 1px); /*maybe deprecated but we need to support legacy browsers */
+  clip-path: inset(50%); /*modern browsers, clip-path works inwards from each corner*/
+  white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
+}

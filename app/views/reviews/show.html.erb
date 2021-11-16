@@ -1,6 +1,8 @@
-<div class="border-2 border-green-400 mt-4">
-  <h1>Title: <%= @review.title %></h1>
-  <p>Comment: <%= @review.comment %></p>
-  <p>Price: <%= @review.price %></p>
-  <p>Star Rating: <%= @review.star_rating %></p>
-</div>
+<%=
+  modal_content_for @review, @review.space do
+    render partial: 'reviews/review_content', locals: {
+      review: @review,
+      show_full_review: true
+    }
+  end
+%>
