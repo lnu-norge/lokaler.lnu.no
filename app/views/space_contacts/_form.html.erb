@@ -1,34 +1,22 @@
-<%= form_with model: space_contact, class: 'mt-8 space-y-6', data: { 'controller':"reset-form", action: 'turbo:submit-end->reset-form#reset' }, id: dom_id(space_contact) do |f| %>
+<%= turbo_frame_tag dom_id(space_contact) do %>
+  <%= simple_form_for space_contact,
+    url: space_contact.id.nil? ? space_contacts_path : space_contact_path(space_contact),
+    html: { id: dom_id(space_contact),
+    data: { 'controller':"reset-form",
+    action: 'turbo:submit-end->reset-form#reset' } } do |f| %>
+
     <%= f.hidden_field :space_id, value: space_contact.space_id %>
     <%= f.hidden_field :space_owner_id, value: space_contact.space_owner_id %>
     <div class="rounded-md shadow-sm -space-y-px">
-      <div>
-        <%= f.label :title, "Tittel", class: 'sr-only' %>
-        <%= f.text_field :title, class: 'fieldFirst textField', required: true, placeholder: "Tittel", 'data-hidden-target': "title", 'data-reset-form-target': "title" %>
-      </div>
-      <div>
-        <%= f.label :telephone, "Telefon", class: 'sr-only' %>
-        <%= f.telephone_field :telephone, class: 'textField', placeholder: "Telefon" %>
-      </div>
-      <div>
-        <%= f.label :telephone_opening_hours, "Åpningstider", class: 'sr-only' %>
-        <%= f.text_field :telephone_opening_hours, class: 'textField', placeholder: "Åpningstider" %>
-      </div>
-      <div>
-        <%= f.label :email, t('devise.registrations.user.email'), class: 'sr-only' %>
-        <%= f.email_field :email, class: 'textField', placeholder: 'epost@epost.no' %>
-      </div>
-      <div>
-        <%= f.label :url, "Nettside", class: 'sr-only' %>
-        <%= f.text_field :url, class: 'textField', placeholder: "Nettside" %>
-      </div>
-      <div>
-        <%= f.label :description, "Beskrivelse", class: 'sr-only' %>
-        <%= f.text_area :description, class: 'lastField textField', placeholder: "Beskrivelse" %>
-      </div>
+        <%= f.input :title, input_html: { class: 'fieldFirst', 'data-hidden-target': "title", 'data-reset-form-target': "title" } %>
+        <%= f.input :telephone %>
+        <%= f.input :telephone_opening_hours %>
+        <%= f.input :email %>
+        <%= f.input :url %>
+        <%= f.input :description, input_html: { class: 'fieldLast' } %>
     </div>
     <div class="mt-4">
-      <%= button_tag :submit, class: 'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-lnu-pink hover:bg-lnu-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lnu-pink' do %>
+      <%= button_tag :submit, class: 'submit' do %>
         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
           <!-- Heroicon name: figma contact -->
           <%= inline_svg_tag 'contact' %>
@@ -37,3 +25,4 @@
       <% end %>
     </div>
   <% end %>
+<% end %>

@@ -18,7 +18,11 @@ class SpaceContactsController < AuthenticateController
   def update
     return if @space_contact.update(space_contact_params)
 
-    render :edit, status: :unprocessable_entity
+    render turbo_stream: turbo_stream.replace(
+      @space_contact,
+      partial: "space_contacts/form",
+      locals: { space_contact: @space_contact }
+    )
   end
 
   def destroy
