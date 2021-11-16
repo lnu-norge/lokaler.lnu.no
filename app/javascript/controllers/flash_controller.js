@@ -1,6 +1,8 @@
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
+  static targets = ['flash']
+
   connect() {
     setTimeout(() => {
       this.element.classList.remove('opacity-0');
@@ -9,13 +11,15 @@ export default class extends Controller {
       setTimeout(() => {
         this.disconnect();
       }, 3500);
-    }, 50);
+    }, 10);
   }
 
   disconnect() {
+    this.element.classList.remove('opacity-100');
+    this.element.classList.add('opacity-0');
+
     setTimeout(() => {
-      this.element.classList.remove('opacity-100');
-      this.element.classList.add('opacity-0');
-    }, 50);
+      this.flashTarget.remove();
+    }, 1000);
   }
 }
