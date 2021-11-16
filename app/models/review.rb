@@ -32,11 +32,10 @@ class Review < ApplicationRecord
   after_destroy { space.aggregate_star_rating }
 
   def facility_review_for(facility)
-    facility_reviews.find_by facility: facility.id
-  end
-
-  def facility_review_for_or_new(facility)
-    facility_review_for(facility) || FacilityReview.new(facility: facility)
+    facility_reviews.find_by(facility: facility.id) || FacilityReview.new(
+      review: self,
+      facility: facility
+    )
   end
 
   ICONS_FOR_TYPE_OF_CONTACT = {
