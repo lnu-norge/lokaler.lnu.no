@@ -44,6 +44,13 @@ nb:
         email_example: "epost@epost.no"
         session:
           heading_new: "Logg inn til din bruker"
+      space_contact:
+        title: "Tittel"
+        telephone: "Telefon"
+        telephone_opening_hours: "Åpningstider"
+        email: "E-post"
+        url: "Nettside"
+        description: "Beskrivelse"
     placeholders:
       user:
         email: "epost@epost.no"
@@ -53,3 +60,10 @@ nb:
         password_confirmation: "Bekreft passord"
         current_password: "Skriv nytt passord her om du vil bytte"
         organization: "Organisasjon"
+      space_contact:
+        title: "Tittel"
+        telephone: "Telefon"
+        telephone_opening_hours: "Åpningstider"
+        email: "E-post"
+        url: "Nettside"
+        description: "Beskrivelse"
