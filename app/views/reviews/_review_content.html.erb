@@ -1,4 +1,4 @@
-<% show_full_review = false unless local_assigns[:show_full_review].present? %>
+<% show_full_review = false unless defined?(:show_full_review) %>
 
 <div class="flex gap-1">
   <%= inline_svg 'star', class: 'text-pink-600' if review.star_rating %>
