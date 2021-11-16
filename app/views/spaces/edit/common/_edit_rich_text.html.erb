@@ -7,19 +7,19 @@
     tag.h3 t("space_show.only_for_space", title: @space.title) if SpaceOwner.method_defined? field
   %>
 
-  <%= form.rich_text_area field %>
+  <%= form.input field, as: :rich_text_area %>
 </div>
 
 <%=
   ## For when SpaceOwner has the same field, show the field:
   if SpaceOwner.method_defined? field
-    form.fields_for :space_owner do |space_owner_form| %>
+    form.fields_for @space.space_owner do |space_owner_form| %>
     <div>
       <h3 class="font-bold text-xl mt-4 mb-2">
         <%= space_owner_form.label field,
                                    t('space_show.common_to_all_owned_by', owner_title: @space.space_owner.title) %>
       </h3>
-      <%= space_owner_form.rich_text_area field %>
+      <%= space_owner_form.input field, as: :rich_text_area %>
     </div>
   <% end %>
 <% end %>
