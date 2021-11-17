@@ -29,6 +29,7 @@ def import_spaces_from_nsr_schools
     { type_name: "grunnskole" },
     { type_name: "vgs" }
   ]
+  p "importing #{space_types.length} space types"
   SpaceType.import new_all_unless_exists(SpaceType, space_types)
 
   # Trawl through it, and extract information into Rails format
@@ -39,19 +40,30 @@ def import_spaces_from_nsr_schools
     space_owners << space_owner_from(school)
   end
   # Save them
+  p "importing #{space_owners.length} space owners"
   SpaceOwner.import new_all_unless_exists(SpaceOwner, space_owners)
 
   # Then start parsing Spaces, as they depend on the above
   spaces = []
+  space_contacts = []
+  p "Parsing spaces and space contacts"
   data.each do |school|
     space = new_unless_exists Space, space_from(school)
-    next unless space
+    spaces << space if space
 
-    space = add_space_contacts_from(school, space)
-    spaces << space
+    space_contacts_from(school).each do |contact|
+      space_contact = new_unless_exists SpaceContact, contact
+      space_contact.space = Space.find_by space_from(school) if space_contact
+      space_contacts << space_contact if space_contact
+    end
   end
   # Save them all with import
-  Space.import spaces, recursive: true
+  p "importing #{spaces.length} spaces"
+  Space.import(spaces)
+
+  p "importing #{space_contacts.length} space contacts"
+  SpaceContact.import(space_contacts)
+
 
   p({
       info: "To import from NSR JSON:",

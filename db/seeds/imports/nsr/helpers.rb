@@ -69,20 +69,36 @@ def space_owner_from(school)
   }
 end
 
-def add_space_contacts_from(school, space)
-  contacts = school["contacts"].map { |contact| get_info contact }
-  contacts.filter! { |contact| contact[:email] || contact[:phone] || contact[:url] }
-  contacts.filter! { |contact| contact[:role] || contact[:name] || contact[:url] }
-  contacts_parsed = contacts.map do |contact|
+def get_valid_url(url)
+  return nil unless url&.present?
+  begin
+    uri = Addressable::URI.parse(url)
+    url = "http://#{url}" unless !uri ||  uri.blank? || uri.scheme
+    # Try to parse again, we might get an error now:
+    Addressable::URI.parse(url)
+    return url
+  rescue Addressable::URI::InvalidURIError
+    return nil
+  end
+end
+
+def space_contacts_from(school)
+  contacts = school["contacts"]&.map { |contact| get_info contact }
+  return unless contacts
+  contacts = contacts.filter { |contact| contact["email"].present? || contact["phone"].present? || contact["url"].present? }
+  contacts = contacts.filter { |contact| contact["role"].present? || contact["name"].present? }
+  contacts = contacts.map do |contact|
     parsed = {
-      title: "#{contact[:role]} #{contact[:name]}".strip
+      title: "#{contact["role"]} #{contact["name"]}".strip
     }
-    parsed["url"] = contact["url"] if contact["url"]&.present?
+
+    url = get_valid_url(contact["url"])
+    parsed["url"] = url if url&.present?
     parsed["email"] = contact["email"] if contact["email"]&.present?
     parsed["telephone"] = contact["phone"] if contact["phone"]&.present?
+    parsed
   end
-  space.space_contacts.build contacts_parsed
-  space
+  contacts
 end
 
 def new_unless_exists(model, item)
