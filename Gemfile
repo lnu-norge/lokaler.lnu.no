@@ -82,11 +82,10 @@ gem "http"
 gem "inline_svg"
 gem "kaminari"
 gem "paper_trail"
-gem 'rails-i18n'
 gem "phonelib"
+gem "rails-i18n"
 gem "sendgrid-ruby"
 gem "simple_form"
 gem "simple_form-tailwind"
 gem "tailwindcss-rails-webpacker", "~> 0.1.2"
 gem "validate_url"
-
