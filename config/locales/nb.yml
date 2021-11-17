@@ -42,6 +42,12 @@ nb:
   space_filter:
     location: 'Sted'
     more_filters: 'Flere filtere'
+  admin:
+    user: 'Bruker'
+    field: 'Felt'
+    event: 'Hendelse'
+    changes: 'Endringer'
+    changed_at: 'Endringstidspunkt'
   images:
     upload_success: "Bilde lastet opp"
     upload: "Last opp"
