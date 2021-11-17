@@ -74,6 +74,7 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 gem "devise", "~> 4.8"
 
+gem "activerecord-import"
 gem "diffy"
 gem "gravtastic"
 gem "hotwire-rails"
