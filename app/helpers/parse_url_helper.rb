@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require "uri"
-
 module ParseUrlHelper
   def parse_url
-    uri = URI.parse(url)
-    self.url = "http://#{uri}" unless uri.scheme || url.blank?
+    uri = Addressable::URI.parse(url)
+    self.url = "http://#{url}" unless uri.blank? || uri.scheme || url.blank?
   end
 end
