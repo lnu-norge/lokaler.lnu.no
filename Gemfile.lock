@@ -405,6 +405,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-import
+  addressable
   bootsnap (>= 1.4.4)
   bullet
   byebug
