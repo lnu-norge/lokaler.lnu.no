@@ -31,6 +31,7 @@ gem "image_processing"
 gem "bootsnap", ">= 1.4.4", require: false
 
 group :production do
+  gem "aws-sdk-s3"
   gem "newrelic_rpm"
 end
 
@@ -82,6 +83,7 @@ gem "inline_svg"
 gem "kaminari"
 gem "paper_trail"
 gem "phonelib"
+gem "rails-i18n"
 gem "sendgrid-ruby"
 gem "simple_form"
 gem "simple_form-tailwind"

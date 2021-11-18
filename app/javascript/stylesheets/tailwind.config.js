@@ -24,8 +24,10 @@ module.exports = {
       '100': 100,
       'auto': 'auto',
     },
-
     extend: {
+      maxHeight: {
+        '90vh': '90vh'
+      },
       spacing: {
         '2/3': '66.666667%',
       },

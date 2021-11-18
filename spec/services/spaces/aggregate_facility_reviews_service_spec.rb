@@ -29,8 +29,9 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
     expect(space.reload.reviews_for_facility(facility)).to eq("likely")
   end
 
-  it "turns into impossible if half or more say it does not exist" do
+  it "turns into impossible if half or more say it does not exist (out of a minimum of 2)" do
     experience :was_not_allowed
+    experience :was_not_available
     experience :was_not_available
     expect(space.reload.reviews_for_facility(facility)).to eq("impossible")
   end
