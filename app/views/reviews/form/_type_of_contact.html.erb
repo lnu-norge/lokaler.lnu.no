@@ -4,7 +4,7 @@
     <li>
       <%= link_to new_review_with_type_of_contact_path(review.space, type_of_contact) do %>
         <%= t("reviews.form.have_you_been_there_answers.#{type_of_contact}") %>
-        <%= inline_svg Review::ICONS_FOR_TYPE_OF_CONTACT[type_of_contact], class: 'inline-block' %>
+        <%= inline_svg_tag Review::ICONS_FOR_TYPE_OF_CONTACT[type_of_contact], class: 'inline-block' %>
       <% end %>
     </li>
   <% end  %>
