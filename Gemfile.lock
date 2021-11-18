@@ -377,9 +377,6 @@ GEM
     tilt (2.0.10)
     turbo-rails (0.7.12)
       rails (>= 6.0.0)
-    turbolinks (5.2.1)
-      turbolinks-source (~> 5.2)
-    turbolinks-source (5.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unf (0.1.4)
@@ -462,7 +459,6 @@ DEPENDENCIES
   simple_form
   simple_form-tailwind
   tailwindcss-rails-webpacker (~> 0.1.2)
-  turbolinks (~> 5)
   tzinfo-data
   validate_url
   vcr
