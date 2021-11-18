@@ -53,8 +53,10 @@ def import_spaces_from_nsr_schools
 
     space_contacts_from(school).each do |contact|
       space_contact = new_unless_exists SpaceContact, contact
-      space_contact.space = Space.find_by space_from(school) if space_contact
-      space_contacts << space_contact if space_contact
+      if space_contact
+        space_contact.space = space || Space.find_by(space_from(school))
+        space_contacts << space_contact if space_contact
+      end
     end
   end
   # Save them all with import
