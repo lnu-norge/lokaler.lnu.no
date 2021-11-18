@@ -31,6 +31,7 @@ gem "image_processing"
 gem "bootsnap", ">= 1.4.4", require: false
 
 group :production do
+  gem "aws-sdk-s3"
   gem "newrelic_rpm"
 end
 
