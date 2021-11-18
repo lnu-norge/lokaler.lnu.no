@@ -12,6 +12,7 @@ nb:
       default_message: "Vennligst se over feilene under:"
     # Examples
     labels:
+
       user:
         email: "E-post"
         signed_out: "Logget ut"
