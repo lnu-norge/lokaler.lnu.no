@@ -35,17 +35,44 @@ def knead_title(title)
   title
 end
 
+def validate_lat_long(school)
+  # p "Validating address for school  lat: #{school["lat"]}, lon: #{school["lon"]}"
+  return {
+    lat: school["lat"],
+    lng: school["lon"],
+    municipality_code: school["kommuneNummer"]
+  } unless !school["lat"] || school["lat"] == 0
+  return nil unless school["address"]["street"] # We need the street, else we get too many false matches.
+  begin
+    # If lat lon is not set from NSR school, then we have to set it ourselves:
+    # p "Looking up address for school lat: #{school["lat"]}, lon: #{school["lon"]}"
+    results = Spaces::LocationSearchService.call(
+      address: school["address"]["street"],
+      post_number: school["address"]["postnumber"],
+      post_address: school["address"]["poststed"]
+    )
+  rescue
+    # Any erros, skip this space:
+    return nil
+  else
+    return nil if results.empty?
+    return results.first
+  end
+end
+
 def space_from(school)
   space_owner = SpaceOwner.find_by space_owner_from(school)
   space_type = SpaceType.find_by(space_types_from(school))
+  position = validate_lat_long(school)
+  return unless position
   {
     title: knead_title(get_info(school["title"])),
     address: school["address"]["street"],
     post_number: school["address"]["postnumber"],
     post_address: school["address"]["poststed"],
-    lat: school["lat"],
-    lng: school["lon"],
-    municipality_code: school["kommuneNummer"],
+    lat: position[:lat],
+    lng: position[:lng],
+    municipality_code: position[:municipality_code],
     organization_number: get_meta(school, "organizationalNumber"),
     fits_people: get_meta(school, "pupils"),
     space_owner: space_owner,
