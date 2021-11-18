@@ -2,6 +2,7 @@
 
 require "rails_helper"
 
+# Model test here, requests spec follows below
 RSpec.describe Review, type: :model do
   it "can add a review" do
     review = Fabricate(:review)
@@ -43,5 +44,29 @@ RSpec.describe Review, type: :model do
 
   it "can create a review" do
     expect(Fabricate(:review)).to be_truthy
+  end
+
+  it "can not create duplicate facility reviews" do
+    review = Fabricate(:review)
+    facility = Fabricate(:facility)
+    Fabricate(
+      :facility_review,
+      review: review,
+      facility: facility,
+      experience: :was_not_allowed
+    )
+    expect(review.facility_reviews.count).to eq(1)
+
+    # Generate a facility review for the same facility, should raise an error:
+    expect do
+      Fabricate(
+        :facility_review,
+        review: review,
+        facility: facility,
+        experience: :was_not_allowed
+      )
+    end.to raise_error(ActiveRecord::RecordInvalid)
+
+    expect(review.facility_reviews.count).to eq(1)
   end
 end

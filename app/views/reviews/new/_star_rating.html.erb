@@ -1,0 +1,16 @@
+ <%#
+Locals:
+- form (Review Form)
+- star_rating (current rating)
+ %>
+<fieldset class="star-rating">
+  <legend class="h2"><%= t('reviews.form.what_impression_did_you_get') %></legend>
+  <div>
+    <% (1..5).each do | score | %>
+      <%= form.radio_button :star_rating, score, checked: score == form.object.star_rating %>
+      <%= form.label :"star_rating_#{score}" do %>
+        <span><%= score %></span>
+      <% end %>
+    <% end  %>
+  </div>
+</fieldset>

@@ -1,0 +1,10 @@
+<% if model.errors.any? %>
+  <div class="bg-red-50 border border-red-700 p-4 pt-0">
+    <h2 class="h3 text-red-700">Feil i skjema:</h2>
+    <ul>
+      <% model.errors.full_messages.each do |message|%>
+        <li><%= message %> </li>
+      <%end%>
+    </ul>
+  </div>
+<%end%>

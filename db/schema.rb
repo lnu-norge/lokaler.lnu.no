@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2021_11_01_085452) do
+ActiveRecord::Schema.define(version: 2021_11_12_181749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +87,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_085452) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["facility_id"], name: "index_facility_reviews_on_facility_id"
+    t.index ["review_id", "facility_id"], name: "index_facility_reviews_on_review_id_and_facility_id", unique: true
     t.index ["review_id"], name: "index_facility_reviews_on_review_id"
     t.index ["space_id"], name: "index_facility_reviews_on_space_id"
     t.index ["user_id"], name: "index_facility_reviews_on_user_id"
@@ -118,7 +118,12 @@ ActiveRecord::Schema.define(version: 2021_11_01_085452) do
     t.bigint "space_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organization_id", null: false
+    t.integer "organization_id"
+    t.integer "how_much"
+    t.string "how_much_custom"
+    t.integer "how_long"
+    t.string "how_long_custom"
+    t.integer "type_of_contact"
     t.index ["organization_id"], name: "index_reviews_on_organization_id"
     t.index ["space_id"], name: "index_reviews_on_space_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
