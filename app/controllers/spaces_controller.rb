@@ -123,7 +123,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     space_types = params[:space_types]&.map(&:to_i)
     facilities = params[:facilities]&.map(&:to_i)
 
-    spaces = Space.filter_on_location(
+    spaces = Space.includes([:images_attachments, :space_type]).filter_on_location(
       params[:north_west_lat],
       params[:north_west_lng],
       params[:south_east_lat],
