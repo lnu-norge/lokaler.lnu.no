@@ -46,8 +46,9 @@ def import_spaces_from_nsr_schools
   # Then start parsing Spaces, as they depend on the above
   spaces = []
   space_contacts = []
-  p "Parsing spaces and space contacts"
-  data.each do |school|
+  data.each_with_index do |school, index|
+    print "\rParsing spaces and space contacts from nsr school data: #{index} / #{data.length}"
+
     space = new_unless_exists Space, space_from(school)
     spaces << space if space
 
@@ -60,17 +61,18 @@ def import_spaces_from_nsr_schools
     end
   end
   # Save them all with import
-  p "importing #{spaces.length} spaces"
+  p "\nimporting #{spaces.length} spaces"
   Space.import(spaces)
 
-  p "Aggregating facility reviews for spaces (takes a minute)"
-  spaces.each do |space|
+  spaces.each_with_index do |space, index|
+    print "\rAdding unknown aggregated facility reviews for spaces #{index} / #{spaces.length}"
+
     Facility.all.order(:created_at).map do |facility|
       AggregatedFacilityReview.create!(experience: "unknown", space: space, facility: facility)
     end
   end
 
-  p "importing #{space_contacts.length} space contacts"
+  p "\nimporting #{space_contacts.length} space contacts"
   SpaceContact.import(space_contacts)
 
 
