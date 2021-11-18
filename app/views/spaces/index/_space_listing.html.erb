@@ -56,6 +56,10 @@ TODO:
 
     <!-- Filtered facilites listing -->
 
+    <% filtered_facilities.each do |facility| %>
+      <%= facility.title %>
+    <% end %>
+
     <ul class="grid grid-cols-2 gap-2 mt-2">
       <li class="flex items-center gap-1.5" title="Sannsynlig! Andre har fått lov">
         Overnatting
