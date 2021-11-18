@@ -1,6 +1,5 @@
 <ul class="grid grid-cols-2 gap-2 mt-2">
-  <% filtered_facilities.each do |filtered_facility| %>
-    <% facility = filtered_facility %>
+  <% filtered_facilities.each do |facility| %>
     <% review = space.reviews_for_facility(facility) %>
     <%= render partial: 'spaces/show/facility_item', locals: {
       icon: facility[:icon],
