@@ -1,6 +1,1 @@
-<%= turbo_frame_tag dom_id(@space_contact) do %>
-  <div class="mx-6 border-2 border-gray-100 p-2 mt-2 bg-gray-50">
-    <%= render './space_contacts/form', space_contact: @space_contact %>
-    <%= link_to t('space_contacts.abort'), @space_contact %>
-  </div>
-<% end %>
+<%= render './space_contacts/form', space_contact: @space_contact %>
