@@ -16,7 +16,7 @@
   <hr />
   <p class="text-xl font-bold mt-4"><%= Facility.model_name.human(count: 2) %></p>
 
-  <% FacilityCategory.all.each do |category| %>
+  <% FacilityCategory.includes(:facilities).all.each do |category| %>
     <div class="my-4">
       <%= f.label category.title, class: "text-l mb-4 font-bold" %>
       <div class="mt-2">
