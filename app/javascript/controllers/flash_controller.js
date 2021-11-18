@@ -19,7 +19,7 @@ export default class extends Controller {
     this.element.classList.add('opacity-0');
 
     setTimeout(() => {
-      this.flashTarget.remove();
+      this.flashTarget.classList.add('sr-only');
     }, 1000);
   }
 }
