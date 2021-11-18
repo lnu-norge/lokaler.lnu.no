@@ -63,6 +63,13 @@ def import_spaces_from_nsr_schools
   p "importing #{spaces.length} spaces"
   Space.import(spaces)
 
+  p "Aggregating facility reviews for spaces (takes a minute)"
+  spaces.each do |space|
+    Facility.all.order(:created_at).map do |facility|
+      AggregatedFacilityReview.create!(experience: "unknown", space: space, facility: facility)
+    end
+  end
+
   p "importing #{space_contacts.length} space contacts"
   SpaceContact.import(space_contacts)
 
