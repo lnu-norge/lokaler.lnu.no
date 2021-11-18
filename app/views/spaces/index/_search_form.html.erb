@@ -27,7 +27,7 @@
               name: facility.id,
               data: { mapbox_target: "facility" }
             %>
-          <%= inline_svg "facilities/#{facility.icon}", class: "mx-2" %>
+          <%= inline_svg_tag "facilities/#{facility.icon}", class: "mx-2" %>
           <%= facility.title %>
         <% end %>
       <% end %>
