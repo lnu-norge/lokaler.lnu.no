@@ -134,12 +134,12 @@ export default class extends Controller {
     const southEast = this.map.getBounds().getSouthEast();
 
     const facilitiesString = this.facilityTargets.map(t =>
-      t.checked ? `facilities[]=${t.name}&` : ''
-    );
+      t.checked ? `facilities[]=${encodeURIComponent(t.name)}&` : ''
+    ).join('');
 
     const spaceTypesString = this.spaceTypeTargets.map(t =>
-      t.checked ? `space_types[]=${t.name}&` : ''
-    );
+      t.checked ? `space_types[]=${encodeURIComponent(t.name)}&` : ''
+    ).join('');
 
     return [
       '/spaces_search?',
