@@ -107,9 +107,13 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       }
     end
 
+    facility_ids = params[:facilities]&.map(&:to_i) || []
     render json: {
       listing: render_to_string(
-        partial: "spaces/index/space_listings", locals: { spaces: spaces.first(10) }
+        partial: "spaces/index/space_listings", locals: {
+          spaces: spaces.first(10),
+          filtered_facilities: Facility.find(facility_ids)
+        }
       ),
       markers: markers
     }
