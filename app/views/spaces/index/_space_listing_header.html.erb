@@ -1,5 +1,5 @@
-<div class="flex px-4  pt-4">
-  <h1 class="text-2xl mt-1"><%= Space.model_name.human(count: 2) %></h1>
+<div class="flex">
+  <h1 class="text-2xl mt-1"><%= t('space_filter.spaces_that_might_work', count: space_count ) %></h1>
   <%= link_to new_space_path, class: 'ml-2 unstyled-link edit-button collapsable' do %>
           <span class="text">
             <%= t('space_listing.new_space') %>
