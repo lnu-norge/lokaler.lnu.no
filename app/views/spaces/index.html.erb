@@ -37,12 +37,12 @@
       <nav class="absolute m-4 top-0 right-0 left-0 flex justify-center">
       <button
         data-action="click->mapbox#toggleSearchBox"
-        class="border-white w-64 border-2 hover:border-lnu-pink py-3 px-4 bg-white rounded-full shadow-xl grid grid-cols-3">
+        class="border-white w-64 border-2 hover:border-lnu-pink py-3 px-4 bg-white rounded-full shadow-xl flex justify-between">
         <span class="inline-flex items-center justify-start">
           <%= inline_svg_tag 'search', class: 'inline-block' %>
         </span>
         <span class="inline-flex items-center justify-center" id="searchbox-text">
-          Søk
+          <%= t('space_filter.search_and_filter') %>
         </span>
         <span class="inline-flex items-center justify-end gap-2">
           <span id="searchbox-count"></span>

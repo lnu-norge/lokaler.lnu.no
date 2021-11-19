@@ -40,12 +40,13 @@ nb:
     common_to_all_owned_by: 'Felles for %{owner_title}:'
     show_changelog: 'Vis endringshistorikk'
   space_filter:
+    search_and_filter: "Søk og filtrér"
     show_spaces:
       one: 'Vis ett lokale'
       other: 'Vis %{count} lokaler'
-    edit_filter: 'Redigér filtre'
+    edit_filter: 'Rediger filtre'
     location: 'Sted'
-    more_filters: 'Flere filtere'
+    more_filters: 'Flere filtre'
   admin:
     user: 'Bruker'
     field: 'Felt'
