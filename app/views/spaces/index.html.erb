@@ -1,14 +1,15 @@
 <div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
   <%= render partial: 'spaces/index/filters' %>
-  <div class="md:flex h-full w-screen justify-items-stretch">
-    <div class="overflow-y-auto md:w-md md:h-full pt-4 px-4">
+  <div class="md:flex md:flex-row-reverse h-full w-screen md:justify-items-stretch">
+    <div class="relative md:flex-1 md:h-full">
+      <%= render partial: 'spaces/index/map' %>
+      <%= render partial: 'spaces/index/filter_button' %>
+    </div>
+    <div class="md:overflow-y-auto md:w-md md:h-full pt-4 px-4">
       <%= render partial: 'spaces/index/space_listing_header' %>
       <div id="space-listing">
       </div>
     </div>
-    <div class="relative flex-1 h-full">
-      <%= render partial: 'spaces/index/map' %>
-      <%= render partial: 'spaces/index/filter_button' %>
-    </div>
+
   </div>
 </div>
