@@ -160,6 +160,7 @@ nb:
   devise:
     sessions:
       user:
+        logged_in_as: "Du er logget inn som"
         signed_out: "Logget ut"
         signed_in: "Logget inn"
         heading_new: "Logg inn til din bruker"
