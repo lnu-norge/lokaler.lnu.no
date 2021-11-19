@@ -26,8 +26,11 @@ module.exports = {
       'auto': 'auto',
     },
     extend: {
+      width: {
+        "md": "28rem",
+      },
       maxHeight: {
-        '90vh': '90vh'
+        '90vh': '90vh',
       },
       spacing: {
         '2/3': '66.666667%',
