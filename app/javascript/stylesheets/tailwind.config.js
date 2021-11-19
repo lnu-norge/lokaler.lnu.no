@@ -12,6 +12,7 @@ module.exports = {
   darkMode: 'media', // or 'media' or 'class'
   theme: {
     zIndex: {
+      '-10' : -10,
       '0': 0,
       '10': 10,
       '20': 20,

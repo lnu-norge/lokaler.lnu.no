@@ -8,7 +8,7 @@
 }
 
 .modal-background {
-  @apply inset-0 fixed z-10;
+  @apply inset-0 fixed z-40;
   @apply flex items-center justify-center;
   @apply bg-gray-700 bg-opacity-75 transition-opacity;
 }
