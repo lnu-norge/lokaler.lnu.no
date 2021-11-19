@@ -1,0 +1,15 @@
+<%#
+
+    Locals:
+    - path: Path to link to
+    - icon: Icon to show
+    - text: Text to show
+
+%>
+<span class="<%= current_page?(path) ? "text-lnu-pink" : "text-gray-900" %>">
+   <%= link_to path, class: "unstyled-link font-bold hover:text-lnu-pink inline-flex items-center gap-2" do %>
+    <%=
+      inline_svg_tag icon, class: 'inline-block w-16 text-lnu-pink' %>
+     <%= text %>
+  <% end %>
+</span>
