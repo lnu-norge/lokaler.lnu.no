@@ -56,37 +56,7 @@ TODO:
 
     <!-- Filtered facilites listing -->
 
-    <ul class="grid grid-cols-2 gap-2 mt-2">
-      <li class="flex items-center gap-1.5" title="Sannsynlig! Andre har fått lov">
-        Overnatting
-        <span>
-           <%= inline_svg_tag 'facility_status/likely' %>
-        </span>
-      </li>
-      <li class="flex items-center gap-1.5"  title="Usannsynlig: Ingen eller få har fått lov">
-        Kjøkken
-        <span>
-           <%= inline_svg_tag 'facility_status/unlikely' %>
-        </span>
-      </li>
-      <li class="flex items-center gap-1.5" title="Kanskje: Ikke alle får lov">
-        Dansegulv
-        <span>
-           <%= inline_svg_tag 'facility_status/maybe' %>
-        </span>
-      </li>
-      <li class="flex items-center gap-1.5" title="Usikkert: Ingen har spurt om lydanlegg">
-        Lydanlegg
-        <span>
-           <%= inline_svg_tag 'facility_status/unknown' %>
-        </span>
-      </li>
-      <li class="flex items-center gap-1.5" title="Umulig: Frederik II har ikke flyplass">
-        Flyplass
-        <span>
-           <%= inline_svg_tag 'facility_status/impossible' %>
-        </span>
-      </li>
-    </ul>
+    <%= render partial: 'spaces/index/space_facility_listing', locals: { space: space, filtered_facilities: filtered_facilities } if filtered_facilities  %>
+
   </div>
 <% end %>
