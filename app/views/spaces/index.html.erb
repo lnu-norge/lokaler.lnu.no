@@ -1,10 +1,32 @@
 <div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
-  <div data-mapbox-target="searchBox" class="hidden">
-    <div class="fixed z-50 insert-0 overflow-hidden bg-white h-screen">
-    <%= render partial: "spaces/index/search_form" %>
-    <button
-      data-action="click->mapbox#toggleSearchBox"
-      class="absolute w-6 h-6 m-2 top-0 right-0 bg-lnu-pink text-white">X</button>
+  <div data-mapbox-target="searchBox" class="">
+    <div data-controller="modal" class="modal-background" data-modal-target="background">
+      <div class="modal modal--with-header-and-footer">
+        <nav class="modal-header">
+          <%= button_tag data: {
+            modal_target: 'closeButton',
+            action: "click->mapbox#toggleSearchBox"
+          }, class: "hover:underline p-4 -mt-4 -ml-4 inline-flex content-center items-center" do %>
+            <%= inline_svg_tag 'x', class: 'inline-block' %>
+            Lukk
+          <% end %>
+          <h2 class="font-bold text-center">
+            <%= t('space_filter.edit_filter') %>
+          </h2>
+        </nav>
+        <section class="modal-content">
+          <%= render partial: "spaces/index/search_form" %>
+        </section>
+        <nav class="modal-footer">
+          <%= button_tag data: {
+            modal_target: 'closeButton',
+            action: "click->mapbox#toggleSearchBox"
+          }, class: "bg-gray-900 hover:bg-lnu-pink text-white rounded-lg px-4 py-3 inline-flex gap-2 content-center items-center" do %>
+            <%= inline_svg_tag 'search', class: 'inline-block' %>
+            <%= t('space_filter.show_spaces', count: '') %>
+          <% end %>
+        </nav>
+      </div>
     </div>
   </div>
   <div class="md:grid grid-cols-2">

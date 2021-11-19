@@ -12,3 +12,24 @@
   @apply flex items-center justify-center;
   @apply bg-gray-700 bg-opacity-75 transition-opacity;
 }
+
+.modal--with-header-and-footer {
+  @apply flex flex-col h-full;
+  @apply p-0;
+}
+
+.modal-header {
+  @apply px-8 pt-8 pb-2;
+  @apply grid grid-cols-3 gap-6;
+}
+
+.modal-content {
+  @apply px-8 py-4;
+  @apply overflow-auto;
+}
+
+.modal-footer {
+  @apply px-8 py-4;
+  @apply bg-gray-100;
+  @apply flex justify-center gap-6;
+}
