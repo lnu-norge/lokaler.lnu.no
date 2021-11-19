@@ -47,6 +47,8 @@ GEM
     activerecord (6.1.4.1)
       activemodel (= 6.1.4.1)
       activesupport (= 6.1.4.1)
+    activerecord-import (1.2.0)
+      activerecord (>= 3.2)
     activestorage (6.1.4.1)
       actionpack (= 6.1.4.1)
       activejob (= 6.1.4.1)
@@ -419,6 +421,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activerecord-import
+  addressable
   aws-sdk-s3
   bootsnap (>= 1.4.4)
   bullet
