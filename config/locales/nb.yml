@@ -40,6 +40,10 @@ nb:
     common_to_all_owned_by: 'Felles for %{owner_title}:'
     show_changelog: 'Vis endringshistorikk'
   space_filter:
+    show_spaces:
+      one: 'Vis ett lokale'
+      other: 'Vis %{count} lokaler'
+    edit_filter: 'Redigér filtre'
     location: 'Sted'
     more_filters: 'Flere filtere'
   admin:
@@ -120,8 +124,8 @@ nb:
         one: 'Erfaring'
         other: 'Erfaringer'
       space_type:
-        one: 'Lokaltype'
-        other: 'Lokaltyper'
+        one: 'Type lokale'
+        other: 'Typer lokale'
       facility_review:
         one: 'Fasilitetserfaring'
         other: 'Fasilitetserfaringer'
