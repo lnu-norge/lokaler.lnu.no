@@ -1,0 +1,13 @@
+<div class="content">
+  <h1>
+    <%= t('menu.account') %>
+  </h1>
+  <p><%= t('devise.sessions.user.logged_in_as') %> <strong><%= current_user.email %></strong></p>
+  <p>
+    <%= link_to t("simple_form.labels.user.signout"), destroy_user_session_path, class: "col-start-11 col-span-1 p-1 font-l text-center border-4 border-green-400 bg-green-100 rounded-md", method: :delete %>
+  </p>
+  <p>
+    <%= link_to t("simple_form.labels.user.edit_account"), edit_user_registration_path, class: "col-start-11 col-span-1 p-1 font-l text-center border-4 border-green-400 bg-green-100 rounded-md" %>
+  </p>
+
+</div>
