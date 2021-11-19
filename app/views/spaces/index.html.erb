@@ -1,5 +1,5 @@
 <div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
-  <div data-mapbox-target="searchBox" class="">
+  <div data-mapbox-target="searchBox" class="hidden">
     <div data-controller="modal" class="modal-background" data-modal-target="background">
       <div class="modal modal--with-header-and-footer">
         <nav class="modal-header">
@@ -34,9 +34,23 @@
       <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
       <div class="w-full h-96 md:h-screen" id="map-frame">
       </div>
+      <nav class="absolute m-4 top-0 right-0 left-0 flex justify-center">
       <button
         data-action="click->mapbox#toggleSearchBox"
-        class="absolute m-2 top-0 right-0 bg-lnu-pink p-2 text-white">Filter</button>
+        class="border-white w-64 border-2 hover:border-lnu-pink py-3 px-4 bg-white rounded-full shadow-xl grid grid-cols-3">
+        <span class="inline-flex items-center justify-start">
+          <%= inline_svg_tag 'search', class: 'inline-block' %>
+        </span>
+        <span class="inline-flex items-center justify-center" id="searchbox-text">
+          Søk
+        </span>
+        <span class="inline-flex items-center justify-end gap-2">
+          <span id="searchbox-count"></span>
+          <%= inline_svg_tag 'filter', class: 'inline-block' %>
+        </span>
+
+      </button>
+      </nav>
     </div>
     <div class="md:h-screen overflow-auto pt-4 px-4 static">
       <div class="flex">
