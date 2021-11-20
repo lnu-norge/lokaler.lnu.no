@@ -49,6 +49,7 @@ nb:
     changes: 'Endringer'
     changed_at: 'Endringstidspunkt'
   images:
+    image_missing: "Bilde mangler"
     upload_success: "Bilde lastet opp"
     upload: "Last opp"
   reviews:
