@@ -1,15 +1,19 @@
 <div class="overflow-auto flex gap-2">
 <% if images.empty? %>
-  <div class="relative pb-2/3 w-11/12 inline-block flex-shrink-0">
-    <div class="bg-gray-300 absolute text-gray-500 rounded-lg h-full w-full flex flex-col gap-1 items-center justify-center">
-      <%= inline_svg_tag 'image_missing', class: "inline-block h-14 w-14" %>
-      <%= t('images.image_missing') %>
+  <div class="w-7/12 flex-shrink-0">
+    <div class="relative pb-2/3 w-full inline-block flex-shrink-0">
+      <div class="bg-gray-300 absolute text-gray-500 rounded-lg h-full w-full flex flex-col gap-1 items-center justify-center">
+        <%= inline_svg_tag 'image_missing', class: "inline-block h-14 w-14" %>
+        <%= t('images.image_missing') %>
+      </div>
     </div>
   </div>
 <% end %>
 <% images.each do |image| %>
-  <div class="relative pb-2/3 w-11/12 inline-block flex-shrink-0">
-    <img class="bg-gray-300 absolute rounded-lg h-full w-full object-cover" src="<%=(url_for(image))%>" />
+  <div class="w-7/12 flex-shrink-0">
+    <div class="relative pb-2/3 w-full inline-block flex-shrink-0">
+      <img class="bg-gray-300 absolute rounded-lg h-full w-full object-cover" src="<%=(url_for(image))%>" />
+    </div>
   </div>
 <% end %>
 </div>
