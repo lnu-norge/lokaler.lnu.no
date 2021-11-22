@@ -4,53 +4,54 @@
 
   Styled in part by content.scss
 %>
+<div class="max-w-prose mx-auto">
+  <%= render partial: "spaces/show/image_header", locals: { images: @space.images } %>
 
-<%= render partial: "spaces/show/image_header", locals: { images: @space.images } %>
+  <main class="content px-4">
 
-<main class="content px-4">
+    <%= render partial: 'spaces/show/basics' %>
 
-  <%= render partial: 'spaces/show/basics' %>
+    <% if current_user&.admin? %>
+      <%= link_to t("space_show.show_changelog"), admin_path(@space) %>
+    <% end %>
 
-  <% if current_user&.admin? %>
-    <%= link_to t("space_show.show_changelog"), admin_path(@space) %>
-  <% end %>
+    <hr />
 
-  <hr />
+    <%= render 'space_contacts/index' %>
+    <hr />
 
-  <%= render 'space_contacts/index' %>
-  <hr />
+    <%= inline_editable :how_to_book  do %>
+      <%= render_space_and_owner_field @space, :how_to_book %>
+    <% end %>
+    <hr />
 
-  <%= inline_editable :how_to_book  do %>
-    <%= render_space_and_owner_field @space, :how_to_book %>
-  <% end %>
-  <hr />
+    <%= render partial: 'spaces/show/facilities' %>
+    <hr />
 
-  <%= render partial: 'spaces/show/facilities' %>
-  <hr />
+    <%= inline_editable :who_can_use  do %>
+      <%= render_space_and_owner_field @space, :who_can_use %>
+    <% end %>
+    <hr />
 
-  <%= inline_editable :who_can_use  do %>
-    <%= render_space_and_owner_field @space, :who_can_use %>
-  <% end %>
-  <hr />
+    <%= inline_editable :pricing do %>
+      <%= render_space_and_owner_field @space, :pricing %>
+    <% end %>
+    <hr />
 
-  <%= inline_editable :pricing do %>
-    <%= render_space_and_owner_field @space, :pricing %>
-  <% end %>
-  <hr />
+    <%= render partial: 'spaces/show/where' %>
+    <hr />
 
-  <%= render partial: 'spaces/show/where' %>
-  <hr />
+    <%= inline_editable :more_info do %>
+      <%= render_space_and_owner_field @space, :more_info %>
+    <% end %>
+    <hr />
 
-  <%= inline_editable :more_info do %>
-    <%= render_space_and_owner_field @space, :more_info %>
-  <% end %>
-  <hr />
+    <%= inline_editable :terms do %>
+      <%= render_space_and_owner_field @space, :terms %>
+    <% end %>
+    <hr />
 
-  <%= inline_editable :terms do %>
-    <%= render_space_and_owner_field @space, :terms %>
-  <% end %>
-  <hr />
+    <%= render partial: 'spaces/show/reviews' %>
 
-  <%= render partial: 'spaces/show/reviews' %>
-
-</main>
+  </main>
+</div>
