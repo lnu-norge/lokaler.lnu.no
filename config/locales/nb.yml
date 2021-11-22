@@ -44,8 +44,20 @@ nb:
       one: "Basert på én erfaring"
       other: "Basert på %{count} erfaringer"
   space_filter:
+    search_and_filter: "Søk og filtrér"
+    show_spaces:
+      one: 'Vis ett lokale'
+      other: 'Vis %{count} lokaler'
+    showing_only_page_size_spaces:
+      one: 'Viser kun ett lokale av gangen.'
+      other: 'Viser kun %{count} lokaler av gangen.'
+    filter_or_zoom: "Filtrér eller zoom inn for å se andre."
+    spaces_that_might_work:
+      one: "Ett lokale kan passe:"
+      other: "%{count} lokaler kan passe:"
+    edit_filter: 'Rediger filtre'
     location: 'Sted'
-    more_filters: 'Flere filtere'
+    more_filters: 'Flere filtre'
   admin:
     user: 'Bruker'
     field: 'Felt'
@@ -125,8 +137,8 @@ nb:
         one: 'Erfaring'
         other: 'Erfaringer'
       space_type:
-        one: 'Lokaltype'
-        other: 'Lokaltyper'
+        one: 'Type lokale'
+        other: 'Typer lokale'
       facility_review:
         one: 'Fasilitetserfaring'
         other: 'Fasilitetserfaringer'
@@ -160,6 +172,7 @@ nb:
   devise:
     sessions:
       user:
+        logged_in_as: "Du er logget inn som"
         signed_out: "Logget ut"
         signed_in: "Logget inn"
         heading_new: "Logg inn til din bruker"
