@@ -201,10 +201,7 @@ export default class extends Controller {
     const position = await this.requestPosition();
 
     if(position != null) {
-      this.initializeMap({
-        center: [position.coords.longitude, position.coords.latitude],
-        zoom: 11,
-      });
+      this.flyToPoint([position.coords.longitude, position.coords.latitude]);
     }
     else {
       alert('Kunne ikke hente lokasjon. Sjekk at lokasjon er skrudd på')
