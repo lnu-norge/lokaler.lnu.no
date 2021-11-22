@@ -1,28 +1,43 @@
 <div class="relative">
+
   <div class="overflow-auto flex gap-2">
     <% if images.empty? %>
-        <div class="relative pb-2/3 w-full inline-block flex-shrink-0">
-          <div class="bg-gray-300 absolute text-gray-500  h-full w-full flex flex-col gap-1 items-center justify-center">
-            <%= inline_svg_tag 'image_missing', class: "inline-block h-14 w-14" %>
-            <%= t('images.image_missing') %>
+        <div class="relative pb-1/2 w-full inline-block flex-shrink-0">
+          <div class="bg-gray-300 absolute text-gray-500  h-full w-full flex flex-col gap-4 items-center justify-center">
+            <span class="flex flex-col gap-1 items-center justify-center">
+              <%= inline_svg_tag 'image_missing', class: "inline-block h-14 w-14" %>
+              <%= t('images.image_missing') %>
+            </span>
+
+            <%= form_with url: spaces_upload_image_path, class:"" do |f| %>
+              <%= f.hidden_field :id, value: @space.id %>
+              <%= f.file_field :image, accept: 'image/png,image/gif,image/jpeg', multiple: true, class: "hidden", onchange: "this.form.submit()" %>
+              <%= f.label :image, role: "button" do %>
+
+                <div class="bg-gray-600 hover:bg-lnu-pink text-gray-100 rounded inline-flex justify-center items-center px-2.5 py-2 gap-2 ">
+                  <%= inline_svg_tag 'camera', class: "inline-block w-7 h-7", alt: t('images.upload'), title:  t('images.upload') %>
+                  <%= t('images.upload_image') %>
+                </div>
+              <% end %>
+            <% end %>
+
           </div>
       </div>
+    <% else %>
+      <% images.each do |image| %>
+        <div class="relative pb-2/3 w-full inline-block flex-shrink-0">
+          <img class="bg-gray-300 absolute h-full w-full object-cover" src="<%=(url_for(image))%>" />
+        </div>
+      <% end %>
+      <%= form_with url: spaces_upload_image_path, class:"absolute right-2 top-2" do |f| %>
+        <%= f.hidden_field :id, value: @space.id %>
+        <%= f.file_field :image, accept: 'image/png,image/gif,image/jpeg', multiple: true, class: "hidden", onchange: "this.form.submit()" %>
+        <%= f.label :image, role: "button" do %>
+          <div class="h-10 w-10 p-1.5 bg-gray-900 hover:bg-lnu-pink text-gray-100 rounded inline-flex justify-center items-center gap-2 ">
+            <%= inline_svg_tag 'camera', class: "text-gray-200 flex w-full h-full", alt: t('images.upload'), title:  t('images.upload') %>
+          </div>
+       <% end %>
+      <% end %>
     <% end %>
-
-    <% images.each do |image| %>
-      <div class="relative pb-2/3 w-full inline-block flex-shrink-0">
-        <img class="bg-gray-300 absolute h-full w-full object-cover" src="<%=(url_for(image))%>" />
-      </div>
-    <% end %>
+    </div>
   </div>
-
-  <%= form_with url: spaces_upload_image_path, class:"absolute right-2 top-2" do |f| %>
-    <%= f.hidden_field :id, value: @space.id %>
-    <%= f.file_field :image, accept: 'image/png,image/gif,image/jpeg', multiple: true, class: "hidden", onchange: "this.form.submit()" %>
-    <%= f.label :image, role: "button" do %>
-      <div class="w-10 h-10 bg-gray-600 rounded">
-        <%= inline_svg_tag 'camera', class: "text-gray-200 flex w-full h-full p-1", alt: t('images.upload'), title:  t('images.upload') %>
-      </div>
-    <% end %>
-  <% end %>
-</div>
