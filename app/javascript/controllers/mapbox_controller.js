@@ -7,23 +7,13 @@ export default class extends Controller {
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
 
-    const position = await this.requestPosition();
-
-    if(position != null) {
-      this.initializeMap({
-        center: [position.coords.longitude, position.coords.latitude],
-        zoom: 11,
-      });
-    }
-    else {
-      const {northEast, southWest} = await (await fetch('/rect_for_spaces')).json();
-      this.initializeMap({
-        bounds: new mapboxgl.LngLatBounds(
-          new mapboxgl.LngLat(southWest.lng, southWest.lat),
-          new mapboxgl.LngLat(northEast.lng, northEast.lat),
-        ),
-      });
-    }
+    const {northEast, southWest} = await (await fetch('/rect_for_spaces')).json();
+    this.initializeMap({
+      bounds: new mapboxgl.LngLatBounds(
+        new mapboxgl.LngLat(southWest.lng, southWest.lat),
+        new mapboxgl.LngLat(northEast.lng, northEast.lat),
+      ),
+    });
   }
 
   toggleSearchBox() {
@@ -200,11 +190,25 @@ export default class extends Controller {
       place.representasjonspunkt.øst,
       place.representasjonspunkt.nord
     ];
-    return this.flyToPoint(point)
+    return this.flyToPoint(point);
   }
 
   flyToPoint(point) {
-    this.map.flyTo({ center: point, zoom: 12 })
+    this.map.flyTo({ center: point, zoom: 12 });
+  }
+
+  async enableLocationService() {
+    const position = await this.requestPosition();
+
+    if(position != null) {
+      this.initializeMap({
+        center: [position.coords.longitude, position.coords.latitude],
+        zoom: 11,
+      });
+    }
+    else {
+      alert('Kunne ikke hente lokasjon. Sjekk at lokasjon er skrudd på')
+    }
   }
 }
 
