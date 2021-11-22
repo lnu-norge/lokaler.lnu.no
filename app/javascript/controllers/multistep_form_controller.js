@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="multistep_form"
 export default class extends Controller {
-  static targets = ["step", "next", "previous", "save"];
+  static targets = ["step", "next", "previous", "save", "backToMainForm"];
 
   connect() {
     this.steps = 0;
@@ -35,9 +35,11 @@ export default class extends Controller {
     this.show(this.stepTargets[this.steps]);
 
     this.hide(this.saveTarget);
+    this.hide(this.backToMainFormTarget);
 
     if(this.steps == 0) {
       this.hide(this.previousTarget);
+      this.show(this.backToMainFormTarget);
     }
     else {
       this.show(this.previousTarget);
