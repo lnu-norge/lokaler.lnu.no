@@ -95,7 +95,9 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   end
 
   def spaces_search
-    spaces = filter_spaces(params).first(20)
+    filtered_spaces = filter_spaces(params)
+    space_count = filtered_spaces.count
+    spaces = filtered_spaces.first(SPACE_SEARCH_PAGE_SIZE)
 
     markers = spaces.map do |space|
       html = render_to_string partial: "spaces/index/map_marker", locals: { space: space }
@@ -111,8 +113,10 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     render json: {
       listing: render_to_string(
         partial: "spaces/index/space_listings", locals: {
-          spaces: spaces.first(10),
-          filtered_facilities: Facility.find(facility_ids)
+          spaces: spaces,
+          filtered_facilities: Facility.find(facility_ids),
+          space_count: space_count,
+          page_size: SPACE_SEARCH_PAGE_SIZE
         }
       ),
       markers: markers
@@ -120,6 +124,8 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   end
 
   private
+
+  SPACE_SEARCH_PAGE_SIZE = 20
 
   def get_address_params(params)
     Space.search_for_address(
