@@ -39,6 +39,10 @@ nb:
     only_for_space: "Kun for %{title}:"
     common_to_all_owned_by: 'Felles for %{owner_title}:'
     show_changelog: 'Vis endringshistorikk'
+    number_of_reviews:
+      zero: "Ingen erfaringer"
+      one: "Basert på én erfaring"
+      other: "Basert på %{count} erfaringer"
   space_filter:
     location: 'Sted'
     more_filters: 'Flere filtere'
@@ -49,6 +53,7 @@ nb:
     changes: 'Endringer'
     changed_at: 'Endringstidspunkt'
   images:
+    image_missing: "Bilde mangler"
     upload_success: "Bilde lastet opp"
     upload: "Last opp"
   reviews:
