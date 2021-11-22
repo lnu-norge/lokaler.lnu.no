@@ -8,7 +8,7 @@ RSpec.describe "spaces/index.html.erb", type: :view do
 
     render
 
-    expect(rendered).to match /h1/
+    expect(rendered).to match /space-listing/
     expect(rendered).to match /map-frame/
     # Cannot test that individual Spaces show up here since the render of them is triggered by Mapbox
   end
