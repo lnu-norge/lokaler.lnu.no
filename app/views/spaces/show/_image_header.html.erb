@@ -14,7 +14,7 @@
               <%= f.file_field :image, accept: 'image/png,image/gif,image/jpeg', multiple: true, class: "hidden", onchange: "this.form.submit()" %>
               <%= f.label :image, role: "button" do %>
 
-                <div class="bg-gray-600 hover:bg-lnu-pink text-gray-100 rounded inline-flex justify-center items-center px-2.5 py-2 gap-2 ">
+                <div class="edit-button">
                   <%= inline_svg_tag 'camera', class: "inline-block w-7 h-7", alt: t('images.upload'), title:  t('images.upload') %>
                   <%= t('images.upload_image') %>
                 </div>
@@ -33,8 +33,9 @@
         <%= f.hidden_field :id, value: @space.id %>
         <%= f.file_field :image, accept: 'image/png,image/gif,image/jpeg', multiple: true, class: "hidden", onchange: "this.form.submit()" %>
         <%= f.label :image, role: "button" do %>
-          <div class="h-10 w-10 p-1.5 bg-gray-900 hover:bg-lnu-pink text-gray-100 rounded inline-flex justify-center items-center gap-2 ">
-            <%= inline_svg_tag 'camera', class: "text-gray-200 flex w-full h-full", alt: t('images.upload'), title:  t('images.upload') %>
+          <div class="edit-button collapsable">
+            <span class="text"><%= t('images.upload_image') %></span>
+            <%= inline_svg_tag 'camera', class: "h-6 w-6  text-gray-700", alt: t('images.upload'), title:  t('images.upload') %>
           </div>
        <% end %>
       <% end %>
