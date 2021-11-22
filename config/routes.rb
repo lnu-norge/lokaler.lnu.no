@@ -42,5 +42,10 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get "address_search", to: "spaces#address_search"
   post "spaces/upload_image", to: "spaces#upload_image"
 
+  # Devise addons
+  devise_scope :user do
+    get "session", to: "devise/sessions#edit", as: "edit_session"
+  end
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
