@@ -33,3 +33,7 @@
   @apply bg-gray-100;
   @apply flex justify-center gap-6;
 }
+
+.modal-button {
+  @apply bg-gray-900 hover:bg-lnu-pink text-white rounded-lg px-4 py-3 inline-flex gap-2 content-center items-center;
+}
