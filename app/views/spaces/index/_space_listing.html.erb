@@ -26,7 +26,7 @@ TODO:
 
     <!-- Space title -->
 
-    <h3 class="text-xl mt-4 mb-2.5 font-bold">
+    <h3 class="text-xl mt-2.5 mb-2.5 font-bold">
       <%= space.title %>
     </h3>
 
@@ -34,16 +34,18 @@ TODO:
 
     <div class="flex gap-4 mb-2.5">
 
-      <div class="flex gap-2">
+      <div class="flex gap-2" title="<%= t('space_show.number_of_reviews', count: space.reviews.count) %>">
         <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'}" %>
         <span>
           <%=  space.star_rating_s %>
-          <span class="opacity-50">(5)</span>
+          <% if space.reviews.count > 0 %>
+              <span class="opacity-50">(<%= space.reviews.count %>)</span>
+          <% end %>
         </span>
       </div>
 
       <div class="flex gap-2">
-          <%= inline_svg_tag 'building' %>
+          <%= inline_svg_tag 'building', class: 'text-gray-500' %>
           <span>
             <%= space.space_type.type_name %>
             <% if space.fits_people %>
@@ -56,37 +58,7 @@ TODO:
 
     <!-- Filtered facilites listing -->
 
-    <ul class="grid grid-cols-2 gap-2 mt-2">
-      <li class="flex items-center gap-1.5" title="Sannsynlig! Andre har fått lov">
-        Overnatting
-        <span>
-           <%= inline_svg_tag 'facility_status/likely' %>
-        </span>
-      </li>
-      <li class="flex items-center gap-1.5"  title="Usannsynlig: Ingen eller få har fått lov">
-        Kjøkken
-        <span>
-           <%= inline_svg_tag 'facility_status/unlikely' %>
-        </span>
-      </li>
-      <li class="flex items-center gap-1.5" title="Kanskje: Ikke alle får lov">
-        Dansegulv
-        <span>
-           <%= inline_svg_tag 'facility_status/maybe' %>
-        </span>
-      </li>
-      <li class="flex items-center gap-1.5" title="Usikkert: Ingen har spurt om lydanlegg">
-        Lydanlegg
-        <span>
-           <%= inline_svg_tag 'facility_status/unknown' %>
-        </span>
-      </li>
-      <li class="flex items-center gap-1.5" title="Umulig: Frederik II har ikke flyplass">
-        Flyplass
-        <span>
-           <%= inline_svg_tag 'facility_status/impossible' %>
-        </span>
-      </li>
-    </ul>
+    <%= render partial: 'spaces/index/space_facility_listing', locals: { space: space, filtered_facilities: filtered_facilities } if filtered_facilities  %>
+
   </div>
 <% end %>
