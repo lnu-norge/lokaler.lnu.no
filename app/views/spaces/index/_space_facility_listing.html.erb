@@ -1,0 +1,11 @@
+<ul class="grid grid-cols-2 gap-2 mt-2">
+  <% filtered_facilities.each do |facility| %>
+    <% review = space.reviews_for_facility(facility) %>
+    <%= render partial: 'spaces/show/facility_item', locals: {
+      icon: facility[:icon],
+      title: facility[:title],
+      review: review,
+      tooltip: t("tooltips.facility_aggregated_experience.#{review}")
+    } %>
+  <% end %>
+</ul>

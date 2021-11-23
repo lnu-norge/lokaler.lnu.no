@@ -1,4 +1,15 @@
+<%= render partial: 'spaces/index/space_listing_header', locals: { space_count: space_count } %>
 <%= t('space_listing.no_results') if spaces.empty? %>
 <% spaces.each do |space| %>
-  <%= render partial: "spaces/index/space_listing", locals: { space: space } %>
+  <%= render partial: "spaces/index/space_listing", locals: { space: space, filtered_facilities: filtered_facilities } %>
+<% end %>
+<% if space_count > page_size %>
+  <div class="content">
+    <hr />
+    <p class="text-gray-700 italic">
+      <%= t('space_filter.showing_only_page_size_spaces', count: page_size) %>
+      <%= t('space_filter.filter_or_zoom') %>
+    </p>
+    <hr />
+  </div>
 <% end %>

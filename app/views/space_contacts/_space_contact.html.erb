@@ -7,13 +7,13 @@
           <span class="text">
             <%= t('space_contacts.edit') %>
           </span>
-            <%= inline_svg 'edit', alt: t('space_contacts.edit'), title: t('space_contacts.edit') %>
+            <%= inline_svg_tag 'edit', alt: t('space_contacts.edit'), title: t('space_contacts.edit') %>
         <% end %>
         <%= link_to space_contact_path(space_contact), method: :delete, data: { confirm: t('space_contacts.delete_confirmation') }, class: 'unstyled-link edit-button collapsable' do %>
           <span class="text">
             <%= t('space_contacts.delete') %>
           </span>
-            <%= inline_svg 'x', alt: t('space_contacts.delete'), title: t('space_contacts.delete') %>
+            <%= inline_svg_tag 'x', alt: t('space_contacts.delete'), title: t('space_contacts.delete') %>
         <% end %>
       </div>
     </div>
