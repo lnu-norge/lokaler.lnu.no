@@ -1,0 +1,15 @@
+<%#
+    Locals
+    - images[]
+%>
+<div class="splide" data-controller="slider" data-slider-target="slider">
+  <div class="splide__track">
+    <ul class="splide__list">
+      <% images.each do |image| %>
+        <li class="splide__slide">
+          <img src="<%=(url_for(image))%>" />
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
