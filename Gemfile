@@ -31,6 +31,7 @@ gem "image_processing"
 gem "bootsnap", ">= 1.4.4", require: false
 
 group :production do
+  gem "aws-sdk-s3"
   gem "newrelic_rpm"
 end
 
@@ -74,8 +75,11 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 gem "devise", "~> 4.8"
 
+gem "activerecord-import"
+gem "addressable"
 gem "diffy"
 gem "gravtastic"
+gem "high_voltage", "~> 3.1"
 gem "hotwire-rails"
 gem "http"
 gem "inline_svg"

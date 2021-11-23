@@ -53,8 +53,14 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   def update
     @space = Space.find(params[:id])
     address_params = get_address_params(params)
+
+    unless params[:space][:space_owner_title].nil?
+      @space.update!(
+        space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title])
+      )
+    end
+
     if @space.update(
-      space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title]),
       **space_params,
       **address_params
     )
@@ -89,7 +95,9 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   end
 
   def spaces_search
-    spaces = filter_spaces(params).first(20)
+    filtered_spaces = filter_spaces(params)
+    space_count = filtered_spaces.count
+    spaces = filtered_spaces.first(SPACE_SEARCH_PAGE_SIZE)
 
     markers = spaces.map do |space|
       html = render_to_string partial: "spaces/index/map_marker", locals: { space: space }
@@ -101,15 +109,23 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       }
     end
 
+    facility_ids = params[:facilities]&.map(&:to_i) || []
     render json: {
       listing: render_to_string(
-        partial: "spaces/index/space_listings", locals: { spaces: spaces.first(10) }
+        partial: "spaces/index/space_listings", locals: {
+          spaces: spaces,
+          filtered_facilities: Facility.find(facility_ids),
+          space_count: space_count,
+          page_size: SPACE_SEARCH_PAGE_SIZE
+        }
       ),
       markers: markers
     }
   end
 
   private
+
+  SPACE_SEARCH_PAGE_SIZE = 20
 
   def get_address_params(params)
     Space.search_for_address(
@@ -123,7 +139,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     space_types = params[:space_types]&.map(&:to_i)
     facilities = params[:facilities]&.map(&:to_i)
 
-    spaces = Space.filter_on_location(
+    spaces = Space.includes([:images_attachments, :space_type]).filter_on_location(
       params[:north_west_lat],
       params[:north_west_lng],
       params[:south_east_lat],

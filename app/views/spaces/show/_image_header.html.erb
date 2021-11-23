@@ -12,7 +12,7 @@
     <%= f.file_field :image, accept: 'image/png,image/gif,image/jpeg', multiple: true, class: "hidden", onchange: "this.form.submit()" %>
     <%= f.label :image, role: "button" do %>
       <div class="w-10 h-10 bg-gray-600 rounded">
-        <%= inline_svg 'camera', class: "text-gray-200 flex w-full h-full p-1", alt: t('images.upload'), title:  t('images.upload') %>
+        <%= inline_svg_tag 'camera', class: "text-gray-200 flex w-full h-full p-1", alt: t('images.upload'), title:  t('images.upload') %>
       </div>
     <% end %>
   <% end %>
