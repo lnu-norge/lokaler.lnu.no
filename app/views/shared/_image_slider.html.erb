@@ -6,8 +6,12 @@
   <div class="splide__track">
     <ul class="splide__list">
       <% images.each do |image| %>
+        <% url = url_for(image)  %>
         <li class="splide__slide">
-          <img src="<%=(url_for(image))%>" />
+          <img data-splide-lazy="<%= url %>" />
+          <noscript>
+            <img src="<%= url %>" />
+          </noscript>
         </li>
       <% end %>
     </ul>

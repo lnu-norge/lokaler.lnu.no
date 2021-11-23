@@ -11,6 +11,7 @@ export default class extends Controller {
       heightRatio: 2/3,
       cover: true,
       type: 'loop',
+      lazyLoad: 'nearby',
       i18n: {
         prev: 'Forrige',
         next: 'Neste',
