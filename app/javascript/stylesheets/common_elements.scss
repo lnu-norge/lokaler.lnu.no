@@ -25,3 +25,8 @@ a.unstyled-link {
   @apply text-sm font-medium text-white;
   @apply bg-lnu-pink hover:bg-lnu-blue;
 }
+
+.top-shadow-lg {
+  --tw-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.1), 0 -4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}

@@ -1,4 +1,4 @@
-<%= form_with class: "m-4", data: { mapbox_target: 'form' } do |f| %>
+<%= form_with data: { mapbox_target: 'form' } do |f| %>
   <div class="my-4">
     <%= f.label t("space_filter.location"), class: "text-xl font-bold" %>
     <div class="mt-2">
@@ -16,7 +16,7 @@
   <hr />
   <p class="text-xl font-bold mt-4"><%= Facility.model_name.human(count: 2) %></p>
 
-  <% FacilityCategory.all.each do |category| %>
+  <% FacilityCategory.includes(:facilities).all.each do |category| %>
     <div class="my-4">
       <%= f.label category.title, class: "text-l mb-4 font-bold" %>
       <div class="mt-2">
@@ -27,7 +27,7 @@
               name: facility.id,
               data: { mapbox_target: "facility" }
             %>
-          <%= inline_svg "facilities/#{facility.icon}", class: "mx-2" %>
+          <%= inline_svg_tag "facilities/#{facility.icon}", class: "mx-2" %>
           <%= facility.title %>
         <% end %>
       <% end %>
