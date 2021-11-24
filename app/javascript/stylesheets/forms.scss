@@ -1,0 +1,92 @@
+.button {
+  @apply my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 rounded;
+}
+
+// Form wrappers:
+
+// Input for boolean (aka checkboxes)
+.boolean_form {
+  @apply mb-4 flex items-start;
+}
+
+// Collection input for radio buttons and check boxes
+.collection_form {
+  @apply flex items-center;
+  .item_label {
+    @apply my-1 ml-3 block text-sm font-medium text-gray-400;
+  }
+  .item_label_wrapper {
+    @apply my-4;
+  }
+}
+
+// Specific to vertical forms:
+.vertical_form {
+  .label {
+    @apply block;
+  }
+}
+
+// Meta (helper text around fields)
+.meta_text {
+  @apply mt-2 text-xs italic;
+}
+
+// Errors:
+.error_notification {
+  @apply text-white px-6 py-4 border-0 rounded relative mb-4 bg-red-400;
+}
+.error_field {
+  @apply border-red-500;
+}
+.error_text {
+  @apply text-red-500;
+}
+
+// Valid:
+.valid_field {
+  @apply border-green-400;
+}
+.valid_text {
+  @apply text-green-400;
+}
+
+// Labels
+.label {
+  @apply text-sm font-medium text-gray-600;
+}
+.label--error {
+  @extend .error_text;
+}
+
+// Fields
+.text_field {
+  @extend .textField;
+}
+.file_field {
+  @apply w-full text-gray-500 px-3 py-2 border rounded;
+}
+.checkbox-wrapper {
+  @apply flex items-center h-5;
+}
+.checkbox {
+  @apply h-4 w-4 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded;
+}
+.range_field_wrapper {
+  @apply flex items-center h-5;
+}
+.range_field {
+  @apply rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full text-gray-300;
+}
+.legend {
+  @apply text-sm font-medium text-gray-600;
+}
+
+.multi_select_wrapper {
+  @apply inline-flex space-x-1;
+}
+.multi_select {
+  @apply flex w-auto w-auto shadow appearance-none border border-gray-300;
+  @apply rounded w-full p-2 bg-white focus:outline-none focus:border-blue-500;
+  @apply text-gray-400 leading-4 transition-colors duration-200 ease-in-out
+}
