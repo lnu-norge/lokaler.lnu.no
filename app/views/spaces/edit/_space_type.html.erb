@@ -1,4 +1,6 @@
-<div>
-  <%= form.label :space_type_id %>
-  <%= form.collection_select :space_type_id, SpaceType.all, :id, :type_name, class: "border-4" %>
-</div>
+<%= form.input :space_type_id,
+  collection: SpaceType.all,
+  value_method: :id,
+  label_method: :type_name,
+  include_blank: false,
+  prompt: t('simple_form.prompt.space.space_type_id') %>

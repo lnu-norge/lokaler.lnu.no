@@ -45,7 +45,7 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
     b.optional :pattern
     b.optional :min_max
     b.optional :readonly
-    b.use :label, class: "sr-only", error_class: "text-red-500"
+    b.use :label, class: "text-lnu-blue", error_class: "text-red-500"
     b.use :input, class: "textField", error_class: "border-red-500", valid_class: "border-green-400"
     b.use :full_error, wrap_with: { tag: "p", class: "mt-2 text-red-500 text-xs italic" }
     b.use :hint, wrap_with: { tag: "p", class: "mt-2 text-grey-700 text-xs italic" }

@@ -4,9 +4,10 @@ class SpaceContactsController < AuthenticateController
   before_action :set_space_contact, except: [:create]
 
   def create
-    @space_contact = SpaceContact.create!(space_contact_params)
+    @space_contact = SpaceContact.new(space_contact_params)
 
-    return if @space_contact.save
+    saved = @space_contact.save
+    @space_contact = saved ? SpaceContact.new(space: @space_contact.space) : @space_contact
 
     render turbo_stream: turbo_stream.replace(
       @space_contact,
@@ -18,7 +19,11 @@ class SpaceContactsController < AuthenticateController
   def update
     return if @space_contact.update(space_contact_params)
 
-    render :edit, status: :unprocessable_entity
+    render turbo_stream: turbo_stream.replace(
+      @space_contact,
+      partial: "space_contacts/form",
+      locals: { space_contact: @space_contact }
+    )
   end
 
   def destroy

@@ -1,6 +1,6 @@
 <h1>Editing field '<%= @field %>' on <%= @space.title %></h1>
 <%= turbo_frame_tag "#{dom_id(@space)}-#{@field}" do %>
-  <%= form_with model: @space do |form| %>
+  <%= simple_form_for @space do |form| %>
     <%= edit_field @field, form %>
     <%= form.submit %>
   <% end %>
