@@ -1104,6 +1104,11 @@
     webpack-cli "^3.3.12"
     webpack-sources "^1.4.3"
 
+"@splidejs/splide@^3.6.4":
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/@splidejs/splide/-/splide-3.6.4.tgz#5734e17319de87bb6b472a62ae20130c4cfa462d"
+  integrity sha512-GKJ8/0+FPRwYf5zIaRcCnCGJFduMU8hEfxQ0o2j/QKfN+UFiUJOKJ1VFeDO2kL+hNmvxY5cP43mwzlncSEwDzg==
+
 "@stimulus/core@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@stimulus/core/-/core-2.0.0.tgz#140c85318d6a8a8210c0faf182223b8459348877"
