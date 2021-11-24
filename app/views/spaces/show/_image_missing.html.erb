@@ -1,0 +1,20 @@
+<div class="relative pb-1/2 w-full inline-block">
+  <div class="bg-gray-300 absolute text-gray-500  h-full w-full flex flex-col gap-4 items-center justify-center">
+            <span class="flex flex-col gap-1 items-center justify-center">
+              <%= inline_svg_tag 'image_missing', class: "inline-block h-14 w-14" %>
+              <%= t('images.image_missing') %>
+            </span>
+
+    <%= form_with url: spaces_upload_image_path, class:"" do |f| %>
+      <%= f.hidden_field :id, value: @space.id %>
+      <%= f.file_field :image, accept: 'image/png,image/gif,image/jpeg', multiple: true, class: "hidden", onchange: "this.form.submit()" %>
+      <%= f.label :image, role: "button" do %>
+
+        <div class="edit-button">
+          <%= inline_svg_tag 'camera', class: "inline-block w-7 h-7", alt: t('images.upload'), title:  t('images.upload') %>
+          <%= t('images.upload_image') %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
