@@ -3,8 +3,6 @@
 
 import { application } from "./application"
 
-require("../../javascript/stylesheets/tom-select.css")
-
 import AutofilladdressController from "./autofilladdress_controller"
 application.register("autofilladdress", AutofilladdressController)
 
@@ -31,3 +29,6 @@ application.register("reset-form", ResetFormController)
 
 import ShowOnRadioButtonValueController from "./show_on_radio_button_value_controller"
 application.register("show-on-radio-button-value", ShowOnRadioButtonValueController)
+
+import SliderController from "./slider_controller"
+application.register("slider", SliderController)
