@@ -1,16 +1,7 @@
 <div data-controller="autofilladdress">
-  <div>
-    <%= form.label :address %>
-    <%= form.text_field :address, data: { "autofilladdress-target": "address" }, class: "border-4" %>
-  </div>
-  <div>
-    <%= form.label :post_number %>
-    <%= form.text_field :post_number, data: { "autofilladdress-target": "postNumber" }, class: "border-4" %>
-  </div>
-  <div>
-    <%= form.label :post_address %>
-    <%= form.text_field :post_address, data: { "autofilladdress-target": "postAddress" }, class: "border-4" %>
-  </div>
+  <%= form.input :address, input_html: { "data-autofilladdress-target": "address" } %>
+  <%= form.input :post_number, input_html: { "data-autofilladdress-target": "postNumber" } %>
+  <%= form.input :post_address, input_html: { "data-autofilladdress-target": "postAddress" } %>
 
   <div data-autofilladdress-target="mapHolder">
     <%= static_map_of @space, class: "block my-3 object-none", alt: "" %>
