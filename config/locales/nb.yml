@@ -68,6 +68,7 @@ nb:
     image_missing: "Bilde mangler"
     upload_success: "Bilde lastet opp"
     upload: "Last opp"
+    upload_image: "Last opp bilde"
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
