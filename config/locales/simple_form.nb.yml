@@ -12,6 +12,7 @@ nb:
       default_message: "Vennligst se over feilene under:"
     # Examples
     labels:
+
       user:
         email: "E-post"
         signed_out: "Logget ut"
@@ -53,6 +54,13 @@ nb:
         fits_people: "Passer til antall"
         space_type_id: "Velg type lokale"
         space_owner_id: "Eier av lokale"
+      space_contact:
+        title: "Tittel"
+        telephone: "Telefon"
+        telephone_opening_hours: "Åpningstider"
+        email: "E-post"
+        url: "Nettside"
+        description: "Beskrivelse"
     placeholders:
       user:
         email: "epost@epost.no"
@@ -74,3 +82,10 @@ nb:
     prompt:
       space:
         space_type_id: "Velg type lokale"
+      space_contact:
+        title: "Tittel"
+        telephone: "Telefon"
+        telephone_opening_hours: "Åpningstider"
+        email: "E-post"
+        url: "Nettside"
+        description: "Beskrivelse"
