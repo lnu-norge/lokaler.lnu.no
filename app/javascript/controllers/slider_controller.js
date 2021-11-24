@@ -10,6 +10,8 @@ export default class extends Controller {
     new Splide(slider, {
       heightRatio: 2/3,
       cover: true,
+      type: 'loop',
+      lazyLoad: 'nearby',
       i18n: {
         prev: 'Forrige',
         next: 'Neste',
@@ -19,6 +21,11 @@ export default class extends Controller {
         pageX: 'Side %s'
       }
     }).mount()
+    slider.querySelectorAll('button').forEach(button =>
+      button.onclick = event => {
+        event.preventDefault()
+      }
+    )
   }
   disconnect() {
     super.disconnect();
