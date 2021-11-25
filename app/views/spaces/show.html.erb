@@ -4,10 +4,10 @@
 
   Styled in part by content.scss
 %>
-<div class="max-w-prose mx-auto overflow-auto">
+<main class="max-w-prose mx-auto w-screen">
   <%= render partial: "spaces/show/image_header", locals: { images: @space.images } %>
 
-  <main class="content px-4">
+  <section class="content px-4">
 
     <%= render partial: 'spaces/show/basics' %>
 
@@ -53,5 +53,5 @@
 
     <%= render partial: 'spaces/show/reviews' %>
 
-  </main>
-</div>
+  </section>
+</main>

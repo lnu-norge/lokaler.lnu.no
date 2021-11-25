@@ -68,6 +68,7 @@ nb:
     image_missing: "Bilde mangler"
     upload_success: "Bilde lastet opp"
     upload: "Last opp"
+    upload_image: "Last opp bilde"
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
@@ -167,8 +168,15 @@ nb:
         been_there: 'Brukt lokalet'
         not_allowed_to_use: 'Fikk ikke lov'
         facility_reviews: 'Fasilitetserfaringer'
-  read_more: 'Les mer'
+      space_contact:
+        title: "Tittel"
+        telephone: "Telefon"
+        telephone_opening_hours: "Åpningstider"
+        email: "E-post"
+        url: "Nettside"
+        description: "Beskrivelse"
 
+  read_more: 'Les mer'
   devise:
     sessions:
       user:
@@ -201,3 +209,9 @@ nb:
         or: "eller"
         logg_in_instead: "logg deg inn her"
         back: "Tilbake"
+  space_contact:
+      at_least_one_error_message:
+        telephone: må velges, eventuelt legg inn e-post, nettside eller beskrivelse
+        email: må velges, eventuelt legg inn telefon, nettside eller beskrivelse
+        url: må velges, eventuelt legg inn telefon, e-post eller beskrivelse
+        description: må velges, eventuelt legg inn telefon, e-post eller nettside
