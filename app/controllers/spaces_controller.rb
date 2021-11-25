@@ -148,7 +148,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
     spaces = spaces.filter_on_space_types(space_types) unless space_types.nil?
     spaces = Space.filter_on_facilities(spaces, facilities) unless facilities.nil?
-    spaces
+    spaces.order("star_rating DESC NULLS LAST")
   end
 
   def space_params
