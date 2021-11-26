@@ -31,6 +31,7 @@ nb:
       maybe: 'Kanskje! Ikke alle får lov'
       likely: 'Sannsynlig: Andre har fått lov!'
   address_search:
+    no_address_given: 'Kart'
     didnt_find: 'Fant ikke adressen'
   space_listing:
     no_results: 'Ingen resultater'
@@ -152,7 +153,7 @@ nb:
     attributes:
       space:
         space_type: 'Type lokale'
-        basics: 'Grunnleggende informasjon'
+        basics: 'grunnleggende informasjon'
         how_to_book: 'Hvordan booker vi?'
         who_can_use: 'Hvem får bruke lokalet?'
         more_info: 'Mer om lokalet'
