@@ -35,6 +35,12 @@ nb:
   space_listing:
     no_results: 'Ingen resultater'
     new_space: 'Legg til nytt lokale'
+  space_edit:
+    editing_space: "Redigér %{title}:"
+    save_changed_space: "Lagre endringer"
+    save_changed_field_html: 'Lagre <em>%{field}</em>'
+    cancel_changed_space: "Avbryt"
+    editing_field_for_title: "Redigerer %{field} for %{title}"
   space_show:
     only_for_space: "Kun for %{title}:"
     common_to_all_owned_by: 'Felles for %{owner_title}:'
