@@ -11,9 +11,9 @@ class SpaceContactsController < AuthenticateController
 
     render turbo_stream: turbo_stream.replace(
       @space_contact,
-      partial: "space_contacts/form",
+      partial: "space_contacts/new",
       locals: { space_contact: @space_contact }
-    )
+    ) unless saved
   end
 
   def update

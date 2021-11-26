@@ -1,6 +1,6 @@
 .modal {
   @apply relative;
-  @apply w-screen h-screen max-h-screen md:max-h-90vh md:max-w-prose;
+  @apply w-screen h-auto max-h-screen max-h-screen md:max-h-90vh md:max-w-prose;
   @apply z-50;
   @apply bg-white;
   @apply p-8 md:rounded-lg md:drop-shadow-xl;
@@ -14,7 +14,7 @@
 }
 
 .modal--with-header-and-footer {
-  @apply flex flex-col h-full;
+  @apply flex flex-col;
   @apply p-0;
 }
 
