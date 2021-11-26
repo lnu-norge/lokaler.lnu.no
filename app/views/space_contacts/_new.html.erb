@@ -4,9 +4,8 @@
                       url: @space_contact.id.nil? ? space_contacts_path : space_contact_path(@space_contact),
                       html: {
                         data: { 'controller':"reset-form" } } do |form| %>
- <div data-controller="modal" data-modal-target="background" class="modal-background">
+ <div data-controller="modal" data-modal-target="background" class="modal-background" data-hidden-target="focus">
   <div class="modal modal--with-header-and-footer">
-
       <div class="modal-header">
         <button type="button"
                 data-modal-target="closeButton"
@@ -22,13 +21,14 @@
               <%= render partial: 'space_contacts/form', locals: { form: form, space_contact: @space_contact } %>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="button" data-modal-target="closeButton">
+              <button
+                type="submit"
+                class="button">
                 <!-- Heroicon name: figma contact -->
                 <%= inline_svg_tag 'contact' %>
                 <%= t('space_contacts.submit') %>
               </button>
               <button type="button"
-                      data-modal-target="closeButton"
                       data-action="click->hidden#toggle"
                       class="link">
                 <%= t('space_contacts.abort') %>
