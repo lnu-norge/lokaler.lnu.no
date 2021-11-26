@@ -160,6 +160,7 @@ nb:
         pricing: 'Pris'
         where: 'Hvor er det?'
         address: 'Adresse'
+        street_name: 'Gatenavn'
         post_number: 'Postnummer'
         post_address: 'Poststed'
         organization_number: 'Organisasjonsnummer'
