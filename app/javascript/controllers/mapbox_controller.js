@@ -7,13 +7,13 @@ export default class extends Controller {
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
 
-    const {northEast, southWest} = await (await fetch('/rect_for_spaces')).json();
-    this.initializeMap({
-      bounds: new mapboxgl.LngLatBounds(
-        new mapboxgl.LngLat(southWest.lng, southWest.lat),
-        new mapboxgl.LngLat(northEast.lng, northEast.lat),
-      ),
-    });
+    await this.parseUrl();
+
+    // When you hit the back button, the page will reload.
+    // Even if the history was set with replaceState or pushState.
+    window.onpopstate = () => {
+      location.reload();
+    };
   }
 
   toggleSearchBox() {
@@ -80,6 +80,101 @@ export default class extends Controller {
 
     this.updateFilterCapsules();
     this.loadNewMapPosition();
+    this.updateUrl();
+  }
+
+  updateUrl() {
+    const url = new URL(window.location);
+
+    const selectedFacilities = this.selectedFacilities();
+    const selectedSpaceTypes = this.selectedSpaceTypes();
+    const selectedLocation = this.selectedLocation();
+
+    this.setOrDeleteToUrl('selectedFacilities', selectedFacilities);
+    this.setOrDeleteToUrl('selectedSpaceTypes', selectedSpaceTypes);
+    this.setOrDeleteToUrl('selectedLocation', selectedLocation);
+  }
+
+  setOrDeleteToUrl(key, value) {
+    const url = new URL(window.location);
+
+    if (value) {
+      url.searchParams.set(key, value);
+    }
+    else {
+      url.searchParams.delete(key);
+    }
+
+    window.history.replaceState(null, null, url);
+  }
+
+  selectedFacilities() {
+    return this.facilityTargets.filter(t => t.checked).map(t => t.id).join(',');
+  }
+
+  selectedSpaceTypes() {
+    return this.spaceTypeTargets.filter(t => t.checked).map(t => t.id).join(',');
+  }
+
+  selectedLocation() {
+    return [this.map.getCenter().lat.toFixed(4), this.map.getCenter().lng.toFixed(4), this.map.getZoom()].join(',');
+  }
+
+  async parseUrl() {
+    const url = new URL(window.location);
+    const selectedFacilities = url.searchParams.get('selectedFacilities');
+    const selectedSpaceTypes = url.searchParams.get('selectedSpaceTypes');
+    const selectedLocation = url.searchParams.get('selectedLocation');
+
+    this.parseSelectedFacilities(selectedFacilities);
+    this.parseSelectedSpaceTypes(selectedSpaceTypes);
+
+    this.updateFilterCapsules();
+
+    if (selectedLocation) {
+      this.parseSelectedLocation(selectedLocation);
+    }
+    else {
+      const {northEast, southWest} = await (await fetch('/rect_for_spaces')).json();
+      this.initializeMap({
+        bounds: new mapboxgl.LngLatBounds(
+          new mapboxgl.LngLat(southWest.lng, southWest.lat),
+          new mapboxgl.LngLat(northEast.lng, northEast.lat),
+        ),
+      });
+    }
+  }
+
+  parseSelectedFacilities(selectedFacilities) {
+    if(!selectedFacilities) return;
+
+    selectedFacilities.split(',').forEach(facility => {
+      this.facilityTargets.forEach(t => {
+        if (t.id === facility) {
+          t.checked = true;
+        }
+      });
+    });
+  }
+
+  parseSelectedSpaceTypes(selectedSpaceTypes) {
+    if(!selectedSpaceTypes) return;
+
+    selectedSpaceTypes.split(',').forEach(spaceType => {
+      this.spaceTypeTargets.forEach(t => {
+        if (t.id === spaceType) {
+          t.checked = true;
+        }
+      });
+    });
+  }
+
+  parseSelectedLocation(selectedLocation) {
+    const [lat, lng, zoom] = selectedLocation.split(',');
+    this.initializeMap({
+      center: [lng, lat],
+      zoom: zoom,
+    });
   }
 
   setupEventCallbacks() {
@@ -94,6 +189,7 @@ export default class extends Controller {
       spaceType.onchange = () => {
         this.updateFilterCapsules();
         this.loadNewMapPosition();
+        this.updateUrl();
       };
     });
 
@@ -101,6 +197,7 @@ export default class extends Controller {
       spaceType.onchange = () => {
         this.updateFilterCapsules();
         this.loadNewMapPosition();
+        this.updateUrl();
       };
     });
 
@@ -117,6 +214,7 @@ export default class extends Controller {
   loadPositionOn(event) {
     this.map.on(event, () => {
       this.loadNewMapPosition();
+      this.updateUrl();
     });
   }
 
