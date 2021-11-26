@@ -10,6 +10,7 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
 
   # How the label text should be generated altogether with the required text.
   config.label_text = ->(label, required, _explicit_label) { "#{label} #{required}" }
+  config.label_class = "label"
 
   # Define the way to render check boxes / radio buttons with labels.
   config.boolean_style = :inline
@@ -32,7 +33,6 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
   # add validation classes to `input_field`
   config.input_field_error_class = "error_field"
   config.input_field_valid_class = "valid_field"
-  config.label_class = "label"
 
   # vertical forms
   #

@@ -1,8 +1,12 @@
 a,
 .link {
   @apply text-pink-700;
+  @apply rounded;
   &:hover {
     @apply underline;
+  }
+  &:focus {
+    @extend .focused-outline;
   }
 }
 
@@ -11,19 +15,6 @@ a.unstyled-link {
   &:hover {
     text-decoration: none;
   }
-}
-
-.button {
-  @apply w-40 px-4;
-  @apply hover:bg-lnu-pink hover:text-white;
-  @apply border-2 rounded-l border-lnu-pink;
-}
-
-.submit {
-  @apply group relative w-full flex justify-center py-2 px-4;
-  @apply border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lnu-pink;
-  @apply text-sm font-medium text-white;
-  @apply bg-lnu-pink hover:bg-lnu-blue;
 }
 
 .top-shadow-lg {
