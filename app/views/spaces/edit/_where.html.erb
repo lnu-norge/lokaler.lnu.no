@@ -1,9 +1,27 @@
 <div data-controller="autofilladdress">
-  <%= form.input :address, input_html: { "data-autofilladdress-target": "address" } %>
-  <%= form.input :post_number, input_html: { "data-autofilladdress-target": "postNumber" } %>
-  <%= form.input :post_address, input_html: { "data-autofilladdress-target": "postAddress" } %>
+  <fieldset class="vertical_form">
+    <legend class="label">
+      <%= t('activerecord.attributes.space.address') %>
+    </legend>
+      <%= form.input :address,
+                     input_html: { "data-autofilladdress-target": "address" },
+                     label_html: { class: 'sr-only' },
+                     placeholder: t('activerecord.attributes.space.street_name'),
+                     label: t('activerecord.attributes.space.street_name') %>
+    <div class="grid grid-cols-2 gap-2">
+      <%= form.input :post_number,
+                     input_html: { "data-autofilladdress-target": "postNumber" },
+                     label_html: { class: 'sr-only' }
+      %>
+      <%= form.input :post_address,
+                     input_html: { "data-autofilladdress-target": "postAddress" },
+                     label_html: { class: 'sr-only' }
+      %>
+    </div>
+  </fieldset>
+  </div>
 
   <div data-autofilladdress-target="mapHolder">
-    <%= static_map_of @space, class: "block my-3 object-none", alt: "" %>
+    <%= static_map_of @space, class: "w-full", alt: "" %>
   </div>
 </div>
