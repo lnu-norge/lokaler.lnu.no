@@ -1,9 +1,39 @@
 <div data-controller="autofilladdress">
-  <%= form.input :address, input_html: { "data-autofilladdress-target": "address" } %>
-  <%= form.input :post_number, input_html: { "data-autofilladdress-target": "postNumber" } %>
-  <%= form.input :post_address, input_html: { "data-autofilladdress-target": "postAddress" } %>
+  <fieldset class="vertical_form">
 
-  <div data-autofilladdress-target="mapHolder">
-    <%= render partial: "spaces/show/static_map" %>
-  </div>
+    <div class="md:flex md:gap-4 md:items-center">
+      <div>
+        <legend class="label">
+          <%= t('activerecord.attributes.space.address') %>
+        </legend>
+        <%= form.input :address,
+                       input_html: { "data-autofilladdress-target": "address" },
+                       label_html: { class: 'sr-only' } %>
+        <div class="flex gap-2">
+          <%= form.input :post_number,
+                         input_html: {
+                           pattern: "[0-9]*",
+                           "data-autofilladdress-target": "postNumber",
+                           size: 5
+                         },
+                         label_html: { class: 'sr-only' }
+          %>
+          <%= form.input :post_address,
+                         wrapper_html: {
+                           class: "flex-grow",
+                         },
+                         input_html: {
+                           "data-autofilladdress-target": "postAddress"
+                         },
+                         label_html: { class: 'sr-only' }
+          %>
+        </div>
+      </div>
+      <div data-autofilladdress-target="mapHolder" class="flex-grow">
+        <%= static_map_of @space %>
+      </div>
+    </div>
+
+  </fieldset>
 </div>
+

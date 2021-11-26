@@ -31,10 +31,17 @@ nb:
       maybe: 'Kanskje! Ikke alle får lov'
       likely: 'Sannsynlig: Andre har fått lov!'
   address_search:
+    no_address_given: 'Kart'
     didnt_find: 'Fant ikke adressen'
   space_listing:
     no_results: 'Ingen resultater'
     new_space: 'Legg til nytt lokale'
+  space_edit:
+    editing_space: "Redigerer %{title}:"
+    save_changed_space: "Lagre endringer"
+    save_changed_field_html: 'Lagre <em>%{field}</em>'
+    cancel_changed_space: "Avbryt"
+    editing_field_for_title: "Redigerer %{field} for %{title}"
   space_show:
     only_for_space: "Kun for %{title}:"
     common_to_all_owned_by: 'Felles for %{owner_title}:'
@@ -145,6 +152,8 @@ nb:
         other: 'Fasilitetserfaringer'
     attributes:
       space:
+        space_type: 'Type lokale'
+        basics: 'grunnleggende informasjon'
         how_to_book: 'Hvordan booker vi?'
         who_can_use: 'Hvem får bruke lokalet?'
         more_info: 'Mer om lokalet'
@@ -152,6 +161,7 @@ nb:
         pricing: 'Pris'
         where: 'Hvor er det?'
         address: 'Adresse'
+        street_name: 'Gatenavn'
         post_number: 'Postnummer'
         post_address: 'Poststed'
         organization_number: 'Organisasjonsnummer'

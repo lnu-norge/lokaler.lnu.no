@@ -6,18 +6,20 @@
 
   <div class="flex gap-4 mb-2.5">
 
-    <div class="flex gap-2">
+    <div class="flex gap-2" title="<%= t('space_show.number_of_reviews', count: @space.reviews.count) %>">
       <%= inline_svg_tag 'star', class: @space.star_rating ? "text-pink-600" : "text-gray-300" %>
       <span>
           <%= @space.star_rating_s %>
-          <span class="opacity-50">(<%=  @space.reviews.count %>)</span>
+          <% if @space.reviews.count > 0 %>
+            <span class="opacity-50">(<%=  @space.reviews.count %>)</span>
+          <% end %>
         </span>
     </div>
 
     <div class="flex gap-2">
-      <%= inline_svg_tag 'building' %>
+      <%= inline_svg_tag 'building', class: 'text-pink-600' %>
       <span>
-            <%= @space.space_type.type_name %>
+            <%= @space.space_type.type_name.humanize %>
         <% if @space.fits_people %>
                 <span>(<%= @space.fits_people %> elever)</span>
             <% end %>

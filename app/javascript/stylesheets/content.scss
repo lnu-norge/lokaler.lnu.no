@@ -5,6 +5,9 @@
     &.small-mt {
       @apply mt-4;
     }
+    &.no-mt {
+      @apply mt-0;
+    }
   }
 
   .h1, .h2, .h3, p, ul, ol, h3, h2, h1 {

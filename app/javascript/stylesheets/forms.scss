@@ -1,0 +1,131 @@
+.button {
+  @apply cursor-pointer;
+  @apply rounded-lg py-2 px-3;
+  @apply bg-gray-100 border border-gray-100;
+  @apply inline-flex gap-2 content-center items-center;
+  @apply text-gray-700;
+  &:hover {
+    @apply shadow-md;
+    @apply border border-pink-700;
+    &.collapsable {
+      .text {
+        max-width: 200px;
+        margin-right: 0.5em;
+      }
+    }
+  }
+  &.hidden {
+    display: none;
+  }
+  &[type=submit] {
+    @apply bg-pink-700 text-white;
+    &:hover {
+      @apply bg-pink-600 border-pink-600;
+    }
+  }
+  @extend .focused-outline;
+}
+
+.focused-outline {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lnu-pink
+}
+
+// Form wrappers:
+
+// Forms where the label is on top of the input element:
+.vertical_form {
+  .label {
+    @apply block;
+    @apply mt-3 mb-1;
+  }
+  @apply mb-3;
+}
+
+// Input for boolean (aka checkboxes)
+.boolean_form {
+  @extend .vertical_form;
+  @apply mb-4 flex items-start;
+}
+
+// Collection input for radio buttons and check boxes
+.collection_form {
+  @extend .vertical_form;
+  @apply flex items-center;
+  .item_label {
+    @apply my-1 ml-3 block text-sm font-medium text-gray-400;
+  }
+  .item_label_wrapper {
+    @apply my-4;
+  }
+}
+
+
+// Meta (helper text around fields)
+.meta_text {
+  @apply mt-2 text-xs italic;
+}
+
+// Errors:
+.error_notification {
+  @apply text-white px-6 py-4 border-0 rounded relative mb-4 bg-red-400;
+}
+.error_field {
+  @apply border-red-500;
+}
+.error_text {
+  @apply text-red-500;
+}
+
+// Valid:
+.valid_field {
+  @apply border-green-400;
+}
+.valid_text {
+  @apply text-green-400;
+}
+
+// Labels
+.label {
+  @apply text-sm font-medium text-gray-600;
+}
+.label--error {
+  @extend .error_text;
+}
+
+// Fields
+.text_field {
+  @apply appearance-none rounded relative block w-full px-3 py-2 sm:text-sm;
+  @apply border border-gray-300 placeholder-gray-500 text-gray-900 ;
+  @apply focus:outline-none focus:border-lnu-pink  focus:ring-lnu-pink;
+}
+.file_field {
+  @apply w-full text-gray-500 px-3 py-2 border rounded;
+  @extend .focused-outline;
+}
+.checkbox-wrapper {
+  @apply flex items-center h-5;
+}
+.checkbox {
+  @extend .focused-outline;
+  @apply h-4 w-4 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded;
+}
+.range_field_wrapper {
+  @apply flex items-center h-5;
+}
+.range_field {
+  @extend .focused-outline;
+  @apply rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full text-gray-300;
+}
+.legend {
+  @apply text-sm font-medium text-gray-600;
+}
+
+.multi_select_wrapper {
+  @apply inline-flex space-x-1;
+}
+.multi_select {
+  @extend .focused-outline;
+  @apply flex w-auto w-auto shadow appearance-none border border-gray-300;
+  @apply rounded w-full p-2 bg-white;
+  @apply text-gray-400 leading-4 transition-colors duration-200 ease-in-out
+}

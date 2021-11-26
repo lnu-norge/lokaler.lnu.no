@@ -38,6 +38,11 @@ module SpacesHelper
   # Can also be combined with HTML attributes for the iamge tag
   # static_map_of @space, zoom: 4, class: "p-4"
   def static_map_of(space, zoom: 12, height: 250, width: 400, **html_options)
+    unless space.address&.present?
+      return static_map_placeholder(height: height, width: width,
+                                    html_options: html_options)
+    end
+
     static_map_of_lat_lng(
       lat: space.lat,
       lng: space.lng,
@@ -49,7 +54,7 @@ module SpacesHelper
   end
 
   def static_map_of_lat_lng(lat:, lng:, zoom: 12, height: 250, width: 400, **html_options) # rubocop:disable Metrics/ParameterLists
-    return static_map_placeholder(height: height, width: width, html_options: html_options) if lat.nil? || lng.nil?
+    return static_map_did_not_find(height: height, width: width, html_options: html_options) if lat.nil? || lng.nil?
 
     color_of_pin = "db2777" # Tailwind pink-600
     static_map_image_url = [
@@ -64,11 +69,24 @@ module SpacesHelper
     image_tag static_map_image_url, html_options
   end
 
+  # Used before the space has any information at all
   def static_map_placeholder(height: 250, width: 400, **html_options)
-    tag.div t("address_search.didnt_find"),
-            style: "height: #{height}px; max-width: #{width}px",
-            class: "bg-gray-100 border border-gray-200 flex justify-center items-center text-center",
-            **html_options
+    tag.div(style: "height: #{height}px; max-width: #{width}px",
+            class: "bg-gray-100 border border-gray-200 text-gray-400 flex justify-center items-center text-center",
+            **html_options) do
+      concat inline_svg("place", class: "text-gray-400")
+      concat t("address_search.no_address_given")
+    end
+  end
+
+  # Used if the information given doesn't result in a valid lat lng
+  def static_map_did_not_find(height: 250, width: 400, **html_options)
+    tag.div(
+      t("address_search.didnt_find"),
+      style: "height: #{height}px; max-width: #{width}px",
+      class: "bg-gray-100 border border-gray-200 flex justify-center items-center text-center",
+      **html_options
+    )
   end
 
   # Generates a link to an external map (Google maps, for example)

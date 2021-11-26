@@ -1,7 +1,12 @@
-<h1>Editing field '<%= @field %>' on <%= @space.title %></h1>
+<h1><%= t('space_edit.editing_field_for_title', field: Space.human_attribute_name(@field), title: @space.title) %></h1>
 <%= turbo_frame_tag "#{dom_id(@space)}-#{@field}" do %>
   <%= simple_form_for @space do |form| %>
     <%= edit_field @field, form %>
-    <%= form.submit %>
+    <nav class="flex gap-4 items-baseline flex-wrap my-4">
+      <%= button_tag type: 'submit', class: 'button'  do  %>
+        <%= t('space_edit.save_changed_field_html', field: Space.human_attribute_name(@field)) %>
+      <% end  %>
+      <%= link_to t('space_edit.cancel_changed_space'), @space %>
+    </nav>
   <% end %>
 <% end %>

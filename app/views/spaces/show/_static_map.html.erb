@@ -1,4 +1,4 @@
-<%= link_to_external_map_for @space do %>
+<%= link_to_external_map_for @space, class: "inline-block" do %>
   <%= static_map_of @space, class: "block hover:opacity-80 my-3 object-none", alt: "" %>
   <p class="inline">Åpne i Google Maps</p>
 <% end %>
