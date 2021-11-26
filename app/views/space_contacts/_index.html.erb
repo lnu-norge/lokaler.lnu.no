@@ -1,8 +1,10 @@
-<div id="<%= "#{ dom_id(@space)}" %>-contacts" >
-  <h3><%= t('space_contacts.contacts_heading') %></h3>
-  <%= render partial: "space_contacts/new_button" %>
-  <%= turbo_stream_from "space_contacts" %>
-    <%= turbo_frame_tag "space_contacts" do %>
-      <%= render @space.space_contacts %>
-    <% end %>
+<div id="<%= "#{ dom_id(@space)}" %>-contacts">
+  <div class="flex gap-3 items-baseline">
+    <h3><%= t('space_contacts.contacts_heading') %></h3>
+    <%= render partial: "space_contacts/new_button" %>
+  </div>
+  <%= turbo_frame_tag "space_contacts", class: 'flex flex-col' do %>
+    <%= turbo_stream_from "space_contacts" %>
+    <%= render @space.space_contacts %>
+  <% end %>
 </div>
