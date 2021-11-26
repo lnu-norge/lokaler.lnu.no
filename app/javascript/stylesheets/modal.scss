@@ -20,7 +20,12 @@
 
 .modal-header {
   @apply px-8 pt-8 pb-2;
-  @apply grid grid-cols-3 gap-6;
+  @apply flex gap-2 justify-between items-center flex-wrap;
+  h3 {
+    word-break: keep-all;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 .modal-content {
