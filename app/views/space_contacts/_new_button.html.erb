@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "new_space_contact" do %>
+  <div data-controller="hidden">
+    <button type="button" data-hidden-target="open" data-action="click->hidden#toggle" class="button flex-0"><%= t('space_contacts.new_contact') %></button>
+    <div data-hidden-target="hideToggle" class="hidden">
+      <%= render partial: "space_contacts/new" %>
+    </div>
+  </div>
+<% end %>
