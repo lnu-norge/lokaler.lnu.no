@@ -2,7 +2,7 @@ import mapboxgl from 'mapbox-gl';
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = [ "facility", "spaceType", "location", "searchBox", "form" ]
+  static targets = [ "facility", "spaceType", "location", "searchBox", "form", "filterCapsules" ]
 
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
@@ -51,6 +51,37 @@ export default class extends Controller {
     this.loadNewMapPosition();
   }
 
+  updateFilterCapsules() {
+    const capsuleHtml = (title) => `<button data-action="click->mapbox#disableCapsule" class="bg-white px-2 mt-2 rounded-full border border-gray-200 hover:border-lnu-pink whitespace-nowrap">${title}</button>`
+
+    const facilityCapsules = this.facilityTargets.map(t =>
+      t.checked ? capsuleHtml(t.id) : ''
+    ).join('');
+
+    const spaceTypeCapsules = this.spaceTypeTargets.map(t =>
+      t.checked ? capsuleHtml(t.id) : ''
+    ).join('');
+
+    this.filterCapsulesTarget.innerHTML = facilityCapsules + spaceTypeCapsules;
+  }
+
+  disableCapsule(event) {
+    this.facilityTargets.forEach(t => {
+      if (t.id === event.target.innerText) {
+        t.checked = false;
+      }
+    });
+
+    this.spaceTypeTargets.forEach(t => {
+      if (t.id === event.target.innerText) {
+        t.checked = false;
+      }
+    });
+
+    this.updateFilterCapsules();
+    this.loadNewMapPosition();
+  }
+
   setupEventCallbacks() {
     this.loadPositionOn('dragend');
     this.loadPositionOn('zoomend');
@@ -61,12 +92,14 @@ export default class extends Controller {
 
     this.spaceTypeTargets.forEach(spaceType => {
       spaceType.onchange = () => {
+        this.updateFilterCapsules();
         this.loadNewMapPosition();
       };
     });
 
     this.facilityTargets.forEach(spaceType => {
       spaceType.onchange = () => {
+        this.updateFilterCapsules();
         this.loadNewMapPosition();
       };
     });
