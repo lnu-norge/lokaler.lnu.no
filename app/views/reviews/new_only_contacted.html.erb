@@ -14,7 +14,14 @@
       } %>
 
       <%= render layout: 'reviews/new/footer' do %>
-        <%= form.submit t('multistep_form_navigation.save') %>
+        <div class="relative h-12">
+          <div class="absolute flex gap-2 top-0 right-0 z-1">
+            <%= link_to "Forrige",
+              new_review_path(@space),
+              class: 'modal-button' %>
+            <%= form.submit t('multistep_form_navigation.save'), class: "modal-button bg-blue-400" %>
+          </div>
+        </div>
       <% end %>
 
     </div>
