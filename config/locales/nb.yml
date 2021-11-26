@@ -36,7 +36,7 @@ nb:
     no_results: 'Ingen resultater'
     new_space: 'Legg til nytt lokale'
   space_edit:
-    editing_space: "Redigér %{title}:"
+    editing_space: "Redigerer %{title}:"
     save_changed_space: "Lagre endringer"
     save_changed_field_html: 'Lagre <em>%{field}</em>'
     cancel_changed_space: "Avbryt"
@@ -151,6 +151,7 @@ nb:
         other: 'Fasilitetserfaringer'
     attributes:
       space:
+        basics: 'Grunnleggende informasjon'
         how_to_book: 'Hvordan booker vi?'
         who_can_use: 'Hvem får bruke lokalet?'
         more_info: 'Mer om lokalet'
