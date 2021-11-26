@@ -1,1 +1,18 @@
-<%= render './space_contacts/form', space_contact: @space_contact %>
+
+<%= turbo_frame_tag dom_id(@space_contact) do %>
+  <%= simple_form_for @space_contact,
+                      url: @space_contact.id.nil? ? space_contacts_path : space_contact_path(@space_contact),
+                      html: {
+                        data: { 'controller':"reset-form" } } do |form| %>
+    <%= render './space_contacts/form', space_contact: @space_contact, form: form %>
+
+    <div class="flex gap-2 items-center">
+      <button type="submit" class="button">
+        <!-- Heroicon name: figma contact -->
+        <%= inline_svg_tag 'contact' %>
+        <%= t('space_contacts.submit') %>
+      </button>
+      <%= link_to t('space_contacts.abort'), @space_contact if action_name == "edit" || action_name == "update" %>
+    </div>
+  <% end %>
+<% end %>

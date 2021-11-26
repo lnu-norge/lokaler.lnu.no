@@ -1,49 +1,44 @@
 <%= turbo_frame_tag dom_id(space_contact) do %>
-  <div class="mx-6 border-2 border-gray-100 p-2 mt-2 bg-gray-50">
-    <div class="flex flex-cols-2">
-      <h3 class="flex-grow"><%= space_contact.title %></h3>
-      <div class="place-self-end pb-1">
-        <%= link_to edit_space_contact_path(space_contact), class: 'unstyled-link edit-button collapsable' do %>
-          <span class="text">
-            <%= t('space_contacts.edit') %>
-          </span>
-            <%= inline_svg_tag 'edit', alt: t('space_contacts.edit'), title: t('space_contacts.edit') %>
-        <% end %>
-        <%= link_to space_contact_path(space_contact), method: :delete, data: { confirm: t('space_contacts.delete_confirmation') }, class: 'unstyled-link edit-button collapsable' do %>
-          <span class="text">
-            <%= t('space_contacts.delete') %>
-          </span>
-            <%= inline_svg_tag 'x', alt: t('space_contacts.delete'), title: t('space_contacts.delete') %>
-        <% end %>
-      </div>
-    </div>
-    <div class="grid md:grid-cols-3">
-      <div>
-        <% if space_contact.telephone? %>
-          <strong><%= t('space_contacts.phone') %>:</strong>
-          <%= phone_to space_contact.telephone %><br />
-        <% end %>
-        <% if space_contact.telephone_opening_hours? %>
-          <strong><%= t('space_contacts.opening_hours') %>:</strong>
-          <%= space_contact.telephone_opening_hours %>
-        <% end %>
-      </div>
-      <div>
-        <% if space_contact.email? %>
-          <strong><%= t('space_contacts.email') %>:</strong>
-          <%= mail_to space_contact.email %><br />
-        <% end %>
-        <% if space_contact.url? %>
-          <strong><%= t('space_contacts.url') %>:</strong>
-          <%= link_to space_contact.url, space_contact.url %>
-        <% end %>
-      </div>
-      <div>
-        <% if space_contact.description? %>
-          <strong><%= t('space_contacts.description') %>:</strong>
-          <p><%= space_contact.description %></p>
-        <% end %>
-      </div>
-    </div>
+  <h3 class="flex-grow"><%= space_contact.title %></h3>
+  <div class="place-self-end pb-1">
+    <%= link_to edit_space_contact_path(space_contact), class: 'unstyled-link edit-button collapsable' do %>
+      <span class="text">
+        <%= t('space_contacts.edit') %>
+      </span>
+        <%= inline_svg_tag 'edit', alt: t('space_contacts.edit'), title: t('space_contacts.edit') %>
+    <% end %>
+    <%= link_to space_contact_path(space_contact), method: :delete, data: { confirm: t('space_contacts.delete_confirmation') }, class: 'unstyled-link edit-button collapsable' do %>
+      <span class="text">
+        <%= t('space_contacts.delete') %>
+      </span>
+        <%= inline_svg_tag 'x', alt: t('space_contacts.delete'), title: t('space_contacts.delete') %>
+    <% end %>
   </div>
+  <div>
+    <% if space_contact.telephone? %>
+      <strong><%= t('space_contacts.phone') %>:</strong>
+      <%= phone_to space_contact.telephone %><br />
+    <% end %>
+    <% if space_contact.telephone_opening_hours? %>
+      <strong><%= t('space_contacts.opening_hours') %>:</strong>
+      <%= space_contact.telephone_opening_hours %>
+    <% end %>
+  </div>
+  <div>
+    <% if space_contact.email? %>
+      <strong><%= t('space_contacts.email') %>:</strong>
+      <%= mail_to space_contact.email %><br />
+    <% end %>
+    <% if space_contact.url? %>
+      <strong><%= t('space_contacts.url') %>:</strong>
+      <%= link_to space_contact.url, space_contact.url %>
+    <% end %>
+  </div>
+  <div>
+    <% if space_contact.description? %>
+      <strong><%= t('space_contacts.description') %>:</strong>
+      <p><%= space_contact.description %></p>
+    <% end %>
+  </div>
+
 <% end %>
