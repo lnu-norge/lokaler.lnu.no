@@ -3,13 +3,14 @@
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLength
   # Default class for buttons
-  config.button_class = "my-2 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-2 px-4 rounded"
+  config.button_class = "button"
 
   # Define the default class of the input wrapper of the boolean input.
   config.boolean_label_class = ""
 
   # How the label text should be generated altogether with the required text.
   config.label_text = ->(label, required, _explicit_label) { "#{label} #{required}" }
+  config.label_class = "label"
 
   # Define the way to render check boxes / radio buttons with labels.
   config.boolean_style = :inline
@@ -22,7 +23,7 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
   config.include_default_input_wrapper_class = false
 
   # CSS class to add for error notification helper.
-  config.error_notification_class = "text-white px-6 py-4 border-0 rounded relative mb-4 bg-red-400"
+  config.error_notification_class = "error_notification"
 
   # Method used to tidy up errors. Specify any Rails Array method.
   # :first lists the first message for each field.
@@ -30,14 +31,13 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
   config.error_method = :to_sentence
 
   # add validation classes to `input_field`
-  config.input_field_error_class = "border-red-500"
-  config.input_field_valid_class = "border-green-400"
-  config.label_class = "text-sm font-medium text-gray-600"
+  config.input_field_error_class = "error_field"
+  config.input_field_valid_class = "valid_field"
 
   # vertical forms
   #
   # vertical default_wrapper
-  config.wrappers :vertical_form, tag: "div", class: "" do |b|
+  config.wrappers :vertical_form, tag: "div", class: "vertical_form" do |b|
     b.use :html5
     b.use :placeholder
     b.optional :maxlength
@@ -45,89 +45,86 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
     b.optional :pattern
     b.optional :min_max
     b.optional :readonly
-    b.use :label, class: "text-lnu-blue", error_class: "text-red-500"
-    b.use :input, class: "textField", error_class: "border-red-500", valid_class: "border-green-400"
-    b.use :full_error, wrap_with: { tag: "p", class: "mt-2 text-red-500 text-xs italic" }
-    b.use :hint, wrap_with: { tag: "p", class: "mt-2 text-grey-700 text-xs italic" }
+    b.use :label, class: "label", error_class: "label--error"
+    b.use :input, class: "text_field", error_class: "error_field", valid_class: "valid_field"
+    b.use :full_error, wrap_with: { tag: "p", class: "error_text" }
+    b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
   end
 
   # vertical input for boolean (aka checkboxes)
-  config.wrappers :vertical_boolean, tag: "div", class: "mb-4 flex items-start", error_class: "" do |b|
+  config.wrappers :vertical_boolean, tag: "div", class: "boolean_form", error_class: "" do |b|
     b.use :html5
     b.optional :readonly
-    b.wrapper tag: "div", class: "flex items-center h-5" do |ba|
-      ba.use :input, class: "h-4 w-4 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded"
+    b.wrapper tag: "div", class: "checkbox-wrapper" do |ba|
+      ba.use :input, class: "checkbox"
     end
     b.wrapper tag: "div", class: "ml-3 text-sm" do |bb|
-      bb.use :label, class: "block", error_class: "ml-2 block text-sm text-gray-900"
-      bb.use :hint, wrap_with: { tag: "p", class: "block text-grey-700 text-xs italic" }
-      bb.use :full_error, wrap_with: { tag: "p", class: "block text-red-500 text-xs italic" }
+      bb.use :label, class: "block", error_class: "block error_text"
+      bb.use :hint, wrap_with: { tag: "p", class: "block meta_text" }
+      bb.use :full_error, wrap_with: { tag: "p", class: "block meta_text error_text" }
     end
   end
 
   # vertical input for radio buttons and check boxes
   config.wrappers :vertical_collection,
-                  item_wrapper_class: "flex items-center",
-                  item_label_class: "my-1 ml-3 block text-sm font-medium text-gray-400", tag: "div", class: "my-4" do |b| # rubocop:disable Layout/LineLength
+                  item_wrapper_class: "collection_form",
+                  item_label_class: "item_label", tag: "div", class: "item_label_wrapper" do |b|
     b.use :html5
     b.optional :readonly
-    b.wrapper :legend_tag, tag: "legend", class: "text-sm font-medium text-gray-600",
-                           error_class: "text-red-500" do |ba|
+    b.wrapper :legend_tag, tag: "legend", class: "legend",
+                           error_class: "error_text" do |ba|
       ba.use :label_text
     end
     b.use :input,
-          class: "focus:ring-2 focus:ring-indigo-500 ring-offset-2 h-4 w-4 text-indigo-600 border-gray-300 rounded", error_class: "text-red-500", valid_class: "text-green-400" # rubocop:disable Layout/LineLength
-    b.use :full_error, wrap_with: { tag: "p", class: "block mt-2 text-red-500 text-xs italic" }
-    b.use :hint, wrap_with: { tag: "p", class: "mt-2 text-grey-700 text-xs italic" }
+          class: "checkbox", error_class: "error_text", valid_class: "valid_text"
+    b.use :full_error, wrap_with: { tag: "p", class: "meta_text error_text" }
+    b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
   end
 
   # vertical file input
-  config.wrappers :vertical_file, tag: "div", class: "" do |b|
+  config.wrappers :vertical_file, tag: "div", class: "vertical_form" do |b|
     b.use :html5
     b.use :placeholder
     b.optional :maxlength
     b.optional :minlength
     b.optional :readonly
-    b.use :label, class: "text-sm font-medium text-gray-600 block", error_class: "text-red-500"
-    b.use :input, class: "w-full text-gray-500 px-3 py-2 border rounded", error_class: "text-red-500 border-red-500",
-                  valid_class: "text-green-400"
-    b.use :full_error, wrap_with: { tag: "p", class: "mt-2 text-red-500 text-xs italic" }
-    b.use :hint, wrap_with: { tag: "p", class: "mt-2 text-grey-700 text-xs italic" }
+    b.use :label
+    b.use :input, class: "file_field", error_class: "error_text error_field"
+    b.use :full_error, wrap_with: { tag: "p", class: "meta_text error_text" }
+    b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
   end
 
   # vertical multi select
-  config.wrappers :vertical_multi_select, tag: "div", class: "my-4", error_class: "f", valid_class: "" do |b|
+  config.wrappers :vertical_multi_select, tag: "div", class: "", error_class: "", valid_class: "" do |b|
     b.use :html5
     b.optional :readonly
-    b.wrapper :legend_tag, tag: "legend", class: "text-sm font-medium text-gray-600",
+    b.wrapper :legend_tag, tag: "legend", class: "legend",
                            error_class: "text-red-500" do |ba|
       ba.use :label_text
     end
-    b.wrapper tag: "div", class: "inline-flex space-x-1" do |ba|
+    b.wrapper tag: "div", class: "multi_select_wrapper" do |ba|
       # ba.use :input, class: 'flex w-auto w-auto text-gray-500 text-sm border-gray-300 rounded p-2', error_class: 'text-red-500', valid_class: 'text-green-400' # rubocop:disable Layout/LineLength
       ba.use :input,
-             class: 'flex w-auto w-auto shadow appearance-none border border-gray-300
-                    rounded w-full p-2 bg-white focus:outline-none focus:border-blue-500
-                    text-gray-400 leading-4 transition-colors duration-200 ease-in-out'
+             class: "multi_select"
     end
-    b.use :full_error, wrap_with: { tag: "p", class: "mt-2 text-red-500 text-xs italic" }
-    b.use :hint, wrap_with: { tag: "p", class: "mt-2 text-grey-700 text-xs italic" }
+    b.use :full_error, wrap_with: { tag: "p", class: "meta_text error_text" }
+    b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
   end
 
   # vertical range input
-  config.wrappers :vertical_range, tag: "div", class: "my-4", error_class: "text-red-500",
+  config.wrappers :vertical_range, tag: "div", class: "", error_class: "error_text",
                                    valid_class: "text-green-400" do |b|
     b.use :html5
     b.use :placeholder
     b.optional :readonly
     b.optional :step
-    b.use :label, class: "text-sm font-medium text-gray-600 block", error_class: "text-red-500"
-    b.wrapper tag: "div", class: "flex items-center h-5" do |ba|
-      ba.use :input, class: "rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full text-gray-300",
-                     error_class: "text-red-500", valid_class: "text-green-400"
+    b.use :label, class: "legend block", error_class: "error_text"
+    b.wrapper tag: "div", class: "range_field_wrapper" do |ba|
+      ba.use :input, class: "range_field",
+                     error_class: "error_text", valid_class: "valid_text"
     end
-    b.use :full_error, wrap_with: { tag: "p", class: "mt-2 text-red-500 text-xs italic" }
-    b.use :hint, wrap_with: { tag: "p", class: "mt-2 text-grey-700 text-xs italic" }
+    b.use :full_error, wrap_with: { tag: "p", class: "meta_text error_text" }
+    b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
   end
 
   # The default wrapper to be used by the FormBuilder.

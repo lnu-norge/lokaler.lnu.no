@@ -1,5 +1,5 @@
 <%= turbo_frame_tag dom_id(space_contact) do %>
-  <div class="mx-6 border-2 border-gray-100 p-2 mt-2 bg-gray-50">
+  <div class="border-2 border-gray-100 p-2 mt-2 bg-gray-50">
     <%= simple_form_for space_contact,
       url: space_contact.id.nil? ? space_contacts_path : space_contact_path(space_contact),
       html: {
@@ -16,13 +16,11 @@
           <%= f.input :description, input_html: { class: 'fieldLast' } %>
       </div>
       <div class="mt-4">
-        <%= button_tag :submit, class: 'submit' do %>
-          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-            <!-- Heroicon name: figma contact -->
-            <%= inline_svg_tag 'contact' %>
-          </span>
+        <button type="submit" class="button">
+          <!-- Heroicon name: figma contact -->
+          <%= inline_svg_tag 'contact' %>
           <%= t('space_contacts.submit') %>
-        <% end %>
+        </button>
       </div>
     <% end %>
     <%= link_to t('space_contacts.abort'), space_contact if action_name == "edit" || action_name == "update" %>

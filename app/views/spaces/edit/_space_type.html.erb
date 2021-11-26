@@ -1,6 +1,4 @@
-<%= form.input :space_type_id,
-  collection: SpaceType.all,
+<%= form.association :space_type,
   value_method: :id,
   label_method: :type_name,
-  include_blank: false,
   prompt: t('simple_form.prompt.space.space_type_id') %>

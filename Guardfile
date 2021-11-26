@@ -42,7 +42,7 @@ guard 'livereload' do
     watch(%r{
           (?:app|vendor)
           (?:/assets/\w+/(?<path>[^.]+) # path+base without extension
-           (?<ext>\.#{ext})) # matching extension (must be first encountered)
+          (?<ext>\.#{ext})) # matching extension (must be first encountered)
           (?:\.\w+|$) # other extensions
           }x) do |m|
       path = m[1]

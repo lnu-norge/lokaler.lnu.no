@@ -1,11 +1,15 @@
-<div id="<%= "#{ dom_id(@space)}" %>-contacts" data-controller="hidden" class="grid">
-  <div class="flex">
+<div id="<%= "#{ dom_id(@space)}" %>-contacts" data-controller="hidden">
+  <div class="flex items-center">
     <h2 class="flex-grow"><%= t('space_contacts.contacts_heading') %></h2>
-    <button type="button" data-hidden-target="open" data-action="click->hidden#toggle" class="button"><%= t('space_contacts.new_contact') %></button>
-    <button type="button" data-hidden-target="close" data-action="click->hidden#toggle" class="button hidden"><%= t('space_contacts.close_contact') %></button>
   </div>
-  <div data-hidden-target="hideToggle" class="hidden flex-none">
-    <%= render partial: 'space_contacts/form', locals: { space_contact: @space_contact } %>
+  <button type="button" data-hidden-target="open" data-action="click->hidden#toggle" class="button flex-0"><%= t('space_contacts.new_contact') %></button>
+  <div data-hidden-target="hideToggle" class="hidden">
+    <div class="modal-background">
+      <div class="modal">
+        <button type="button" data-hidden-target="close" data-action="click->hidden#toggle" class="button flex-0 hidden"><%= t('space_contacts.close_contact') %></button>
+        <%= render partial: 'space_contacts/form', locals: { space_contact: @space_contact } %>
+      </div>
+    </div>
   </div>
   <%= turbo_stream_from "space_contacts" %>
     <%= turbo_frame_tag "space_contacts" do %>
