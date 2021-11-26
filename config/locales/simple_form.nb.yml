@@ -57,7 +57,7 @@ nb:
       space_contact:
         title: "Navn"
         telephone: "Telefon"
-        telephone_opening_hours: "Åpningstider"
+        telephone_opening_hours: "Åpningstider telefon"
         email: "E-post"
         url: "Nettside"
         description: "Tillegsinformasjon"
@@ -65,7 +65,7 @@ nb:
       space_contact:
         title: 'F.eks. "Rektor Ola Nordmann" eller "Sentralbord"'
         telephone: "Telefon"
-        telephone_opening_hours: "Åpningstider"
+        telephone_opening_hours: Fex "12-16, hverdager"
         email: "E-post"
         url: "Nettside"
         description: "Noe man burde vite?"
@@ -92,7 +92,7 @@ nb:
       space_contact:
         title: "Tittel"
         telephone: "Telefon"
-        telephone_opening_hours: "Åpningstider"
+        telephone_opening_hours: "Åpningstider telefon"
         email: "E-post"
         url: "Nettside"
         description: "Beskrivelse"
