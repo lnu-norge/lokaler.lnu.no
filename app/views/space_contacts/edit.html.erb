@@ -4,7 +4,7 @@
                       url: @space_contact.id.nil? ? space_contacts_path : space_contact_path(@space_contact),
                       html: {
                         data: { 'controller':"reset-form" } } do |form| %>
-    <div class="rounded-md shadow-md p-4 border border-gray-500">
+    <div class="rounded-md shadow-md p-4 border border-gray-500 mb-3 ">
       <%= render partial: 'space_contacts/form', locals: {
         space_contact: @space_contact, form: form
       }%>
