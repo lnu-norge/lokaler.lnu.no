@@ -5,22 +5,28 @@
     <%= form.hidden_field :type_of_contact, value: :not_allowed_to_use %>
 
     <div class="content">
-      <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
-      <%= render partial: 'shared/form_error', locals: { model: @review } %>
+      <div data-controller="multistep-form">
+        <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
+        <%= render partial: 'shared/form_error', locals: { model: @review } %>
 
-      <%= render partial: 'reviews/form/text_been_there', locals: {
-        title: t('reviews.form.why_were_you_not_allowed'),
-        form: form
-      } %>
-      <hr />
+        <hr />
 
-      <%= render partial: 'reviews/form/facility_reviews', locals: {
-        form: form
-      } %>
+        <div data-multistep-form-target="step">
+          <%= render partial: 'reviews/form/text_been_there', locals: {
+            title: t('reviews.form.why_were_you_not_allowed'),
+            form: form
+          } %>
+        </div>
+
+        <div data-multistep-form-target="step">
+          <%= render partial: 'reviews/form/facility_reviews', locals: {
+            form: form
+          } %>
+        </div>
+
+        <%= render partial: 'reviews/multistep_footer', locals: { form: form } %>
+      </div>
     </div>
-    <%= render layout: 'reviews/new/footer' do %>
-      <%= form.submit t('multistep_form_navigation.save') %>
-    <% end %>
 
   <% end  %>
 

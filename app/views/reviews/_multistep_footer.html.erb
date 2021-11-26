@@ -1,0 +1,33 @@
+<%= render layout: 'reviews/new/footer' do %>
+  <div class="relative h-12">
+    <div class="absolute flex gap-2 top-0 right-0 z-1">
+
+      <div class="hidden"
+          data-multistep-form-target="backToMainForm">
+        <%= link_to "Forrige",
+          new_review_path(@space),
+          class: 'modal-button' %>
+      </div>
+      <div
+        data-multistep-form-target="previous">
+        <span
+          data-action="click->multistep-form#previousStep"
+          class="modal-button">
+          Forrige
+        </span>
+      </div>
+      <div
+        data-multistep-form-target="next">
+        <span
+          data-action="click->multistep-form#nextStep"
+          class="modal-button">
+          Neste
+        </span>
+      </div>
+      <div class="hidden"
+        data-multistep-form-target="save">
+        <%= form.submit t('multistep_form_navigation.save'), class: "modal-button" %>
+      </div>
+    </div>
+  </div>
+<% end %>
