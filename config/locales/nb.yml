@@ -151,6 +151,7 @@ nb:
         other: 'Fasilitetserfaringer'
     attributes:
       space:
+        space_type: 'Type lokale'
         basics: 'Grunnleggende informasjon'
         how_to_book: 'Hvordan booker vi?'
         who_can_use: 'Hvem får bruke lokalet?'
