@@ -46,14 +46,14 @@ nb:
         session:
           heading_new: "Logg inn til din bruker"
       space:
-        title: "Tittel"
-        address: "Adresse"
+        title: "Navn på lokalet"
+        address: "Gatenavn"
         post_address: "Poststed"
         post_number: "Postnummer"
         organization_number: "Organisasjonsnummer"
-        fits_people: "Passer til antall"
+        fits_people: "Hvor mange er det plass til?"
         space_type_id: "Velg type lokale"
-        space_owner_id: "Eier av lokale"
+        space_owner_id: "Hvem eier lokalet?"
       space_contact:
         title: "Tittel"
         telephone: "Telefon"
@@ -71,14 +71,14 @@ nb:
         current_password: "Skriv nytt passord her om du vil bytte"
         organization: "Organisasjon"
       space:
-        title: "Tittel"
-        address: "Adresse"
+        title: "F.eks. 'Gudeberg skole'"
+        address: "Gatenavn"
         post_address: "Poststed"
-        post_number: "Postnummer"
+        post_number: "Post-#"
         organization_number: "Organisasjonsnummer"
-        fits_people: "Passer til antall"
+        fits_people: "F.eks. antall elever på skolen"
         space_type_id: "Velg type lokale"
-        space_owner_id: "Eier av lokale"
+        space_owner_id: "F.eks. 'Viken fylkeskommune'"
     prompt:
       space:
         space_type_id: "Velg type lokale"
