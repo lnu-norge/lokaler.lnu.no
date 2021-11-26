@@ -55,13 +55,20 @@ nb:
         space_type_id: "Velg type lokale"
         space_owner_id: "Hvem eier lokalet?"
       space_contact:
-        title: "Tittel"
+        title: "Navn"
         telephone: "Telefon"
         telephone_opening_hours: "Åpningstider"
         email: "E-post"
         url: "Nettside"
-        description: "Beskrivelse"
+        description: "Tillegsinformasjon"
     placeholders:
+      space_contact:
+        title: 'F.eks. "Rektor Ola Nordmann" eller "Sentralbord"'
+        telephone: "Telefon"
+        telephone_opening_hours: "Åpningstider"
+        email: "E-post"
+        url: "Nettside"
+        description: "Noe man burde vite?"
       user:
         email: "epost@epost.no"
         first_name: "Fornavn"
