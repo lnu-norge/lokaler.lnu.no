@@ -1,26 +1,28 @@
 <nav class="fixed md:sticky m-4 md:m-0 z-10 md:z-1 top-0 right-0 left-0 flex justify-center md:block md:px-4 md:pt-4 md:mt-4 md:mb-8">
-  <span
-    class="border-white w-64 md:w-full border-2 py-3 px-4 bg-white rounded-full shadow-xl flex justify-between">
-    <button
-        data-action="click->mapbox#toggleSearchBox"
-        class="flex justify-between w-full pr-2">
-      <span class="inline-flex items-center justify-start border-2 rounded-full border-white hover:border-lnu-pink">
-        <%= inline_svg_tag 'search', class: 'inline-block' %>
-      </span>
+  <div class="border-white w-full md:w-full border-2 py-3 px-4 bg-white rounded-md shadow-xl ">
+    <span class="flex justify-between">
+      <button
+          data-action="click->mapbox#toggleSearchBox"
+          class="flex justify-between w-full pr-2">
+        <span class="inline-flex items-center justify-start border-2 rounded-full border-white hover:border-lnu-pink">
+          <%= inline_svg_tag 'search', class: 'inline-block' %>
+        </span>
 
-      <span class="inline-flex items-center w-full justify-center border-2 rounded-full border-white hover:border-lnu-pink" id="searchbox-text">
-        <%= t('space_filter.search_and_filter') %>
-      </span>
+        <span class="inline-flex items-center w-full justify-center border-2 rounded-full border-white hover:border-lnu-pink" id="searchbox-text">
+          <%= t('space_filter.search_and_filter') %>
+        </span>
 
-      <span class="inline-flex items-center justify-end hover:border-lnu-pink border-2 rounded-full border-white hover:border-lnu-pink">
-        <span id="searchbox-count"></span>
-        <%= inline_svg_tag 'filter', class: 'inline-block' %>
-      </span>
-    </button>
+        <span class="inline-flex items-center justify-end hover:border-lnu-pink border-2 rounded-full border-white hover:border-lnu-pink">
+          <span id="searchbox-count"></span>
+          <%= inline_svg_tag 'filter', class: 'inline-block' %>
+        </span>
+      </button>
 
-    <button class="inline-flex items-center justify-end border-2 rounded-full border-white hover:border-lnu-pink gap-2" data-action="click->mapbox#enableLocationService">
-      <%= inline_svg_tag 'gps', class: 'inline-block' %>
-    </button>
-
-  </span>
+      <button class="inline-flex items-center justify-end border-2 rounded-full border-white hover:border-lnu-pink gap-2" data-action="click->mapbox#enableLocationService">
+        <%= inline_svg_tag 'gps', class: 'inline-block' %>
+      </button>
+    </span>
+    <span data-mapbox-target="filterCapsules" class="flex overflow-x-auto gap-1">
+    </span>
+  </div>
 </nav>
