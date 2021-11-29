@@ -213,9 +213,13 @@ export default class extends Controller {
 
   loadPositionOn(event) {
     this.map.on(event, () => {
-      this.loadNewMapPosition();
       this.updateUrl();
     });
+  }
+
+  reloadPosition() {
+    this.loadNewMapPosition();
+    this.updateUrl();
   }
 
   addMarker(space) {
