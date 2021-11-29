@@ -2,7 +2,7 @@ import mapboxgl from 'mapbox-gl';
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = [ "facility", "spaceType", "location", "searchBox", "form", "filterCapsules" ]
+  static targets = [ "facility", "spaceType", "location", "searchBox", "form", "filterCapsules", "searchArea" ]
 
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
@@ -214,12 +214,14 @@ export default class extends Controller {
   loadPositionOn(event) {
     this.map.on(event, () => {
       this.updateUrl();
+      this.searchAreaTarget.classList.remove('hidden');
     });
   }
 
   reloadPosition() {
     this.loadNewMapPosition();
     this.updateUrl();
+    this.searchAreaTarget.classList.add('hidden');
   }
 
   addMarker(space) {
