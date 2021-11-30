@@ -1,3 +1,7 @@
+<%= inline_editable :facility_description  do %>
+  <%= @space.facility_description %>
+<% end %>
+
 <h2><%= Facility.model_name.human(count: 2) %></h2>
 
 <% FacilityCategory.all.each_with_index do |facilityCategory, index| %>
