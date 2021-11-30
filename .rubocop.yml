@@ -51,3 +51,6 @@ Style/SymbolArray:
   MinSize: 4
   Exclude:
     - 'config/routes.rb'
+
+Metrics/AbcSize:
+  Max: 20
