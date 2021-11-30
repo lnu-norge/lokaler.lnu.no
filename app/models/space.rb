@@ -28,6 +28,7 @@ class Space < ApplicationRecord
   has_rich_text :pricing
   has_rich_text :terms
   has_rich_text :more_info
+  has_rich_text :facility_description
 
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
 
