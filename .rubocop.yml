@@ -46,6 +46,7 @@ AllCops:
     - 'Guardfile'
     - 'spec/rails_helper.rb'
     - 'db/migrate/**/*'
+    - 'vendor/**/*'
 
 Style/SymbolArray:
   MinSize: 4
