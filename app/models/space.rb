@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Space < ApplicationRecord
+class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_paper_trail skip: [:star_rating]
 
   has_many_attached :images
@@ -141,5 +141,10 @@ class Space < ApplicationRecord
 
   def star_rating_s
     star_rating || " - "
+  end
+
+  def render_map_marker
+    html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self }
+    { lat: lat, lng: lng, id: id, html: html }
   end
 end

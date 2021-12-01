@@ -46,8 +46,12 @@ AllCops:
     - 'Guardfile'
     - 'spec/rails_helper.rb'
     - 'db/migrate/**/*'
+    - 'vendor/**/*'
 
 Style/SymbolArray:
   MinSize: 4
   Exclude:
     - 'config/routes.rb'
+
+Metrics/AbcSize:
+  Max: 20

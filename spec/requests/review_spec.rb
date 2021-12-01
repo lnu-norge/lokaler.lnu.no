@@ -22,9 +22,6 @@ RSpec.describe Review, type: :request do
     sign_in user
     facility_review.reload
     space.aggregate_facility_reviews
-    # Test that data is loaded correctly:
-    expect(review.facility_reviews.count).to eq(1)
-    expect(space.reviews_for_facility(facility)).to eq("unlikely")
   end
 
   it "can load the new review paths" do
