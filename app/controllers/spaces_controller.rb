@@ -99,15 +99,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     space_count = filtered_spaces.count
     spaces = filtered_spaces.first(SPACE_SEARCH_PAGE_SIZE)
 
-    markers = spaces.map do |space|
-      html = render_to_string partial: "spaces/index/map_marker", locals: { space: space }
-      {
-        lat: space.lat,
-        lng: space.lng,
-        id: space.id,
-        html: html
-      }
-    end
+    markers = spaces.map(&:render_map_marker)
 
     facility_ids = params[:facilities]&.map(&:to_i) || []
     render json: {

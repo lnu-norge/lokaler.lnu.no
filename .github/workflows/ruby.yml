@@ -45,8 +45,6 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          # Not needed with a .ruby-version file
-          ruby-version: 3.0.3
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
       - name: Run Yarn
@@ -56,6 +54,9 @@ jobs:
       - name: Create DB
         run: |
           bin/rails db:prepare
+      - name: Rubocop
+        run: |
+          bundle exec rubocop
       - name: Run tests
         run: |
           bundle exec rspec
