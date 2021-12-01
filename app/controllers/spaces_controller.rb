@@ -161,6 +161,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       :pricing,
       :terms,
       :more_info,
+      :facility_description,
       space_owner_attributes: %i[id how_to_book pricing terms who_can_use]
     )
   end

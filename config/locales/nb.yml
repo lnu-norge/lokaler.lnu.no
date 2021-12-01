@@ -158,6 +158,7 @@ nb:
         how_to_book: 'Hvordan booker vi?'
         who_can_use: 'Hvem får bruke lokalet?'
         more_info: 'Mer om lokalet'
+        facility_description: 'Fasilitets beskrivelse'
         terms: 'Vilkår for å bruke lokalet'
         pricing: 'Pris'
         where: 'Hvor er det?'
