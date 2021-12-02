@@ -1,0 +1,11 @@
+<div>
+  <% @space_types.each do |space_type| %>
+    <div>
+      <%= link_to 'Edit', edit_admin_space_type_path(space_type) %>
+      <%= link_to 'Delete', admin_space_type_path(space_type), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <%= space_type.type_name %>
+    </div>
+  <% end %>
+
+  <%= link_to 'New Space Type', new_admin_space_type_path %>
+</div>

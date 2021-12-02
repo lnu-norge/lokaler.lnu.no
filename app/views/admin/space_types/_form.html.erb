@@ -1,0 +1,4 @@
+<%= simple_form_for @space_type, url: action_name == "new" ? admin_space_types_path : admin_space_type_path do |f| %>
+  <%= f.input :type_name %>
+  <%= f.submit %>
+<% end %>
