@@ -5,6 +5,13 @@
       <%= render partial: 'shared/image_slider', locals: {
         images: images
       } %>
-      <%= render partial: 'spaces/show/image_header_upload_button' %>
+      <div class="absolute right-2 top-2">
+        <div>
+          <%= render partial: 'spaces/show/image_header_upload_button' %>
+        </div>
+        <div class="pt-2">
+          <%= render partial: 'spaces/show/image_header_edit_button' %>
+        </div>
+      </div>
     <% end %>
   </div>

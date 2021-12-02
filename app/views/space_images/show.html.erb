@@ -1,0 +1,7 @@
+<div>
+  <% @space.images.each do |image| %>
+    <%= image_tag image, class: "w-64" %>
+    <% # delete image %>
+    <%= link_to "Delete", space_image_path(@space, image: image), method: :delete, class: "btn btn-danger" %>
+  <% end %>
+</div>
