@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class AdminController < AuthenticateController
-  before_action :authenticate_admin!
+class AdminController < AdminAuthenticateController
   MAX_PAGE_SIZE = 5
 
   def paginate_array(array)
@@ -31,12 +30,5 @@ class AdminController < AuthenticateController
     result.reify.save!
 
     redirect_to admin_index_path
-  end
-
-  protected
-
-  def authenticate_admin!
-    authenticate_user!
-    redirect_to spaces_path unless current_user.admin?
   end
 end

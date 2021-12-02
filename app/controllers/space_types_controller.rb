@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpaceTypesController < AdminController
+class SpaceTypesController < AdminAuthenticateController
   before_action :set_space_type, except: [:index, :new, :create]
 
   def index
