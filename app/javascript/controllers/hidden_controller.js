@@ -2,10 +2,13 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="hidden"
 export default class extends Controller {
-  static targets = ["hideToggle", "focus"]
+  static targets = ["toggleableElement", "focus"]
 
   toggle() {
-    this.hideToggleTarget.classList.toggle("hidden");
-    this.focusTarget.focus();
+    this.toggleableElementTarget.classList.toggle("hidden");
+    const hidden = this.toggleableElementTarget.classList.contains("hidden");
+    if (!hidden) {
+      this.focusTarget.focus();
+    }
   }
 }
