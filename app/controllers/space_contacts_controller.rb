@@ -19,7 +19,7 @@ class SpaceContactsController < AuthenticateController
     else
       # Error handling, show the errors:
       render turbo_stream: turbo_stream.replace(
-        @space_contact,
+        "new_space_contact_form",
         partial: "space_contacts/new",
         locals: { space_contact: @space_contact }
       )

@@ -18,7 +18,9 @@
         <div class="w-16"></div>
       </div>
             <div class="modal-content">
-              <%= render partial: 'space_contacts/form', locals: { form: form, space_contact: @space_contact } %>
+              <%= turbo_frame_tag "new_space_contact_form" do %>
+                <%= render partial: 'space_contacts/form', locals: { form: form, space_contact: @space_contact } %>
+              <% end  %>
             </div>
             <div class="modal-footer">
               <button
@@ -36,5 +38,5 @@
             </div>
       </div>
   </div>
-  <% end  %>
+
 <% end  %>
