@@ -13,7 +13,7 @@ class SpaceContactsController < AuthenticateController
     if saved
       @space = @space_contact.space
       render turbo_stream: turbo_stream.replace(
-        "new_space_contact",
+        "new_space_contact_button",
         partial: "space_contacts/new_button"
       )
     else
