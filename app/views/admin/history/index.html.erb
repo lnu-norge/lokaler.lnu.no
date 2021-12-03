@@ -11,13 +11,13 @@
   <br>
   <% unless @current_page == 1 %>
     <%= link_to :back,
-      admin_index_path(page: @current_page.to_i - 1),
+      admin_history_index_path(page: @current_page.to_i - 1),
       class: "absolute right-16 bottom-0 p-2 bg-lnu-pink text-white" %>
   <% end %>
 
   <% unless @last_page %>
     <%= link_to :next,
-      admin_index_path(page: @current_page.to_i + 1),
+      admin_history_index_path(page: @current_page.to_i + 1),
       class: "absolute right-0 bottom-0 p-2 bg-lnu-pink text-white"
     %>
   <% end %>
