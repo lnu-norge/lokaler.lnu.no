@@ -60,7 +60,7 @@ nb:
         telephone_opening_hours: "Åpningstider telefon"
         email: "E-post"
         url: "Nettside"
-        description: "Tillegsinformasjon"
+        description: "Tilleggsinformasjon"
     placeholders:
       space_contact:
         title: 'F.eks. "Rektor Ola Nordmann" eller "Sentralbord"'
