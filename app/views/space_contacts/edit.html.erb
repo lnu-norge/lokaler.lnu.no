@@ -1,1 +1,4 @@
-<%= render './space_contacts/form', space_contact: @space_contact %>
+<%=
+  render partial: "space_contacts/edit",
+           locals: { space_contact: @space_contact }
+%>
