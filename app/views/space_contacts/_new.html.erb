@@ -1,10 +1,9 @@
 
-<%= turbo_frame_tag dom_id(@space_contact) do %>
   <%= simple_form_for @space_contact,
                       url: @space_contact.id.nil? ? space_contacts_path : space_contact_path(@space_contact),
                       html: {
                         data: { 'controller':"reset-form" } } do |form| %>
- <div data-controller="modal" data-modal-target="background" class="modal-background" data-hidden-target="focus">
+ <div data-controller="modal" data-modal-target="background" class="modal-background">
   <div class="modal modal--with-header-and-footer">
       <div class="modal-header">
         <button type="button"

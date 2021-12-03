@@ -1,6 +1,6 @@
 <%= form.hidden_field :space_id, value: space_contact.space_id %>
 <%= form.hidden_field :space_owner_id, value: space_contact.space_owner_id %>
-<%= form.input :title, input_html: { class: 'fieldFirst', 'data-hidden-target': "title", 'data-reset-form-target': "title" } %>
+<%= form.input :title, input_html: { class: 'fieldFirst', 'data-hidden-target': 'focus', 'data-reset-form-target': "title" } %>
 <div class="flex flex-wrap gap-2 -mt-3 -mb-3">
   <%= form.input :telephone  %>
   <%= form.input :telephone_opening_hours, wrapper_html: {
