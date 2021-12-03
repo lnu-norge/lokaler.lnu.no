@@ -5,13 +5,14 @@
         <%= button_tag data: {
           modal_target: 'closeButton',
           action: "click->mapbox#toggleSearchBox"
-        }, class: "hover:underline p-4 -mt-4 -ml-4 inline-flex content-center items-center" do %>
+        }, class: "hover:underline p-4 -ml-4 inline-flex content-center items-center" do %>
           <%= inline_svg_tag 'x', class: 'inline-block' %>
           Lukk
         <% end %>
         <h2 class="font-bold text-center">
           <%= t('space_filter.edit_filter') %>
         </h2>
+        <div class="w-16"></div>
       </nav>
       <section class="modal-content">
         <%= render partial: "spaces/index/search_form" %>

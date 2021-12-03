@@ -1,18 +1,10 @@
-<div id="<%= "#{ dom_id(@space)}" %>-contacts" data-controller="hidden">
-  <div class="flex items-center">
-    <h2 class="flex-grow"><%= t('space_contacts.contacts_heading') %></h2>
+<div id="<%= "#{ dom_id(@space)}" %>-contacts">
+  <div class="flex gap-3 items-baseline">
+    <h3><%= t('space_contacts.contacts_heading') %></h3>
+    <%= render partial: "space_contacts/new_button" %>
   </div>
-  <button type="button" data-hidden-target="open" data-action="click->hidden#toggle" class="button flex-0"><%= t('space_contacts.new_contact') %></button>
-  <div data-hidden-target="hideToggle" class="hidden">
-    <div class="modal-background">
-      <div class="modal">
-        <button type="button" data-hidden-target="close" data-action="click->hidden#toggle" class="button flex-0 hidden"><%= t('space_contacts.close_contact') %></button>
-        <%= render partial: 'space_contacts/form', locals: { space_contact: @space_contact } %>
-      </div>
-    </div>
-  </div>
-  <%= turbo_stream_from "space_contacts" %>
-    <%= turbo_frame_tag "space_contacts" do %>
-      <%= render @space.space_contacts %>
-    <% end %>
+  <%= turbo_frame_tag "space_contacts", class: 'flex flex-col' do %>
+    <%= turbo_stream_from "space_contacts" %>
+    <%= render @space.space_contacts %>
+  <% end %>
 </div>
