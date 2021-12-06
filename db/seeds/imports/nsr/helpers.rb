@@ -74,7 +74,6 @@ def space_from(school)
     lng: position[:lng],
     municipality_code: position[:municipality_code],
     organization_number: get_meta(school, "organizationalNumber"),
-    fits_people: get_meta(school, "pupils"),
     space_owner: space_owner,
     space_type: space_type
   }

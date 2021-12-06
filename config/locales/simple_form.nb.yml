@@ -51,7 +51,6 @@ nb:
         post_address: "Poststed"
         post_number: "Postnummer"
         organization_number: "Organisasjonsnummer"
-        fits_people: "Hvor mange er det plass til?"
         space_type_id: "Velg type lokale"
         space_owner_id: "Hvem eier lokalet?"
       space_contact:
@@ -83,7 +82,6 @@ nb:
         post_address: "Poststed"
         post_number: "Post-#"
         organization_number: "Organisasjonsnummer"
-        fits_people: "F.eks. antall elever på skolen"
         space_type_id: "Velg type lokale"
         space_owner_id: "F.eks. 'Viken fylkeskommune'"
     prompt:

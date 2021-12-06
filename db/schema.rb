@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_181749) do
+ActiveRecord::Schema.define(version: 2021_12_06_122348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,7 +171,6 @@ ActiveRecord::Schema.define(version: 2021_11_12_181749) do
     t.string "post_number"
     t.string "post_address"
     t.string "municipality_code"
-    t.integer "fits_people"
     t.decimal "star_rating", precision: 2, scale: 1
     t.index ["space_owner_id"], name: "index_spaces_on_space_owner_id"
     t.index ["space_type_id"], name: "index_spaces_on_space_type_id"
