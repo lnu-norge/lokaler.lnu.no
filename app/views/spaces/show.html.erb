@@ -47,7 +47,7 @@
     <% end %>
     <hr />
 
-    <%= render partial: 'spaces/show/reviews' %>
+    <%= render partial: 'spaces/show/reviews', locals: { space: @space } %>
 
     <% if current_user&.admin? %>
       <hr />

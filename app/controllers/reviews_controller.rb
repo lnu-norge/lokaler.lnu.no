@@ -81,14 +81,11 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),
-          turbo_stream.prepend(:reviews,
-                               partial: "spaces/show/review_card",
-                               locals: { review: @review }),
-          turbo_stream.replace(:new_review_path,
-                               partial: "spaces/show/review_link_to_new_review",
-                               locals: {
-                                 space: @review.space
-                               })
+          turbo_stream.update(:reviews,
+                              partial: "spaces/show/reviews",
+                              locals: {
+                                space: @review.space
+                              })
         ]
       end
       format.html do
