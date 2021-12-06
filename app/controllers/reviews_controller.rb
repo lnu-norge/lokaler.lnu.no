@@ -74,9 +74,13 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   def create_success
+    flash_message = t("reviews.added_review")
     respond_to do |format|
       format.turbo_stream do
+        flash.now[:notice] = flash_message
         render turbo_stream: [
+          turbo_stream.update(:flash,
+                              partial: "shared/flash"),
           turbo_stream.prepend(:reviews,
                                partial: "spaces/show/review_card",
                                locals: { review: @review }),
@@ -87,7 +91,10 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
                                })
         ]
       end
-      format.html { redirect_to @review.space }
+      format.html do
+        flash[:notice] = flash_message
+        redirect_to @review.space
+      end
     end
   end
 

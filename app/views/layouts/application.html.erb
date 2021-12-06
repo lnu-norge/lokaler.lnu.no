@@ -13,7 +13,9 @@
 
   <body>
     <div class="flex flex-col-reverse md:flex-col h-screen">
-      <%= render "shared/flash" %>
+      <div id="flash">
+        <%= render "shared/flash" %>
+      </div>
       <%= render partial: "layouts/menu/menu" %>
       <main class="flex overflow-auto flex-1">
         <%= yield %>

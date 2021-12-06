@@ -62,7 +62,7 @@ RSpec.describe Review, type: :request do
     expect(space.reviews.count).to eq(2)
 
     # It shows a flash for the success
-    expect(flash[:notice]).to exist
+    expect(flash[:notice]).to match I18n.t("reviews.added_review")
   end
 
   it "can load the edit path" do
