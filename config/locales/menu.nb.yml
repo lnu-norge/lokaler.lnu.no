@@ -1,6 +1,7 @@
 nb:
   menu:
     find_spaces: 'Lokaler'
+    new_space: 'Nytt lokale'
     about: 'Om siden'
     account: 'Konto'
     other_sources: 'Andre kilder'
