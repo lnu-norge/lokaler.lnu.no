@@ -13,6 +13,7 @@
     @apply bg-transparent rounded-xl;
     @apply flex justify-center items-center;
     @apply px-3 py-1.5;
+    @apply border border-transparent;
   }
   input + label:focus,
   input:focus + label,
@@ -20,6 +21,8 @@
   input:checked + label {
     @apply cursor-pointer;
     @apply shadow-md bg-white;
+    @apply border-gray-500;
+
   }
 
   &:hover {
