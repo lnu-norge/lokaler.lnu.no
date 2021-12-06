@@ -11,4 +11,10 @@ class User < ApplicationRecord
 
   has_many :reviews, dependent: :restrict_with_exception
   has_and_belongs_to_many :organizations
+
+  def name
+    first_name unless last_name&.present?
+    last_name unless first_name&.present?
+    "#{first_name} #{last_name[0]&.upcase}."
+  end
 end
