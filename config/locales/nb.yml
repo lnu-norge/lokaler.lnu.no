@@ -168,7 +168,6 @@ nb:
         post_number: 'Postnummer'
         post_address: 'Poststed'
         organization_number: 'Organisasjonsnummer'
-        fits_people: 'Antall folk'
         municipality_code: 'Kommunenummer'
         lat: 'Breddegrad'
         lng: 'Lengdegrad'
