@@ -8,16 +8,16 @@ RSpec.describe SpaceContact, type: :model do
       expect { Fabricate(:space_contact) }.not_to raise_error
     end
 
-    it "can create a spaceContact for a space_owner" do
+    it "can create a spaceContact for a space_group" do
       expect { Fabricate(:space_contact, space: nil) }.not_to raise_error
     end
 
-    it "can create a spaceContact for a space without space_owner" do
-      expect { Fabricate(:space_contact, space_owner: nil) }.not_to raise_error
+    it "can create a spaceContact for a space without space_group" do
+      expect { Fabricate(:space_contact, space_group: nil) }.not_to raise_error
     end
 
-    it "cannot create a spaceContact without space or space_owner" do
-      expect { Fabricate(:space_contact, space_owner: nil, space: nil) }.to raise_error(ActiveRecord::RecordInvalid)
+    it "cannot create a spaceContact without space or space_group" do
+      expect { Fabricate(:space_contact, space_group: nil, space: nil) }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 

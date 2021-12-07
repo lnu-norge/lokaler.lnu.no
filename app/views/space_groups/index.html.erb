@@ -1,0 +1,25 @@
+<div class="mt-4 mx-4">
+  <h1 class="text-2xl">Space Groups</h1>
+
+  <%= render partial: "form", locals: { space_group: @space_group } %>
+
+  <div>
+    <% @space_groups.each do |space_group| %>
+      <div class="border-2 border-green-400 mt-4">
+        <h3><%= space_group.title %></h3>
+        <h3>How to book</h3>
+        <%= space_group.how_to_book %>
+        <h3>Terms</h3>
+        <%= space_group.terms %>
+        <h3>Pricing</h3>
+        <%= space_group.pricing %>
+        <h3>Who can use</h3>
+        <%= space_group.who_can_use %>
+        <h3>About</h3>
+        <%= space_group.about %>
+        <%= link_to 'Show', space_group_path(space_group), class: "border-2 border-blue-400" %>
+        <%= link_to 'Edit', edit_space_group_path(space_group), class: "border-2 border-blue-400" %>
+      </div>
+    <% end %>
+  </div>
+</div>

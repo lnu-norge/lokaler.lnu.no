@@ -9,8 +9,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :reviews, dependent: :restrict_with_exception
   has_many :space_contacts, dependent: :restrict_with_exception
 
-  belongs_to :space_owner
-  accepts_nested_attributes_for :space_owner
+  belongs_to :space_group
+  accepts_nested_attributes_for :space_group
 
   scope :filter_on_space_types, ->(space_type_ids) { where(space_type_id: space_type_ids) }
   scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|

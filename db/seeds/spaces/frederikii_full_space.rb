@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-## Space Owner
-require "./db/seeds/space_owners/viken"
+## Space Group
+require "./db/seeds/space_groups/viken"
 viken = create_viken
 
 ## Space Type
@@ -32,7 +32,7 @@ frederikii_space = Space.create(
   post_address: "Fredrikstad",
   lat: 59.223840,
   lng: 10.925860,
-  space_owner_id: viken.id,
+  space_group_id: viken.id,
   space_type_id: vgs.id,
   organization_number: "974544466",
   municipality_code: "3004",
