@@ -1,0 +1,4 @@
+<%= link_to space_image_path(@space), class: "unstyled-link edit-button collapsable" do |f| %>
+  <span class="text"><%= t('images.edit_images') %></span>
+  <%= inline_svg_tag 'edit', class: "text-gray-700", alt: t('images.upload'), title: t('images.edit_images') %>
+<% end %>

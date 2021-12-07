@@ -78,6 +78,7 @@ nb:
     upload_success: "Bilde lastet opp"
     upload: "Last opp"
     upload_image: "Last opp bilde"
+    edit_images: "Rediger bilder"
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
