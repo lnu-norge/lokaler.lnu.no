@@ -1,11 +1,8 @@
 <div>
-  <%= form.label :space_group_id %>
-  <%= form.collection_select :space_group_title, SpaceGroup.all, :title, :title, { selected: @space&.space_group&.title},
-                             {
-      data: {
-        controller: "multiselect",
-        "multiselect-allow-new-value": "true"
-      }
-    }
+  <%= form.association :space_group,
+                       value_method: :id,
+                       label_method: :title,
+                       selected: @space&.space_group&.id,
+                       include_blank: t('space_group.no_other_spaces')
   %>
 </div>

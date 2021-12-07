@@ -151,6 +151,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       :lat,
       :lng,
       :space_type_id,
+      :space_group_id,
       :post_number,
       :post_address,
       :municipality_code,
