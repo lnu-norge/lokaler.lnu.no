@@ -45,7 +45,7 @@ nb:
     editing_field_for_title: "Redigerer %{field} for %{title}"
   space_show:
     only_for_space: "Kun for %{title}:"
-    common_to_all_owned_by: 'Felles for %{owner_title}:'
+    common_to_all_in_group: 'Felles for %{group}:'
     show_changelog: 'Vis endringshistorikk'
     number_of_reviews:
       zero: "Ingen erfaringer"

@@ -9,7 +9,7 @@ Fabricator(:space_contact) do
   description { Faker::Lorem.sentence(word_count: 2, random_words_to_add: 3) }
   priority { Faker::Number.between(from: 1, to: 5) }
   space
-  space_owner
+  space_group
 end
 
 def opening_hours(start, stop)

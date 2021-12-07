@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-## Space Owner
-viken = SpaceOwner.create(
-  orgnr: "921693230"
+## Space Group
+viken = SpaceGroup.create_or_find_by(
+  title: "Fredrikstad kommune"
 )
 
 ## Space Type
@@ -23,7 +23,7 @@ Space.create(
   post_address: "Gamle Fredrikstad",
   lat: 59.213868,
   lng: 10.972267,
-  space_owner_id: viken.id,
+  space_group_id: viken.id,
   space_type_id: barneskole.id,
   organization_number: "974766337",
   municipality_code: "3004",
