@@ -34,18 +34,21 @@ module.exports = {
       'auto': 'auto',
     },
     extend: {
-      width: {
-        "md": "28rem",
-      },
       maxHeight: {
         '90vh': '90vh',
       },
       spacing: {
+        "md": "28rem",
         '1/3': '33.33333%',
         '2/5': '40%',
         '1/2': '50%',
         '3/5': '60%',
         '2/3': '66.666667%',
+        'screen-1/3': '33.33333vh',
+        'screen-2/5': '40vh',
+        'screen-1/2': '50vh',
+        'screen-3/5': '60vh',
+        'screen-2/3': '66.666667vh',
       },
       colors: {
         lnu: {

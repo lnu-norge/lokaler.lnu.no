@@ -5,7 +5,6 @@ export default class extends Controller {
   static targets = [ "modal", "background", "closeButton" ]
 
   connect() {
-    document.body.classList.add('overflow-hidden')
     this.backgroundTarget.onclick = (event) => {
       // Check that we didn't click anything else:
       if (event.target !== this.backgroundTarget) return
@@ -15,7 +14,6 @@ export default class extends Controller {
     }
   }
   disconnect() {
-    document.body.classList.remove('overflow-hidden')
     super.disconnect();
   }
 }
