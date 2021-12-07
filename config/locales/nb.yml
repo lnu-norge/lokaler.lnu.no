@@ -171,6 +171,7 @@ nb:
         municipality_code: 'Kommunenummer'
         lat: 'Breddegrad'
         lng: 'Lengdegrad'
+        url: 'Nettside'
       review:
         how_much_custom: 'Hvor mye av lokalet brukte dere'
         how_long_custom: 'Hvor lenge brukte dere lokalet'
