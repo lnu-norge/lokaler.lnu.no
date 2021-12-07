@@ -20,7 +20,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   # Resources
   resources "facilities", except: "new"
-  resources "space_owners", except: "new"
+  resources "space_groups", except: "new"
   resources "space_contacts", only: [:create, :edit, :update, :destroy, :show]
 
   # Review routes

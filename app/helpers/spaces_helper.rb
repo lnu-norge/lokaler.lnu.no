@@ -14,15 +14,15 @@ module SpacesHelper
     }
   end
 
-  def render_space_and_owner_field(space, field)
-    owner = space.space_owner
+  def render_space_and_group_field(space, field)
+    group = space.space_group
     # Setting the fields only if they are available (respond_to) and they have any content (present?)
     field_in_space = (space.public_send(field) if space.respond_to?(field) && space.public_send(field).present?)
-    field_in_space_owner = (owner.public_send(field) if owner.respond_to?(field) && owner.public_send(field).present?)
+    field_in_space_group = (group.public_send(field) if group.respond_to?(field) && group.public_send(field).present?)
 
-    render partial: "spaces/show/common/render_space_and_owner_field", locals: {
+    render partial: "spaces/show/common/render_space_and_group_field", locals: {
       field_in_space: field_in_space,
-      field_in_space_owner: field_in_space_owner
+      field_in_space_group: field_in_space_group
     }
   end
 

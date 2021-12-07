@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpaceOwner < ApplicationRecord
+class SpaceGroup < ApplicationRecord
   has_paper_trail
 
   has_rich_text :how_to_book
