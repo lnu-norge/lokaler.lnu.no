@@ -1,13 +1,13 @@
 <div class="relative bg-gray-100 shadow rounded p-2">
   <% unless @current_page == 1 %>
     <%= link_to :back,
-      admin_path(id: @space.id, page: @current_page.to_i - 1),
+      admin_history_path(id: @space.id, page: @current_page.to_i - 1),
       class: "absolute right-16 top-0 p-2 bg-lnu-pink text-white" %>
   <% end %>
 
   <% unless @last_page %>
     <%= link_to :next,
-      admin_path(id: @space.id, page: @current_page.to_i + 1),
+      admin_history_path(id: @space.id, page: @current_page.to_i + 1),
       class: "absolute right-0 top-0 p-2 bg-lnu-pink text-white" %>
   <% end %>
 
