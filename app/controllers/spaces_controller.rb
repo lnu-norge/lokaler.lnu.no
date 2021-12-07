@@ -147,7 +147,6 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       :post_address,
       :municipality_code,
       :organization_number,
-      :fits_people,
       :how_to_book,
       :who_can_use,
       :pricing,

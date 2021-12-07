@@ -1,0 +1,30 @@
+<%= turbo_frame_tag dom_id(space_contact) do %>
+  <%= simple_form_for space_contact,
+                      url: space_contact.id.nil? ? space_contacts_path : space_contact_path(space_contact),
+                      html: {
+                        data: { 'controller':"reset-form" } } do |form| %>
+    <div class="rounded-md shadow-md p-4 border border-gray-500 mb-3 ">
+      <%= render partial: 'space_contacts/form', locals: {
+        space_contact: space_contact, form: form
+      }%>
+      <div class="flex gap-2 items-center flex-wrap">
+        <button type="submit" class="button">
+          <!-- Heroicon name: figma contact -->
+          <%= inline_svg_tag 'contact' %>
+          <%= t('space_contacts.submit') %>
+        </button>
+        <%= link_to t('space_contacts.abort'), space_contact if action_name == "edit" || action_name == "update" %>
+
+        <div class="flex-grow justify-end inline-flex items-center">
+          <%= link_to space_contact_path(space_contact),
+                      method: :delete,
+                      data: { confirm: t('space_contacts.delete_confirmation') },
+                      class: 'link inline-flex gap-0 items-center' do %>
+            <%= inline_svg_tag 'delete' %>
+            <%= t('space_contacts.delete') %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

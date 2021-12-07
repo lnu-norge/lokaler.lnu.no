@@ -31,8 +31,11 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       as: "new_review_with_type_of_contact"
 
   # Admin routes
-  resources "admin"
-  post "admin/revert_changes", to: "admin#revert_changes"
+  namespace "admin" do
+    resources "history"
+    resources "space_types"
+    post "history/revert_changes", to: "history#revert_changes"
+  end
 
   # Spaces routes
   resources "spaces"

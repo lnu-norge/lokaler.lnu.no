@@ -19,11 +19,11 @@
 
     <p><strong><%= t("admin.event") %>:</strong> <%= version.event %></p>
     <p><strong><%= t("admin.changed_at") %>:</strong> <%= version.created_at %></p>
-    <%= render partial: "admin/changeset", locals: { changeset: version.changeset } %>
+    <%= render partial: "admin/history/changeset", locals: { changeset: version.changeset } %>
 
     <br>
     <% unless version.event == "create" %>
-      <%= form_with url: admin_revert_changes_path do |f| %>
+      <%= form_with url: admin_history_revert_changes_path do |f| %>
         <%= f.hidden_field :id, value: version.id %>
         <%= f.submit :undo, class: 'p-2 m-2 rounded bg-red-600 text-white absolute bottom-0 right-0' %>
       <% end %>
