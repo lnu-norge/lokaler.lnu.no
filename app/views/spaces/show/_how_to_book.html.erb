@@ -1,10 +1,10 @@
 <%= inline_editable :how_to_book  do %>
   <%= @space.how_to_book %>
 
-  <% if  @space.space_owner.how_to_book.present? and @space.how_to_book.present? %>
-    <h3><%= t('space_show.common_to_all_owned_by', owner_title: @space.space_owner.title) %></h3>
+  <% if  @space.space_group.how_to_book.present? and @space.how_to_book.present? %>
+    <h3><%= t('space_show.common_to_all_in_group', group: @space.space_group.title) %></h3>
   <% end %>
 
-  <%= @space.space_owner.how_to_book %>
+  <%= @space.space_group.how_to_book %>
 
 <% end %>

@@ -8,7 +8,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
   def show
     @space = Space.includes(:space_contacts).where(id: params[:id]).first
-    @space_contact = SpaceContact.new(space_id: @space.id, space_owner_id: @space.space_owner_id)
+    @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)
   end
 
   def new
@@ -20,7 +20,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     return redirect_to spaces_path, alert: t("address_search.didnt_find") if address_params.nil?
 
     @space = Space.create!(
-      space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title]),
+      space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title]),
       **space_params,
       **address_params
     )
@@ -54,9 +54,9 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     @space = Space.find(params[:id])
     address_params = get_address_params(params)
 
-    unless params[:space][:space_owner_title].nil?
+    unless params[:space][:space_group_title].nil?
       @space.update!(
-        space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title])
+        space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
       )
     end
 
@@ -161,7 +161,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       :terms,
       :more_info,
       :facility_description,
-      space_owner_attributes: %i[id how_to_book pricing terms who_can_use]
+      space_group_attributes: %i[id how_to_book pricing terms who_can_use]
     )
   end
 end

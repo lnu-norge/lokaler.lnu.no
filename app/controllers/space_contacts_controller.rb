@@ -58,7 +58,7 @@ class SpaceContactsController < AuthenticateController
       :description,
       :priority,
       :space_id,
-      :space_owner_id
+      :space_group_id
     )
   end
 end

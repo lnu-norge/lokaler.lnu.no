@@ -52,7 +52,7 @@ nb:
         post_number: "Postnummer"
         organization_number: "Organisasjonsnummer"
         space_type_id: "Velg type lokale"
-        space_owner_id: "Hvem eier lokalet?"
+        space_group_id: "Lokalet har felles informasjon med gruppe:"
       space_contact:
         title: "Navn"
         telephone: "Telefon"
@@ -83,7 +83,7 @@ nb:
         post_number: "Post-#"
         organization_number: "Organisasjonsnummer"
         space_type_id: "Velg type lokale"
-        space_owner_id: "F.eks. 'Viken fylkeskommune'"
+        space_group_id: "F.eks. 'alle VGS i Viken'"
     prompt:
       space:
         space_type_id: "Velg type lokale"
