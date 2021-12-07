@@ -27,7 +27,6 @@ Space.create(
   space_type_id: barneskole.id,
   organization_number: "974766337",
   municipality_code: "3004",
-  fits_people: nil,
   star_rating: nil,
   how_to_book: how_to_book
   # open_for_being_contacted: false
