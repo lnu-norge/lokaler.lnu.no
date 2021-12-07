@@ -32,9 +32,12 @@
       <%= @space.post_address %>
       </span>
   </div>
-  <div class="flex gap-2">
-    <%= inline_svg_tag 'knowledge' %>
-    <span>
-      <%= link_to "Nettside", @space.url %>
-    </span>
+  <% unless @space.url.nil? %>
+    <div class="flex gap-2 mt-2">
+      <%= inline_svg_tag 'url' %>
+      <span>
+        <%= link_to "Nettside", @space.url %>
+      </span>
+    </div>
+  <% end %>
 <% end %>
