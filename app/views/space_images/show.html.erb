@@ -1,0 +1,6 @@
+<div>
+  <% @space.images.each do |image| %>
+    <%= image_tag image, class: "w-64" %>
+    <%= link_to "Delete", space_image_path(@space, image: image), method: :delete, data: { confirm: t('space_contacts.delete_confirmation') } %>
+  <% end %>
+</div>
