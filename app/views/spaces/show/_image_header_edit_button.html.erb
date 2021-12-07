@@ -1,8 +1,4 @@
-<%= link_to space_image_path(@space) do |f| %>
-  <%= label_tag :image, role: "button" do %>
-    <div class="edit-button collapsable">
-      <span class="text"><%= t('images.edit_images') %></span>
-      <%= inline_svg_tag 'edit', class: "h-6 w-6  text-gray-700", alt: t('images.upload'), title:  t('images.upload') %>
-    </div>
-  <% end %>
+<%= link_to space_image_path(@space), class: "unstyled-link edit-button collapsable" do |f| %>
+  <span class="text"><%= t('images.edit_images') %></span>
+  <%= inline_svg_tag 'edit', class: "h-6 w-6 text-gray-700", alt: t('images.upload'), title: t('images.edit_images') %>
 <% end %>
