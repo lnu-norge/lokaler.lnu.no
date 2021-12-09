@@ -3,7 +3,7 @@
 class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_paper_trail skip: [:star_rating]
 
-  has_many_attached :images
+  has_many :images, dependent: :destroy
   has_many :facility_reviews, dependent: :restrict_with_exception
   has_many :aggregated_facility_reviews, dependent: :restrict_with_exception
   has_many :reviews, dependent: :restrict_with_exception
