@@ -6,14 +6,15 @@ class SpaceImagesController < AuthenticateController
   def show; end
 
   def destroy
-    @image = ActiveStorage::Attachment.find(params[:image])
-    @image.purge
+    @space.images.find(params[:image]).destroy!
+    flash[:notice] = t("images.delete_success")
     redirect_to space_image_path(@space)
   end
 
   def upload_image
-    @space.images.attach(params[:image])
-    @space.save!
+    params["image"].each do |image|
+      Image.create!(space: @space, image: image)
+    end
     flash[:notice] = t("images.upload_success")
     redirect_to space_path(params[:id])
   end
