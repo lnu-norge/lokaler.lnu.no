@@ -19,7 +19,17 @@ class SpaceImagesController < AuthenticateController
     redirect_to space_path(params[:id])
   end
 
+  def update
+    @image = @space.images.find(params[:image_id])
+    @image.update(image_params)
+    redirect_to space_image_path(@space)
+  end
+
   private
+
+  def image_params
+    params.require(:image).permit(:caption, :credits)
+  end
 
   def set_space
     @space = Space.find(params[:id])
