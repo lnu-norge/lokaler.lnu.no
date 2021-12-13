@@ -6,6 +6,10 @@ class Image < ApplicationRecord
 
   before_destroy :delete_image
 
+  def url
+    Rails.application.routes.url_helpers.url_for(image)
+  end
+
   private
 
   def delete_image

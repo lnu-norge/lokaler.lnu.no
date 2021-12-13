@@ -1,6 +1,6 @@
 <div>
   <% @space.images.each do |image| %>
-    <%= image_tag image.image, class: "w-64" %>
+    <%= image_tag image.url, class: "w-64" %>
     <%= simple_form_for image, url: space_image_path(@space, image_id: image) do |f| %>
       <%= f.input :credits %>
       <%= f.input :caption %>
