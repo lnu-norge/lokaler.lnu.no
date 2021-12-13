@@ -28,6 +28,9 @@ RSpec.describe Space, type: :model do
       Fabricate(:facility_review, space: space2, review: review_space2, facility: kitchen)
       Fabricate(:facility_review, space: space2, review: review_space2, facility: shower)
       Fabricate(:facility_review, space: space2, review: review_space2, facility: toilet)
+
+      space1.aggregate_facility_reviews
+      space2.aggregate_facility_reviews
     end
 
     context "with kitchen" do
