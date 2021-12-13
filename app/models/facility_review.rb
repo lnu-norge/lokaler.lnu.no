@@ -6,9 +6,6 @@ class FacilityReview < ApplicationRecord
   belongs_to :user
   belongs_to :review
 
-  after_save { space.aggregate_facility_reviews }
-  after_destroy { space.aggregate_facility_reviews }
-
   enum experience: { was_allowed: 0, was_not_allowed: 2, was_not_available: 3 }
 
   scope :impossible, -> { where(experience: :was_not_available) }

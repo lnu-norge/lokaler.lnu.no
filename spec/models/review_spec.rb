@@ -28,6 +28,8 @@ RSpec.describe Review, type: :model do
       experience: :was_not_allowed
     )
 
+    space.aggregate_facility_reviews
+
     space.reload
 
     expect(space.star_rating).to eq(review.star_rating)
