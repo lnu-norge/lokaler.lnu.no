@@ -9,8 +9,10 @@
         <% url = url_for(image.image)  %>
         <li class="splide__slide">
           <img data-splide-lazy="<%= url %>" />
-          <div class="absolute bold rounded bg-white text-gray-700 bottom-1 left-1 py-1 px-2"><%= image.caption %></div>
-          <div class="absolute bold rounded bg-white text-gray-700 bottom-1 right-1 py-1 px-2"><%= image.credits %></div>
+          <% if defined?(show_caption_credits) && show_caption_credits %>
+            <div class="absolute bold rounded bg-white text-gray-700 bottom-1 left-1 py-1 px-2"><%= image.caption %></div>
+            <div class="absolute bold rounded bg-white text-gray-700 bottom-1 right-1 py-1 px-2"><%= image.credits %></div>
+          <% end %>
           <noscript>
             <img src="<%= url %>" />
           </noscript>
