@@ -7,7 +7,7 @@
     tag.h3 t("space_show.only_for_space", title: @space.title) if SpaceGroup.method_defined? field
   %>
 
-  <%= form.input field, as: :rich_text_area, label: false, input_html: { data: { controller: "trix-paste" } } %>
+  <%= form.input field, as: :rich_text_area, label: false %>
 </div>
 
 <%=
@@ -19,7 +19,7 @@
         <%= space_group_form.label field,
                                    t('space_show.common_to_all_in_group', group: @space.space_group.title) %>
       </h3>
-      <%= space_group_form.input field, as: :rich_text_area, label: false, input_html: { data: { controller: "trix-paste" } } %>
+      <%= space_group_form.input field, as: :rich_text_area, label: false  %>
     </div>
   <% end %>
 <% end %>
