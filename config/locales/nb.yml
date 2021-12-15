@@ -78,6 +78,8 @@ nb:
     upload_success: "Bilde lastet opp"
     upload: "Last opp"
     upload_image: "Last opp bilde"
+    edit_images: "Rediger bilder"
+    delete_success: "Bildet ble slettet"
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
@@ -171,6 +173,7 @@ nb:
         municipality_code: 'Kommunenummer'
         lat: 'Breddegrad'
         lng: 'Lengdegrad'
+        url: 'Nettside'
       review:
         how_much_custom: 'Hvor mye av lokalet brukte dere'
         how_long_custom: 'Hvor lenge brukte dere lokalet'

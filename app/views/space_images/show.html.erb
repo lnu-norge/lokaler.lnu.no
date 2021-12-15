@@ -1,0 +1,11 @@
+<div>
+  <% @space.images.each do |image| %>
+    <%= image_tag image.url, class: "w-64" %>
+    <%= simple_form_for image, url: space_image_path(@space, image_id: image) do |f| %>
+      <%= f.input :credits %>
+      <%= f.input :caption %>
+      <%= f.submit "Update" %>
+    <% end %>
+    <%= link_to "Delete", space_image_path(@space, image: image), method: :delete, data: { confirm: t('space_contacts.delete_confirmation') } %>
+  <% end %>
+</div>
