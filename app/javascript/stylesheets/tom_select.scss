@@ -12,6 +12,17 @@
  * governing permissions and limitations under the License.
  *
  */
+
+.dropdown .ts-control {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
+}
+
 .ts-wrapper.plugin-drag_drop.multi > .ts-control > div.ui-sortable-placeholder {
   visibility: visible !important;
   background: #f2f2f2 !important;
@@ -164,29 +175,21 @@
 .ts-dropdown,
 .ts-control,
 .ts-control input {
-  color: #303030;
-  font-family: inherit;
-  font-size: 13px;
-  line-height: 18px;
-  font-smoothing: inherit;
+  @apply text-gray-900;
 }
 
 .ts-control,
 .ts-wrapper.single.input-active .ts-control {
-  background: #fff;
   cursor: text;
 }
 
 .ts-control {
-  border: 1px solid #d0d0d0;
-  padding: 8px 8px;
+  @extend .text_field;
   width: 100%;
   overflow: hidden;
   position: relative;
   z-index: 1;
   box-sizing: border-box;
-  box-shadow: none;
-  border-radius: 3px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -200,7 +203,7 @@
   cursor: default !important;
 }
 .focus .ts-control {
-  box-shadow: none;
+  @apply outline-none border-lnu-pink ring-1 ring-lnu-pink;
 }
 .ts-control > * {
   vertical-align: baseline;
@@ -226,7 +229,7 @@
 }
 .ts-control > input {
   flex: 1 1 auto;
-  min-width: 7rem;
+  min-width: 1rem;
   display: inline-block !important;
   padding: 0 !important;
   min-height: 0 !important;
@@ -276,30 +279,34 @@
   position: absolute;
   top: 100%;
   left: 0;
+  margin-top: 1px;
   width: 100%;
   z-index: 10;
-  border: 1px solid #d0d0d0;
-  background: #fff;
-  margin: 0.25rem 0 0 0;
   border-top: 0 none;
   box-sizing: border-box;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 3px 3px;
+  @apply bg-white;
+  @apply focus:outline-none focus:border-lnu-pink focus:ring focus:ring-lnu-pink;
+  @apply border-b border-gray-300 placeholder-gray-500 text-gray-900 ;
+  @apply shadow;
+  @apply rounded-b;
 }
 .ts-dropdown [data-selectable] {
   cursor: pointer;
   overflow: hidden;
 }
 .ts-dropdown [data-selectable] .highlight {
-  background: rgba(125, 168, 208, 0.2);
-  border-radius: 1px;
+  @apply bg-gray-300;
+  @apply rounded;
 }
+
 .ts-dropdown .option,
 .ts-dropdown .optgroup-header,
 .ts-dropdown .no-results,
 .ts-dropdown .create {
-  padding: 5px 8px;
+  @apply px-3 py-2;
 }
+
+// Disabled:
 .ts-dropdown .option, .ts-dropdown [data-disabled], .ts-dropdown [data-disabled] [data-selectable].option {
   cursor: inherit;
   opacity: 0.5;
@@ -308,6 +315,8 @@
   opacity: 1;
   cursor: pointer;
 }
+
+// TODO: Style dropdown optgroup?
 .ts-dropdown .optgroup:first-child .optgroup-header {
   border-top: 0 none;
 }
@@ -316,20 +325,22 @@
   background: #fff;
   cursor: default;
 }
+
 .ts-dropdown .create:hover,
 .ts-dropdown .option:hover,
 .ts-dropdown .active {
-  background-color: #f5fafd;
-  color: #495c68;
+  @apply bg-gray-100;
 }
 .ts-dropdown .create:hover.create,
 .ts-dropdown .option:hover.create,
 .ts-dropdown .active.create {
-  color: #495c68;
+  @apply text-gray-600;
 }
 .ts-dropdown .create {
   color: rgba(48, 48, 48, 0.5);
 }
+
+// TODO: Style Spinner:
 .ts-dropdown .spinner {
   display: inline-block;
   width: 30px;
@@ -365,15 +376,6 @@
 }
 
 .ts-hidden-accessible {
-  border: 0 !important;
-  clip: rect(0 0 0 0) !important;
-  -webkit-clip-path: inset(50%) !important;
-  clip-path: inset(50%) !important;
-  height: 1px !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-  position: absolute !important;
-  width: 1px !important;
-  white-space: nowrap !important;
+  @apply sr-only;
 }
 /*# sourceMappingURL=tom-select.css.map */
