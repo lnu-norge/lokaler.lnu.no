@@ -9,9 +9,11 @@ export default class extends Controller {
     }
 
     connect() {
+        const options = createOptions(this.optionsValue, this.variantValue, this.itemNameValue)
+
         this.tomselect = new TomSelect(
             this.element,
-            createOptions(this.optionsValue, this.variantValue, this.itemNameValue)
+            options
         );
     }
 }
