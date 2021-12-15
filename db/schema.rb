@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_07_124418) do
+ActiveRecord::Schema.define(version: 2021_12_09_101806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,15 @@ ActiveRecord::Schema.define(version: 2021_12_07_124418) do
     t.index ["user_id"], name: "index_facility_reviews_on_user_id"
   end
 
+  create_table "images", force: :cascade do |t|
+    t.string "credits"
+    t.string "caption"
+    t.bigint "space_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["space_id"], name: "index_images_on_space_id"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string "name", null: false
     t.integer "orgnr"
@@ -171,6 +180,7 @@ ActiveRecord::Schema.define(version: 2021_12_07_124418) do
     t.string "post_address"
     t.string "municipality_code"
     t.decimal "star_rating", precision: 2, scale: 1
+    t.string "url"
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
     t.index ["space_type_id"], name: "index_spaces_on_space_type_id"
   end
