@@ -30,7 +30,11 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_rich_text :more_info
   has_rich_text :facility_description
 
+  include ParseUrlHelper
+  before_validation :parse_url
+
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
+  validates :url, url: { allow_blank: true, public_suffix: true }
 
   after_create do
     aggregate_facility_reviews
