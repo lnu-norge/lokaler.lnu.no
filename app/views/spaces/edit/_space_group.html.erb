@@ -1,5 +1,6 @@
 <div>
   <%= form.association :space_group,
+                       collection: SpaceGroup.order('title ASC'),
                        wrapper: :dropdown,
                        value_method: :id,
                        label_method: :title,
