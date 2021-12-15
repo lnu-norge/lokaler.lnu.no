@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(version: 2021_12_09_101806) do
     t.string "address"
     t.decimal "lat"
     t.decimal "lng"
-    t.bigint "space_group_id", null: false
+    t.bigint "space_group_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "space_type_id"

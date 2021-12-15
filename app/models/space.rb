@@ -9,7 +9,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :reviews, dependent: :restrict_with_exception
   has_many :space_contacts, dependent: :restrict_with_exception
 
-  belongs_to :space_group
+  belongs_to :space_group, optional: true
   accepts_nested_attributes_for :space_group
 
   scope :filter_on_space_types, ->(space_type_ids) { where(space_type_id: space_type_ids) }
