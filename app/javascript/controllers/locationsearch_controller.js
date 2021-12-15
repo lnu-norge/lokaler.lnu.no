@@ -1,6 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
 import TomSelect from 'tom-select'
-import "../../javascript/stylesheets/tom-select.css"
 
 export default class extends Controller {
   static values = {
