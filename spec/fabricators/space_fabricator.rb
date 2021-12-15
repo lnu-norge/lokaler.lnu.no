@@ -5,7 +5,7 @@ Fabricator(:space) do
   address { Faker::Address.full_address }
   lat { Faker::Address.latitude }
   lng { Faker::Address.longitude }
-  space_owner
+  space_group
   space_type
   star_rating { nil }
 end

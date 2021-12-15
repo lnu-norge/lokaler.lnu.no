@@ -35,3 +35,6 @@ application.register("show-on-radio-button-value", ShowOnRadioButtonValueControl
 
 import SliderController from "./slider_controller"
 application.register("slider", SliderController)
+
+import TrixPasteController from "./trix_paste_controller"
+application.register("trix-paste", TrixPasteController)

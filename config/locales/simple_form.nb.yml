@@ -51,17 +51,23 @@ nb:
         post_address: "Poststed"
         post_number: "Postnummer"
         organization_number: "Organisasjonsnummer"
-        fits_people: "Hvor mange er det plass til?"
         space_type_id: "Velg type lokale"
-        space_owner_id: "Hvem eier lokalet?"
+        space_group_id: "Lokalet har felles informasjon med gruppe:"
       space_contact:
-        title: "Tittel"
+        title: "Navn"
         telephone: "Telefon"
-        telephone_opening_hours: "Åpningstider"
+        telephone_opening_hours: "Åpningstider telefon"
         email: "E-post"
         url: "Nettside"
-        description: "Beskrivelse"
+        description: "Tilleggsinformasjon"
     placeholders:
+      space_contact:
+        title: 'F.eks. "Rektor Ola Nordmann" eller "Sentralbord"'
+        telephone: "Telefon"
+        telephone_opening_hours: Fex "12-16, hverdager"
+        email: "E-post"
+        url: "Nettside"
+        description: "Noe man burde vite?"
       user:
         email: "epost@epost.no"
         first_name: "Fornavn"
@@ -76,16 +82,15 @@ nb:
         post_address: "Poststed"
         post_number: "Post-#"
         organization_number: "Organisasjonsnummer"
-        fits_people: "F.eks. antall elever på skolen"
         space_type_id: "Velg type lokale"
-        space_owner_id: "F.eks. 'Viken fylkeskommune'"
+        space_group_id: "F.eks. 'alle VGS i Viken'"
     prompt:
       space:
         space_type_id: "Velg type lokale"
       space_contact:
         title: "Tittel"
         telephone: "Telefon"
-        telephone_opening_hours: "Åpningstider"
+        telephone_opening_hours: "Åpningstider telefon"
         email: "E-post"
         url: "Nettside"
         description: "Beskrivelse"

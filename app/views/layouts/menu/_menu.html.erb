@@ -1,25 +1,32 @@
 <% if current_user %>
-  <nav class="flex justify-between p-4 leading-none top-shadow-lg md:shadow-lg z-10">
-    <div class="hidden md:block">
-      <%= render partial: 'layouts/menu/logo' %>
-    </div>
-    <div class="flex justify-around gap-2 md:gap-6 w-full md:w-auto">
-      <%= render partial: 'layouts/menu/menu_item', locals: {
-        path: spaces_path,
-        icon: 'search',
-        text: t('menu.find_spaces')
-      } %>
-      <%= render partial: 'layouts/menu/menu_item', locals: {
-        path: page_path('other_sources'),
-        icon: 'knowledge',
-        text: t('menu.other_sources')
-      } %>
-      <%= render partial: 'layouts/menu/menu_item', locals: {
-        path: edit_session_path,
-        icon: 'account',
-        text: t('menu.account')
-      } %>
-    </div>
-    <div class="hidden lg:block lg:w-32"></div>
-  </nav>
+  <div class="fixed bottom-0 md:top-0 md:bottom-auto w-full z-10 h-24 md:h-14">
+    <nav class="flex justify-between  h-full bg-white p-4 leading-none top-shadow-lg md:shadow-lg z-10">
+      <div class="hidden md:block">
+        <%= render partial: 'layouts/menu/logo' %>
+      </div>
+      <div class="flex justify-around gap-1 md:gap-6 w-full md:w-auto">
+        <%= render partial: 'layouts/menu/menu_item', locals: {
+          path: spaces_path,
+          icon: 'search',
+          text: t('menu.find_spaces')
+        } %>
+        <%= render partial: 'layouts/menu/menu_item', locals: {
+          path: new_space_path,
+          icon: 'plus_circled',
+          text: t('menu.new_space')
+        } %>
+        <%= render partial: 'layouts/menu/menu_item', locals: {
+          path: page_path('other_sources'),
+          icon: 'knowledge',
+          text: t('menu.other_sources')
+        } %>
+        <%= render partial: 'layouts/menu/menu_item', locals: {
+          path: edit_session_path,
+          icon: 'account',
+          text: t('menu.account')
+        } %>
+      </div>
+      <div class="hidden lg:block lg:w-32"></div>
+    </nav>
+  </div>
 <% end %>

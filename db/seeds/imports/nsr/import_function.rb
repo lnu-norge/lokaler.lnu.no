@@ -12,7 +12,7 @@ def import_spaces_from_nsr_schools
       info: "In db before import from NSR:",
       spaces: Space.count,
       space_types: SpaceType.count,
-      space_owners: SpaceOwner.count,
+      space_groups: SpaceGroup.count,
       space_contacts: SpaceContact.count
     })
 
@@ -35,13 +35,13 @@ def import_spaces_from_nsr_schools
   # Trawl through it, and extract information into Rails format
 
   # Set up owners first:
-  space_owners = Set[]
+  space_groups = Set[]
   data.each do |school|
-    space_owners << space_owner_from(school)
+    space_groups << space_group_from(school)
   end
   # Save them
-  p "importing #{space_owners.length} space owners"
-  SpaceOwner.import new_all_unless_exists(SpaceOwner, space_owners)
+  p "importing #{space_groups.length} space groups"
+  SpaceGroup.import new_all_unless_exists(SpaceGroup, space_groups)
 
   # Then start parsing Spaces, as they depend on the above
   spaces = []
@@ -80,13 +80,13 @@ def import_spaces_from_nsr_schools
       info: "To import from NSR JSON:",
       spaces: spaces.length,
       space_types: space_types.length,
-      space_owners: space_owners.length
+      space_groups: space_groups.length
     })
   p({
       info: "In db after import from NSR:",
       spaces: Space.count,
       space_types: SpaceType.count,
-      space_owners: SpaceOwner.count,
+      space_groups: SpaceGroup.count,
       space_contacts: SpaceContact.count
     })
 end

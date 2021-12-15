@@ -1,0 +1,9 @@
+<% # Used by rich_text_with_space_group in space_helper   %>
+<%= field_in_space %>
+
+<% if field_in_space and field_in_space_group %>
+  <h3><%= t('space_show.common_to_all_in_group',
+            group: @space.space_group.title) %></h3>
+<% end %>
+
+<%= field_in_space_group %>

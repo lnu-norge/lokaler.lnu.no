@@ -22,9 +22,8 @@ def create_viken # rubocop:disable Metrics/MethodLength
      prioriteres.<br /><a href="#">Last ned Vikens
     veileder (PDF)</a></p>'
 
-  SpaceOwner.create(
+  SpaceGroup.create(
     title: "Viken fylkeskommune",
-    orgnr: "921693230",
     how_to_book: how_to_book,
     pricing: pricing,
     terms: terms,

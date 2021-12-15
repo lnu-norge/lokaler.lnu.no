@@ -11,15 +11,11 @@
     <%= stylesheet_pack_tag "application", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <div class="flex flex-col-reverse md:flex-col h-screen">
-      <div id="flash">
-        <%= render "shared/flash" %>
-      </div>
-      <%= render partial: "layouts/menu/menu" %>
-      <main class="flex overflow-auto flex-1">
-        <%= yield %>
-      </main>
-    </div>
+  <body class="pb-24 md:pb-0 md:pt-14">
+    <%= render "shared/flash" %>
+    <%= render partial: "layouts/menu/menu" %>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

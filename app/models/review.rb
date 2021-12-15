@@ -28,6 +28,9 @@ class Review < ApplicationRecord
   validates :star_rating, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }, if: :been_there?
   validates :facility_reviews, presence: true, if: :only_contacted?
 
+  after_save { space.aggregate_facility_reviews }
+  after_destroy { space.aggregate_facility_reviews }
+
   after_save { space.aggregate_star_rating }
   after_destroy { space.aggregate_star_rating }
 
