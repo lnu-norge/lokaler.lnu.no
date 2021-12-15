@@ -3,7 +3,8 @@
       <%= render partial: 'spaces/show/image_missing' %>
     <% else %>
       <%= render partial: 'shared/image_slider', locals: {
-        images: images
+        images: images,
+        show_caption_credits: true
       } %>
       <div class="absolute right-2 top-2">
         <div>
