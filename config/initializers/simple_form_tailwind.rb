@@ -51,6 +51,20 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
     b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
   end
 
+  config.wrappers :dropdown, tag: "div", class: "dropdown" do |b|
+    b.use :html5
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :minlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+    b.use :label, class: "label", error_class: "label--error"
+    b.use :input, class: "dropdown", error_class: "error_field", valid_class: "valid_field"
+    b.use :full_error, wrap_with: { tag: "p", class: "error_text" }
+    b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
+  end
+
   # vertical input for boolean (aka checkboxes)
   config.wrappers :vertical_boolean, tag: "div", class: "boolean_form", error_class: "" do |b|
     b.use :html5

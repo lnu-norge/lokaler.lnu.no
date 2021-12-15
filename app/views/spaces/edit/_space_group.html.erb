@@ -1,5 +1,6 @@
 <div>
   <%= form.association :space_group,
+                       wrapper: :dropdown,
                        value_method: :id,
                        label_method: :title,
                        selected: @space&.space_group&.id,
