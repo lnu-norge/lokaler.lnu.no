@@ -32,7 +32,7 @@ const createOptions = (options, variant = null, itemName = null) => {
 
     const variant_options = {
         "dropdown": {
-            create: true,
+            plugins: ['dropdown_input']
         }
     }
 

@@ -60,7 +60,14 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
     b.optional :min_max
     b.optional :readonly
     b.use :label, class: "label", error_class: "label--error"
-    b.use :input, class: "dropdown", error_class: "error_field", valid_class: "valid_field"
+    b.use :input,
+          class: "dropdown",
+          error_class: "error_field",
+          valid_class: "valid_field",
+          data: {
+            controller: "tom-select",
+            "tom-select-variant-value": "dropdown"
+          }
     b.use :full_error, wrap_with: { tag: "p", class: "error_text" }
     b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
   end
