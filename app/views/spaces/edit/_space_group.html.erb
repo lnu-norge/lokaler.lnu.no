@@ -6,10 +6,16 @@
                        selected: @space&.space_group&.id,
                        include_blank: t('space_group.no_other_spaces'),
                        input_html: {
+                         placeholder: t('space_group.search_group'),
                          data: {
                            controller: "tom-select",
                            "tom-select-variant-value": "dropdown",
                            "tom-select-item_name-value": t('space_group.group'),
+                           "tom-select-options-value": {
+                             plugins: ['dropdown_input'],
+                             create: true,
+                             allowEmptyOption: true
+                           }
                          }
                        }
   %>

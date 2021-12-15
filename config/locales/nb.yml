@@ -36,6 +36,7 @@ nb:
     didnt_find: 'Fant ikke adressen'
   space_group:
     group: "gruppe"
+    search_group: "Søk i grupper"
     no_other_spaces: 'Ingen andre lokaler'
   space_listing:
     no_results: 'Ingen resultater'
