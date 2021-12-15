@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 2021_12_09_101806) do
     t.string "post_address"
     t.string "municipality_code"
     t.decimal "star_rating", precision: 2, scale: 1
+    t.string "url"
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
     t.index ["space_type_id"], name: "index_spaces_on_space_type_id"
   end

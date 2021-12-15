@@ -1,0 +1,13 @@
+nb:
+  activerecord:
+    errors:
+      models:
+        space:
+          attributes:
+            url:
+              url: "er ikke korrekt"
+        space_contact:
+          attributes:
+            url:
+              url: "er ikke korrekt"
+
