@@ -61,7 +61,7 @@ def validate_lat_long(school)
 end
 
 def space_from(school)
-  space_owner = SpaceOwner.find_by space_owner_from(school)
+  space_group = SpaceGroup.find_by space_group_from(school)
   space_type = SpaceType.find_by(space_types_from(school))
   position = validate_lat_long(school)
   return unless position
@@ -74,8 +74,7 @@ def space_from(school)
     lng: position[:lng],
     municipality_code: position[:municipality_code],
     organization_number: get_meta(school, "organizationalNumber"),
-    fits_people: get_meta(school, "pupils"),
-    space_owner: space_owner,
+    space_group: space_group,
     space_type: space_type
   }
 end
@@ -85,8 +84,8 @@ def space_types_from(school)
   { type_name: get_meta(school, "types")[0] }
 end
 
-def space_owner_from(school)
-  # TODO: Change Space model so SpaceOwner is OPTIONAL. Not all spaces have a space owner that's relevant to list out.
+def space_group_from(school)
+  # TODO: Change Space model so SpaceGroup is OPTIONAL. Not all spaces have a space group that's relevant to list out.
   return unless school && school["owner"]
 
   owner = get_info(school["owner"])

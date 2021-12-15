@@ -1,11 +1,11 @@
 nb:
   space_contacts:
-    contacts_heading: 'Kontakter'
-    contact_updated: 'Kontakt oppdatert!'
-    contact_deleted: 'Kontakt slettet!'
-    contact_not_deleted: 'Kontakt kunne ikke bli slettet!'
-    contact_created: 'Kontakt lagret!'
-    edit: 'Rediger kontakt'
+    contacts_heading: 'Kontaktinformasjon'
+    contact_updated: 'Kontaktinformasjon oppdatert'
+    contact_deleted: 'Kontaktinformasjon slettet'
+    contact_not_deleted: 'Kontaktinformasjon kunne ikke bli slettet!'
+    contact_created: 'Kontaktinformasjon lagret'
+    edit: 'Redigér'
     delete: 'Slett kontakt'
     phone: 'Telefon'
     opening_hours: 'Åpningstider'
@@ -13,11 +13,12 @@ nb:
     url: 'Nettside'
     description: 'Notat'
     submit: "Lagre kontakt"
-    new_contact: 'Ny kontakt'
+    new_contact: 'Ny kontaktinformasjon'
+    new: 'Ny'
     at_least_one_error_message: 'Du må minst legge inn telefon, e-post, nettside eller en beskrivelse'
     abort: "Avbryt"
-    delete_confirmation: "Er du sikker?"
-    close_contact: "Lukk skjema"
+    delete_confirmation: "Er du sikker på at du vil slette?"
+    close_contact: "Lukk"
   tooltips:
     facility_single_experience:
       was_allowed: 'Fikk lov'
@@ -44,7 +45,7 @@ nb:
     editing_field_for_title: "Redigerer %{field} for %{title}"
   space_show:
     only_for_space: "Kun for %{title}:"
-    common_to_all_owned_by: 'Felles for %{owner_title}:'
+    common_to_all_in_group: 'Felles for %{group}:'
     show_changelog: 'Vis endringshistorikk'
     number_of_reviews:
       zero: "Ingen erfaringer"
@@ -77,6 +78,8 @@ nb:
     upload_success: "Bilde lastet opp"
     upload: "Last opp"
     upload_image: "Last opp bilde"
+    edit_images: "Rediger bilder"
+    delete_success: "Bildet ble slettet"
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
@@ -168,10 +171,10 @@ nb:
         post_number: 'Postnummer'
         post_address: 'Poststed'
         organization_number: 'Organisasjonsnummer'
-        fits_people: 'Antall folk'
         municipality_code: 'Kommunenummer'
         lat: 'Breddegrad'
         lng: 'Lengdegrad'
+        url: 'Nettside'
       review:
         how_much_custom: 'Hvor mye av lokalet brukte dere'
         how_long_custom: 'Hvor lenge brukte dere lokalet'

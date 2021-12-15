@@ -1,0 +1,11 @@
+<div>
+  <%= form.label :space_group_id %>
+  <%= form.collection_select :space_group_title, SpaceGroup.all, :title, :title, { selected: @space&.space_group&.title},
+                             {
+      data: {
+        controller: "multiselect",
+        "multiselect-allow-new-value": "true"
+      }
+    }
+  %>
+</div>

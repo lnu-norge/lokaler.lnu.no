@@ -8,7 +8,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
   def show
     @space = Space.includes(:space_contacts).where(id: params[:id]).first
-    @space_contact = SpaceContact.new(space_id: @space.id, space_owner_id: @space.space_owner_id)
+    @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)
   end
 
   def new
@@ -19,13 +19,17 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     address_params = get_address_params(params)
     return redirect_to spaces_path, alert: t("address_search.didnt_find") if address_params.nil?
 
-    @space = Space.create!(
-      space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title]),
+    @space = Space.new(
+      space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title]),
       **space_params,
       **address_params
     )
 
-    redirect_to space_path(@space)
+    if @space.save
+      redirect_to space_path(@space)
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def address_search
@@ -54,9 +58,9 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     @space = Space.find(params[:id])
     address_params = get_address_params(params)
 
-    unless params[:space][:space_owner_title].nil?
+    unless params[:space][:space_group_title].nil?
       @space.update!(
-        space_owner: SpaceOwner.find_or_create_by!(title: params[:space][:space_owner_title])
+        space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
       )
     end
 
@@ -66,16 +70,9 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     )
       redirect_to space_path(@space)
     else
-      render :edit, status: :unprocessable_entity
+      @field = "basics"
+      render "spaces/edit/common/edit_field"
     end
-  end
-
-  def upload_image
-    @space = Space.find(params[:id])
-    @space.images.attach(params[:image])
-    @space.save!
-    flash[:notice] = t("images.upload_success")
-    redirect_to space_path(params[:id])
   end
 
   def rect_for_spaces
@@ -131,7 +128,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     space_types = params[:space_types]&.map(&:to_i)
     facilities = params[:facilities]&.map(&:to_i)
 
-    spaces = Space.includes([:images_attachments, :space_type]).filter_on_location(
+    spaces = Space.includes([:images, :space_type]).filter_on_location(
       params[:north_west_lat],
       params[:north_west_lng],
       params[:south_east_lat],
@@ -155,14 +152,14 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       :post_address,
       :municipality_code,
       :organization_number,
-      :fits_people,
       :how_to_book,
       :who_can_use,
       :pricing,
       :terms,
       :more_info,
       :facility_description,
-      space_owner_attributes: %i[id how_to_book pricing terms who_can_use]
+      :url,
+      space_group_attributes: %i[id how_to_book pricing terms who_can_use]
     )
   end
 end

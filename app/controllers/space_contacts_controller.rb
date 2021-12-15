@@ -9,11 +9,21 @@ class SpaceContactsController < AuthenticateController
     saved = @space_contact.save
     @space_contact = saved ? SpaceContact.new(space: @space_contact.space) : @space_contact
 
-    render turbo_stream: turbo_stream.replace(
-      @space_contact,
-      partial: "space_contacts/form",
-      locals: { space_contact: @space_contact }
-    )
+    # When saved, load the new button again
+    if saved
+      @space = @space_contact.space
+      render turbo_stream: turbo_stream.replace(
+        "new_space_contact_button",
+        partial: "space_contacts/new_button"
+      )
+    else
+      # Error handling, show the errors:
+      render turbo_stream: turbo_stream.replace(
+        "new_space_contact_form",
+        partial: "space_contacts/new",
+        locals: { space_contact: @space_contact }
+      )
+    end
   end
 
   def update
@@ -21,7 +31,7 @@ class SpaceContactsController < AuthenticateController
 
     render turbo_stream: turbo_stream.replace(
       @space_contact,
-      partial: "space_contacts/form",
+      partial: "space_contacts/edit",
       locals: { space_contact: @space_contact }
     )
   end
@@ -48,7 +58,7 @@ class SpaceContactsController < AuthenticateController
       :description,
       :priority,
       :space_id,
-      :space_owner_id
+      :space_group_id
     )
   end
 end

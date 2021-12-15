@@ -1,6 +1,6 @@
 .modal {
   @apply relative;
-  @apply w-screen h-screen max-h-screen md:max-h-90vh md:max-w-prose;
+  @apply w-screen h-auto max-h-screen max-h-screen md:max-h-90vh md:max-w-prose;
   @apply z-50;
   @apply bg-white;
   @apply p-8 md:rounded-lg md:drop-shadow-xl;
@@ -14,13 +14,18 @@
 }
 
 .modal--with-header-and-footer {
-  @apply flex flex-col h-full;
+  @apply flex flex-col;
   @apply p-0;
 }
 
 .modal-header {
   @apply px-8 pt-8 pb-2;
-  @apply grid grid-cols-3 gap-6;
+  @apply flex gap-2 justify-between items-center flex-wrap;
+  h3 {
+    word-break: keep-all;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 .modal-content {

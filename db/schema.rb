@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_181749) do
+ActiveRecord::Schema.define(version: 2021_12_09_101806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,15 @@ ActiveRecord::Schema.define(version: 2021_11_12_181749) do
     t.index ["user_id"], name: "index_facility_reviews_on_user_id"
   end
 
+  create_table "images", force: :cascade do |t|
+    t.string "credits"
+    t.string "caption"
+    t.bigint "space_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["space_id"], name: "index_images_on_space_id"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string "name", null: false
     t.integer "orgnr"
@@ -138,15 +147,14 @@ ActiveRecord::Schema.define(version: 2021_11_12_181749) do
     t.text "description"
     t.integer "priority"
     t.bigint "space_id"
-    t.bigint "space_owner_id"
+    t.bigint "space_group_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["space_group_id"], name: "index_space_contacts_on_space_group_id"
     t.index ["space_id"], name: "index_space_contacts_on_space_id"
-    t.index ["space_owner_id"], name: "index_space_contacts_on_space_owner_id"
   end
 
-  create_table "space_owners", force: :cascade do |t|
-    t.integer "orgnr"
+  create_table "space_groups", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "title"
@@ -162,7 +170,7 @@ ActiveRecord::Schema.define(version: 2021_11_12_181749) do
     t.string "address"
     t.decimal "lat"
     t.decimal "lng"
-    t.bigint "space_owner_id", null: false
+    t.bigint "space_group_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "space_type_id"
@@ -171,9 +179,9 @@ ActiveRecord::Schema.define(version: 2021_11_12_181749) do
     t.string "post_number"
     t.string "post_address"
     t.string "municipality_code"
-    t.integer "fits_people"
     t.decimal "star_rating", precision: 2, scale: 1
-    t.index ["space_owner_id"], name: "index_spaces_on_space_owner_id"
+    t.string "url"
+    t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
     t.index ["space_type_id"], name: "index_spaces_on_space_type_id"
   end
 
@@ -216,8 +224,8 @@ ActiveRecord::Schema.define(version: 2021_11_12_181749) do
   add_foreign_key "reviews", "organizations"
   add_foreign_key "reviews", "spaces"
   add_foreign_key "reviews", "users"
-  add_foreign_key "space_contacts", "space_owners"
+  add_foreign_key "space_contacts", "space_groups"
   add_foreign_key "space_contacts", "spaces"
-  add_foreign_key "spaces", "space_owners"
+  add_foreign_key "spaces", "space_groups"
   add_foreign_key "spaces", "space_types"
 end

@@ -1,28 +1,13 @@
-<%= turbo_frame_tag dom_id(space_contact) do %>
-  <div class="border-2 border-gray-100 p-2 mt-2 bg-gray-50">
-    <%= simple_form_for space_contact,
-      url: space_contact.id.nil? ? space_contacts_path : space_contact_path(space_contact),
-      html: {
-        data: { 'controller':"reset-form" } } do |f| %>
+<%= form.hidden_field :space_id, value: space_contact.space_id %>
+<%= form.hidden_field :space_group_id, value: space_contact.space_group_id %>
+<%= form.input :title, input_html: { class: 'fieldFirst', 'data-hidden-target': 'focus', 'data-reset-form-target': "title" } %>
+<div class="flex flex-wrap gap-2 -mt-3 -mb-3">
+  <%= form.input :telephone  %>
+  <%= form.input :telephone_opening_hours, wrapper_html: {
+    class: 'flex-grow'
+  } %>
+</div>
+<%= form.input :email %>
+<%= form.input :url %>
+<%= form.input :description, input_html: { class: 'fieldLast' } %>
 
-      <%= f.hidden_field :space_id, value: space_contact.space_id %>
-      <%= f.hidden_field :space_owner_id, value: space_contact.space_owner_id %>
-      <div class="rounded-md shadow-sm -space-y-px">
-          <%= f.input :title, input_html: { class: 'fieldFirst', 'data-hidden-target': "title", 'data-reset-form-target': "title" } %>
-          <%= f.input :telephone %>
-          <%= f.input :telephone_opening_hours %>
-          <%= f.input :email %>
-          <%= f.input :url %>
-          <%= f.input :description, input_html: { class: 'fieldLast' } %>
-      </div>
-      <div class="mt-4">
-        <button type="submit" class="button">
-          <!-- Heroicon name: figma contact -->
-          <%= inline_svg_tag 'contact' %>
-          <%= t('space_contacts.submit') %>
-        </button>
-      </div>
-    <% end %>
-    <%= link_to t('space_contacts.abort'), space_contact if action_name == "edit" || action_name == "update" %>
-  </div>
-<% end %>

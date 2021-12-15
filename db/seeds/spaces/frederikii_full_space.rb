@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-## Space Owner
-require "./db/seeds/space_owners/viken"
+## Space Group
+require "./db/seeds/space_groups/viken"
 viken = create_viken
 
 ## Space Type
@@ -32,11 +32,10 @@ frederikii_space = Space.create(
   post_address: "Fredrikstad",
   lat: 59.223840,
   lng: 10.925860,
-  space_owner_id: viken.id,
+  space_group_id: viken.id,
   space_type_id: vgs.id,
   organization_number: "974544466",
   municipality_code: "3004",
-  fits_people: "1200",
   star_rating: nil,
   how_to_book: how_to_book,
   who_can_use: who_can_use,
@@ -49,22 +48,18 @@ require_relative "../reviews/reviews"
 demo_reviews_for_space(frederikii_space)
 
 ## Attach some sample images
-images = %w[
+%w[
   ./db/seeds/images/outside_school.jpg
   ./db/seeds/images/auditorium.jpg
   ./db/seeds/images/classroom.jpg
-].map do |path|
+].each do |path|
   filename = File.basename(path)
   file = File.open(path)
-  {
-    io: file, filename: filename, content_type: "image/jpg"
-  }
-end
+  img = Image.create!(
+    space_id: frederikii_space.id,
+    caption: "This is school",
+    credits: "Credits noone"
+  )
 
-## NB! We don't know why, but seeding images does not work unless it's the last thing
-# that's done in the file. Presumably, we have to wait for the image to upload or
-# attach properly, but neither sleep 5, nor any other attempts at saving the space
-# has worked. To reproduce, simply reload with frederikii_space.reload after the images
-# are attached, and they will not be uploaded. Please fix if you know how!
-# Might be related to https://github.com/rails/rails/issues/37304#issuecomment-546246357
-frederikii_space.images.attach images
+  img.image.attach io: file, filename: filename, content_type: "image/jpg"
+end

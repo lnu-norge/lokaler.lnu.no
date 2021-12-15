@@ -13,24 +13,23 @@
 
     <hr />
 
-    <%= render 'space_contacts/index' %>
-    <hr />
-
     <%= inline_editable :how_to_book  do %>
-      <%= render_space_and_owner_field @space, :how_to_book %>
+      <%= render_space_and_group_field @space, :how_to_book %>
     <% end %>
+    <%= render 'space_contacts/index' %>
+
     <hr />
 
     <%= render partial: 'spaces/show/facilities' %>
     <hr />
 
     <%= inline_editable :who_can_use  do %>
-      <%= render_space_and_owner_field @space, :who_can_use %>
+      <%= render_space_and_group_field @space, :who_can_use %>
     <% end %>
     <hr />
 
     <%= inline_editable :pricing do %>
-      <%= render_space_and_owner_field @space, :pricing %>
+      <%= render_space_and_group_field @space, :pricing %>
     <% end %>
     <hr />
 
@@ -38,12 +37,12 @@
     <hr />
 
     <%= inline_editable :more_info do %>
-      <%= render_space_and_owner_field @space, :more_info %>
+      <%= render_space_and_group_field @space, :more_info %>
     <% end %>
     <hr />
 
     <%= inline_editable :terms do %>
-      <%= render_space_and_owner_field @space, :terms %>
+      <%= render_space_and_group_field @space, :terms %>
     <% end %>
     <hr />
 
