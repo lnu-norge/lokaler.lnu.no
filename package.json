@@ -17,7 +17,7 @@
     "postcss": "^7",
     "stimulus": "^2.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "tom-select": "^2.0.0-rc.4",
+    "tom-select": "^2.0.0",
     "trix": "^1.2.0",
     "turbolinks": "^5.2.0",
     "webpack": "^4.46.0",

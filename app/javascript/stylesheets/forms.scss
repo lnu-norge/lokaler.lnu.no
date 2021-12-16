@@ -33,6 +33,7 @@
 // Form wrappers:
 
 // Forms where the label is on top of the input element:
+.dropdown,
 .vertical_form {
   .label {
     @apply block;

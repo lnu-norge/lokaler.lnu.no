@@ -15,11 +15,8 @@ User.create(
   admin: true
 )
 
-# Fake, empty Space data for Gudeberg school:
-require "./db/seeds/spaces/gudeberg_no_info"
-
-# Fake school that does not want to be listed
-require "./db/seeds/spaces/nabbetorp_no_booking"
+# Fake schools
+require "./db/seeds/spaces/grunnskoler"
 
 # Fake, full Space data for Frederik II
 require "./db/seeds/spaces/frederikii_full_space"
