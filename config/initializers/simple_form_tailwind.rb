@@ -148,6 +148,16 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
     b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
   end
 
+  config.wrappers :rich_text, tag: "div", class: "rich_text" do |b|
+    b.use :html5
+    b.use :placeholder
+    b.use :label, class: "label", error_class: "label--error"
+    b.use :input, class: "text_field", error_class: "error_field", valid_class: "valid_field",
+                  data: { controller: "trix-paste" }
+    b.use :full_error, wrap_with: { tag: "p", class: "error_text" }
+    b.use :hint, wrap_with: { tag: "p", class: "meta_text" }
+  end
+
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :vertical_form
 
@@ -161,6 +171,7 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
     file: :vertical_file,
     radio_buttons: :vertical_collection,
     range: :vertical_range,
-    time: :vertical_multi_select
+    time: :vertical_multi_select,
+    rich_text_area: :rich_text
   }
 end
