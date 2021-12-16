@@ -12,7 +12,9 @@
   </head>
 
   <body class="pb-24 md:pb-0 md:pt-14">
-    <%= render "shared/flash" %>
+    <div id="flash">
+      <%= render "shared/flash" %>
+    </div>
     <%= render partial: "layouts/menu/menu" %>
     <main>
       <%= yield %>

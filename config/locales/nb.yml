@@ -83,6 +83,7 @@ nb:
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
+    added_review: 'Erfaring loggført!'
     no_reviews: 'Ingen erfaringer loggført.'
     in_contact: 'Har du vært i kontakt med dem?'
     unknown_org: 'Ukjent organisasjon'

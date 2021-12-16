@@ -47,11 +47,12 @@ RSpec.describe Review, type: :request do
     expect(response).to have_http_status(:success)
   end
 
-  it "can create a new review" do
+  it "can create a new review, show the review in Space#show, and show a flash message" do
+    title = "They are all mean to me"
     expect(space.reviews.count).to eq(1)
     post reviews_path, params: {
       review: {
-        title: "They are all mean to me",
+        title: title,
         type_of_contact: :not_allowed_to_use,
         space_id: space.id
       }
@@ -59,6 +60,9 @@ RSpec.describe Review, type: :request do
     follow_redirect!
     expect(response).to have_http_status(:success)
     expect(space.reviews.count).to eq(2)
+
+    # It shows a flash for the success
+    expect(flash[:notice]).to match I18n.t("reviews.added_review")
   end
 
   it "can load the edit path" do
