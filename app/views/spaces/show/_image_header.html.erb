@@ -2,7 +2,7 @@
     <% if images.empty? %>
       <%= render partial: 'spaces/show/image_missing' %>
     <% else %>
-      <%= render partial: 'shared/image_slider', locals: {
+      <%= render partial: 'space_images/image_slider', locals: {
         images: images,
         show_caption_credits: true
       } %>
@@ -17,3 +17,5 @@
         </div>
     <% end %>
   </div>
+</div>
+
