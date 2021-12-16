@@ -52,7 +52,7 @@ nb:
         post_number: "Postnummer"
         organization_number: "Organisasjonsnummer"
         space_type_id: "Velg type lokale"
-        space_group: "Lokalet har felles informasjon med:"
+        space_group_title: "Lokalet har felles informasjon med:"
       space_contact:
         title: "Navn"
         telephone: "Telefon"
