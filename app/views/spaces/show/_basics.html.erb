@@ -32,7 +32,7 @@
       <%= @space.post_address %>
       </span>
   </div>
-  <% unless @space.url.nil? %>
+  <% if @space.url.present? %>
     <div class="flex gap-2 mt-2">
       <%= inline_svg_tag 'url' %>
       <span>
