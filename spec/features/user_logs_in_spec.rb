@@ -12,7 +12,7 @@ describe User, js: true do
     click_button "Logg in"
 
     expect(page).to have_current_path(root_path, ignore_query: true)
-    expect(page).to have_content("lokaler kan passe:")
+    expect(page).to have_content("Nytt lokale")
   end
 
   it "unsuccessful login" do
