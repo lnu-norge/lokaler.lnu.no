@@ -9,8 +9,12 @@
         <li class="splide__slide">
           <img data-splide-lazy="<%= image.url %>" />
           <% if defined?(show_caption_credits) && show_caption_credits %>
-            <div class="absolute bold rounded bg-white text-gray-700 bottom-1 left-1 py-1 px-2"><%= image.caption %></div>
-            <div class="absolute bold rounded bg-white text-gray-700 bottom-1 right-1 py-1 px-2"><%= image.credits %></div>
+            <% if image.caption&.present? %>
+              <div class="absolute bold rounded bg-white text-gray-700 bottom-1 left-1 py-1 px-2"><%= image.caption %></div>
+            <% end %>
+            <% if image.credits&.present? %>
+              <div class="absolute bold rounded bg-white text-gray-700 bottom-1 right-1 py-1 px-2"><%= image.credits %></div>
+            <% end  %>
           <% end %>
           <noscript>
             <img src="<%= image.url %>" />
