@@ -15,6 +15,7 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   def create
     params = parse_before_create review_params
     @review = Review.new(params)
+    @space = @review.space
     if @review.save
       create_success
     else
@@ -74,25 +75,25 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   def create_success
+    flash_message = t("reviews.added_review")
     respond_to do |format|
       format.turbo_stream do
+        flash.now[:notice] = flash_message
         render turbo_stream: [
-          turbo_stream.prepend(:reviews,
-                               partial: "spaces/show/review_card",
-                               locals: { review: @review }),
-          turbo_stream.replace(:new_review_path,
-                               partial: "spaces/show/review_link_to_new_review",
-                               locals: {
-                                 space: @review.space
-                               })
+          turbo_stream.update(:flash,
+                              partial: "shared/flash"),
+          turbo_stream.update(:reviews,
+                              partial: "spaces/show/reviews")
         ]
       end
-      format.html { redirect_to @review.space }
+      format.html do
+        flash[:notice] = flash_message
+        redirect_to @space
+      end
     end
   end
 
   def create_error
-    @space = @review.space
     set_facility_reviews
     # Different types of contact should be sent to different error forms
     case @review.type_of_contact

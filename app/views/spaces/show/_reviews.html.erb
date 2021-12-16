@@ -1,17 +1,16 @@
-<div class="flex gap-2 items-baseline justify-between">
-  <h2><%= Review.model_name.human(count: 2) %></h2>
-  <%= render partial: 'spaces/show/review_link_to_new_review', locals: {
-    space: @space
-  } %>
+<div id="reviews">
+  <div class="flex gap-2 items-baseline justify-between">
+    <h2><%= Review.model_name.human(count: 2) %></h2>
+    <%= render partial: 'spaces/show/review_link_to_new_review' %>
+  </div>
+
+  <% if @space.reviews.any? %>
+    <ul class="horizontal-cards">
+      <% @space.reviews.reverse.each do |review| %>
+        <%= render partial: 'spaces/show/review_card', locals: {review: review}  %>
+      <% end %>
+    </ul>
+  <% else %>
+    <%= render partial: 'spaces/show/review_none_yet' %>
+  <% end %>
 </div>
-
-
-<% if @space.reviews.any? %>
-  <ul class="horizontal-cards" id="reviews">
-    <% @space.reviews.reverse.each do |review| %>
-      <%= render partial: 'spaces/show/review_card', locals: {review: review}  %>
-    <% end %>
-  </ul>
-<% else %>
-  <%= render partial: 'spaces/show/review_none_yet' %>
-<% end %>
