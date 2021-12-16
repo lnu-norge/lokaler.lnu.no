@@ -35,3 +35,6 @@ application.register("slider", SliderController)
 
 import TomSelectController from "./tom_select_controller"
 application.register("tom-select", TomSelectController)
+
+import TrixPasteController from "./trix_paste_controller"
+application.register("trix-paste", TrixPasteController)

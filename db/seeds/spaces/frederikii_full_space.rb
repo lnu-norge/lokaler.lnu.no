@@ -48,22 +48,18 @@ require_relative "../reviews/reviews"
 demo_reviews_for_space(frederikii_space)
 
 ## Attach some sample images
-images = %w[
+%w[
   ./db/seeds/images/outside_school.jpg
   ./db/seeds/images/auditorium.jpg
   ./db/seeds/images/classroom.jpg
-].map do |path|
+].each do |path|
   filename = File.basename(path)
   file = File.open(path)
-  {
-    io: file, filename: filename, content_type: "image/jpg"
-  }
-end
+  img = Image.create!(
+    space_id: frederikii_space.id,
+    caption: "This is school",
+    credits: "Credits noone"
+  )
 
-## NB! We don't know why, but seeding images does not work unless it's the last thing
-# that's done in the file. Presumably, we have to wait for the image to upload or
-# attach properly, but neither sleep 5, nor any other attempts at saving the space
-# has worked. To reproduce, simply reload with frederikii_space.reload after the images
-# are attached, and they will not be uploaded. Please fix if you know how!
-# Might be related to https://github.com/rails/rails/issues/37304#issuecomment-546246357
-frederikii_space.images.attach images
+  img.image.attach io: file, filename: filename, content_type: "image/jpg"
+end

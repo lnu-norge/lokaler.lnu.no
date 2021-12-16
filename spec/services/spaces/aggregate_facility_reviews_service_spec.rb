@@ -9,6 +9,7 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
 
   def experience(experience, other_facility = nil)
     Fabricate(:facility_review, space: space, experience: experience, facility: other_facility || facility)
+    space.reload.aggregate_facility_reviews
   end
 
   it "turns into maybe if there are mixed reviews" do
@@ -49,6 +50,8 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
 
     2.times { experience :was_not_allowed }
     space.facility_reviews.destroy_all
+
+    space.aggregate_facility_reviews
 
     expect(space.reload.reviews_for_facility(facility)).to eq("unknown")
   end
