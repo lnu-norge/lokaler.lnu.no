@@ -1,4 +1,5 @@
 <%= form.association :space_type,
-  value_method: :id,
-  label_method: :type_name,
-  prompt: t('simple_form.prompt.space.space_type_id') %>
+                     wrapper: :dropdown,
+                     value_method: :id,
+                     label_method: :type_name,
+                     prompt: t('simple_form.prompt.space.space_type_id') %>

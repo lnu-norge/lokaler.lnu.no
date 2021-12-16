@@ -21,9 +21,6 @@ application.register("mapbox", MapboxController)
 import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
-import MultiselectController from "./multiselect_controller"
-application.register("multiselect", MultiselectController)
-
 import MultistepFormController from "./multistep_form_controller"
 application.register("multistep-form", MultistepFormController)
 
@@ -35,6 +32,9 @@ application.register("show-on-radio-button-value", ShowOnRadioButtonValueControl
 
 import SliderController from "./slider_controller"
 application.register("slider", SliderController)
+
+import TomSelectController from "./tom_select_controller"
+application.register("tom-select", TomSelectController)
 
 import TrixPasteController from "./trix_paste_controller"
 application.register("trix-paste", TrixPasteController)

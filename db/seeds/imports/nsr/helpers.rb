@@ -4,7 +4,7 @@
 
 def filter_schools(schools)
   foul_titles = [
-    /voksenopplæring/i,
+    /voksenoppl/i,
     /vikarer/i,
     /fellestjeneste/i
   ]
@@ -85,13 +85,21 @@ def space_types_from(school)
 end
 
 def space_group_from(school)
-  # TODO: Change Space model so SpaceGroup is OPTIONAL. Not all spaces have a space group that's relevant to list out.
+  # TODO: Change Space model so SpaceGroup is OPTIONAL
+  # Not all spaces have a space group that's relevant to list out.
   return unless school && school["owner"]
 
   owner = get_info(school["owner"])
+  type = get_meta(school, "types")[0]
+
+  if type == "vgs"
+    return  {
+      title: "VGS eid av #{owner["title"]}"
+    }
+  end
+
   {
-    orgnr: owner["organizationNumber"],
-    title: owner["title"]
+    title: "Grunnskoler eid av #{owner["title"]}"
   }
 end
 

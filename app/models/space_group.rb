@@ -12,4 +12,6 @@ class SpaceGroup < ApplicationRecord
 
   has_many :spaces, dependent: :nullify
   has_many :space_contacts, dependent: :nullify
+
+  validates :title, presence: true
 end
