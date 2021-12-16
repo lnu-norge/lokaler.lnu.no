@@ -1,0 +1,46 @@
+<div class="fixed overflow-y-auto inset-0 bg-black z-50 flex flex-col">
+  <div class="max-w-prose w-full mx-auto px-2 flex">
+      <%= link_to @space, class: "py-1 my-3 text-white flex items-center gap-1" do %>
+        <%= inline_svg_tag "x", class: "inline-block" %>
+        <%= t('close') %>
+      <% end %>
+    </div>
+    <div class="relative min-w-full pb-6">
+        <div
+          class="splide"
+          data-controller="slider"
+          data-slider-target="slider"
+          data-slider-cover-value=false
+          data-slider-start-at-value=<%= @start_at %>
+        >
+          <div class="splide__track">
+            <ul class="splide__list">
+              <% @space.images.each_with_index do |image, index| %>
+                <li class="splide__slide">
+                 <div class="splide__slide__container relative">
+                  <img data-splide-lazy="<%= image.url %>" />
+                  <div class="absolute bold rounded bg-black bg-opacity-50 text-white text-opacity-80 bottom-1 right-1 py-1 px-2">
+                    <%= index + 1 %> / <%= @space.images.count %>
+                  </div>
+                </div>
+                  <noscript>
+                    <img src="<%= image.url %>" />
+                  </noscript>
+                  <div class="max-w-prose mx-auto px-4">
+                    <% if image.caption&.present? %>
+                      <p class="text-white text-opacity-90 pt-4">
+                        <%= image.caption %>
+                      </p>
+                    <% end %>
+                    <% if image.credits&.present? %>
+                      <p class="text-white text-opacity-80 pt-4 italic">
+                        <%= t('images.photo_by') %> <%= image.credits %>
+                      </p>
+                    <% end  %>
+                  </div>
+              </li>
+            <% end %>
+          </ul>
+      </div>
+  </div>
+</div>

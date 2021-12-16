@@ -80,6 +80,7 @@ nb:
     upload_image: "Last opp bilde"
     edit_images: "Rediger bilder"
     delete_success: "Bildet ble slettet"
+    photo_by: 'Foto:'
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
@@ -190,8 +191,8 @@ nb:
         email: "E-post"
         url: "Nettside"
         description: "Beskrivelse"
-
   read_more: 'Les mer'
+  close: 'Lukk'
   devise:
     sessions:
       user:
