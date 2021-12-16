@@ -1,20 +1,20 @@
 <div>
-  <%= form.association :space_group,
-                       collection: SpaceGroup.order('title ASC'),
-                       wrapper: :dropdown,
-                       value_method: :id,
-                       label_method: :title,
-                       selected: @space&.space_group&.id,
-                       include_blank: t('space_group.no_other_spaces'),
-                       input_html: {
-                         placeholder: t('space_group.search_group'),
-                         data: {
-                           "tom-select-item_name-value": t('space_group.group'),
-                           "tom-select-options-value": {
-                             create: true,
-                             allowEmptyOption: true
-                           }
-                         }
-                       }
+  <%= form.input :space_group_title,
+                 collection: SpaceGroup.order('title ASC'),
+                 wrapper: :dropdown,
+                 value_method: :title,
+                 label_method: :title,
+                 selected: @space&.space_group&.title,
+                 include_blank: t('space_group.no_other_spaces'),
+                 input_html: {
+                   placeholder: t('space_group.search_group'),
+                   data: {
+                     "tom-select-item_name-value": t('space_group.group'),
+                     "tom-select-options-value": {
+                       create: true,
+                       allowEmptyOption: true
+                     }
+                   }
+                 }
   %>
 </div>
