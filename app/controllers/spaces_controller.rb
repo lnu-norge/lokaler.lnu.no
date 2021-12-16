@@ -112,6 +112,12 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     }
   end
 
+  def fullscreen_images
+    @space = Space.find(params[:id])
+    @start_at = params[:start] || 0
+    render "spaces/show/image_header_fullscreen"
+  end
+
   private
 
   SPACE_SEARCH_PAGE_SIZE = 20
