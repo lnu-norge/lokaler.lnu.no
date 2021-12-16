@@ -12,6 +12,7 @@ export default class extends Controller {
       cover: true,
       type: 'loop',
       lazyLoad: 'nearby',
+      pagination: false,
       i18n: {
         prev: 'Forrige',
         next: 'Neste',

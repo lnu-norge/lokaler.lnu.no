@@ -5,17 +5,24 @@
 <div class="splide" data-controller="slider" data-slider-target="slider">
   <div class="splide__track">
     <ul class="splide__list">
-      <% images.each do |image| %>
+      <% images.each_with_index do |image, index| %>
         <li class="splide__slide">
           <img data-splide-lazy="<%= image.url %>" />
           <% if defined?(show_caption_credits) && show_caption_credits %>
             <% if image.caption&.present? %>
-              <div class="absolute bold rounded bg-white text-gray-700 bottom-1 left-1 py-1 px-2"><%= image.caption %></div>
+              <div class="absolute bold rounded bg-white text-gray-700 bottom-1 left-1 py-1 px-2">
+                <%= image.caption %>
+              </div>
             <% end %>
             <% if image.credits&.present? %>
-              <div class="absolute bold rounded bg-white text-gray-700 bottom-1 right-1 py-1 px-2"><%= image.credits %></div>
+              <div class="absolute bold rounded bg-white text-gray-700 bottom-1 right-1 py-1 px-2">
+                <%= image.credits %>
+              </div>
             <% end  %>
           <% end %>
+          <div class="absolute bold rounded bg-black bg-opacity-50 text-white text-opacity-80 bottom-1 right-1 py-1 px-2">
+            <%= index + 1 %> / <%= images.count %>
+          </div>
           <noscript>
             <img src="<%= image.url %>" />
           </noscript>
