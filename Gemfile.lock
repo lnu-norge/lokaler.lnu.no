@@ -342,6 +342,7 @@ GEM
     ruby-vips (2.1.3)
       ffi (~> 1.12)
     ruby_http_client (3.5.2)
+    rubyzip (2.3.2)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -354,6 +355,10 @@ GEM
       tilt
     scout_apm (5.1.0)
       parser
+    selenium-webdriver (4.1.0)
+      childprocess (>= 0.5, < 5.0)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
     sendgrid-ruby (6.5.1)
       ruby_http_client (~> 3.4)
@@ -396,6 +401,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webdrivers (5.0.0)
+      nokogiri (~> 1.6)
+      rubyzip (>= 1.3.0)
+      selenium-webdriver (~> 4.0)
     webmock (3.14.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -460,6 +469,7 @@ DEPENDENCIES
   rubocop-rspec
   sass-rails (>= 6)
   scout_apm
+  selenium-webdriver
   sendgrid-ruby
   simple_form
   simple_form-tailwind
@@ -468,6 +478,7 @@ DEPENDENCIES
   validate_url
   vcr
   web-console (>= 4.1.0)
+  webdrivers
   webmock
   webpacker (~> 5.0)
 

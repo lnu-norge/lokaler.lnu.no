@@ -6,7 +6,12 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'webdrivers'
+require 'selenium-webdriver'
 require 'vcr'
+
+Webdrivers.install_dir = Rails.root + 'webdrivers' + ENV['TEST_ENV_NUMBER'].to_s
+
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -69,8 +74,35 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
 
+  Webdrivers.cache_time = 86_400
+
+  Capybara.register_driver :headless_chrome do |app|
+    download_path = Rails.root + 'tmp/capybara/downloads'
+    options = ::Selenium::WebDriver::Chrome::Options.new
+    options.add_preference(:download, prompt_for_download: false, directory_upgrade: true, default_directory: download_path)
+    options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
+    options.add_preference(:safebrowsing, enabled: false, disable_download_protection: true )
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--window-size=1920,1080')
+    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: options)
+    driver.browser.download_path = download_path
+    driver
+  end
+
+  Capybara.default_max_wait_time = 10
+  Capybara.javascript_driver = :headless_chrome
+  Capybara.server = :puma, { Silent: true }
+
+
   VCR.configure do |config|
     config.cassette_library_dir = "spec/support/vcr"
     config.hook_into :webmock
+    config.ignore_hosts 'chromedriver.storage.googleapis.com'
+    config.ignore_request do |request|
+      uri = URI(request.uri)
+      uri.host == '127.0.0.1' ||
+        (uri.host == 'localhost' && uri.port != 3001) # Ignore localhost except on port 3001 which is used for recording KRA API cassettes
+    end
   end
 end
