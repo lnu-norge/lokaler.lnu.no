@@ -22,6 +22,9 @@ export default class extends Controller {
       this.addressTarget.value = result.address;
       this.postNumberTarget.value = result.post_number;
       this.postAddressTarget.value = result.post_address;
+
+      // Run form.change, so the form knows about the new data:
+      this.addressTarget.form.dispatchEvent(new Event("change"))
     }
 
     this.mapHolderTarget.innerHTML = result.map_image_html;
