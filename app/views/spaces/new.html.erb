@@ -3,12 +3,15 @@
     <%= simple_form_for @space, data: { controller: 'duplicate-checker'  } do |form|  %>
       <%= edit_field 'title', form %>
       <%= edit_field 'where', form %>
-      <%= edit_field 'space_type', form %>
-      <%= edit_field 'url', form %>
-      <%= edit_field 'space_group', form %>
-      <span class="flex gap-4 items-baseline mt-4">
-        <%= form.button :submit %>
-        <%= link_to t('simple_form.labels.user.back'), :back %>
-      </span>
+      <div data-duplicate-checker-target="duplicatesRenderHere"></div>
+      <div data-duplicate-checker-target="hiddenUntilChecked">
+          <%= edit_field 'space_type', form %>
+          <%= edit_field 'url', form %>
+          <%= edit_field 'space_group', form %>
+          <span class="flex gap-4 items-baseline mt-4">
+          <%= form.button :submit %>
+            <%= link_to t('simple_form.labels.user.back'), :back %>
+        </span>
+      </div>
     <% end %>
 </div>

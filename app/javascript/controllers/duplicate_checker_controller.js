@@ -8,21 +8,28 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="duplicate-checker"
 export default class extends Controller {
+  static targets = ["duplicatesRenderHere", "hiddenUntilChecked"]
 
   connect() {
+    this.hiddenUntilCheckedTarget.classList.add("hidden")
     const form = this.element
     form.addEventListener('change', () =>  {
-      this.check_duplicates()
+      this.checkDuplicates()
     });
   }
 
-  async check_duplicates() {
+  showChecked() {
+    this.duplicatesRenderHereTarget.classList.add("hidden")
+    this.hiddenUntilCheckedTarget.classList.remove("hidden")
+  }
+
+  async checkDuplicates() {
     const data = new FormData(this.element);
-    const title = data.get("space[title]");
     const address = data.get("space[address]");
     const post_number = data.get("space[post_number]");
 
     if (!post_number || (!address && !post_number)) return
+    const title = data.get("space[title]");
 
     let url = "/check_duplicates?"
         url += `title=${title}&`
@@ -30,6 +37,8 @@ export default class extends Controller {
         url += `post_number=${post_number}&`
 
     const result = await (await fetch(url)).json()
-    console.log(result)
+    if (result && result.html) {
+      this.duplicatesRenderHereTarget.innerHTML = result.html
+    }
   }
 }
