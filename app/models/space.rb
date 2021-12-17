@@ -104,8 +104,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     results.first
   end
 
-  def check_for_duplicate
-    Spaces::DuplicateDetectorService.call(space: self)
+  def potential_duplicates
+    Spaces::DuplicateDetectorService.call(self)
   end
 
   # Move this somewhere better, either a service or figure out a way to make it a scope

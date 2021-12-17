@@ -8,14 +8,21 @@ RSpec.describe Spaces::DuplicateDetectorService do
   # let(:space_3) { Fabricate(:space, title: "Third space") }
 
   it "finds a potential duplicate based on title" do
-    expect(space.check_for_duplicate(title: space.title)).to eq([space])
+    duplicate_space = Space.new(title: space.title)
+    expect(duplicate_space.potential_duplicates).to eq([space])
   end
 
   it "finds several potential duplicates based on address" do
-    expect(space.check_for_duplicate(address: space.address)).to eq([space])
+    duplicate_space = Space.new(
+      address: space.address,
+      post_number: space.post_number,
+      post_address: space.post_address
+    )
+    expect(duplicate_space.potential_duplicates).to eq([space])
   end
 
   it "finds no duplicates if there are none" do
-    expect(space.check_for_duplicate(title: "Does not exist")).to eq([])
+    new_space = Space.new(title: "Does not exist")
+    expect(new_space.potential_duplicates).to eq(nil)
   end
 end
