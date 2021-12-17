@@ -1,0 +1,5 @@
+<div class="flex flex-wrap gap-4">
+  <% spaces.each do |space| %>
+    <%= render partial: "spaces/index/space_listing", locals: { space: space, filtered_facilities: nil } %>
+  <% end %>
+</div>
