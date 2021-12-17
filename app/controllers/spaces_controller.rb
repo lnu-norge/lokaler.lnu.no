@@ -112,9 +112,40 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     }
   end
 
+  def check_duplicates
+    duplicates = duplicates_from_params
+
+    if duplicates.blank?
+      return render json: {
+        html: nil,
+        count: 0
+      }
+    end
+
+    render json: {
+      html: render_to_string(
+        partial: "spaces/edit/space_duplicate_list", locals: {
+          spaces: duplicates
+        }
+      ),
+      count: duplicates.count
+    }
+  end
+
   private
 
   SPACE_SEARCH_PAGE_SIZE = 20
+
+  def duplicates_from_params
+    test_space = Space.new(
+      title: params[:title],
+      address: params[:address],
+      post_number: params[:post_number]
+    )
+    duplicates = test_space.potential_duplicates
+    test_space.delete
+    duplicates
+  end
 
   def get_address_params(params)
     Space.search_for_address(

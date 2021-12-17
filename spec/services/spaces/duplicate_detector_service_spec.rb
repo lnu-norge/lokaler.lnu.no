@@ -2,7 +2,8 @@
 
 require "rails_helper"
 
-RSpec.describe Spaces::DuplicateDetectorService do
+RSpec.describe Spaces::DuplicateDetectorService, type: :request do
+  let(:user) { Fabricate(:user) }
   let(:space) do
     Fabricate(:space,
               title: "Skolen min VGS",
@@ -12,10 +13,9 @@ RSpec.describe Spaces::DuplicateDetectorService do
   end
 
   before do
+    sign_in user
     space.reload
   end
-  #  let(:space_2) { Fabricate(:space, title: "Second space") }
-  # let(:space_3) { Fabricate(:space, title: "Third space") }
 
   it "finds several potential duplicates based on address" do
     Fabricate(:space,
@@ -73,5 +73,22 @@ RSpec.describe Spaces::DuplicateDetectorService do
       post_address: space.post_address
     )
     expect(duplicate_space.potential_duplicates).to eq([space])
+  end
+
+  it "can find duplicates calling the check_duplicates_path end point" do
+    get check_duplicates_path, params: {
+      title: "Skolen min", post_number: space.post_number
+    }
+    expect(response.body).to include(space.title)
+  end
+
+  it "can get negative results calling the check_duplicates_path end point" do
+    get check_duplicates_path, params: {
+      title: space.title,
+      address: "Åbyggeveien 5",
+      post_number: "1636",
+      post_address: "Gamle Fredrikstad"
+    }
+    expect(JSON.parse(response.body)).to eq({ "html" => nil, "count" => 0 })
   end
 end
