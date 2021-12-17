@@ -188,6 +188,7 @@
 
 .ts-control {
   @extend .text_field;
+  min-height: calc(1.25rem + 1rem + 2px);
   width: 100%;
   overflow: hidden;
   position: relative;
