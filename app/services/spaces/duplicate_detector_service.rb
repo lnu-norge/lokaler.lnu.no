@@ -6,7 +6,6 @@ module Spaces
       @title = space.title
       @address = space.address
       @post_number = space.post_number
-      @post_address = space.post_address
       super()
     end
 
@@ -19,19 +18,48 @@ module Spaces
 
     def find_potential_duplicates
       duplicates = []
-      duplicates << Space.find_by(title: @title) if @title.present?
-      duplicates << Space.find_by(full_address) if full_address.present?
-      duplicates.compact
+
+      # If any full matches, just return those first:
+      duplicates << full_match
+      return duplicates.flatten if duplicates[0].present?
+
+      # If any matches by full address, return those without checking further:
+      duplicates << by_full_address
+      return duplicates.flatten.compact if duplicates[0].present?
+
+      # Then return any matches by title and/or post
+      duplicates << by_post_and_title
+      duplicates.flatten.compact.uniq
     end
 
-    def full_address
-      return nil unless @address.present? && @post_number.present? && @post_address.present?
+    def full_match
+      return nil unless @title.present? && @address.present? && @post_number.present?
 
-      {
-        address: @address,
-        post_number: @post_number,
-        post_address: @post_address
-      }
+      Space.where(
+        "title LIKE ?", "%#{@title}%"
+      ).where({
+                address: @address,
+                post_number: @post_number
+              })
+    end
+
+    def by_post_and_title
+      return nil unless @title.present? && @post_number.present?
+
+      Space.where(
+        "title LIKE ?", "%#{@title}%"
+      ).where({
+                post_number: @post_number
+              })
+    end
+
+    def by_full_address
+      return nil unless @address.present? && @post_number.present?
+
+      Space.where({
+                    address: @address,
+                    post_number: @post_number
+                  })
     end
   end
 end
