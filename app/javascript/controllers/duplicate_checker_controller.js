@@ -16,10 +16,20 @@ export default class extends Controller {
     });
   }
 
-  check_duplicates() {
+  async check_duplicates() {
     const data = new FormData(this.element);
     const title = data.get("space[title]");
     const address = data.get("space[address]");
     const post_number = data.get("space[post_number]");
+
+    if (!post_number || (!address && !post_number)) return
+
+    let url = "/check_duplicates?"
+        url += `title=${title}&`
+        url += `address=${address}&`
+        url += `post_number=${post_number}&`
+
+    const result = await (await fetch(url)).json()
+    console.log(result)
   }
 }
