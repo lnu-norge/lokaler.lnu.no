@@ -14,7 +14,7 @@ describe Space, js: true do
   it "user adds new space successfully" do
     login_and_logout_with_warden do
       visit root_path
-      click_link "Nytt lokale"
+      click_link I18n.t("menu.new_space")
 
       expect(page).to have_text("Legg til nytt lokale")
 

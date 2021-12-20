@@ -9,19 +9,19 @@ describe User, js: true do
     visit root_path
     fill_in "user_email", with: "test@example.net"
     fill_in "user_password", with: "secret"
-    click_button "Logg in"
+    click_button I18n.t("simple_form.labels.user.submit_login")
 
     expect(page).to have_current_path(root_path, ignore_query: true)
-    expect(page).to have_content("Nytt lokale")
+    expect(page).to have_content(I18n.t("menu.new_space"))
   end
 
   it "unsuccessful login" do
     visit root_path
     fill_in "user_email", with: "test@example.net"
     fill_in "user_password", with: "wrong"
-    click_button "Logg in"
+    click_button I18n.t("simple_form.labels.user.submit_login")
 
     expect(page).to have_current_path(root_path, ignore_query: true)
-    expect(page).to have_content("Logg inn til din bruker")
+    expect(page).to have_content(I18n.t("simple_form.labels.user.session.heading_new"))
   end
 end
