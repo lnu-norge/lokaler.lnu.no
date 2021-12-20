@@ -3,7 +3,7 @@
 Fabricator(:space) do
   title { Faker::Name.first_name }
   address { Faker::Address.street_address }
-  post_number { Faker::Address.postcode }
+  post_number { Faker::Number.number(digits: 4) }
   post_address { Faker::Address.city }
   lat { Faker::Address.latitude }
   lng { Faker::Address.longitude }
