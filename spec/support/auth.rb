@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Auth
   def create_user!
     @user = Fabricate(:user)
