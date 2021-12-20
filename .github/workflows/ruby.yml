@@ -53,6 +53,7 @@ jobs:
 
       - name: Create DB
         run: |
+          cp config/database.yml.example config/database.yml
           bin/rails db:prepare
       - name: Rubocop
         run: |
