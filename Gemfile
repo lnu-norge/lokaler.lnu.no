@@ -40,6 +40,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "fabrication"
   gem "faker"
+  gem "parallel_tests"
   gem "scout_apm"
 end
 

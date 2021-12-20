@@ -229,6 +229,8 @@ GEM
       activerecord (>= 5.2)
       request_store (~> 1.1)
     parallel (1.20.1)
+    parallel_tests (3.7.3)
+      parallel
     parser (3.0.1.1)
       ast (~> 2.4.1)
     pg (1.2.3)
@@ -454,6 +456,7 @@ DEPENDENCIES
   newrelic_rpm
   overcommit
   paper_trail
+  parallel_tests
   pg (~> 1.1)
   phonelib
   puma (~> 5.0)

@@ -12,4 +12,4 @@ test:
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: lokaler_lnu_no_test
+  database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
