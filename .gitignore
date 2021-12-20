@@ -47,3 +47,5 @@ yarn-debug.log*
 .env
 
 /webdrivers
+
+/config/database.yml
