@@ -74,7 +74,7 @@ module SpacesHelper
     tag.div(style: "height: #{height}px; max-width: #{width}px",
             class: "bg-gray-100 border border-gray-200 text-gray-400 flex justify-center items-center text-center",
             **html_options) do
-      concat inline_svg("place", class: "text-gray-400")
+      concat inline_svg_tag("place", class: "text-gray-400")
       concat t("address_search.no_address_given")
     end
   end
