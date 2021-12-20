@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe Space, js: true do
+describe "User manages homepage", js: true do
   let!(:space_type) { Fabricate(:space_type) }
   let!(:space_group) { Fabricate(:space_group) }
   let!(:space) { Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien") }

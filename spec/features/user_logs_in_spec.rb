@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe User, js: true do
+describe "User logs in", js: true do
   before { Fabricate(:user, email: "test@example.net", password: "secret", password_confirmation: "secret") }
 
   it "user logs in successfully" do
