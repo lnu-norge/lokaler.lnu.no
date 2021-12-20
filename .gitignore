@@ -45,3 +45,5 @@ yarn-debug.log*
 
 # Ignores local .env file
 .env
+
+/webdrivers
