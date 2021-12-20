@@ -7,6 +7,7 @@
     <div class="modal modal--with-header-and-footer">
         <div class="modal-header">
           <button type="button"
+                  id="space_contacts_new"|
                   data-modal-target="closeButton"
                   data-action="click->hidden#toggle"
                   class="hover:underline p-4 -ml-4 inline-flex content-center items-center">
@@ -27,7 +28,8 @@
                   <%= inline_svg_tag 'contact' %>
                   <%= t('space_contacts.submit') %>
                 </button>
-                <button type="button"
+                <button id="space_contacts_new"
+                        type="button"
                         data-action="click->hidden#toggle"
                         class="link">
                   <%= t('space_contacts.abort') %>
