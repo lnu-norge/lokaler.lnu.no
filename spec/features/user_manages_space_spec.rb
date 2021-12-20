@@ -56,11 +56,11 @@ describe Space, js: true do
       fill_in "space_post_address", with: ""
 
       click_button "Lagre"
-      expect(page).to have_text("Title kan ikke være blank")
-      expect(page).to have_text("Nettside er ikke korrekt")
-      expect(page).to have_text("Adresse kan ikke være blank")
-      expect(page).to have_text("Postnummer kan ikke være blank")
-      expect(page).to have_text("Poststed kan ikke være blank")
+      expect(page).to have_text("Title #{I18n.t('errors.messages.blank')}")
+      expect(page).to have_text("Nettside #{I18n.t('activerecord.errors.models.space.attributes.url.url')}")
+      expect(page).to have_text("Adresse #{I18n.t('errors.messages.blank')}")
+      expect(page).to have_text("Postnummer #{I18n.t('errors.messages.blank')}")
+      expect(page).to have_text("Poststed #{I18n.t('errors.messages.blank')}")
     end
   end
 
@@ -85,10 +85,10 @@ describe Space, js: true do
       fill_in "space_contact_title", with: "Space Contact Title"
 
       click_button "Lagre"
-      expect(page).to have_text("Telefon må velges, eventuelt legg inn e-post, nettside eller beskrivelse")
-      expect(page).to have_text("E-post må velges, eventuelt legg inn telefon, nettside eller beskrivelse")
-      expect(page).to have_text("Nettside må velges, eventuelt legg inn telefon, e-post eller beskrivelse")
-      expect(page).to have_text("Beskrivelse må velges, eventuelt legg inn telefon, e-post eller nettside")
+      expect(page).to have_text("Telefon #{I18n.t('space_contact.at_least_one_error_message.telephone')}")
+      expect(page).to have_text("E-post #{I18n.t('space_contact.at_least_one_error_message.email')}")
+      expect(page).to have_text("Nettside #{I18n.t('space_contact.at_least_one_error_message.url')}")
+      expect(page).to have_text("Beskrivelse #{I18n.t('space_contact.at_least_one_error_message.description')}")
     end
   end
 
@@ -101,7 +101,7 @@ describe Space, js: true do
       fill_in "space_contact_url", with: "asd"
 
       click_button "Lagre"
-      expect(page).to have_text("Nettside er ikke korrekt")
+      expect(page).to have_text("Nettside #{I18n.t('activerecord.errors.models.space_contact.attributes.url.url')}")
     end
   end
 
@@ -114,7 +114,7 @@ describe Space, js: true do
       fill_in "space_contact_telephone", with: "48"
 
       click_button "Lagre"
-      expect(page).to have_text("Telefon er ugyldig")
+      expect(page).to have_text("Telefon #{I18n.t('errors.messages.invalid')}")
     end
   end
 
