@@ -3,15 +3,24 @@ import Splide from '@splidejs/splide';
 
 // Connects to data-controller="slider"
 export default class extends Controller {
-  static targets = [ "slider", "toggleFullscreen" ]
+  static targets = [ "slider" ]
+  static values = {
+    startAt: 0,
+    cover: true,
+    height: ""
+  }
 
   connect() {
+    console.log("height", this.heightValue)
     const slider = this.sliderTarget
     new Splide(slider, {
-      heightRatio: 2/3,
-      cover: true,
+      heightRatio: this.coverValue ? 2/3 : false,
+      cover: this.coverValue,
       type: 'loop',
       lazyLoad: 'nearby',
+      height: this.heightValue,
+      pagination: false,
+      start: this.startAtValue,
       i18n: {
         prev: 'Forrige',
         next: 'Neste',
@@ -27,6 +36,7 @@ export default class extends Controller {
       }
     )
   }
+
   disconnect() {
     super.disconnect();
   }
