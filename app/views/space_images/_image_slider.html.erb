@@ -6,7 +6,7 @@
     - show_caption_credits: :thumbnail | :full
 %>
 <div
-  class="splide cursor-pointer"
+  class="splide <%= defined?(link_to_fullscreen) && link_to_fullscreen && " cursor-zoom" %>"
   data-controller="slider"
   data-slider-target="slider"
   data-slider-start-at-value=<%= @start_at %>
