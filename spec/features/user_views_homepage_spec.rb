@@ -39,10 +39,9 @@ describe "User views homepage", js: true do
 
   RSpec::Matchers.define :appear_before do |later_content|
     match do |earlier_content|
-      retries = 0
-      # We have to retry until the page is loaded
-      # should probably be a timeout instead of just retrying 5 times
-      retries += 1 while retries < 5 && (page.body.index(earlier_content).nil? || page.body.index(later_content).nil?)
+      Timeout.timeout(5.seconds) do
+        sleep(0.01) until !page.body.index(earlier_content).nil? && !page.body.index(later_content).nil?
+      end
       page.body.index(earlier_content) < page.body.index(later_content)
     end
   end
