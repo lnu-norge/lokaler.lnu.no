@@ -16,19 +16,20 @@ describe "User manages homepage", js: true do
       visit root_path
       click_link I18n.t("menu.new_space")
 
-      expect(page).to have_text("Legg til nytt lokale")
+      expect(page).to have_text(I18n.t("space_listing.new_space"))
 
-      fill_in "space_title", with: "Space title!"
+      new_title = "Space title 2!"
+      fill_in "space_title", with: new_title
+
+      fill_in "space_address", with: "Åbyggeveien 5"
+      fill_in "space_post_number", with: "1636"
+      fill_in "space_post_address", with: "Gamle Fredrikstad"
+
       tom_select("select#space_space_type_id", option_id: space_type.id)
-
-      fill_in "space_address", with: "Ulefossvegen 32"
-      fill_in "space_post_number", with: "3730"
-      fill_in "space_post_address", with: "Skien"
-
       tom_select("select#space_space_group_title", option_id: space_group.title)
 
       click_button I18n.t("helpers.submit.create", model: Space.model_name.human)
-      expect(page).to have_text("Space title!")
+      expect(page).to have_text(new_title)
     end
   end
 
