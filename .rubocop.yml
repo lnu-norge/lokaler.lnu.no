@@ -55,3 +55,7 @@ Style/SymbolArray:
 
 Metrics/AbcSize:
   Max: 20
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/features/**/*'

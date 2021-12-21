@@ -92,6 +92,7 @@ nb:
     upload_image: "Last opp bilde"
     edit_images: "Rediger bilder"
     delete_success: "Bildet ble slettet"
+    photo_by: 'Foto:'
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
@@ -147,9 +148,10 @@ nb:
     'yes': 'Ja'
     'no': 'Nei'
   multistep_form_navigation:
-    back: 'Tilbake'
     save_and_go_to_next: 'Lagre og gå til neste'
     save: 'Lagre'
+    previous: 'Tilbake'
+    next: 'Neste'
   activerecord:
     models:
       facility:
@@ -203,8 +205,8 @@ nb:
         email: "E-post"
         url: "Nettside"
         description: "Beskrivelse"
-
   read_more: 'Les mer'
+  close: 'Lukk'
   devise:
     sessions:
       user:

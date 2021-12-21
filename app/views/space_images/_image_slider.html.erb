@@ -1,0 +1,47 @@
+<%#
+    Locals
+    - space: Space
+    - link_to_fullscreen: boolean
+    - only_show_pagination_on_hover: boolean
+    - images[]
+    - show_caption_credits: :thumbnail | :full
+%>
+<div
+  class="splide
+    <%= defined?(link_to_fullscreen) && link_to_fullscreen && " cursor-zoom" %>
+    <%= defined?(only_show_pagination_on_hover) && only_show_pagination_on_hover && "only_show_pagination_on_hover" %>
+  "
+  data-controller="slider"
+  data-slider-target="slider"
+  data-slider-start-at-value=<%= @start_at %>
+>
+  <div class="splide__track">
+    <ul class="splide__list">
+      <% images.each_with_index do |image, index| %>
+        <li
+            class="splide__slide"
+            <% if defined?(space) && defined?(link_to_fullscreen) && link_to_fullscreen %>
+              onclick="window.location = '<%= fullscreen_images_path(space.id, index) %>'"
+            <% end %>
+        >
+          <img data-splide-lazy="<%= image.url %>" />
+          <div class="absolute bottom-1 left-1 right-1 flex justify-between gap-2">
+            <% if defined?(show_caption_credits) && show_caption_credits %>
+              <% if image.caption&.present? %>
+                <div class="truncate max-w-full bold rounded bg-black bg-opacity-80 text-white text-opacity-80 py-1 px-2">
+                  <%= image.caption %>
+                </div>
+              <% end %>
+            <% end %>
+            <div class="whitespace-nowrap justify-self-end ml-auto rounded bg-black bg-opacity-80 text-white text-opacity-80 py-1 px-2">
+              <%= index + 1 %> / <%= images.count %>
+            </div>
+          </div>
+          <noscript>
+            <img src="<%= image.url %>" />
+          </noscript>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
