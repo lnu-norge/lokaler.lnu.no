@@ -47,19 +47,27 @@ frederikii_space = Space.create(
 require_relative "../reviews/reviews"
 demo_reviews_for_space(frederikii_space)
 
-## Attach some sample images
-%w[
-  ./db/seeds/images/outside_school.jpg
-  ./db/seeds/images/auditorium.jpg
-  ./db/seeds/images/classroom.jpg
-].each do |path|
+short_caption = "Skolen er stygg"
+long_caption = "Som du kan se her, så finner du ikke akkurat ut hva denne teksten skal handle om
+- du må bare lese og lese, så til slutt så kanskje du finner ut hva det handler om."
+credit_for_short = "Daniel Jackson"
+credit_for_long = "Kari Nordmann, Philip Nordmann, Vilma Nordmann, Eva Nordmann, Marcus Nordmann,
+og mange flere samarbeidet om å ta dette bildet"
+credit_only = "Ola Nordmann"
+
+def attach_image(space, path, caption, credit)
   filename = File.basename(path)
   file = File.open(path)
   img = Image.create!(
-    space_id: frederikii_space.id,
-    caption: "This is school",
-    credits: "Credits noone"
+    space_id: space.id,
+    caption: caption,
+    credits: credit
   )
-
   img.image.attach io: file, filename: filename, content_type: "image/jpg"
 end
+
+## Attach some sample images
+attach_image frederikii_space, "./db/seeds/images/outside_school.jpg", short_caption, credit_for_short
+attach_image frederikii_space, "./db/seeds/images/auditorium.jpg", long_caption, credit_for_long
+attach_image frederikii_space, "./db/seeds/images/classroom.jpg", nil, credit_only
+attach_image frederikii_space, "./db/seeds/images/classroom_2.jpg", nil, nil
