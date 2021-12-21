@@ -4,16 +4,19 @@ require "rails_helper"
 
 describe "User views homepage", js: true do
   let!(:space1) do
-    Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.603)
+    Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.603,
+                      space_type: Fabricate(:space_type, type_name: "Type1"))
   end
   let!(:space2) do
-    Fabricate(:space, address: "Ulefossvegen 16", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.607)
+    Fabricate(:space, address: "Ulefossvegen 16", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.607,
+                      space_type: Fabricate(:space_type, type_name: "Type2"))
   end
-  let!(:facility1) { Fabricate(:facility) }
-  let!(:facility2) { Fabricate(:facility) }
+  let!(:facility1) { Fabricate(:facility, title: "Facility1") }
+  let!(:facility2) { Fabricate(:facility, title: "Facility2") }
 
   before do
     create_user!
+    login_with_warden!
 
     review1 = Fabricate(:review, space: space1)
     review2 = Fabricate(:review, space: space2)
@@ -26,15 +29,6 @@ describe "User views homepage", js: true do
 
     space1.aggregate_facility_reviews
     space2.aggregate_facility_reviews
-  end
-
-  it "User can see both spaces" do
-    login_and_logout_with_warden do
-      visit root_path
-
-      expect(page).to have_content(space1.title)
-      expect(page).to have_content(space2.title)
-    end
   end
 
   RSpec::Matchers.define :appear_before do |later_content|
@@ -50,40 +44,28 @@ describe "User views homepage", js: true do
     login_and_logout_with_warden do
       visit root_path
 
+      expect(page).to have_content(space1.title)
+      expect(page).to have_content(space2.title)
+
       click_button("toggle_search_box")
       check(facility1.title)
 
       expect(space1.title).to appear_before(space2.title)
-    end
-  end
 
-  it "User can see space2 before space1" do
-    login_and_logout_with_warden do
-      visit root_path
-
-      click_button("toggle_search_box")
+      uncheck(facility1.title)
       check(facility2.title)
 
       expect(space2.title).to appear_before(space1.title)
-    end
-  end
 
-  it "User can see only see space1" do
-    login_and_logout_with_warden do
-      visit root_path
+      uncheck(facility1.title)
+      uncheck(facility2.title)
 
-      click_button("toggle_search_box")
       check(space1.space_type.type_name)
 
       expect(page).not_to have_content(space2.title)
-    end
-  end
 
-  it "User can see only see space2" do
-    login_and_logout_with_warden do
-      visit root_path
+      uncheck(space1.space_type.type_name)
 
-      click_button("toggle_search_box")
       check(space2.space_type.type_name)
 
       expect(page).not_to have_content(space1.title)
