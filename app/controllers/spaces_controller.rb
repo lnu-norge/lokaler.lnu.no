@@ -15,15 +15,18 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     @space = Space.new
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     address_params = get_address_params(params)
     return redirect_to spaces_path, alert: t("address_search.didnt_find") if address_params.nil?
 
     @space = Space.new(
-      space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title]),
       **space_params,
       **address_params
     )
+
+    if params[:space][:space_group_title].present?
+      @space.space_group = SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
+    end
 
     if @space.save
       redirect_to space_path(@space)
@@ -58,7 +61,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     @space = Space.find(params[:id])
     address_params = get_address_params(params)
 
-    unless params[:space][:space_group_title].nil?
+    if params[:space][:space_group_title].present?
       @space.update!(
         space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
       )
@@ -130,6 +133,12 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       ),
       count: duplicates.count
     }
+  end
+
+  def fullscreen_images
+    @space = Space.find(params[:id])
+    @start_at = params[:start] || 0
+    render "spaces/show/image_header_fullscreen"
   end
 
   private

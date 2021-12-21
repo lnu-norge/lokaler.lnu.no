@@ -44,6 +44,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get "rect_for_spaces", to: "spaces#rect_for_spaces"
   get "address_search", to: "spaces#address_search"
   get "check_duplicates", to: "spaces#check_duplicates"
+  get "/spaces/:id/images/:start", to: "spaces#fullscreen_images", as: "fullscreen_images"
 
   # Space images routes
   resources "space_images"

@@ -45,3 +45,7 @@ yarn-debug.log*
 
 # Ignores local .env file
 .env
+
+/webdrivers
+
+/config/database.yml

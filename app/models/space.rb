@@ -35,6 +35,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
   validates :url, url: { allow_blank: true, public_suffix: true }
+  validates :title, :address, :post_address, :post_number, :lat, :lng, presence: true
 
   after_create do
     aggregate_facility_reviews

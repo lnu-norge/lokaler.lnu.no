@@ -35,8 +35,8 @@
         <% end %>
       </dl>
     </div>
-    <nav class="transition-opacity opacity-0 group-hover:opacity-100 focus-within:opacity-100">
-      <%= link_to edit_space_contact_path(space_contact), class: 'unstyled-link edit-button' do %>
+    <nav class="">
+      <%= link_to edit_space_contact_path(space_contact), id: "edit_space_contact_#{space_contact.id}", class: 'unstyled-link edit-button' do %>
         <span class="text">
           <%= t('space_contacts.edit') %>
         </span>
