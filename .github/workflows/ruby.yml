@@ -38,6 +38,7 @@ jobs:
       PGUSER: postgres
       # Rails verifies the time zone in DB is the same as the time zone of the Rails app
       TZ: "Europe/Warsaw"
+      MAPBOX_API_KEY: pk.eyJ1IjoibWF0aGlhczIzNCIsImEiOiJja3U1N2o0MGoybGl5MnVxaDcyaHdjZDFpIn0.S-c3HtdhqhyAR6izLxY-iQ
 
     steps:
       - uses: actions/checkout@v2
@@ -53,6 +54,7 @@ jobs:
 
       - name: Create DB
         run: |
+          cp config/database.yml.example config/database.yml
           bin/rails db:prepare
       - name: Rubocop
         run: |

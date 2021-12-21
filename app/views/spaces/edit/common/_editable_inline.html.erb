@@ -4,7 +4,7 @@
       <%= content_tag title_tag, class: 'mt-0' do %>
        <%= title_text %>
       <% end %>
-      <%= link_to edit_field_path(@space, field), class: 'unstyled-link edit-button collapsable' do %>
+      <%= link_to edit_field_path(@space, field), id: "edit_#{field}", class: 'unstyled-link edit-button collapsable' do %>
         <span class="text">
           Redigér
         </span>
