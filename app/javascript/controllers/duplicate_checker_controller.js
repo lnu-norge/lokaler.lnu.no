@@ -8,7 +8,13 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="duplicate-checker"
 export default class extends Controller {
-  static targets = ["duplicatesRenderHere", "hiddenUntilChecked"]
+  static targets = [
+    "duplicatesRenderHere",
+    "hiddenUntilChecked",
+    "ignoreDuplicatesButton",
+    "showDuplicatesButton",
+    "duplicates"
+  ]
 
   state = {
     title: "",
@@ -32,6 +38,20 @@ export default class extends Controller {
   showRestOfForm() {
     this.duplicatesRenderHereTarget.classList.add("hidden")
     this.hiddenUntilCheckedTarget.classList.remove("hidden")
+  }
+
+  ignoreDuplicates() {
+    this.showDuplicatesButtonTarget.classList.remove("hidden")
+    this.ignoreDuplicatesButtonTarget.classList.add("hidden")
+    this.hiddenUntilCheckedTarget.classList.remove("hidden")
+    this.duplicatesTarget.classList.add("hidden")
+
+  }
+
+  unIgnoreDuplicates() {
+    this.showDuplicatesButtonTarget.classList.add("hidden")
+    this.ignoreDuplicatesButtonTarget.classList.remove("hidden")
+    this.duplicatesTarget.classList.remove("hidden")
   }
 
   checkIfDataIsStale(title, address, post_number) {
