@@ -69,10 +69,10 @@ This will run all the tests in `/spec`. You can also specify a specific test to 
 
 #### Running in parallel
 You can run the tests in parallel this will make them faster, this requires you to setup the parallel DB which is done with
-> rake parallel:prepare
+> rails parallel:prepare
 
 After that you can run the tests with
-> rake parallel:spec
+> parallel_rspec
 
 # Install instructions Ruby on Rails
 ---
