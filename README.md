@@ -23,6 +23,7 @@ If you find bugs, please submit them.
 ## Install (If you have Ruby and Rails already installed)
 
 1. Copy `config/database.yml.example` and name it `config/database.yml`
+> cp config/database.yml.example config/database.yml
 2. Open your terminal
 3. Go to the folder you want the repository
 > TIP! This is the command: cd myFolder/myOtherFolder

@@ -39,7 +39,7 @@ describe "User views homepage", js: true do
 
   RSpec::Matchers.define :appear_before do |later_content|
     match do |earlier_content|
-      Timeout.timeout(5.seconds) do
+      Timeout.timeout(10.seconds) do
         sleep(0.01) until !page.body.index(earlier_content).nil? && !page.body.index(later_content).nil?
       end
       page.body.index(earlier_content) < page.body.index(later_content)
