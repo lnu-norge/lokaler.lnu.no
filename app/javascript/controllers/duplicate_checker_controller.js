@@ -79,6 +79,7 @@ export default class extends Controller {
   }
 
   ignoreDuplicates() {
+    this.enableFormSubmit()
     show(this.showDuplicatesButtonTarget)
     show(this.hiddenUntilCheckedTarget)
     hide(this.ignoreDuplicatesButtonTarget)
@@ -86,6 +87,7 @@ export default class extends Controller {
   }
 
   unIgnoreDuplicates() {
+    this.stopFormSubmit()
     hide(this.showDuplicatesButtonTarget)
     show(this.ignoreDuplicatesButtonTarget)
     show(this.duplicatesTarget)

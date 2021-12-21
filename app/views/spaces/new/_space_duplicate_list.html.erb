@@ -8,7 +8,7 @@
     </div>
   </div>
   <button class="button submit" type="button" data-duplicate-checker-target="ignoreDuplicatesButton" data-action="click->duplicate-checker#ignoreDuplicates">
-    <%= t('space_create.none_are_duplicates') %>
+    <%= t('space_create.none_are_duplicates', count: spaces.count) %>
   </button>
   <button class="button button--white hidden" type="button" data-duplicate-checker-target="showDuplicatesButton" data-action="click->duplicate-checker#unIgnoreDuplicates">
     <%= t('space_create.show_duplicates_again', count: spaces.count) %>

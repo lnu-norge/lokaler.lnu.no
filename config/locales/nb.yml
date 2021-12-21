@@ -51,7 +51,9 @@ nb:
     any_of_these:
       one: "Mener du denne?"
       other: "Mener du en av disse?"
-    none_are_duplicates: "Ingen av dem"
+    none_are_duplicates:
+      one: "Nei, det er ikke samme"
+      other: "Ingen av dem"
     show_duplicates_again:
       one: "Vis mulig duplikat"
       other: "Vis %{count} mulige duplikater"
