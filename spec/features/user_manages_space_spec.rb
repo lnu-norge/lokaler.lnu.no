@@ -27,7 +27,7 @@ describe "User manages homepage", js: true do
 
       tom_select("select#space_space_group_title", option_id: space_group.title)
 
-      click_button "Lag Lokale"
+      click_button I18n.t("helpers.submit.create", model: Space.model_name.human)
       expect(page).to have_text("Space title!")
     end
   end
@@ -89,32 +89,6 @@ describe "User manages homepage", js: true do
       expect(page).to have_text("E-post #{I18n.t('space_contact.at_least_one_error_message.email')}")
       expect(page).to have_text("Nettside #{I18n.t('space_contact.at_least_one_error_message.url')}")
       expect(page).to have_text("Beskrivelse #{I18n.t('space_contact.at_least_one_error_message.description')}")
-    end
-  end
-
-  it "user adds new space contact with invalid website" do
-    login_and_logout_with_warden do
-      visit space_path(id: space.id)
-      click_button "space_contacts_new"
-
-      fill_in "space_contact_title", with: "Space Contact Title"
-      fill_in "space_contact_url", with: "asd"
-
-      click_button "Lagre"
-      expect(page).to have_text("Nettside #{I18n.t('activerecord.errors.models.space_contact.attributes.url.url')}")
-    end
-  end
-
-  it "user adds new space contact with invalid phone" do
-    login_and_logout_with_warden do
-      visit space_path(id: space.id)
-      click_button "space_contacts_new"
-
-      fill_in "space_contact_title", with: "Space Contact Title"
-      fill_in "space_contact_telephone", with: "48"
-
-      click_button "Lagre"
-      expect(page).to have_text("Telefon #{I18n.t('errors.messages.invalid')}")
     end
   end
 
