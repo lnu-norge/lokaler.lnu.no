@@ -22,8 +22,10 @@ If you find bugs, please submit them.
 
 ## Install (If you have Ruby and Rails already installed)
 
-1. Open your terminal
-2. Go to the folder you want the repository
+1. Copy `config/database.yml.example` and name it `config/database.yml`
+> cp config/database.yml.example config/database.yml
+2. Open your terminal
+3. Go to the folder you want the repository
 > TIP! This is the command: cd myFolder/myOtherFolder
 3. Write and run command: git clone git@github.com:lnu-norge/lokaler.lnu.no.git
 4. Go into the folder lokaler.lnu.no
@@ -57,6 +59,20 @@ First window also contains something called live reload.
 You can active that now inside your browser and the browser will automatically reload when you change code view specific code.
 [Live Reload for Chrome](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
 [Live Reload for Firefox](https://addons.mozilla.org/nb-NO/firefox/addon/livereload-web-extension/)
+
+### Running tests
+To run tests you can simply type
+> rspec
+
+This will run all the tests in `/spec`. You can also specify a specific test to run like this
+> rspec spec/models/facility_category_spec.rb
+
+#### Running in parallel
+You can run the tests in parallel this will make them faster, this requires you to setup the parallel DB which is done with
+> rails parallel:prepare
+
+After that you can run the tests with
+> parallel_rspec
 
 # Install instructions Ruby on Rails
 ---
