@@ -16,6 +16,10 @@ module Spaces
       nil
     end
 
+    private
+
+    attr_reader :title, :address, :post_number
+
     def find_potential_duplicates
       duplicates = []
 
@@ -33,32 +37,32 @@ module Spaces
     end
 
     def full_match
-      return nil unless @title.present? && @address.present? && @post_number.present?
+      return nil unless title.present? && address.present? && post_number.present?
 
       Space.where(
-        "title ILIKE ?", "%#{@title}%"
+        "title ILIKE ?", "%#{title}%"
       ).where({
-                address: @address,
-                post_number: @post_number
+                address: address,
+                post_number: post_number
               })
     end
 
     def by_post_and_title
-      return nil unless @title.present? && @post_number.present?
+      return nil unless title.present? && post_number.present?
 
       Space.where(
-        "title LIKE ?", "%#{@title}%"
+        "title ILIKE ?", "%#{title}%"
       ).where({
-                post_number: @post_number
+                post_number: post_number
               })
     end
 
     def by_full_address
-      return nil unless @address.present? && @post_number.present?
+      return nil unless address.present? && post_number.present?
 
       Space.where({
-                    address: @address,
-                    post_number: @post_number
+                    address: address,
+                    post_number: post_number
                   })
     end
   end
