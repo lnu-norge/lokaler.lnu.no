@@ -10,9 +10,15 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["duplicatesRenderHere", "hiddenUntilChecked"]
 
+  state = {
+    title: "",
+    address: "",
+    post_number: ""
+  }
+
   connect() {
-    this.hiddenUntilCheckedTarget.classList.add("hidden")
     const form = this.element
+    this.hideRestOfForm()
     form.addEventListener('change', () =>  {
       this.checkDuplicates()
     });
@@ -28,14 +34,27 @@ export default class extends Controller {
     this.hiddenUntilCheckedTarget.classList.remove("hidden")
   }
 
+  checkIfDataIsStale(title, address, post_number) {
+    if (title !== this.state.title || address !== this.state.address || post_number !== this.state.post_number) {
+      this.state.title = title
+      this.state.address = address
+      this.state.post_number = post_number
+      return false
+    }
+    return true
+  }
+
   async checkDuplicates() {
-    this.hideRestOfForm()
     const data = new FormData(this.element);
     const address = data.get("space[address]");
     const post_number = data.get("space[post_number]");
 
     if (!post_number || (!address && !post_number)) return
     const title = data.get("space[title]");
+
+    if (this.checkIfDataIsStale(title, address, post_number)) {
+      return
+    }
 
     let url = "/check_duplicates?"
         url += `title=${title}&`
@@ -44,6 +63,7 @@ export default class extends Controller {
 
     const result = await (await fetch(url)).json()
     if (result && result.html) {
+      this.hideRestOfForm()
       return this.duplicatesRenderHereTarget.innerHTML = result.html
     }
 
