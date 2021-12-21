@@ -36,7 +36,7 @@ module Spaces
       return nil unless @title.present? && @address.present? && @post_number.present?
 
       Space.where(
-        "title LIKE ?", "%#{@title}%"
+        "title ILIKE ?", "%#{@title}%"
       ).where({
                 address: @address,
                 post_number: @post_number
