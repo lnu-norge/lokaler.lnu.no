@@ -18,12 +18,18 @@ export default class extends Controller {
     });
   }
 
-  showChecked() {
+  hideRestOfForm() {
+    this.duplicatesRenderHereTarget.classList.remove("hidden")
+    this.hiddenUntilCheckedTarget.classList.add("hidden")
+  }
+
+  showRestOfForm() {
     this.duplicatesRenderHereTarget.classList.add("hidden")
     this.hiddenUntilCheckedTarget.classList.remove("hidden")
   }
 
   async checkDuplicates() {
+    this.hideRestOfForm()
     const data = new FormData(this.element);
     const address = data.get("space[address]");
     const post_number = data.get("space[post_number]");
@@ -38,7 +44,9 @@ export default class extends Controller {
 
     const result = await (await fetch(url)).json()
     if (result && result.html) {
-      this.duplicatesRenderHereTarget.innerHTML = result.html
+      return this.duplicatesRenderHereTarget.innerHTML = result.html
     }
+
+    return this.showRestOfForm()
   }
 }
