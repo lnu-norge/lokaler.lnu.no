@@ -32,21 +32,21 @@ describe "User creates review", js: true do
       choose("review_facility_reviews_attributes_#{facility1.id}__experience_was_not_available",
              allow_label_click: true)
       choose("review_facility_reviews_attributes_#{facility2.id}__experience_was_allowed", allow_label_click: true)
-      find("span", text: "Neste").click
+      find("span", text: I18n.t("multistep_form_navigation.next")).click
 
       choose("review_star_rating_1", allow_label_click: true)
 
       fill_in("review_title", with: "Review Title!")
       fill_in("review_comment", with: "Review Comment!")
 
-      find("span", text: "Neste").click
+      find("span", text: I18n.t("multistep_form_navigation.next")).click
 
       choose("review_how_much_one_room", allow_label_click: true)
       choose("review_how_long_one_evening", allow_label_click: true)
       choose("review_payment_yes", allow_label_click: true)
       fill_in("review_price", with: "5000")
 
-      click_button("Lagre")
+      click_button(I18n.t("multistep_form_navigation.save"))
 
       expect(page).to have_content("Review Title!")
       expect(page).to have_content("Review Comment!")
@@ -66,14 +66,14 @@ describe "User creates review", js: true do
       fill_in("review_title", with: "Review Title!")
       fill_in("review_comment", with: "Review Comment!")
 
-      find("span", text: "Neste").click
+      find("span", text: I18n.t("multistep_form_navigation.next")).click
 
       choose("review_facility_reviews_attributes_#{facility1.id}__experience_was_not_available",
              allow_label_click: true)
       choose("review_facility_reviews_attributes_#{facility2.id}__experience_was_allowed",
              allow_label_click: true)
 
-      click_button("Lagre")
+      click_button(I18n.t("multistep_form_navigation.save"))
       expect(page).to have_content(I18n.t("activerecord.attributes.review.not_allowed_to_use"))
 
       expect(page).to have_content("Review Title!")
@@ -96,7 +96,7 @@ describe "User creates review", js: true do
       choose("review_facility_reviews_attributes_#{facility2.id}__experience_was_allowed",
              allow_label_click: true)
 
-      click_button("Lagre")
+      click_button(I18n.t("multistep_form_navigation.save"))
 
       expect(page).to have_content(I18n.t("activerecord.attributes.review.only_contacted"))
       expect(page).to have_content(facility1.title)

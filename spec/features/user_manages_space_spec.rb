@@ -99,8 +99,8 @@ describe "User manages homepage", js: true do
       visit space_path(id: space.id)
       click_link "edit_space_contact_#{space_contact.id}"
 
-      page.accept_alert "Er du sikker på at du vil slette?" do
-        click_link "Slett kontakt"
+      page.accept_alert I18n.t("space_contacts.delete_confirmation") do
+        click_link I18n.t("space_contacts.delete")
       end
 
       expect(page).not_to have_text(space_contact.title)

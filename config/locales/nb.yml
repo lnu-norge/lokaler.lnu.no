@@ -139,9 +139,10 @@ nb:
     'yes': 'Ja'
     'no': 'Nei'
   multistep_form_navigation:
-    back: 'Tilbake'
     save_and_go_to_next: 'Lagre og gå til neste'
     save: 'Lagre'
+    previous: 'Tilbake'
+    next: 'Neste'
   activerecord:
     models:
       facility:
