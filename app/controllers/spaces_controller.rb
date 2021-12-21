@@ -124,7 +124,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
 
     render json: {
       html: render_to_string(
-        partial: "spaces/edit/space_duplicate_list", locals: {
+        partial: "spaces/new/space_duplicate_list", locals: {
           spaces: duplicates
         }
       ),
