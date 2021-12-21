@@ -47,6 +47,9 @@ nb:
     save_changed_field_html: 'Lagre <em>%{field}</em>'
     cancel_changed_space: "Avbryt"
     editing_field_for_title: "Redigerer %{field} for %{title}"
+  space_create:
+    none_are_duplicates: "Ingen av dem"
+    show_duplicates_again: "Vis mulige duplikater"
   space_show:
     only_for_space: "Kun for %{title}:"
     common_to_all_in_group: 'Felles for %{group}:'
