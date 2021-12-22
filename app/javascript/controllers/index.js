@@ -6,6 +6,9 @@ import { application } from "./application"
 import AutofilladdressController from "./autofilladdress_controller"
 application.register("autofilladdress", AutofilladdressController)
 
+import DuplicateCheckerController from "./duplicate_checker_controller"
+application.register("duplicate-checker", DuplicateCheckerController)
+
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 

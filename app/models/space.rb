@@ -105,6 +105,10 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     results.first
   end
 
+  def potential_duplicates
+    Spaces::DuplicateDetectorService.call(self)
+  end
+
   # Move this somewhere better, either a service or figure out a way to make it a scope
   # NOTE: this expects a scope for spaces but returns an array
   # preferably we would find some way to return a scope too

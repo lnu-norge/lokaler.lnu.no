@@ -1,23 +1,22 @@
 <div class="relative">
-    <% if @space.images.empty? %>
-      <%= render partial: 'spaces/show/image_missing' %>
-    <% else %>
-      <%= render partial: 'space_images/image_slider', locals: {
-        space: @space,
-        images: @space.images,
-        link_to_fullscreen: true,
-        show_caption_credits: true
-      } %>
-      <div class="absolute right-2 top-2">
-        <div>
-          <%= render partial: 'spaces/show/image_header_upload_button' %>
-        </div>
+  <% if @space.images.empty? %>
+    <%= render partial: 'spaces/show/image_missing' %>
+  <% else %>
+    <%= render partial: 'space_images/image_slider', locals: {
+      space: @space,
+      images: @space.images,
+      link_to_fullscreen: true,
+      show_caption_credits: true
+    } %>
+    <div class="absolute right-2 top-2">
+      <div>
+        <%= render partial: 'spaces/show/image_header_upload_button' %>
       </div>
-      <div class="absolute right-2 top-14">
-        <div>
-          <%= render partial: 'spaces/show/image_header_edit_button' %>
-        </div>
+    </div>
+    <div class="absolute right-2 top-14">
+      <div>
+        <%= render partial: 'spaces/show/image_header_edit_button' %>
       </div>
-    <% end %>
+    </div>
+  <% end %>
 </div>
-

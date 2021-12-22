@@ -11,24 +11,26 @@ describe "User manages homepage", js: true do
     create_user!
   end
 
-  it "user adds new space successfully" do
+  it "user is alerted that a similar space already exists, but can still create a new space as a duplicate" do
     login_and_logout_with_warden do
       visit root_path
       click_link I18n.t("menu.new_space")
 
-      expect(page).to have_text("Legg til nytt lokale")
+      expect(page).to have_text(I18n.t("space_listing.new_space"))
 
-      fill_in "space_title", with: "Space title!"
+      fill_in "space_title", with: space.title
+      fill_in "space_address", with: space.address
+      fill_in "space_post_number", with: space.post_number
+      fill_in "space_post_address", with: space.post_address
+
+      expect(page).to have_text(I18n.t("space_create.any_of_these.one"))
+
+      click_button I18n.t("space_create.none_are_duplicates.one")
+
       tom_select("select#space_space_type_id", option_id: space_type.id)
-
-      fill_in "space_address", with: "Ulefossvegen 32"
-      fill_in "space_post_number", with: "3730"
-      fill_in "space_post_address", with: "Skien"
-
       tom_select("select#space_space_group_title", option_id: space_group.title)
-
       click_button I18n.t("helpers.submit.create", model: Space.model_name.human)
-      expect(page).to have_text("Space title!")
+      expect(page).to have_text(space.title)
     end
   end
 

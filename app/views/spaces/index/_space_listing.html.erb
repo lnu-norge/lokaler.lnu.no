@@ -1,19 +1,5 @@
-<%
-
-=begin
-
-Partial for rendering a space listing in the search results.
-
-TODO:
-- Remove hard coded values, and replace with dynamic ones from Rails.
-  - Rating (4.2 -> space.rating)
-  - Number of Ratings (5 -> space.number_of_ratings)
-  - Facility listing based on search (currently, overnatting, kjøkken, lydanlegg, dansegulv)
-    - Probability for each facility, as shown below
-    - Icon for each? Not currently shown, but in Figma
-
-=end
-
+<%#
+  Partial for rendering a space listing in the search results.
 %>
 
 <%= link_to space_path(space), class: "unstyled-link space-listing" do %>

@@ -1,0 +1,15 @@
+<% if images.empty? %>
+    <div class="relative -mb-1.5 pb-2/3 w-full inline-block flex-shrink-0">
+      <div class="bg-gray-300 absolute text-gray-500 rounded-lg h-full w-full flex flex-col gap-1 items-center justify-center">
+        <%= inline_svg_tag 'image_missing', class: "inline-block h-14 w-14" %>
+        <%= t('images.image_missing') %>
+      </div>
+    </div>
+<% else %>
+  <div class="rounded-lg overflow-hidden">
+    <%= render partial: 'space_images/image_slider', locals: {
+      images: images,
+      only_show_pagination_on_hover: true
+    } %>
+  </div>
+<% end %>

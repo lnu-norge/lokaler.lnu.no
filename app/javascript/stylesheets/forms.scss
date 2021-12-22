@@ -17,6 +17,7 @@
   &.hidden {
     display: none;
   }
+  &.submit,
   &[type=submit] {
     @apply bg-pink-700 text-white;
     &:hover {
@@ -24,6 +25,9 @@
     }
   }
   @extend .focused-outline;
+  &.button--white {
+    @apply bg-white border-gray-200;
+  }
 }
 
 .focused-outline {
