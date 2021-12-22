@@ -1,0 +1,16 @@
+<div class="rounded-lg mb-4 px-4 py-6 bg-pink-50 -mx-4">
+  <div data-duplicate-checker-target="duplicates">
+    <h2 class="no-mt"><%= t("space_create.any_of_these", count: spaces.count) %></h2>
+    <div class="flex flex-wrap gap-4 mb-4 align-stretch">
+      <% spaces.each do |space| %>
+          <%= render partial: "spaces/new/space_duplicate_item", locals: { space: space, filtered_facilities: nil } %>
+      <% end %>
+    </div>
+  </div>
+  <button class="button submit" type="button" data-duplicate-checker-target="ignoreDuplicatesButton" data-action="click->duplicate-checker#ignoreDuplicates">
+    <%= t('space_create.none_are_duplicates', count: spaces.count) %>
+  </button>
+  <button class="button button--white hidden" type="button" data-duplicate-checker-target="showDuplicatesButton" data-action="click->duplicate-checker#unIgnoreDuplicates">
+    <%= t('space_create.show_duplicates_again', count: spaces.count) %>
+  </button>
+</div>
