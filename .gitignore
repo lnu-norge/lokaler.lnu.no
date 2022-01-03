@@ -49,3 +49,5 @@ yarn-debug.log*
 /webdrivers
 
 /config/database.yml
+/app/assets/builds/*
+!/app/assets/builds/.keep
