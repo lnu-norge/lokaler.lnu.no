@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "space_groups/index.html.erb", type: :view do
+RSpec.describe "space_groups/index", type: :view do
   let(:space_groups) { Fabricate.times(3, :space_group) }
 
   it "renders the page" do

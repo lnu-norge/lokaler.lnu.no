@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "spaces/index.html.erb", type: :view do
+RSpec.describe "spaces/index", type: :view do
   it "renders the page" do
     assign(:space, Space.new)
 

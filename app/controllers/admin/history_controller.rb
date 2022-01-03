@@ -30,7 +30,7 @@ module Admin
 
       result.reify.save!
 
-      redirect_to admin_index_path
+      redirect_to admin_history_index_path
     end
   end
 end

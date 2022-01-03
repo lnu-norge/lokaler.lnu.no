@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "reviews/index.html.erb", type: :view do
+RSpec.describe "reviews/index", type: :view do
   let(:reviews) { Fabricate.times(3, :review) }
 
   it "renders the page" do

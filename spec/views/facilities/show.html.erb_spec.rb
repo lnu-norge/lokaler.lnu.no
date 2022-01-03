@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "facilities/show.html.erb", type: :view do
+RSpec.describe "facilities/show", type: :view do
   let(:facility) { Fabricate :facility }
 
   it "renders the page" do
