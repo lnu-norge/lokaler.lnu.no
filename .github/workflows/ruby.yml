@@ -48,6 +48,9 @@ jobs:
         with:
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
+      - name: Run TailwindCSS Build
+        run: |
+          bin/rails tailwindcss:build
 
       - name: Create DB
         run: |
