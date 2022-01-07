@@ -1,4 +1,4 @@
 rails: bin/rails s -p 3000
-webpack: bundle exec bin/webpack-dev-server
 guard: bundle exec guard
 css: rails tailwindcss:watch
+js: yarn build --watch
