@@ -325,7 +325,7 @@
   border-top: 0 none;
   box-sizing: border-box;
   @apply bg-white;
-  @apply focus: outline-none focus:border-lnu-pink focus:ring focus:ring-lnu-pink;
+  @apply focus:outline-none focus:border-lnu-pink focus:ring focus:ring-lnu-pink;
   @apply border-b border-gray-300 placeholder-gray-500 text-gray-900;
   @apply shadow;
   @apply rounded-b;

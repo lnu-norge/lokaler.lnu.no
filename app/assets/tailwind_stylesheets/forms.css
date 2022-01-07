@@ -33,7 +33,7 @@
 }
 
 .focused-outline, .button, .file_field, .checkbox, .range_field, .multi_select {
-  @apply focus: outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lnu-pink;
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lnu-pink;
 }
 
 .dropdown,
@@ -94,9 +94,9 @@
 }
 
 .text_field {
-  @apply appearance-none rounded relative block w-full px-3 py-2 sm: text-sm;
+  @apply appearance-none rounded relative block w-full px-3 py-2 sm:text-sm;
   @apply border border-gray-300 placeholder-gray-500 text-gray-900;
-  @apply focus: outline-none focus:border-lnu-pink focus:ring-lnu-pink;
+  @apply focus:outline-none focus:border-lnu-pink focus:ring-lnu-pink;
 }
 
 .file_field {
@@ -108,7 +108,7 @@
 }
 
 .checkbox {
-  @apply h-4 w-4 text-lnu-pink focus: ring-lnu-pink border-gray-300 rounded;
+  @apply h-4 w-4 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded;
 }
 
 .range_field_wrapper {
