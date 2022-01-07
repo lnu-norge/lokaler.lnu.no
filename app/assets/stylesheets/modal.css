@@ -1,9 +1,9 @@
 .modal {
   @apply relative;
-  @apply w-screen h-auto max-h-screen max-h-screen md:max-h-90vh md:max-w-prose;
+  @apply w-screen h-auto max-h-screen max-h-screen md: max-h-90vh md:max-w-prose;
   @apply z-50;
   @apply bg-white;
-  @apply p-8 md:rounded-lg md:drop-shadow-xl;
+  @apply p-8 md: rounded-lg md:drop-shadow-xl;
   @apply overflow-y-auto;
 }
 
@@ -21,11 +21,12 @@
 .modal-header {
   @apply px-8 pt-8 pb-2;
   @apply flex gap-2 justify-between items-center flex-wrap;
-  h3 {
-    word-break: keep-all;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+}
+
+.modal-header h3 {
+  word-break: keep-all;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .modal-content {
@@ -40,5 +41,5 @@
 }
 
 .modal-button {
-  @apply bg-gray-900 hover:bg-lnu-pink text-white rounded-lg px-4 py-3 inline-flex gap-2 content-center items-center;
+  @apply bg-gray-900 hover: bg-lnu-pink text-white rounded-lg px-4 py-3 inline-flex gap-2 content-center items-center;
 }

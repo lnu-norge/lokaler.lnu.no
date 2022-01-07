@@ -1,0 +1,3 @@
+.space-listing:hover h3 {
+  @apply text-lnu-pink;
+}

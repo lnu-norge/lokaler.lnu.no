@@ -1,0 +1,84 @@
+.content .h1, .content .h2, .content .h3, .content h1, .content h2, .content h3,
+.trix-content .h1,
+.trix-content .h2,
+.trix-content .h3,
+.trix-content h1,
+.trix-content h2,
+.trix-content h3 {
+  @apply mt-6 font-bold block;
+}
+
+.content .h1.small-mt, .content .h2.small-mt, .content .h3.small-mt, .content h1.small-mt, .content h2.small-mt, .content h3.small-mt,
+.trix-content .h1.small-mt,
+.trix-content .h2.small-mt,
+.trix-content .h3.small-mt,
+.trix-content h1.small-mt,
+.trix-content h2.small-mt,
+.trix-content h3.small-mt {
+  @apply mt-4;
+}
+
+.content .h1.no-mt, .content .h2.no-mt, .content .h3.no-mt, .content h1.no-mt, .content h2.no-mt, .content h3.no-mt,
+.trix-content .h1.no-mt,
+.trix-content .h2.no-mt,
+.trix-content .h3.no-mt,
+.trix-content h1.no-mt,
+.trix-content h2.no-mt,
+.trix-content h3.no-mt {
+  @apply mt-0;
+}
+
+.content .h1, .content .h2, .content .h3, .content p, .content ul, .content ol, .content h3, .content h2, .content h1,
+.trix-content .h1,
+.trix-content .h2,
+.trix-content .h3,
+.trix-content p,
+.trix-content ul,
+.trix-content ol,
+.trix-content h3,
+.trix-content h2,
+.trix-content h1 {
+  @apply mb-3;
+}
+
+.content .h1, .content h1,
+.trix-content .h1,
+.trix-content h1 {
+  @apply text-3xl;
+}
+
+.content .h2, .content h2,
+.trix-content .h2,
+.trix-content h2 {
+  @apply text-2xl;
+}
+
+.content .h3, .content h3,
+.trix-content .h3,
+.trix-content h3 {
+  @apply text-xl;
+}
+
+.content > hr,
+.trix-content > hr {
+  @apply my-8;
+}
+
+.content legend .h2,
+.trix-content legend .h2 {
+  @apply mb-0;
+}
+
+.content header .h2, .content header h2,
+.trix-content header .h2,
+.trix-content header h2 {
+  @apply mt-0;
+}
+
+.trix-content ul li {
+  list-style: disc;
+}
+
+.trix-content ol li {
+  list-style: decimal;
+}

@@ -1,0 +1,32 @@
+.editable-header-type-h1 .edit-button {
+  transform: translateY(-3px);
+}
+
+.edit-button {
+  @apply rounded-lg py-2 px-3;
+  @apply bg-gray-100 border border-gray-100;
+  @apply inline-flex gap-2 content-center items-center;
+  @apply text-gray-700;
+}
+
+.edit-button.collapsable {
+  @apply gap-0;
+}
+
+.edit-button.collapsable .text {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  @apply transition-all;
+}
+
+.edit-button:hover {
+  @apply shadow-md;
+  @apply border border-pink-700;
+}
+
+.edit-button:hover.collapsable .text {
+  max-width: 200px;
+  margin-right: 0.5em;
+}

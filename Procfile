@@ -1,2 +1,2 @@
-webpack: bundle exec bin/webpack-dev-server
 guard: bundle exec guard
+css: bin/rails tailwindcss:watch

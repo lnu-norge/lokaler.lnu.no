@@ -1,0 +1,11 @@
+.horizontal-cards {
+  @apply flex gap-4 flex-nowrap;
+  @apply overflow-x-scroll;
+  @apply py-4 px-8;
+  @apply -mx-8;
+}
+
+.horizontal-cards .horizontal-card {
+  @apply w-64 p-6 shadow-lg rounded-xl border border-gray-200;
+  @apply flex flex-col gap-2 flex-shrink-0;
+}

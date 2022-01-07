@@ -12,20 +12,18 @@
  * governing permissions and limitations under the License.
  *
  */
+.dropdown .ts-control {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
+}
 
-.dropdown {
-  .ts-control {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.5rem center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-    padding-right: 2.5rem;
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-  }
-  &.focus .ts-control {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' transform='rotate(180,0,0)' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  }
+.dropdown.focus .ts-control {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' transform='rotate(180,0,0)' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
 }
 
 .ts-wrapper.plugin-drag_drop.multi > .ts-control > div.ui-sortable-placeholder {
@@ -35,10 +33,12 @@
   border: 0 none !important;
   box-shadow: inset 0 0 12px 4px #fff;
 }
+
 .ts-wrapper.plugin-drag_drop .ui-sortable-placeholder::after {
   content: "!";
   visibility: hidden;
 }
+
 .ts-wrapper.plugin-drag_drop .ui-sortable-helper {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -50,6 +50,7 @@
 .plugin-clear_button .ts-control {
   padding-right: calc(1em + (3 * 6px)) !important;
 }
+
 .plugin-clear_button .clear-button {
   opacity: 0;
   position: absolute;
@@ -60,9 +61,11 @@
   transition: opacity 0.5s;
   cursor: pointer;
 }
+
 .plugin-clear_button.single .clear-button {
   right: calc(8px - 6px + 2rem);
 }
+
 .plugin-clear_button.focus.has-items .clear-button, .plugin-clear_button:hover.has-items .clear-button {
   opacity: 1;
 }
@@ -74,6 +77,7 @@
   background: #f8f8f8;
   border-radius: 3px 3px 0 0;
 }
+
 .ts-wrapper .dropdown-header-close {
   position: absolute;
   right: 8px;
@@ -84,6 +88,7 @@
   line-height: 20px;
   font-size: 20px !important;
 }
+
 .ts-wrapper .dropdown-header-close:hover {
   color: black;
 }
@@ -92,26 +97,31 @@
   box-shadow: none;
   @apply border border-gray-300;
 }
+
 .plugin-dropdown_input .dropdown-input {
   display: block;
   width: 100%;
   background: transparent;
   @apply ring-1;
-  @extend .text_field;
 }
+
 .ts-wrapper.plugin-input_autogrow.has-items .ts-control > input {
   min-width: 0;
 }
+
 .ts-wrapper.plugin-input_autogrow.has-items.focus .ts-control > input {
   flex: none;
   min-width: 4px;
 }
+
 .ts-wrapper.plugin-input_autogrow.has-items.focus .ts-control > input::-webkit-input-placeholder {
   color: transparent;
 }
+
 .ts-wrapper.plugin-input_autogrow.has-items.focus .ts-control > input::-ms-input-placeholder {
   color: transparent;
 }
+
 .ts-wrapper.plugin-input_autogrow.has-items.focus .ts-control > input::placeholder {
   color: transparent;
 }
@@ -119,6 +129,7 @@
 .ts-dropdown.plugin-optgroup_columns .ts-dropdown-content {
   display: flex;
 }
+
 .ts-dropdown.plugin-optgroup_columns .optgroup {
   border-right: 1px solid #f2f2f2;
   border-top: 0 none;
@@ -126,12 +137,15 @@
   flex-basis: 0;
   min-width: 0;
 }
+
 .ts-dropdown.plugin-optgroup_columns .optgroup:last-child {
   border-right: 0 none;
 }
+
 .ts-dropdown.plugin-optgroup_columns .optgroup:before {
   display: none;
 }
+
 .ts-dropdown.plugin-optgroup_columns .optgroup-header {
   border-top: 0 none;
 }
@@ -141,6 +155,7 @@
   align-items: center;
   padding-right: 0 !important;
 }
+
 .ts-wrapper.plugin-remove_button .item .remove {
   color: inherit;
   text-decoration: none;
@@ -152,18 +167,23 @@
   box-sizing: border-box;
   margin-left: 6px;
 }
+
 .ts-wrapper.plugin-remove_button .item .remove:hover {
   background: rgba(0, 0, 0, 0.05);
 }
+
 .ts-wrapper.plugin-remove_button .item.active .remove {
   border-left-color: #cacaca;
 }
+
 .ts-wrapper.plugin-remove_button.disabled .item .remove:hover {
   background: none;
 }
+
 .ts-wrapper.plugin-remove_button.disabled .item .remove {
   border-left-color: white;
 }
+
 .ts-wrapper.plugin-remove_button .remove-single {
   position: absolute;
   right: 0;
@@ -187,7 +207,6 @@
 }
 
 .ts-control {
-  @extend .text_field;
   min-height: calc(1.25rem + 1rem + 2px);
   width: 100%;
   overflow: hidden;
@@ -197,22 +216,28 @@
   display: flex;
   flex-wrap: wrap;
 }
+
 .ts-wrapper.multi.has-items .ts-control {
   padding: calc( 8px - 2px - 0px) 8px calc( 8px - 2px - 3px - 0px);
 }
+
 .full .ts-control {
   background-color: #fff;
 }
+
 .disabled .ts-control, .disabled .ts-control * {
   cursor: default !important;
 }
+
 .focus .ts-control {
   @apply outline-none border-lnu-pink ring-1 ring-lnu-pink;
 }
+
 .ts-control > * {
   vertical-align: baseline;
   display: inline-block;
 }
+
 .ts-wrapper.multi .ts-control > div {
   cursor: pointer;
   margin: 0 3px 3px 0;
@@ -221,16 +246,19 @@
   color: #303030;
   border: 0 solid #d0d0d0;
 }
+
 .ts-wrapper.multi .ts-control > div.active {
   background: #e8e8e8;
   color: #303030;
   border: 0 solid #cacaca;
 }
+
 .ts-wrapper.multi.disabled .ts-control > div, .ts-wrapper.multi.disabled .ts-control > div.active {
   color: #7d7d7d;
   background: white;
   border: 0 solid white;
 }
+
 .ts-control > input {
   flex: 1 1 auto;
   min-width: 1rem;
@@ -250,29 +278,37 @@
   user-select: auto !important;
   box-shadow: none !important;
 }
+
 .ts-control > input::-ms-clear {
   display: none;
 }
+
 .ts-control > input:focus {
   outline: none !important;
 }
+
 .has-items .ts-control > input {
   margin: 0 4px !important;
 }
+
 .ts-control.rtl {
   text-align: right;
 }
+
 .ts-control.rtl.single .ts-control:after {
   left: 15px;
   right: auto;
 }
+
 .ts-control.rtl .ts-control > input {
   margin: 0 4px 0 -2px !important;
 }
+
 .disabled .ts-control {
   opacity: 0.5;
   background-color: #fafafa;
 }
+
 .input-hidden .ts-control > input {
   opacity: 0;
   position: absolute;
@@ -289,15 +325,17 @@
   border-top: 0 none;
   box-sizing: border-box;
   @apply bg-white;
-  @apply focus:outline-none focus:border-lnu-pink focus:ring focus:ring-lnu-pink;
-  @apply border-b border-gray-300 placeholder-gray-500 text-gray-900 ;
+  @apply focus: outline-none focus:border-lnu-pink focus:ring focus:ring-lnu-pink;
+  @apply border-b border-gray-300 placeholder-gray-500 text-gray-900;
   @apply shadow;
   @apply rounded-b;
 }
+
 .ts-dropdown [data-selectable] {
   cursor: pointer;
   overflow: hidden;
 }
+
 .ts-dropdown [data-selectable] .highlight {
   @apply bg-gray-300;
   @apply rounded;
@@ -310,20 +348,20 @@
   @apply px-3 py-2;
 }
 
-// Disabled:
 .ts-dropdown .option, .ts-dropdown [data-disabled], .ts-dropdown [data-disabled] [data-selectable].option {
   cursor: inherit;
   opacity: 0.5;
 }
+
 .ts-dropdown [data-selectable].option {
   opacity: 1;
   cursor: pointer;
 }
 
-// TODO: Style dropdown optgroup?
 .ts-dropdown .optgroup:first-child .optgroup-header {
   border-top: 0 none;
 }
+
 .ts-dropdown .optgroup-header {
   color: #303030;
   background: #fff;
@@ -335,22 +373,24 @@
 .ts-dropdown .active {
   @apply bg-gray-100;
 }
+
 .ts-dropdown .create:hover.create,
 .ts-dropdown .option:hover.create,
 .ts-dropdown .active.create {
   @apply text-gray-600;
 }
+
 .ts-dropdown .create {
   color: rgba(48, 48, 48, 0.5);
 }
 
-// TODO: Style Spinner:
 .ts-dropdown .spinner {
   display: inline-block;
   width: 30px;
   height: 30px;
   margin: 5px 8px;
 }
+
 .ts-dropdown .spinner:after {
   content: " ";
   display: block;
@@ -362,10 +402,12 @@
   border-color: #d0d0d0 transparent #d0d0d0 transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -382,4 +424,5 @@
 .ts-hidden-accessible {
   @apply sr-only;
 }
+
 /*# sourceMappingURL=tom-select.css.map */

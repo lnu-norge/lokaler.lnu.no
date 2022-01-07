@@ -1,0 +1,39 @@
+.radio-slider {
+  @apply overflow-hidden;
+  @apply bg-gray-50 border border-gray-200 shadow-inner;
+  @apply p-0.5 rounded-xl;
+  @apply inline-flex gap-1 items-stretch flex-wrap;
+}
+
+.radio-slider:focus-within {
+  @apply border-gray-300 bg-gray-50;
+}
+
+.radio-slider input[type="radio"] {
+  @apply sr-only;
+}
+
+.radio-slider input[type="radio"] + label {
+  @apply bg-transparent rounded-xl;
+  @apply flex justify-center items-center;
+  @apply px-3 py-1.5;
+  @apply border border-transparent;
+}
+
+.radio-slider input + label:focus,
+.radio-slider input:focus + label,
+.radio-slider input + label:hover,
+.radio-slider input:checked + label {
+  @apply cursor-pointer;
+  @apply shadow-md bg-white;
+  @apply border-gray-500;
+}
+
+.radio-slider:hover input:checked + label {
+  @apply bg-opacity-50;
+  @apply cursor-pointer;
+}
+
+.radio-slider:hover input:checked + label:hover {
+  @apply bg-opacity-100;
+}

@@ -1,4 +1,2 @@
-rails: bin/rails s -p 3000
-guard: bundle exec guard
-css: rails tailwindcss:watch
-js: yarn build --watch
+web: bin/rails server -p 3000
+css: bin/rails tailwindcss:watch
