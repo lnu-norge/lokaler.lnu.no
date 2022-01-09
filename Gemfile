@@ -70,6 +70,7 @@ group :development do
   gem "overcommit"
   gem "rack-mini-profiler", "~> 2.0"
   gem "rails-erd"
+  gem "rerun"
   gem "rubocop", require: false
   gem "rubocop-performance"
   gem "rubocop-rails"

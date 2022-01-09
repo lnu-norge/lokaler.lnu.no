@@ -2,6 +2,11 @@
 
 # ./lib/tasks/css_packer.rake
 
+desc "Looks for changes in tailwind_stylesheets directory and runs pack_css if any was found"
+task watch_css: :environment do
+  sh "rerun --dir 'app/assets/tailwind_stylesheets/' -- bundle exec rake pack_css"
+end
+
 desc "Packs all CSS files from app/assets/tailwind_stylesheets into app/assets/application.tailwind.css
       then runs the tailwind build"
 task pack_css: :environment do

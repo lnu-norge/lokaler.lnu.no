@@ -1,2 +1,2 @@
 guard: bundle exec guard
-css: bin/rails tailwindcss:watch
+css: bin/rails watch_css

@@ -2,6 +2,8 @@
 
 import "@hotwired/turbo-rails"
 import "controllers"
+console.log("Hello world!");
+import "./custom/custom_trix"
+import "@rails/actiontext"
 
-require("../custom/custom_trix")
-require("@rails/actiontext")
+

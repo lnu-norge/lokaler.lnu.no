@@ -297,6 +297,8 @@ GEM
     regexp_parser (2.2.0)
     request_store (1.5.0)
       rack (>= 1.4)
+    rerun (0.13.1)
+      listen (~> 3.0)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -452,6 +454,7 @@ DEPENDENCIES
   rails-erd
   rails-i18n
   redis (~> 4.0)
+  rerun
   rspec-rails
   rubocop
   rubocop-performance
