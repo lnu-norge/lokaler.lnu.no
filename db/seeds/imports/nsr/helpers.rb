@@ -150,11 +150,11 @@ def space_contacts_from(school)
 end
 
 def new_unless_exists(model, item)
-  model.new(item) unless model.find_by(item)
+  model.new(item) unless item && model.find_by(item)
 end
 
 def new_all_unless_exists(model, items)
-  new_items = items.reject { |item| model.find_by(item) }
+  new_items = items.reject { |item| item && model.find_by(item) }
   new_items.map { |item| model.new item }
 end
 

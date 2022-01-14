@@ -52,7 +52,7 @@ def import_spaces_from_nsr_schools
     space = new_unless_exists Space, space_from(school)
     spaces << space if space
 
-    space_contact_space = space || Space.find_by(space_from(school))
+    space_contact_space = space || (space_from(school) && Space.find_by(space_from(school)))
     next unless space_contact_space
 
     space_contacts_from(school).each do |contact|
