@@ -60,6 +60,7 @@ def import_spaces_from_nsr_schools
       end
     end
   end
+
   # Save them all with import
   p "\nimporting #{spaces.length} spaces"
   Space.import(spaces)
