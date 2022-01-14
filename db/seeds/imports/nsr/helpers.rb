@@ -6,7 +6,9 @@ def filter_schools(schools)
   foul_titles = [
     /voksenoppl/i,
     /vikarer/i,
-    /fellestjeneste/i
+    /fellestjeneste/i,
+    /spesial tiltak/i,
+    /Vestfold og Telemark fylkeskommune/ # For some reason, the administration itself is added to NSR...
   ]
   # Remove any schools we do not care for
   schools.reject! do |school|
@@ -60,14 +62,26 @@ def validate_lat_long(school)
   end
 end
 
+def validate_address(school)
+  address = school["address"]["street"]
+  return nil unless address.present?
+
+  address
+end
+
 def space_from(school)
   space_group = SpaceGroup.find_by space_group_from(school)
   space_type = SpaceType.find_by(space_types_from(school))
+
+  address = validate_address(school)
+  return unless address
+
   position = validate_lat_long(school)
   return unless position
+
   {
     title: knead_title(get_info(school["title"])),
-    address: school["address"]["street"],
+    address: address,
     post_number: school["address"]["postnumber"],
     post_address: school["address"]["poststed"],
     lat: position[:lat],
