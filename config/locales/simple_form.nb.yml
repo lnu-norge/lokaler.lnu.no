@@ -43,6 +43,7 @@ nb:
         logg_in_instead: "logg deg inn her"
         back: "Tilbake"
         email_example: "epost@epost.no"
+        organization: "Organisasjon"
         session:
           heading_new: "Logg inn til din bruker"
       space:

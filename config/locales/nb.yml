@@ -146,7 +146,7 @@ nb:
       how_long_did_you_use_the_space?: 'Hvor lenge brukte dere lokalet?'
       did_you_have_to_pay?: 'Måtte dere betale?'
       how_much?: 'Hvor mye?'
-      your_organization: 'Din organisasjon'
+      your_organization: 'Hvilken organisasjon booket du på vegne av? '
   generic:
     'yes': 'Ja'
     'no': 'Nei'
