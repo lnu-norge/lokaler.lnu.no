@@ -18,6 +18,6 @@
     <%= f.input :password_confirmation, input_html: { class: "passwordField z-10" }, required: true %>
   </div>
   <div>
-    <%= f.collection_select :organization_ids, Organization.all, :id, :name, { }, { multiple: "true", data: { controller: "multiselect" }, placeholder: t("simple_form.placeholders.user.organization") } %>
+    <%= f.input :organization %>
   </div>
 </div>

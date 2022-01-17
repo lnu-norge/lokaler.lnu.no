@@ -10,7 +10,6 @@ class User < ApplicationRecord
   gravtastic default: "retro"
 
   has_many :reviews, dependent: :restrict_with_exception
-  has_and_belongs_to_many :organizations
 
   def name
     return first_name unless last_name&.present?
