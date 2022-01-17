@@ -108,4 +108,20 @@ describe "User manages homepage", js: true do
       expect(page).not_to have_text(space_contact.title)
     end
   end
+
+  it "user sets space_group to empty" do
+    login_and_logout_with_warden do
+      group = Fabricate(:space_group)
+      space.space_group = group
+
+      visit space_path(id: space.id)
+
+      click_link "edit_basics"
+      tom_select("select#space_space_group_title", option_id: "")
+
+      click_button I18n.t("helpers.submit.create", model: Space.model_name.human)
+
+      expect(space.reload.space_group).to eq(nil)
+    end
+  end
 end
