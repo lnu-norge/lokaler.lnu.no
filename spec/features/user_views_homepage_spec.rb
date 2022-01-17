@@ -31,15 +31,6 @@ describe "User views homepage", js: true do
     space2.aggregate_facility_reviews
   end
 
-  RSpec::Matchers.define :appear_before do |later_content|
-    match do |earlier_content|
-      Timeout.timeout(10.seconds) do
-        sleep(0.01) until !page.body.index(earlier_content).nil? && !page.body.index(later_content).nil?
-      end
-      page.body.index(earlier_content) < page.body.index(later_content)
-    end
-  end
-
   it "User can see space1 before space2" do
     login_and_logout_with_warden do
       visit root_path
@@ -50,12 +41,18 @@ describe "User views homepage", js: true do
       click_button("toggle_search_box")
       check(facility1.title)
 
-      expect(space1.title).to appear_before(space2.title)
+      # We must wait because find will find the element but it may not be in correct order yet..
+      sleep(0.2)
+
+      expect(find("#space-listing").first("h3").text).to eq(space1.title)
 
       uncheck(facility1.title)
       check(facility2.title)
 
-      expect(space2.title).to appear_before(space1.title)
+      # We must wait because find will find the element but it may not be in correct order yet..
+      sleep(0.2)
+
+      expect(find("#space-listing").first("h3").text).to eq(space2.title)
 
       uncheck(facility1.title)
       uncheck(facility2.title)
