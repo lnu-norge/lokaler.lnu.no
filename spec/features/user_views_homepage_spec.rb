@@ -50,12 +50,16 @@ describe "User views homepage", js: true do
       click_button("toggle_search_box")
       check(facility1.title)
 
-      expect(space1.title).to appear_before(space2.title)
+      within "#space-listing" do
+        expect(space1.title).to appear_before(space2.title)
+      end
 
       uncheck(facility1.title)
       check(facility2.title)
 
-      expect(space2.title).to appear_before(space1.title)
+      within "#space-listing" do
+        expect(space2.title).to appear_before(space1.title)
+      end
 
       uncheck(facility1.title)
       uncheck(facility2.title)
