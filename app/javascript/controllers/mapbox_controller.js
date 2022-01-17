@@ -295,7 +295,7 @@ export default class extends Controller {
     });
 
     // Add or update the ones we want to show:
-    markers.forEach((space) => {
+    markers.reverse().forEach((space) => {
       this.addMarker(space);
     });
   }
