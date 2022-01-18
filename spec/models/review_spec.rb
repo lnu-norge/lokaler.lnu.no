@@ -71,4 +71,12 @@ RSpec.describe Review, type: :model do
 
     expect(review.facility_reviews.count).to eq(1)
   end
+
+  it "allows spaces in price user input" do
+    review = Fabricate(:review, price: 10)
+    review.price = "30 000"
+    review.save!
+    review.reload
+    expect(review.price).to eq("30000")
+  end
 end
