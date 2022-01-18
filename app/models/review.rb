@@ -45,7 +45,7 @@ class Review < ApplicationRecord
 
   # Allows user to input a number with spaces, e.g. "30 000", without the system breaking
   def remove_spaces_from_price
-    price.gsub!(/\s+/, "")
+    price.gsub!(/\s+/, "") if price?.present?
   end
 
   ICONS_FOR_TYPE_OF_CONTACT = {
