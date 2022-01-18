@@ -117,9 +117,13 @@ describe "User manages homepage", js: true do
       visit space_path(id: space.id)
 
       click_link "edit_basics"
+
+      sleep(0.2)
       tom_select("select#space_space_group_title", option_id: "")
 
-      click_button I18n.t("helpers.submit.create", model: Space.model_name.human)
+      click_button "Lagre"
+
+      sleep(0.2)
 
       expect(space.reload.space_group).to eq(nil)
     end
