@@ -123,8 +123,7 @@ describe "User manages homepage", js: true do
 
       click_button "Lagre"
 
-      sleep(0.2)
-
+      expect(page).to have_text(space.title)
       expect(space.reload.space_group).to eq(nil)
     end
   end
