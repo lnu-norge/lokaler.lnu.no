@@ -10,9 +10,8 @@
   },
   custom_input: capture do %>
     <div data-show-on-radio-button-value-target="elementToShow">
-      <%= form.label :how_much_custom, t('reviews.data.custom_how_much') %>
       <%= form.input :how_much_custom,
-                     label: false,
+                     label: t('reviews.data.custom_how_much'),
                      input_html: { style: "width: auto" },
                      wrapper_html: { class: "inline-block" }  %>
     </div>
@@ -31,9 +30,8 @@
   },
   custom_input: capture do %>
   <div data-show-on-radio-button-value-target="elementToShow">
-    <%= form.label :how_long_custom, t('reviews.data.custom_how_long') %>
     <%= form.input :how_long_custom,
-                   label: false,
+                   label: t('reviews.data.custom_how_long'),
                    nput_html: { style: "width: auto" },
                    wrapper_html: { class: "inline-block" } %>
   </div>
@@ -62,9 +60,8 @@
     <% end  %>
   </div>
   <div data-show-on-radio-button-value-target="elementToShow">
-    <%= form.label :price, t('reviews.form.how_much?') %>
     <%= form.input :price,
-                   label: false,
+                   label:  t('reviews.form.how_much?'),
                    as: :tel,
                    input_html: { min: 0, style: "width: auto" },
                    wrapper_html: { class: "inline-block" } %> NOK
