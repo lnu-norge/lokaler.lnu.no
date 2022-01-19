@@ -1,12 +1,24 @@
-<% title = t('reviews.form.how_would_you_summarize_the_experience?') unless defined? title %>
+<%#
 
-<%= form.label :title, title, class: 'h2' %>
+    Local params:
+    - form
+    - title (alternative label for title input)
+
+%>
+<% title_label = if defined? title
+                   title
+                 else
+                   t('reviews.form.how_would_you_summarize_the_experience?')
+                 end
+%>
+
+<%= form.label :title, title_label, class: 'h2' %>
 <%= form.input :title,
                label: false,
                placeholder: t('reviews.form.for_example_roomy_but_smelly'),
                class: "block w-full my-2" %>
 
-<%= form.label :comment, t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
+<%= form.label :comment,  t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
 <%= form.input :comment,
                label: false,
                as: :text,
