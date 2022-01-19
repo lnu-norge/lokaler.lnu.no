@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_09_101806) do
+ActiveRecord::Schema.define(version: 2022_01_18_072558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2021_12_09_101806) do
     t.text "metadata"
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
+    t.string "checksum"
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -102,38 +102,21 @@ ActiveRecord::Schema.define(version: 2021_12_09_101806) do
     t.index ["space_id"], name: "index_images_on_space_id"
   end
 
-  create_table "organizations", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "orgnr"
-    t.string "website"
-    t.string "logo"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "organizations_users", id: false, force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "organization_id", null: false
-    t.index ["organization_id", "user_id"], name: "index_organizations_users_on_organization_id_and_user_id", unique: true
-    t.index ["user_id", "organization_id"], name: "index_organizations_users_on_user_id_and_organization_id", unique: true
-  end
-
   create_table "reviews", force: :cascade do |t|
     t.string "title"
     t.string "comment"
-    t.integer "price"
+    t.string "price"
     t.decimal "star_rating", precision: 2, scale: 1
     t.bigint "user_id", null: false
     t.bigint "space_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "organization_id"
     t.integer "how_much"
     t.string "how_much_custom"
     t.integer "how_long"
     t.string "how_long_custom"
     t.integer "type_of_contact"
-    t.index ["organization_id"], name: "index_reviews_on_organization_id"
+    t.string "organization", default: "", null: false
     t.index ["space_id"], name: "index_reviews_on_space_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
@@ -196,6 +179,7 @@ ActiveRecord::Schema.define(version: 2021_12_09_101806) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "admin", default: false
+    t.string "organization", default: "", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -221,7 +205,6 @@ ActiveRecord::Schema.define(version: 2021_12_09_101806) do
   add_foreign_key "facility_reviews", "reviews"
   add_foreign_key "facility_reviews", "spaces"
   add_foreign_key "facility_reviews", "users"
-  add_foreign_key "reviews", "organizations"
   add_foreign_key "reviews", "spaces"
   add_foreign_key "reviews", "users"
   add_foreign_key "space_contacts", "space_groups"
