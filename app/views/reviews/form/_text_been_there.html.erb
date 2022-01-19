@@ -1,10 +1,30 @@
-<% title = t('reviews.form.how_would_you_summarize_the_experience?') unless defined? title %>
+<%#
 
-<%= form.label :title, title, class: 'h2' %>
-<%= form.text_field :title, placeholder: t('reviews.form.for_example_roomy_but_smelly'), class: "block w-full my-2" %>
+    Local params:
+    - form
+    - title (alternative label for title input)
 
-<%= form.label :comment, t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
-<%= form.text_area :comment, size: '12x10', placeholder: t('reviews.form.what_did_you_experience_any_tips_for_others'), class: "block w-full my-2" %>
+%>
+<% title_label = if defined? title
+                   title
+                 else
+                   t('reviews.form.how_would_you_summarize_the_experience?')
+                 end
+%>
+
+<%= form.label :title, title_label, class: 'h2' %>
+<%= form.input :title,
+               label: false,
+               placeholder: t('reviews.form.for_example_roomy_but_smelly'),
+               class: "block w-full my-2" %>
+
+<%= form.label :comment,  t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
+<%= form.input :comment,
+               label: false,
+               as: :text,
+               input_html: { size: '12x12' },
+               placeholder: t('reviews.form.what_did_you_experience_any_tips_for_others'),
+               class: "block w-full my-2" %>
 
 <%= form.label :organization, t('reviews.form.your_organization'), class: 'h2' %>
-<%= form.text_field :organization, class: "block w-full my-2" %>
+<%= form.input :organization, label: false, class: "block w-full my-2" %>
