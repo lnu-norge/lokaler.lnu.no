@@ -19,7 +19,6 @@ class Review < ApplicationRecord
             length: { minimum: 4, maximum: 80 },
             presence: true,
             if: ->(r) { r.been_there? || r.not_allowed_to_use? }
-  validates :user, :space, presence: true
   validates :how_much, inclusion: { in: how_muches.keys }, allow_nil: true
   validates :how_long, inclusion: { in: how_longs.keys }, allow_nil: true
   validates :type_of_contact, inclusion: { in: type_of_contacts.keys }
