@@ -8,10 +8,6 @@
       review: @review
     } %>
 
-    <%= render partial: 'reviews/form/facility_reviews', locals: {
-      form: form
-    } %>
-
     <%= render partial: 'reviews/new/star_rating', locals: {
       star_rating: @review.star_rating,
       form: form

@@ -4,10 +4,10 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_paper_trail skip: [:star_rating]
 
   has_many :images, dependent: :destroy
-  has_many :facility_reviews, dependent: :restrict_with_exception
-  has_many :aggregated_facility_reviews, dependent: :restrict_with_exception
-  has_many :reviews, dependent: :restrict_with_exception
-  has_many :space_contacts, dependent: :restrict_with_exception
+  has_many :facility_reviews, dependent: :destroy
+  has_many :space_facilities, dependent: :destroy
+  has_many :reviews, dependent: :destroy
+  has_many :space_contacts, dependent: :destroy
 
   belongs_to :space_group, optional: true
   accepts_nested_attributes_for :space_group
@@ -43,17 +43,17 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def reviews
-    Review.includes([:user, :facility_reviews]).where(space_id: id)
+    Review.includes([:user]).where(space_id: id)
   end
 
   def reviews_for_facility(facility)
-    AggregatedFacilityReview.find_by(space: self, facility: facility).experience
+    space_facilities.find_by(facility: facility).experience
   end
 
   def facilities_in_category(category)
-    AggregatedFacilityReview
+    space_facilities
       .includes(:facility)
-      .where(space: self, facilities: { facility_category: category })
+      .where(facilities: { facility_category: category })
       .map do |result|
       {
         title: result.facility.title,

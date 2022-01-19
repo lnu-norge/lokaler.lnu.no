@@ -79,19 +79,3 @@
     <% end %>
   </div>
 <% end %>
-
-<% if review.facility_reviews.any? %>
-  <hr class="my-1" />
-  <ul>
-  <% review.facility_reviews.each do |facility_review| %>
-    <li class="flex gap-1">
-        <%= render partial: 'spaces/show/facility_item', locals: {
-          title: facility_review.facility.title,
-          icon: facility_review.facility.icon,
-          review: facility_review.experience_icon,
-          tooltip: t("tooltips.facility_single_experience.#{facility_review.experience}")
-        } %>
-    </li>
-  <% end %>
-  </ul>
-<% end %>

@@ -31,11 +31,11 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   def edit
-    set_facility_reviews
+    # set_facility_reviews
   end
 
   def update
-    set_facility_reviews
+    # set_facility_reviews
     params = parse_before_update review_params, @review
 
     if @review.update(params)
@@ -67,11 +67,6 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   def set_new_review_attributes
     @space = Space.find(params[:space_id]) unless defined? @review
     @review = @space.reviews.new(organization: current_user.organization) unless defined? @review
-    set_facility_reviews
-  end
-
-  def set_facility_reviews
-    @facility_reviews = @space.aggregated_facility_reviews
   end
 
   def create_success
@@ -94,7 +89,7 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
   end
 
   def create_error
-    set_facility_reviews
+    # set_facility_reviews
     # Different types of contact should be sent to different error forms
     case @review.type_of_contact
     when "been_there"
@@ -108,21 +103,21 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
     end
   end
 
-  def parse_before_update(review_params, review)
-    if review_params["facility_reviews_attributes"]
-      review_params["facility_reviews_attributes"] = parse_facility_reviews(
-        review_params["facility_reviews_attributes"],
-        review
-      )
-    end
+  def parse_before_update(review_params, _review)
+    # if review_params["facility_reviews_attributes"]
+    #   review_params["facility_reviews_attributes"] = parse_facility_reviews(
+    #     review_params["facility_reviews_attributes"],
+    #     review
+    #   )
+    # end
     review_params
   end
 
   def parse_before_create(review_params)
-    if review_params["facility_reviews_attributes"]
-      review_params["facility_reviews_attributes"] =
-        parse_facility_reviews(review_params["facility_reviews_attributes"])
-    end
+    # if review_params["facility_reviews_attributes"]
+    #   review_params["facility_reviews_attributes"] =
+    #     parse_facility_reviews(review_params["facility_reviews_attributes"])
+    # end
     review_params["user"] = current_user
     review_params
   end
@@ -174,8 +169,8 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
       :how_long, :how_long_custom,
       :type_of_contact,
       :space_id,
-      :organization,
-      facility_reviews_attributes: %i[facility_id experience id]
+      :organization
+      # facility_reviews_attributes: %i[facility_id experience id]
     )
   end
 end
