@@ -4,8 +4,8 @@ require "rails_helper"
 
 # Model test here, requests spec follows below
 RSpec.describe Review, type: :model do
-  it "can add a review" do
-    review = Fabricate(:review)
+  it "can add a review of type :been_there" do
+    review = Fabricate(:review, type_of_contact: :been_there)
     Fabricate(:facility_review, review: review)
     expect(review.title).to be_truthy
     expect(review.space).to be_truthy
@@ -14,6 +14,45 @@ RSpec.describe Review, type: :model do
     expect(review.star_rating).to be_truthy
     expect(review.user).to be_truthy
     expect(review.facility_reviews.count).to be 1
+  end
+
+  it "can add a review of type :not_allowed_to_use" do
+    review = Fabricate(:review,
+                       type_of_contact: :not_allowed_to_use,
+                       price: nil,
+                       star_rating: nil)
+    Fabricate(:facility_review, review: review)
+    expect(review.title).to be_truthy
+    expect(review.space).to be_truthy
+    expect(review.comment).to be_truthy
+    expect(review.user).to be_truthy
+    expect(review.facility_reviews.count).to be 1
+
+    expect(review.price).to be_nil
+    expect(review.star_rating).to be_nil
+  end
+
+  it "can add a review of type :only_contacted" do
+    review = Fabricate(
+      :review,
+      type_of_contact: :only_contacted,
+      price: nil,
+      star_rating: nil,
+      title: nil,
+      comment: nil,
+      facility_reviews: [
+        Fabricate(:facility_review)
+      ]
+    )
+
+    expect(review.space).to be_truthy
+    expect(review.user).to be_truthy
+    expect(review.facility_reviews.count).to be 1
+
+    expect(review.title).to be_nil
+    expect(review.comment).to be_nil
+    expect(review.price).to be_nil
+    expect(review.star_rating).to be_nil
   end
 
   it "sets stars and facility_reviews for a Space when adding and removing a review" do
@@ -70,5 +109,13 @@ RSpec.describe Review, type: :model do
     end.to raise_error(ActiveRecord::RecordInvalid)
 
     expect(review.facility_reviews.count).to eq(1)
+  end
+
+  it "allows spaces in price user input" do
+    review = Fabricate(:review, price: 10)
+    review.price = "30 000"
+    review.save!
+    review.reload
+    expect(review.price).to eq("30000")
   end
 end

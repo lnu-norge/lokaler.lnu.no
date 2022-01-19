@@ -5,7 +5,6 @@ class Review < ApplicationRecord
 
   belongs_to :user
   belongs_to :space
-  belongs_to :organization, optional: true
 
   has_many :facility_reviews, dependent: :destroy
   accepts_nested_attributes_for :facility_reviews
@@ -13,6 +12,8 @@ class Review < ApplicationRecord
   enum how_much: { custom_how_much: 0, whole_space: 1, one_room: 2 }
   enum how_long: { custom_how_long: 0, one_weekend: 1, one_evening: 2 }
   enum type_of_contact: { only_contacted: 0, not_allowed_to_use: 1, been_there: 2 }
+
+  before_validation { remove_spaces_from_price }
 
   validates :title,
             length: { minimum: 4, maximum: 80 },
@@ -39,6 +40,11 @@ class Review < ApplicationRecord
       review: self,
       facility: facility
     )
+  end
+
+  # Allows user to input a number with spaces, e.g. "30 000", without the system breaking
+  def remove_spaces_from_price
+    price.gsub!(/\s+/, "") if price?.present?
   end
 
   ICONS_FOR_TYPE_OF_CONTACT = {
