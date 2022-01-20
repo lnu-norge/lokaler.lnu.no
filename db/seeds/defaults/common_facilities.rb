@@ -40,10 +40,10 @@ facilities = [
 category = FacilityCategory.find_or_create_by(title: "Vanlige")
 
 facilities.each do |facility|
-  Facility.find_or_create_by(
+  facility = Facility.find_or_create_by(
     {
-      facility_category: category,
       **facility
     }
   )
+  category.facilities << facility
 end

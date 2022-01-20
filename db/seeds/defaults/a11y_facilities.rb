@@ -28,10 +28,10 @@ facilities = [
 category = FacilityCategory.find_or_create_by(title: "Er lokalet universelt uformet?")
 
 facilities.each do |facility|
-  Facility.find_or_create_by(
+  facility = Facility.find_or_create_by(
     {
-      facility_category: category,
       **facility
     }
   )
+  category.facilities << facility
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_19_130648) do
+ActiveRecord::Schema.define(version: 2022_01_20_131119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2022_01_19_130648) do
     t.text "metadata"
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
-    t.string "checksum"
+    t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -62,10 +62,21 @@ ActiveRecord::Schema.define(version: 2022_01_19_130648) do
     t.index ["facility_category_id"], name: "index_facilities_on_facility_category_id"
   end
 
+  create_table "facilities_categories", force: :cascade do |t|
+    t.bigint "facility_id", null: false
+    t.bigint "facility_category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["facility_category_id"], name: "index_facilities_categories_on_facility_category_id"
+    t.index ["facility_id"], name: "index_facilities_categories_on_facility_id"
+  end
+
   create_table "facility_categories", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "parent_id"
+    t.index ["parent_id"], name: "index_facility_categories_on_parent_id"
   end
 
   create_table "facility_reviews", force: :cascade do |t|
@@ -198,6 +209,8 @@ ActiveRecord::Schema.define(version: 2022_01_19_130648) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "facilities", "facility_categories"
+  add_foreign_key "facilities_categories", "facilities"
+  add_foreign_key "facilities_categories", "facility_categories"
   add_foreign_key "facility_reviews", "facilities"
   add_foreign_key "facility_reviews", "spaces"
   add_foreign_key "facility_reviews", "users"
