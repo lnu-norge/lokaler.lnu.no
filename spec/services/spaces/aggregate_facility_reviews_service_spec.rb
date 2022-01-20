@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe Spaces::AggregateFacilityReviewsService do
   let(:space) { Fabricate(:space) }
   let(:facility_category) { Fabricate(:facility_category) }
-  let(:facility) { Fabricate(:facility, facility_category: facility_category) }
+  let(:facility) { Fabricate(:facility, facility_categories: [facility_category]) }
 
   def experience(experience, other_facility = nil)
     Fabricate(:facility_review, space: space, experience: experience, facility: other_facility || facility)

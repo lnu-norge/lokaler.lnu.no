@@ -9,8 +9,8 @@
         <h2>Title: <%= facility.title %></h2>
         <p>Icon: <%= inline_svg_tag "facilities/#{facility.icon}" %></p>
         <p>Categories</p>
-        <% facility.categories.each do |category| %>
-          <p>Category: <%= category.title %></p>
+        <% facility.facility_categories.each do |category| %>
+          <p><%= category.title %></p>
         <% end %>
         <%= link_to 'Show', facility_path(facility), class: "border-2 border-blue-400" %>
         <%= link_to 'Edit', edit_facility_path(facility), class: "border-2 border-blue-400" %>
