@@ -113,9 +113,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # NOTE: this expects a scope for spaces but returns an array
   # preferably we would find some way to return a scope too
   def self.filter_on_facilities(spaces, facilities) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-    results = spaces.includes(:aggregated_facility_reviews).filter_map do |space|
+    results = spaces.includes(:space_facilities).filter_map do |space|
       score = 0
-      space.aggregated_facility_reviews.each do |review|
+      space.space_facilities.each do |review|
         next unless facilities.include?(review.facility_id)
 
         # The more correct matches the lower the number.
