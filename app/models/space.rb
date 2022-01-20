@@ -51,14 +51,11 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def facilities_in_category(category)
-    space_facilities
-      .includes(:facility)
-      .where(facilities: { facility_category: category })
-      .map do |result|
+    category.facilities.where(id: space_facilities.pluck(:facility_id)).map do |result|
       {
-        title: result.facility.title,
-        icon: result.facility.icon,
-        review: result.experience
+        title: result.title,
+        icon: result.icon,
+        review: reviews_for_facility(result)
       }
     end
   end
