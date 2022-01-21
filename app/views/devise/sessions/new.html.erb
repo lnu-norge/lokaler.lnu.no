@@ -36,6 +36,8 @@
   <% end %>
 
   <div>
-    <%= button_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path %>
+    <%= form_tag('/auth/google_oauth2', method: 'post', "data-turbo": false) do %>
+      <button type='submit'>Login with Developer</button>
+    <% end %>
   </div>
 </div>
