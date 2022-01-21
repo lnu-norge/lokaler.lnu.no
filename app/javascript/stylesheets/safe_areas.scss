@@ -1,0 +1,7 @@
+body {
+  padding:
+    env(safe-area-inset-top, 20px)
+    env(safe-area-inset-right, 1em)
+    env(safe-area-inset-bottom, 0.5vh)
+    env(safe-area-inset-left, 1.4rem);
+}
