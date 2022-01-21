@@ -18,6 +18,8 @@ export default class extends Controller {
 
   toggleSearchBox() {
     this.searchBoxTarget.classList.toggle("hidden");
+    let searchField = document.getElementById("locationInput-ts-control");
+    searchField.focus();
   }
 
   requestPosition() {
@@ -345,4 +347,3 @@ export default class extends Controller {
     }
   }
 }
-
