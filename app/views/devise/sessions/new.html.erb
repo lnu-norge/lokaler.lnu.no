@@ -34,4 +34,8 @@
       <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: t('simple_form.labels.user.submit_login') } %>
     </div>
   <% end %>
+
+  <div>
+    <%= button_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path %>
+  </div>
 </div>

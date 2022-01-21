@@ -4,7 +4,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:google_oauth2]
 
   include Gravtastic
   gravtastic default: "retro"
@@ -16,5 +17,9 @@ class User < ApplicationRecord
     return last_name unless first_name&.present?
 
     "#{first_name} #{last_name[0]&.upcase}."
+  end
+
+  def self.from_google(email:)
+    find_or_create_by(email: email)
   end
 end
