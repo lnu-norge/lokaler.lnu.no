@@ -9,10 +9,10 @@ RSpec.describe "reviews/index.html.erb", type: :view do
     assign(:reviews, reviews)
     render
 
-    expect(rendered).to match /h1/
-    expect(rendered).to match /#{reviews.first.title}/
-    expect(rendered).to match /#{reviews.second.comment}/
-    expect(rendered).to match /#{reviews.second.price}/
-    expect(rendered).to match /#{reviews.third.star_rating}/
+    expect(rendered).to match(/h1/)
+    expect(rendered).to match(/#{reviews.first.title}/)
+    expect(rendered).to match(/#{reviews.second.comment}/)
+    expect(rendered).to match(/#{reviews.second.price}/)
+    expect(rendered).to match(/#{reviews.third.star_rating}/)
   end
 end
