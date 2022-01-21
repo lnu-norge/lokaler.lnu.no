@@ -92,3 +92,7 @@ gem "simple_form"
 gem "simple_form-tailwind"
 gem "tailwindcss-rails-webpacker", "~> 0.1.2"
 gem "validate_url"
+
+group :development do
+  gem "rails_real_favicon"
+end
