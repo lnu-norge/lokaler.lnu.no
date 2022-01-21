@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-def demo_reviews_for_space(space) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+def demo_reviews_for_space(space) # rubocop:disable Metrics/MethodLength
   ### Add some reviews
 
   positive_review_comment = 'Proff skole som har lyst til å ta oss i mot.
