@@ -22,6 +22,12 @@ export default class extends Controller {
     searchField.focus();
   }
 
+  closeModal(e) {
+    if (e.key === "Enter") {
+      this.toggleSearchBox();
+    }
+  }
+
   requestPosition() {
     const options = {
       enableHighAccuracy: true,
