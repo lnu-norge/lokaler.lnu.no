@@ -8,6 +8,6 @@ Fabricator(:space) do
   lat { Faker::Address.latitude }
   lng { Faker::Address.longitude }
   space_group
-  space_type
+  space_types { [Fabricate(:space_type)] }
   star_rating { nil }
 end
