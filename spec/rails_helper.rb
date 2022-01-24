@@ -88,6 +88,7 @@ RSpec.configure do |config|
     options.add_preference(:download, prompt_for_download: false, directory_upgrade: true, default_directory: download_path)
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
     options.add_preference(:safebrowsing, enabled: false, disable_download_protection: true )
+    options.add_argument('--headless')
     options.add_argument('--disable-gpu')
     options.add_argument('--window-size=1920,1080')
     driver = Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: options)
