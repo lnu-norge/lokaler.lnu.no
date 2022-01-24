@@ -10,8 +10,10 @@
   },
   custom_input: capture do %>
     <div data-show-on-radio-button-value-target="elementToShow">
-      <%= form.label :how_much_custom, t('reviews.data.custom_how_much') %>
-      <%= form.text_field :how_much_custom %>
+      <%= form.input :how_much_custom,
+                     label: t('reviews.data.custom_how_much'),
+                     input_html: { style: "width: auto" },
+                     wrapper_html: { class: "inline-block" }  %>
     </div>
   <% end
 } %>
@@ -28,8 +30,10 @@
   },
   custom_input: capture do %>
   <div data-show-on-radio-button-value-target="elementToShow">
-    <%= form.label :how_long_custom, t('reviews.data.custom_how_long') %>
-    <%= form.text_field :how_long_custom %>
+    <%= form.input :how_long_custom,
+                   label: t('reviews.data.custom_how_long'),
+                   nput_html: { style: "width: auto" },
+                   wrapper_html: { class: "inline-block" } %>
   </div>
 <% end
  } %>
@@ -56,8 +60,11 @@
     <% end  %>
   </div>
   <div data-show-on-radio-button-value-target="elementToShow">
-    <%= form.label :price, t('reviews.form.how_much?') %>
-    <%= form.telephone_field :price, min: 0 %> NOK
+    <%= form.input :price,
+                   label:  t('reviews.form.how_much?'),
+                   as: :tel,
+                   input_html: { min: 0, style: "width: auto" },
+                   wrapper_html: { class: "inline-block" } %> NOK
   </div>
 <% end %>
 
