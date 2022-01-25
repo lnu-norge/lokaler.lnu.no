@@ -75,7 +75,7 @@ GEM
     aws-sdk-kms (1.53.0)
       aws-sdk-core (~> 3, >= 3.125.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.111.2)
+    aws-sdk-s3 (1.111.3)
       aws-sdk-core (~> 3, >= 3.125.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
@@ -129,7 +129,7 @@ GEM
       ffi (>= 1.0.0)
       rake
     foreman (0.87.2)
-    formatador (1.0.0)
+    formatador (1.1.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     gravtastic (3.2.6)
