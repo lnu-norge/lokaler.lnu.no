@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  require "securerandom"
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -19,7 +20,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name[0]&.upcase}."
   end
 
-  def self.from_google(email:)
-    find_or_create_by(email: email)
+  def self.from_google(email:, first_name:, last_name:)
+    create_with(first_name: first_name,
+                last_name: last_name,
+                password: SecureRandom.base64(13))
+      .find_or_create_by!(email: email)
   end
 end

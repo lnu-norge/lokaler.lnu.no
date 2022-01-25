@@ -2,12 +2,11 @@
 
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-    def google_oauth2
-      user = User.from_google(email: auth.info.email)
+    def google_oauth2 # rubocop:disable Metrics/AbcSize
+      user = User.from_google(email: auth.info.email, first_name: auth.info.first_name, last_name: auth.info.last_name)
 
       if user.present?
         sign_out_all_scopes
-        flash[:success] = I18n.t "devise.omniauth_callbacks.success", kind: "Google"
         sign_in_and_redirect user
       else
         flash[:alert] =
