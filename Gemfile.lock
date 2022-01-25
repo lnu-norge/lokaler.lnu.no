@@ -180,12 +180,12 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.5.0)
-    kaminari (1.2.2)
     json (2.6.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
       kaminari-activerecord (= 1.2.2)
       kaminari-core (= 1.2.2)
+    kaminari (1.2.2)
     kaminari-actionview (1.2.2)
       actionview
       kaminari-core (= 1.2.2)
