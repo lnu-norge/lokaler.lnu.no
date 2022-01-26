@@ -1,8 +1,0 @@
-<% FacilityCategory.all.each do |category| %>
-    <%= render partial: 'reviews/new/facility_category',
-      locals: {
-        facilities_in_category: facilities.in_category(category),
-        form: form,
-        review: form.object,
-        category: category } %>
-<% end  %>

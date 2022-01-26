@@ -95,6 +95,8 @@ nb:
     edit_images: "Rediger bilder"
     delete_success: "Bildet ble slettet"
     photo_by: 'Foto:'
+  space_facilities:
+    edit: 'Redigér fasiliteter'
   reviews:
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
