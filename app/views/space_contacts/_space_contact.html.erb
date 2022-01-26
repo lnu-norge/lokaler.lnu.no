@@ -27,7 +27,7 @@
         <% end %>
         <% if space_contact.url? %>
           <dt class="sr-only"><%= t('space_contacts.url') %></dt>
-          <dd><%= link_to space_contact.url, space_contact.url,  title: t('space_contacts.url') %></dd>
+          <dd><%= link_to truncate(space_contact.url, length: 30), space_contact.url %></dd>
         <% end %>
         <% if space_contact.description? %>
           <dt  class="sr-only"><%= t('space_contacts.description') %>:</dt>
@@ -45,4 +45,3 @@
     </nav>
   </div>
 <% end %>
-
