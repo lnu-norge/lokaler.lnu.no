@@ -48,6 +48,8 @@ nb:
     save_changed_field_html: 'Lagre <em>%{field}</em>'
     cancel_changed_space: "Avbryt"
     editing_field_for_title: "Redigerer %{field} for %{title}"
+    edit: "Rediger"
+    edit_images: "Bilder til"
   space_create:
     any_of_these:
       one: "Mener du denne?"
@@ -66,9 +68,6 @@ nb:
       zero: "Ingen erfaringer"
       one: "Basert på én erfaring"
       other: "Basert på %{count} erfaringer"
-  space_edit:
-    edit: "Rediger"
-    edit_images: "Bilder til"
   space_filter:
     search_and_filter: "Søk og filtrér"
     show_spaces:
