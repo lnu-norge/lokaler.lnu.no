@@ -2,6 +2,12 @@
   <%= @space.facility_description %>
 <% end %>
 
+<%= modal_link_to t('facility_reviews.edit'),
+                  new_facility_review_path(@space),
+                  id: :new_facility_review_path,
+                  class: 'unstyled-link edit-button collapsable' %>
+
+
 <h2><%= Facility.model_name.human(count: 2) %></h2>
 
 <% FacilityCategory.all.each_with_index do |facilityCategory, index| %>
