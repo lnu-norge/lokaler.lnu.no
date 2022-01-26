@@ -4,11 +4,16 @@ class FacilityReviewsController < AuthenticateController
   def new
     @categories = FacilityCategory.all
     @space = Space.find(params["space_id"])
+
+    @experiences = [
+      *FacilityReview.experiences.keys,
+      "unknown"
+    ].reverse
   end
 
   def create
     @space = Space.find(params["space_id"])
-    parsed = parse_facility_reviews(params["facility_reviews"])
+    parsed = parse_facility_reviews(params["facility_reviews"]["reviews"])
     FacilityReview.create!(parsed)
 
     @space.aggregate_facility_reviews
