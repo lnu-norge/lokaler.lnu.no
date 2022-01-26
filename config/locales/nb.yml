@@ -1,4 +1,5 @@
 nb:
+  title: LNU Lokaler
   space_contacts:
     contacts_heading: 'Kontaktinformasjon'
     contact_updated: 'Kontaktinformasjon oppdatert'
@@ -65,6 +66,9 @@ nb:
       zero: "Ingen erfaringer"
       one: "Basert på én erfaring"
       other: "Basert på %{count} erfaringer"
+  space_edit:
+    edit: "Rediger"
+    edit_images: "Bilder til"
   space_filter:
     search_and_filter: "Søk og filtrér"
     show_spaces:
@@ -224,8 +228,12 @@ nb:
         submit_login: "Logg inn"
         password_reset: "Send meg passord instruksjoner"
         change_password: "Endre ditt passord"
+        account: Din konto
+        edit_account: Rediger konto
     registrations:
       user:
+        account: Registrering
+        edit_account: Rediger konto
         first_name: "Fornavn"
         last_name: "Etternavn"
         email: "E-post"
@@ -249,3 +257,9 @@ nb:
         email: må velges, eventuelt legg inn telefon, nettside eller beskrivelse
         url: må velges, eventuelt legg inn telefon, e-post eller beskrivelse
         description: må velges, eventuelt legg inn telefon, e-post eller nettside
+  other_pages:
+    title: "Andre kilder"
+  facilities:
+    index: "Fasiliteter"
+  space_types:
+    index: "Space type"
