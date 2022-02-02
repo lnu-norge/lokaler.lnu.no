@@ -1,32 +1,34 @@
-<%= inline_editable :facility_description  do %>
-  <%= @space.facility_description %>
-<% end %>
+<div id="facilities">
+  <%= inline_editable :facility_description  do %>
+    <%= @space.facility_description %>
+  <% end %>
 
-<%= modal_link_to t('facility_reviews.edit'),
-                  new_facility_review_path(@space),
-                  id: :new_facility_review_path,
-                  class: 'unstyled-link edit-button collapsable' %>
+  <%= modal_link_to t('facility_reviews.edit'),
+                    new_facility_review_path(@space),
+                    id: :new_facility_review_path,
+                    class: 'unstyled-link edit-button collapsable' %>
 
 
-<h2><%= Facility.model_name.human(count: 2) %></h2>
+  <h2><%= Facility.model_name.human(count: 2) %></h2>
 
-<% FacilityCategory.all.each_with_index do |facilityCategory, index| %>
-  <%=
-    # Header isn't needed if these are just the normal facilities, and
-    # we don't have any selected. When we do get 'filtered' or 'selected'
-    # facilities ("Facilities we are looking for"), also the first facilityCategory
-    # header should be included as "Andre fasiliteter"
-    tag.h3 facilityCategory.title unless index == 0
-  %>
+  <% FacilityCategory.all.each_with_index do |facilityCategory, index| %>
+    <%=
+      # Header isn't needed if these are just the normal facilities, and
+      # we don't have any selected. When we do get 'filtered' or 'selected'
+      # facilities ("Facilities we are looking for"), also the first facilityCategory
+      # header should be included as "Andre fasiliteter"
+      tag.h3 facilityCategory.title unless index == 0
+    %>
 
-  <ul class="grid grid-cols-2 gap-2 mt-2">
-    <% @space.facilities_in_category(facilityCategory).each do |facility| %>
-      <%= render partial: 'spaces/show/facility_item', locals: {
-        icon: facility[:icon],
-        title: facility[:title],
-        review: facility[:review],
-        tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
-      } %>
-    <% end %>
-  </ul>
-<% end %>
+    <ul class="grid grid-cols-2 gap-2 mt-2">
+      <% @space.facilities_in_category(facilityCategory).each do |facility| %>
+        <%= render partial: 'spaces/show/facility_item', locals: {
+          icon: facility[:icon],
+          title: facility[:title],
+          review: facility[:review],
+          tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
+        } %>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
