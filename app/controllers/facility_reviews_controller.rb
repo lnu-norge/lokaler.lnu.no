@@ -15,11 +15,24 @@ class FacilityReviewsController < AuthenticateController
     @space = Space.find(params["space_id"])
     parsed = parse_facility_reviews(params["facility_reviews"]["reviews"])
 
-    if FacilityReview.create(parsed)
-      @space.aggregate_facility_reviews
-      create_success
-    else
+    unless FacilityReview.create(parsed)
       render :new, status: :unprocessable_entity
+      return
+    end
+
+    @space.aggregate_facility_reviews
+
+    update_space_facilities
+
+    create_success
+  end
+
+  def update_space_facilities
+    params["space_facilities"].each do |space_facility|
+      next if space_facility.second[:description].empty?
+
+      sf = SpaceFacility.find_by(facility_id: space_facility.first, space: @space.id)
+      sf.update!(description: space_facility.second[:description])
     end
   end
 
@@ -40,11 +53,6 @@ class FacilityReviewsController < AuthenticateController
         redirect_to @space
       end
     end
-  end
-
-  def create_error
-    # set_facility_reviews
-    # Different types of contact should be sent to different error forms
   end
 
   private
