@@ -18,4 +18,12 @@ class User < ApplicationRecord
 
     "#{first_name} #{last_name[0]&.upcase}."
   end
+
+  def facility_review_for(facility, space)
+    facility_reviews.find_by(facility: facility.id) || FacilityReview.new(
+      space: space,
+      facility: facility,
+      user: self
+    )
+  end
 end
