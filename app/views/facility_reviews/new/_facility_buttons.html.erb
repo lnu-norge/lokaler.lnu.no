@@ -13,9 +13,15 @@ Locals:
     <%= f.hidden_field :id, value: facility_review.id %>
 
     <fieldset class="flex mt-3">
-        <legend class="flex gap-2 text-lg items-center mb-1 mt-3">
-          <%= facility.title %>
-          <%= inline_svg_tag "facilities/#{facility.icon}" %>
+        <legend class="mb-1">
+          <div class="flex gap-2 text-lg items-center mb-1 mt-3">
+            <%= facility.title %>
+            <%= inline_svg_tag "facility_status/#{@space.reviews_for_facility(facility)}" %>
+          </div>
+          <div>
+            <%= f.label "Description" %>
+          </div>
+          <%= form.text_field :description, name: "space_facilities[#{facility.id}][description]", value: @space.description_for_facility(facility) %>
         </legend>
 
         <div class="radio-slider">

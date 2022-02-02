@@ -20,12 +20,12 @@
       tag.h3 facilityCategory.title unless index == 0
     %>
 
-    <ul class="grid grid-cols-2 gap-2 mt-2">
+    <ul class="grid grid-cols-1 gap-2 mt-2">
       <% @space.facilities_in_category(facilityCategory).each do |facility| %>
         <%= render partial: 'spaces/show/facility_item', locals: {
-          icon: facility[:icon],
           title: facility[:title],
           review: facility[:review],
+          description: facility[:description],
           tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
         } %>
       <% end %>
