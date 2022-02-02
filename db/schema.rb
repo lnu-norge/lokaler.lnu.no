@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 2022_01_20_131119) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["facility_id"], name: "index_facility_reviews_on_facility_id"
-    t.index ["space_id", "user_id"], name: "index_facility_reviews_on_space_id_and_user_id", unique: true
+    t.index ["space_id", "user_id", "facility_id"], name: "index_facility_reviews_on_space_id_and_user_id_and_facility_id", unique: true
     t.index ["space_id"], name: "index_facility_reviews_on_space_id"
     t.index ["user_id"], name: "index_facility_reviews_on_user_id"
   end
