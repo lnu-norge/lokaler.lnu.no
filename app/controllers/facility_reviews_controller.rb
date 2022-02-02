@@ -14,9 +14,37 @@ class FacilityReviewsController < AuthenticateController
   def create
     @space = Space.find(params["space_id"])
     parsed = parse_facility_reviews(params["facility_reviews"]["reviews"])
-    FacilityReview.create!(parsed)
 
-    @space.aggregate_facility_reviews
+    if FacilityReview.create(parsed)
+      @space.aggregate_facility_reviews
+      create_success
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def create_success
+    flash_message = t("reviews.added_review")
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:notice] = flash_message
+        render turbo_stream: [
+          turbo_stream.update(:flash,
+                              partial: "shared/flash"),
+          turbo_stream.update(:facilities,
+                              partial: "spaces/show/facilities")
+        ]
+      end
+      format.html do
+        flash[:notice] = flash_message
+        redirect_to @space
+      end
+    end
+  end
+
+  def create_error
+    # set_facility_reviews
+    # Different types of contact should be sent to different error forms
   end
 
   private
@@ -30,15 +58,15 @@ class FacilityReviewsController < AuthenticateController
     # Changes welcome!
     facility_review_values = facility_reviews.values
 
-    delete_all_unknown facility_review_values
+    delete_all_previous_reviews facility_review_values
   end
 
   # This should be done in the model, but I never figured out how.
   # I tried to .destroy and filter on before_validation, but
   # it only got roll-backed.
-  def delete_all_unknown(facility_reviews)
+  def delete_all_previous_reviews(facility_reviews)
     ids = facility_reviews.filter_map do |review|
-      review["id"] if review["experience"] == "unknown"
+      review["id"] unless review["id"].empty?
     end
 
     FacilityReview.where(id: ids).destroy_all
