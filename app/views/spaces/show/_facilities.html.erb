@@ -11,13 +11,9 @@
 
   <h2><%= Facility.model_name.human(count: 2) %></h2>
 
-  <% FacilityCategory.all.each_with_index do |facilityCategory, index| %>
+  <% FacilityCategory.all.each_with_index do |facilityCategory| %>
     <%=
-      # Header isn't needed if these are just the normal facilities, and
-      # we don't have any selected. When we do get 'filtered' or 'selected'
-      # facilities ("Facilities we are looking for"), also the first facilityCategory
-      # header should be included as "Andre fasiliteter"
-      tag.h3 facilityCategory.title unless index == 0
+      tag.h3 facilityCategory.title
     %>
 
     <ul class="grid grid-cols-1 gap-2 mt-2">
