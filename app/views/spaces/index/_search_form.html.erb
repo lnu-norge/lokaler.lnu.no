@@ -1,5 +1,5 @@
 <%= form_with data: { mapbox_target: 'form', action: "keydown->mapbox#closeModal" } do |f| %>
-  <div class="my-4">
+  <div class="mb-8">
     <%= f.label t("space_filter.location"), class: "text-xl font-bold" %>
     <div class="mt-2">
       <div data-mapbox-target="location">
@@ -12,43 +12,48 @@
     </div>
   </div>
 
-  <p class="text-md text-center mt-2 mb-1"><%= t("space_filter.more_filters") %></p>
-  <hr />
-  <p class="text-xl font-bold mt-4"><%= Facility.model_name.human(count: 2) %></p>
-
-  <% FacilityCategory.includes(:facilities).all.each do |category| %>
-    <div class="my-4">
-      <%= f.label category.title, class: "text-l mb-4 font-bold" %>
-      <div class="mt-2">
-        <% category.facilities.each do |facility| %>
-          <%= f.label facility.title, class: "flex gap-2 my-1" do %>
-            <%= f.check_box facility.title,
-              class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
-              name: facility.id,
-              data: { mapbox_target: "facility" }
-            %>
-          <%= inline_svg_tag "facilities/#{facility.icon}" if facility.icon %>
-          <%= facility.title %>
-        <% end %>
-      <% end %>
-      </div>
-    </div>
-    <hr />
-  <% end %>
-
-  <div class="my-4">
-    <p class="text-xl font-bold mt-4"><%= SpaceType.model_name.human(count: 2) %></p>
+  <div class="my-8">
+    <h3 class="text-xl font-bold mt-4"><%= SpaceType.model_name.human(count: 2) %></h3>
     <div class="mt-2">
       <% SpaceType.all.each do |space_type| %>
         <%= f.label space_type.type_name, class: "flex gap-2 my-1" do %>
           <%=
             f.check_box space_type.type_name,
-              class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
-              name: space_type.id,
-              data: { mapbox_target: "spaceType" }
-            %>
+                        class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                        name: space_type.id,
+                        data: { mapbox_target: "spaceType" }
+          %>
           <%= space_type.type_name %>
         <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div  class="my-8">
+    <h3 class="text-xl font-bold mt-4">
+      <%= Facility.model_name.human(count: 2) %>
+    </h3>
+    <div class="divide-y border-b border-t my-4">
+      <% FacilityCategory.includes(:facilities).all.each do |category| %>
+        <details open>
+          <summary class="py-4 text-l font-bold cursor-pointer">
+            <%= category.title %>
+          </summary>
+
+          <div class="mb-4">
+            <% category.facilities.each do |facility| %>
+              <%= f.label facility.title, class: "flex gap-2 my-1" do %>
+                <%= f.check_box facility.title,
+                  class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                  name: facility.id,
+                  data: { mapbox_target: "facility" }
+                %>
+              <%= inline_svg_tag "facilities/#{facility.icon}" if facility.icon %>
+              <%= facility.title %>
+            <% end %>
+          <% end %>
+          </div>
+        </details>
       <% end %>
     </div>
   </div>
