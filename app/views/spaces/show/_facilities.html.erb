@@ -11,20 +11,26 @@
 
   <h2><%= Facility.model_name.human(count: 2) %></h2>
 
-  <% FacilityCategory.all.each_with_index do |facilityCategory| %>
-    <%=
-      tag.h3 facilityCategory.title
-    %>
+  <div class="grid divide-y">
+    <% FacilityCategory.all.each_with_index do |facilityCategory| %>
+      <div class="grid md:grid-cols-3 md:gap-4 items-baseline py-4 md:py-8">
+        <h3 class="no-mt">
+          <%= facilityCategory.title %>
+        </h3>
 
-    <ul class="grid grid-cols-1 gap-2 mt-2">
-      <% @space.facilities_in_category(facilityCategory).each do |facility| %>
-        <%= render partial: 'spaces/show/facility_item', locals: {
-          title: facility[:title],
-          review: facility[:review],
-          description: facility[:description],
-          tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
-        } %>
-      <% end %>
-    </ul>
-  <% end %>
+        <ul class="grid gap-1 md:col-span-2">
+          <% @space.facilities_in_category(facilityCategory).each do |facility| %>
+            <%= render partial: 'spaces/show/facility_item', locals: {
+              title: facility[:title],
+              review: facility[:review],
+              description: facility[:description],
+              tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
+            } %>
+          <% end %>
+        </ul>
+      </div>
+
+    <% end %>
+  </div>
+
 </div>
