@@ -8,4 +8,13 @@
       <%= t('space_filter.map_reload') %>
     </button>
   </div>
+
+  <div class="absolute bottom-20 right-6">
+    <button
+      data-action="click->mapbox#enableLocationService"
+      class="
+    bg-white p-2 items-center justify-center border-2 rounded-full border-white hover:border-lnu-pink gap-2">
+      <%= inline_svg_tag 'gps', class: 'inline-block' %>
+    </button>
+  </div>
 </div>
