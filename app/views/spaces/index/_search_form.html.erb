@@ -21,13 +21,13 @@
       <%= f.label category.title, class: "text-l mb-4 font-bold" %>
       <div class="mt-2">
         <% category.facilities.each do |facility| %>
-          <%= f.label facility.title, class: "flex my-1" do %>
+          <%= f.label facility.title, class: "flex gap-2 my-1" do %>
             <%= f.check_box facility.title,
               class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
               name: facility.id,
               data: { mapbox_target: "facility" }
             %>
-          <%= inline_svg_tag "facilities/#{facility.icon}", class: "mx-2" %>
+          <%= inline_svg_tag "facilities/#{facility.icon}" if facility.icon %>
           <%= facility.title %>
         <% end %>
       <% end %>
@@ -40,10 +40,10 @@
     <p class="text-xl font-bold mt-4"><%= SpaceType.model_name.human(count: 2) %></p>
     <div class="mt-2">
       <% SpaceType.all.each do |space_type| %>
-        <%= f.label space_type.type_name, class: "flex my-1" do %>
+        <%= f.label space_type.type_name, class: "flex gap-2 my-1" do %>
           <%=
             f.check_box space_type.type_name,
-              class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded mr-2",
+              class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
               name: space_type.id,
               data: { mapbox_target: "spaceType" }
             %>
