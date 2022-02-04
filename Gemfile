@@ -60,6 +60,7 @@ group :development do
   gem "rubocop-performance"
   gem "rubocop-rails"
   gem "rubocop-rspec"
+  gem "web-console"
 end
 
 group :test do
