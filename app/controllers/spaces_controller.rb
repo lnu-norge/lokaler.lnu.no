@@ -79,7 +79,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       @space.update!(
         space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
       )
-    else
+    elsif params[:space][:space_group_title] == ""
       @space.update!(space_group: nil)
     end
   end
