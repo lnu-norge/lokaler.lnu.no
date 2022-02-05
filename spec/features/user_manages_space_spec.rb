@@ -66,6 +66,21 @@ describe "User manages homepage", js: true do
     end
   end
 
+  it "user edits how_to_book" do
+    login_and_logout_with_warden do
+      visit space_path(id: space.id)
+      click_link "edit_how_to_book"
+
+      within("div.space_how_to_book") do
+        find("trix-editor").set("New How To Book")
+      end
+
+      click_button "Lagre"
+
+      expect(page).to have_text("New How To Book")
+    end
+  end
+
   it "user adds new space contact" do
     login_and_logout_with_warden do
       visit space_path(id: space.id)
