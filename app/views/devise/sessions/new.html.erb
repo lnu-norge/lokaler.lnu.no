@@ -1,3 +1,5 @@
+<% content_for(:html_title) { t("devise.sessions.user.submit_login") } %>
+
 <div class="max-w-md mx-auto p-4 w-full space-y-8">
   <div>
     <%= image_tag 'logo.svg', alt: 'LNU logo', width: 200, height: 200, class: 'mx-auto h-12 w-auto' %>
@@ -34,4 +36,10 @@
       <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: t('simple_form.labels.user.submit_login') } %>
     </div>
   <% end %>
+
+  <div>
+    <%= form_tag('/auth/google_oauth2', method: 'post', "data-turbo": false) do %>
+      <button type='submit'>Login with Google</button>
+    <% end %>
+  </div>
 </div>

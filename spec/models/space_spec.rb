@@ -67,9 +67,9 @@ RSpec.describe Space, type: :model do
     let(:space_type_c) { Fabricate(:space_type, type_name: "C") }
 
     before do
-      Fabricate(:space, space_type: space_type_b)
-      Fabricate(:space, space_type: space_type_b)
-      Fabricate(:space, space_type: space_type_a)
+      Fabricate(:space, space_types: [space_type_b])
+      Fabricate(:space, space_types: [space_type_b])
+      Fabricate(:space, space_types: [space_type_a])
     end
 
     context "when only type A" do

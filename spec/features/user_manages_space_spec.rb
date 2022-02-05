@@ -27,7 +27,7 @@ describe "User manages homepage", js: true do
 
       click_button I18n.t("space_create.none_are_duplicates.one")
 
-      tom_select("select#space_space_type_id", option_id: space_type.id)
+      tom_select("select#space_space_type_ids", option_id: space_type.id)
       tom_select("select#space_space_group_title", option_id: space_group.title)
       click_button I18n.t("helpers.submit.create", model: Space.model_name.human)
       expect(page).to have_text(space.title)
