@@ -17,7 +17,7 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
     password_confirmation: "password"
   )
 
-  positive_review = Review.create(
+  Review.create(
     title: "Ryddig og hyggelig skole!",
     user: user,
     price: 5400,
@@ -29,28 +29,24 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
   FacilityReview.create(
     facility: Facility.first,
     space: space,
-    review: positive_review,
     user: user,
     experience: :was_allowed
   )
   FacilityReview.create(
     facility: Facility.all[6],
     space: space,
-    review: positive_review,
     user: user,
     experience: :was_allowed
   )
   FacilityReview.create(
     facility: Facility.all[2],
     space: space,
-    review: positive_review,
     user: user,
     experience: :was_allowed
   )
   FacilityReview.create(
     facility: Facility.all[5],
     space: space,
-    review: positive_review,
     user: user,
     experience: :was_not_allowed
   )
@@ -69,7 +65,7 @@ Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!"
     password_confirmation: "password"
   )
 
-  negative_review = Review.create(
+  Review.create(
     title: "Ville ikke la oss overnatte!",
     user: negative_user,
     comment: negative_review_comment,
@@ -80,7 +76,6 @@ Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!"
   FacilityReview.create(
     facility: Facility.first,
     space: space,
-    review: negative_review,
     user: negative_user,
     experience: :was_not_allowed
   )

@@ -1,9 +1,15 @@
 <li
-  class="flex items-center gap-1.5"
   title="<%= tooltip %>">
-  <%= inline_svg_tag "facilities/#{icon}" %>
-  <%= title %>
-  <span>
-    <%= inline_svg_tag "facility_status/#{review}" %>
+  <span class="flex items-center gap-1.5">
+    <%= title %>
+      <span>
+      <%= inline_svg_tag "facility_status/#{review}" %>
+    </span>
   </span>
+  <% unless description.nil? %>
+    <p class="text-gray-400">
+      <%= description %>
+    </p>
+  <% end %>
+
 </li>
