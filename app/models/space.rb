@@ -101,9 +101,11 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       post_address: post_address
     )
 
-    return nil if results.count > 1 || results.empty?
+    full_information = post_number.length == 4 && address.present? && results.present?
+    return results.first if results.count == 1 || full_information
 
-    results.first
+    # Otherwise, return nil
+    nil
   end
 
   def potential_duplicates
