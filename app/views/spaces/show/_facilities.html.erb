@@ -1,34 +1,38 @@
-<div id="facilities">
-  <%= inline_editable :facility_description  do %>
-    <%= @space.facility_description %>
-  <% end %>
+<section id="facilities">
 
-  <%= modal_link_to t('facility_reviews.edit'),
-                    new_facility_review_path(@space),
-                    id: :new_facility_review_path,
-                    class: 'unstyled-link edit-button collapsable' %>
+  <header class="editable-header-type-h2 flex gap-3 items-baseline">
+    <h2><%= Facility.model_name.human(count: 2) %></h2>
+    <%= modal_link_to_with_block new_facility_review_path(@space),
+                      id: :new_facility_review_path,
+                      class: 'unstyled-link edit-button collapsable' do %>
+        <span class="text">
+          Redigér
+        </span>
+      <%= inline_svg_tag 'edit', alt: 'Redigér', title: 'Redigér' %>
+    <% end %>
 
+  </header>
 
-  <h2><%= Facility.model_name.human(count: 2) %></h2>
+  <main class="grid divide-y">
+    <% FacilityCategory.all.each_with_index do |facilityCategory| %>
+      <div class="grid md:grid-cols-3 md:gap-4 items-baseline py-4 md:py-8">
+        <h3 class="no-mt">
+          <%= facilityCategory.title %>
+        </h3>
 
-  <% FacilityCategory.all.each_with_index do |facilityCategory, index| %>
-    <%=
-      # Header isn't needed if these are just the normal facilities, and
-      # we don't have any selected. When we do get 'filtered' or 'selected'
-      # facilities ("Facilities we are looking for"), also the first facilityCategory
-      # header should be included as "Andre fasiliteter"
-      tag.h3 facilityCategory.title unless index == 0
-    %>
+        <ul class="grid gap-1 md:col-span-2">
+          <% @space.facilities_in_category(facilityCategory).each do |facility| %>
+            <%= render partial: 'spaces/show/facility_item', locals: {
+              title: facility[:title],
+              review: facility[:review],
+              description: facility[:description],
+              tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
+            } %>
+          <% end %>
+        </ul>
+      </div>
 
-    <ul class="grid grid-cols-1 gap-2 mt-2">
-      <% @space.facilities_in_category(facilityCategory).each do |facility| %>
-        <%= render partial: 'spaces/show/facility_item', locals: {
-          title: facility[:title],
-          review: facility[:review],
-          description: facility[:description],
-          tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
-        } %>
-      <% end %>
-    </ul>
-  <% end %>
-</div>
+    <% end %>
+  </main>
+
+</section>
