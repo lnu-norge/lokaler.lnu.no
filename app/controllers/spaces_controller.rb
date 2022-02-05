@@ -38,8 +38,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   def address_search
     address = Space.search_for_address(
       address: params[:address],
-      post_number: params[:post_number],
-      post_address: params[:post_address]
+      post_number: params[:post_number]
     )
 
     return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
@@ -165,8 +164,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   def get_address_params(params)
     Space.search_for_address(
       address: params[:space][:address],
-      post_number: params[:space][:post_number],
-      post_address: params[:space][:post_address]
+      post_number: params[:space][:post_number]
     ) || {}
   end
 

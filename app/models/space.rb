@@ -94,11 +94,10 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     Spaces::AggregateStarRatingService.call(space: self)
   end
 
-  def self.search_for_address(address:, post_number:, post_address:)
+  def self.search_for_address(address:, post_number:)
     results = Spaces::LocationSearchService.call(
       address: address,
-      post_number: post_number,
-      post_address: post_address
+      post_number: post_number
     )
 
     full_information = post_number.length == 4 && address.present? && results.present?
