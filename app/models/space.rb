@@ -162,6 +162,12 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def space_types_joined
     space_types.map { |space_type| space_type.type_name.humanize }.join(", ")
   end
+
+  def to_param
+    return nil unless persisted?
+
+    [id, title.parameterize].join("-")
+  end
 end
 
 # == Schema Information
