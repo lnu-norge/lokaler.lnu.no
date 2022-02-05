@@ -28,7 +28,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_rich_text :pricing
   has_rich_text :terms
   has_rich_text :more_info
-  has_rich_text :facility_description
 
   include ParseUrlHelper
   before_validation :parse_url
