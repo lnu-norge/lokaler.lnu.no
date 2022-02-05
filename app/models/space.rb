@@ -12,7 +12,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   belongs_to :space_group, optional: true
   accepts_nested_attributes_for :space_group
 
-  scope :filter_on_space_types, ->(space_type_ids) { where(space_type_id: space_type_ids) }
+  scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids).distinct }
   scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
           north_west_lat: north_west_lat,
@@ -21,7 +21,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
           south_east_lng: south_east_lng)
   }
 
-  belongs_to :space_type
+  has_many :space_types_relations, dependent: :destroy
+  has_many :space_types, through: :space_types_relations, dependent: :destroy
 
   has_rich_text :how_to_book
   has_rich_text :who_can_use
@@ -156,5 +157,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def render_map_marker
     html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self }
     { lat: lat, lng: lng, id: id, html: html }
+  end
+
+  def space_types_joined
+    space_types.map { |space_type| space_type.type_name.humanize }.join(", ")
   end
 end
