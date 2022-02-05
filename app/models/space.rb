@@ -50,16 +50,22 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     space_facilities.find_by(facility: facility).experience
   end
 
-  def description_for_facility(facility)
-    space_facilities.find_by(facility: facility).description
-  end
-
   def facilities_in_category(category)
-    category.facilities.where(id: space_facilities.pluck(:facility_id)).map do |result|
+    space_facilities
+      .includes(:facility)
+      .joins(facility: [:facilities_categories])
+      .where(
+        facility: {
+          facilities_categories: {
+            facility_category_id: category.id
+          }
+        }
+      ).map do |result|
       {
-        title: result.title,
-        description: description_for_facility(result),
-        review: reviews_for_facility(result)
+        id: result.facility.id,
+        title: result.facility.title,
+        description: result.description,
+        review: result.experience
       }
     end
   end

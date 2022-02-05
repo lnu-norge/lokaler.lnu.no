@@ -1,6 +1,6 @@
 <section id="facilities">
 
-  <header class="editable-header-type-h2 flex gap-3 items-baseline">
+ <header class="editable-header-type-h2 flex gap-3 items-baseline">
     <h2><%= Facility.model_name.human(count: 2) %></h2>
     <%= modal_link_to_with_block new_facility_review_path(@space),
                       id: :new_facility_review_path,
@@ -14,7 +14,7 @@
   </header>
 
   <main class="grid divide-y">
-    <% FacilityCategory.all.each_with_index do |facilityCategory| %>
+    <% FacilityCategory.all.includes(:facilities).each_with_index do |facilityCategory, index| %>
       <div class="grid md:grid-cols-3 md:gap-4 items-baseline py-4 md:py-8">
         <h3 class="no-mt">
           <%= facilityCategory.title %>
@@ -34,5 +34,4 @@
 
     <% end %>
   </main>
-
 </section>

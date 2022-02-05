@@ -3,7 +3,7 @@
     <% @categories.each do |category| %>
       <%= render partial: 'facility_reviews/new/facility_category',
         locals: {
-          facilities_in_category: category.facilities,
+          facilities_in_category: @space.facilities_in_category(category),
           form: form,
           review: form.object,
           category: category } %>
