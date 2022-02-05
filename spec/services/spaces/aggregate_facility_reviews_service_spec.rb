@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe Spaces::AggregateFacilityReviewsService do
   let(:space) { Fabricate(:space) }
   let(:facility_category) { Fabricate(:facility_category) }
-  let(:facility) { Fabricate(:facility, facility_category: facility_category) }
+  let(:facility) { Fabricate(:facility, facility_categories: [facility_category]) }
 
   def experience(experience, other_facility = nil)
     Fabricate(:facility_review, space: space, experience: experience, facility: other_facility || facility)
@@ -46,7 +46,7 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
   it "Is unknown if no reviews, and turns back into unknown if all facility reviews are deleted" do
     facility # ensure that the facility object is made
     space.facility_reviews.destroy_all
-    expect(space.reload.aggregated_facility_reviews.first.experience).to eq("unknown")
+    expect(space.reload.space_facilities.first.experience).to eq("unknown")
 
     2.times { experience :was_not_allowed }
     space.facility_reviews.destroy_all

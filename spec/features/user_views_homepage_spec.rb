@@ -18,14 +18,14 @@ describe "User views homepage", js: true do
     create_user!
     login_with_warden!
 
-    review1 = Fabricate(:review, space: space1)
-    review2 = Fabricate(:review, space: space2)
+    category = Fabricate(:facility_category)
+    category.facilities << facility1
+    category.facilities << facility2
 
-    Fabricate(:facility_review, review: review1, space: space1, facility: facility1, experience: :was_allowed)
-    Fabricate(:facility_review, review: review1, space: space1, facility: facility2, experience: :was_not_allowed)
-
-    Fabricate(:facility_review, review: review2, space: space2, facility: facility1, experience: :was_not_allowed)
-    Fabricate(:facility_review, review: review2, space: space2, facility: facility2, experience: :was_allowed)
+    Fabricate(:facility_review, space: space1, facility: facility1, experience: :was_allowed)
+    Fabricate(:facility_review, space: space1, facility: facility2, experience: :was_not_allowed)
+    Fabricate(:facility_review, space: space2, facility: facility1, experience: :was_not_allowed)
+    Fabricate(:facility_review, space: space2, facility: facility2, experience: :was_allowed)
 
     space1.aggregate_facility_reviews
     space2.aggregate_facility_reviews

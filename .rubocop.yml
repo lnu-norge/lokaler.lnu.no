@@ -21,6 +21,9 @@ RSpec/MultipleExpectations:
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 
+Rails/ReflectionClassName:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: true
   Exclude:

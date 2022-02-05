@@ -4,7 +4,6 @@ class FacilityReview < ApplicationRecord
   belongs_to :facility
   belongs_to :space
   belongs_to :user
-  belongs_to :review
 
   enum experience: { was_allowed: 0, was_not_allowed: 2, was_not_available: 3 }
 
@@ -12,7 +11,7 @@ class FacilityReview < ApplicationRecord
   scope :positive, -> { where(experience: :was_allowed) }
   scope :negative, -> { where(experience: :was_not_allowed) }
 
-  validates :facility, uniqueness: { scope: :review }
+  validates :space, uniqueness: { scope: [:user, :facility] }
 
   def experience_icon
     ICON_FOR_EXPERIENCE[experience]
