@@ -11,7 +11,7 @@
 
   <h2><%= Facility.model_name.human(count: 2) %></h2>
 
-  <% FacilityCategory.all.each_with_index do |facilityCategory, index| %>
+  <% FacilityCategory.all.includes(:facilities).each_with_index do |facilityCategory, index| %>
     <%=
       # Header isn't needed if these are just the normal facilities, and
       # we don't have any selected. When we do get 'filtered' or 'selected'

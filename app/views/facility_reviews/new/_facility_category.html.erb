@@ -6,7 +6,7 @@
                  locals: {
                    facility: facility_review,
                    facility_review:
-                     current_user.facility_review_for(facility_review, @space),
+                     current_user.facility_review_for(facility_review[:id], @space),
                    form: form } %>
     <% end %>
   </ul>
