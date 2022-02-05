@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  require "securerandom"
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:google_oauth2]
 
   include Gravtastic
   gravtastic default: "retro"
@@ -25,5 +27,12 @@ class User < ApplicationRecord
       facility_id: facility_id,
       user: self
     )
+  end
+
+  def self.from_google(email:, first_name:, last_name:)
+    create_with(first_name: first_name,
+                last_name: last_name,
+                password: SecureRandom.base64(13))
+      .find_or_create_by!(email: email)
   end
 end

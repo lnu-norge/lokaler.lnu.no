@@ -5,11 +5,11 @@ require "rails_helper"
 describe "User views homepage", js: true do
   let!(:space1) do
     Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.603,
-                      space_type: Fabricate(:space_type, type_name: "Type1"))
+                      space_types: [Fabricate(:space_type, type_name: "Type1")])
   end
   let!(:space2) do
     Fabricate(:space, address: "Ulefossvegen 16", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.607,
-                      space_type: Fabricate(:space_type, type_name: "Type2"))
+                      space_types: [Fabricate(:space_type, type_name: "Type2")])
   end
   let!(:facility1) { Fabricate(:facility, title: "Facility1") }
   let!(:facility2) { Fabricate(:facility, title: "Facility2") }
@@ -57,13 +57,13 @@ describe "User views homepage", js: true do
       uncheck(facility1.title)
       uncheck(facility2.title)
 
-      check(space1.space_type.type_name)
+      check(space1.space_types.first.type_name)
 
       expect(page).not_to have_content(space2.title)
 
-      uncheck(space1.space_type.type_name)
+      uncheck(space1.space_types.first.type_name)
 
-      check(space2.space_type.type_name)
+      check(space2.space_types.first.type_name)
 
       expect(page).not_to have_content(space1.title)
     end
