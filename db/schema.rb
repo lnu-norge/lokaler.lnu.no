@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_20_131119) do
+ActiveRecord::Schema.define(version: 2022_02_04_113916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,8 +58,6 @@ ActiveRecord::Schema.define(version: 2022_01_20_131119) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "icon"
-    t.bigint "facility_category_id"
-    t.index ["facility_category_id"], name: "index_facilities_on_facility_category_id"
   end
 
   create_table "facilities_categories", force: :cascade do |t|
@@ -159,6 +157,15 @@ ActiveRecord::Schema.define(version: 2022_01_20_131119) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "space_types_relations", force: :cascade do |t|
+    t.bigint "space_type_id", null: false
+    t.bigint "space_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["space_id"], name: "index_space_types_relations_on_space_id"
+    t.index ["space_type_id"], name: "index_space_types_relations_on_space_type_id"
+  end
+
   create_table "spaces", force: :cascade do |t|
     t.string "address"
     t.decimal "lat"
@@ -166,7 +173,6 @@ ActiveRecord::Schema.define(version: 2022_01_20_131119) do
     t.bigint "space_group_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "space_type_id"
     t.string "title", null: false
     t.string "organization_number"
     t.string "post_number"
@@ -175,7 +181,6 @@ ActiveRecord::Schema.define(version: 2022_01_20_131119) do
     t.decimal "star_rating", precision: 2, scale: 1
     t.string "url"
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
-    t.index ["space_type_id"], name: "index_spaces_on_space_type_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -208,7 +213,6 @@ ActiveRecord::Schema.define(version: 2022_01_20_131119) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "facilities", "facility_categories"
   add_foreign_key "facilities_categories", "facilities"
   add_foreign_key "facilities_categories", "facility_categories"
   add_foreign_key "facility_reviews", "facilities"
@@ -220,6 +224,7 @@ ActiveRecord::Schema.define(version: 2022_01_20_131119) do
   add_foreign_key "space_contacts", "spaces"
   add_foreign_key "space_facilities", "facilities"
   add_foreign_key "space_facilities", "spaces"
+  add_foreign_key "space_types_relations", "space_types"
+  add_foreign_key "space_types_relations", "spaces"
   add_foreign_key "spaces", "space_groups"
-  add_foreign_key "spaces", "space_types"
 end
