@@ -174,7 +174,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     space_types = params[:space_types]&.map(&:to_i)
     facilities = params[:facilities]&.map(&:to_i)
 
-    spaces = Space.includes([:images, :space_type]).filter_on_location(
+    spaces = Space.includes([:images]).filter_on_location(
       params[:north_west_lat],
       params[:north_west_lng],
       params[:south_east_lat],
@@ -193,7 +193,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       :address,
       :lat,
       :lng,
-      :space_type_id,
+      { space_type_ids: [] },
       :space_group_id,
       :post_number,
       :post_address,

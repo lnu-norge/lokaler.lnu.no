@@ -157,6 +157,15 @@ ActiveRecord::Schema.define(version: 2022_02_04_113916) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "space_types_relations", force: :cascade do |t|
+    t.bigint "space_type_id", null: false
+    t.bigint "space_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["space_id"], name: "index_space_types_relations_on_space_id"
+    t.index ["space_type_id"], name: "index_space_types_relations_on_space_type_id"
+  end
+
   create_table "spaces", force: :cascade do |t|
     t.string "address"
     t.decimal "lat"
@@ -164,7 +173,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_113916) do
     t.bigint "space_group_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "space_type_id"
     t.string "title", null: false
     t.string "organization_number"
     t.string "post_number"
@@ -173,7 +181,6 @@ ActiveRecord::Schema.define(version: 2022_02_04_113916) do
     t.decimal "star_rating", precision: 2, scale: 1
     t.string "url"
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
-    t.index ["space_type_id"], name: "index_spaces_on_space_type_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -217,6 +224,7 @@ ActiveRecord::Schema.define(version: 2022_02_04_113916) do
   add_foreign_key "space_contacts", "spaces"
   add_foreign_key "space_facilities", "facilities"
   add_foreign_key "space_facilities", "spaces"
+  add_foreign_key "space_types_relations", "space_types"
+  add_foreign_key "space_types_relations", "spaces"
   add_foreign_key "spaces", "space_groups"
-  add_foreign_key "spaces", "space_types"
 end

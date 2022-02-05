@@ -1,3 +1,5 @@
+<% content_for(:html_title) { "#{t("space_edit.edit_images")} #{@space.title}" } %>
+
 <div>
   <% @space.images.each do |image| %>
     <%= image_tag image.url, class: "w-64" %>
