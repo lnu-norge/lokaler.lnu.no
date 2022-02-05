@@ -66,7 +66,7 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
 
   def set_new_review_attributes
     @space = Space.find(params[:space_id]) unless defined? @review
-    @review = Review.new(space: @space) unless defined? @review
+    @review = @space.reviews.new(organization: current_user.organization) unless defined? @review
     set_facility_reviews
   end
 
@@ -174,6 +174,7 @@ class ReviewsController < AuthenticateController # rubocop:disable Metrics/Class
       :how_long, :how_long_custom,
       :type_of_contact,
       :space_id,
+      :organization,
       facility_reviews_attributes: %i[facility_id experience id]
     )
   end

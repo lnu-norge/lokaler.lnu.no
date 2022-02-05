@@ -133,7 +133,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
         end
       end
 
-      OpenStruct.new(score: score, space: space)
+      OpenStruct.new(score: score, space: space) # rubocop:disable Style/OpenStructUse
     end
 
     results.sort_by(&:score).map(&:space)

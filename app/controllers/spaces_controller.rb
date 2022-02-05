@@ -61,11 +61,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     @space = Space.find(params[:id])
     address_params = get_address_params(params)
 
-    if params[:space][:space_group_title].present?
-      @space.update!(
-        space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
-      )
-    end
+    space_group_from(params)
 
     if @space.update(
       **space_params,
@@ -75,6 +71,16 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     else
       @field = "basics"
       render "spaces/edit/common/edit_field"
+    end
+  end
+
+  def space_group_from(params)
+    if params[:space][:space_group_title].present?
+      @space.update!(
+        space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
+      )
+    else
+      @space.update!(space_group: nil)
     end
   end
 

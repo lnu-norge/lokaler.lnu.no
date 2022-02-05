@@ -9,7 +9,7 @@ RSpec.describe "facilities/show.html.erb", type: :view do
     assign(:facility, facility)
     render
 
-    expect(rendered).to match /#{facility.title}/
-    expect(rendered).to match /#{facility.icon}/
+    expect(rendered).to match(/#{facility.title}/)
+    expect(rendered).to match(/#{facility.icon}/)
   end
 end

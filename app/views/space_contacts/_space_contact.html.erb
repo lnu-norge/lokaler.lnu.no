@@ -1,7 +1,7 @@
 
 <%= turbo_frame_tag dom_id(space_contact) do %>
   <div class="group rounded-md shadow-md p-4 border border-gray-100 flex justify-between gap-6 mb-3 md:w-3/4">
-    <div>
+    <div class="min-w-0">
         <h4 class="font-bold"><%= space_contact.title %></h4>
       <dl>
         <% if space_contact.telephone? %>
@@ -27,7 +27,7 @@
         <% end %>
         <% if space_contact.url? %>
           <dt class="sr-only"><%= t('space_contacts.url') %></dt>
-          <dd><%= link_to space_contact.url, space_contact.url,  title: t('space_contacts.url') %></dd>
+          <dd class="truncate"><%= link_to space_contact.url, space_contact.url %></dd>
         <% end %>
         <% if space_contact.description? %>
           <dt  class="sr-only"><%= t('space_contacts.description') %>:</dt>
@@ -45,4 +45,3 @@
     </nav>
   </div>
 <% end %>
-

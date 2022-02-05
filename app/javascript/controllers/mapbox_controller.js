@@ -18,6 +18,14 @@ export default class extends Controller {
 
   toggleSearchBox() {
     this.searchBoxTarget.classList.toggle("hidden");
+    let searchField = document.getElementById("locationInput-ts-control");
+    searchField.focus();
+  }
+
+  closeModal(e) {
+    if (e.key === "Enter") {
+      this.toggleSearchBox();
+    }
   }
 
   requestPosition() {
@@ -295,7 +303,7 @@ export default class extends Controller {
     });
 
     // Add or update the ones we want to show:
-    markers.forEach((space) => {
+    markers.reverse().forEach((space) => {
       this.addMarker(space);
     });
   }
@@ -345,4 +353,3 @@ export default class extends Controller {
     }
   }
 }
-

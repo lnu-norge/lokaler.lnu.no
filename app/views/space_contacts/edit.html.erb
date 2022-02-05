@@ -1,3 +1,5 @@
+<% content_for(:html_title) { "#{t("space_contacts.edit")} #{ @space_contact.title}" } %>
+
 <%=
   render partial: "space_contacts/edit",
            locals: { space_contact: @space_contact }
