@@ -21,7 +21,7 @@ describe "User manages homepage", js: true do
       fill_in "space_title", with: space.title
       fill_in "space_address", with: space.address
       fill_in "space_post_number", with: space.post_number
-      fill_in "space_post_address", with: space.post_address
+      find("body").click # Blur from field
 
       expect(page).to have_text(I18n.t("space_create.any_of_these.one"))
 
@@ -55,14 +55,12 @@ describe "User manages homepage", js: true do
       fill_in "space_url", with: "asd"
       fill_in "space_address", with: ""
       fill_in "space_post_number", with: ""
-      fill_in "space_post_address", with: ""
 
       click_button "Lagre"
       expect(page).to have_text("Title #{I18n.t('errors.messages.blank')}")
       expect(page).to have_text("Nettside #{I18n.t('activerecord.errors.models.space.attributes.url.url')}")
       expect(page).to have_text("Adresse #{I18n.t('errors.messages.blank')}")
       expect(page).to have_text("Postnummer #{I18n.t('errors.messages.blank')}")
-      expect(page).to have_text("Poststed #{I18n.t('errors.messages.blank')}")
     end
   end
 
