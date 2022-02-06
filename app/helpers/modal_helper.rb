@@ -41,15 +41,4 @@ module ModalHelper
       block: block
     }
   end
-
-  def modal_button_for(text = nil, modal_id = nil, **options)
-    button_tag text, {
-      data: {
-        controller: "modal",
-        action: "click->modal#openModal",
-        modal_id: modal_id
-      },
-      **options
-    }
-  end
 end
