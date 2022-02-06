@@ -100,16 +100,17 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     Spaces::AggregateStarRatingService.call(space: self)
   end
 
-  def self.search_for_address(address:, post_number:, post_address:)
+  def self.search_for_address(address:, post_number:)
     results = Spaces::LocationSearchService.call(
       address: address,
-      post_number: post_number,
-      post_address: post_address
+      post_number: post_number
     )
 
-    return nil if results.count > 1 || results.empty?
+    full_information = post_number&.length == 4 && address.present? && results.present?
+    return results.first if results.count == 1 || full_information
 
-    results.first
+    # Otherwise, return nil
+    nil
   end
 
   def potential_duplicates
@@ -168,4 +169,38 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def space_types_joined
     space_types.map { |space_type| space_type.type_name.humanize }.join(", ")
   end
+
+  def to_param
+    return nil unless persisted?
+
+    [id, title.parameterize].join("-")
+  end
 end
+
+# == Schema Information
+#
+# Table name: spaces
+#
+#  id                  :bigint           not null, primary key
+#  address             :string
+#  lat                 :decimal(, )
+#  lng                 :decimal(, )
+#  municipality_code   :string
+#  organization_number :string
+#  post_address        :string
+#  post_number         :string
+#  star_rating         :decimal(2, 1)
+#  title               :string           not null
+#  url                 :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  space_group_id      :bigint
+#
+# Indexes
+#
+#  index_spaces_on_space_group_id  (space_group_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (space_group_id => space_groups.id)
+#
