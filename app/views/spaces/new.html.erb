@@ -1,13 +1,6 @@
 <% content_for(:html_title) { t('space_listing.new_space') } %>
 
 <div class="p-4 max-w-prose content mx-auto">
-
-  <%= modal_button_for "Test modal button", :modal_id  %>
-
-  <%= modal_for :modal_id do %>
-    Test modal content
-  <% end  %>
-
   <h2><%= t('space_listing.new_space') %></h2>
     <%= simple_form_for @space, data: { controller: 'duplicate-checker'  } do |form|  %>
       <%= edit_field 'title', form %>
