@@ -1,4 +1,13 @@
-<%= turbo_modal_link_to t('reviews.add_review'),
-                  new_review_path(@space),
-                  id: :new_review_path,
-                  class: 'inline-block border border-pink-600 py-2 px-4 rounded-md' %>
+<%= button_to_modal :new_review_path, class: 'link inline-block border border-pink-600 py-2 px-4 rounded-md' do %>
+  <%=  t('reviews.add_review') %>
+<% end %>
+
+<%= modal_for :new_review_path do %>
+  <div class="p-8 pt-16">
+    <%= turbo_frame_tag :new_review_path, src: new_review_path(@space), lazy: true do %>
+      <div class="w-full h-screen flex justify-center items-center">
+        <div class="text-xl animate-spin">Laster!</div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
