@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class HistoryController < Admin::AdminController
+  class HistoryController < BaseControllers::AuthenticateAsAdminController
     MAX_PAGE_SIZE = 5
 
     def paginate_array(array)
