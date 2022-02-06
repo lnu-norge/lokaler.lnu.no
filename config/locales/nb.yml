@@ -188,7 +188,7 @@ nb:
         terms: 'Vilkår for å bruke lokalet'
         pricing: 'Pris'
         where: 'Hvor er det?'
-        location_description: 'Annen adresse informasjon'
+        location_description: 'Mer om hvordan finne fram'
         address: 'Adresse'
         street_name: 'Gatenavn'
         post_number: 'Postnummer'
