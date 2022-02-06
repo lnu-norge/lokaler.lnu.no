@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ReviewsController < AuthenticateController
+class ReviewsController < BaseControllers::AuthenticateController
   before_action :set_review_from_id, only: [:show, :edit, :update]
   before_action :set_space_from_review, only: [:show, :edit, :update]
   before_action :set_new_review_attributes, only: [:new, :new_with_type_of_contact]

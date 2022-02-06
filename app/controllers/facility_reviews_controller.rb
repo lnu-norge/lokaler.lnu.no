@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
-class FacilityReviewsController < AuthenticateController
+class FacilityReviewsController < BaseControllers::AuthenticateController
   def new
-    @categories = FacilityCategory.all
     @space = Space.find(params["space_id"])
+    @categories = FacilityCategory.all
+
+    @reviews_for_categories = @space.reviews_for_categories(current_user)
+    @facilities_for_categories = @space.facilities_for_categories
 
     @experiences = [
       *FacilityReview.experiences.keys,
@@ -41,6 +44,7 @@ class FacilityReviewsController < AuthenticateController
     respond_to do |format|
       format.turbo_stream do
         flash.now[:notice] = flash_message
+        @facilities_for_categories = @space.facilities_for_categories
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),

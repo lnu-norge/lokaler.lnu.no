@@ -6,11 +6,11 @@
     <div class="modal-content">
       <% @categories.each do |category| %>
         <%= render partial: 'facility_reviews/new/facility_category',
-          locals: {
-            facilities_in_category: category.facilities,
-            form: form,
-            review: form.object,
-            category: category } %>
+                   locals: {
+                     facilities_in_category: @facilities_for_categories[category.id],
+                     form: form,
+                     review: form.object,
+                     category: category } %>
       <% end %>
     </div>
     <div class="modal-footer">
