@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FacilityReviewsController < AuthenticateController
+class FacilityReviewsController < BaseControllers::AuthenticateController
   def new
     @space = Space.find(params["space_id"])
     @categories = FacilityCategory.all
