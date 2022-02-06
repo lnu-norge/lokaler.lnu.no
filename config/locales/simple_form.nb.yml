@@ -82,7 +82,7 @@ nb:
         title: "F.eks. 'Gudeberg skole'"
         address: "Gatenavn"
         post_address: "Poststed"
-        location_description: "F.eks. 'Inngang på baksiden`"
+        location_description: F.eks. Inngang på baksiden
         post_number: "Post-#"
         organization_number: "Organisasjonsnummer"
         space_type_id: "Velg type lokale"
