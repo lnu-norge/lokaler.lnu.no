@@ -1,4 +1,4 @@
-<%= modal_content_for :new_facility_review_path, @space do %>
+<%= turbo_modal_content_for :new_facility_review_path, @space do %>
   <%= form_for "facility_reviews", url: create_facility_review_path(@space) do |form| %>
     <% @categories.each do |category| %>
       <%= render partial: 'facility_reviews/new/facility_category',

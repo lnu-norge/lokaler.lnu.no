@@ -24,7 +24,7 @@
       <%= review.comment %>
     <% else %>
       <%= truncate(review.comment, length: 88) %>
-      <%= modal_link_to t('read_more'), review %>
+      <%= turbo_modal_link_to t('read_more'), review %>
     <% end %>
   </p>
 <% end  %>

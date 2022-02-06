@@ -1,4 +1,4 @@
-<%= modal_content_for :new_review_path, @review.space do %>
+<%= turbo_modal_content_for :new_review_path, @review.space do %>
 
   <%= simple_form_for @review do |form| %>
     <%= form.hidden_field :space_id, value: @review.space.id %>

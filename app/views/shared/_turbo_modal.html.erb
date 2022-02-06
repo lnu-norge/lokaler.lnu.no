@@ -1,0 +1,18 @@
+<%= turbo_frame_tag id, target: "_top" do %>
+  <div  data-controller="modal" class="modal-background" data-modal-target="background">
+    <div class="modal content">
+      <nav class="text-left text-sm mb-4 ">
+        <%= link_to parent, data: {
+          modal_target: 'closeButton'
+        }, class: "p-4 -mt-4 -ml-4 inline-flex content-center items-center" do %>
+          <%= inline_svg_tag 'x', class: 'inline-block' %>
+          Lukk
+        <% end %>
+      </nav>
+      <main>
+        <%= capture(&block) %>
+      </main>
+    </div>
+  </div>
+<% end %>
+

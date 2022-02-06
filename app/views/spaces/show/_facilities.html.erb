@@ -2,9 +2,9 @@
 
   <header class="editable-header-type-h2 flex gap-3 items-baseline">
     <h2><%= Facility.model_name.human(count: 2) %></h2>
-    <%= modal_link_to_with_block new_facility_review_path(@space),
-                      id: :new_facility_review_path,
-                      class: 'unstyled-link edit-button collapsable' do %>
+    <%= turbo_modal_link_to_with_block new_facility_review_path(@space),
+                                       id: :new_facility_review_path,
+                                       class: 'unstyled-link edit-button collapsable' do %>
         <span class="text">
           Redigér
         </span>

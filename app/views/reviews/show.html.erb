@@ -1,5 +1,5 @@
 <%=
-  modal_content_for @review, @review.space do
+  turbo_modal_content_for @review, @review.space do
     render partial: 'reviews/review_content', locals: {
       review: @review,
       show_full_review: true
