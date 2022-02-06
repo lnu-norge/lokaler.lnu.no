@@ -8,6 +8,11 @@
       <%= @space.post_address %>
     </span>
   </div>
+   <div class="flex gap-1 mb-3">
+    <span>
+      <%= @space.location_description %>
+    </span>
+  </div>
   <%= render partial: "spaces/show/static_map" %>
 
 <% end %>
