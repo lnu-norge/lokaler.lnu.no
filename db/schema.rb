@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_04_113916) do
+ActiveRecord::Schema.define(version: 2022_02_06_111257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,6 +157,15 @@ ActiveRecord::Schema.define(version: 2022_02_04_113916) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "space_types_facilities", force: :cascade do |t|
+    t.bigint "space_type_id", null: false
+    t.bigint "facility_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["facility_id"], name: "index_space_types_facilities_on_facility_id"
+    t.index ["space_type_id"], name: "index_space_types_facilities_on_space_type_id"
+  end
+
   create_table "space_types_relations", force: :cascade do |t|
     t.bigint "space_type_id", null: false
     t.bigint "space_id", null: false
@@ -224,6 +233,8 @@ ActiveRecord::Schema.define(version: 2022_02_04_113916) do
   add_foreign_key "space_contacts", "spaces"
   add_foreign_key "space_facilities", "facilities"
   add_foreign_key "space_facilities", "spaces"
+  add_foreign_key "space_types_facilities", "facilities"
+  add_foreign_key "space_types_facilities", "space_types"
   add_foreign_key "space_types_relations", "space_types"
   add_foreign_key "space_types_relations", "spaces"
   add_foreign_key "spaces", "space_groups"
