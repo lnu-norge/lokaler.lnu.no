@@ -50,20 +50,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     space_facilities.find_by(facility: facility).experience
   end
 
-  def description_for_facility(facility)
-    space_facilities.find_by(facility: facility).description
-  end
-
-  def facilities_in_category(category)
-    category.facilities.where(id: space_facilities.pluck(:facility_id)).map do |result|
-      {
-        title: result.title,
-        description: description_for_facility(result),
-        review: reviews_for_facility(result)
-      }
-    end
-  end
-
   def self.rect_of_spaces
     south_west_lat = 90
     south_west_lng = 180
@@ -139,6 +125,39 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
 
     results.sort_by(&:score).map(&:space)
+  end
+
+  # Groupes all of the users facility reviews into a hash like
+  # { category_id: { facility_id: review } }
+  def reviews_for_categories(user)
+    user.facility_reviews
+        .includes(facility: [:facilities_categories])
+        .joins(facility: [:facilities_categories])
+        .each_with_object({}) do |review, memo|
+      review.facility.facilities_categories.each do |facility_category|
+        memo[facility_category.facility_category_id] ||= {}
+        memo[facility_category.facility_category_id][review.facility.id] = review
+      end
+    end
+  end
+
+  # Groups all facilities by their category
+  # { category_id: [facility_1, facility_2, ...] }
+  def facilities_for_categories
+    space_facilities
+      .includes(facility: [:facilities_categories])
+      .joins(facility: [:facilities_categories])
+      .each_with_object({}) do |space_facility, memo|
+      space_facility.facility.facilities_categories.each do |facility_category|
+        memo[facility_category.facility_category_id] ||= []
+        memo[facility_category.facility_category_id] << {
+          id: space_facility.facility.id,
+          title: space_facility.facility.title,
+          description: space_facility.description,
+          review: space_facility.experience
+        }
+      end
+    end
   end
 
   def merge_paper_trail_versions
