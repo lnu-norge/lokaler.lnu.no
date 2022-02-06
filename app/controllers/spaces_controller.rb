@@ -186,12 +186,13 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     spaces
   end
 
-  def space_params
+  def space_params # rubocop:disable  Metrics/MethodLength
     params.require(:space).permit(
       :title,
       :address,
       :lat,
       :lng,
+      :location_description,
       { space_type_ids: [] },
       :space_group_id,
       :post_number,
