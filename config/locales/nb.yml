@@ -90,6 +90,8 @@ nb:
     event: 'Hendelse'
     changes: 'Endringer'
     changed_at: 'Endringstidspunkt'
+    history: Historikk
+    space_type: Type lokaler
   images:
     image_missing: "Bilde mangler"
     upload_success: "Bilde lastet opp"
