@@ -2,12 +2,8 @@
   <%=  t('reviews.add_review') %>
 <% end %>
 
-<%= modal_for :new_review_path do %>
-  <div class="p-8 pt-24">
-    <%= turbo_frame_tag :new_review_path, src: new_review_path(@space), loading: "lazy" do %>
-      <div class="w-full h-screen flex justify-center items-center">
-        <div class="text-xl animate-spin">Laster!</div>
-      </div>
-    <% end %>
-  </div>
+<%= modal_for :new_review_path, "h-90vh" do %>
+  <%= turbo_frame_tag :new_review_path, src: new_review_path(@space), loading: "lazy" do %>
+    <%= render "shared/loading" %>
+  <% end %>
 <% end %>

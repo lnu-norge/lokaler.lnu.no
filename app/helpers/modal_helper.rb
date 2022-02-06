@@ -21,9 +21,10 @@ module ModalHelper
     end
   end
 
-  def modal_for(modal_id, &block)
+  def modal_for(modal_id, modal_classes = "", &block)
     render partial: "shared/modal", locals: {
       modal_id: modal_id,
+      modal_classes: modal_classes,
       block: block
     }
   end
