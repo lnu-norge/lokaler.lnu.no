@@ -144,11 +144,18 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   # Groups all facilities by their category
   # { category_id: [facility_1, facility_2, ...] }
-  def facilities_for_categories
-    space_facilities
-      .includes(facility: [:facilities_categories])
-      .joins(facility: [:facilities_categories])
-      .each_with_object({}) do |space_facility, memo|
+  def facilities_for_categories(match_space_types: true) # rubocop:disable Metrics/AbcSize
+    result = space_facilities
+             .includes(facility: [:facilities_categories])
+             .joins(facility: [:facilities_categories, :space_types])
+
+    result = if match_space_types
+               result.where(facility: { space_types: space_types }).distinct
+             else
+               result.where.not(facility: { space_types: space_types }).distinct
+             end
+
+    result.each_with_object({}) do |space_facility, memo|
       space_facility.facility.facilities_categories.each do |facility_category|
         memo[facility_category.facility_category_id] ||= []
         memo[facility_category.facility_category_id] << {
