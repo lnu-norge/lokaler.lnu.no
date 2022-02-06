@@ -2,8 +2,11 @@
 
 class FacilityReviewsController < AuthenticateController
   def new
-    @categories = FacilityCategory.all
     @space = Space.find(params["space_id"])
+    @categories = FacilityCategory.all
+
+    @reviews_for_categories = @space.reviews_for_categories(current_user)
+    @facilities_for_categories = @space.facilities_for_categories
 
     @experiences = [
       *FacilityReview.experiences.keys,
