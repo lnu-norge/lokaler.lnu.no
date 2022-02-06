@@ -1,6 +1,7 @@
-class Admin::DashboardController < BaseControllers::AuthenticateAsAdminController
+# frozen_string_literal: true
 
-    def index
-
-    end
+module Admin
+  class DashboardController < BaseControllers::AuthenticateAsAdminController
+    def index; end
+  end
 end
