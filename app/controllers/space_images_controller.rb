@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpaceImagesController < AuthenticateController
+class SpaceImagesController < BaseControllers::AuthenticateController
   before_action :set_space
 
   def show; end
@@ -22,6 +22,7 @@ class SpaceImagesController < AuthenticateController
   def update
     @image = @space.images.find(params[:image_id])
     @image.update(image_params)
+    flash[:notice] = t("images.update_success")
     redirect_to space_image_path(@space)
   end
 
