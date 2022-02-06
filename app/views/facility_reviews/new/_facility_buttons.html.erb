@@ -4,6 +4,7 @@ Locals:
 - form (Form for a new or editing FacilityReviews)
 - facility_review (a new or old facility)
 %>
+
 <li
   class="flex items-center gap-1.5">
   <%= form.fields_for "reviews[#{facility[:id]}]", facility_review do |f| %>

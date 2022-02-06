@@ -44,6 +44,7 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     respond_to do |format|
       format.turbo_stream do
         flash.now[:notice] = flash_message
+        @facilities_for_categories = @space.facilities_for_categories
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),
