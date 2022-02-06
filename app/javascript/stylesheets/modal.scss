@@ -4,7 +4,7 @@
   @apply z-50;
   @apply bg-white;
   @apply p-8 md:rounded-lg md:drop-shadow-xl;
-  @apply overflow-y-auto;
+  @apply overflow-y-auto overscroll-contain;
 }
 
 .modal-background {

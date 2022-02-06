@@ -11,6 +11,9 @@ export default class extends Controller {
 
   disconnect() {
     super.disconnect();
+    // Enable scrolling on body
+    document.body.classList.remove("overflow-hidden")
+
   }
 
   connectOpenButton() {
@@ -33,6 +36,8 @@ export default class extends Controller {
 
   close() {
     this.wrapperTarget.classList.toggle("hidden")
+    // Enable scrolling on body
+    document.body.classList.remove("overflow-hidden")
   }
 
   open() {
@@ -46,6 +51,9 @@ export default class extends Controller {
 
     const modalIsOpen = !toggleableElement.classList.contains("hidden");
     if (!modalIsOpen) return;
+
+    // Disable scrolling on body
+    document.body.classList.add("overflow-hidden")
 
     // Focus any elements set to be focused when the modal opens
     const focusMe = toggleableElement.querySelector("[data-modal-focus]")
