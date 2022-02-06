@@ -131,6 +131,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # { category_id: { facility_id: review } }
   def reviews_for_categories(user)
     user.facility_reviews
+        .where(space: self)
         .includes(facility: [:facilities_categories])
         .joins(facility: [:facilities_categories])
         .each_with_object({}) do |review, memo|
