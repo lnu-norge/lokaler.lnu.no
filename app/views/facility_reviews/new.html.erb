@@ -8,6 +8,19 @@
           review: form.object,
           category: category } %>
     <% end %>
+    <details>
+      <summary>
+        Others
+      </summary>
+      <% @categories.each do |category| %>
+        <%= render partial: 'facility_reviews/new/facility_category',
+          locals: {
+            facilities_in_category: @other_facilities[category.id],
+            form: form,
+            review: form.object,
+            category: category } %>
+      <% end %>
+    </details>
     <%= form.submit %>
   <% end %>
 <% end %>

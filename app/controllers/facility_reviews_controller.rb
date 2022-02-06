@@ -7,6 +7,7 @@ class FacilityReviewsController < AuthenticateController
 
     @reviews_for_categories = @space.reviews_for_categories(current_user)
     @facilities_for_categories = @space.facilities_for_categories
+    @other_facilities = @space.facilities_for_categories(match_space_types: false)
 
     @experiences = [
       *FacilityReview.experiences.keys,
