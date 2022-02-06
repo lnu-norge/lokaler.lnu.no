@@ -1,6 +1,9 @@
 <% content_for(:html_title) { "#{t("space_edit.edit_images")} #{@space.title}" } %>
 
-<div>
+<main class="content max-w-prose mx-auto w-screen">
+
+<h1><%= t('images.edit_images') %> | <%= @space.title %></h1>
+<p><%= link_to t('images.back_to_space', title: @space.title),@space %></p>
   <% @space.images.each do |image| %>
     <%= image_tag image.url, class: "w-64" %>
     <%= simple_form_for image, url: space_image_path(@space, image_id: image) do |f| %>
@@ -10,4 +13,4 @@
     <% end %>
     <%= link_to "Delete", space_image_path(@space, image: image), method: :delete, data: { confirm: t('space_contacts.delete_confirmation') } %>
   <% end %>
-</div>
+</main>
