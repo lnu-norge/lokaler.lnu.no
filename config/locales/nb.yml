@@ -98,6 +98,8 @@ nb:
     edit_images: "Rediger bilder"
     delete_success: "Bildet ble slettet"
     photo_by: 'Foto:'
+    update_success: "Bilde lagret"
+    back_to_space: "Tilbake til %{title}"
   facility_reviews:
     edit: 'Redigér fasiliteter'
   reviews:

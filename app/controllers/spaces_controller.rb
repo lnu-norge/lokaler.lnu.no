@@ -9,6 +9,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   def show
     @space = Space.includes(:space_contacts).where(id: params[:id]).first
     @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)
+    @facilities_for_categories = @space.facilities_for_categories
   end
 
   def new
