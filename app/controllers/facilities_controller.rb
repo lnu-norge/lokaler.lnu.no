@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FacilitiesController < AuthenticateController
+class FacilitiesController < BaseControllers::AuthenticateController
   def index
     @facilities = Facility.all
     @facility = Facility.new

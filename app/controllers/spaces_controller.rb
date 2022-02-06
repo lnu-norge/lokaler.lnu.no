@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassLength
+class SpacesController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
   def index
     @spaces = Space.all.order updated_at: :desc
     @space = Space.new
@@ -9,6 +9,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   def show
     @space = Space.includes(:space_contacts).where(id: params[:id]).first
     @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)
+    @facilities_for_categories = @space.facilities_for_categories
   end
 
   def new
@@ -185,12 +186,13 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     spaces
   end
 
-  def space_params
+  def space_params # rubocop:disable  Metrics/MethodLength
     params.require(:space).permit(
       :title,
       :address,
       :lat,
       :lng,
+      :location_description,
       { space_type_ids: [] },
       :space_group_id,
       :post_number,

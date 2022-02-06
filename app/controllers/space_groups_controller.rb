@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpaceGroupsController < AuthenticateController
+class SpaceGroupsController < BaseControllers::AuthenticateController
   def index
     @space_groups = SpaceGroup.all
     @space_group = SpaceGroup.new

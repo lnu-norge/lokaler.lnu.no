@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_04_113916) do
+ActiveRecord::Schema.define(version: 2022_02_06_094111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 2022_02_04_113916) do
     t.string "municipality_code"
     t.decimal "star_rating", precision: 2, scale: 1
     t.string "url"
+    t.text "location_description"
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
   end
 
