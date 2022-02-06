@@ -2,21 +2,12 @@
 
   <header class="editable-header-type-h2 flex gap-3 items-baseline">
     <h2><%= Facility.model_name.human(count: 2) %></h2>
-    New: <%= button_to_modal :new_facility_review_path, class: 'unstyled-link edit-button collapsable' do %>
+    <%= button_to_modal :new_facility_review_path, class: 'unstyled-link edit-button collapsable' do %>
       <span class="text">
           Redigér
         </span>
       <%= inline_svg_tag 'edit', alt: 'Redigér', title: 'Redigér' %>
     <% end %>
-
-    <%= modal_for :new_facility_review_path do  %>
-      <% turbo_frame_tag :new_facility_review_path, target: "_top", src: new_facility_review_path(@space), loading: "lazy" do %>
-        <div class="w-full h-screen flex justify-center items-center">
-          <div class="text-xl animate-spin">Laster!</div>
-        </div>
-      <% end %>
-    <% end  %>
-
   </header>
 
   <main class="grid divide-y">
@@ -40,5 +31,15 @@
 
     <% end %>
   </main>
+
+  <aside>
+    <%= modal_for :new_facility_review_path do  %>
+      <% turbo_frame_tag :new_facility_review_path, target: "_top", src: new_facility_review_path(@space), loading: "lazy" do %>
+        <div class="w-full h-screen flex justify-center items-center">
+          <div class="text-xl animate-spin">Laster!</div>
+        </div>
+      <% end %>
+    <% end  %>
+  </aside>
 
 </section>
