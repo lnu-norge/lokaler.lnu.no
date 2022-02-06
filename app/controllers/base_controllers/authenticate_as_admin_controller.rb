@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Admin
-  class AdminController < AuthenticateController
+module BaseControllers
+  class AuthenticateAsAdminController < AuthenticateController
     before_action :authenticate_admin!
 
     protected

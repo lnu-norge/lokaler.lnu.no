@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class SpaceTypesController < Admin::AdminController
+  class SpaceTypesController < BaseControllers::AuthenticateAsAdminController
     before_action :set_space_type, except: [:index, :new, :create]
 
     def index
