@@ -24,7 +24,7 @@ Space.create(
   lat: 59.213868,
   lng: 10.972267,
   space_group_id: fredrikstad.id,
-  space_type_id: barneskole.id,
+  space_types: [barneskole],
   organization_number: "974766337",
   municipality_code: "3004",
   star_rating: nil,
@@ -47,7 +47,7 @@ Space.create(
   lat: 59.205250,
   lng: 10.962680,
   space_group_id: fredrikstad.id,
-  space_type_id: barne_og_ungdom.id,
+  space_types: [barne_og_ungdom],
   organization_number: "974766337",
   municipality_code: "3004",
   star_rating: nil

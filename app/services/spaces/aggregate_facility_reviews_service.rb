@@ -8,42 +8,42 @@ module Spaces
     end
 
     def call
-      space.aggregated_facility_reviews.destroy_all
+      space.space_facilities.destroy_all
       space.reload
 
-      aggregated_reviews = Facility.all.order(:created_at).map do |facility|
-        AggregatedFacilityReview.create!(experience: "unknown", space: space, facility: facility)
+      space_facilities = Facility.all.order(:created_at).map do |facility|
+        SpaceFacility.create!(experience: "unknown", space: space, facility: facility)
       end
 
       # Start a transaction because we may be modifying the 'experience' field many times
       # for a single aggregated review and we don't want to be hitting the DB for every 'experience' change
-      AggregatedFacilityReview.transaction do
-        aggregated_reviews.each do |aggregated_review|
-          aggregate_reviews(aggregated_review)
+      SpaceFacility.transaction do
+        space_facilities.each do |space_facility|
+          aggregate_reviews(space_facility)
         end
       end
 
-      aggregated_reviews
+      space_facilities
     end
 
     private
 
-    def aggregate_reviews(aggregated_review) # rubocop:disable Metrics/AbcSize
-      reviews = space.facility_reviews.where(facility: aggregated_review.facility).order(created_at: :desc).limit(5)
+    def aggregate_reviews(space_facility) # rubocop:disable Metrics/AbcSize
+      reviews = space.facility_reviews.where(facility: space_facility.facility).order(created_at: :desc).limit(5)
       count = reviews.count
-      return aggregated_review.unknown! if count.zero?
+      return space_facility.unknown! if count.zero?
 
       # Set criteria:
       impossible_threshold = [(count / 2.0).ceil, 2].max
       positive_threshold = (count / 3.0 * 2.0).ceil
       negative_threshold = (count / 3.0 * 2.0).ceil
 
-      return aggregated_review.impossible! if reviews.impossible.count >= impossible_threshold
-      return aggregated_review.likely! if  reviews.positive.count >= positive_threshold
-      return aggregated_review.unlikely! if reviews.negative.count >= negative_threshold
+      return space_facility.impossible! if reviews.impossible.count >= impossible_threshold
+      return space_facility.likely! if  reviews.positive.count >= positive_threshold
+      return space_facility.unlikely! if reviews.negative.count >= negative_threshold
 
       # Nothing else fits, so it's a maybe!
-      aggregated_review.maybe!
+      space_facility.maybe!
     end
 
     attr_reader :space

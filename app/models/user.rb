@@ -12,12 +12,21 @@ class User < ApplicationRecord
   gravtastic default: "retro"
 
   has_many :reviews, dependent: :restrict_with_exception
+  has_many :facility_reviews, dependent: :restrict_with_exception
 
   def name
     return first_name unless last_name&.present?
     return last_name unless first_name&.present?
 
     "#{first_name} #{last_name[0]&.upcase}."
+  end
+
+  def facility_review_for(facility, space)
+    facility_reviews.find_by(facility: facility.id) || FacilityReview.new(
+      space: space,
+      facility: facility,
+      user: self
+    )
   end
 
   def self.from_google(email:, first_name:, last_name:)
@@ -27,3 +36,26 @@ class User < ApplicationRecord
       .find_or_create_by!(email: email)
   end
 end
+
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :bigint           not null, primary key
+#  admin                  :boolean          default(FALSE)
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  first_name             :string
+#  last_name              :string
+#  organization           :string           default(""), not null
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#
+# Indexes
+#
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#

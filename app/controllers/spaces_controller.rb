@@ -38,8 +38,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   def address_search
     address = Space.search_for_address(
       address: params[:address],
-      post_number: params[:post_number],
-      post_address: params[:post_address]
+      post_number: params[:post_number]
     )
 
     return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
@@ -79,7 +78,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       @space.update!(
         space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
       )
-    else
+    elsif params[:space][:space_group_title] == ""
       @space.update!(space_group: nil)
     end
   end
@@ -165,8 +164,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
   def get_address_params(params)
     Space.search_for_address(
       address: params[:space][:address],
-      post_number: params[:space][:post_number],
-      post_address: params[:space][:post_address]
+      post_number: params[:space][:post_number]
     ) || {}
   end
 
@@ -174,7 +172,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
     space_types = params[:space_types]&.map(&:to_i)
     facilities = params[:facilities]&.map(&:to_i)
 
-    spaces = Space.includes([:images, :space_type]).filter_on_location(
+    spaces = Space.includes([:images]).filter_on_location(
       params[:north_west_lat],
       params[:north_west_lng],
       params[:south_east_lat],
@@ -193,7 +191,7 @@ class SpacesController < AuthenticateController # rubocop:disable Metrics/ClassL
       :address,
       :lat,
       :lng,
-      :space_type_id,
+      { space_type_ids: [] },
       :space_group_id,
       :post_number,
       :post_address,

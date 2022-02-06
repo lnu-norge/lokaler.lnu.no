@@ -16,3 +16,19 @@ class Image < ApplicationRecord
     image.purge
   end
 end
+
+# == Schema Information
+#
+# Table name: images
+#
+#  id         :bigint           not null, primary key
+#  caption    :string
+#  credits    :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  space_id   :bigint
+#
+# Indexes
+#
+#  index_images_on_space_id  (space_id)
+#

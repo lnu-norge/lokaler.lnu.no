@@ -1,0 +1,13 @@
+ <% unless facilities_in_category.empty? %>
+  <%= tag.h3 category.title unless category.id == "1" %>
+  <ul>
+    <% facilities_in_category.each do |facility_review| %>
+      <%= render partial: 'facility_reviews/new/facility_buttons',
+                 locals: {
+                   facility: facility_review,
+                   facility_review:
+                     current_user.facility_review_for(facility_review, @space),
+                   form: form } %>
+    <% end %>
+  </ul>
+<% end %>

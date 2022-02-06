@@ -17,17 +17,14 @@ RSpec.describe Space, type: :model do
     let(:shower) { Fabricate(:facility, title: "shower") }
 
     before do
-      review_space1 = Fabricate(:review, space: space1)
-      review_space2 = Fabricate(:review, space: space2)
-
-      Fabricate(:facility_review, space: space1, review: review_space1, facility: kitchen)
-      Fabricate(:facility_review, space: space1, review: review_space1, facility: shower)
-      Fabricate(:facility_review, space: space1, review: review_space1, facility: toilet,
+      Fabricate(:facility_review, space: space1, facility: kitchen)
+      Fabricate(:facility_review, space: space1, facility: shower)
+      Fabricate(:facility_review, space: space1, facility: toilet,
                                   experience: :was_not_available)
 
-      Fabricate(:facility_review, space: space2, review: review_space2, facility: kitchen)
-      Fabricate(:facility_review, space: space2, review: review_space2, facility: shower)
-      Fabricate(:facility_review, space: space2, review: review_space2, facility: toilet)
+      Fabricate(:facility_review, space: space2, facility: kitchen)
+      Fabricate(:facility_review, space: space2, facility: shower)
+      Fabricate(:facility_review, space: space2, facility: toilet)
 
       space1.aggregate_facility_reviews
       space2.aggregate_facility_reviews
@@ -70,9 +67,9 @@ RSpec.describe Space, type: :model do
     let(:space_type_c) { Fabricate(:space_type, type_name: "C") }
 
     before do
-      Fabricate(:space, space_type: space_type_b)
-      Fabricate(:space, space_type: space_type_b)
-      Fabricate(:space, space_type: space_type_a)
+      Fabricate(:space, space_types: [space_type_b])
+      Fabricate(:space, space_types: [space_type_b])
+      Fabricate(:space, space_types: [space_type_a])
     end
 
     context "when only type A" do

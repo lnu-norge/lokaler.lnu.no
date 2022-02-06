@@ -3,5 +3,8 @@
 <div class="border-2 border-green-400 mt-4">
   <p>Title: <%= @facility.title %></p>
   <p>Icon: <%= inline_svg_tag "facilities/#{@facility.icon}" %></p>
-  <p>Category: <%= @facility.category %></p>
+  <p>Categories: </p>
+  <% @facility.facility_categories.each do |category| %>
+    <p><%= category.title %></p>
+  <% end %>
 </div>

@@ -12,12 +12,6 @@
         <hr />
 
         <div data-multistep-form-target="step">
-          <%= render partial: 'reviews/form/facility_reviews', locals: {
-            form: form
-          } %>
-        </div>
-
-        <div data-multistep-form-target="step">
           <%= render partial: 'reviews/new/star_rating', locals: {
             star_rating: @review.star_rating,
             form: form

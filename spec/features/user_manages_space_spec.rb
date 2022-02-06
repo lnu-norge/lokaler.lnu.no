@@ -21,13 +21,13 @@ describe "User manages homepage", js: true do
       fill_in "space_title", with: space.title
       fill_in "space_address", with: space.address
       fill_in "space_post_number", with: space.post_number
-      fill_in "space_post_address", with: space.post_address
+      find("body").click # Blur from field
 
       expect(page).to have_text(I18n.t("space_create.any_of_these.one"))
 
       click_button I18n.t("space_create.none_are_duplicates.one")
 
-      tom_select("select#space_space_type_id", option_id: space_type.id)
+      tom_select("select#space_space_type_ids", option_id: space_type.id)
       tom_select("select#space_space_group_title", option_id: space_group.title)
       click_button I18n.t("helpers.submit.create", model: Space.model_name.human)
       expect(page).to have_text(space.title)
@@ -55,14 +55,27 @@ describe "User manages homepage", js: true do
       fill_in "space_url", with: "asd"
       fill_in "space_address", with: ""
       fill_in "space_post_number", with: ""
-      fill_in "space_post_address", with: ""
 
       click_button "Lagre"
       expect(page).to have_text("Title #{I18n.t('errors.messages.blank')}")
       expect(page).to have_text("Nettside #{I18n.t('activerecord.errors.models.space.attributes.url.url')}")
       expect(page).to have_text("Adresse #{I18n.t('errors.messages.blank')}")
       expect(page).to have_text("Postnummer #{I18n.t('errors.messages.blank')}")
-      expect(page).to have_text("Poststed #{I18n.t('errors.messages.blank')}")
+    end
+  end
+
+  it "user edits how_to_book" do
+    login_and_logout_with_warden do
+      visit space_path(id: space.id)
+      click_link "edit_how_to_book"
+
+      within("div.space_how_to_book") do
+        find("trix-editor").set("New How To Book")
+      end
+
+      click_button "Lagre"
+
+      expect(page).to have_text("New How To Book")
     end
   end
 

@@ -12,7 +12,6 @@ RSpec.describe Review, type: :request do
       :facility_review,
       space: space,
       user: user,
-      review: review,
       facility: facility,
       experience: :was_not_allowed
     )
@@ -68,44 +67,5 @@ RSpec.describe Review, type: :request do
   it "can load the edit path" do
     get edit_review_path(review)
     expect(response).to have_http_status(:success)
-  end
-
-  it "will update the facility review if the Review is updated" do
-    patch review_path(review), params: {
-      review: {
-        facility_reviews_attributes: {
-          "#{facility.id}": {
-            id: facility_review.id,
-            facility_id: facility.id,
-            experience: "was_allowed"
-          }
-        }
-      }
-    }
-    follow_redirect!
-    expect(response).to have_http_status(:success)
-    space.aggregate_facility_reviews
-    expect(review.facility_reviews.count).to eq(1)
-    expect(space.reviews_for_facility(facility.id)).to eq("likely")
-  end
-
-  it "will delete the facility review if the Review is updated, and it is set to unknown" do
-    expect(review.facility_reviews.count).to eq(1)
-    patch review_path(review), params: {
-      review: {
-        facility_reviews_attributes: {
-          "#{facility.id}": {
-            id: facility_review.id,
-            facility_id: facility.id,
-            experience: "unknown"
-          }
-        }
-      }
-    }
-    follow_redirect!
-    expect(response).to have_http_status(:success)
-    space.aggregate_facility_reviews
-    expect(review.facility_reviews.count).to eq(0)
-    expect(space.reviews_for_facility(facility.id)).to eq("unknown")
   end
 end

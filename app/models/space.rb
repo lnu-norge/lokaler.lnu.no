@@ -4,15 +4,15 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_paper_trail skip: [:star_rating]
 
   has_many :images, dependent: :destroy
-  has_many :facility_reviews, dependent: :restrict_with_exception
-  has_many :aggregated_facility_reviews, dependent: :restrict_with_exception
-  has_many :reviews, dependent: :restrict_with_exception
-  has_many :space_contacts, dependent: :restrict_with_exception
+  has_many :facility_reviews, dependent: :destroy
+  has_many :space_facilities, dependent: :destroy
+  has_many :reviews, dependent: :destroy
+  has_many :space_contacts, dependent: :destroy
 
   belongs_to :space_group, optional: true
   accepts_nested_attributes_for :space_group
 
-  scope :filter_on_space_types, ->(space_type_ids) { where(space_type_id: space_type_ids) }
+  scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids).distinct }
   scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
           north_west_lat: north_west_lat,
@@ -21,14 +21,14 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
           south_east_lng: south_east_lng)
   }
 
-  belongs_to :space_type
+  has_many :space_types_relations, dependent: :destroy
+  has_many :space_types, through: :space_types_relations, dependent: :destroy
 
   has_rich_text :how_to_book
   has_rich_text :who_can_use
   has_rich_text :pricing
   has_rich_text :terms
   has_rich_text :more_info
-  has_rich_text :facility_description
 
   include ParseUrlHelper
   before_validation :parse_url
@@ -43,22 +43,23 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def reviews
-    Review.includes([:user, :facility_reviews]).where(space_id: id)
+    Review.includes([:user]).where(space_id: id)
   end
 
   def reviews_for_facility(facility)
-    AggregatedFacilityReview.find_by(space: self, facility: facility).experience
+    space_facilities.find_by(facility: facility).experience
+  end
+
+  def description_for_facility(facility)
+    space_facilities.find_by(facility: facility).description
   end
 
   def facilities_in_category(category)
-    AggregatedFacilityReview
-      .includes(:facility)
-      .where(space: self, facilities: { facility_category: category })
-      .map do |result|
+    category.facilities.where(id: space_facilities.pluck(:facility_id)).map do |result|
       {
-        title: result.facility.title,
-        icon: result.facility.icon,
-        review: result.experience
+        title: result.title,
+        description: description_for_facility(result),
+        review: reviews_for_facility(result)
       }
     end
   end
@@ -93,16 +94,17 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     Spaces::AggregateStarRatingService.call(space: self)
   end
 
-  def self.search_for_address(address:, post_number:, post_address:)
+  def self.search_for_address(address:, post_number:)
     results = Spaces::LocationSearchService.call(
       address: address,
-      post_number: post_number,
-      post_address: post_address
+      post_number: post_number
     )
 
-    return nil if results.count > 1 || results.empty?
+    full_information = post_number&.length == 4 && address.present? && results.present?
+    return results.first if results.count == 1 || full_information
 
-    results.first
+    # Otherwise, return nil
+    nil
   end
 
   def potential_duplicates
@@ -113,9 +115,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # NOTE: this expects a scope for spaces but returns an array
   # preferably we would find some way to return a scope too
   def self.filter_on_facilities(spaces, facilities) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-    results = spaces.includes(:aggregated_facility_reviews).filter_map do |space|
+    results = spaces.includes(:space_facilities).filter_map do |space|
       score = 0
-      space.aggregated_facility_reviews.each do |review|
+      space.space_facilities.each do |review|
         next unless facilities.include?(review.facility_id)
 
         # The more correct matches the lower the number.
@@ -157,4 +159,42 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self }
     { lat: lat, lng: lng, id: id, html: html }
   end
+
+  def space_types_joined
+    space_types.map { |space_type| space_type.type_name.humanize }.join(", ")
+  end
+
+  def to_param
+    return nil unless persisted?
+
+    [id, title.parameterize].join("-")
+  end
 end
+
+# == Schema Information
+#
+# Table name: spaces
+#
+#  id                  :bigint           not null, primary key
+#  address             :string
+#  lat                 :decimal(, )
+#  lng                 :decimal(, )
+#  municipality_code   :string
+#  organization_number :string
+#  post_address        :string
+#  post_number         :string
+#  star_rating         :decimal(2, 1)
+#  title               :string           not null
+#  url                 :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  space_group_id      :bigint
+#
+# Indexes
+#
+#  index_spaces_on_space_group_id  (space_group_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (space_group_id => space_groups.id)
+#

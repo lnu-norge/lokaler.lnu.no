@@ -33,7 +33,7 @@ frederikii_space = Space.create(
   lat: 59.223840,
   lng: 10.925860,
   space_group_id: viken.id,
-  space_type_id: vgs.id,
+  space_types: [vgs],
   organization_number: "974544466",
   municipality_code: "3004",
   star_rating: nil,

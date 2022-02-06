@@ -9,10 +9,6 @@
 
       <%= render partial: 'shared/form_error', locals: { model: @review } %>
 
-      <%= render partial: 'reviews/form/facility_reviews', locals: {
-        form: form
-      } %>
-
       <%= render layout: 'reviews/new/footer' do %>
         <div class="relative h-12">
           <div class="absolute flex gap-2 top-0 right-0 z-1">
