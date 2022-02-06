@@ -1,19 +1,14 @@
 <%= turbo_frame_tag "new_space_contact_button" do %>
   <div>
-    <button
-      id="space_contacts_new"
-      type="button"
-      data-controller="hidden"
-      data-hidden-target="toggleButton"
-      data-hidden-id-to-toggle="space_contacts_new"
-      class="edit-button collapsable">
-      <span class="text">
+    <%= button_to_modal "space_contacts_new", class: "edit-button collapsable" do %>
+        <span class="text">
         <%= t('space_contacts.new') %>
       </span>
       <%= inline_svg_tag "plus" %>
-    </button>
-    <div data-hidden-id="space_contacts_new" class="hidden">
+    <% end %>
+
+    <%= modal_for "space_contacts_new" do  %>
       <%= render partial: "space_contacts/new" %>
-    </div>
+    <% end %>
   </div>
 <% end %>

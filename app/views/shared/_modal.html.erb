@@ -1,20 +1,21 @@
 <%#
 Modal wrapper
-- modal_id (used to couple with modal button)
-- block (any modal content)
+  - modal_id
+  - block (any modal content)
 %>
 <div
   data-controller="modal"
-  data-modal-id="<%= modal_id %>"
-  data-modal-target="background"
   aria-modal="true"
+  data-modal-target="wrapper"
+  data-modal-id="<%= modal_id %>"
   role="dialog"
   class="hidden"
 >
-  <div class="modal-background">
+  <div class="modal-background" data-modal-target="background">
     <div class="modal modal--with-header-and-footer content">
       <nav class="text-left text-sm mb-4 ">
         <%= button_tag data: {
+          action: "click->modal#close",
           modal_target: 'closeButton'
         }, class: "p-4 -mt-4 -ml-4 inline-flex content-center items-center" do %>
           <%= inline_svg_tag 'x', class: 'inline-block' %>
