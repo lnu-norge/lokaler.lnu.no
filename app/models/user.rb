@@ -21,8 +21,8 @@ class User < ApplicationRecord
     "#{first_name} #{last_name[0]&.upcase}."
   end
 
-  def facility_review_for(facility_id, space)
-    facility_reviews.find_by(facility: facility_id) || FacilityReview.new(
+  def new_facility_review_for(facility_id, space)
+    FacilityReview.new(
       space: space,
       facility_id: facility_id,
       user: self
