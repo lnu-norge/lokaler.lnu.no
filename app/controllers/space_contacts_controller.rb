@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpaceContactsController < AuthenticateController
+class SpaceContactsController < BaseControllers::AuthenticateController
   before_action :set_space_contact, except: [:create]
 
   def create

@@ -30,6 +30,14 @@
                          label_html: { class: 'sr-only' }
           %>
         </div>
+        <div class="flex gap-2">
+          <%= form.input :location_description,
+                          wrapper_html: {
+                            class: "flex-grow",
+                          },
+                          label_html: { class: 'sr-only'}
+          %>
+        </div>
       </div>
       <div data-autofilladdress-target="mapHolder" class="flex-grow">
         <%= static_map_of @space %>

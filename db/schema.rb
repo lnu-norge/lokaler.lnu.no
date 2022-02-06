@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(version: 2022_02_06_111257) do
     t.string "municipality_code"
     t.decimal "star_rating", precision: 2, scale: 1
     t.string "url"
+    t.text "location_description"
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
   end
 

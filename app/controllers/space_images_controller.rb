@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SpaceImagesController < AuthenticateController
+class SpaceImagesController < BaseControllers::AuthenticateController
   before_action :set_space
 
   def show; end
