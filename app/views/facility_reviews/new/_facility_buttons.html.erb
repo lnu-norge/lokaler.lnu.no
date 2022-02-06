@@ -6,8 +6,8 @@ Locals:
 %>
 <li
   class="flex items-center gap-1.5">
-  <%= form.fields_for "reviews[#{facility.id}]", facility_review do |f| %>
-    <%= f.hidden_field :facility_id, value: facility.id %>
+  <%= form.fields_for "reviews[#{facility[:id]}]", facility_review do |f| %>
+    <%= f.hidden_field :facility_id, value: facility[:id] %>
     <%= f.hidden_field :space_id, value: @space.id %>
     <%= f.hidden_field :user_id, value: current_user.id %>
     <%= f.hidden_field :id, value: facility_review.id %>
@@ -15,13 +15,13 @@ Locals:
     <fieldset class="flex mt-3">
         <legend class="mb-1">
           <div class="flex gap-2 text-lg items-center mb-1 mt-3">
-            <%= facility.title %>
-            <%= inline_svg_tag "facility_status/#{@space.reviews_for_facility(facility)}" %>
+            <%= facility[:title] %>
+            <%= inline_svg_tag "facility_status/#{facility[:review]}" %>
           </div>
           <div>
             <%= f.label "Description" %>
           </div>
-          <%= form.text_field :description, name: "space_facilities[#{facility.id}][description]", value: @space.description_for_facility(facility) %>
+          <%= form.text_field :description, name: "space_facilities[#{facility[:id]}][description]", value: facility[:description] %>
         </legend>
 
         <div class="radio-slider">
