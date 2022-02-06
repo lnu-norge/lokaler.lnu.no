@@ -1,6 +1,8 @@
 <%= turbo_frame_tag "new_space_contact_button" do %>
   <div>
-    <%= button_to_modal "space_contacts_new", class: "edit-button collapsable" do %>
+    <%= button_to_modal "space_contacts_new",
+                        id:  "space_contacts_new",
+                        class: "edit-button collapsable" do %>
         <span class="text">
         <%= t('space_contacts.new') %>
       </span>
