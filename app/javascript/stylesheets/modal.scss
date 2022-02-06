@@ -1,6 +1,6 @@
 .modal {
   @apply relative;
-  @apply w-screen h-auto max-h-screen max-h-screen md:max-h-90vh md:max-w-prose;
+  @apply w-screen max-h-screen max-h-screen md:max-h-90vh md:max-w-prose;
   @apply z-50;
   @apply bg-white;
   @apply p-8 md:rounded-lg md:drop-shadow-xl;
@@ -13,14 +13,18 @@
   @apply bg-gray-700 bg-opacity-75 transition-opacity;
 }
 
+.modal-close-button {
+  @apply text-left text-sm hover:underline;
+}
+
 .modal--with-header-and-footer {
   @apply flex flex-col;
   @apply p-0;
+  .modal-close-button {
+    @apply sm:absolute ml-8 mt-9 text-left text-sm -mb-4 sm:mb-4 ;
+  }
 }
 
-.modal-close-button {
- @apply sm:absolute ml-8 mt-9 text-left text-sm -mb-4 sm:mb-4;
-}
 
 .modal-header {
   @apply px-8 sm:px-28 pt-8 pb-2;

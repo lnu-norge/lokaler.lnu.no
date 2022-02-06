@@ -28,13 +28,9 @@
         <%= t('read_more') %>
       <% end  %>
       <%= modal_for dom_id(review) do %>
-        <div class="p-8 pt-24">
           <%= turbo_frame_tag review, src: review, loading: "lazy" do %>
-            <div class="w-full h-screen flex justify-center items-center">
-              <div class="text-xl animate-spin">Laster!</div>
-            </div>
+            <%= render "shared/loading" %>
           <% end %>
-        </div>
       <% end %>
     <% end %>
   </p>

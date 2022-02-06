@@ -33,11 +33,9 @@
   </main>
 
   <aside>
-    <%= modal_for :new_facility_review_path do  %>
+    <%= modal_for :new_facility_review_path, "h-90vh modal--with-header-and-footer" do  %>
       <% turbo_frame_tag :new_facility_review_path, target: "_top", src: new_facility_review_path(@space), loading: "lazy" do %>
-        <div class="w-full h-screen flex justify-center items-center">
-          <div class="text-xl animate-spin">Laster!</div>
-        </div>
+        <%= render "shared/loading" %>
       <% end %>
     <% end  %>
   </aside>
