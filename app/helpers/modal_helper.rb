@@ -26,11 +26,21 @@ module ModalHelper
   end
 
   def button_to_modal(modal_id, **options, &block)
-    button_tag **options, data: {
-      controller: "modal",
-      "modal-target": "openButton",
-      "modal-to-toggle": modal_id
-    } do
+    button_tag(**options, data: {
+                 controller: "modal",
+                 "modal-target": "openButton",
+                 "modal-to-toggle": modal_id
+               }) do
+      yield block
+    end
+  end
+
+  def button_close_modal(modal_id, **options, &block)
+    button_tag(**options, data: {
+                 controller: "modal",
+                 "modal-target": "closeButton",
+                 "modal-to-toggle": modal_id
+               }) do
       yield block
     end
   end
