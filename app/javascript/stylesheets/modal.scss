@@ -17,15 +17,6 @@
   @apply text-left text-sm hover:underline;
 }
 
-.modal--with-header-and-footer {
-  @apply flex flex-col;
-  @apply p-0;
-  .modal-close-button {
-    @apply sm:absolute ml-8 mt-9 text-left text-sm -mb-4 sm:mb-4 ;
-  }
-}
-
-
 .modal-header {
   @apply px-8 sm:px-28 pt-8 pb-2;
   @apply flex gap-2 justify-center text-center items-center flex-wrap;
@@ -45,6 +36,22 @@
   @apply px-8 py-4;
   @apply bg-gray-100;
   @apply flex justify-center gap-6;
+}
+
+
+.modal--with-header-and-footer {
+  @apply flex flex-col;
+  @apply p-0;
+  .modal-close-button {
+    @apply sm:fixed sm:z-10 ml-8 mt-9 text-left text-sm -mb-4 sm:mb-4 ;
+  }
+  .modal-header {
+    @apply sm:sticky sm:top-0 bg-white sm:pb-4;
+  }
+  .modal-footer {
+    @apply sticky;
+    bottom: -1px;
+  }
 }
 
 .modal-button {
