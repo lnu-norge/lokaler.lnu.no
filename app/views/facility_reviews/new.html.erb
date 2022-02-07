@@ -3,10 +3,11 @@
     <% @categories.each do |category| %>
       <%= render partial: 'facility_reviews/new/facility_category',
         locals: {
-          facilities_in_category: @facilities_for_categories[category.id],
+          facilities_in_category: @matching_space_types[category.id],
           form: form,
           review: form.object,
-          category: category } %>
+          category: category,
+          only_matching: true } %>
     <% end %>
     <details>
       <summary>
@@ -15,10 +16,11 @@
       <% @categories.each do |category| %>
         <%= render partial: 'facility_reviews/new/facility_category',
           locals: {
-            facilities_in_category: @other_facilities[category.id],
+            facilities_in_category: @not_matching_space_types[category.id],
             form: form,
             review: form.object,
-            category: category } %>
+            category: category,
+            only_matching: false } %>
       <% end %>
     </details>
     <%= form.submit %>

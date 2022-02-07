@@ -6,8 +6,8 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     @categories = FacilityCategory.all
 
     @reviews_for_categories = @space.reviews_for_categories(current_user)
+
     @facilities_for_categories = @space.facilities_for_categories
-    @other_facilities = @space.facilities_for_categories(match_space_types: false)
 
     @experiences = [
       *FacilityReview.experiences.keys,
@@ -45,7 +45,7 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     respond_to do |format|
       format.turbo_stream do
         flash.now[:notice] = flash_message
-        @facilities_for_categories = @space.facilities_for_categories
+        @facilities_for_categories = @space.facilities_for_categories(match_all_except_unknown: true)
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),
@@ -61,6 +61,26 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
   end
 
   private
+
+  def filter_matching_space_types
+    @matching_space_types = @space.facilities_for_categories.filter_map do |category_id, facilities|
+      result = facilities.filter do |facility|
+        (facility[:space_types] & @space.space_types).any?
+      end
+
+      [category_id, result] if result.any?
+    end.to_h
+  end
+
+  def filter_not_matching_space_types
+    @not_matching_space_types = @space.facilities_for_categories.filter_map do |category_id, facilities|
+      result = facilities.filter do |facility|
+        (facility[:space_types] & @space.space_types).empty?
+      end
+
+      [category_id, result] if result.any?
+    end.to_h
+  end
 
   def parse_facility_reviews(facility_reviews)
     # Converting to .values exists solely because I didn't manage to create a
