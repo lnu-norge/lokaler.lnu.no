@@ -144,16 +144,22 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   # Groups all facilities by their category
   # { category_id: [facility_1, facility_2, ...] }
-  def facilities_for_categories(match_space_types: true) # rubocop:disable Metrics/AbcSize
+  #
+  # if match_all_except_unknown is true it will give you all the facilities that match the current space's space_types
+  # and all the "other" facilities where experience is not unknown
+  def facilities_for_categories(match_all_except_unknown: false) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     result = space_facilities
-             .includes(facility: [:facilities_categories])
+             .includes(facility: [:facilities_categories, :space_types])
              .joins(facility: [:facilities_categories, :space_types])
 
-    result = if match_space_types
-               result.where(facility: { space_types: space_types }).distinct
-             else
-               result.where.not(facility: { space_types: space_types }).distinct
-             end
+    if match_all_except_unknown
+      result = result
+               .where(facility: { space_types: space_types })
+               .or(
+                 result
+                 .where.not(experience: 0)
+               ).distinct
+    end
 
     result.each_with_object({}) do |space_facility, memo|
       space_facility.facility.facilities_categories.each do |facility_category|
@@ -162,7 +168,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
           id: space_facility.facility.id,
           title: space_facility.facility.title,
           description: space_facility.description,
-          review: space_facility.experience
+          review: space_facility.experience,
+          space_types: space_facility.facility.space_types
         }
       end
     end
