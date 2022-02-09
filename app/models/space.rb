@@ -150,7 +150,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def facilities_for_categories(match_all_except_unknown: false) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     result = space_facilities
              .includes(facility: [:facilities_categories, :space_types])
-             .joins(facility: [:facilities_categories, :space_types])
+    # .joins(facility: [:facilities_categories, :space_types])
 
     if match_all_except_unknown
       result = result
