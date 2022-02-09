@@ -1,0 +1,96 @@
+<div class="p-4">
+  <header
+    class="mb-20 mt-20 md:mt-0 md:flex md:flex-row justify-center items-center gap-20"
+  >
+    <div class="max-w-xs bg-white transform">
+      <div class="unstyled-link text-3xl font-bold text-gray-900  inline-flex items-center gap-2">
+        <%= inline_svg_tag 'logo', class: 'inline-block w-24' %>
+        LOKALER
+      </div>
+      <p class="mb-6 mt-4 text-3xl">Lokaler for barne- og ungdomsfrivilligheten</p>
+      <p>
+        <%= link_to spaces_path,
+                    class: 'button submit text-2xl' do %>
+          <span class="p-1">
+            Logg inn
+          </span>
+        <% end %>
+      </p>
+    </div>
+
+    <div class="max-w-prose  mt-10 md:mt-4 mb-10 relative">
+      <div class="absolute transform -rotate-3 w-full h-full rounded-2xl bg-pink-100 text-transparent"></div>
+      <div class="absolute transform -rotate-1 w-full h-full rounded-2xl bg-pink-600 text-transparent"></div>
+      <%= image_tag 'frontpage/tonsberg.png',
+                    class: 'block object-cover rounded-2xl shadow-xl transform rotate-1' %>
+    </div>
+
+
+  </header>
+
+  <div
+    style="max-width: 130ch /* 2x max-w-prose */"
+    class="grid md:grid-cols-2 md:gap-20 justify-center mx-auto">
+    <div class="max-w-prose grid grid-cols-2 gap-10 relative items-center">
+      <div class="trix-content">
+        <h2>Finn lokaler</h2>
+        <p>Trenger dere et sted å overnatte? Et sted å øve? Se lokalene andre vet om!</p>
+      </div>
+      <div class="relative">
+        <div class="transform -rotate-2 bg-white w-full pb-1/1 rounded-2xl shadow-lg border-2 border-pink-600 text-pink-600 flex items-center justify-center">
+          <%= inline_svg_tag "logo-icon", class: "absolute top-1/2 transform -translate-y-1/2 w-1/2 h-1/2" %>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-prose grid grid-cols-2 gap-10 relative items-center">
+      <div class="trix-content">
+        <h2>Redigér innholdet</h2>
+        <p>Vi fyller ut innholdet på dugnad. Noe som mangler? Trykk redigér!</p>
+        </div>
+        <div class="relative">
+          <div class="transform rotate-1 bg-white w-full pb-1/1 rounded-2xl shadow-lg border-2 border-pink-600 text-pink-600 flex items-center justify-center">
+            <%= inline_svg_tag "edit", class: "absolute top-1/2 transform -translate-y-1/2 w-1/2 h-1/2" %>
+          </div>
+        </div>
+      </div>
+    <div class="max-w-prose grid grid-cols-2 gap-10 relative items-center">
+        <div class="trix-content">
+          <h2>Del erfaringer</h2>
+          <p>Hva egner lokalet seg til? Legg inn dine erfaringer og les andres.</p>
+        </div>
+        <div class="relative">
+          <div class="transform rotate-2 bg-white shadow-lg w-full pb-1/1 rounded-2xl border-2 border-pink-600 text-pink-600 flex items-center justify-center">
+            <div class="absolute w-full p-3 top-1/2 transform -translate-y-1/2 flex">
+              <%= inline_svg_tag "star--pink", class: "w-24 h-24" %> <%= inline_svg_tag "star--pink", class: "w-24 h-24" %> <%= inline_svg_tag "star--pink", class: "w-24 h-24" %> <%= inline_svg_tag "star--pink", class: "w-24 h-24" %> <%= inline_svg_tag "star--transparent", class: "w-24 h-24" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="max-w-prose grid grid-cols-2 gap-10 relative items-center">
+      <div class="trix-content flex-1">
+        <h2>For og av barne- og ungdoms&shy;organisasjoner</h2>
+        <p>LNU Lokaler er drevet av barne- og ungdomsfrivilligheten selv gjennom <a href="https://lnu.no">LNU</a>. Vi lager det sammen!</p>
+      </div>
+      <div class="relative flex-1">
+        <div class="transform -rotate-1 bg-white shadow-lg w-full pb-1/1 rounded-2xl border-2 border-pink-600 text-pink-600 flex items-center justify-center">
+          <%= inline_svg_tag "logo", class: "absolute top-1/2 transform -translate-y-1/2 w-2/3 h-2/3" %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mx-auto md:my-20 max-w-prose grid grid-cols-2 gap-10 relative items-center ">
+    <div class="trix-content">
+      <h2>Åpen kildekode</h2>
+      <p>Vil du være med å bygge? <br /><a href="https://github.com/lnu-norge/lokaler.lnu.no/">Bli med på Github</a></p>
+      <p>Vil du være med å snakke? <br /><a href="mailto:lokaler@lnu.no">Spør om tilgang til Discord</a></p>
+    </div>
+    <div class="relative">
+      <div class="transform -rotate-3 w-full pb-1/1 rounded-2xl shadow-lg border-2 border-pink-600 bg-white text-pink-600 flex items-center justify-center">
+        <%= inline_svg_tag "github-icon", class: "absolute top-1/2 transform -translate-y-1/2 hover:animate-spin w-2/5 h-2/5" %>
+      </div>
+    </div>
+  </div>
+
+</div>
