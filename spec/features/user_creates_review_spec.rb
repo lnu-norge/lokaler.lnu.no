@@ -67,7 +67,7 @@ describe "User creates review", js: true do
     end
   end
 
-  # TODO: Ronly contacted reviews are broken atm, need work. Might be phased out.
+  # TODO: "Only contacted" reviews are broken atm, need work. Might be phased out.
   #
   # it "User creates a only contacted review" do
   #  login_and_logout_with_warden do
