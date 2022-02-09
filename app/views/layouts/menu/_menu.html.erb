@@ -36,16 +36,18 @@
 
 
 <% else %>
-  <nav class="flex justify-between items-center w-full bg-white p-4 absolute top-0 ">
-    <%= render partial: 'layouts/menu/logo' %>
+  <% unless current_page?(unauthenticated_root_path) %>
+    <nav class="flex justify-between items-center w-full bg-white p-4 absolute top-0 ">
+      <%= render partial: 'layouts/menu/logo' %>
 
-      <div class="flex justify-around gap-6">
-        <% unless current_page?(new_user_session_path) %>
-          <%= link_to spaces_path, class: 'flex gap-1 items-center' do %>
-            <%= inline_svg_tag 'lock' %>
-            <%=  t('menu.log_in') %>
+        <div class="flex justify-around gap-6">
+          <% unless current_page?(new_user_session_path) %>
+            <%= link_to spaces_path, class: 'flex gap-1 items-center' do %>
+              <%= inline_svg_tag 'lock' %>
+              <%=  t('menu.log_in') %>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>
-  </nav>
+        </div>
+    </nav>
+  <% end %>
 <% end %>

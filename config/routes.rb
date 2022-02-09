@@ -16,7 +16,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  root to: "devise/sessions#new", as: "unauthenticated_root"
+  root to: "high_voltage/pages#show", id: "frontpage", as: "unauthenticated_root"
 
   # Resources
   resources "facilities", except: "new"
