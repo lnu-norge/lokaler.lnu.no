@@ -2,19 +2,16 @@
 
  <header class="editable-header-type-h2 flex gap-3 items-baseline">
     <h2><%= Facility.model_name.human(count: 2) %></h2>
-    <%= modal_link_to_with_block new_facility_review_path(@space),
-                      id: :new_facility_review_path,
-                      class: 'unstyled-link edit-button collapsable' do %>
-        <span class="text">
+    <%= button_to_modal :new_facility_review_path, class: 'unstyled-link edit-button collapsable' do %>
+      <span class="text">
           Redigér
         </span>
       <%= inline_svg_tag 'edit', alt: 'Redigér', title: 'Redigér' %>
     <% end %>
-
   </header>
 
   <main class="grid divide-y">
-    <% FacilityCategory.all.includes(:facilities).each_with_index do |facilityCategory, index| %>
+    <% FacilityCategory.all.includes(:facilities).each_with_index do |facilityCategory| %>
       <div class="grid md:grid-cols-3 md:gap-4 items-baseline py-4 md:py-8">
         <h3 class="no-mt">
           <%= facilityCategory.title %>
@@ -34,4 +31,13 @@
 
     <% end %>
   </main>
+
+  <aside>
+    <%= modal_for :new_facility_review_path, "h-90vh modal--with-header-and-footer" do  %>
+      <% turbo_frame_tag :new_facility_review_path, target: "_top", src: new_facility_review_path(@space), loading: "lazy" do %>
+        <%= render "shared/loading" %>
+      <% end %>
+    <% end  %>
+  </aside>
+
 </section>
