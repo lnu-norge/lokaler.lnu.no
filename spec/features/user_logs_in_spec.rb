@@ -9,7 +9,7 @@ describe "User logs in", js: true do
     visit root_path
     fill_in "user_email", with: "test@example.net"
     fill_in "user_password", with: "secret"
-    click_button I18n.t("simple_form.labels.user.submit_login")
+    click_button I18n.t("simple_form.labels.user.session.login_with_email")
 
     expect(page).to have_current_path(root_path, ignore_query: true)
     expect(page).to have_content(I18n.t("menu.new_space"))
@@ -19,7 +19,7 @@ describe "User logs in", js: true do
     visit root_path
     fill_in "user_email", with: "test@example.net"
     fill_in "user_password", with: "wrong"
-    click_button I18n.t("simple_form.labels.user.submit_login")
+    click_button I18n.t("simple_form.labels.user.session.login_with_email")
 
     expect(page).to have_current_path(root_path, ignore_query: true)
     expect(page).to have_content(I18n.t("simple_form.labels.user.session.heading_new"))
