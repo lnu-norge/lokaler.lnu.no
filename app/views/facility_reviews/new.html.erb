@@ -1,28 +1,32 @@
 <%= modal_content_for :new_facility_review_path, @space do %>
   <%= form_for "facility_reviews", url: create_facility_review_path(@space) do |form| %>
-    <% @categories.each do |category| %>
-      <%= render partial: 'facility_reviews/new/facility_category',
-        locals: {
-          facilities_in_category: @matching_space_types[category.id],
-          form: form,
-          review: form.object,
-          category: category,
-          only_matching: true } %>
-    <% end %>
-    <details>
-      <summary>
-        Others
-      </summary>
+    <% if @matching_space_types.present?  %>
       <% @categories.each do |category| %>
         <%= render partial: 'facility_reviews/new/facility_category',
           locals: {
-            facilities_in_category: @not_matching_space_types[category.id],
+            facilities_in_category: @matching_space_types[category.id],
             form: form,
             review: form.object,
             category: category,
-            only_matching: false } %>
+            only_matching: true } %>
       <% end %>
-    </details>
+    <% end %>
+    <% if @not_matching_space_types.present?  %>
+        <details>
+        <summary>
+          Others
+        </summary>
+        <% @categories.each do |category| %>
+          <%= render partial: 'facility_reviews/new/facility_category',
+            locals: {
+              facilities_in_category: @not_matching_space_types[category.id],
+              form: form,
+              review: form.object,
+              category: category,
+              only_matching: false } %>
+        <% end %>
+      </details>
+    <% end %>
     <%= form.submit %>
   <% end %>
 <% end %>

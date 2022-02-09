@@ -8,6 +8,8 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     @reviews_for_categories = @space.reviews_for_categories(current_user)
 
     @facilities_for_categories = @space.facilities_for_categories
+    filter_matching_space_types
+    filter_not_matching_space_types
 
     @experiences = [
       *FacilityReview.experiences.keys,
