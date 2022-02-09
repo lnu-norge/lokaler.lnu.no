@@ -12,13 +12,28 @@
     <%= render 'application/favicon' %>
   </head>
 
-  <body class="pb-24 md:pb-0 md:pt-14">
+  <body class="pb-24 md:pb-0 md:pt-14 flex flex-col justify-between min-h-screen">
     <div id="flash">
       <%= render "shared/flash" %>
     </div>
     <%= render partial: "layouts/menu/menu" %>
-    <main>
+    <main class="flex-1">
       <%= yield %>
     </main>
+    <footer class="px-2 pt-4 mt-4 pb-4 bg-gray-100">
+      <ul class="divide-x flex z-10 relative">
+        <li class="inline-block px-3">
+          <%= link_to t("menu.privacy_policy"),
+                      page_path("privacy_policy"),
+                      class: 'hover:underline text-sm text-gray-400 hover:text-gray-800' %>
+        </li>
+        <li class="inline-block px-3">
+          <%= link_to "lnu.no →",
+                      "https://lnu.no",
+                      class: 'hover:underline text-sm text-gray-400 hover:text-gray-800' %>
+        </li>
+
+      </ul>
+    </footer>
   </body>
 </html>
