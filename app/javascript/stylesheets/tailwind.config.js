@@ -34,6 +34,9 @@ module.exports = {
       'auto': 'auto',
     },
     extend: {
+      screens: {
+        'xs': '360px'
+      },
       cursor: {
         zoom: 'zoom-in'
       },
