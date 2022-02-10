@@ -1,45 +1,62 @@
 <% content_for(:html_title) { t("devise.sessions.user.submit_login") } %>
 
-<div class="max-w-md mx-auto p-4 w-full space-y-8">
+<div class="content max-w-md mt-6 mx-auto p-4 w-full">
   <div>
-    <%= image_tag 'logo.svg', alt: 'LNU logo', width: 200, height: 200, class: 'mx-auto h-12 w-auto' %>
-    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+    <h1 class="text-center">
        <%=  t('simple_form.labels.user.session.heading_new') %>
-    </h2>
-    <p class="mt-2 text-center text-sm text-gray-600">
-       <%=  t('simple_form.labels.user.or') %>
-      <%= link_to t('simple_form.labels.user.register_instead'), new_registration_path(resource_name), class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
+    </h1>
+  </div>
+
+  <div class="mt-8 text-center">
+    <%= form_tag('/auth/google_oauth2',
+                 method: 'post',
+                 "data-turbo": false) do %>
+
+      <button class="button" autofocus="autofocus">
+        <%= inline_svg_tag "google-color" %>
+        <%= t('simple_form.labels.user.session.login_with_google') %>
+      </button>
+    <% end %>
+  </div>
+
+  <div class="relative flex py-5 items-center">
+    <div class="flex-grow border-t border-gray-200"></div>
+    <span class="flex-shrink mx-4 text-gray-400">eller</span>
+    <div class="flex-grow border-t border-gray-200"></div>
+  </div>
+
+  <div class="p-4 rounded bg-gray-100">
+
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), class: 'vertical_form') do |f| %>
+      <input type="hidden" name="remember" value="true">
+      <div>
+        <div>
+          <%= f.input :email, input_html: { class: "fieldFirst" } %>
+        </div>
+        <div>
+          <%= f.input :password, input_html: { class: "fieldLast" } %>
+        </div>
+        <div class="text-sm mt-2">
+          <%= link_to t('simple_form.labels.user.forgot_password'), new_password_path(resource_name) %>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-4 flex-wrap items-baseline">
+        <%= button_tag :submit, class: 'button submit' do %>
+          <!-- Heroicon name: solid/lock-closed -->
+          <%= inline_svg_tag 'lock' %>
+          <%= t('simple_form.labels.user.session.login_with_email') %>
+        <% end %>
+        <% if devise_mapping.rememberable? %>
+          <%= f.input :remember_me, as: :boolean, wrapper_html: { class: "flex items-center" } %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <hr class="my-4"/>
+    <p class="">
+      <%= t("simple_form.labels.user.dont_have_an_account") %>
+      <%= link_to t('simple_form.labels.user.register_instead'), new_registration_path(resource_name) %>
     </p>
   </div>
 
-  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), class: 'vertical_form') do |f| %>
-    <input type="hidden" name="remember" value="true">
-    <div class="rounded-md shadow-sm -space-y-px">
-      <div>
-        <%= f.input :email, input_html: { class: "fieldFirst" }, autofocus: true %>
-      </div>
-      <div>
-        <%= f.input :password, input_html: { class: "fieldLast" } %>
-      </div>
-    </div>
-    <div class="flex items-center justify-between mt-4">
-      <div class="flex items-center">
-        <% if devise_mapping.rememberable? %>
-          <%= f.input :remember_me, as: :boolean %>
-        <% end %>
-      </div>
-      <div class="text-sm">
-        <%= link_to t('simple_form.labels.user.forgot_password'), new_password_path(resource_name), class: 'font-medium p-2 rounded text-lnu-blue hover:text-lnu-pink focus:outline-none focus:ring-2 focus:outline-ring-offset-2 focus:ring-lnu-pink' %>
-      </div>
-    </div>
-    <div class="mt-4">
-      <%= render partial: 'devise/shared/submit_button', locals: { text_on_button: t('simple_form.labels.user.submit_login') } %>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form_tag('/auth/google_oauth2', method: 'post', "data-turbo": false) do %>
-      <button type='submit'>Login with Google</button>
-    <% end %>
-  </div>
 </div>
