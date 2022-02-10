@@ -11,7 +11,10 @@
       <div class="inline-flex gap-2">
         <%= link_to 'Edit', edit_admin_space_type_path(space_type) %>
         <%= link_to 'Delete', admin_space_type_path(space_type), method: :delete, data: { confirm: 'Are you sure?' } %>
-        <%= space_type.type_name %>
+        <strong><%= space_type.type_name %></strong>
+        <span class="<%= " bg-red-100 text-red-900 " if space_type.facilities.count == 0 %>">
+          (<%= space_type.facilities.count %> fasiliteter)
+        </span>
       </div>
     </li>
   <% end %>
