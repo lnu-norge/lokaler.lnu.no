@@ -15,7 +15,7 @@
           form: form
         } %>
 
-        <%= render partial: 'reviews/new/star_rating', locals: {
+        <%= render partial: 'reviews/form/star_rating', locals: {
           star_rating: @review.star_rating,
           form: form
         } %>
@@ -30,6 +30,5 @@
 
       </div>
     <% end  %>
-
   <% end%>
 </div>

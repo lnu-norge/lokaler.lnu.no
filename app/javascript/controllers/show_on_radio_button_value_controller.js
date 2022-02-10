@@ -17,7 +17,7 @@ export default class extends Controller {
       if (toggleOnChecked.checked) {
         element.classList.remove('hidden')
         element.querySelector('input').focus()
-        element.querySelector('input').scrollIntoView()
+//        element.querySelector('input').scrollIntoView()
 
 
         return
