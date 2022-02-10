@@ -1,21 +1,19 @@
 <%#
-
     Local params:
     - form
-    - title (alternative label for title input)
-
-%>
-<% title_label = if defined? title
-                   title
-                 else
-                   t('reviews.form.how_would_you_summarize_the_experience?')
-                 end
+=
 %>
 
-<%= form.label :title, title_label, class: 'h2' %>
+<%= form.label :title, class: 'h2', data: {
+  'review-form-target': 'title_label_been_there'
+} do %>
+  <span data-review-form-target="titleLabelBeenThere"><%= t('reviews.form.how_would_you_summarize_the_experience?') %></span>
+  <span class="hidden" data-review-form-target="titleLabelNotAllowed"><%= t('reviews.form.why_were_you_not_allowed') %></span>
+  <span class="hidden" data-review-form-target="titleLabelOnlyContacted"><%= t('reviews.form.what_did_you_learn') %></span>
+
+<% end %>
 <%= form.input :title,
                label: false,
-               placeholder: t('reviews.form.for_example_roomy_but_smelly'),
                class: "block w-full my-2" %>
 
 <%= form.label :comment,  t('reviews.form.what_do_you_want_to_say_to_others?'), class: 'h2' %>
