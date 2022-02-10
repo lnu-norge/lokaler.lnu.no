@@ -6,7 +6,7 @@ Locals:
  <%= form.input :star_rating, label: false do %>
 
    <fieldset class="star-rating">
-    <legend class="h2"><%= t('reviews.form.what_impression_did_you_get') %></legend>
+    <legend class="h3"><%= t('reviews.form.what_impression_did_you_get') %></legend>
     <div>
         <% (1..5).each do | score | %>
           <%= form.radio_button :star_rating, score, checked: score == form.object.star_rating %>

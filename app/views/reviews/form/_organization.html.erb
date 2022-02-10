@@ -1,7 +1,5 @@
-<h2><%= t('reviews.form.booked_as_organization') %></h2>
-
-<%= field_set_tag nil,
-                  class: "my-3",
+<%= field_set_tag t('reviews.form.booked_as_organization'),
+                  class: "my-3 field_set",
                   data: { controller: 'show-on-radio-button-value' } do   %>
   <div class="radio-slider mt-1.5">
     <%  ['yes', 'no'].each_with_index do |value| %>
@@ -22,7 +20,6 @@
   <div data-show-on-radio-button-value-target="elementToShow">
     <%= form.input :organization,
                    placeholder: t('reviews.form.placeholder_your_organization'),
-                   label: t('reviews.form.which_organization'),
-                   input_html: { class: 'w-full' } %>
+                   label: t('reviews.form.which_organization') %>
   </div>
 <% end %>

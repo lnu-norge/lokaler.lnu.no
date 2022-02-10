@@ -74,6 +74,11 @@
   }
 }
 
+.field_set {
+  legend {
+    @apply h3 font-bold mb-1.5;
+  }
+}
 
 // Meta (helper text around fields)
 .meta_text {
