@@ -15,12 +15,14 @@ export default class extends Controller {
 
     radioButtons.forEach(radioButton => radioButton.onchange = () => {
       if (toggleOnChecked.checked) {
+        // If checked, show and focus:
         element.classList.remove('hidden')
         element.querySelector('input').focus()
-
-        return
+      } else {
+        // If not checked, hide and remove any content:
+        element.querySelector('input').value = ''
+        return element.classList.add('hidden')
       }
-      return element.classList.add('hidden')
     })
   }
 }
