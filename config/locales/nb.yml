@@ -105,6 +105,9 @@ nb:
   facility_reviews:
     edit: 'Redigér fasiliteter'
   reviews:
+    review_about: 'Erfaring om:'
+    written: 'Skrevet:'
+    edit: 'Redigér'
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
     added_review: 'Erfaring loggført!'
@@ -273,3 +276,6 @@ nb:
     index: "Fasiliteter"
   space_types:
     index: "Space type"
+  session:
+    my_content: "Mitt innhold"
+    my_experiences: "Mine erfaringer"
