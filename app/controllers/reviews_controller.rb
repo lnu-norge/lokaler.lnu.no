@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ReviewsController < BaseControllers::AuthenticateController
+class ReviewsController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
   before_action :set_review_from_id, only: [:show, :edit, :update]
   before_action :set_space_from_review, only: [:show, :edit, :update]
   before_action :authorize_user, only: [:edit, :update]
@@ -94,7 +94,7 @@ class ReviewsController < BaseControllers::AuthenticateController
     review_params
   end
 
-  def review_params
+  def review_params # rubocop:disable Metrics/MethodLength
     case params[:review][:type_of_contact]
     when "been_there"
       params.require(:review).permit(
