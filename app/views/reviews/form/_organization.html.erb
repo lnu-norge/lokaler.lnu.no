@@ -1,0 +1,28 @@
+<h2><%= t('reviews.form.booked_as_organization') %></h2>
+
+<%= field_set_tag nil,
+                  class: "my-3",
+                  data: { controller: 'show-on-radio-button-value' } do   %>
+  <div class="radio-slider mt-1.5">
+    <%  ['yes', 'no'].each_with_index do |value| %>
+      <%=
+        form.radio_button :on_behalf_of_organization,
+                          value,
+                          checked: (value == 'yes') && form.object.organization?,
+                          data: {
+                            "show-on-radio-button-value-target":
+                              "radioButton#{' toggleOnChecked' if value.start_with? 'yes'}"
+                          }
+      %>
+      <%= form.label :"on_behalf_of_organization_#{value}" do  %>
+        <%= render partial: 'reviews/form/radio_text_label', locals: { text: t("generic.#{value}") } %>
+      <% end  %>
+    <% end  %>
+  </div>
+  <div data-show-on-radio-button-value-target="elementToShow">
+    <%= form.input :organization,
+                   placeholder: t('reviews.form.placeholder_your_organization'),
+                   label: t('reviews.form.which_organization'),
+                   input_html: { class: 'w-full' } %>
+  </div>
+<% end %>
