@@ -78,13 +78,11 @@ describe "User creates review", js: true do
       not_allowed_button_text = I18n.t("reviews.form.have_you_been_there_answers.only_contacted")
       choose(not_allowed_button_text, allow_label_click: true)
 
-      fill_in("review_title", with: "Review Title!")
       fill_in("review_comment", with: "Review Comment!")
 
       click_button(I18n.t("multistep_form_navigation.save"))
       expect(page).to have_content(I18n.t("activerecord.attributes.review.only_contacted"))
 
-      expect(page).to have_content("Review Title!")
       expect(page).to have_content("Review Comment!")
     end
   end
