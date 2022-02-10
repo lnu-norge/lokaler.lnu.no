@@ -1,13 +1,20 @@
 <% content_for(:html_title) { t("space_types.index") } %>
 
-<div>
+<div class="content trix-content max-w-md mt-6 mx-auto p-4 w-full">
+  <h1><%= t('activerecord.models.space_type.other') %></h1>
+  <hr />
+  <%= link_to "Ny #{t('activerecord.models.space_type.one')}", new_admin_space_type_path, class: 'button submit' %>
+  <hr />
+  <ul>
   <% @space_types.each do |space_type| %>
-    <div>
-      <%= link_to 'Edit', edit_admin_space_type_path(space_type) %>
-      <%= link_to 'Delete', admin_space_type_path(space_type), method: :delete, data: { confirm: 'Are you sure?' } %>
-      <%= space_type.type_name %>
-    </div>
+    <li>
+      <div class="inline-flex gap-2">
+        <%= link_to 'Edit', edit_admin_space_type_path(space_type) %>
+        <%= link_to 'Delete', admin_space_type_path(space_type), method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= space_type.type_name %>
+      </div>
+    </li>
   <% end %>
+  </ul>
 
-  <%= link_to 'New Space Type', new_admin_space_type_path %>
 </div>
