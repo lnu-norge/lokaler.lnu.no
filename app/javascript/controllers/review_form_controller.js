@@ -8,7 +8,10 @@ export default class extends Controller {
       'organizationForm',
       'moreAboutYourStayForm',
       'starRatingForm',
-      'textBeenThereForm'
+      'textBeenThereForm',
+      'titleLabelBeenThere',
+      'titleLabelNotAllowed',
+      'titleLabelOnlyContacted'
   ]
 
   connect() {
@@ -59,6 +62,10 @@ export default class extends Controller {
     show(this.moreAboutYourStayFormTarget)
     show(this.starRatingFormTarget)
     show(this.textBeenThereFormTarget)
+
+    show(this.titleLabelBeenThereTarget)
+    hide(this.titleLabelNotAllowedTarget)
+    hide(this.titleLabelOnlyContactedTarget)
   }
 
   showNotAllowedToUseForm() {
@@ -66,6 +73,11 @@ export default class extends Controller {
     hide(this.moreAboutYourStayFormTarget)
     hide(this.starRatingFormTarget)
     show(this.textBeenThereFormTarget)
+
+    hide(this.titleLabelBeenThereTarget)
+    show(this.titleLabelNotAllowedTarget)
+    hide(this.titleLabelOnlyContactedTarget)
+
   }
 
   showOnlyContactedForm() {
@@ -73,6 +85,11 @@ export default class extends Controller {
     hide(this.moreAboutYourStayFormTarget)
     hide(this.starRatingFormTarget)
     show(this.textBeenThereFormTarget)
+
+    hide(this.titleLabelBeenThereTarget)
+    hide(this.titleLabelNotAllowedTarget)
+    show(this.titleLabelOnlyContactedTarget)
+
   }
 }
 
