@@ -11,25 +11,9 @@
     <div data-review-form-target="fullForm" class="hidden">
 
       <div data-review-form-target="organizationForm">
-        <h2><%= t('reviews.form.booked_as_organization') %></h2>
-        <%= render partial: 'shared/radio_slider', locals: {
-          form: form,
-          field: :organization,
-          legend: nil,
-          values:['custom', 'no'],
-          labels: ['yes', 'no'].map { |value|
-            render partial: 'reviews/form/radio_text_label', locals: { text: t("generic.#{value}") }
-          },
-          custom_input: capture do %>
-          <div data-show-on-radio-button-value-target="elementToShow">
-            <%= form.input :how_long_custom,
-                           placeholder: t('reviews.form.placeholder_your_organization'),
-                           label: t('reviews.form.which_organization'),
-                           input_html: { class: 'w-full' } %>
-          </div>
-        <% end
-           } %>
-
+        <%= render partial: 'reviews/form/organization', locals: {
+          form: form
+        } %>
         <hr />
       </div>
 
@@ -37,6 +21,7 @@
         <%= render partial: 'reviews/form/more_about_your_stay', locals: {
           form: form
         } %>
+        <hr />
       </div>
 
       <div data-review-form-target="starRatingForm">
