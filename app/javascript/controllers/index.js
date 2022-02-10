@@ -12,9 +12,6 @@ application.register("duplicate-checker", DuplicateCheckerController)
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
-import HiddenController from "./hidden_controller"
-application.register("hidden", HiddenController)
-
 import LocationsearchController from "./locationsearch_controller"
 application.register("locationsearch", LocationsearchController)
 

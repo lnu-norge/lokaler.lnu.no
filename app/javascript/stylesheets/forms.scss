@@ -18,7 +18,7 @@
     display: none;
   }
   &.submit,
-  &[type=submit] {
+  &.not[class=no-submit-styling][type=submit] {
     @apply bg-pink-700 text-white;
     &:hover {
       @apply bg-pink-600 border-pink-600;
@@ -49,7 +49,10 @@
 // Input for boolean (aka checkboxes)
 .boolean_form {
   @extend .vertical_form;
-  @apply mb-4 flex items-start;
+  @apply mb-4 flex items-center;
+  .label {
+    @apply mt-1.5 mb-1.5;
+  }
 }
 
 // Collection input for radio buttons and check boxes
