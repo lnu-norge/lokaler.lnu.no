@@ -3,27 +3,6 @@
 
 <%= render partial: 'shared/radio_slider', locals: {
   form: form,
-  field: :organization,
-  legend:  t('reviews.form.booked_as_organization'),
-  values:['custom', 'no'],
-  labels: ['yes', 'no'].map { |value|
-    render partial: 'reviews/form/radio_text_label', locals: { text: t("generic.#{value}") }
-  },
-  custom_input: capture do %>
-  <div data-show-on-radio-button-value-target="elementToShow">
-    <%= form.input :how_long_custom,
-                   placeholder: t('reviews.form.placeholder_your_organization'),
-                   label: t('reviews.form.which_organization'),
-                   input_html: { class: 'w-full' } %>
-  </div>
-<% end
-   } %>
-
-<hr />
-
-
-<%= render partial: 'shared/radio_slider', locals: {
-  form: form,
   field: :how_much,
   legend: t('reviews.form.how_much_of_the_space_did_you_use?'),
   values: Review.how_muches.keys.reverse,

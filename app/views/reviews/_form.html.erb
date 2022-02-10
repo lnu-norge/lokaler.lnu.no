@@ -8,22 +8,53 @@
       form: form
     } %>
 
-    <%= render partial: 'reviews/form/more_about_your_stay', locals: {
-      form: form
-    } %>
+    <div data-review-form-target="fullForm" class="hidden">
 
-    <%= render partial: 'reviews/form/star_rating', locals: {
-      star_rating: @review.star_rating,
-      form: form
-    } %>
+      <div data-review-form-target="organizationForm">
+        <h2><%= t('reviews.form.booked_as_organization') %></h2>
+        <%= render partial: 'shared/radio_slider', locals: {
+          form: form,
+          field: :organization,
+          legend: nil,
+          values:['custom', 'no'],
+          labels: ['yes', 'no'].map { |value|
+            render partial: 'reviews/form/radio_text_label', locals: { text: t("generic.#{value}") }
+          },
+          custom_input: capture do %>
+          <div data-show-on-radio-button-value-target="elementToShow">
+            <%= form.input :how_long_custom,
+                           placeholder: t('reviews.form.placeholder_your_organization'),
+                           label: t('reviews.form.which_organization'),
+                           input_html: { class: 'w-full' } %>
+          </div>
+        <% end
+           } %>
 
-    <%= render partial: 'reviews/form/text_been_there', locals: {
-      form: form
-    } %>
+        <hr />
+      </div>
 
-    <%= render partial: 'shared/form_error', locals: { model: @review } %>
+      <div data-review-form-target="moreAboutYourStayForm">
+        <%= render partial: 'reviews/form/more_about_your_stay', locals: {
+          form: form
+        } %>
+      </div>
 
-    <%= form.submit t('multistep_form_navigation.save'), class: "modal-button bg-blue-400" %>
+      <div data-review-form-target="starRatingForm">
+        <%= render partial: 'reviews/form/star_rating', locals: {
+          star_rating: @review.star_rating,
+          form: form
+        } %>
+      </div>
 
+      <div data-review-form-target="textBeenThereForm">
+        <%= render partial: 'reviews/form/text_been_there', locals: {
+          form: form
+        } %>
+      </div>
+
+      <%= render partial: 'shared/form_error', locals: { model: @review } %>
+
+      <%= form.submit t('multistep_form_navigation.save'), class: "modal-button bg-blue-400" %>
+    </div>
   </div>
 <% end  %>
