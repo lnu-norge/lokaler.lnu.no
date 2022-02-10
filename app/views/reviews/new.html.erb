@@ -1,5 +1,7 @@
-<div class="max-w-prose mx-auto p-4 pb-10">
+<div class="content max-w-prose mx-auto p-4 pb-10">
   <%= turbo_frame_tag :new_review_path do %>
+    <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
+
     <%= render partial: 'reviews/form' %>
   <% end%>
 </div>
