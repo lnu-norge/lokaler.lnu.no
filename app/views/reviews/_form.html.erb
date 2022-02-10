@@ -7,19 +7,21 @@
   } %>
 
   <div data-review-form-target="fullForm" class="hidden">
+    <hr class="my-8"/>
 
     <div data-review-form-target="organizationForm">
       <%= render partial: 'reviews/form/organization', locals: {
         form: form
       } %>
-      <hr />
+      <hr class="my-8"/>
     </div>
 
     <div data-review-form-target="moreAboutYourStayForm">
       <%= render partial: 'reviews/form/more_about_your_stay', locals: {
         form: form
       } %>
-      <hr />
+      <hr class="my-8"/>
+
     </div>
 
     <div data-review-form-target="starRatingForm">

@@ -98,7 +98,8 @@ class ReviewsController < BaseControllers::AuthenticateController
     case params[:review][:type_of_contact]
     when "been_there"
       params.require(:review).permit(
-        :title, :comment,
+        :title,
+        :comment,
         :price, :star_rating,
         :how_much, :how_much_custom,
         :how_long, :how_long_custom,
@@ -108,14 +109,15 @@ class ReviewsController < BaseControllers::AuthenticateController
       )
     when "not_allowed_to_use"
       params.require(:review).permit(
-        :title, :comment,
+        :title,
+        :comment,
         :type_of_contact,
         :space_id,
         :organization
       )
     when "only_contacted"
       params.require(:review).permit(
-        :title, :comment,
+        :comment,
         :type_of_contact,
         :space_id,
         :organization

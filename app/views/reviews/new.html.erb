@@ -1,7 +1,7 @@
 <div class="max-w-prose mx-auto p-4 pb-10">
-  <%= simple_form_for @review do |form| %>
-  <%= turbo_frame_tag :new_review_path do %>
 
+  <%= turbo_frame_tag :new_review_path do %>
+    <%= simple_form_for @review do |form| %>
       <div class="modal-header">
         <h2 class="h3 no-mt"><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h2>
       </div>
@@ -21,7 +21,6 @@
           <%= t('space_contacts.abort') %>
         </button>
       </div>
-
-  <% end%>
+    <% end%>
   <% end%>
 </div>

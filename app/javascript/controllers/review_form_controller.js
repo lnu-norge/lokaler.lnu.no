@@ -9,9 +9,9 @@ export default class extends Controller {
       'moreAboutYourStayForm',
       'starRatingForm',
       'textBeenThereForm',
+      'titleForm',
       'titleLabelBeenThere',
-      'titleLabelNotAllowed',
-      'titleLabelOnlyContacted'
+      'titleLabelNotAllowed'
   ]
 
   connect() {
@@ -20,8 +20,19 @@ export default class extends Controller {
   }
 
   disableSubmitButton() {
-    document.getElementById('submit_new_review_button').disabled = true
-    document.getElementById('submit_new_review_button').classList.add('disabled')
+    const submit_button = document.getElementById('submit_new_review_button')
+    if (!submit_button) return
+
+    submit_button.disabled = true
+    submit_button.classList.add('disabled')
+  }
+
+  enableSubmitButton() {
+    const submit_button = document.getElementById('submit_new_review_button')
+    if (!submit_button) return
+
+    submit_button.disabled = false
+    submit_button.classList.remove('disabled')
   }
 
   connectTypeOfContact() {
@@ -59,9 +70,8 @@ export default class extends Controller {
   }
 
   showForm() {
+    this.enableSubmitButton()
     this.fullFormTarget.classList.remove('hidden')
-    document.getElementById('submit_new_review_button').disabled = false
-    document.getElementById('submit_new_review_button').classList.remove('disabled')
   }
 
   showBeenThereForm() {
@@ -69,10 +79,10 @@ export default class extends Controller {
     show(this.moreAboutYourStayFormTarget)
     show(this.starRatingFormTarget)
     show(this.textBeenThereFormTarget)
+    show(this.titleFormTarget)
 
     show(this.titleLabelBeenThereTarget)
     hide(this.titleLabelNotAllowedTarget)
-    hide(this.titleLabelOnlyContactedTarget)
   }
 
   showNotAllowedToUseForm() {
@@ -80,10 +90,10 @@ export default class extends Controller {
     hide(this.moreAboutYourStayFormTarget)
     hide(this.starRatingFormTarget)
     show(this.textBeenThereFormTarget)
+    show(this.titleFormTarget)
 
     hide(this.titleLabelBeenThereTarget)
     show(this.titleLabelNotAllowedTarget)
-    hide(this.titleLabelOnlyContactedTarget)
 
   }
 
@@ -93,9 +103,7 @@ export default class extends Controller {
     hide(this.starRatingFormTarget)
     show(this.textBeenThereFormTarget)
 
-    hide(this.titleLabelBeenThereTarget)
-    hide(this.titleLabelNotAllowedTarget)
-    show(this.titleLabelOnlyContactedTarget)
+    hide(this.titleFormTarget)
 
   }
 }
