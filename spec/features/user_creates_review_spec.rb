@@ -27,7 +27,10 @@ describe "User creates review", js: true do
       visit space_path(space)
 
       click_button(I18n.t("reviews.add_review"))
-      click_link(I18n.t("reviews.form.have_you_been_there_answers.been_there"))
+
+      been_there_button_text = I18n.t("reviews.form.have_you_been_there_answers.been_there")
+      Timeout.timeout(5) { loop until page.has_content?(been_there_button_text) }
+      click_link(been_there_button_text)
 
       choose("review_star_rating_1", allow_label_click: true)
 
@@ -54,7 +57,10 @@ describe "User creates review", js: true do
       visit space_path(space)
 
       click_button(I18n.t("reviews.add_review"))
-      click_link(I18n.t("reviews.form.have_you_been_there_answers.not_allowed_to_use"))
+
+      not_allowed_button_text = I18n.t("reviews.form.have_you_been_there_answers.not_allowed_to_use")
+      Timeout.timeout(5) { loop until page.has_content?(not_allowed_button_text) }
+      click_link(not_allowed_button_text)
 
       fill_in("review_title", with: "Review Title!")
       fill_in("review_comment", with: "Review Comment!")
