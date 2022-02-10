@@ -6,7 +6,16 @@ viken = create_viken
 
 ## Space Type
 vgs = SpaceType.create(
-  type_name: "VGS"
+  type_name: "VGS",
+  facilities: [
+    Facility.find_by(title: "Gymsal"),
+    Facility.find_by(title: "Klasserom"),
+    Facility.find_by(title: "Sove på gulvet"),
+    Facility.find_by(title: "Kjøkken med ovn"),
+    Facility.find_by(title: "Rullestolvennlig inngang"),
+    Facility.find_by(title: "Rullestolvennlig inne"),
+    Facility.find_by(title: "HC-toalett")
+  ]
 )
 
 ## Rich text fields

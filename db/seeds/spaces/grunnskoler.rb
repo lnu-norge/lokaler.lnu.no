@@ -2,7 +2,16 @@
 
 ## Space Type
 barneskole = SpaceType.create(
-  type_name: "1. til 7."
+  type_name: "1. til 7.",
+  facilities: [
+    Facility.find_by(title: "Gymsal"),
+    Facility.find_by(title: "Klasserom"),
+    Facility.find_by(title: "Sove på gulvet"),
+    Facility.find_by(title: "Kjøkken med ovn"),
+    Facility.find_by(title: "Rullestolvennlig inngang"),
+    Facility.find_by(title: "Rullestolvennlig inne"),
+    Facility.find_by(title: "HC-toalett")
+  ]
 )
 
 ## Space group
@@ -35,7 +44,16 @@ Space.create(
 
 ## Space Type
 barne_og_ungdom = SpaceType.create(
-  type_name: "1. til 10."
+  type_name: "1. til 10.",
+  facilities: [
+    Facility.find_by(title: "Gymsal"),
+    Facility.find_by(title: "Klasserom"),
+    Facility.find_by(title: "Sove på gulvet"),
+    Facility.find_by(title: "Kjøkken med ovn"),
+    Facility.find_by(title: "Rullestolvennlig inngang"),
+    Facility.find_by(title: "Rullestolvennlig inne"),
+    Facility.find_by(title: "HC-toalett")
+  ]
 )
 
 ## Empty Space, only info from NSR
