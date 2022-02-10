@@ -21,11 +21,8 @@ class Review < ApplicationRecord
   validates :type_of_contact, inclusion: { in: type_of_contacts.keys }
   validates :how_much_custom, presence: true, if: :custom_how_much?
   validates :how_long_custom, presence: true, if: :custom_how_long?
-  validates :price, numericality: { greater_than: 0 }, if: ->(review) { review.price?.present? }
+  validates :price, numericality: { greater_than: 0 }, allow_blank: true, if: :been_there?
   validates :star_rating, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }, if: :been_there?
-
-  # after_save { space.aggregate_facility_reviews }
-  # after_destroy { space.aggregate_facility_reviews }
 
   after_save { space.aggregate_star_rating }
   after_destroy { space.aggregate_star_rating }
