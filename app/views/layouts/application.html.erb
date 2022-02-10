@@ -12,7 +12,7 @@
     <%= render 'application/favicon' %>
   </head>
 
-  <body class="pb-24 md:pb-0 md:pt-14 flex flex-col justify-between min-h-screen">
+  <body class="<%= "pb-24" if current_user %> md:pb-0 md:pt-14 flex flex-col justify-between min-h-screen">
     <div id="flash">
       <%= render "shared/flash" %>
     </div>
