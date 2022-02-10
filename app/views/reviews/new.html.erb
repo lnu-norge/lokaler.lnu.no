@@ -1,4 +1,4 @@
-<%= modal_content_for :new_review_path, @review.space do %>
+<%= turbo_frame_tag :new_review_path do %>
 
     <div class="content">
       <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>

@@ -1,26 +1,30 @@
 # frozen_string_literal: true
 
 module ModalHelper
-  def modal_link_to(text, path, **options)
-    id = options[:id] || path
-    turbo_frame_tag id do
-      link_to text, path, **options
+  def button_to_modal(modal_id, **options, &block)
+    button_tag(**options, data: {
+                 controller: "modal",
+                 "modal-target": "openButton",
+                 "modal-to-toggle": modal_id
+               }) do
+      yield block
     end
   end
 
-  def modal_link_to_with_block(path, **options, &block)
-    id = options[:id] || path
-    turbo_frame_tag id do
-      link_to path, **options do
-        yield block
-      end
+  def button_close_modal(modal_id, **options, &block)
+    button_tag(**options, data: {
+                 controller: "modal",
+                 "modal-target": "closeButton",
+                 "modal-to-toggle": modal_id
+               }) do
+      yield block
     end
   end
 
-  def modal_content_for(id, parent, &block)
+  def modal_for(modal_id, modal_classes = "", &block)
     render partial: "shared/modal", locals: {
-      id: id,
-      parent: parent,
+      modal_id: modal_id,
+      modal_classes: modal_classes,
       block: block
     }
   end

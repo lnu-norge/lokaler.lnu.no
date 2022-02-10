@@ -1,32 +1,53 @@
 <% if current_user %>
-  <div class="fixed bottom-0 md:top-0 md:bottom-auto w-full z-10 h-24 md:h-14">
-    <nav class="flex justify-between  h-full bg-white p-4 leading-none top-shadow-lg md:shadow-lg z-10">
+<div
+    class="fixed bottom-0 md:top-0 md:bottom-auto w-full z-10 h-24 md:h-14"
+>
+    <nav
+      class="flex justify-between h-full bg-white p-4 leading-none top-shadow-lg md:shadow-lg z-10">
       <div class="hidden md:block">
         <%= render partial: 'layouts/menu/logo' %>
       </div>
-      <div class="flex justify-around gap-1 md:gap-6 w-full md:w-auto">
-        <%= render partial: 'layouts/menu/menu_item', locals: {
-          path: spaces_path,
-          icon: 'search',
-          text: t('menu.find_spaces')
-        } %>
-        <%= render partial: 'layouts/menu/menu_item', locals: {
-          path: new_space_path,
-          icon: 'plus_circled',
-          text: t('menu.new_space')
-        } %>
-        <%= render partial: 'layouts/menu/menu_item', locals: {
-          path: page_path('other_sources'),
-          icon: 'knowledge',
-          text: t('menu.other_sources')
-        } %>
-        <%= render partial: 'layouts/menu/menu_item', locals: {
-          path: edit_session_path,
-          icon: 'account',
-          text: t('menu.account')
-        } %>
-      </div>
-      <div class="hidden lg:block lg:w-32"></div>
+        <div class="flex justify-around gap-1 md:gap-6 w-full md:w-auto">
+          <%= render partial: 'layouts/menu/menu_item', locals: {
+            path: spaces_path,
+            icon: 'search',
+            text: t('menu.find_spaces')
+          } %>
+          <%= render partial: 'layouts/menu/menu_item', locals: {
+            path: new_space_path,
+            icon: 'plus_circled',
+            text: t('menu.new_space')
+          } %>
+          <%= render partial: 'layouts/menu/menu_item', locals: {
+            path: page_path('other_sources'),
+            icon: 'knowledge',
+            text: t('menu.other_sources')
+          } %>
+          <%= render partial: 'layouts/menu/menu_item', locals: {
+            path: edit_session_path,
+            icon: 'account',
+            text: t('menu.account')
+          } %>
+        </div>
+        <div class="hidden lg:block lg:w-32"></div>
+
     </nav>
   </div>
+
+
+<% else %>
+  <% unless current_page?(unauthenticated_root_path) %>
+    <nav class="flex justify-between items-center w-full bg-white p-4 absolute top-0 ">
+      <%= render partial: 'layouts/menu/logo' %>
+
+        <div class="flex justify-around gap-6">
+          <% unless current_page?(new_user_session_path) %>
+            <%= link_to spaces_path, class: 'flex gap-1 items-center' do %>
+              <%= inline_svg_tag 'lock' %>
+              <%=  t('menu.log_in') %>
+            <% end %>
+          <% end %>
+        </div>
+    </nav>
+  <% end %>
 <% end %>
