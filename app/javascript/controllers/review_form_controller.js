@@ -15,8 +15,13 @@ export default class extends Controller {
   ]
 
   connect() {
-    console.log("hi", this.typeOfContactTargets)
+    this.disableSubmitButton()
     this.connectTypeOfContact()
+  }
+
+  disableSubmitButton() {
+    document.getElementById('submit_new_review_button').disabled = true
+    document.getElementById('submit_new_review_button').classList.add('disabled')
   }
 
   connectTypeOfContact() {
@@ -55,6 +60,8 @@ export default class extends Controller {
 
   showForm() {
     this.fullFormTarget.classList.remove('hidden')
+    document.getElementById('submit_new_review_button').disabled = false
+    document.getElementById('submit_new_review_button').classList.remove('disabled')
   }
 
   showBeenThereForm() {

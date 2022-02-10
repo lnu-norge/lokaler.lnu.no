@@ -105,6 +105,7 @@ nb:
   facility_reviews:
     edit: 'Redigér fasiliteter'
   reviews:
+    save_review: 'Lagre erfaring'
     review_about: 'Erfaring om:'
     written: 'Skrevet:'
     edit: 'Redigér'
