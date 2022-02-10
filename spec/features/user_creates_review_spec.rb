@@ -31,6 +31,7 @@ describe "User creates review", js: true do
       been_there_button_text = I18n.t("reviews.form.have_you_been_there_answers.been_there")
       choose(been_there_button_text, allow_label_click: true)
 
+
       choose("review_star_rating_1", allow_label_click: true)
 
       fill_in("review_title", with: "Review Title!")
