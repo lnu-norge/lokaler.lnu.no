@@ -1,21 +1,10 @@
 <%= simple_form_for @review do |form| %>
   <%= form.hidden_field :space_id, value: @review.space.id %>
-  <div class="content">
+
+  <div class="content" data-controller="review-form">
     <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
 
     <%= render partial: 'reviews/form/type_of_contact', locals: {
-      form: form,
-      review: @review
-    } %>
-
-    <%= render partial: 'reviews/new/star_rating', locals: {
-      star_rating: @review.star_rating,
-      form: form
-    } %>
-
-    <hr />
-
-    <%= render partial: 'reviews/form/text_been_there', locals: {
       form: form
     } %>
 
@@ -23,17 +12,18 @@
       form: form
     } %>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-gray-300 block p-4">
+    <%= render partial: 'reviews/form/star_rating', locals: {
+      star_rating: @review.star_rating,
+      form: form
+    } %>
 
-      <% if @review.errors.any? %>
-        <% @review.errors.full_messages.each do |message|%>\
-          <p><%= message %> </p>
-        <%end%>
-      <%end%>
+    <%= render partial: 'reviews/form/text_been_there', locals: {
+      form: form
+    } %>
 
+    <%= render partial: 'shared/form_error', locals: { model: @review } %>
 
-      <%= form.submit t('multistep_form_navigation.save') %>
-    </nav>
+    <%= form.submit t('multistep_form_navigation.save'), class: "modal-button bg-blue-400" %>
 
   </div>
 <% end  %>

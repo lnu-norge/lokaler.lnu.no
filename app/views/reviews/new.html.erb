@@ -1,34 +1,5 @@
 <div class="max-w-prose mx-auto p-4 pb-10">
-<%= turbo_frame_tag :new_review_path do %>
-
-    <%= simple_form_for @review do |form| %>
-      <%= form.hidden_field :space_id, value: @review.space.id %>
-
-      <div class="content">
-        <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
-
-        <%= render partial: 'reviews/form/type_of_contact', locals: {
-          form: form
-        } %>
-
-        <%= render partial: 'reviews/form/more_about_your_stay', locals: {
-          form: form
-        } %>
-
-        <%= render partial: 'reviews/form/star_rating', locals: {
-          star_rating: @review.star_rating,
-          form: form
-        } %>
-
-        <%= render partial: 'reviews/form/text_been_there', locals: {
-          form: form
-        } %>
-
-        <%= render partial: 'shared/form_error', locals: { model: @review } %>
-
-        <%= form.submit t('multistep_form_navigation.save'), class: "modal-button bg-blue-400" %>
-
-      </div>
-    <% end  %>
+  <%= turbo_frame_tag :new_review_path do %>
+    <%= render partial: 'reviews/form' %>
   <% end%>
 </div>
