@@ -59,14 +59,23 @@
 .collection_form {
   @extend .vertical_form;
   @apply flex items-center;
+  @apply mb-0.5;
+
   .item_label {
-    @apply my-1 ml-3 block text-sm font-medium text-gray-400;
+    @apply my-1 ml-2 block text-sm;
   }
   .item_label_wrapper {
     @apply my-4;
   }
 }
 
+.check_boxes {
+  .legend {
+    @apply block;
+    @apply mt-3 mb-2;
+    @apply text-current font-bold;
+  }
+}
 
 // Meta (helper text around fields)
 .meta_text {
