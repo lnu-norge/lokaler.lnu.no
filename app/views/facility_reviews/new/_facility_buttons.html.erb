@@ -18,7 +18,7 @@ Locals:
           <div class="flex gap-2 text-lg items-center">
             <h4 class="font-bold"><%= facility[:title] %></h4>
 
-            <span class="text-sm text-gray-400 items-center  flex gap-1">
+            <span class="text-sm text-gray-400 items-center flex gap-1" title="<%= t('simple_form.labels.space_facility.review') %>">
               <%= inline_svg_tag "facility_status/#{facility[:review]}" %>
               <%= t("tooltips.facility_aggregated_experience.#{facility[:review]}") %>
             </span>

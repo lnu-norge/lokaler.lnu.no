@@ -61,6 +61,8 @@ nb:
       space_facility:
         description: "Beskrivelse"
         experience: "Min erfaring:"
+        review: "Andres erfaring"
+
       space_contact:
         title: "Navn"
         telephone: "Telefon"
