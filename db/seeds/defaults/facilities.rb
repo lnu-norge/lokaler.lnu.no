@@ -42,7 +42,7 @@ facilities = {
 
   "Lage egen mat:": [
     "Lov å spise medbrakt",
-    "Kaffemaskin / vannkoker ",
+    "Kaffemaskin / vannkoker",
     "Mikrobølgeovn",
     "Kjøkken med ovn",
     "Låne kiosk-luke",
