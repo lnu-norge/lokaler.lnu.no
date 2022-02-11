@@ -24,6 +24,13 @@
       @apply bg-pink-600 border-pink-600;
     }
   }
+  &.disabled,
+  &[disabled] {
+    @apply bg-gray-300 text-gray-600 cursor-default;
+    &:hover, &:focus {
+      @apply bg-gray-300 text-gray-600 cursor-not-allowed border-gray-300 shadow-none;
+    }
+  }
   @extend .focused-outline;
   &.button--white {
     @apply bg-white border-gray-200;
@@ -67,6 +74,11 @@
   }
 }
 
+.field_set {
+  legend {
+    @apply h3 font-bold mb-1.5;
+  }
+}
 
 // Meta (helper text around fields)
 .meta_text {

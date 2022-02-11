@@ -105,6 +105,10 @@ nb:
   facility_reviews:
     edit: 'Redigér fasiliteter'
   reviews:
+    save_review: 'Lagre erfaring'
+    review_about: 'Erfaring om:'
+    written: 'Skrevet:'
+    edit: 'Redigér'
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
     added_review: 'Erfaring loggført!'
@@ -123,6 +127,7 @@ nb:
       did_not_pay: 'Gratis'
     form:
       new_review_about_space: 'Ny erfaring om %{space_title}:'
+      edit_review_about_space: 'Rediger erfaring om %{space_title}:'
       have_you_been_there?: 'Har dere brukt lokalet?'
       have_you_been_there_answers:
         been_there: 'Ja'
@@ -147,15 +152,18 @@ nb:
       why_were_you_not_allowed: 'Kort, hvorfor fikk dere ikke lov?'
       for_example_not_allowed_to_sleep_in: 'F.eks. “Ville ikke la oss overnatte”'
       how_would_you_summarize_the_experience?: 'Kort, hvordan vil du beskrive opplevelsen?'
-      for_example_roomy_but_smelly:  'F.eks. "God plass, men lukter rart"'
       what_do_you_want_to_say_to_others?: 'Hva vil du si til andre som vurderer ta kontakt?'
       what_did_you_experience_any_tips_for_others: 'Hva erfarte dere? Noen tips til nestemann?'
-      'lastly_about_your_visit:': 'Til sist, litt om besøket deres:'
+      what_did_you_learn: "Kort, hva lærte du av å ta kontakt?"
+      'lastly_about_your_visit:': 'Litt om besøket deres'
       how_much_of_the_space_did_you_use?: 'Hvor mye av lokalet brukte dere?'
       how_long_did_you_use_the_space?: 'Hvor lenge brukte dere lokalet?'
       did_you_have_to_pay?: 'Måtte dere betale?'
       how_much?: 'Hvor mye?'
-      your_organization: 'Hvilken organisasjon booket du på vegne av? '
+      booked_as_organization: 'Tok du kontakt på vegne av en organisasjon?'
+      which_organization: 'Hvilken organisasjon?'
+      placeholder_your_organization: 'F.eks. "Natur og Ungdom"'
+
   generic:
     'yes': 'Ja'
     'no': 'Nei'
@@ -269,3 +277,6 @@ nb:
     index: "Fasiliteter"
   space_types:
     index: "Space type"
+  session:
+    my_content: "Mitt innhold"
+    my_experiences: "Mine erfaringer"
