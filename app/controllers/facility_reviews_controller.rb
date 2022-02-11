@@ -12,8 +12,8 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     filter_not_matching_space_types
 
     @experiences = [
-      *FacilityReview.experiences.keys,
-      "unknown"
+      "unknown",
+      *FacilityReview.experiences.keys.reverse
     ].reverse
   end
 
