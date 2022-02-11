@@ -1,4 +1,4 @@
-# Lokaler fra LNU
+# LNU Lokaler
 ---
 Landsrådet for Norges barne- og ungdomsorganisasjoner or LNU has created this open source project to help its members more easily find and book suitable spaces or venues. These spaces can be anything from a school to a community center.
 
