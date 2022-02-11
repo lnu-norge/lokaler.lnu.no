@@ -12,24 +12,6 @@ export default class extends Controller {
     this.handleDuplicateTextInputs()
   }
 
-  handleDuplicateTextInputs() {
-    // First we get all input fields (no support for textareas yet)
-    const input_fields = [
-      ...this.formTarget.querySelectorAll('input[type=text]')
-    ]
-
-    // Then we get duplicates, grouped by id:
-    const grouped_duplicates = this.group_duplicates(input_fields)
-
-    grouped_duplicates.forEach((group) => {
-      group.forEach((field, index) => {
-        // Equalize all checked values:
-        // TODO: HANDLE FOR INPUTS
-      })
-    })
-
-  }
-
   handleDuplicateCheckboxesAndRadios() {
     // First we get all checkboxes and radio buttons (no support for input fields yet)
     const input_fields = [
@@ -43,7 +25,7 @@ export default class extends Controller {
     // Then we handle everything:
     grouped_duplicates.forEach((group) => {
       group.forEach((field, index) => {
-        // Equalize all checked values:
+        // Equalize all checked values to last value (as that is the one that html sets)
         field.checked = group[group.length - 1].checked
 
         // Set a click handler:
@@ -53,22 +35,56 @@ export default class extends Controller {
 
         // Only do the rest for the duplicates:
         if (index === 0) return
-
-        // Add unique ids:
-        field.dataset.original_id = field.id
-        field.id = `${field.id}-${index}`
-
-        // Update labels with correct for
-        const label = field.parentElement.querySelector(`label[for=${field.dataset.original_id}]`)
-        label.setAttribute('for', field.id)
-
-        // Set a fake namm:
-        field.setAttribute('name', `duplicate_${index}_of_${field.name}`)
-
-        // Then check again, as it's lost when name is set:
-        field.checked = group[0].checked
+        this.make_field_fake_and_unique(field, group, index)
       })
     })
+  }
+
+
+  handleDuplicateTextInputs() {
+    // First we get all input fields (no support for textareas yet)
+    const input_fields = [
+      ...this.formTarget.querySelectorAll('input[type=text]')
+    ]
+
+    // Then we get duplicates, grouped by id:
+    const grouped_duplicates = this.group_duplicates(input_fields)
+
+    // Then we handle everything:
+    grouped_duplicates.forEach((group) => {
+      group.forEach((field, index) => {
+        // Equalize all checked values to last value (as that is the one that html sets)
+        field.value = group[group.length - 1].value
+
+        // Set a change handler:
+        field.onchange = () => {
+          group.filter(f => f !== field).forEach(duplicate => duplicate.value = field.value)
+        }
+
+        // Only do the rest for the duplicates:
+        if (index === 0) return
+        this.make_field_fake_and_unique(field, group, index)
+      })
+    })
+
+  }
+
+  make_field_fake_and_unique(field, group, index) {
+    // Add unique ids:
+    field.dataset.original_id = field.id
+    field.id = `${field.id}-${index}`
+
+    // Update labels with correct for
+    const label = field.parentElement.querySelector(`label[for=${field.dataset.original_id}]`)
+    if (label) {
+      label.setAttribute('for', field.id)
+    }
+
+    // Set a fake namm:
+    field.setAttribute('name', `duplicate_${index}_of_${field.name}`)
+
+    // Then check again, as it's lost when name is set:
+    field.checked = group[0].checked
   }
 
   group_duplicates(input_fields) {
