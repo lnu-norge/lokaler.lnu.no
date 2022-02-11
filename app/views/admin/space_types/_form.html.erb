@@ -1,12 +1,15 @@
-<%= simple_form_for @space_type, url: action_name == "new" ? admin_space_types_path : admin_space_type_path do |f| %>
+<%= simple_form_for @space_type,
+                    url: action_name == "new" ? admin_space_types_path : admin_space_type_path,
+                    data: { controller: "equal-checkboxes-handler", "equal-checkboxes-handler-target": "form" } do |f| %>
   <%= f.input :type_name %>
-  <%= f.association :facilities, collection: Facility.all, input_html: {
-    data: {
-      controller: "tom-select",
-      "tom-select-options-value": {
-        allowEmptyOption: true
-      }
-    }
-  } %>
-  <%= f.submit %>
+  <h2>Tilknyttede fasiliteter</h2>
+  <% FacilityCategory.all.each do |category| %>
+    <div class="my-4">
+     <%= f.association :facilities,
+                        label: category.title,
+                        collection: category.facilities,
+                        as: :check_boxes %>
+    </div>
+  <% end %>
+  <%= f.submit "Lagre", class: "button submit" %>
 <% end %>
