@@ -3,7 +3,7 @@
     <div class="modal-header">
       <h3><%= t("facility_reviews.edit") %></h3>
     </div>
-    <div class="modal-content">
+    <div class="modal-content content">
       <% if @matching_space_types.present?  %>
         <% @categories.each do |category| %>
           <%= render partial: 'facility_reviews/new/facility_category',
@@ -12,7 +12,8 @@
               form: form,
               review: form.object,
               category: category,
-              only_matching: true } %>
+              only_matching: true
+            } %>
         <% end %>
       <% end %>
       <% if @not_matching_space_types.present?  %>
