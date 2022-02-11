@@ -13,37 +13,52 @@ Locals:
     <%= f.hidden_field :user_id, value: current_user.id %>
     <%= f.hidden_field :id, value: facility_review.id %>
 
-    <fieldset class="flex mt-3">
+    <fieldset class="mt-3 w-full">
         <legend class="mb-1">
-          <div class="flex gap-2 text-lg items-center mb-1 mt-3">
-            <%= facility[:title] %>
-            <%= inline_svg_tag "facility_status/#{facility[:review]}" %>
+          <div class="flex gap-2 text-lg items-center">
+            <h4 class="font-bold"><%= facility[:title] %></h4>
+
+            <span class="text-sm text-gray-400 items-center  flex gap-1">
+              <%= inline_svg_tag "facility_status/#{facility[:review]}" %>
+              <%= t("tooltips.facility_aggregated_experience.#{facility[:review]}") %>
+            </span>
           </div>
-          <div>
-            <%= f.label "Description" %>
-          </div>
-          <%= form.text_field :description, name: "space_facilities[#{facility[:id]}][description]", value: facility[:description] %>
         </legend>
 
-        <div class="radio-slider">
-          <% @experiences.each do |value|  %>
-            <%=
-              f.radio_button :experience,
-                value,
-                checked: f.object.experience.nil? ?
-                  value == 'unknown' :
-                  value == f.object.experience
-            %>
+        <div class="w-fit">
+          <%= form.input :description,
+                       label: false,
+                       placeholder: t('simple_form.placeholders.space_facility.description'),
+                       name: "space_facilities[#{facility[:id]}][description]",
+                       value: facility[:description] %>
 
-            <%= f.label :"experience_#{value}" do %>
-              <span class="flex flex-col items-center gap-0.5 text-sm">
-                <%= inline_svg_tag "facility_status/#{FacilityReview::ICON_FOR_EXPERIENCE[value]}",
-                   class: 'w-5 h-5 inline-block'
+
+          <fieldset>
+            <legend class="text-xs mb-1">
+              <%= t('simple_form.labels.space_facility.experience') %>
+            </legend>
+            <div class="radio-slider">
+              <% @experiences.each do |value|  %>
+                <%=
+                  f.radio_button :experience,
+                    value,
+                    checked: f.object.experience.nil? ?
+                      value == 'unknown' :
+                      value == f.object.experience
                 %>
-                <%= t("reviews.form.facility_experience_particular_tense.#{value}") %>
-              </span>
-            <% end %>
-          <% end %>
+
+                <%= f.label :"experience_#{value}" do %>
+                  <span class="flex flex-col items-center gap-0.5 text-sm">
+                    <%= inline_svg_tag "facility_status/#{FacilityReview::ICON_FOR_EXPERIENCE[value]}",
+                       class: 'w-5 h-5 inline-block'
+                    %>
+                    <%= t("reviews.form.facility_experience_particular_tense.#{value}") %>
+                  </span>
+                <% end %>
+              <% end %>
+            </div>
+          </fieldset>
+
         </div>
       </fieldset>
   <% end %>
