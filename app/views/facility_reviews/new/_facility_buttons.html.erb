@@ -7,7 +7,7 @@ Locals:
 
 <li
   class="flex items-center gap-1.5">
-  <%= form.fields_for "reviews[#{facility[:id]}]", facility_review do |f| %>
+  <%= form.simple_fields_for "reviews[#{facility[:id]}]", facility_review do |f| %>
     <%= f.hidden_field :facility_id, value: facility[:id] %>
     <%= f.hidden_field :space_id, value: @space.id %>
     <%= f.hidden_field :user_id, value: current_user.id %>
@@ -29,8 +29,10 @@ Locals:
           <%= form.input :description,
                        label: false,
                        placeholder: t('simple_form.placeholders.space_facility.description'),
-                       name: "space_facilities[#{facility[:id]}][description]",
-                       value: facility[:description] %>
+                         input_html: {
+                           name: "space_facilities[#{facility[:id]}][description]",
+                           value: facility[:description]
+                         } %>
 
 
           <fieldset>
