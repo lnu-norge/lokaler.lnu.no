@@ -26,7 +26,7 @@ Locals:
         </legend>
 
         <div class="w-fit">
-          <%= form.input :description,
+          <%= form.input "space_facilities_#{facility[:id]}_description",
                        label: false,
                        placeholder: t('simple_form.placeholders.space_facility.description'),
                          input_html: {
