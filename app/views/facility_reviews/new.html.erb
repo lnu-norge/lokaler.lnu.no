@@ -43,9 +43,9 @@
     </div>
     <div class="modal-footer">
       <%= form.submit class: "button submit" %>
-      <%= button_close_modal :new_facility_review_path do %>
+      <button type="button" data-action="click->modal#close" class="link">
         <%= t("space_contacts.abort") %>
-      <% end %>
+      </button>
     </div>
   <% end %>
 <% end %>
