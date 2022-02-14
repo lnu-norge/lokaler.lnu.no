@@ -17,7 +17,11 @@ export default class extends Controller {
     if (hideable.classList.contains("hidden")) return;
 
     if (this.hasFocusableTarget) {
-      this.focusableTarget.focus()
+      // For non radio groups, just focus the element:
+      if (this.focusableTarget.getAttribute('role') !== "radiogroup") return this.focusableTarget.focus()
+
+      // For radio groups, focus the current checked element:
+      this.focusableTarget.querySelector("input[checked]").focus()
     }
   }
 }
