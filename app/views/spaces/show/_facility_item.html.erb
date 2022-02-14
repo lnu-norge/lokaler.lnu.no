@@ -1,6 +1,6 @@
 <li
   title="<%= tooltip %>">
-  <span class="flex items-center gap-1.5">
+  <span class="flex items-center gap-1.5 <%= "line-through text-gray-600" if review == "impossible" %>">
     <%= title %>
       <span>
       <%= inline_svg_tag "facility_status/#{review}" %>
