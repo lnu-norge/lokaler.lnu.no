@@ -13,40 +13,60 @@ Locals:
     <%= f.hidden_field :user_id, value: current_user.id %>
     <%= f.hidden_field :id, value: facility_review.id %>
 
-    <fieldset class="mt-3 w-full">
+    <fieldset class="mt-3 w-full" data-controller="hide">
         <legend class="mb-1">
           <div class="flex gap-2 text-lg items-center">
-            <h4 class="font-bold"><%= facility[:title] %></h4>
+            <h4 class="text-base"><%= facility[:title] %></h4>
 
             <span class="text-sm text-gray-400 items-center flex gap-1" title="<%= t('simple_form.labels.space_facility.review') %>">
               <%= inline_svg_tag "facility_status/#{facility[:review]}" %>
-              <%= t("tooltips.facility_aggregated_experience.#{facility[:review]}") %>
+              <%= t("tooltips.others_experience.#{facility[:review]}") %>
             </span>
+
+            <button type="button" data-action="click->hide#toggleHidden" class="link inline-flex items-baseline gap-1">
+              <span class="text">
+                Redigér
+              </span>
+              <%= inline_svg_tag 'edit', alt: 'Redigér', title: 'Redigér' %>
+            </button>
+
           </div>
         </legend>
 
         <div class="w-fit">
+          <div class="flex gap-2">
+            <div class="text-gray-400 mb-1.5">
+              <%=  facility[:description] %>
+            </div>
+          </div>
+          <div data-hide-target="hideable" class="hidden">
           <%= form.input "space_facilities_#{facility[:id]}_description",
-                       label: false,
+                       label: t('simple_form.labels.space_facility.description'),
                        placeholder: t('simple_form.placeholders.space_facility.description'),
-                         input_html: {
-                           name: "space_facilities[#{facility[:id]}][description]",
-                           value: facility[:description]
-                         } %>
+                       label_html: {
+                         class: "text-xs mb-1"
+                       },
+                       required: false,
+                       input_html: {
+                         name: "space_facilities[#{facility[:id]}][description]",
+                         value: facility[:description]
+
+                       } %>
 
 
           <fieldset>
             <legend class="text-xs mb-1">
               <%= t('simple_form.labels.space_facility.experience') %>
             </legend>
-            <div class="radio-slider">
-              <% @experiences.each do |value|  %>
+            <div class="radio-slider"  role="radiogroup" data-hide-target="focusable">
+              <% @experiences.each_with_index do |value, index|  %>
                 <%=
                   f.radio_button :experience,
                     value,
                     checked: f.object.experience.nil? ?
                       value == 'unknown' :
                       value == f.object.experience
+
                 %>
 
                 <%= f.label :"experience_#{value}" do %>
@@ -60,7 +80,7 @@ Locals:
               <% end %>
             </div>
           </fieldset>
-
+          </div>
         </div>
       </fieldset>
   <% end %>
