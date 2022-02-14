@@ -22,9 +22,13 @@
         <% end %>
       <% end %>
       <% if @not_matching_space_types.present?  %>
-          <details>
-          <summary>
-            Others
+        <p class="text-gray-500">
+          Viser kun fasiliteter som er spesielle for <%= @space.title %> eller vanlige for
+          lokaler av typen "<%= @space.space_types.map{ |type| type.type_name }.to_sentence %>".
+        </p>
+        <details class="mb-8 group">
+          <summary class="button">
+            <span>Vis <%= @not_matching_space_types_count %> andre fasiliteter</span>
           </summary>
           <% @categories.each do |category| %>
             <%= render partial: 'facility_reviews/new/facility_category',

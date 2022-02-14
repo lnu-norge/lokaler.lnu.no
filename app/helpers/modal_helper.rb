@@ -12,7 +12,9 @@ module ModalHelper
   end
 
   def button_close_modal(modal_id, **options, &block)
-    button_tag(**options, data: {
+    button_tag(
+      type: "button",
+      **options, data: {
                  controller: "modal",
                  "modal-target": "closeButton",
                  "modal-to-toggle": modal_id
