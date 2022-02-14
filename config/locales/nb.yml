@@ -28,7 +28,7 @@ nb:
       havent_asked: 'Ikke spurt'
     facility_aggregated_experience:
       unknown: 'Usikkert. Ingen har spurt!'
-      impossible: 'Umulig. De har ikke.'
+      impossible: 'De har ikke.'
       unlikely: 'Usannsynlig. Ingen eller få har fått bruke'
       maybe: 'Kanskje! Ikke alle får bruke'
       likely: 'Sannsynlig: Andre har fått bruke!'
