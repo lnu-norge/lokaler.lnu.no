@@ -50,6 +50,72 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     space_facilities.find_by(facility: facility).experience
   end
 
+  # Facilities that are typically relevant for the space
+  # Either because they share a space type with the space
+  # or because someone has said that they are relevant for
+  # this specific space by setting a space_facilities experience.
+  #
+  # Can be grouped by category by passing grouped: true
+  def relevant_facilities(grouped: false)
+    all_space_f = space_facilities
+                  .includes(facility: [:facilities_categories, :space_types])
+
+    result = all_space_f
+             .where(facility: { space_types: space_types })
+             .or(
+               all_space_f
+                 .where.not(experience: [:impossible, :unknown])
+             ).distinct
+
+    return result unless grouped
+
+    group_space_facilities(result)
+  end
+
+  # Facilities that are typically NOT relevant for the space
+  # Because they DO NOT share a space type with the space AND
+  # no one has given a space_facility experience for them.
+  #
+  # Can be grouped by category by passing grouped: true
+  def non_relevant_facilities(grouped: false)
+    all_space_f = space_facilities
+                  .includes(facility: [:facilities_categories, :space_types])
+
+    result = all_space_f
+             .where.not(facility: { space_types: space_types })
+             .or(
+               all_space_f.where(facility: { space_types: nil })
+             )
+             .and(
+               all_space_f
+                 .where(experience: [:impossible, :unknown])
+             ).distinct
+
+    return result unless grouped
+
+    group_space_facilities(result)
+  end
+
+  # Groups given facilities by their category
+  # { category_id: [facility_1, facility_2, ...] }
+  def group_space_facilities(ungrouped_facilities) # rubocop:disable Metrics/AbcSize
+    ungrouped_facilities.each_with_object({}) do |space_facility, memo|
+      space_facility.facility.facilities_categories.each do |facility_category|
+        memo[facility_category.facility_category_id] ||= {
+          category: facility_category.facility_category,
+          space_facilities: []
+        }
+        memo[facility_category.facility_category_id][:space_facilities] << {
+          id: space_facility.facility.id,
+          title: space_facility.facility.title,
+          description: space_facility.description,
+          review: space_facility.experience,
+          space_types: space_facility.facility.space_types
+        }
+      end
+    end.sort_by(&:first) # sorts by category id
+  end
+
   def self.rect_of_spaces
     south_west_lat = 90
     south_west_lng = 180
@@ -138,39 +204,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       review.facility.facilities_categories.each do |facility_category|
         memo[facility_category.facility_category_id] ||= {}
         memo[facility_category.facility_category_id][review.facility.id] = review
-      end
-    end
-  end
-
-  # Groups all facilities by their category
-  # { category_id: [facility_1, facility_2, ...] }
-  #
-  # if match_all_except_unknown is true it will give you all the facilities that match the current space's space_types
-  # and all the "other" facilities where experience is not unknown
-  def facilities_for_categories(match_all_except_unknown: false) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    result = space_facilities
-             .includes(facility: [:facilities_categories, :space_types])
-    # .joins(facility: [:facilities_categories, :space_types])
-
-    if match_all_except_unknown
-      result = result
-               .where(facility: { space_types: space_types })
-               .or(
-                 result
-                 .where.not(experience: 0)
-               ).distinct
-    end
-
-    result.each_with_object({}) do |space_facility, memo|
-      space_facility.facility.facilities_categories.each do |facility_category|
-        memo[facility_category.facility_category_id] ||= []
-        memo[facility_category.facility_category_id] << {
-          id: space_facility.facility.id,
-          title: space_facility.facility.title,
-          description: space_facility.description,
-          review: space_facility.experience,
-          space_types: space_facility.facility.space_types
-        }
       end
     end
   end
