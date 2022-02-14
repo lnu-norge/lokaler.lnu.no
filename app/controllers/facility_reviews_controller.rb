@@ -65,21 +65,25 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
   private
 
   def filter_matching_space_types
+    @matching_space_types_count = 0
     @matching_space_types = @space.facilities_for_categories.filter_map do |category_id, facilities|
       result = facilities.filter do |facility|
         (facility[:space_types] & @space.space_types).any?
       end
 
+      @matching_space_types_count += result.count
       [category_id, result] if result.any?
     end.to_h
   end
 
   def filter_not_matching_space_types
+    @not_matching_space_types_count = 0
     @not_matching_space_types = @space.facilities_for_categories.filter_map do |category_id, facilities|
       result = facilities.filter do |facility|
         (facility[:space_types] & @space.space_types).empty?
       end
 
+      @not_matching_space_types_count += result.count
       [category_id, result] if result.any?
     end.to_h
   end
