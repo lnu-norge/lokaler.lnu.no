@@ -16,6 +16,9 @@ application.register("equal-checkboxes-handler", EqualCheckboxesHandlerControlle
 import FlashController from "./flash_controller.js"
 application.register("flash", FlashController)
 
+import HideController from "./hide_controller.js"
+application.register("hide", HideController)
+
 import LocationsearchController from "./locationsearch_controller.js"
 application.register("locationsearch", LocationsearchController)
 
