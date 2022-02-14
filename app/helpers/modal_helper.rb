@@ -15,10 +15,11 @@ module ModalHelper
     button_tag(
       type: "button",
       **options, data: {
-                 controller: "modal",
-                 "modal-target": "closeButton",
-                 "modal-to-toggle": modal_id
-               }) do
+        controller: "modal",
+        "modal-target": "closeButton",
+        "modal-to-toggle": modal_id
+      }
+    ) do
       yield block
     end
   end

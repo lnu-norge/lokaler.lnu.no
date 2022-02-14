@@ -7,9 +7,9 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
 
     @reviews_for_categories = @space.reviews_for_categories(current_user)
 
-    @facilities_for_categories = @space.facilities_for_categories
-    filter_matching_space_types
-    filter_not_matching_space_types
+    @grouped_relevant_facilities = @space.relevant_facilities(grouped: true)
+    @non_relevant_facilities = @space.non_relevant_facilities
+    @grouped_non_relevant_facilities = @space.group_space_facilities(@non_relevant_facilities)
 
     @experiences = [
       "unknown",
@@ -47,7 +47,7 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     respond_to do |format|
       format.turbo_stream do
         flash.now[:notice] = flash_message
-        @facilities_for_categories = @space.facilities_for_categories(match_all_except_unknown: true)
+        @grouped_relevant_facilities = @space.relevant_facilities(grouped: true)
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),
@@ -63,30 +63,6 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
   end
 
   private
-
-  def filter_matching_space_types
-    @matching_space_types_count = 0
-    @matching_space_types = @space.facilities_for_categories.filter_map do |category_id, facilities|
-      result = facilities.filter do |facility|
-        (facility[:space_types] & @space.space_types).any?
-      end
-
-      @matching_space_types_count += result.count
-      [category_id, result] if result.any?
-    end.to_h
-  end
-
-  def filter_not_matching_space_types
-    @not_matching_space_types_count = 0
-    @not_matching_space_types = @space.facilities_for_categories.filter_map do |category_id, facilities|
-      result = facilities.filter do |facility|
-        (facility[:space_types] & @space.space_types).empty?
-      end
-
-      @not_matching_space_types_count += result.count
-      [category_id, result] if result.any?
-    end.to_h
-  end
 
   def parse_facility_reviews(facility_reviews)
     # Converting to .values exists solely because I didn't manage to create a
