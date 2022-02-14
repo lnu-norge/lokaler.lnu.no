@@ -16,7 +16,7 @@ export default class extends Controller {
 
     if (hideable.classList.contains("hidden")) return;
 
-    if (this.focusableTarget) {
+    if (this.hasFocusableTarget) {
       this.focusableTarget.focus()
     }
   }
