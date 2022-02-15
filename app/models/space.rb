@@ -102,21 +102,26 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # preferably we would find some way to return a scope too
   def self.filter_on_facilities(spaces, facilities) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
     results = spaces.includes(:space_facilities).filter_map do |space|
+      relevant_facilities = space.relevant_facilities
+
+      # If no relevant matches at all, exclude the space:
+      next unless (facilities & relevant_facilities.map { |sf| sf.facility.id }).any?
+
       score = 0
-      space.space_facilities.each do |review|
-        next unless facilities.include?(review.facility_id)
+      relevant_facilities.each do |space_facility|
+        next unless facilities.include?(space_facility.facility_id)
 
         # The more correct matches the lower the number.
         # this is so the sort_by later will be correct as it sorts by lowest first
         # we could do a reverse on the result of sort_by but this will incur
         # a performance overhead
-        if review.likely?
+        if space_facility.likely?
           score -= 2
-        elsif review.maybe?
+        elsif space_facility.maybe?
           score -= 1
-        elsif review.unlikely?
+        elsif space_facility.unlikely?
           score += 1
-        elsif review.impossible?
+        elsif space_facility.impossible?
           score += 2
         end
       end
