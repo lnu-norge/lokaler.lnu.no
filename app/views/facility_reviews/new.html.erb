@@ -2,8 +2,8 @@
   <%= simple_form_for "facility_reviews",
                       url: create_facility_review_path(@space),
                       data: {
-                        controller: 'equal-checkboxes-handler',
-                        'equal-checkboxes-handler-target': 'form'
+                        controller: 'sync-fields-with-same-id',
+                        'sync-fields-with-same-id-target': 'form'
                       } do |form| %>
     <div class="modal-header">
       <h3><%= t("facility_reviews.edit") %></h3>
