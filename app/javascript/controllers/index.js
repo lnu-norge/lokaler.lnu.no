@@ -10,8 +10,8 @@ application.register("autofilladdress", AutofilladdressController)
 import DuplicateCheckerController from "./duplicate_checker_controller.js"
 application.register("duplicate-checker", DuplicateCheckerController)
 
-import EqualCheckboxesHandlerController from "./equal_checkboxes_handler_controller.js"
-application.register("equal-checkboxes-handler", EqualCheckboxesHandlerController)
+import SyncFieldsWithSameId from "./sync_fields_with_same_id.js"
+application.register("sync-fields-with-same-id", SyncFieldsWithSameId)
 
 import FlashController from "./flash_controller.js"
 application.register("flash", FlashController)

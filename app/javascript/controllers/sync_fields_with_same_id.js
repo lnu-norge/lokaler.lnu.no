@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="equal-checkboxes-handler"
+// Connects to data-controller="sync-fields-with-same-id"
 export default class extends Controller {
   // Handles the case where a form has multiple check boxes with the same id,
   // by making sure they are all checked
