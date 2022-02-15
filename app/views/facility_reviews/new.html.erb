@@ -22,8 +22,9 @@
       <% end %>
       <% if @grouped_non_relevant_facilities.present?  %>
         <p class="text-gray-500">
-          Viser kun fasiliteter som er spesielle for <%= @space.title %> eller vanlige for
-          lokaler av typen "<%= @space.space_types.map{ |type| type.type_name }.to_sentence %>".
+          <%= t('facility_reviews.new.showing_relevant_facilities',
+                space_title:  @space.title,
+                space_types: @space.space_types.map{ |type| type.type_name }.to_sentence) %>
         </p>
         <details class="mb-8 group">
           <summary class="button">
