@@ -109,6 +109,11 @@ nb:
     update_success: "Bilde lagret"
     back_to_space: "Tilbake til %{title}"
   facility_reviews:
+    new:
+      showing_relevant_facilities: 'Viser kun fasiliteter som er spesielle for %{space_title} eller vanlige for lokaler av typen "%{space_types}".'
+      show_other_facilities:
+        one: 'Vis den siste fasiliteten'
+        other: 'Vis %{count} andre fasiliteter'
     edit: 'Redigér fasiliteter'
   reviews:
     add_review: 'Legg til erfaring'
