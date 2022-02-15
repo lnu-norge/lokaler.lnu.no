@@ -34,7 +34,7 @@ module Spaces
       return space_facility.unknown! if count.zero?
 
       # Set criteria:
-      impossible_threshold = [(count / 2.0).ceil, 1].max
+      impossible_threshold = (count / 2.0).ceil
       positive_threshold = (count / 3.0 * 2.0).ceil
       negative_threshold = (count / 3.0 * 2.0).ceil
 
