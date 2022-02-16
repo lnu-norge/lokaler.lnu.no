@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-class ReviewsController < BaseControllers::AuthenticateController
+class ReviewsController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
   before_action :set_review_from_id, only: [:show, :edit, :update]
   before_action :set_space_from_review, only: [:show, :edit, :update]
-  before_action :set_new_review_attributes, only: [:new, :new_with_type_of_contact]
   before_action :authorize_user, only: [:edit, :update]
 
   def index
@@ -23,19 +22,18 @@ class ReviewsController < BaseControllers::AuthenticateController
     end
   end
 
-  def new; end
+  def new
+    return if defined? @review
 
-  def new_with_type_of_contact
-    @review.type_of_contact = params[:type_of_contact]
-    render "new_#{params[:type_of_contact]}"
+    @space = Space.find(params[:space_id])
+    @review = @space.reviews.new(
+      organization: current_user.organization
+    )
   end
 
-  def edit
-    # set_facility_reviews
-  end
+  def edit; end
 
   def update
-    # set_facility_reviews
     params = parse_before_update review_params, @review
 
     if @review.update(params)
@@ -64,11 +62,6 @@ class ReviewsController < BaseControllers::AuthenticateController
     @space = @review.space
   end
 
-  def set_new_review_attributes
-    @space = Space.find(params[:space_id]) unless defined? @review
-    @review = @space.reviews.new(organization: current_user.organization) unless defined? @review
-  end
-
   def create_success
     flash_message = t("reviews.added_review")
     respond_to do |format|
@@ -89,18 +82,7 @@ class ReviewsController < BaseControllers::AuthenticateController
   end
 
   def create_error
-    # set_facility_reviews
-    # Different types of contact should be sent to different error forms
-    case @review.type_of_contact
-    when "been_there"
-      render :new_been_there, status: :unprocessable_entity
-    when "not_allowed_to_use"
-      render :new_not_allowed_to_use, status: :unprocessable_entity
-    when "only_contacted"
-      render :new_only_contacted, status: :unprocessable_entity
-    else
-      render :new, status: :unprocessable_entity
-    end
+    render :new, status: :unprocessable_entity
   end
 
   def parse_before_update(review_params, _review)
@@ -112,16 +94,36 @@ class ReviewsController < BaseControllers::AuthenticateController
     review_params
   end
 
-  def review_params
-    params.require(:review).permit(
-      :title, :comment,
-      :price, :star_rating,
-      :how_much, :how_much_custom,
-      :how_long, :how_long_custom,
-      :type_of_contact,
-      :space_id,
-      :organization
-      # facility_reviews_attributes: %i[facility_id experience id]
-    )
+  def review_params # rubocop:disable Metrics/MethodLength
+    case params[:review][:type_of_contact]
+    when "been_there"
+      params.require(:review).permit(
+        :title,
+        :comment,
+        :price, :star_rating,
+        :how_much, :how_much_custom,
+        :how_long, :how_long_custom,
+        :type_of_contact,
+        :space_id,
+        :organization
+      )
+    when "not_allowed_to_use"
+      params.require(:review).permit(
+        :title,
+        :comment,
+        :type_of_contact,
+        :space_id,
+        :organization
+      )
+    when "only_contacted"
+      params.require(:review).permit(
+        :comment,
+        :type_of_contact,
+        :space_id,
+        :organization
+      )
+    else
+      raise "No valid type of contact given. Check reviews controller."
+    end
   end
 end

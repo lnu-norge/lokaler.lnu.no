@@ -18,10 +18,17 @@
     display: none;
   }
   &.submit,
-  &[type=submit] {
+  &[type=submit]:not(.no-submit-styling) {
     @apply bg-pink-700 text-white;
     &:hover {
       @apply bg-pink-600 border-pink-600;
+    }
+  }
+  &.disabled,
+  &[disabled] {
+    @apply bg-gray-300 text-gray-600 cursor-default;
+    &:hover, &:focus {
+      @apply bg-gray-300 text-gray-600 cursor-not-allowed border-gray-300 shadow-none;
     }
   }
   @extend .focused-outline;
@@ -49,21 +56,39 @@
 // Input for boolean (aka checkboxes)
 .boolean_form {
   @extend .vertical_form;
-  @apply mb-4 flex items-start;
+  @apply mb-4 flex items-center;
+  .label {
+    @apply mt-1.5 mb-1.5;
+  }
 }
 
 // Collection input for radio buttons and check boxes
 .collection_form {
   @extend .vertical_form;
   @apply flex items-center;
+  @apply mb-0.5;
+
   .item_label {
-    @apply my-1 ml-3 block text-sm font-medium text-gray-400;
+    @apply my-1 ml-2 block text-sm;
   }
   .item_label_wrapper {
     @apply my-4;
   }
 }
 
+.check_boxes {
+  .legend {
+    @apply block;
+    @apply mt-3 mb-2;
+    @apply text-current font-bold;
+  }
+}
+
+.field_set {
+  legend {
+    @apply h3 font-bold mb-1.5;
+  }
+}
 
 // Meta (helper text around fields)
 .meta_text {

@@ -197,6 +197,13 @@ export default class extends Controller {
     this.loadPositionOn('boxzoomend');
     this.loadPositionOn('touchend')
 
+    this.map.on('moveend', (obj) => {
+      if (obj.wasZoom) {
+        this.reloadPosition();
+
+      }
+    });
+
     this.spaceTypeTargets.forEach(spaceType => {
       spaceType.onchange = () => {
         this.updateFilterCapsules();
@@ -331,7 +338,7 @@ export default class extends Controller {
       }
       return this.map.fitBounds(bounds, {
         padding: 100
-      });
+      }, { wasZoom: true });
     }
 
     // Unsure about location type given, use the center given by representasjonspunkt instead
@@ -343,7 +350,7 @@ export default class extends Controller {
   }
 
   flyToPoint(point) {
-    this.map.flyTo({ center: point, zoom: 12 });
+    this.map.flyTo({ center: point, zoom: 12 }, { wasZoom: true });
   }
 
   async enableLocationService() {

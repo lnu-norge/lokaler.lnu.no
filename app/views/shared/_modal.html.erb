@@ -1,12 +1,26 @@
-<%= turbo_frame_tag id, target: "_top" do %>
-  <div data-controller="modal" class="modal-background" data-modal-target="background">
-    <div class="modal content">
-      <nav class="text-left text-sm mb-4 ">
-        <%= link_to parent, data: {
+<%#
+Modal wrapper
+  - modal_id (string)
+  - modal_classes (string)
+  - block (any modal content, add div with class modal-header and modal-footer and modal-content to structure)
+%>
+<div
+  data-controller="modal"
+  aria-modal="true"
+  data-modal-target="wrapper"
+  data-modal-id="<%= modal_id %>"
+  role="dialog"
+  class="hidden transition-all"
+>
+  <div class="modal-background" data-modal-target="background">
+    <div class="modal content  <%= modal_classes if defined? modal_classes %>">
+      <nav class="modal-close-button">
+        <%= button_tag data: {
+          action: "click->modal#close",
           modal_target: 'closeButton'
-        }, class: "p-4 -mt-4 -ml-4 inline-flex content-center items-center" do %>
+        }, class: "p-4 -mt-4 -ml-4 bg-white inline-flex content-center items-center" do %>
           <%= inline_svg_tag 'x', class: 'inline-block' %>
-          Lukk
+          <%= t("close") %>
         <% end %>
       </nav>
       <main>
@@ -14,5 +28,4 @@
       </main>
     </div>
   </div>
-<% end %>
-
+</div>

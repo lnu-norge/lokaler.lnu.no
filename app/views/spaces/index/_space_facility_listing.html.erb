@@ -1,5 +1,6 @@
 <ul class="grid grid-cols-2 gap-2 mt-2">
   <% filtered_facilities.each do |facility| %>
+    <% next unless space.relevant_facilities.include?(facility) %>
     <% review = space.reviews_for_facility(facility) %>
     <%= render partial: 'spaces/show/facility_item', locals: {
       title: facility[:title],

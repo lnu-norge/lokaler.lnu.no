@@ -6,6 +6,10 @@
 }
 .edit-button {
   @apply rounded-lg py-2 px-3;
+  &.edit-button--small {
+    @apply rounded-lg py-1 px-1.5;
+    @apply text-sm;
+  }
   @apply bg-gray-100 border border-gray-100;
   @apply inline-flex gap-2 content-center items-center;
   @apply text-gray-700;

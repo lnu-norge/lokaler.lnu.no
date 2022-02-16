@@ -22,16 +22,22 @@ nb:
     close_contact: "Lukk"
   tooltips:
     facility_single_experience:
-      was_allowed: 'Fikk lov'
-      was_not_allowed: 'Fikk ikke lov'
+      was_allowed: 'Fikk bruke'
+      was_not_allowed: 'Fikk ikke bruke'
       was_not_available: 'De har ikke'
       havent_asked: 'Ikke spurt'
     facility_aggregated_experience:
       unknown: 'Usikkert. Ingen har spurt!'
-      impossible: 'Umulig. De har ikke.'
-      unlikely: 'Usannsynlig. Ingen eller få har fått lov'
-      maybe: 'Kanskje! Ikke alle får lov'
-      likely: 'Sannsynlig: Andre har fått lov!'
+      impossible: 'De har ikke.'
+      unlikely: 'Usannsynlig. Ingen eller få har fått bruke'
+      maybe: 'Kanskje! Ikke alle får bruke'
+      likely: 'Sannsynlig: Andre har fått bruke!'
+    others_experience:
+      unknown: 'Ingen har spurt'
+      impossible: 'De har ikke'
+      unlikely: 'Andre får ikke bruke'
+      maybe: 'Noen får bruke, andre ikke'
+      likely: 'Andre får bruke'
   address_search:
     no_address_given: 'Kart'
     didnt_find: 'Fant ikke adressen'
@@ -103,8 +109,17 @@ nb:
     update_success: "Bilde lagret"
     back_to_space: "Tilbake til %{title}"
   facility_reviews:
+    new:
+      showing_relevant_facilities: 'Viser kun fasiliteter som er spesielle for %{space_title} eller vanlige for lokaler av typen "%{space_types}".'
+      show_other_facilities:
+        one: 'Vis den siste fasiliteten'
+        other: 'Vis %{count} andre fasiliteter'
     edit: 'Redigér fasiliteter'
   reviews:
+    save_review: 'Lagre erfaring'
+    review_about: 'Erfaring om:'
+    written: 'Skrevet:'
+    edit: 'Redigér'
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
     added_review: 'Erfaring loggført!'
@@ -123,6 +138,7 @@ nb:
       did_not_pay: 'Gratis'
     form:
       new_review_about_space: 'Ny erfaring om %{space_title}:'
+      edit_review_about_space: 'Rediger erfaring om %{space_title}:'
       have_you_been_there?: 'Har dere brukt lokalet?'
       have_you_been_there_answers:
         been_there: 'Ja'
@@ -147,15 +163,18 @@ nb:
       why_were_you_not_allowed: 'Kort, hvorfor fikk dere ikke lov?'
       for_example_not_allowed_to_sleep_in: 'F.eks. “Ville ikke la oss overnatte”'
       how_would_you_summarize_the_experience?: 'Kort, hvordan vil du beskrive opplevelsen?'
-      for_example_roomy_but_smelly:  'F.eks. "God plass, men lukter rart"'
       what_do_you_want_to_say_to_others?: 'Hva vil du si til andre som vurderer ta kontakt?'
       what_did_you_experience_any_tips_for_others: 'Hva erfarte dere? Noen tips til nestemann?'
-      'lastly_about_your_visit:': 'Til sist, litt om besøket deres:'
+      what_did_you_learn: "Kort, hva lærte du av å ta kontakt?"
+      'lastly_about_your_visit:': 'Litt om besøket deres'
       how_much_of_the_space_did_you_use?: 'Hvor mye av lokalet brukte dere?'
       how_long_did_you_use_the_space?: 'Hvor lenge brukte dere lokalet?'
       did_you_have_to_pay?: 'Måtte dere betale?'
       how_much?: 'Hvor mye?'
-      your_organization: 'Hvilken organisasjon booket du på vegne av? '
+      booked_as_organization: 'Tok du kontakt på vegne av en organisasjon?'
+      which_organization: 'Hvilken organisasjon?'
+      placeholder_your_organization: 'F.eks. "Natur og Ungdom"'
+
   generic:
     'yes': 'Ja'
     'no': 'Nei'
@@ -269,3 +288,6 @@ nb:
     index: "Fasiliteter"
   space_types:
     index: "Space type"
+  session:
+    my_content: "Mitt innhold"
+    my_experiences: "Mine erfaringer"

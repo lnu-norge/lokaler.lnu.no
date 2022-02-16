@@ -16,22 +16,19 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  root to: "devise/sessions#new", as: "unauthenticated_root"
+  root to: "high_voltage/pages#show", id: "frontpage", as: "unauthenticated_root"
 
   # Resources
   resources "facilities", except: "new"
   resources "space_groups", except: "new"
   resources "space_contacts", only: [:create, :edit, :update, :destroy, :show]
 
-  get "/facility_reviews/:space_id/new", to: "facility_reviews#new", as: "new_facility_review"
-  post "/facility_reviews/:space_id", to: "facility_reviews#create", as: "create_facility_review"
+  get "/spaces/:space_id/facility_review", to: "facility_reviews#new", as: "new_facility_review"
+  post "/spaces/:space_id/facility_review", to: "facility_reviews#create", as: "create_facility_review"
 
   # Review routes
   resources "reviews", except: "new"
   get "/spaces/:space_id/new_review", to: "reviews#new", as: "new_review"
-  get "/spaces/:space_id/new_review/:type_of_contact",
-      to: "reviews#new_with_type_of_contact",
-      as: "new_review_with_type_of_contact"
 
   # Admin routes
   namespace "admin" do

@@ -6,11 +6,14 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     @categories = FacilityCategory.all
 
     @reviews_for_categories = @space.reviews_for_categories(current_user)
-    @facilities_for_categories = @space.facilities_for_categories
+
+    @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
+    @non_relevant_facilities = @space.non_relevant_space_facilities
+    @grouped_non_relevant_facilities = @space.group_space_facilities(@non_relevant_facilities)
 
     @experiences = [
-      *FacilityReview.experiences.keys,
-      "unknown"
+      "unknown",
+      *FacilityReview.experiences.keys.reverse
     ].reverse
   end
 
@@ -44,7 +47,7 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     respond_to do |format|
       format.turbo_stream do
         flash.now[:notice] = flash_message
-        @facilities_for_categories = @space.facilities_for_categories
+        @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),

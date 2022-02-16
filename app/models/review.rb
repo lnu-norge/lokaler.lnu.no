@@ -15,17 +15,15 @@ class Review < ApplicationRecord
   validates :title,
             length: { minimum: 4, maximum: 80 },
             presence: true,
-            if: ->(r) { r.been_there? || r.not_allowed_to_use? }
+            if: ->(review) { review.been_there? || review.not_allowed_to_use? }
+  validates :comment, presence: true, if: :only_contacted?
   validates :how_much, inclusion: { in: how_muches.keys }, allow_nil: true
   validates :how_long, inclusion: { in: how_longs.keys }, allow_nil: true
   validates :type_of_contact, inclusion: { in: type_of_contacts.keys }
   validates :how_much_custom, presence: true, if: :custom_how_much?
   validates :how_long_custom, presence: true, if: :custom_how_long?
-  validates :price, numericality: { greater_than: 0 }, allow_nil: true
+  validates :price, numericality: { greater_than: 0 }, allow_blank: true, if: :been_there?
   validates :star_rating, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }, if: :been_there?
-
-  # after_save { space.aggregate_facility_reviews }
-  # after_destroy { space.aggregate_facility_reviews }
 
   after_save { space.aggregate_star_rating }
   after_destroy { space.aggregate_star_rating }

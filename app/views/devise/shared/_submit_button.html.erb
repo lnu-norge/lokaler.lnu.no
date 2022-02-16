@@ -1,7 +1,5 @@
-<%= button_tag :submit, class: 'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-lnu-pink hover:bg-lnu-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lnu-pink' do %>
-  <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-    <!-- Heroicon name: solid/lock-closed -->
-    <%= inline_svg_tag 'lock' %>
-  </span>
+<%= button_tag :submit, class: 'button submit' do %>
+  <!-- Heroicon name: solid/lock-closed -->
+  <%= inline_svg_tag 'lock' %>
   <%= text_on_button %>
 <% end %>

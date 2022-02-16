@@ -34,11 +34,11 @@ module.exports = {
       'auto': 'auto',
     },
     extend: {
+      screens: {
+        'xs': '360px'
+      },
       cursor: {
         zoom: 'zoom-in'
-      },
-      maxHeight: {
-        '90vh': '90vh',
       },
       spacing: {
         md: '28rem',
@@ -47,11 +47,13 @@ module.exports = {
         '1/2': '50%',
         '3/5': '60%',
         '2/3': '66.666667%',
+        '1/1': '100%',
         'screen-1/3': '33.33333vh',
         'screen-2/5': '40vh',
         'screen-1/2': '50vh',
         'screen-3/5': '60vh',
         'screen-2/3': '66.666667vh',
+        '90vh': '90vh',
         fit: 'fit-content'
       },
       colors: {

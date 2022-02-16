@@ -9,8 +9,8 @@
   has_custom_input = defined? custom_input
 %>
 
-<%= field_set_tag legend, class: "my-3", data: has_custom_input && { controller: 'show-on-radio-button-value' } do   %>
-  <div class="radio-slider">
+<%= field_set_tag legend, class: "my-3 field_set", data: has_custom_input && { controller: 'show-on-radio-button-value' } do   %>
+  <div class="radio-slider mt-1.5">
     <%  values.each_with_index do |value, index|
       label = labels[index]
     %>

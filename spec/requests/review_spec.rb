@@ -23,26 +23,8 @@ RSpec.describe Review, type: :request do
     space.aggregate_facility_reviews
   end
 
-  it "can load the new review paths" do
+  it "can load the new review path" do
     get new_review_path(space_id: space.id)
-    expect(response).to have_http_status(:success)
-
-    get new_review_with_type_of_contact_path(
-      space_id: space.id,
-      type_of_contact: :not_allowed_to_use
-    )
-    expect(response).to have_http_status(:success)
-
-    get new_review_with_type_of_contact_path(
-      space_id: space.id,
-      type_of_contact: :only_contacted
-    )
-    expect(response).to have_http_status(:success)
-
-    get new_review_with_type_of_contact_path(
-      space_id: space.id,
-      type_of_contact: :been_there
-    )
     expect(response).to have_http_status(:success)
   end
 
