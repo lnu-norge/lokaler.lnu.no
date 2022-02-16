@@ -42,7 +42,7 @@ RSpec.describe Space, type: :model do
       let(:facilities) { [toilet.id] }
 
       it "when only one space have toilet" do
-        expect(filter_subject.count).to eq(2)
+        expect(filter_subject.count).to eq(1)
       end
     end
 
