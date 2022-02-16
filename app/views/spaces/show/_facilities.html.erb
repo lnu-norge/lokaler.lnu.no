@@ -10,28 +10,28 @@
     <% end %>
   </header>
 
-  <main class="grid divide-y">
-    <% FacilityCategory.all.includes(:facilities).each do |facilityCategory| %>
-      <% next if @facilities_for_categories[facilityCategory.id].nil? %>
-      <div class="grid md:grid-cols-3 md:gap-4 items-baseline py-4 md:py-8">
-        <h3 class="no-mt">
-          <%= facilityCategory.title %>
-        </h3>
+  <% if @grouped_relevant_facilities.present? %>
+    <main class="grid divide-y">
+      <% @grouped_relevant_facilities.each do | group |  %>
+        <div class="grid md:grid-cols-3 md:gap-4 items-baseline py-4 md:py-8">
+          <h3 class="no-mt">
+            <%= group.second[:category].title %>
+          </h3>
 
-        <ul class="grid gap-1 md:col-span-2">
-          <% @facilities_for_categories[facilityCategory.id].each do |facility| %>
-            <%= render partial: 'spaces/show/facility_item', locals: {
-              title: facility[:title],
-              review: facility[:review],
-              description: facility[:description],
-              tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
-            } %>
-          <% end %>
-        </ul>
-      </div>
-
-    <% end %>
-  </main>
+          <ul class="grid gap-1 md:col-span-2">
+            <% group.second[:space_facilities].each do |facility| %>
+              <%= render partial: 'spaces/show/facility_item', locals: {
+                title: facility[:title],
+                review: facility[:review],
+                description: facility[:description],
+                tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
+              } %>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </main>
+  <% end %>
 
   <aside>
     <%= modal_for :new_facility_review_path, "h-90vh modal--with-header-and-footer" do  %>

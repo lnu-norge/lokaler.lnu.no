@@ -4,7 +4,7 @@
   @apply p-0.5 rounded-xl;
   @apply inline-flex gap-1 items-stretch flex-wrap;
   &:focus-within {
-    @apply border-gray-300 bg-gray-50;
+    @apply outline-none ring-2 ring-offset-2 ring-lnu-pink;
   }
   input[type="radio"] {
     @apply sr-only;

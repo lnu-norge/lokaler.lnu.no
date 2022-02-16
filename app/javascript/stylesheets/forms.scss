@@ -18,7 +18,7 @@
     display: none;
   }
   &.submit,
-  &.not[class=no-submit-styling][type=submit] {
+  &[type=submit]:not(.no-submit-styling) {
     @apply bg-pink-700 text-white;
     &:hover {
       @apply bg-pink-600 border-pink-600;
