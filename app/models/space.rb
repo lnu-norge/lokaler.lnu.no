@@ -127,7 +127,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     results.sort_by(&:score).map(&:space)
   end
 
-  # Groupes all of the users facility reviews into a hash like
+  # Groups all of the users facility reviews into a hash like
   # { category_id: { facility_id: review } }
   def reviews_for_categories(user)
     user.facility_reviews
@@ -142,29 +142,62 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
   end
 
-  # Groups all facilities by their category
-  # { category_id: [facility_1, facility_2, ...] }
+  # Facilities that are typically relevant for the space
+  # Either because they share a space type with the space
+  # or because someone has said that they are relevant for
+  # this specific space by setting a space_facilities experience.
   #
-  # if match_all_except_unknown is true it will give you all the facilities that match the current space's space_types
-  # and all the "other" facilities where experience is not unknown
-  def facilities_for_categories(match_all_except_unknown: false) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    result = space_facilities
-             .includes(facility: [:facilities_categories, :space_types])
-    # .joins(facility: [:facilities_categories, :space_types])
+  # Can be grouped by category by passing grouped: true
+  def relevant_facilities(grouped: false)
+    all_space_f = space_facilities
+                  .includes(facility: [:facilities_categories, :space_types])
 
-    if match_all_except_unknown
-      result = result
-               .where(facility: { space_types: space_types })
-               .or(
-                 result
-                 .where.not(experience: 0)
-               ).distinct
-    end
+    result = all_space_f
+             .where(facility: { space_types: space_types })
+             .or(
+               all_space_f
+                 .where.not(experience: [:impossible, :unknown])
+             ).distinct
 
-    result.each_with_object({}) do |space_facility, memo|
+    return result unless grouped
+
+    group_space_facilities(result)
+  end
+
+  # Facilities that are typically NOT relevant for the space
+  # Because they DO NOT share a space type with the space AND
+  # no one has given a space_facility experience for them.
+  #
+  # Can be grouped by category by passing grouped: true
+  def non_relevant_facilities(grouped: false)
+    all_space_f = space_facilities
+                  .includes(facility: [:facilities_categories, :space_types])
+
+    result = all_space_f
+             .where.not(facility: { space_types: space_types })
+             .or(
+               all_space_f.where(facility: { space_types: nil })
+             )
+             .and(
+               all_space_f
+                 .where(experience: [:impossible, :unknown])
+             ).distinct
+
+    return result unless grouped
+
+    group_space_facilities(result)
+  end
+
+  # Groups given facilities by their category
+  # { category_id: [facility_1, facility_2, ...] }
+  def group_space_facilities(ungrouped_facilities) # rubocop:disable Metrics/AbcSize
+    ungrouped_facilities.each_with_object({}) do |space_facility, memo|
       space_facility.facility.facilities_categories.each do |facility_category|
-        memo[facility_category.facility_category_id] ||= []
-        memo[facility_category.facility_category_id] << {
+        memo[facility_category.facility_category_id] ||= {
+          category: facility_category.facility_category,
+          space_facilities: []
+        }
+        memo[facility_category.facility_category_id][:space_facilities] << {
           id: space_facility.facility.id,
           title: space_facility.facility.title,
           description: space_facility.description,
@@ -172,7 +205,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
           space_types: space_facility.facility.space_types
         }
       end
-    end
+    end.sort_by(&:first) # sorts by category id
   end
 
   def merge_paper_trail_versions
