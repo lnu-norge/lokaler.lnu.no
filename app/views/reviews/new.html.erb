@@ -1,10 +1,26 @@
-<%= turbo_frame_tag :new_review_path do %>
+<div class="max-w-prose mx-auto p-4 pb-10">
 
-    <div class="content">
-      <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
-      <%= render partial: 'reviews/form/type_of_contact', locals: {
-        review: @review
-      } %>
-    </div>
-
-<% end%>
+  <%= turbo_frame_tag :new_review_path do %>
+    <%= simple_form_for @review do |form| %>
+      <div class="modal-header">
+        <h2 class="h3 no-mt"><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h2>
+      </div>
+      <div
+        class="modal-content content"
+        style="min-height: 80vh; /* This is to force the modal to not jump around in height when opening the rest of the form */"
+      >
+        <%= render partial: "reviews/form", locals: {
+          form: form
+        } %>
+      </div>
+      <div class="modal-footer">
+        <%= form.submit t('reviews.save_review'), class: "button submit", id: 'submit_new_review_button' %>
+        <button type="button"
+                data-action="click->modal#close"
+                class="link">
+          <%= t('space_contacts.abort') %>
+        </button>
+      </div>
+    <% end%>
+  <% end%>
+</div>

@@ -1,5 +1,3 @@
-<h2><%= t('reviews.form.lastly_about_your_visit:') %></h2>
-
 <%= render partial: 'shared/radio_slider', locals: {
   form: form,
   field: :how_much,
@@ -18,7 +16,7 @@
   <% end
 } %>
 
-<hr />
+<hr class="my-8"/>
 
 <%= render partial: 'shared/radio_slider', locals: {
   form: form,
@@ -38,12 +36,12 @@
 <% end
  } %>
 
-<hr />
+<hr class="my-8"/>
 
 <%= field_set_tag t('reviews.form.did_you_have_to_pay?'),
-                  class: "my-3",
+                  class: "my-3 field_set",
                   data: { controller: 'show-on-radio-button-value' } do   %>
-  <div class="radio-slider">
+  <div class="radio-slider mt-1.5">
     <%  ['yes', 'no'].each_with_index do |value| %>
       <%=
         form.radio_button :payment,
@@ -68,4 +66,4 @@
   </div>
 <% end %>
 
-<hr />
+
