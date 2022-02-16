@@ -100,31 +100,40 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # Move this somewhere better, either a service or figure out a way to make it a scope
   # NOTE: this expects a scope for spaces but returns an array
   # preferably we would find some way to return a scope too
-  def self.filter_on_facilities(spaces, facilities) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+  def self.filter_on_facilities(spaces, filtered_facilities)
     results = spaces.includes(:space_facilities).filter_map do |space|
-      score = 0
-      space.space_facilities.each do |review|
-        next unless facilities.include?(review.facility_id)
+      relevant_space_facilities = space.relevant_space_facilities
 
-        # The more correct matches the lower the number.
-        # this is so the sort_by later will be correct as it sorts by lowest first
-        # we could do a reverse on the result of sort_by but this will incur
-        # a performance overhead
-        if review.likely?
-          score -= 2
-        elsif review.maybe?
-          score -= 1
-        elsif review.unlikely?
-          score += 1
-        elsif review.impossible?
-          score += 2
-        end
-      end
+      # If no relevant matches at all, exclude the space:
+      next unless (filtered_facilities & relevant_space_facilities.map { |sf| sf.facility.id }).any?
 
-      OpenStruct.new(score: score, space: space) # rubocop:disable Style/OpenStructUse
+      space.score_by_filter_on_facilities(filtered_facilities, relevant_space_facilities)
     end
 
     results.sort_by(&:score).map(&:space)
+  end
+
+  def score_by_filter_on_facilities(filtered_facilities, relevant_space_facilities)
+    score = 0
+    relevant_space_facilities.each do |space_facility|
+      next unless filtered_facilities.include?(space_facility.facility_id)
+
+      # The more correct matches the lower the number.
+      # this is so the sort_by later will be correct as it sorts by lowest first
+      # we could do a reverse on the result of sort_by but this will incur
+      # a performance overhead
+      if space_facility.likely?
+        score -= 2
+      elsif space_facility.maybe?
+        score -= 1
+      elsif space_facility.unlikely?
+        score += 1
+      elsif space_facility.impossible?
+        score += 2
+      end
+    end
+
+    OpenStruct.new(score: score, space: self) # rubocop:disable Style/OpenStructUse
   end
 
   # Groups all of the users facility reviews into a hash like
@@ -142,13 +151,13 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
   end
 
-  # Facilities that are typically relevant for the space
+  # Space Facilities that are typically relevant for the space
   # Either because they share a space type with the space
   # or because someone has said that they are relevant for
   # this specific space by setting a space_facilities experience.
   #
   # Can be grouped by category by passing grouped: true
-  def relevant_facilities(grouped: false)
+  def relevant_space_facilities(grouped: false)
     all_space_f = space_facilities
                   .includes(facility: [:facilities_categories, :space_types])
 
@@ -164,12 +173,17 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     group_space_facilities(result)
   end
 
-  # Facilities that are typically NOT relevant for the space
+  # Facilities (not space facilities :P) that are relevant.
+  def relevant_facilities
+    relevant_space_facilities.map(&:facility)
+  end
+
+  # Space Facilities that are typically NOT relevant for the space
   # Because they DO NOT share a space type with the space AND
   # no one has given a space_facility experience for them.
   #
   # Can be grouped by category by passing grouped: true
-  def non_relevant_facilities(grouped: false)
+  def non_relevant_space_facilities(grouped: false)
     all_space_f = space_facilities
                   .includes(facility: [:facilities_categories, :space_types])
 

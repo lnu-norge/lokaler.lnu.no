@@ -7,8 +7,8 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
 
     @reviews_for_categories = @space.reviews_for_categories(current_user)
 
-    @grouped_relevant_facilities = @space.relevant_facilities(grouped: true)
-    @non_relevant_facilities = @space.non_relevant_facilities
+    @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
+    @non_relevant_facilities = @space.non_relevant_space_facilities
     @grouped_non_relevant_facilities = @space.group_space_facilities(@non_relevant_facilities)
 
     @experiences = [
@@ -47,7 +47,7 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     respond_to do |format|
       format.turbo_stream do
         flash.now[:notice] = flash_message
-        @grouped_relevant_facilities = @space.relevant_facilities(grouped: true)
+        @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),
