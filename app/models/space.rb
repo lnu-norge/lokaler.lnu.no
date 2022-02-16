@@ -113,7 +113,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     results.sort_by(&:score).map(&:space)
   end
 
-  def score_by_filter_on_facilities(filtered_facilities, relevant_space_facilities = self.relevant_space_facilities)
+  def score_by_filter_on_facilities(filtered_facilities, relevant_space_facilities)
     score = 0
     relevant_space_facilities.each do |space_facility|
       next unless filtered_facilities.include?(space_facility.facility_id)
