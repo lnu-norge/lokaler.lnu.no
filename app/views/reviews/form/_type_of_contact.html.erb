@@ -1,11 +1,18 @@
-<h2><%= t('reviews.form.have_you_been_there?') %></h2>
+<h3><%= t('reviews.form.have_you_been_there?') %></h3>
 <ul>
   <% Review.type_of_contacts.keys.reverse.each do |type_of_contact| %>
     <li>
-      <%= link_to new_review_with_type_of_contact_path(review.space, type_of_contact) do %>
+      <%= form.radio_button :type_of_contact,
+                            type_of_contact,
+                            checked: type_of_contact == form.object.type_of_contact,
+                            data: {
+                              'review-form-target': 'typeOfContact'
+                            }
+      %>
+      <%= form.label :"type_of_contact_#{type_of_contact}" do %>
         <%= t("reviews.form.have_you_been_there_answers.#{type_of_contact}") %>
         <%= inline_svg_tag Review::ICONS_FOR_TYPE_OF_CONTACT[type_of_contact], class: 'inline-block' %>
-      <% end %>
+      <% end  %>
     </li>
   <% end  %>
 </ul>

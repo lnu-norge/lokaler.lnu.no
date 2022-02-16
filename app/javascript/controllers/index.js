@@ -31,6 +31,9 @@ application.register("modal", ModalController)
 import MultistepFormController from "./multistep_form_controller.js"
 application.register("multistep-form", MultistepFormController)
 
+import ReviewFormController from "./review_form_controller.js"
+application.register("review-form", ReviewFormController)
+
 import ResetFormController from "./reset_form_controller.js"
 application.register("reset-form", ResetFormController)
 

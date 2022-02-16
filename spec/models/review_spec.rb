@@ -29,20 +29,22 @@ RSpec.describe Review, type: :model do
   end
 
   it "can add a review of type :only_contacted" do
+    comment = "Some comment!"
+
     review = Fabricate(
       :review,
       type_of_contact: :only_contacted,
       price: nil,
       star_rating: nil,
       title: nil,
-      comment: nil
+      comment: comment
     )
 
     expect(review.space).to be_truthy
     expect(review.user).to be_truthy
 
     expect(review.title).to be_nil
-    expect(review.comment).to be_nil
+    expect(review.comment).to match comment
     expect(review.price).to be_nil
     expect(review.star_rating).to be_nil
   end

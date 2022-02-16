@@ -29,15 +29,12 @@ describe "User creates review", js: true do
       click_button(I18n.t("reviews.add_review"))
 
       been_there_button_text = I18n.t("reviews.form.have_you_been_there_answers.been_there")
-      Timeout.timeout(5) { loop until page.has_content?(been_there_button_text) }
-      click_link(been_there_button_text)
+      choose(been_there_button_text, allow_label_click: true)
 
       choose("review_star_rating_1", allow_label_click: true)
 
       fill_in("review_title", with: "Review Title!")
       fill_in("review_comment", with: "Review Comment!")
-
-      find("span", text: I18n.t("multistep_form_navigation.next")).click
 
       choose("review_how_much_one_room", allow_label_click: true)
       choose("review_how_long_one_evening", allow_label_click: true)
@@ -59,8 +56,7 @@ describe "User creates review", js: true do
       click_button(I18n.t("reviews.add_review"))
 
       not_allowed_button_text = I18n.t("reviews.form.have_you_been_there_answers.not_allowed_to_use")
-      Timeout.timeout(5) { loop until page.has_content?(not_allowed_button_text) }
-      click_link(not_allowed_button_text)
+      choose(not_allowed_button_text, allow_label_click: true)
 
       fill_in("review_title", with: "Review Title!")
       fill_in("review_comment", with: "Review Comment!")
@@ -73,18 +69,21 @@ describe "User creates review", js: true do
     end
   end
 
-  # TODO: "Only contacted" reviews are broken atm, need work. Might be phased out.
-  #
-  # it "User creates a only contacted review" do
-  #  login_and_logout_with_warden do
-  #    visit space_path(space)
-  #
-  #   click_button(I18n.t("reviews.add_review"))
-  #   click_link(I18n.t("reviews.form.have_you_been_there_answers.only_contacted"))
-  #
-  #   click_button(I18n.t("multistep_form_navigation.save"))
-  #
-  #   expect(page).to have_content(I18n.t("activerecord.attributes.review.only_contacted"))
-  #  end
-  # end
+  it "User creates a only contacted review" do
+    login_and_logout_with_warden do
+      visit space_path(space)
+
+      click_button(I18n.t("reviews.add_review"))
+
+      not_allowed_button_text = I18n.t("reviews.form.have_you_been_there_answers.only_contacted")
+      choose(not_allowed_button_text, allow_label_click: true)
+
+      fill_in("review_comment", with: "Review Comment!")
+
+      click_button(I18n.t("multistep_form_navigation.save"))
+      expect(page).to have_content(I18n.t("activerecord.attributes.review.only_contacted"))
+
+      expect(page).to have_content("Review Comment!")
+    end
+  end
 end

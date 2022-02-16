@@ -2,7 +2,7 @@
   <%=  t('reviews.add_review') %>
 <% end %>
 
-<%= modal_for :new_review_path, "h-90vh" do %>
+<%= modal_for :new_review_path, "modal--with-header-and-footer h-90vh" do %>
   <%= turbo_frame_tag :new_review_path, src: new_review_path(@space), loading: "lazy" do %>
     <%= render "shared/loading" %>
   <% end %>

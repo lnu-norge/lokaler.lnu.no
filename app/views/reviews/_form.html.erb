@@ -1,39 +1,42 @@
-<%= simple_form_for @review do |form| %>
-  <%= form.hidden_field :space_id, value: @review.space.id %>
-  <div class="content">
-    <h1><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h1>
+<%= form.hidden_field :space_id, value: @review.space.id %>
 
-    <%= render partial: 'reviews/form/type_of_contact', locals: {
-      form: form,
-      review: @review
-    } %>
+<div class="content" data-controller="review-form">
 
-    <%= render partial: 'reviews/new/star_rating', locals: {
-      star_rating: @review.star_rating,
-      form: form
-    } %>
+  <%= render partial: 'reviews/form/type_of_contact', locals: {
+    form: form
+  } %>
 
-    <hr />
+  <div data-review-form-target="fullForm" class="hidden">
+    <hr class="my-8"/>
 
-    <%= render partial: 'reviews/form/text_been_there', locals: {
-      form: form
-    } %>
+    <div data-review-form-target="organizationForm">
+      <%= render partial: 'reviews/form/organization', locals: {
+        form: form
+      } %>
+      <hr class="my-8"/>
+    </div>
 
-    <%= render partial: 'reviews/form/more_about_your_stay', locals: {
-      form: form
-    } %>
+    <div data-review-form-target="moreAboutYourStayForm">
+      <%= render partial: 'reviews/form/more_about_your_stay', locals: {
+        form: form
+      } %>
+      <hr class="my-8"/>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-gray-300 block p-4">
+    </div>
 
-      <% if @review.errors.any? %>
-        <% @review.errors.full_messages.each do |message|%>\
-          <p><%= message %> </p>
-        <%end%>
-      <%end%>
+    <div data-review-form-target="starRatingForm">
+      <%= render partial: 'reviews/form/star_rating', locals: {
+        star_rating: @review.star_rating,
+        form: form
+      } %>
+    </div>
 
+    <div data-review-form-target="textBeenThereForm">
+      <%= render partial: 'reviews/form/text_been_there', locals: {
+        form: form
+      } %>
+    </div>
 
-      <%= form.submit t('multistep_form_navigation.save') %>
-    </nav>
-
+    <%= render partial: 'shared/form_error', locals: { model: @review } %>
   </div>
-<% end  %>
+</div>
