@@ -29,6 +29,8 @@ gem "image_processing"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false
 
+gem "scout_apm"
+
 group :production do
   gem "aws-sdk-s3"
   gem "newrelic_rpm"
@@ -41,7 +43,6 @@ group :development, :test do
   gem "fabrication"
   gem "faker"
   gem "parallel_tests"
-  gem "scout_apm"
 end
 
 group :development do
