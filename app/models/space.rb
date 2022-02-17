@@ -105,11 +105,14 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # NOTE: this expects a scope for spaces but returns an array
   # preferably we would find some way to return a scope too
   def self.filter_on_facilities(spaces, filtered_facilities)
-    results = spaces.includes(space_facilities: [:facility]).filter_map do |space|
-      relevant_space_facilities = space.space_facilities.relevant
+    results = spaces.includes(space_facilities: [:facility])
+                    .where(space_facilities: { relevant: true })
+                    .filter_map do |space|
+      relevant_space_facilities = space.space_facilities
+      relevant_facility_ids = relevant_space_facilities.map { |sf| sf.facility.id }
 
       # If no relevant matches at all, exclude the space:
-      next unless (filtered_facilities & relevant_space_facilities.map { |sf| sf.facility.id }).any?
+      next unless (filtered_facilities & relevant_facility_ids).any?
 
       space.score_by_filter_on_facilities(filtered_facilities, relevant_space_facilities)
     end
