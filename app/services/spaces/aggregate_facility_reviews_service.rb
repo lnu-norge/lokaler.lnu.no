@@ -2,32 +2,43 @@
 
 module Spaces
   class AggregateFacilityReviewsService < ApplicationService
-    def initialize(space:)
+    def initialize(space:, facilities: [])
       @space = space
+      @facilities = facilities
       super()
     end
 
     def call
-      space.space_facilities.destroy_all
-      space.reload
-
-      # Start a transaction because we may be modifying the 'experience' field many times
-      # for a single aggregated review and we don't want to be hitting the DB for every 'experience' change
-      SpaceFacility.transaction do
-        facilities = Facility.all.order(:created_at).map do |facility|
-          SpaceFacility.create(experience: "unknown", space: space, facility: facility)
-        end
-
-        facilities.each do |space_facility|
-          aggregate_reviews(space_facility)
-        end
+      if @facilities.any?
+        aggregate_specific_facilities
+      else
+        aggregate_all_facilities
       end
     end
 
     private
 
-    def aggregate_reviews(space_facility) # rubocop:disable Metrics/AbcSize
-      facility = space_facility.facility
+    def aggregate_specific_facilities
+      SpaceFacility.transaction do
+        @facilities.each do |facility|
+          aggregate_reviews(facility)
+        end
+      end
+    end
+
+    def aggregate_all_facilities
+      # Start a transaction because we may be modifying the 'experience' field many times
+      # for a single aggregated review and we don't want to be hitting the DB for every 'experience' change
+      SpaceFacility.transaction do
+        Facility.all.order(:created_at).each do |facility|
+          aggregate_reviews(facility)
+        end
+      end
+    end
+
+    def aggregate_reviews(facility) # rubocop:disable Metrics/AbcSize
+      space_facility = SpaceFacility.find_or_create_by(space: @space, facility: facility)
+
       reviews = space.facility_reviews.where(facility: facility).order(created_at: :desc).limit(5)
       count = reviews.count
 

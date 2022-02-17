@@ -76,8 +76,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       north_east: { lat: north_east_lat, lng: north_east_lng } }
   end
 
-  def aggregate_facility_reviews
-    Spaces::AggregateFacilityReviewsService.call(space: self)
+  def aggregate_facility_reviews(facilities: [])
+    Spaces::AggregateFacilityReviewsService.call(space: self, facilities: facilities)
   end
 
   def aggregate_star_rating
