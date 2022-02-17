@@ -26,6 +26,10 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
       return
     end
 
+    # TODO: Aggregate only the changed or new facilities, not all
+    # That will require no longer deleting all in parse_facility_reviews, and thus updating,
+    # not creating, in FaclityReview.create. Otherwise, all you need to do is pass a facilities: [Faciliy]
+    # array to aggregate_facility_reviews.
     @space.aggregate_facility_reviews
 
     update_space_facilities
