@@ -2,6 +2,7 @@
 
 class SpaceFacility < ApplicationRecord
   enum experience: { unknown: 0, impossible: 1, unlikely: 2, maybe: 3, likely: 4 }
+
   belongs_to :facility
   belongs_to :space
 
@@ -10,6 +11,20 @@ class SpaceFacility < ApplicationRecord
   scope :in_category, lambda { |facility_category_id|
     joins(:facility).where("facility.facility_category_id": facility_category_id)
   }
+  scope :relevant, -> { where(relevant: true) }
+  scope :not_relevant, -> { where(relevant: false) }
+
+  def relevant!
+    update!(relevant: true)
+  end
+
+  def not_relevant!
+    update!(relevant: false)
+  end
+
+  def not_relevant?
+    !relevant?
+  end
 end
 
 # == Schema Information
@@ -19,6 +34,7 @@ end
 #  id          :bigint           not null, primary key
 #  description :string
 #  experience  :integer
+#  relevant    :boolean          default(FALSE)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  facility_id :bigint           not null

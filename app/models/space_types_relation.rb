@@ -3,6 +3,14 @@
 class SpaceTypesRelation < ApplicationRecord
   belongs_to :space_type
   belongs_to :space
+
+  after_save do
+    space.reload.aggregate_facility_reviews
+  end
+
+  after_destroy do
+    space.reload.aggregate_facility_reviews
+  end
 end
 
 # == Schema Information
