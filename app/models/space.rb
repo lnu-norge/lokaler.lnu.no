@@ -50,6 +50,10 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     space_facilities.find_by(facility: facility).experience
   end
 
+  def relevance_of_facility(facility)
+    space_facilities.find_by(facility: facility).relevant
+  end
+
   def self.rect_of_spaces
     south_west_lat = 90
     south_west_lng = 180
@@ -101,8 +105,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # NOTE: this expects a scope for spaces but returns an array
   # preferably we would find some way to return a scope too
   def self.filter_on_facilities(spaces, filtered_facilities)
-    results = spaces.includes(:space_facilities).filter_map do |space|
-      relevant_space_facilities = space.relevant_space_facilities
+    results = spaces.includes(space_facilities: [:facility]).filter_map do |space|
+      relevant_space_facilities = space.space_facilities.relevant
 
       # If no relevant matches at all, exclude the space:
       next unless (filtered_facilities & relevant_space_facilities.map { |sf| sf.facility.id }).any?
@@ -158,24 +162,16 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   #
   # Can be grouped by category by passing grouped: true
   def relevant_space_facilities(grouped: false)
-    all_space_f = space_facilities
-                  .includes(facility: [:facilities_categories, :space_types])
+    relevant = space_facilities.includes(facility: [:facilities_categories]).where(relevant: true)
 
-    result = all_space_f
-             .where(facility: { space_types: space_types })
-             .or(
-               all_space_f
-                 .where.not(experience: [:impossible, :unknown])
-             ).distinct
+    return relevant unless grouped
 
-    return result unless grouped
-
-    group_space_facilities(result)
+    group_space_facilities(relevant)
   end
 
   # Facilities (not space facilities :P) that are relevant.
   def relevant_facilities
-    relevant_space_facilities.map(&:facility)
+    space_facilities.where(relevant: true).map(&:facility)
   end
 
   # Space Facilities that are typically NOT relevant for the space
@@ -184,22 +180,11 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   #
   # Can be grouped by category by passing grouped: true
   def non_relevant_space_facilities(grouped: false)
-    all_space_f = space_facilities
-                  .includes(facility: [:facilities_categories, :space_types])
+    non_relevant = space_facilities.includes(facility: [:facilities_categories]).where(relevant: false)
 
-    result = all_space_f
-             .where.not(facility: { space_types: space_types })
-             .or(
-               all_space_f.where(facility: { space_types: nil })
-             )
-             .and(
-               all_space_f
-                 .where(experience: [:impossible, :unknown])
-             ).distinct
+    return non_relevant unless grouped
 
-    return result unless grouped
-
-    group_space_facilities(result)
+    group_space_facilities(non_relevant)
   end
 
   # Groups given facilities by their category
@@ -216,7 +201,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
           title: space_facility.facility.title,
           description: space_facility.description,
           review: space_facility.experience,
-          space_types: space_facility.facility.space_types
+          space_types: space_facility.facility.space_types,
+          relevant: space_facility.relevant
         }
       end
     end.sort_by(&:first) # sorts by category id

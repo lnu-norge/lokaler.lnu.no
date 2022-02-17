@@ -3,34 +3,38 @@
 require "rails_helper"
 
 RSpec.describe Spaces::AggregateFacilityReviewsService do
-  let(:space) { Fabricate(:space) }
+  let(:space_type) { Fabricate(:space_type) }
+  let(:space) { Fabricate(:space, space_types: [space_type]) }
   let(:facility_category) { Fabricate(:facility_category) }
-  let(:facility) { Fabricate(:facility, facility_categories: [facility_category]) }
+  let(:facility) { Fabricate(:facility, facility_categories: [facility_category], space_types: [space_type]) }
 
   def experience(experience, other_facility = nil)
     Fabricate(:facility_review, space: space, experience: experience, facility: other_facility || facility)
     space.reload.aggregate_facility_reviews
   end
 
-  it "turns into maybe if there are mixed reviews" do
+  it "turns into a relevant maybe if there are mixed reviews" do
     experience :was_allowed
     experience :was_not_allowed
     expect(space.reload.reviews_for_facility(facility)).to eq("maybe")
+    expect(space.reload.relevance_of_facility(facility)).to eq(true)
   end
 
-  it "turns into likely if there are over 2/3 positive reviews" do
+  it "turns into a relevant likely if there are over 2/3 positive reviews" do
     experience :was_not_allowed
     3.times { experience :was_allowed }
     expect(space.reload.reviews_for_facility(facility)).to eq("likely")
+    expect(space.reload.relevance_of_facility(facility)).to eq(true)
   end
 
   it "turns into likely if there are over 2/3 positive reviews, even if those are only the last five" do
     10.times { experience :was_not_allowed }
     4.times { experience :was_allowed }
     expect(space.reload.reviews_for_facility(facility)).to eq("likely")
+    expect(space.reload.relevance_of_facility(facility)).to eq(true)
   end
 
-  it "turns into impossible if half or more say it does not exist (out of a minimum of 2)" do
+  it "turns into impossible if half or more say it does not exist" do
     experience :was_not_allowed
     experience :was_not_available
     experience :was_not_available
@@ -63,5 +67,54 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
       experience :was_allowed, Fabricate(:facility)
     end
     expect(space.reload.reviews_for_facility(facility)).to eq("maybe")
+    expect(space.reload.relevance_of_facility(facility)).to eq(true)
+  end
+
+  it "Is set as relevant if in space_type, even if impossible or negative or unknown" do
+    experience :was_not_available
+    expect(space.reload.relevance_of_facility(facility)).to eq(true)
+
+    space.facility_reviews.destroy_all
+    space.aggregate_facility_reviews
+
+    experience :was_not_allowed
+    expect(space.reload.relevance_of_facility(facility)).to eq(true)
+
+    space.facility_reviews.destroy_all
+    space.aggregate_facility_reviews
+
+    expect(space.reload.relevance_of_facility(facility)).to eq(true)
+  end
+
+  it "is set as irrelevant if negative or impossible and not in space_type" do
+    non_space_type_facility = Fabricate(:facility, space_types: [Fabricate(:space_type)])
+
+    experience :was_not_available, non_space_type_facility
+    expect(space.reload.relevance_of_facility(non_space_type_facility)).to eq(false)
+
+    space.facility_reviews.destroy_all
+    space.aggregate_facility_reviews
+
+    experience :was_not_allowed, non_space_type_facility
+    expect(space.reload.relevance_of_facility(non_space_type_facility)).to eq(false)
+
+    space.facility_reviews.destroy_all
+    space.aggregate_facility_reviews
+
+    expect(space.reload.relevance_of_facility(non_space_type_facility)).to eq(false)
+  end
+
+  it "is set as relevant if a positive or maybe, even if it's not in the space type" do
+    non_space_type_facility = Fabricate(:facility, space_types: [Fabricate(:space_type)])
+
+    experience :was_allowed, non_space_type_facility
+
+    expect(space.reload.reviews_for_facility(non_space_type_facility)).to eq("likely")
+    expect(space.reload.relevance_of_facility(non_space_type_facility)).to eq(true)
+
+    experience :was_not_allowed, non_space_type_facility
+
+    expect(space.reload.reviews_for_facility(non_space_type_facility)).to eq("maybe")
+    expect(space.reload.relevance_of_facility(non_space_type_facility)).to eq(true)
   end
 end
