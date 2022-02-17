@@ -113,20 +113,20 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def score_by_filter_on_facilities
-    score = 0.0
+    space_score = 0.0
+    # The more correct matches the lower the number.
+    # this is so the sort_by later will be correct as it sorts by lowest first
+    # we could do a reverse on the result of sort_by but this will incur
+    # a performance overhead
+
     space_facilities.each do |space_facility|
-      # The more correct matches the lower the number.
-      # this is so the sort_by later will be correct as it sorts by lowest first
-      # we could do a reverse on the result of sort_by but this will incur
-      # a performance overhead
-
-      score -= score_from_experience(space_facility)
-
-      # Add a score for the star_rating to use as a tie-breaker.
-      score -= score_from_star_rating
+      space_score -= score_from_experience(space_facility)
     end
 
-    OpenStruct.new(score: score, space: self) # rubocop:disable Style/OpenStructUse
+    # Add a score for the star_rating to use as a tie-breaker.
+    space_score -= score_from_star_rating
+
+    OpenStruct.new(score: space_score, space: self) # rubocop:disable Style/OpenStructUse
   end
 
   def score_from_experience(space_facility)
