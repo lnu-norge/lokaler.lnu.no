@@ -117,4 +117,44 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
     expect(space.reload.reviews_for_facility(non_space_type_facility)).to eq("maybe")
     expect(space.reload.relevance_of_facility(non_space_type_facility)).to eq(true)
   end
+
+  it "sets relevance if a facility is added to a Spaces space type" do
+    other_facility = Fabricate(:facility, space_types: [Fabricate(:space_type)])
+
+    expect(space.reload.relevance_of_facility(other_facility)).to eq(false)
+
+    other_facility.update!(space_types: [space_type])
+
+    expect(space.reload.relevance_of_facility(other_facility)).to eq(true)
+  end
+
+  it "removes relevance if a facility is removed from a Spaces space type" do
+    other_facility = Fabricate(:facility, space_types: [space_type])
+
+    expect(space.reload.relevance_of_facility(other_facility)).to eq(true)
+
+    other_facility.update!(space_types: [])
+
+    expect(space.reload.relevance_of_facility(other_facility)).to eq(false)
+  end
+
+  it "sets relevance if a Space Type is added to a space" do
+    new_space_type = Fabricate(:space_type)
+
+    other_facility = Fabricate(:facility, space_types: [new_space_type])
+
+    expect(space.reload.relevance_of_facility(other_facility)).to eq(false)
+
+    space.update!(space_types: [new_space_type])
+
+    expect(space.reload.relevance_of_facility(other_facility)).to eq(true)
+  end
+
+  it "removes relevance if a Space Type is removed from a Space" do
+    expect(space.reload.relevance_of_facility(facility)).to eq(true)
+
+    space.update!(space_types: [])
+
+    expect(space.reload.relevance_of_facility(facility)).to eq(false)
+  end
 end
