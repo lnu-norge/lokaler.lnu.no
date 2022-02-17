@@ -133,7 +133,7 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
 
     expect(space.reload.relevance_of_facility(other_facility)).to eq(true)
 
-    other_facility.update!(space_types: [])
+    space_type.update!(facilities: [facility])
 
     expect(space.reload.relevance_of_facility(other_facility)).to eq(false)
   end
