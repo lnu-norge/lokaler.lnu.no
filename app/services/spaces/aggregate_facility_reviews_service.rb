@@ -30,30 +30,19 @@ module Spaces
       # Start a transaction because we may be modifying the 'experience' field many times
       # for a single aggregated review and we don't want to be hitting the DB for every 'experience' change
       SpaceFacility.transaction do
-        facility_reviews = space.facility_reviews.includes(:facility)
-        facilities_with_reviews = facility_reviews.map(&:facility)
-        facilities_from_space_type = space.space_types.includes(:facilities).map(&:facilities).flatten
-
-        aggregate_individually = [*facilities_with_reviews, *facilities_from_space_type].uniq.sort_by(&:created_at)
-        aggregate_in_bulk = Facility.all.where.not(id: aggregate_individually.map(&:id))
-
-        aggregate_individually.each do |facility|
-          space_facility = SpaceFacility.create_or_find_by(space: @space, facility: facility)
-          aggregate_reviews(facility, space_facility, facility_reviews, facilities_from_space_type)
-        end
-
-        aggregate_in_bulk.each do |facility|
-          space_facility = SpaceFacility.create_or_find_by(space: @space, facility: facility)
-          space_facility.unknown! && space_facility.not_relevant!
+        Facility.all.order(:created_at).each do |facility|
+          aggregate_reviews(facility)
         end
       end
     end
 
-    def aggregate_reviews(facility, space_facility, facility_reviews, facilities_from_space_type) # rubocop:disable Metrics/AbcSize
-      reviews = facility_reviews.where(facility: facility).order(created_at: :desc).limit(5)
+    def aggregate_reviews(facility) # rubocop:disable Metrics/AbcSize
+      space_facility = SpaceFacility.find_or_create_by(space: @space, facility: facility)
+
+      reviews = space.facility_reviews.where(facility: facility).order(created_at: :desc).limit(5)
       count = reviews.count
 
-      belongs_to_space_type = facilities_from_space_type.include?(facility)
+      belongs_to_space_type = facility_belongs_to_space_type(facility)
 
       return handle_zero_facility_reviews(space_facility, belongs_to_space_type) if count.zero?
 
@@ -87,6 +76,12 @@ module Spaces
       return space_facility.unknown! && space_facility.not_relevant! unless belongs_to_space_type
 
       space_facility.unknown! && space_facility.relevant!
+    end
+
+    def facility_belongs_to_space_type(facility)
+      space.space_types.filter do |space_type|
+        space_type.facilities.include? facility
+      end.any?
     end
 
     attr_reader :space
