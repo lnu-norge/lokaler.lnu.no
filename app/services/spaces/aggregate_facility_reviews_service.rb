@@ -3,34 +3,21 @@
 module Spaces
   class AggregateFacilityReviewsService < ApplicationService
     def initialize(space:, facilities: [])
-      @space = space
-      @facilities = facilities
+      @space = Space.includes(space_types: :facilities, facility_reviews: :facility).find(space.id)
+      @facilities = facilities.any? ? facilities : Facility.all.order(:created_at)
+
       super()
     end
 
     def call
-      if @facilities.any?
-        aggregate_specific_facilities
-      else
-        aggregate_all_facilities
-      end
+      aggregate_facilities
     end
 
     private
 
-    def aggregate_specific_facilities
+    def aggregate_facilities
       SpaceFacility.transaction do
         @facilities.each do |facility|
-          aggregate_reviews(facility)
-        end
-      end
-    end
-
-    def aggregate_all_facilities
-      # Start a transaction because we may be modifying the 'experience' field many times
-      # for a single aggregated review and we don't want to be hitting the DB for every 'experience' change
-      SpaceFacility.transaction do
-        Facility.all.order(:created_at).each do |facility|
           aggregate_reviews(facility)
         end
       end
@@ -39,7 +26,7 @@ module Spaces
     def aggregate_reviews(facility) # rubocop:disable Metrics/AbcSize
       space_facility = SpaceFacility.find_or_create_by(space: @space, facility: facility)
 
-      reviews = space.facility_reviews.where(facility: facility).order(created_at: :desc).limit(5)
+      reviews = @space.facility_reviews.where(facility: facility).order(created_at: :desc).limit(5)
       count = reviews.count
 
       belongs_to_space_type = facility_belongs_to_space_type(facility)
@@ -79,9 +66,9 @@ module Spaces
     end
 
     def facility_belongs_to_space_type(facility)
-      space.space_types.filter do |space_type|
+      @space.space_types.find do |space_type|
         space_type.facilities.include? facility
-      end.any?
+      end.present?
     end
 
     attr_reader :space
