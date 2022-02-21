@@ -5,11 +5,11 @@ class SpaceTypesRelation < ApplicationRecord
   belongs_to :space
 
   after_save do
-    space.reload.aggregate_facility_reviews
+    space.reload.aggregate_facility_reviews(facilities: space_type.facilities)
   end
 
   after_destroy do
-    space.reload.aggregate_facility_reviews
+    space.reload.aggregate_facility_reviews(facilities: space_type.facilities)
   end
 end
 
