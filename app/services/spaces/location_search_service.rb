@@ -14,18 +14,17 @@ module Spaces
     end
 
     def build_url
-      url =
-        [
-          URL,
-          "utkoordsys=4258&",
-          "treffPerSide=10&",
-          "side=0&",
-          "asciiKompatibel=true"
-        ].join
+      search_params = {
+        utkoordsys: 4258,
+        treffPerSide: 10,
+        side: 0,
+        asciiKompatibel: true,
+      }
 
-      url += "&sok=#{address}" if address.present?
-      url += "&postnummer=#{post_number}" if post_number.present?
-      url
+      search_params[:sok] = address if address.present?
+      search_params[:postnummer] = post_number if post_number.present?
+
+      URL + search_params.to_query
     end
 
     def call
