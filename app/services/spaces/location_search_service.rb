@@ -18,7 +18,7 @@ module Spaces
         utkoordsys: 4258,
         treffPerSide: 10,
         side: 0,
-        asciiKompatibel: true,
+        asciiKompatibel: true
       }
 
       search_params[:sok] = address if address.present?
