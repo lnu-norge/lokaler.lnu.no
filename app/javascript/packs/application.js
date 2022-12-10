@@ -14,5 +14,7 @@ ActiveStorage.start()
 import "stylesheets/application"
 import "controllers"
 
+require("../custom/posthog")
+
 require("../custom/custom_trix")
 require("@rails/actiontext")
