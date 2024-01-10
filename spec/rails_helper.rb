@@ -6,11 +6,8 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'webdrivers'
 require 'selenium-webdriver'
 require 'vcr'
-
-Webdrivers.install_dir = Rails.root + 'webdrivers' + ENV['TEST_ENV_NUMBER'].to_s
 
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -80,8 +77,6 @@ RSpec.configure do |config|
   config.include Auth, type: :feature
   config.include TomSelect, type: :feature
 
-  Webdrivers.cache_time = 86_400
-
   Capybara.register_driver :headless_chrome do |app|
     download_path = Rails.root + 'tmp/capybara/downloads'
     options = ::Selenium::WebDriver::Chrome::Options.new
@@ -91,8 +86,7 @@ RSpec.configure do |config|
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
     options.add_argument('--window-size=1920,1080')
-    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: options)
-    driver.browser.download_path = download_path
+    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
     driver
   end
 
