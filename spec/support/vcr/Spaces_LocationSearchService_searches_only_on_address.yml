@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&side=0&sok=Hammerstads%20gate%2032&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 11 Jan 2024 09:50:14 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '854'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+      Access-Control-Expose-Headers:
+      - Content-Length,Content-Range
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metadata":{"asciiKompatibel":true,"totaltAntallTreff":1,"viserTil":10,"sokeStreng":"asciiKompatibel=true&side=0&sok=Hammerstads+gate+32&treffPerSide=10&utkoordsys=4258","viserFra":0,"side":0,"treffPerSide":10},"adresser":[{"adressenavn":"Hammerstads
+        gate","adressetekst":"Hammerstads gate 32","adressetilleggsnavn":null,"adressekode":12647,"nummer":32,"bokstav":"","kommunenummer":"0301","kommunenavn":"OSLO","gardsnummer":46,"bruksnummer":16,"festenummer":0,"undernummer":null,"bruksenhetsnummer":["H0101","H0102","H0201","H0202","H0301","H0302","H0401","H0402"],"objtype":"Vegadresse","poststed":"OSLO","postnummer":"0363","adressetekstutenadressetilleggsnavn":"Hammerstads
+        gate 32","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.93178961408748,"lon":10.717497338316784},"oppdateringsdato":"2020-06-15T18:04:04"}]}
+
+        '
+  recorded_at: Thu, 11 Jan 2024 09:50:14 GMT
+recorded_with: VCR 6.0.0

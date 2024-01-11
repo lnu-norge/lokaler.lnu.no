@@ -11,6 +11,10 @@ describe "User manages homepage", js: true do
     create_user!
   end
 
+  # These features require calls to geonorge for looking up data. VCR stores and replays the tests
+  # They can be refreshed by simply deleting the test cassettes and restoring them again.
+  include_context "with VCR for http calls"
+
   it "user is alerted that a similar space already exists, but can still create a new space as a duplicate" do
     login_and_logout_with_warden do
       visit root_path
