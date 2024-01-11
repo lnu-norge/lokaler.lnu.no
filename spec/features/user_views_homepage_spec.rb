@@ -31,7 +31,7 @@ describe "User views homepage", js: true do
     space2.aggregate_facility_reviews
   end
 
-  it "User can see space1 before space2" do
+  it "User can filter spaces, and get them in the correct order" do
     login_and_logout_with_warden do
       visit root_path
 
