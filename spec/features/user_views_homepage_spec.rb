@@ -42,7 +42,7 @@ describe "User views homepage", js: true do
       check(facility1.title)
 
       # We must wait because find will find the element but it may not be in correct order yet..
-      sleep(0.2)
+      sleep(0.3)
 
       expect(find("#space-listing").first("h3").text).to eq(space1.title)
 
@@ -50,7 +50,7 @@ describe "User views homepage", js: true do
       check(facility2.title)
 
       # We must wait because find will find the element but it may not be in correct order yet..
-      sleep(0.2)
+      sleep(0.3)
 
       expect(find("#space-listing").first("h3").text).to eq(space2.title)
 
