@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&postnummer=3060&side=0&sok=Ankerveien%202&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 11 Jan 2024 09:50:14 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '5195'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+      Access-Control-Expose-Headers:
+      - Content-Length,Content-Range
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metadata":{"side":0,"viserTil":10,"totaltAntallTreff":9,"asciiKompatibel":true,"viserFra":0,"sokeStreng":"asciiKompatibel=true&postnummer=3060&side=0&sok=Ankerveien+2&treffPerSide=10&utkoordsys=4258","treffPerSide":10},"adresser":[{"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        2","adressetilleggsnavn":null,"adressekode":5005,"nummer":2,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":337,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Ankerveien
+        2","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62259769264266,"lon":10.392915337674847},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        7","adressetilleggsnavn":null,"adressekode":5005,"nummer":7,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":331,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Ankerveien
+        7","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.6224587038206,"lon":10.39331735570473},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        11","adressetilleggsnavn":null,"adressekode":5005,"nummer":11,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":333,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Ankerveien
+        11","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.622181919813315,"lon":10.393164057411665},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        9","adressetilleggsnavn":null,"adressekode":5005,"nummer":9,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":332,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Ankerveien
+        9","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62228870353948,"lon":10.393257126210754},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        5","adressetilleggsnavn":null,"adressekode":5005,"nummer":5,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":343,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Ankerveien
+        5","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62260158431166,"lon":10.393394191749685},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        3","adressetilleggsnavn":null,"adressekode":5005,"nummer":3,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":347,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Ankerveien
+        3","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.622736052796796,"lon":10.39341749164675},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        4","adressetilleggsnavn":null,"adressekode":5005,"nummer":4,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":336,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Ankerveien
+        4","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62244602304225,"lon":10.39282041045066},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        1","adressetilleggsnavn":null,"adressekode":5005,"nummer":1,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":353,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Ankerveien
+        1","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62282061417017,"lon":10.393066405075794},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Ankerveien","adressetekst":"Ankerveien
+        6","adressetilleggsnavn":null,"adressekode":5005,"nummer":6,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":352,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Ankerveien
+        6","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62229303526634,"lon":10.392849533937865},"oppdateringsdato":"2024-01-01T00:00:00"}]}
+
+        '
+  recorded_at: Thu, 11 Jan 2024 09:50:14 GMT
+recorded_with: VCR 6.0.0

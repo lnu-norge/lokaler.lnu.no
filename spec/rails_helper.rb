@@ -6,11 +6,8 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'webdrivers'
 require 'selenium-webdriver'
 require 'vcr'
-
-Webdrivers.install_dir = Rails.root + 'webdrivers' + ENV['TEST_ENV_NUMBER'].to_s
 
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -80,24 +77,35 @@ RSpec.configure do |config|
   config.include Auth, type: :feature
   config.include TomSelect, type: :feature
 
-  Webdrivers.cache_time = 86_400
+  default_chrome_options =
+    ::Selenium::WebDriver::Chrome::Options.new(
+      args: [
+        '--window-size=1920,1080',
+      ]
+    )
 
   Capybara.register_driver :headless_chrome do |app|
-    download_path = Rails.root + 'tmp/capybara/downloads'
-    options = ::Selenium::WebDriver::Chrome::Options.new
-    options.add_preference(:download, prompt_for_download: false, directory_upgrade: true, default_directory: download_path)
-    options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
-    options.add_preference(:safebrowsing, enabled: false, disable_download_protection: true )
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--window-size=1920,1080')
-    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: options)
-    driver.browser.download_path = download_path
+    options = default_chrome_options
+
+    options.add_argument('--headless=new')
+
+    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+    driver
+  end
+
+  Capybara.register_driver :chrome do |app|
+    options = default_chrome_options
+
+    # See logs in devtools,
+    options.add_option('goog:loggingPrefs', { browser: 'ALL' })
+    options.add_argument('--auto-open-devtools-for-tabs')
+
+    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
     driver
   end
 
   Capybara.default_max_wait_time = 10
-  Capybara.javascript_driver = :headless_chrome
+  Capybara.javascript_driver = :headless_chrome # Headless is default, only switch to :chrome if you need to debug a test
   Capybara.server = :puma, { Silent: true }
 
 
@@ -105,7 +113,6 @@ RSpec.configure do |config|
     config.cassette_library_dir = "spec/support/vcr"
     config.hook_into :webmock
     config.ignore_hosts 'chromedriver.storage.googleapis.com'
-    config.ignore_hosts 'ws.geonorge.no'
     config.ignore_request do |request|
       uri = URI(request.uri)
       uri.host == '127.0.0.1' ||
