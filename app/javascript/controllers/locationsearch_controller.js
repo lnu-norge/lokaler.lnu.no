@@ -14,12 +14,12 @@ export default class extends Controller {
       allowEmptyOption: true,
       create: true,
       load: (search, callback) => {
-        this.searchMapbox(search, callback)
+        this.searchGeoNorge(search, callback)
       }}
     );
   }
 
-  async searchMapbox(search, callback) {
+  async searchGeoNorge(search, callback) {
     if(search === "")
       callback([]);
 
