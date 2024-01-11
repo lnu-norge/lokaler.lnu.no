@@ -99,7 +99,6 @@ RSpec.configure do |config|
     config.cassette_library_dir = "spec/support/vcr"
     config.hook_into :webmock
     config.ignore_hosts 'chromedriver.storage.googleapis.com'
-    config.ignore_hosts 'ws.geonorge.no'
     config.ignore_request do |request|
       uri = URI(request.uri)
       uri.host == '127.0.0.1' ||

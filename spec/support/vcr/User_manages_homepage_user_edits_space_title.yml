@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&postnummer=3730&side=0&sok=Ulefossvegen%2032&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 11 Jan 2024 09:50:19 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '795'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+      Access-Control-Expose-Headers:
+      - Content-Length,Content-Range
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metadata":{"side":0,"viserTil":10,"totaltAntallTreff":1,"asciiKompatibel":true,"viserFra":0,"sokeStreng":"asciiKompatibel=true&postnummer=3730&side=0&sok=Ulefossvegen+32&treffPerSide=10&utkoordsys=4258","treffPerSide":10},"adresser":[{"adressenavn":"Ulefossvegen","adressetekst":"Ulefossvegen
+        32","adressetilleggsnavn":null,"adressekode":87600,"nummer":32,"bokstav":"","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":4073,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Ulefossvegen
+        32","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.19655687871739,"lon":9.603458804523862},"oppdateringsdato":"2024-01-01T00:00:00"}]}
+
+        '
+  recorded_at: Thu, 11 Jan 2024 09:50:19 GMT
+recorded_with: VCR 6.0.0

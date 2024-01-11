@@ -1,0 +1,65 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&postnummer=3060&side=0&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 11 Jan 2024 09:50:14 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '5999'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+      Access-Control-Expose-Headers:
+      - Content-Length,Content-Range
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metadata":{"side":0,"viserTil":10,"totaltAntallTreff":2867,"asciiKompatibel":true,"viserFra":0,"sokeStreng":"asciiKompatibel=true&postnummer=3060&side=0&treffPerSide=10&utkoordsys=4258","treffPerSide":10},"adresser":[{"adressenavn":"M\u00e5rsvingen","adressetekst":"M\u00e5rsvingen
+        2","adressetilleggsnavn":null,"adressekode":5522,"nummer":2,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":491,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"M\u00e5rsvingen
+        2","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62571743086536,"lon":10.390065735510298},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Lille
+        \u00c5sgaten","adressetekst":"Lille \u00c5sgaten 3A","adressetilleggsnavn":null,"adressekode":5210,"nummer":3,"bokstav":"A","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":339,"bruksnummer":112,"festenummer":0,"undernummer":null,"bruksenhetsnummer":["H0101","H0102","H0201","H0202","H0301","H0302"],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Lille
+        \u00c5sgaten 3A","stedfestingverifisert":true,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.609051185625674,"lon":10.405144770867297},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"T\u00f8mmer\u00e5sveien","adressetekst":"T\u00f8mmer\u00e5sveien
+        1K","adressetilleggsnavn":null,"adressekode":5440,"nummer":1,"bokstav":"K","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":317,"bruksnummer":31,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"T\u00f8mmer\u00e5sveien
+        1K","stedfestingverifisert":true,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.607005461771166,"lon":10.405798337049065},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"T\u00f8mmer\u00e5sveien","adressetekst":"T\u00f8mmer\u00e5sveien
+        1L","adressetilleggsnavn":null,"adressekode":5440,"nummer":1,"bokstav":"L","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":317,"bruksnummer":31,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"T\u00f8mmer\u00e5sveien
+        1L","stedfestingverifisert":true,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.606993454011445,"lon":10.405913023244775},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"T\u00f8mmer\u00e5sveien","adressetekst":"T\u00f8mmer\u00e5sveien
+        1E","adressetilleggsnavn":null,"adressekode":5440,"nummer":1,"bokstav":"E","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":317,"bruksnummer":31,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"T\u00f8mmer\u00e5sveien
+        1E","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.60703756029754,"lon":10.40598752262244},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"M\u00e5rsvingen","adressetekst":"M\u00e5rsvingen
+        4","adressetilleggsnavn":null,"adressekode":5522,"nummer":4,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":492,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"M\u00e5rsvingen
+        4","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62590331926338,"lon":10.390321654008217},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Minksvingen","adressetekst":"Minksvingen
+        4","adressetilleggsnavn":null,"adressekode":5520,"nummer":4,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":503,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Minksvingen
+        4","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62691744045242,"lon":10.388696805744637},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Minksvingen","adressetekst":"Minksvingen
+        6","adressetilleggsnavn":null,"adressekode":5520,"nummer":6,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":505,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Minksvingen
+        6","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62716151285989,"lon":10.388547298518562},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Nedre
+        Brent\u00e5s vei","adressetekst":"Nedre Brent\u00e5s vei 4","adressetilleggsnavn":null,"adressekode":5519,"nummer":4,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":485,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Nedre
+        Brent\u00e5s vei 4","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.6260584512376,"lon":10.3883953689789},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Minksvingen","adressetekst":"Minksvingen
+        2","adressetilleggsnavn":null,"adressekode":5520,"nummer":2,"bokstav":"","kommunenummer":"3301","kommunenavn":"DRAMMEN","gardsnummer":321,"bruksnummer":502,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SVELVIK","postnummer":"3060","adressetekstutenadressetilleggsnavn":"Minksvingen
+        2","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.62668741407921,"lon":10.388368140263331},"oppdateringsdato":"2024-01-01T00:00:00"}]}
+
+        '
+  recorded_at: Thu, 11 Jan 2024 09:50:14 GMT
+recorded_with: VCR 6.0.0

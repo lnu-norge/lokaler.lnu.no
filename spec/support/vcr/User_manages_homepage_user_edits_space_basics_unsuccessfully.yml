@@ -1,0 +1,137 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&postnummer=3730&side=0&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 11 Jan 2024 09:50:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '5871'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+      Access-Control-Expose-Headers:
+      - Content-Length,Content-Range
+    body:
+      encoding: ASCII-8BIT
+      string: '{"metadata":{"side":0,"viserTil":10,"totaltAntallTreff":339,"asciiKompatibel":true,"viserFra":0,"sokeStreng":"asciiKompatibel=true&postnummer=3730&side=0&treffPerSide=10&utkoordsys=4258","treffPerSide":10},"adresser":[{"adressenavn":"Aslaugs
+        gate","adressetekst":"Aslaugs gate 7","adressetilleggsnavn":null,"adressekode":11200,"nummer":7,"bokstav":"","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":98,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Aslaugs
+        gate 7","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.195875559184664,"lon":9.608978600355854},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Aslaugs
+        gate","adressetekst":"Aslaugs gate 9","adressetilleggsnavn":null,"adressekode":11200,"nummer":9,"bokstav":"","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":99,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Aslaugs
+        gate 9","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.19584136082931,"lon":9.60861037170698},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Baugeids
+        gate","adressetekst":"Baugeids gate 5C","adressetilleggsnavn":null,"adressekode":13200,"nummer":5,"bokstav":"C","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":185,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Baugeids
+        gate 5C","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.19361590686133,"lon":9.6043872010048},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Baugeids
+        gate","adressetekst":"Baugeids gate 25","adressetilleggsnavn":null,"adressekode":13200,"nummer":25,"bokstav":"","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":200,"festenummer":0,"undernummer":null,"bruksenhetsnummer":["H0101","H0102","H0201","H0202"],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Baugeids
+        gate 25","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.194120253823456,"lon":9.598251914531202},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Baugeids
+        gate","adressetekst":"Baugeids gate 21D","adressetilleggsnavn":null,"adressekode":13200,"nummer":21,"bokstav":"D","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":194,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Baugeids
+        gate 21D","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.19393614239183,"lon":9.59922896073339},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Baugeids
+        gate","adressetekst":"Baugeids gate 19C","adressetilleggsnavn":null,"adressekode":13200,"nummer":19,"bokstav":"C","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":194,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Baugeids
+        gate 19C","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.19388817588564,"lon":9.599893299585458},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Baugeids
+        gate","adressetekst":"Baugeids gate 19B","adressetilleggsnavn":null,"adressekode":13200,"nummer":19,"bokstav":"B","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":194,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Baugeids
+        gate 19B","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.19386067087673,"lon":9.600015350276223},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Baugeids
+        gate","adressetekst":"Baugeids gate 17D","adressetilleggsnavn":null,"adressekode":13200,"nummer":17,"bokstav":"D","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":194,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Baugeids
+        gate 17D","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.19385881245219,"lon":9.600417925551817},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Baugeids
+        gate","adressetekst":"Baugeids gate 17C","adressetilleggsnavn":null,"adressekode":13200,"nummer":17,"bokstav":"C","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":194,"festenummer":0,"undernummer":null,"bruksenhetsnummer":[],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Baugeids
+        gate 17C","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.19384950923871,"lon":9.600487781072221},"oppdateringsdato":"2024-01-01T00:00:00"},{"adressenavn":"Baugeids
+        gate","adressetekst":"Baugeids gate 18","adressetilleggsnavn":null,"adressekode":13200,"nummer":18,"bokstav":"","kommunenummer":"4003","kommunenavn":"SKIEN","gardsnummer":300,"bruksnummer":193,"festenummer":0,"undernummer":null,"bruksenhetsnummer":["H0101","H0102","H0201","H0202"],"objtype":"Vegadresse","poststed":"SKIEN","postnummer":"3730","adressetekstutenadressetilleggsnavn":"Baugeids
+        gate 18","stedfestingverifisert":false,"representasjonspunkt":{"epsg":"EPSG:4258","lat":59.194204086480084,"lon":9.59954873999084},"oppdateringsdato":"2024-01-01T00:00:00"}]}
+
+        '
+  recorded_at: Thu, 11 Jan 2024 09:50:21 GMT
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&side=0&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 11 Jan 2024 09:50:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '49'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"Ingen s\u00f8keparametere oppgitt."}
+
+        '
+  recorded_at: Thu, 11 Jan 2024 09:50:21 GMT
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&side=0&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.0.4
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 11 Jan 2024 09:50:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '49'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+    body:
+      encoding: ASCII-8BIT
+      string: '{"message":"Ingen s\u00f8keparametere oppgitt."}
+
+        '
+  recorded_at: Thu, 11 Jan 2024 09:50:21 GMT
+recorded_with: VCR 6.0.0
