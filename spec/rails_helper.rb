@@ -77,21 +77,35 @@ RSpec.configure do |config|
   config.include Auth, type: :feature
   config.include TomSelect, type: :feature
 
+  default_chrome_options =
+    ::Selenium::WebDriver::Chrome::Options.new(
+      args: [
+        '--window-size=1920,1080',
+      ]
+    )
+
   Capybara.register_driver :headless_chrome do |app|
-    download_path = Rails.root + 'tmp/capybara/downloads'
-    options = ::Selenium::WebDriver::Chrome::Options.new
-    options.add_preference(:download, prompt_for_download: false, directory_upgrade: true, default_directory: download_path)
-    options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
-    options.add_preference(:safebrowsing, enabled: false, disable_download_protection: true )
+    options = default_chrome_options
+
     options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--window-size=1920,1080')
+
+    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+    driver
+  end
+
+  Capybara.register_driver :chrome do |app|
+    options = default_chrome_options
+
+    # See logs in devtools,
+    options.add_option('goog:loggingPrefs', { browser: 'ALL' })
+    options.add_argument('--auto-open-devtools-for-tabs')
+
     driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
     driver
   end
 
   Capybara.default_max_wait_time = 10
-  Capybara.javascript_driver = :headless_chrome
+  Capybara.javascript_driver = :headless_chrome # Headless is default, only switch to :chrome if you need to debug a test
   Capybara.server = :puma, { Silent: true }
 
 
