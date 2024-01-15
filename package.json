@@ -19,7 +19,6 @@
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl": "^2.4.1",
     "postcss": "^7",
-    "stimulus": "^2.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "tom-select": "^2.0.0",
     "trix": "^1.2.0",
