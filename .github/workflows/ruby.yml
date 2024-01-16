@@ -33,7 +33,7 @@ jobs:
 
     env:
       RAILS_ENV: test
-      GEMFILE_RUBY_VERSION: 3.0.3
+      GEMFILE_RUBY_VERSION: 3.3.0
       PGHOST: localhost
       PGUSER: postgres
       # Rails verifies the time zone in DB is the same as the time zone of the Rails app
