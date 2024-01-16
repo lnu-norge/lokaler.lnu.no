@@ -10,14 +10,14 @@ class SpaceGroupsController < BaseControllers::AuthenticateController
     @space_group = SpaceGroup.find(params[:id])
   end
 
+  def edit
+    @space_group = SpaceGroup.find(params[:id])
+  end
+
   def create
     @space_group = SpaceGroup.create!(space_group_params)
 
     redirect_to space_groups_path
-  end
-
-  def edit
-    @space_group = SpaceGroup.find(params[:id])
   end
 
   def update

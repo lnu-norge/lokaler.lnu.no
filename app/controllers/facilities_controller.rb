@@ -10,14 +10,14 @@ class FacilitiesController < BaseControllers::AuthenticateController
     @facility = Facility.find(params[:id])
   end
 
+  def edit
+    @facility = Facility.find(params[:id])
+  end
+
   def create
     @facility = Facility.create!(facility_params)
 
     redirect_to facilities_path
-  end
-
-  def edit
-    @facility = Facility.find(params[:id])
   end
 
   def update

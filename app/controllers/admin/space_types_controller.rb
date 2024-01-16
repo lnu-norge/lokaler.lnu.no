@@ -14,6 +14,8 @@ module Admin
       @space_type = SpaceType.new
     end
 
+    def edit; end
+
     def create
       @space_type = SpaceType.new(space_type_params)
       if @space_type.save
@@ -22,8 +24,6 @@ module Admin
         render :new
       end
     end
-
-    def edit; end
 
     def update
       if @space_type.update(space_type_params)

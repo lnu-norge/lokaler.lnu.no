@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "User views homepage", js: true do
+describe "User views homepage", :js do
   let!(:space1) do
     Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.603,
                       space_types: [Fabricate(:space_type, type_name: "Type1")])
@@ -44,7 +44,7 @@ describe "User views homepage", js: true do
       # We must wait because find will find the element but it may not be in correct order yet..
       sleep(0.3)
 
-      expect(find("#space-listing").first("h3").text).to eq(space1.title)
+      expect(find_by_id("space-listing").first("h3").text).to eq(space1.title)
 
       uncheck(facility1.title)
       check(facility2.title)
@@ -52,20 +52,20 @@ describe "User views homepage", js: true do
       # We must wait because find will find the element but it may not be in correct order yet..
       sleep(0.3)
 
-      expect(find("#space-listing").first("h3").text).to eq(space2.title)
+      expect(find_by_id("space-listing").first("h3").text).to eq(space2.title)
 
       uncheck(facility1.title)
       uncheck(facility2.title)
 
       check(space1.space_types.first.type_name)
 
-      expect(page).not_to have_content(space2.title)
+      expect(page).to have_no_content(space2.title)
 
       uncheck(space1.space_types.first.type_name)
 
       check(space2.space_types.first.type_name)
 
-      expect(page).not_to have_content(space1.title)
+      expect(page).to have_no_content(space1.title)
     end
   end
 end
