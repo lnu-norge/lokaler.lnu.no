@@ -88,10 +88,10 @@ That should be it.
 1. Follow the instructions in this guide: https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-macos
 > IMPORTANT- for  STEP 2
 > When prompted to run the command: rbenv install 2.6.3
-> Use the command: rbenv install 3.0.3
+> Use the command: rbenv install 3.3.0
 >
 > After that it asks you to run: rbenv global 2.6.3
-> Run: rbenv global 3.0.3 instead
+> Run: rbenv global 3.3.0 instead
 >
 > This is the version of Ruby we are using.
 
