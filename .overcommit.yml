@@ -19,6 +19,9 @@ verify_signatures: false
 
 PreCommit:
   ALL:
+    exclude: &default_excludes
+      - 'node_modules/**/*'
+      - '.yarn/**/*'
     problem_on_unmodified_line: warn
 
   RuboCop:
