@@ -19,7 +19,7 @@ RSpec.describe Spaces::AggregateStarRatingService do
     Fabricate(:review, space: space, star_rating: 5)
     space.reviews.destroy_all
 
-    expect(space.reload.star_rating).to eq(nil)
+    expect(space.reload.star_rating).to be_nil
   end
 
   it "Rating can be calculated even if there are reviews with nil stars" do

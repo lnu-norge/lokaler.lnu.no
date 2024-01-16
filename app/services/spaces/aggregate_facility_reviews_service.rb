@@ -4,7 +4,7 @@ module Spaces
   class AggregateFacilityReviewsService < ApplicationService
     def initialize(space:, facilities: [])
       @space = Space.includes(:space_facilities, space_types: :facilities, facility_reviews: :facility).find(space.id)
-      @facilities = facilities.any? ? facilities : Facility.all.order(:created_at)
+      @facilities = facilities.any? ? facilities : Facility.order(:created_at)
 
       super()
     end

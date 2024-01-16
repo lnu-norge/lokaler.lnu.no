@@ -38,7 +38,7 @@ module SpacesHelper
   # Can also be combined with HTML attributes for the iamge tag
   # static_map_of @space, zoom: 4, class: "p-4"
   def static_map_of(space, zoom: 12, height: 250, width: 400, **html_options)
-    unless space.address&.present?
+    if space.address.blank?
       return static_map_placeholder(height: height, width: width,
                                     html_options: html_options)
     end

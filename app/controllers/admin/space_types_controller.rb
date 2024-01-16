@@ -5,7 +5,7 @@ module Admin
     before_action :set_space_type, except: [:index, :new, :create]
 
     def index
-      @space_types = SpaceType.all.order(:type_name)
+      @space_types = SpaceType.order(:type_name)
     end
 
     def show; end
