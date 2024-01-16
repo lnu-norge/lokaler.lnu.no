@@ -19,7 +19,7 @@ gem "webpacker", "~> 5.0"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.7"
 # Use Redis adapter to run Action Cable in production
-gem "redis", "~> 4.0"
+gem "redis", "~> 5.0"
 # Use Active Model has_secure_password
 # gem "bcrypt", "~> 3.1.7"
 
@@ -52,9 +52,9 @@ group :development do
   gem "guard"
   gem "guard-livereload", require: false
   gem "guard-rspec", require: false
-  gem "listen", "~> 3.3"
+  gem "listen"
   gem "overcommit"
-  gem "rack-mini-profiler", "~> 2.0"
+  gem "rack-mini-profiler"
   gem "rails-erd"
   gem "rails_real_favicon"
   gem "rubocop", require: false
@@ -78,14 +78,13 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "devise", "~> 4.8"
 gem "omniauth"
 gem "omniauth-google-oauth2"
-gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem "omniauth-rails_csrf_protection"
 
 gem "activerecord-import"
 gem "addressable"
 gem "diffy"
 gem "gravtastic"
-gem "high_voltage", "~> 3.1"
-gem "hotwire-rails"
+gem "high_voltage"
 gem "http"
 gem "inline_svg"
 gem "kaminari"
@@ -95,5 +94,7 @@ gem "rails-i18n"
 gem "sendgrid-ruby"
 gem "simple_form"
 gem "simple_form-tailwind"
-gem "tailwindcss-rails-webpacker", "~> 0.1.2"
+gem "stimulus-rails"
+gem "tailwindcss-rails-webpacker"
+gem "turbo-rails"
 gem "validate_url"
