@@ -141,7 +141,7 @@ describe "User manages homepage", :js do
       click_button "Lagre"
 
       expect(page).to have_text(space.title)
-      expect(space.reload.space_group).to eq(nil)
+      expect(space.reload.space_group).to be_nil
     end
   end
 end

@@ -2,7 +2,7 @@
 
 class SpacesController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
   def index
-    @spaces = Space.all.order updated_at: :desc
+    @spaces = Space.order updated_at: :desc
     @space = Space.new
   end
 
