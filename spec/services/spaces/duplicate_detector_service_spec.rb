@@ -37,7 +37,7 @@ RSpec.describe Spaces::DuplicateDetectorService, type: :request do
 
   it "finds no duplicates if there are none" do
     new_space = Space.new(title: "Does not exist", post_number: space.post_number)
-    expect(new_space.potential_duplicates).to eq(nil)
+    expect(new_space.potential_duplicates).to be_nil
   end
 
   it "finds potential duplicate based on partial match of title" do
@@ -52,7 +52,7 @@ RSpec.describe Spaces::DuplicateDetectorService, type: :request do
       post_number: "1636",
       post_address: "Gamle Fredrikstad"
     )
-    expect(new_space.potential_duplicates).to eq(nil)
+    expect(new_space.potential_duplicates).to be_nil
   end
 
   it "finds a match if title, post number and post address matches, but not street address" do

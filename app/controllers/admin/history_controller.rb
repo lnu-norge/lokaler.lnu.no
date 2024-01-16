@@ -16,7 +16,7 @@ module Admin
     end
 
     def index
-      paginate_array(PaperTrail::Version.all.includes(:item).order(created_at: :desc))
+      paginate_array(PaperTrail::Version.includes(:item).order(created_at: :desc))
     end
 
     def show

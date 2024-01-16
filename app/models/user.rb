@@ -15,8 +15,8 @@ class User < ApplicationRecord
   has_many :facility_reviews, dependent: :restrict_with_exception
 
   def name
-    return first_name unless last_name&.present?
-    return last_name unless first_name&.present?
+    return first_name if last_name.blank?
+    return last_name if first_name.blank?
 
     "#{first_name} #{last_name[0]&.upcase}."
   end

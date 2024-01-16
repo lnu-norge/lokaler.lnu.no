@@ -3,10 +3,10 @@
   "private": true,
   "engines": {
     "node": "14.21.2",
-    "yarn": "1.22.19"
+    "yarn": "1.22.21"
   },
   "dependencies": {
-    "@hotwired/stimulus": "^3.0.0-beta.2",
+    "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^7.0.0-rc.4",
     "@rails/actioncable": "^6.0.0",
     "@rails/actiontext": "^6.1.4-1",
@@ -19,7 +19,6 @@
     "mapbox": "^1.0.0-beta10",
     "mapbox-gl": "^2.4.1",
     "postcss": "^7",
-    "stimulus": "^2.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "tom-select": "^2.0.0",
     "trix": "^1.2.0",

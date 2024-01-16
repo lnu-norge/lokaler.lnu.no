@@ -288,6 +288,11 @@ nb:
     index: "Fasiliteter"
   space_types:
     index: "Space type"
+    updated: 'Space type oppdatert'
+    deleted: 'Space type slettet'
+    not_deleted: 'Space type kunne ikke bli slettet!'
+    created: 'Space type lagret'
+
   session:
     my_content: "Mitt innhold"
     my_experiences: "Mine erfaringer"

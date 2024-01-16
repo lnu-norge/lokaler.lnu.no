@@ -2,7 +2,7 @@
 
 class SpacesController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
   def index
-    @spaces = Space.all.order updated_at: :desc
+    @spaces = Space.order updated_at: :desc
     @space = Space.new
   end
 
@@ -14,6 +14,10 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
 
   def new
     @space = Space.new
+  end
+
+  def edit
+    @space = Space.find(params[:id])
   end
 
   def create # rubocop:disable Metrics/AbcSize
@@ -45,10 +49,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
 
     render json: { **address, map_image_html: helpers.static_map_of_lat_lng(lat: address[:lat], lng: address[:lng]) }
-  end
-
-  def edit
-    @space = Space.find(params[:id])
   end
 
   def edit_field
