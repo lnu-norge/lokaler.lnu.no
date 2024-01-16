@@ -3,7 +3,7 @@
   "private": true,
   "engines": {
     "node": "14.21.2",
-    "yarn": "1.22.19"
+    "yarn": "1.22.21"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
