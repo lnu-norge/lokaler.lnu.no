@@ -38,7 +38,7 @@ module SpacesHelper
   # Can also be combined with HTML attributes for the iamge tag
   # static_map_of @space, zoom: 4, class: "p-4"
   def static_map_of(space, zoom: 12, height: 250, width: 400, **html_options)
-    unless space.address&.present?
+    if space.address.blank?
       return static_map_placeholder(height: height, width: width,
                                     html_options: html_options)
     end
@@ -64,7 +64,7 @@ module SpacesHelper
       "/#{width}x#{height}", # Size of map
       "?logo=false", # Hide mapbox logo
       "&@2x", # Render at 2x for retina
-      "&access_token=#{ENV['MAPBOX_API_KEY']}"
+      "&access_token=#{ENV.fetch('MAPBOX_API_KEY', nil)}"
     ].join
     image_tag static_map_image_url, html_options
   end

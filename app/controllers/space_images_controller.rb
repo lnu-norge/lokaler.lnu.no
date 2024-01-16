@@ -5,6 +5,13 @@ class SpaceImagesController < BaseControllers::AuthenticateController
 
   def show; end
 
+  def update
+    @image = @space.images.find(params[:image_id])
+    @image.update(image_params)
+    flash[:notice] = t("images.update_success")
+    redirect_to space_image_path(@space)
+  end
+
   def destroy
     @space.images.find(params[:image]).destroy!
     flash[:notice] = t("images.delete_success")
@@ -17,13 +24,6 @@ class SpaceImagesController < BaseControllers::AuthenticateController
     end
     flash[:notice] = t("images.upload_success")
     redirect_to space_path(params[:id])
-  end
-
-  def update
-    @image = @space.images.find(params[:image_id])
-    @image.update(image_params)
-    flash[:notice] = t("images.update_success")
-    redirect_to space_image_path(@space)
   end
 
   private

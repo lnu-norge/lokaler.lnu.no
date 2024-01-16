@@ -63,7 +63,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     # Eventually this method will take some search parameters
     # but currently we just use the all the spaces in the db
-    Space.all.find_each do |space|
+    Space.find_each do |space|
       next unless space.lat.present? && space.lng.present?
 
       south_west_lat = space.lat if space.lat < south_west_lat

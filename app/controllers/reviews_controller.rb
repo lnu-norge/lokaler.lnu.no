@@ -11,17 +11,6 @@ class ReviewsController < BaseControllers::AuthenticateController # rubocop:disa
 
   def show; end
 
-  def create
-    params = parse_before_create review_params
-    @review = Review.new(params)
-    @space = @review.space
-    if @review.save
-      create_success
-    else
-      create_error
-    end
-  end
-
   def new
     return if defined? @review
 
@@ -32,6 +21,17 @@ class ReviewsController < BaseControllers::AuthenticateController # rubocop:disa
   end
 
   def edit; end
+
+  def create
+    params = parse_before_create review_params
+    @review = Review.new(params)
+    @space = @review.space
+    if @review.save
+      create_success
+    else
+      create_error
+    end
+  end
 
   def update
     params = parse_before_update review_params, @review
