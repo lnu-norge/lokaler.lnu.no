@@ -10,24 +10,24 @@ RSpec.describe Space, type: :model do
   describe "filter on factilites" do
     subject(:filter_subject) { described_class.filter_on_facilities(described_class.all, facilities) }
 
-    let(:space1) { Fabricate(:space) }
-    let(:space2) { Fabricate(:space) }
+    let(:space_without_toilet) { Fabricate(:space) }
+    let(:space_with_toilet) { Fabricate(:space) }
     let(:kitchen) { Fabricate(:facility, title: "kitchen") }
     let(:toilet) { Fabricate(:facility, title: "toilet") }
     let(:shower) { Fabricate(:facility, title: "shower") }
 
     before do
-      Fabricate(:facility_review, space: space1, facility: kitchen)
-      Fabricate(:facility_review, space: space1, facility: shower)
-      Fabricate(:facility_review, space: space1, facility: toilet,
+      Fabricate(:facility_review, space: space_without_toilet, facility: kitchen)
+      Fabricate(:facility_review, space: space_without_toilet, facility: shower)
+      Fabricate(:facility_review, space: space_without_toilet, facility: toilet,
                                   experience: :was_not_available)
 
-      Fabricate(:facility_review, space: space2, facility: kitchen)
-      Fabricate(:facility_review, space: space2, facility: shower)
-      Fabricate(:facility_review, space: space2, facility: toilet)
+      Fabricate(:facility_review, space: space_with_toilet, facility: kitchen)
+      Fabricate(:facility_review, space: space_with_toilet, facility: shower)
+      Fabricate(:facility_review, space: space_with_toilet, facility: toilet)
 
-      space1.aggregate_facility_reviews
-      space2.aggregate_facility_reviews
+      space_without_toilet.aggregate_facility_reviews
+      space_with_toilet.aggregate_facility_reviews
     end
 
     context "with kitchen" do
@@ -54,7 +54,7 @@ RSpec.describe Space, type: :model do
       end
 
       it "with correct order" do
-        expect(filter_subject.first).to eq(space2)
+        expect(filter_subject.first).to eq(space_with_toilet)
       end
     end
   end
