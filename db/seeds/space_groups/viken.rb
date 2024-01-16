@@ -24,9 +24,9 @@ def create_viken # rubocop:disable Metrics/MethodLength
 
   SpaceGroup.create(
     title: "Videregående skoler i Viken",
-    how_to_book: how_to_book,
-    pricing: pricing,
-    terms: terms,
-    who_can_use: who_can_use
+    how_to_book:,
+    pricing:,
+    terms:,
+    who_can_use:
   )
 end

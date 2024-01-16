@@ -19,35 +19,35 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
 
   Review.create(
     title: "Ryddig og hyggelig skole!",
-    user: user,
+    user:,
     price: 5400,
     comment: positive_review_comment,
     star_rating: 4,
     type_of_contact: :been_there,
-    space: space
+    space:
   )
   FacilityReview.create(
     facility: Facility.first,
-    space: space,
-    user: user,
+    space:,
+    user:,
     experience: :was_allowed
   )
   FacilityReview.create(
     facility: Facility.all[6],
-    space: space,
-    user: user,
+    space:,
+    user:,
     experience: :was_allowed
   )
   FacilityReview.create(
     facility: Facility.all[2],
-    space: space,
-    user: user,
+    space:,
+    user:,
     experience: :was_allowed
   )
   FacilityReview.create(
     facility: Facility.all[5],
-    space: space,
-    user: user,
+    space:,
+    user:,
     experience: :was_not_allowed
   )
 
@@ -70,12 +70,12 @@ Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!"
     user: negative_user,
     comment: negative_review_comment,
     star_rating: nil,
-    space: space,
+    space:,
     type_of_contact: :not_allowed_to_use
   )
   FacilityReview.create(
     facility: Facility.first,
-    space: space,
+    space:,
     user: negative_user,
     experience: :was_not_allowed
   )

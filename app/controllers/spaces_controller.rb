@@ -111,13 +111,13 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     render json: {
       listing: render_to_string(
         partial: "spaces/index/space_listings", locals: {
-          spaces: spaces,
+          spaces:,
           filtered_facilities: Facility.find(facility_ids),
-          space_count: space_count,
+          space_count:,
           page_size: SPACE_SEARCH_PAGE_SIZE
         }
       ),
-      markers: markers
+      markers:
     }
   end
 

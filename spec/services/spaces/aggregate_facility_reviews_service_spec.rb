@@ -9,7 +9,7 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
   let(:facility) { Fabricate(:facility, facility_categories: [facility_category], space_types: [space_type]) }
 
   def experience(experience, other_facility = nil)
-    Fabricate(:facility_review, space: space, experience: experience, facility: other_facility || facility)
+    Fabricate(:facility_review, space:, experience:, facility: other_facility || facility)
     space.reload.aggregate_facility_reviews
   end
 

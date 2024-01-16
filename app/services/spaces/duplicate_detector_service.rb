@@ -42,8 +42,8 @@ module Spaces
       Space.where(
         "title ILIKE ?", "%#{title}%"
       ).where({
-                address: address,
-                post_number: post_number
+                address:,
+                post_number:
               })
     end
 
@@ -53,7 +53,7 @@ module Spaces
       Space.where(
         "title ILIKE ?", "%#{title}%"
       ).where({
-                post_number: post_number
+                post_number:
               })
     end
 
@@ -61,8 +61,8 @@ module Spaces
       return nil unless address.present? && post_number.present?
 
       Space.where({
-                    address: address,
-                    post_number: post_number
+                    address:,
+                    post_number:
                   })
     end
   end

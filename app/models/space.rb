@@ -15,10 +15,10 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids).distinct }
   scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
-          north_west_lat: north_west_lat,
-          north_west_lng: north_west_lng,
-          south_east_lat: south_east_lat,
-          south_east_lng: south_east_lng)
+          north_west_lat:,
+          north_west_lng:,
+          south_east_lat:,
+          south_east_lng:)
   }
 
   has_many :space_types_relations, dependent: :destroy
@@ -47,11 +47,11 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def reviews_for_facility(facility)
-    space_facilities.find_by(facility: facility).experience
+    space_facilities.find_by(facility:).experience
   end
 
   def relevance_of_facility(facility)
-    space_facilities.find_by(facility: facility).relevant
+    space_facilities.find_by(facility:).relevant
   end
 
   def self.rect_of_spaces
@@ -77,7 +77,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def aggregate_facility_reviews(facilities: [])
-    Spaces::AggregateFacilityReviewsService.call(space: self, facilities: facilities)
+    Spaces::AggregateFacilityReviewsService.call(space: self, facilities:)
   end
 
   def aggregate_star_rating
@@ -86,8 +86,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def self.search_for_address(address:, post_number:)
     results = Spaces::LocationSearchService.call(
-      address: address,
-      post_number: post_number
+      address:,
+      post_number:
     )
 
     full_information = post_number&.length == 4 && address.present? && results.present?
@@ -233,7 +233,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def render_map_marker
     html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self }
-    { lat: lat, lng: lng, id: id, html: html }
+    { lat:, lng:, id:, html: }
   end
 
   def space_types_joined

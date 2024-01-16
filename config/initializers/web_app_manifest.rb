@@ -16,5 +16,5 @@ Rails.application.config.assets.configure do |env|
     env.register_preprocessor(mime_type, Sprockets::ERBProcessor)
   end
 
-  env.register_mime_type(mime_type, extensions: extensions)
+  env.register_mime_type(mime_type, extensions:)
 end

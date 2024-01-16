@@ -113,7 +113,7 @@ describe "User manages homepage", :js do
 
   it "user deletes space_contact" do
     login_and_logout_with_warden do
-      space_contact = Fabricate(:space_contact, space: space)
+      space_contact = Fabricate(:space_contact, space:)
 
       visit space_path(id: space.id)
       click_on "edit_space_contact_#{space_contact.id}"

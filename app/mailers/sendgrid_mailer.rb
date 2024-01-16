@@ -19,7 +19,7 @@ class SendgridMailer
       from: {
         email: ENV.fetch("SENDGRID_FROM_EMAIL", nil)
       },
-      template_id: template_id
+      template_id:
     }
     sg = SendGrid::API.new(api_key: ENV.fetch("SENDGRID_API_KEY", nil))
     response = sg.client.mail._("send").post(request_body: data)

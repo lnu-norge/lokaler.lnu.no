@@ -46,11 +46,11 @@ frederikii_space = Space.create(
   organization_number: "974544466",
   municipality_code: "3004",
   star_rating: nil,
-  how_to_book: how_to_book,
-  who_can_use: who_can_use,
-  pricing: pricing,
-  terms: terms,
-  more_info: more_info
+  how_to_book:,
+  who_can_use:,
+  pricing:,
+  terms:,
+  more_info:
 )
 
 require_relative "../reviews/reviews"
@@ -69,10 +69,10 @@ def attach_image(space, path, caption, credit)
   file = File.open(path)
   img = Image.create!(
     space_id: space.id,
-    caption: caption,
+    caption:,
     credits: credit
   )
-  img.image.attach io: file, filename: filename, content_type: "image/jpg"
+  img.image.attach io: file, filename:, content_type: "image/jpg"
 end
 
 ## Attach some sample images

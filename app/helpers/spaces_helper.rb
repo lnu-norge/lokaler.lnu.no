@@ -2,15 +2,15 @@
 
 module SpacesHelper
   def edit_field(partial, form)
-    render partial: "spaces/edit/#{partial}", locals: { form: form }
+    render partial: "spaces/edit/#{partial}", locals: { form: }
   end
 
   def inline_editable(field, title_tag = :h2, title_text = Space.human_attribute_name(field), &block)
     render partial: "spaces/edit/common/editable_inline", locals: {
-      field: field,
-      title_tag: title_tag,
-      title_text: title_text,
-      block: block
+      field:,
+      title_tag:,
+      title_text:,
+      block:
     }
   end
 
@@ -21,8 +21,8 @@ module SpacesHelper
     field_in_space_group = (group.public_send(field) if group.respond_to?(field) && group.public_send(field).present?)
 
     render partial: "spaces/show/common/render_space_and_group_field", locals: {
-      field_in_space: field_in_space,
-      field_in_space_group: field_in_space_group
+      field_in_space:,
+      field_in_space_group:
     }
   end
 
@@ -39,22 +39,22 @@ module SpacesHelper
   # static_map_of @space, zoom: 4, class: "p-4"
   def static_map_of(space, zoom: 12, height: 250, width: 400, **html_options)
     if space.address.blank?
-      return static_map_placeholder(height: height, width: width,
-                                    html_options: html_options)
+      return static_map_placeholder(height:, width:,
+                                    html_options:)
     end
 
     static_map_of_lat_lng(
       lat: space.lat,
       lng: space.lng,
-      zoom: zoom,
-      height: height,
-      width: width,
-      html_options: html_options
+      zoom:,
+      height:,
+      width:,
+      html_options:
     )
   end
 
   def static_map_of_lat_lng(lat:, lng:, zoom: 12, height: 250, width: 400, **html_options) # rubocop:disable Metrics/ParameterLists
-    return static_map_did_not_find(height: height, width: width, html_options: html_options) if lat.nil? || lng.nil?
+    return static_map_did_not_find(height:, width:, html_options:) if lat.nil? || lng.nil?
 
     color_of_pin = "db2777" # Tailwind pink-600
     static_map_image_url = [

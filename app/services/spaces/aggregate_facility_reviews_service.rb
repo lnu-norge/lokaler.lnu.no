@@ -26,9 +26,9 @@ module Spaces
     end
 
     def aggregate_reviews(facility) # rubocop:disable Metrics/AbcSize
-      space_facility = SpaceFacility.create(space: @space, facility: facility)
+      space_facility = SpaceFacility.create(space: @space, facility:)
 
-      reviews = @space.facility_reviews.where(facility: facility).order(created_at: :desc).limit(5)
+      reviews = @space.facility_reviews.where(facility:).order(created_at: :desc).limit(5)
       count = reviews.count
 
       belongs_to_space_type = facility_belongs_to_space_type(facility)
