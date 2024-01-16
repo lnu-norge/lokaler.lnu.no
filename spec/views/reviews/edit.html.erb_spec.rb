@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "reviews/edit", type: :request do
   let(:user) { Fabricate :user }
-  let(:review) { Fabricate :review, user: user }
+  let(:review) { Fabricate :review, user: }
 
   it "renders the page" do
     sign_in(user)

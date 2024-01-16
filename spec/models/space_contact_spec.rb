@@ -26,8 +26,8 @@ RSpec.describe SpaceContact, type: :model do
     let(:title) { "new title" }
 
     it "can update a spaceContact for a space" do
-      space_contact.update(title: title)
-      expect(described_class.find_by(title: title)).to eq(space_contact)
+      space_contact.update(title:)
+      expect(described_class.find_by(title:)).to eq(space_contact)
     end
   end
 

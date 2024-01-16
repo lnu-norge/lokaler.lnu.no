@@ -37,7 +37,7 @@ RSpec.describe Review, type: :model do
       price: nil,
       star_rating: nil,
       title: nil,
-      comment: comment
+      comment:
     )
 
     expect(review.space).to be_truthy
@@ -51,7 +51,7 @@ RSpec.describe Review, type: :model do
 
   it "sets stars for a Space when adding and removing a review" do
     space = Fabricate(:space)
-    review = Fabricate(:review, space: space)
+    review = Fabricate(:review, space:)
 
     expect(space.star_rating).to eq(review.star_rating)
 
@@ -65,8 +65,8 @@ RSpec.describe Review, type: :model do
     facility = Fabricate(:facility)
     facility_review = Fabricate(
       :facility_review,
-      facility: facility,
-      space: space,
+      facility:,
+      space:,
       experience: :was_not_allowed
     )
 
@@ -93,9 +93,9 @@ RSpec.describe Review, type: :model do
 
     Fabricate(
       :facility_review,
-      facility: facility,
-      space: space,
-      user: user,
+      facility:,
+      space:,
+      user:,
       experience: :was_not_allowed
     )
     expect(space.facility_reviews.count).to eq(1)
@@ -104,9 +104,9 @@ RSpec.describe Review, type: :model do
     expect do
       Fabricate(
         :facility_review,
-        facility: facility,
-        space: space,
-        user: user,
+        facility:,
+        space:,
+        user:,
         experience: :was_not_allowed
       )
     end.to raise_error(ActiveRecord::RecordInvalid)

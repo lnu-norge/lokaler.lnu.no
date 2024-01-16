@@ -23,17 +23,17 @@ class User < ApplicationRecord
 
   def new_facility_review_for(facility_id, space)
     FacilityReview.new(
-      space: space,
-      facility_id: facility_id,
+      space:,
+      facility_id:,
       user: self
     )
   end
 
   def self.from_google(email:, first_name:, last_name:)
-    create_with(first_name: first_name,
-                last_name: last_name,
+    create_with(first_name:,
+                last_name:,
                 password: SecureRandom.base64(13))
-      .find_or_create_by!(email: email)
+      .find_or_create_by!(email:)
   end
 end
 

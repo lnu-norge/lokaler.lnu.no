@@ -4,15 +4,15 @@ require "rails_helper"
 
 RSpec.describe Review, type: :request do
   let(:user) { Fabricate(:user) }
-  let(:review) { Fabricate(:review, user: user) }
+  let(:review) { Fabricate(:review, user:) }
   let(:space) { review.space }
   let(:facility) { Fabricate(:facility) }
   let(:facility_review) do
     Fabricate(
       :facility_review,
-      space: space,
-      user: user,
-      facility: facility,
+      space:,
+      user:,
+      facility:,
       experience: :was_not_allowed
     )
   end
@@ -33,7 +33,7 @@ RSpec.describe Review, type: :request do
     expect(space.reviews.count).to eq(1)
     post reviews_path, params: {
       review: {
-        title: title,
+        title:,
         type_of_contact: :not_allowed_to_use,
         space_id: space.id
       }

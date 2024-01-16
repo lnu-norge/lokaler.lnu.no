@@ -20,7 +20,7 @@ class SpaceImagesController < BaseControllers::AuthenticateController
 
   def upload_image
     params["image"].each do |image|
-      Image.create!(space: @space, image: image)
+      Image.create!(space: @space, image:)
     end
     flash[:notice] = t("images.upload_success")
     redirect_to space_path(params[:id])
