@@ -16,6 +16,10 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     @space = Space.new
   end
 
+  def edit
+    @space = Space.find(params[:id])
+  end
+
   def create # rubocop:disable Metrics/AbcSize
     address_params = get_address_params(params)
     return redirect_to spaces_path, alert: t("address_search.didnt_find") if address_params.nil?
@@ -45,10 +49,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
 
     render json: { **address, map_image_html: helpers.static_map_of_lat_lng(lat: address[:lat], lng: address[:lng]) }
-  end
-
-  def edit
-    @space = Space.find(params[:id])
   end
 
   def edit_field

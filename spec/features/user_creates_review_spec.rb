@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "User creates review", js: true do
+describe "User creates review", :js do
   let!(:space) do
     Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.603)
   end

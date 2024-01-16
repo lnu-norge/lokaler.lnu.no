@@ -64,7 +64,7 @@ module SpacesHelper
       "/#{width}x#{height}", # Size of map
       "?logo=false", # Hide mapbox logo
       "&@2x", # Render at 2x for retina
-      "&access_token=#{ENV['MAPBOX_API_KEY']}"
+      "&access_token=#{ENV.fetch('MAPBOX_API_KEY', nil)}"
     ].join
     image_tag static_map_image_url, html_options
   end

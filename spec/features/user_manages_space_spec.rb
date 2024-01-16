@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "User manages homepage", js: true do
+describe "User manages homepage", :js do
   let!(:space_type) { Fabricate(:space_type) }
   let!(:space_group) { Fabricate(:space_group) }
   let!(:space) { Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien") }
@@ -122,7 +122,7 @@ describe "User manages homepage", js: true do
         click_link I18n.t("space_contacts.delete")
       end
 
-      expect(page).not_to have_text(space_contact.title)
+      expect(page).to have_no_text(space_contact.title)
     end
   end
 
