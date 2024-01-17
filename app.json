@@ -1,6 +1,6 @@
 {
   "name": "lnu-lokaler",
-  "stack": "heroku-20",
+  "stack": "heroku-22",
   "scripts": {
     "postdeploy": "rails db:schema:load db:seed"
   },
