@@ -56,5 +56,11 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     get "session", to: "devise/sessions#edit", as: "edit_session"
   end
 
+  if Rails.env.development?
+    redirector = ->(params, _) { ApplicationController.helpers.asset_path("#{params[:name].split('-').first}.map") }
+    constraint = ->(request) { request.path.ends_with?(".map") }
+    get "assets/*name", to: redirect(redirector), constraints: constraint
+  end
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

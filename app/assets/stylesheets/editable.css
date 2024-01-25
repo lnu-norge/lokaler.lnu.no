@@ -1,6 +1,8 @@
 .editable-header-type-h1 {
   .edit-button {
-    // Adjust slightly up for h1s
+    /*
+     Adjust slightly up for h1s
+     */
     transform: translateY(-3px);
   }
 }
