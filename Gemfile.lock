@@ -124,6 +124,8 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    cssbundling-rails (1.3.3)
+      railties (>= 6.0.0)
     date (3.3.4)
     devise (4.9.3)
       bcrypt (~> 3.0)
@@ -209,6 +211,8 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jmespath (1.6.2)
+    jsbundling-rails (1.2.2)
+      railties (>= 6.0.0)
     json (2.7.1)
     jwt (2.7.1)
     kaminari (1.2.2)
@@ -321,8 +325,6 @@ GEM
     rack-mini-profiler (3.3.0)
       rack (>= 1.2.0)
     rack-protection (3.0.6)
-      rack
-    rack-proxy (0.7.7)
       rack
     rack-session (2.0.0)
       rack (>= 3.0.0)
@@ -450,23 +452,12 @@ GEM
     ruby2_keywords (0.0.5)
     ruby_http_client (3.5.5)
     rubyzip (2.3.2)
-    sass-rails (6.0.0)
-      sassc-rails (~> 2.1, >= 2.1.1)
-    sassc (2.4.0)
-      ffi (~> 1.9)
-    sassc-rails (2.1.2)
-      railties (>= 4.0.0)
-      sassc (>= 2.0)
-      sprockets (> 3.0)
-      sprockets-rails
-      tilt
     scout_apm (5.3.5)
       parser
     selenium-webdriver (4.16.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    semantic_range (3.0.0)
     sendgrid-ruby (6.7.0)
       ruby_http_client (~> 3.4)
     shellany (0.0.1)
@@ -492,7 +483,6 @@ GEM
     tailwindcss-rails-webpacker (0.2.1)
       rails (>= 6.0.0)
     thor (1.3.0)
-    tilt (2.3.0)
     timeout (0.4.1)
     turbo-rails (1.5.0)
       actionpack (>= 6.0.0)
@@ -518,11 +508,6 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webpacker (5.4.4)
-      activesupport (>= 5.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 5.2)
-      semantic_range (>= 2.3.0)
     webrick (1.8.1)
     websocket (1.2.10)
     websocket-driver (0.7.6)
@@ -545,6 +530,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   capybara
+  cssbundling-rails (~> 1.3)
   devise (~> 4.8)
   diffy
   dotenv-rails
@@ -560,6 +546,7 @@ DEPENDENCIES
   image_processing
   inline_svg
   jbuilder (~> 2.7)
+  jsbundling-rails (~> 1.2)
   kaminari
   listen
   newrelic_rpm
@@ -583,12 +570,12 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
-  sass-rails (>= 6)
   scout_apm
   selenium-webdriver
   sendgrid-ruby
   simple_form
   simple_form-tailwind
+  sprockets-rails
   stimulus-rails
   tailwindcss-rails-webpacker
   turbo-rails
@@ -597,7 +584,6 @@ DEPENDENCIES
   vcr
   web-console
   webmock
-  webpacker (~> 5.0)
 
 RUBY VERSION
    ruby 3.3.0p0
