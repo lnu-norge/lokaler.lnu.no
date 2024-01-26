@@ -4,8 +4,12 @@
 const path = require('path')
 require('dotenv').config()
 
-console.dir(process.argv)
-console.dir(process.env)
+// Add ENV variables needed for JS here (if you don't inject them from ruby instead)
+const define = {}
+if (process.env.POSTHOG_API_KEY) {
+    define["process.env.POSTHOG_API_KEY"] = JSON.stringify(process.env.POSTHOG_API_KEY)
+}
+
 require("esbuild").context({
     entryPoints: ["application.js"],
     bundle:  process.argv.includes("--bundle"),
@@ -13,10 +17,7 @@ require("esbuild").context({
     outdir: path.join(process.cwd(), "app/assets/builds"),
     absWorkingDir: path.join(process.cwd(), "app/javascript"),
     plugins: [],
-    define: {
-      // Put env variables needed for JS here. They are not included by default by esbuild.
-      "process.env.POSTHOG_API_KEY": JSON.stringify(process.env.POSTHOG_API_KEY)
-    },
+    define,
     minify: process.argv.includes("--minify")
 }).then(context => {
     if (process.argv.includes("--watch")) {
