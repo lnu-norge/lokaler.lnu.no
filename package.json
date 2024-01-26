@@ -33,6 +33,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
     "postcss": "^8.4.33",
+    "postcss-extend-rule": "^4.0.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^16.0.0",
     "postcss-preset-env": "^9.3.0",

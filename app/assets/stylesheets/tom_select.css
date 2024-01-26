@@ -1,4 +1,9 @@
 /**
+
+ * This has been adapted from the original file, and added some specific styling for us.
+
+ * The original file was licensed as such:
+ *
  * tom-select.css (v2.0.0)
  * Copyright (c) contributors
  *
@@ -12,6 +17,10 @@
  * governing permissions and limitations under the License.
  *
  */
+
+.ts-control .items-placeholder {
+  @apply text-sm;
+}
 
 .dropdown {
   .ts-control {
@@ -386,4 +395,3 @@
 .ts-hidden-accessible {
   @apply sr-only;
 }
-/*# sourceMappingURL=tom-select.css.map */
