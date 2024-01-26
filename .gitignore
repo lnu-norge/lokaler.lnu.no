@@ -37,8 +37,6 @@ yarn-debug.log*
 
 # Ignore Rubymine config files
 .idea
-/tailwind.config.js
-!app/**/tailwind.config.js
 
 # Mac ignores:
 .DS_Store
@@ -62,11 +60,3 @@ yarn-debug.log*
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
-/app/assets/builds/*
-!/app/assets/builds/.keep
-
-/app/assets/builds/*
-!/app/assets/builds/.keep
-
-/app/assets/builds/*
-!/app/assets/builds/.keep
