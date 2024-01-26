@@ -51,10 +51,10 @@ group :development do
   gem "foreman"
   gem "guard"
   gem "guard-livereload", require: false
-  gem "rack-livereload", require: false
   gem "guard-rspec", require: false
   gem "listen"
   gem "overcommit"
+  gem "rack-livereload", require: false
   gem "rack-mini-profiler"
   gem "rails-erd"
   gem "rails_real_favicon"
