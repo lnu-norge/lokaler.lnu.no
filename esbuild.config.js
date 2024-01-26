@@ -7,7 +7,7 @@ require('dotenv').config()
 // Add ENV variables needed for JS here (if you don't inject them from ruby instead)
 const define = {}
 if (process.env.POSTHOG_API_KEY) {
-    define["process.env.POSTHOG_API_KEY"] = JSON.stringify(process.env.POSTHOG_API_KEY)
+    define["window.POSTHOG_API_KEY"] = JSON.stringify(process.env.POSTHOG_API_KEY)
 }
 
 require("esbuild").context({
