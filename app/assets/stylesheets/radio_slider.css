@@ -1,5 +1,5 @@
 .radio-slider {
-  @apply overflow-hidden; // To hide the shadow from the buttons
+  @apply overflow-hidden; /* To hide the shadow from the buttons */
   @apply bg-gray-50 border border-gray-200 shadow-inner;
   @apply p-0.5 rounded-xl;
   @apply inline-flex gap-1 items-stretch flex-wrap;
