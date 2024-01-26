@@ -29,12 +29,6 @@ Rails.application.configure do
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
 
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  # NOTE: This is not optimal but we had to enable it for inline_svg
-  # possibly look into a fix for this
-  # ref: https://devcenter.heroku.com/articles/rails-asset-pipeline#compile-set-to-true-in-production
-  config.assets.compile = true
-
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = 'http://assets.example.com'
 
