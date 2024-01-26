@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "active_support/core_ext/integer/time"
+require "rack-livereload"
 
 Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Settings specified here will take precedence over those in config/application.rb.
@@ -81,4 +82,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Allow IP from Docker
   # Check if we use Docker to allow docker ip through web-console
   config.web_console.whitelisted_ips = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"] if ENV["DOCKERIZED"] == "true"
+
+  # Live reload without browser extension:
+  config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
 end
