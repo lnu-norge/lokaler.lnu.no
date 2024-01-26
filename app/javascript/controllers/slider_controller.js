@@ -11,7 +11,6 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("height", this.heightValue)
     const slider = this.sliderTarget
     new Splide(slider, {
       heightRatio: this.coverValue ? 2/3 : false,
