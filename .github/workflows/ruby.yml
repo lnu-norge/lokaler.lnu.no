@@ -51,9 +51,11 @@ jobs:
         with:
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
-      - name: Run Yarn
+      - name: Run Yarn and build js and css
         run: |
           yarn
+          yarn build
+          yarn build:css
 
       - name: Create DB
         run: |
