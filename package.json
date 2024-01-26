@@ -7,8 +7,8 @@
     "yarn": "1.22.21"
   },
   "scripts": {
-    "build": "node esbuild.config.js --bundle --minify --sourcemap",
-    "build:dev": "node esbuild.config.js --bundle --minify --sourcemap --watch",
+    "build": "node esbuild.config.mjs --minify --sourcemap",
+    "build:dev": "node esbuild.config.mjs --minify --sourcemap --watch",
     "build:css": "postcss app/assets/stylesheets/application.css -o ./app/assets/builds/application.css"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "@rails/ujs": "^7.1.2",
     "@splidejs/splide": "^3.6.4",
     "dotenv": "^16.4.1",
+    "esbuild-rails": "^1.0.7",
     "mapbox-gl": "^2.4.1",
     "postcss-cli": "^11.0.0",
     "tom-select": "^2.0.0",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "autoprefixer": "^10.4.17",
+    "core-js": "^3.35.1",
     "esbuild": "^0.19.11",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
