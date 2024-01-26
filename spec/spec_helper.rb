@@ -16,18 +16,10 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-# require 'rake'
-
 RSpec.configure do |config|
   # Set locale, to make sure the tests run correctly:
   config.before(:suite) do
     Faker::Config.locale = "en"
-
-    # Get the latest assets before running tests:
-    # Run yarn build (production version of JS)
-    system("yarn build")
-    # Run yarn build:css
-    system("yarn build:css")
   end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
