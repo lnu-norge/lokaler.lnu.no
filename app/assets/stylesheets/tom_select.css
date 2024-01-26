@@ -1,4 +1,9 @@
 /**
+
+ * This has been adapted from the original file, and added some specific styling for us.
+
+ * The original file was licensed as such:
+ *
  * tom-select.css (v2.0.0)
  * Copyright (c) contributors
  *
@@ -13,6 +18,10 @@
  *
  */
 
+.ts-control .items-placeholder {
+  @apply text-sm;
+}
+
 .dropdown {
   .ts-control {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
@@ -21,7 +30,7 @@
     background-size: 1.5em 1.5em;
     padding-right: 2.5rem;
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+    print-color-adjust: exact;
   }
   &.focus .ts-control {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' transform='rotate(180,0,0)' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
@@ -310,7 +319,7 @@
   @apply px-3 py-2;
 }
 
-// Disabled:
+/* Disabled: */
 .ts-dropdown .option, .ts-dropdown [data-disabled], .ts-dropdown [data-disabled] [data-selectable].option {
   cursor: inherit;
   opacity: 0.5;
@@ -320,7 +329,9 @@
   cursor: pointer;
 }
 
-// TODO: Style dropdown optgroup?
+/*
+ TODO: Style dropdown optgroup?
+ */
 .ts-dropdown .optgroup:first-child .optgroup-header {
   border-top: 0 none;
 }
@@ -344,7 +355,9 @@
   color: rgba(48, 48, 48, 0.5);
 }
 
-// TODO: Style Spinner:
+/*
+ TODO: Style Spinner:
+ */
 .ts-dropdown .spinner {
   display: inline-block;
   width: 30px;
@@ -382,4 +395,3 @@
 .ts-hidden-accessible {
   @apply sr-only;
 }
-/*# sourceMappingURL=tom-select.css.map */

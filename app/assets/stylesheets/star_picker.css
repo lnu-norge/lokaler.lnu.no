@@ -1,10 +1,10 @@
-// Adapted from the code at https://devsday.ru/blog/details/49083
+/* Adapted from the code at https://devsday.ru/blog/details/49083 */
 
 :root{
   --star-rating-size: 3rem;
-  --unchecked-image: url("../../assets/images/star--transparent.svg");
-  --checked-image: url("../../assets/images/star--pink.svg");
-  --hovered-image: url("../../assets/images/star--pink-light.svg");
+  --unchecked-image: url("../images/star--transparent.svg");
+  --checked-image: url("../images/star--pink.svg");
+  --hovered-image: url("../images/star--pink-light.svg");
   --max-stars: 5;
 }
 

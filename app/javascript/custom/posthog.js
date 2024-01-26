@@ -1,4 +1,4 @@
-var POSTHOG_API_KEY = process.env.POSTHOG_API_KEY
+const POSTHOG_API_KEY = window.POSTHOG_API_KEY
 
 // Only initizalize Posthog if the API key is set
 if (POSTHOG_API_KEY) {

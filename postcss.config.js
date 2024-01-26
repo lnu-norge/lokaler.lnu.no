@@ -1,13 +1,12 @@
 module.exports = {
-  plugins: [
-    require('tailwindcss')("./app/javascript/stylesheets/tailwind.config.js"),
-    require('postcss-import'),
-    require('postcss-flexbugs-fixes'),
-    require('postcss-preset-env')({
-      autoprefixer: {
-        flexbox: 'no-2009'
-      },
-      stage: 3
-    })
-  ]
+  plugins: {
+    'postcss-import': {}, // Allows @import on top of css files
+    'tailwindcss/nesting': {}, // Allows scss style nesting, e.g. h2 { xxx .fancy { yyy }  } will compile to h2 { xxx }; h2.fancy { yyy };
+    'postcss-extend-rule': {}, // Allows scss style extending with @extend
+    tailwindcss: {}, // Allows tailwind
+    'postcss-url': {
+      url: 'inline', // Converts all css images to base64
+    },
+    autoprefixer: {}, // Adds vendor prefixes to stuff
+  },
 }

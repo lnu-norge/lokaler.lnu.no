@@ -1,4 +1,6 @@
-// Custom CSS for mapbox map
+/*
+ Custom CSS for mapbox map
+ */
 
 .mapboxgl-marker:hover {
   z-index: 1;

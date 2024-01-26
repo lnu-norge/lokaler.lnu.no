@@ -1,2 +1,3 @@
-webpack: bundle exec bin/webpack-dev-server
+js: yarn build:dev
 guard: bundle exec guard
+css: yarn build:css --watch
