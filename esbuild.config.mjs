@@ -17,9 +17,9 @@ if (process.env.POSTHOG_API_KEY) {
 
 if (process.env.RAILS_ENV !== "production" || process.env.RAILS_ENV !== "test") {
     // If nothing else set, we are probably in dev
-    define["window.ESBUILD_RAILS_ENV"] = JSON.stringify("development")
+    define["window.RAILS_ENV"] = JSON.stringify("development")
 } else {
-    define["window.ESBUILD_RAILS_ENV"] = JSON.stringify(process.env.RAILS_ENV)
+    define["window.RAILS_ENV"] = JSON.stringify(process.env.RAILS_ENV)
 }
 
 esbuild.context({
