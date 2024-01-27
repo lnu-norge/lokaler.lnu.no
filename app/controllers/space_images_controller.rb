@@ -19,9 +19,16 @@ class SpaceImagesController < BaseControllers::AuthenticateController
   end
 
   def upload_image
-    params["image"].each do |image|
-      Image.create!(space: @space, image:)
+    images = params["image"].compact_blank
+    return upload_failed if images.empty?
+
+    # Attempt to upload each image
+    images.each do |image|
+      new_image = Image.new(space: @space, image:)
+
+      return upload_failed unless new_image.save
     end
+
     flash[:notice] = t("images.upload_success")
     redirect_to space_path(params[:id])
   end
@@ -34,5 +41,10 @@ class SpaceImagesController < BaseControllers::AuthenticateController
 
   def set_space
     @space = Space.find(params[:id])
+  end
+
+  def upload_failed
+    flash[:alert] = t("images.upload_failed")
+    redirect_to space_path(params[:id])
   end
 end

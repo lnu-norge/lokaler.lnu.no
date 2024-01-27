@@ -101,6 +101,7 @@ nb:
   images:
     image_missing: "Bilde mangler"
     upload_success: "Bilde lastet opp"
+    upload_failed: "Fikk ikke lastet opp bilde, noe gikk galt"
     upload: "Last opp"
     upload_image: "Last opp bilde"
     edit_images: "Rediger bilder"
