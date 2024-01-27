@@ -8,6 +8,7 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'selenium-webdriver'
 require 'vcr'
+require 'support/test_image/test_image_helper'
 
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -119,4 +120,6 @@ RSpec.configure do |config|
         (uri.host == 'localhost' && uri.port != 3001) # Ignore localhost except on port 3001 which is used for recording KRA API cassettes
     end
   end
+
+  config.include TestImageHelper
 end
