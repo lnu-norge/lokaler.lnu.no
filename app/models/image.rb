@@ -2,6 +2,8 @@
 
 class Image < ApplicationRecord
   has_one_attached :image
+  validate :image_is_attached
+
   belongs_to :space
 
   before_destroy :delete_image
@@ -14,6 +16,10 @@ class Image < ApplicationRecord
 
   def delete_image
     image.purge
+  end
+
+  def image_is_attached
+    errors.add(:image, "must be attached") unless image.attached?
   end
 end
 
