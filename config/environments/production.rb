@@ -5,6 +5,9 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # No need to compile in prod, as all assets are precompiled on deploy:
+  config.assets.compile = false
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
