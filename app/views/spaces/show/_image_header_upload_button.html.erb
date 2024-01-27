@@ -1,7 +1,7 @@
 <%= form_with url: spaces_upload_image_path do |f| %>
   <%= f.hidden_field :id, value: @space.id %>
-  <%= f.file_field :image, accept: 'image/png,image/gif,image/jpeg', multiple: true, class: "hidden", onchange: "this.form.submit()" %>
-  <%= f.label :image, role: "button" do %>
+  <%= f.file_field :images_to_upload, accept: 'image/png,image/gif,image/jpeg', multiple: true, class: "hidden", onchange: "this.form.submit()" %>
+  <%= f.label :images_to_upload, role: "button" do %>
     <div class="edit-button collapsable">
       <span class="text"><%= t('images.upload_image') %></span>
       <%= inline_svg_tag 'camera', class: "text-gray-700", alt: t('images.upload'), title: t('images.upload') %>

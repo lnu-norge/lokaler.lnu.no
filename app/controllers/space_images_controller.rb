@@ -19,8 +19,8 @@ class SpaceImagesController < BaseControllers::AuthenticateController
   end
 
   def upload_image
-    images = params["image"].compact_blank
-    return upload_failed if images.empty?
+    images = params["images_to_upload"]&.compact_blank
+    return upload_failed if images.blank?
 
     # Attempt to upload each image
     images.each do |image|
