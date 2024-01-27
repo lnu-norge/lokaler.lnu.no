@@ -25,7 +25,7 @@ RSpec.describe "SpaceImages", type: :request do
     it "uploads an image and redirects" do
       expect do
         # Rails for some reason adds an empty "" to the start of the array when allowing multiple uploads
-        post spaces_upload_image_path(id: space.id), params: { image: ["", image_file] }
+        post spaces_upload_image_path(id: space.id), params: { images_to_upload: ["", image_file] }
       end.to change(space.images, :count).by(1)
       expect(response).to redirect_to(space_path(space.id))
       follow_redirect!
