@@ -2,7 +2,5 @@
 
 Fabricator(:image) do
   space
-  after_create do |image|
-    image.image.attach(TestImageHelper.image_upload)
-  end
+  image { Rack::Test::UploadedFile.new(TestImageHelper.image_path, TestImageHelper.content_type) }
 end
