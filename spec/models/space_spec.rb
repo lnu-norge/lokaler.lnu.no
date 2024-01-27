@@ -107,4 +107,14 @@ RSpec.describe Space, type: :model do
       expect(space.versions.last.event).to eq("update")
     end
   end
+
+  describe "Image upload" do
+    let(:space) { Fabricate(:space) }
+    let(:image) { Fabricate(:image, space:) }
+
+    it "allows image to be attached" do
+      expect(image.image).to be_attached
+      expect(space.images.count).to eq(1)
+    end
+  end
 end
