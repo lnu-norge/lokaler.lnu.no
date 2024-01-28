@@ -11,6 +11,13 @@ Rails.application.configure do
   # Default host needed for tests:
   routes.default_url_options[:host] = "localhost:3000"
 
+  # Simulate same asset settings as production
+  # This requires us to run yarn build, yarn build:css and rails assets:precompile before running tests
+  # This should be automatically done if you are running specs through parallel_spec or spec in rake
+  config.assets.prefix = "/assets-test"
+  config.assets.compile = false
+  config.serve_static_files = true
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   config.cache_classes = false
