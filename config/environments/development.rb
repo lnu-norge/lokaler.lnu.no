@@ -6,16 +6,16 @@ require "rack-livereload"
 Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # Pass in an env variable ASSETS_COMPILED_LIKE_IN_PROD
-  # to test without assets compiled, like in prod.
-  # You then need to run
-  #   - yarn build
-  #   - yarn build:css
-  #   - rails assets:precompile
-  #   to get the assets ready before booting the app.
+  # Pass in an env variable ASSETS_COMPILED_LIKE_IN_PROD=true
+  # to test with assets precompiled, like in prod.
+  # This will also run the precompilation for you
+  # on first boot. NB: This way, you might have to
+  # manually precompile assets to see changes made
+  # after the app was booted.
   if ENV["ASSETS_COMPILED_LIKE_IN_PROD"].present?
     config.assets.compile = false
     config.serve_static_files = true
+    system("rake precompile_assets_once")
   end
 
   # If we precompile in dev, we want it in it's own folder - not mixed with test or prod assets
