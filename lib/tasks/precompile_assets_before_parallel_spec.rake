@@ -5,9 +5,8 @@ def precompile_assets_before(task_name)
 
   task = Rake::Task[task_name]
 
-  task.enhance(["assets:precompile"])
+  task.enhance(["precompile_assets_once"])
 end
 
-# Enhance both spec and parallel:spec to precompile assets and clobber them after, to simulate prod
-precompile_assets_before "spec"
+# Enhance parallel:spec to precompile assets once, so it won't run per process
 precompile_assets_before "parallel:spec"
