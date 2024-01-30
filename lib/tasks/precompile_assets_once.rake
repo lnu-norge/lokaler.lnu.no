@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-task "precompile_assets_once" => :environment do
+# rubocop:disable Rails/RakeEnvironment
+# Rubocop Rails/RakeEnvironment breaks this function, as it needs to run
+# before the environment is loaded.
+task "precompile_assets_once" do
   next if ENV["TEST_ASSET_PRECOMPILE_DONE"]
 
   p "Compiling assets..."
@@ -11,3 +14,4 @@ task "precompile_assets_once" => :environment do
 
   p "Assets compiled"
 end
+# rubocop:enable Rails/RakeEnvironment
