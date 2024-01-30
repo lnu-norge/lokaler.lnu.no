@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "active_support/core_ext/integer/time"
+require "./config/helpers/specs_depend_on_assets"
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -10,6 +11,23 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Default host needed for tests:
   routes.default_url_options[:host] = "localhost:3000"
+
+  # Simulate same asset settings as production
+  # This requires us to run yarn build, yarn build:css and rails assets:precompile before running tests
+  # This should be automatically done for you.
+  config.assets.prefix = "/assets-test"
+  config.assets.compile = false
+  config.serve_static_files = true
+
+  # Run precompilation before tests are run
+  # But only if we are running tests that depend
+  # on them.
+  #
+  # This is kind of hacky, but ended up in
+  # this file to get precompilation to run before
+  # the app loads and caches assets. It should probably
+  # be somewhere else, but it works!
+  system("rake precompile_assets_once") if specs_depend_on_assets?
 
   # Settings specified here will take precedence over those in config/application.rb.
 
