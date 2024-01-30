@@ -13,10 +13,13 @@ Rails.application.configure do
 
   # Simulate same asset settings as production
   # This requires us to run yarn build, yarn build:css and rails assets:precompile before running tests
-  # This should be automatically done if you are running specs through parallel_spec or spec in rake
+  # This should be automatically done for you.
   config.assets.prefix = "/assets-test"
   config.assets.compile = false
   config.serve_static_files = true
+
+  # Run precompilation before tests are run
+  system("rake precompile_assets_once")
 
   # Settings specified here will take precedence over those in config/application.rb.
 
