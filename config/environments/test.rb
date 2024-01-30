@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "active_support/core_ext/integer/time"
+require "./config/helpers/specs_depend_on_assets"
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -19,7 +20,14 @@ Rails.application.configure do
   config.serve_static_files = true
 
   # Run precompilation before tests are run
-  system("rake precompile_assets_once")
+  # But only if we are running tests that depend
+  # on them.
+  #
+  # This is kind of hacky, but ended up in
+  # this file to get precompilation to run before
+  # the app loads and caches assets. It should probably
+  # be somewhere else, but it works!
+  system("rake precompile_assets_once") if specs_depend_on_assets?
 
   # Settings specified here will take precedence over those in config/application.rb.
 
