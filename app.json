@@ -4,6 +4,14 @@
   "scripts": {
     "postdeploy": "rails db:schema:load db:seed"
   },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/ruby"
+    }
+  ],
   "addons": [
     {
       "plan": "heroku-redis"
