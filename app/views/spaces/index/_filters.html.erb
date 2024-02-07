@@ -1,5 +1,12 @@
-<div data-mapbox-target="searchBox" class="hidden">
-  <div data-controller="modal" class="modal-background" data-modal-target="background">
+<div
+  data-controller="modal"
+  aria-modal="true"
+  data-modal-target="wrapper"
+  data-mapbox-target="searchBox"
+  role="dialog"
+  class="hidden transition-all"
+>
+  <div class="modal-background" data-modal-target="background">
     <div class="modal modal--with-header-and-footer">
       <nav class="modal-header">
         <%= button_tag data: {
@@ -7,7 +14,7 @@
           action: "click->mapbox#toggleSearchBox"
         }, class: "hover:underline p-4 -ml-4 inline-flex content-center items-center" do %>
           <%= inline_svg_tag 'x', class: 'inline-block' %>
-          Lukk
+          <%= t("close") %>
         <% end %>
         <h2 class="font-bold text-center">
           <%= t('space_filter.edit_filter') %>
