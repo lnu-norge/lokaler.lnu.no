@@ -116,6 +116,7 @@ nb:
         one: 'Vis den siste fasiliteten'
         other: 'Vis %{count} andre fasiliteter'
     edit: 'Redigér fasiliteter'
+    save: 'Lagre fasiliteter'
   reviews:
     save_review: 'Lagre erfaring'
     review_about: 'Erfaring om:'
