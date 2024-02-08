@@ -2,10 +2,12 @@
   <div class="bg-white m-2 p-4 pb-0 shadow relative rounded">
 
     <h3 class="text-xl">
-    <% if defined? version.item.record_type %>
+    <% if version.item.blank? %>
+        <strong><%= version.item_type %> #<%= version.item_id %></strong> (Nå slettet)
+    <% elsif defined? version.item.record_type %>
       <strong><%= link_to version.item.record.title, version.item.record  %></strong> (<em><%= version.item.record.class.model_name.human %></em>)
     <% else %>
-      <strong><%= link_to (version.item[:title] || "ID: #{version.item.id}"), version.item %></strong> (<em><%= version.item.class.model_name.human %></em>)
+      <strong><%= link_to (version&.item[:title] || "ID: #{version.item.id}"), version.item %></strong> (<em><%= version.item.class.model_name.human %></em>)
     <% end %>
     </h3>
 
@@ -13,7 +15,8 @@
       <p><strong><%= t("admin.user") %>:</strong> <%= User.find(version.whodunnit).email %></p>
     <% end %>
 
-    <% unless version.item[:name].nil? %>
+
+    <% if version.item.present? and version.item[:name].present? %>
       <p><strong><%= t("admin.field") %>:</strong> <%= version.item.class.human_attribute_name(version.item.name) %></p>
     <% end %>
 
