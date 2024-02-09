@@ -86,7 +86,7 @@ yarn build:css --watch # Builds and rebuilds CSS when files change
 
 These are defined in `Procfile` and `Procfile.dev`
 
-To run all at the same time, you can either use `foreman` or [overmind](https://github.com/DarthSim/overmind).  Overmind must be installed on your machine. Foreman ships with this project. It's the better option, but foreman works.
+To run all at the same time, you can either use `foreman` or [overmind](https://github.com/DarthSim/overmind).  Overmind must be installed on your machine. Foreman ships with this project. Overmind is the better option, but foreman works.
 
 1. While in the folder "lokaler.lnu.no  run the command:
 > `foreman s` (This uses Procfile, which does not boot rails)
