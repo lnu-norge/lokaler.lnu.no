@@ -5,78 +5,114 @@ Landsrådet for Norges barne- og ungdomsorganisasjoner or LNU has created this o
 The problem this app aims to solve is that booking these types of venues can take a long time, it can be difficult to find suitable venues and find venues that can accommodate the needs the members have. This process can take up to a year. This project wants to use its members feedback to maintain the database and the idea is to create a mix between a booking type of site and a wiki.
 
 ### Want to contribute!
-Want to help and contribute to this project? Read how on [om.lokaler.lnu.no/bidra](https://om.lokaler.lnu.no/bidra/).
+Want to help and contribute to this project? Send an email to [lokaler@lnu.no](mailto:lokaler@lnu.no).
 
 You can raise issues here on our github page or submit your own PR's.
-We will review these and give you feedback.
 
 ### What is Lokaler.lnu.no?
-Lokaler.lnu.no is built by [LNU](https://lnu.no) and this project is financed with subsidies from [Bufdir](https://www.bufdir.no/).
-
-If you want to read more about the project go to [om.lokaler.lnu.no](https://om.lokaler.lnu.no/)
+Lokaler.lnu.no is built by [LNU](https://lnu.no) and this project was originally financed with subsidies from [Bufdir](https://www.bufdir.no/).
 
 # Installation
 ---
 If you want to install this project on your computer then follow the guides below.
 If you find bugs, please submit them.
 
-## Install (If you have Ruby and Rails already installed)
+## Install 
 
-1. Copy `config/database.yml.example` and name it `config/database.yml`
-> cp config/database.yml.example config/database.yml
-2. Open your terminal
-3. Go to the folder you want the repository
-> TIP! This is the command: cd myFolder/myOtherFolder
-3. Write and run command: git clone git@github.com:lnu-norge/lokaler.lnu.no.git
-4. Go into the folder lokaler.lnu.no
-5. Run the command: bundle install
+### Pre-requisites
+
+- Rails 7.1
+- Ruby 3.3.0
+- Node 20 and yarn 
+
+### Pull the code locally
+
+Use `git clone git@github.com:lnu-norge/lokaler.lnu.no.git` to pull the code.
+
+### Install rails and ruby gems
+
+Go into the folder lokaler.lnu.no, and run the command: `bundle install`
 > TIP! After this command you  should see a long list of green and white lines
-6. Run the command: yarn
-7. Now run the command: rails db:create db:migrate
 
-Congratulations!!! You have now setup the project.
+### Install node package
 
-###  Run application
+Run the command: `yarn`
+
+### Set up database
+
+Copy `config/database.yml.example` and name it `config/database.yml`
+```
+> cp config/database.yml.example config/database.yml
+```
+Now run the command: `rails db:create db:migrate`
+
+Congratulations! You have now setup the project.
+
+## Set up ENV variables for third party services
+
+See the file `env.example` for a list of third party services you can use with the app. 
+
+Locally you need a `MAPBOX_API_KEY` to test the map functionality, and `GOOGLE_OAUTH_CLIENT_ID` as well as `GOOGLE_OAUTH_CLIENT_SECRET` to test logging in with Google. 
+
+To get these, sign up at [https://mapbox.com/](https://mapbox.com/) for a free key, and at [https://console.cloud.google.com/apis/dashboard](https://console.cloud.google.com/apis/dashboard) 
+
+If you are a core contributor, ask the admins for a key that works.
+
+##  Run application in dev mode
 To run the application there are two options:
-#### I only want to see the application and play around
+
+#### Run with precompiled assets, like in prod
+
 1. In the terminal and while in the folder lokaler.lnu.no run the command:
-> rails s
+> `ASSETS_COMPILED_LIKE_IN_PROD=true rails s`
 2. Now go to your browser and go to website: http://localhost:3000/
-It takes a little time for the application to bundle itself so if it does not show up straight away then wait up to a minute. If you get errors please let us know.
+
+This will precompile the assets, like JS, images, and CSS. It's not suited for development, but works for testing the app out. It's also what's done behind the scenes when you run rspec tests. 
+
+To remove the precompiled assets again run `rails assets:clobber`
 
 You can now signup and use the app locally on your machine.
 
-#### I want to contribute or play around with the code
+#### Run with live compilation of assets, for development
+
+There are four commands to run everything for dev  mode: 
+
+```bash
+bin/rails s -p 3000 # Runs the rails server
+bundle exec guard # Reloads the rails server and browser if rails files change
+yarn build:dev --watch # Builds and rebuilds CSS when files change
+yarn build:css --watch # Builds and rebuilds CSS when files change
+```
+
+These are defined in `Procfile` and `Procfile.dev`
+
+To run all at the same time, you can either use `foreman` or [overmind](https://github.com/DarthSim/overmind).  Overmind must be installed on your machine. Foreman ships with this project. It's the better option, but foreman works.
+
 1. While in the folder "lokaler.lnu.no  run the command:
-> foreman s
+> `foreman s` (This uses Procfile, which does not boot rails)
 2. Open up a new terminal window, same folder, run the command:
-> rails s
+> `rails s` (This boots rails in a seperate window, so you get the logs for rails there. 
 3. Now go to your browser and go to website: http://localhost:3000/
 
 You can now signup and use the app locally on your machine. At the same time you'll have access to the server logs in the terminal windows. First window is for Javascript and CSS bundling and the second one for the actual web server and database connection.
 
-First window also contains something called live reload.
-You can active that now inside your browser and the browser will automatically reload when you change code view specific code.
-[Live Reload for Chrome](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
-[Live Reload for Firefox](https://addons.mozilla.org/nb-NO/firefox/addon/livereload-web-extension/)
-
 ### Running tests
-To run tests you can simply type
-> rspec
+To run tests you can simply type `rspec`
 
 This will run all the tests in `/spec`. You can also specify a specific test to run like this
 > rspec spec/models/facility_category_spec.rb
 
-#### Running in parallel
+#### Running tests in parallel
 You can run the tests in parallel this will make them faster, this requires you to setup the parallel DB which is done with
-> rails parallel:prepare
+`rails parallel:prepare`
 
 After that you can run the tests with
-> parallel_rspec
+`parallel_rspec`
 
 # Install instructions Ruby on Rails
 ---
 To get this project up and running on your computer you will need to install a few things on your system - Ruby, Rails, Yarn and PostgresQL. It is slightly different how you do this depending on whether you are on Ubuntu, Mac or Windows.
+
 ## Ubuntu or other Linux versions
 1. Follow the instructions in this guide: https://gorails.com/setup/ubuntu/20.04
 2. We recommend using the Rbenv option, only because we can support you if issues.
@@ -122,10 +158,18 @@ If you are on Windows we recommend using Windows Subsystem for Linux version 2 i
 
 ## Deploying to Heroku
 
-We deploy the main app to Heroku, following Herokus standard practice.
+To deploy to production on Heroku, you  need to log in to Heroku and manaully deploy a git branch. 
 
-In addition to the standard procedure, we have added an ENV variable ["SEED_FILE"](https://github.com/lnu-norge/lokaler.lnu.no/pull/66) for when you want Heroku (or any other system) to load a different seed file than the current environment dictates. Useful for Heroku, as Heroku always wants you to run in production mode - but you might want to seed with development data.
-To get sendgrid to work you will also need to set the ENV variable ["HOST"] to equal to the domain you are using, example: `ENV["HOST"] = "app.herokuapp.com`
+
+## Seeding
+
+Run `rails db:seed` to get sample data into your app. 
+
+You can also set the ENV variable ["SEED_FILE"](https://github.com/lnu-norge/lokaler.lnu.no/pull/66) to load a different seed file than the current environment dictates. Useful for deploying tests on Heroku, as Heroku always wants you to run in production mode - but you might want to seed with development data.
+
+## Sendgrid setup
+
+You need to set the right sendgrip enviroment variables, and to get sendgrid to work you will also need to set the ENV variable ["HOST"] to equal to the domain you are using, example: `ENV["HOST"] = "app.herokuapp.com`
 
 # Want to learn to code or learn Rails?
 ---
