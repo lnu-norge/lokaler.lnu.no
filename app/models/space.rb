@@ -178,9 +178,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     group_space_facilities(relevant)
   end
 
-  # Facilities (not space facilities :P) that are relevant.
+  # Facilities (found through space facilities) that are relevant.
   def relevant_facilities
-    space_facilities.where(relevant: true).map(&:facility)
+    space_facilities.includes(:facility).where(relevant: true).map(&:facility)
   end
 
   # Space Facilities that are typically NOT relevant for the space
