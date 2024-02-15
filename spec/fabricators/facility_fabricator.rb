@@ -3,6 +3,10 @@
 Fabricator(:facility) do
   title { Faker::Name.first_name }
   icon { Faker::Name.first_name }
+
+  after_create do |facility|
+    Fabricate(:facilities_category, facility:)
+  end
 end
 
 # == Schema Information
