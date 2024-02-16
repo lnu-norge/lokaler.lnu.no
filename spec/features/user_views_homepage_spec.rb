@@ -18,10 +18,6 @@ describe "User views homepage", :js do
     create_user!
     login_with_warden!
 
-    category = Fabricate(:facility_category)
-    category.facilities << facility_toilet
-    category.facilities << facility_beds
-
     Fabricate(:facility_review, space: space_one, facility: facility_toilet, experience: :was_allowed)
     Fabricate(:facility_review, space: space_one, facility: facility_beds, experience: :was_not_allowed)
 
