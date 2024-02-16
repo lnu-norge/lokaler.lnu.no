@@ -8,7 +8,12 @@ Locals:
 <li
   data-controller="hide"
   class="flex items-center gap-1.5">
-  <%= form.simple_fields_for :facility_reviews, facility_review do |f| %>
+  <%= form.simple_fields_for :facility_reviews,
+                             facility_review,
+                             # Child index is used to make sure that the form fields are
+                             # named after the facility id, so duplicate facility fields can be
+                             # found and synced with sync_fields_with_same_id.js
+                             child_index: facility[:id] do |f| %>
     <%= f.hidden_field :facility_id, value: facility[:id] %>
     <%= f.hidden_field :user_id, value: current_user.id %>
     <%= f.hidden_field :id, value: facility_review.id %>
