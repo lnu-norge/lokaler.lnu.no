@@ -22,7 +22,12 @@ module Users
     end
 
     def after_sign_in_path_for(resource_or_scope)
-      stored_location_for(resource_or_scope) || root_path
+      if current_user.organization == ""
+        flash[:alert] = t("devise.registrations.user.require_organization") # Should just be text in the edit_org_form
+        edit_user_registration_path # Should go to a edit_org_form with only that and a description
+      else
+        stored_location_for(resource_or_scope) || root_path
+      end
     end
 
     private
