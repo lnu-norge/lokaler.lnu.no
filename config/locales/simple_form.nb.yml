@@ -41,13 +41,15 @@ nb:
         delete_account_confirmation: "Er du sikker?"
         heading_new: "Registrer deg som bruker"
         or: "eller"
-        logg_in_instead: "logg deg inn her"
+        log_in_instead: "Logg deg inn her"
         back: "Tilbake"
         email_example: "epost@epost.no"
         organization: "Organisasjon"
+        already_a_user: "Har du allerede en bruker"
         session:
           heading_new: "Logg inn"
           login_with_google: "Logg inn med Google"
+          register_with_google: "Kom i gang med Google"
           login_with_email: "Logg inn med e-post"
       space:
         title: "Navn på lokalet"

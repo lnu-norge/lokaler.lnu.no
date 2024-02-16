@@ -277,6 +277,7 @@ nb:
         or: "eller"
         logg_in_instead: "logg deg inn her"
         back: "Tilbake"
+        require_organization: "Vennligst legg til en organisasjon"
   space_contact:
       at_least_one_error_message:
         telephone: må velges, eventuelt legg inn e-post, nettside eller beskrivelse

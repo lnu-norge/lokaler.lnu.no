@@ -6,10 +6,28 @@
         <%= t('simple_form.labels.user.heading_new') %>
       </h1>
       <p class="mt-2 text-sm text-gray-600">
-        <%=  t('simple_form.labels.user.or') %>
-        <%= link_to t('simple_form.labels.user.logg_in_instead'), new_session_path(resource_name), class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
+        <%=  t('simple_form.labels.user.already_a_user') %>?
+        <%= link_to t('simple_form.labels.user.log_in_instead'), new_session_path(resource_name), class: 'font-medium text-lnu-pink hover:text-lnu-blue' %>
       </p>
     </div>
+
+      <div class="mt-8 text-center">
+    <%= form_tag('/auth/google_oauth2',
+                 method: 'post',
+                 "data-turbo": false) do %>
+
+      <button class="button" autofocus="autofocus">
+        <%= inline_svg_tag "google-color" %>
+        <%= t('simple_form.labels.user.session.register_with_google') %>
+      </button>
+    <% end %>
+  </div>
+
+  <div class="relative flex py-5 items-center">
+    <div class="flex-grow border-t border-gray-200"></div>
+    <span class="flex-shrink mx-4 text-gray-400">eller</span>
+    <div class="flex-grow border-t border-gray-200"></div>
+  </div>
 
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'vertical_form') do |f| %>
       <%= render partial: 'devise/shared/user_form', locals: { f: f } %>

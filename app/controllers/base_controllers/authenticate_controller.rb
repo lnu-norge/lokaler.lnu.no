@@ -10,7 +10,7 @@ module BaseControllers
       if user_signed_in?
         super
       else
-        redirect_to new_user_session_path
+        redirect_to new_user_registration_path
       end
     end
   end
