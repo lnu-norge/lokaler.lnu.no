@@ -18,30 +18,36 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
   end
 
   def create
-    @space = Space.find(params["space_id"])
-    affected_facility_ids = []
+    space_id_param = params.require(:space_id)
+    reviews_and_descriptions = params.require(:space).permit(
+      facility_reviews_attributes: %i[id experience facility_id user_id],
+      space_facilities_attributes: [:facility_id, :description]
+    )
 
-    parsed = parse_facility_reviews(params["facility_reviews"]["reviews"], affected_facility_ids)
+    @space = Space.find(space_id_param)
 
-    unless FacilityReview.create(parsed)
-      render :new, status: :unprocessable_entity
-      return
-    end
+    @affected_facilities = [] # filtered_facility_reviews will mutate this array
+    relevant_reviews = filtered_facility_reviews(reviews_and_descriptions[:facility_reviews_attributes].values)
 
-    affected_facilities = Facility.where(id: affected_facility_ids.uniq)
-    @space.aggregate_facility_reviews(facilities: affected_facilities)
+    return render :new, status: :unprocessable_entity unless FacilityReview.create!(relevant_reviews)
 
-    update_space_facilities
+    # NB: Under the current model, this needs to happen before we add the descriptions,
+    # as aggregating DELETES all space_facilities
+    @space.aggregate_facility_reviews(facilities: @affected_facilities)
+
+    update_space_facilities(reviews_and_descriptions[:space_facilities_attributes].values)
 
     create_success
   end
 
-  def update_space_facilities
-    params["space_facilities"].each do |space_facility|
-      next if space_facility.second[:description].empty?
+  private
 
-      sf = SpaceFacility.find_by(facility_id: space_facility.first, space: @space.id)
-      sf.update!(description: space_facility.second[:description])
+  def update_space_facilities(space_facilities)
+    space_facilities.each do |facility|
+      next if facility[:description].blank?
+
+      SpaceFacility.find_by(facility_id: facility[:facility_id], space: @space.id)
+                   .update!(description: facility[:description])
     end
   end
 
@@ -65,33 +71,24 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     end
   end
 
-  private
-
-  def parse_facility_reviews(raw_data, affected_facility_ids)
-    # Converting to .values exists solely because I didn't manage to create a
-    # form with radio buttons that sent the facility_reviews in a way that could
-    # be automatically picked up by Rails AND still be seen as individual in the form itself.
-    # Thus, we have to parse what is sent from the form here into something
-    # that more closely resembles what the model expects:
-    # Changes welcome!
-    facility_reviews = raw_data.values
-
-    handle_changed(facility_reviews, affected_facility_ids)
-  end
-
   # Does two things:
   # 1. Destroys any existing reviews that are changed, and returns an array of new reviews to be created
   # 2. And mutates affected_facilities so we can aggregate facilities for those
-  def handle_changed(facility_reviews, affected_facility_ids) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def filtered_facility_reviews(facility_reviews) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     facility_reviews.filter_map do |review|
       # We minimum need these to do anything useful
-      next unless review[:user_id].present? && review[:facility_id].present? && review[:space_id].present?
+      unless  review[:experience].present? &&
+              review[:user_id].present? &&
+              review[:facility_id].present? &&
+              @space.id.present?
+        next
+      end
 
       existing_review = FacilityReview.find_by(user_id: review[:user_id],
                                                facility_id: review[:facility_id],
-                                               space_id: review[:space_id])
+                                               space_id: @space.id)
 
-      # NB: Unknown experiences do not crate reviews. Thus existing_review.blank? is the same as
+      # NB: Unknown experiences do not create reviews. Thus existing_review.blank? is the same as
       # experience == "unknown"
       nothing_changed = (existing_review.blank? && review["experience"] == "unknown") ||
                         (existing_review.present? && existing_review[:experience] == review["experience"])
@@ -99,13 +96,16 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
       next if nothing_changed
 
       # Something changed, so add facility to affected facilities
-      affected_facility_ids << review["facility_id"]
+      @affected_facilities << Facility.find(review["facility_id"])
 
       # Destroy the old review, so we are ready to return a new review for creation.
       existing_review.destroy if existing_review.present?
 
-      # Unknown experiences do not crate reviews.
+      # Unknown experiences do not create reviews.
       next if review["experience"] == "unknown"
+
+      # Add space_id to the review
+      review["space_id"] = @space.id
 
       review
     end
