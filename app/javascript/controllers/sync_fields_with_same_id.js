@@ -13,7 +13,7 @@ export default class extends Controller {
   }
 
   handleDuplicateCheckboxesAndRadios() {
-    // First we get all checkboxes and radio buttons (no support for input fields yet)
+    // First we get all checkboxes and radio buttons
     const input_fields = [
       ...this.formTarget.querySelectorAll('input[type=checkbox]'),
       ...this.formTarget.querySelectorAll('input[type=radio]'),
