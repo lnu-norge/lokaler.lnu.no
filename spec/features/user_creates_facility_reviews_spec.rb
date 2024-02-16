@@ -15,7 +15,6 @@ describe "User creates facility reviews for", :js do
 
   around do |test|
     create_user!
-    Capybara.javascript_driver = :chrome
     login_and_logout_with_warden do
       test.run
     end
