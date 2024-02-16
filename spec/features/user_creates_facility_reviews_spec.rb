@@ -10,11 +10,12 @@ describe "User creates facility reviews for", :js do
     Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.603)
   end
 
-  let(:facility_to_review) { space.relevant_space_facilities.first.facility }
-  let(:second_facility_to_review) { space.relevant_space_facilities.second.facility }
+  let!(:facility_to_review) { space.relevant_space_facilities.first.facility }
+  let!(:second_facility_to_review) { space.relevant_space_facilities.second.facility }
 
   around do |test|
     create_user!
+
     login_and_logout_with_warden do
       test.run
     end
@@ -25,7 +26,7 @@ describe "User creates facility reviews for", :js do
 
     expect_to_add_facility_review(
       space:,
-      facility_to_review:
+      facility: facility_to_review
     )
   end
 
@@ -34,8 +35,17 @@ describe "User creates facility reviews for", :js do
 
     expect_to_add_facility_review(
       space:,
-      facility_to_review:,
+      facility: facility_to_review,
       description_to_add: Faker::Lorem.sentence
+    )
+  end
+
+  it "two facilities, at the same time" do
+    visit space_path(space)
+
+    expect_to_add_multiple_facility_reviews(
+      space:,
+      facilities_to_review: [facility_to_review, second_facility_to_review]
     )
   end
 
@@ -44,13 +54,13 @@ describe "User creates facility reviews for", :js do
 
     expect_to_add_facility_review(
       space:,
-      facility_to_review:
+      facility: facility_to_review
     )
 
     expect_to_add_facility_review(
       count_that_already_have_the_new_experience: 1,
       space:,
-      facility_to_review: second_facility_to_review
+      facility: second_facility_to_review
     )
   end
 
@@ -59,12 +69,12 @@ describe "User creates facility reviews for", :js do
 
     expect_to_add_facility_review(
       space:,
-      facility_to_review:
+      facility: facility_to_review
     )
 
     expect_to_only_change_facility_review_description(
       space:,
-      facility_to_review:,
+      facility: facility_to_review,
       description_to_add: Faker::Lorem.sentence
     )
   end
