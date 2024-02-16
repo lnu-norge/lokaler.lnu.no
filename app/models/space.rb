@@ -11,6 +11,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   belongs_to :space_group, optional: true
   accepts_nested_attributes_for :space_group
+  accepts_nested_attributes_for :facility_reviews
+  accepts_nested_attributes_for :space_facilities
 
   scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids).distinct }
   scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
@@ -178,9 +180,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     group_space_facilities(relevant)
   end
 
-  # Facilities (not space facilities :P) that are relevant.
+  # Facilities (found through space facilities) that are relevant.
   def relevant_facilities
-    space_facilities.where(relevant: true).map(&:facility)
+    space_facilities.includes(:facility).where(relevant: true).map(&:facility)
   end
 
   # Space Facilities that are typically NOT relevant for the space

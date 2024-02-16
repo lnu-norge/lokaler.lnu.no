@@ -21,11 +21,6 @@ nb:
     delete_confirmation: "Er du sikker på at du vil slette?"
     close_contact: "Lukk"
   tooltips:
-    facility_single_experience:
-      was_allowed: 'Fikk bruke'
-      was_not_allowed: 'Fikk ikke bruke'
-      was_not_available: 'De har ikke'
-      havent_asked: 'Ikke spurt'
     facility_aggregated_experience:
       unknown: 'Usikkert. Ingen har spurt!'
       impossible: 'De har ikke.'
@@ -116,6 +111,7 @@ nb:
         one: 'Vis den siste fasiliteten'
         other: 'Vis %{count} andre fasiliteter'
     edit: 'Redigér fasiliteter'
+    save: 'Lagre fasiliteter'
   reviews:
     save_review: 'Lagre erfaring'
     review_about: 'Erfaring om:'

@@ -2,9 +2,11 @@
 
  <header class="editable-header-type-h2 flex gap-3 items-baseline">
     <h2><%= Facility.model_name.human(count: 2) %></h2>
-    <%= button_to_modal :new_facility_review_path, class: 'unstyled-link edit-button collapsable' do %>
+    <%= button_to_modal :new_facility_review_path,
+                        "aria-label": "Rediger fasiliteter",
+                        class: 'unstyled-link edit-button collapsable' do %>
       <span class="text">
-          Redigér
+          Rediger
         </span>
       <%= inline_svg_tag 'edit', alt: 'Redigér', title: 'Redigér' %>
     <% end %>

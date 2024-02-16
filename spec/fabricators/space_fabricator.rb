@@ -10,6 +10,35 @@ Fabricator(:space) do
   space_group
   space_types { [Fabricate(:space_type)] }
   star_rating { nil }
+
+  after_create do |space|
+    add_some_space_facilities(space)
+  end
+end
+
+def add_some_space_facilities(space)
+  space_type = space.space_types.first
+
+  relevant_facility_one = Fabricate(:facility)
+  relevant_facility_two = Fabricate(:facility)
+
+  # Make them relevant by connecting them to our space_type
+  # This also runs aggregate facility reviews, so creates
+  # space_facilities for them (with unknown experience)
+  Fabricate(:space_types_facility,
+            space_type:,
+            facility: relevant_facility_one)
+  Fabricate(:space_types_facility,
+            space_type:,
+            facility: relevant_facility_two)
+
+  # Then create four irrelevant facilities and connect them to our space
+  Fabricate.times(4,
+                  :space_facility,
+                  space:)
+
+  # Then aggregate reviews
+  space.aggregate_facility_reviews
 end
 
 # == Schema Information

@@ -1,6 +1,7 @@
 <%= turbo_frame_tag :new_facility_review_path do %>
-  <%= simple_form_for "facility_reviews",
+  <%= simple_form_for @space,
                       url: create_facility_review_path(@space),
+                      method: :post,
                       data: {
                         controller: 'sync-fields-with-same-id',
                         'sync-fields-with-same-id-target': 'form'
@@ -10,13 +11,20 @@
     </div>
     <div class="modal-content content">
       <% if @grouped_relevant_facilities.present?  %>
-        <% @grouped_relevant_facilities.each do |group| %>
+        <% @grouped_relevant_facilities.each do |group|
+            # TODO: Refactor grouped_relevant_facilities so it returns a hash with category
+            # and space_facilities, instead of an array with category_id and a hash with category
+            # and space_facilities.
+            # In the meantime, these variables should just make it clearer what's going on here.
+            category = group.second[:category]
+            facilities_in_category = group.second[:space_facilities]
+         %>
           <%= render partial: 'facility_reviews/new/facility_category',
             locals: {
-              facilities_in_category: group.second[:space_facilities],
-              form: form,
+              facilities_in_category:,
+              form:,
               review: form.object,
-              category: group.second[:category]
+              category:
             } %>
         <% end %>
       <% end %>
@@ -43,7 +51,7 @@
       <% end %>
     </div>
     <div class="modal-footer">
-      <%= form.submit class: "button submit" %>
+      <%= form.submit t("facility_reviews.save"), class: "button submit"  %>
       <button type="button" data-action="click->modal#close" class="link">
         <%= t("space_contacts.abort") %>
       </button>
