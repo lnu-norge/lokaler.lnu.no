@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
+  # Log in with devise:
   devise_for :users,
              path: "",
              path_names: {
-               sign_in: "signin",
-               sign_out: "signout",
-               sign_up: "signup"
+               sign_in: "logg_inn",
+               sign_out: "logg_ut",
+               sign_up: "registrer_deg"
              },
              controllers: { registrations: "users/registrations", omniauth_callbacks: "users/omniauth_callbacks" }
 
@@ -16,6 +17,12 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
 
+  # Devise addons
+  devise_scope :user do
+    get "session", to: "devise/sessions#edit", as: "edit_session"
+  end
+
+  # Homepage for unauthenticated users
   root to: "high_voltage/pages#show", id: "frontpage", as: "unauthenticated_root"
 
   # Resources
@@ -50,11 +57,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Space images routes
   resources "space_images"
   post "spaces/upload_image", to: "space_images#upload_image"
-
-  # Devise addons
-  devise_scope :user do
-    get "session", to: "devise/sessions#edit", as: "edit_session"
-  end
 
   if Rails.env.development?
     redirector = ->(params, _) { ApplicationController.helpers.asset_path("#{params[:name].split('-').first}.map") }
