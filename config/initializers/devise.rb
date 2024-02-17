@@ -25,10 +25,10 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'no-reply@lnu.no'
+  config.mailer_sender = ENV["SENDGRID_FROM_EMAIL"] || "lokaler@lnu.no"
 
   # Configure the class responsible to send e-mails.
-  config.mailer = 'DeviseMailer'
+  # config.mailer = 'Devise::Mailer'
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'
