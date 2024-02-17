@@ -228,6 +228,10 @@ GEM
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
     language_server-protocol (3.17.0.3)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.9.0)
+      launchy (>= 2.2, < 3)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -453,7 +457,6 @@ GEM
     ruby-vips (2.2.0)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
-    ruby_http_client (3.5.5)
     rubyzip (2.3.2)
     scout_apm (5.3.5)
       parser
@@ -462,8 +465,6 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sendgrid-ruby (6.7.0)
-      ruby_http_client (~> 3.4)
     shellany (0.0.1)
     simple_form (5.3.0)
       actionpack (>= 5.2)
@@ -552,6 +553,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   jsbundling-rails (~> 1.2)
   kaminari
+  letter_opener
   listen
   newrelic_rpm
   omniauth
@@ -577,7 +579,6 @@ DEPENDENCIES
   rubocop-rspec
   scout_apm
   selenium-webdriver
-  sendgrid-ruby
   simple_form
   simple_form-tailwind
   sprockets-rails

@@ -52,6 +52,7 @@ group :development do
   gem "guard"
   gem "guard-livereload", require: false
   gem "guard-rspec", require: false
+  gem "letter_opener"
   gem "listen"
   gem "overcommit"
   gem "rack-livereload", require: false
@@ -92,7 +93,6 @@ gem "kaminari"
 gem "paper_trail"
 gem "phonelib"
 gem "rails-i18n"
-gem "sendgrid-ruby"
 gem "simple_form"
 gem "simple_form-tailwind"
 gem "stimulus-rails"
