@@ -76,7 +76,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.action_mailer.perform_caching = false
   ActionMailer::Base.smtp_settings = {
     user_name: "apikey", # NB: This is the string literal 'apikey', NOT the ID of your API key. Do not change this.
-    password: ENV.fetch(SENDGRID_API_KEY),
+    password: ENV.fetch("SENDGRID_API_KEY"),
     domain: "lnu.no", # We should probably have our own sub domain for transactional emails eventually
     address: "smtp.sendgrid.net",
     port: 587,
