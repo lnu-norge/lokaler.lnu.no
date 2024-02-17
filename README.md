@@ -169,7 +169,7 @@ You can also set the ENV variable ["SEED_FILE"](https://github.com/lnu-norge/lok
 
 ## Sendgrid setup
 
-You need to set the right sendgrip enviroment variables, and to get sendgrid to work you will also need to set the ENV variable ["HOST"] to equal to the domain you are using, example: `ENV["HOST"] = "app.herokuapp.com`
+You need to set the right sendgrid environment variables, and to get sendgrid to work you will also need to set the ENV variable ["HOST"] to equal to the domain you are using, example: `ENV["HOST"] = "app.herokuapp.com`
 
 # Want to learn to code or learn Rails?
 ---

@@ -2,7 +2,7 @@
 
 require "active_support/core_ext/integer/time"
 
-Rails.application.configure do
+Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # Settings specified here will take precedence over those in config/application.rb.
 
   # No need to compile in prod, as all assets are precompiled on deploy:
@@ -64,7 +64,25 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "lokaler_lnu_no_production"
 
+  # Set up URL
+  Rails.application.routes.default_url_options[:host] =
+    ENV["DEFAULT_HOST"] || "#{ENV.fetch('HEROKU_APP_NAME')}.herokuapp.com"
+
+  # ActionMailer setup: Sendgrid over SMTP
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: Rails.application.routes.default_url_options[:host] }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
+  ActionMailer::Base.smtp_settings = {
+    user_name: "apikey", # NB: This is the string literal 'apikey', NOT the ID of your API key. Do not change this.
+    password: ENV.fetch("SENDGRID_API_KEY"),
+    domain: "lnu.no", # We should probably have our own sub domain for transactional emails eventually
+    address: "smtp.sendgrid.net",
+    port: 587,
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -98,9 +116,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  Rails.application.routes.default_url_options[:host] =
-    ENV["DEFAULT_HOST"] || "#{ENV.fetch('HEROKU_APP_NAME')}.herokuapp.com"
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector

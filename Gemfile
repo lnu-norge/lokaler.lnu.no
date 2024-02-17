@@ -52,6 +52,7 @@ group :development do
   gem "guard"
   gem "guard-livereload", require: false
   gem "guard-rspec", require: false
+  gem "letter_opener"
   gem "listen"
   gem "overcommit"
   gem "rack-livereload", require: false
@@ -77,6 +78,7 @@ end
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 gem "devise", "~> 4.8"
+gem "devise-i18n"
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
@@ -92,7 +94,6 @@ gem "kaminari"
 gem "paper_trail"
 gem "phonelib"
 gem "rails-i18n"
-gem "sendgrid-ruby"
 gem "simple_form"
 gem "simple_form-tailwind"
 gem "stimulus-rails"
