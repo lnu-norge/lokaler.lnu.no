@@ -124,6 +124,10 @@ nb:
     in_contact: 'Har du vært i kontakt med dem?'
     unknown_org: 'Ukjent organisasjon'
     not_used: 'Ikke brukt lokalet'
+    stars_given:
+      zero: ''
+      one: 'stjerne gitt'
+      other: 'stjerner gitt'
     data:
       one_room: 'Ett rom'
       more_rooms: 'Flere rom'

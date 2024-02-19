@@ -1,17 +1,20 @@
 <% show_full_review = false unless defined?(:show_full_review) %>
 
-<div class="flex gap-1 font-bold">
-  <%= inline_svg_tag 'star', class: 'text-pink-600' if review.star_rating %>
-  <%= review.star_rating %>
-  <% unless review.star_rating %>
-    -
-    <% if review.type_of_contact %>
-      <%= t("activerecord.attributes.review.#{review.type_of_contact}") %>
-    <% else  %>
-      <%= t('reviews.not_used') %>
+<h3 class="reset-header-styles">
+  <span class="font-bold flex gap-1">
+    <%= inline_svg_tag 'star', class: 'text-pink-600' if review.star_rating %>
+    <%= review.star_rating %>
+    <span class="sr-only"><%= t("reviews.stars_given", count: review.star_rating) %></span>
+    <% unless review.star_rating %>
+      -
+      <% if review.type_of_contact %>
+        <%= t("activerecord.attributes.review.#{review.type_of_contact}") %>
+      <% else  %>
+        <%= t('reviews.not_used') %>
+      <% end %>
     <% end %>
-  <% end %>
-</div>
+  </span>
+</h3>
 
 <% if review.comment %>
   <p>
