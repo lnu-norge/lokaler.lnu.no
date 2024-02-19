@@ -8,6 +8,9 @@
     &.no-mt {
       @apply mt-0;
     }
+    &.reset-header-styles {
+      @apply mt-0 font-normal text-base;
+    }
   }
 
   .h1, .h2, .h3, p, ul, ol, h3, h2, h1 {
