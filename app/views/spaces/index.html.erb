@@ -1,15 +1,27 @@
-<div data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
-  <nav class="">
+<div
+  class="md:flex"
+  data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
+  <nav data-mapbox-target="searchBox"
+       class="hidden fixed inset-0 z-100 bg-white overflow-y-auto overscroll-contain
+              md:block md:static md:inset-auto md:z-10 md:h-screen-below-desktop-menu
+              md:shadow-2xl md:max-w-md md:w-1/4
+  ">
     <%= render 'spaces/index/filters' %>
   </nav>
-  <div class="relative">
-    <div class="md:fixed h-screen-3/5 md:pb-0 md:h-full w-full md:pl-md">
-      <%= render 'spaces/index/map' %>
-    </div>
-    <div class="relative md:w-md md:h-full rounded-t-xl -mt-8 md:mt-0 z-4 bg-white md:rounded-none">
+  <div class="relative flex flex-col-reverse md:flex-row md:flex-1">
+    <div class="relative rounded-t-xl -mt-8 z-4 bg-white
+                md:mt-0 md:rounded-none
+                md:max-w-md md:w-1/2 md:min-w-[14rem]
+                md:overscroll-contain md:overflow-y-auto
+                md:h-screen-below-desktop-menu">
       <%= render 'spaces/index/filter_button' %>
       <%= render 'spaces/index/handlebar_for_mobile' %>
-      <div id="space-listing" class="px-4"></div>
+      <div id="space-listing" class="px-4 md:py-8"></div>
+    </div>
+    <div class="h-screen-3/5 md:pb-0
+    md:h-screen-below-desktop-menu
+    w-full md:w-min-1/2">
+      <%= render 'spaces/index/map' %>
     </div>
   </div>
 </div>

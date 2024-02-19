@@ -79,8 +79,9 @@ nb:
       other: 'Viser kun %{count} lokaler av gangen.'
     filter_or_zoom: "Filtrér eller zoom inn for å se andre."
     spaces_that_might_work:
-      one: "Ett lokale kan passe:"
-      other: "%{count} lokaler kan passe:"
+      zero: "Ingen lokaler passer sted og filter."
+      one: "Ett lokale passer:"
+      other: "%{count} lokaler passer:"
     edit_filter: 'Rediger filtre'
     location: 'Sted'
     more_filters: 'Flere filtre'
