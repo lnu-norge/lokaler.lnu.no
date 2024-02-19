@@ -2,14 +2,12 @@
     Locals
     - space: Space
     - link_to_fullscreen: boolean
-    - only_show_pagination_on_hover: boolean
     - images[]
     - show_caption_credits: :thumbnail | :full
 %>
 <div
   class="splide
     <%= defined?(link_to_fullscreen) && link_to_fullscreen && " cursor-zoom" %>
-    <%= defined?(only_show_pagination_on_hover) && only_show_pagination_on_hover && "only_show_pagination_on_hover" %>
   "
   data-controller="slider"
   data-slider-target="slider"
