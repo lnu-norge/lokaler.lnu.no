@@ -1,6 +1,6 @@
 <% show_full_review = false unless defined?(:show_full_review) %>
 
-<div class="flex gap-1">
+<div class="flex gap-1 font-bold">
   <%= inline_svg_tag 'star', class: 'text-pink-600' if review.star_rating %>
   <%= review.star_rating %>
   <% unless review.star_rating %>
@@ -13,9 +13,6 @@
   <% end %>
 </div>
 
-<% if review.title %>
-  <h3 class="small-mt"><%= review.title %></h3>
-<% end  %>
 <% if review.comment %>
   <p>
     <% if show_full_review  %>

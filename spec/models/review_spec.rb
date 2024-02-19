@@ -6,7 +6,6 @@ require "rails_helper"
 RSpec.describe Review, type: :model do
   it "can add a review of type :been_there" do
     review = Fabricate(:review, type_of_contact: :been_there)
-    expect(review.title).to be_truthy
     expect(review.space).to be_truthy
     expect(review.comment).to be_truthy
     expect(review.price).to be_truthy
@@ -19,7 +18,6 @@ RSpec.describe Review, type: :model do
                        type_of_contact: :not_allowed_to_use,
                        price: nil,
                        star_rating: nil)
-    expect(review.title).to be_truthy
     expect(review.space).to be_truthy
     expect(review.comment).to be_truthy
     expect(review.user).to be_truthy
@@ -36,14 +34,12 @@ RSpec.describe Review, type: :model do
       type_of_contact: :only_contacted,
       price: nil,
       star_rating: nil,
-      title: nil,
       comment:
     )
 
     expect(review.space).to be_truthy
     expect(review.user).to be_truthy
 
-    expect(review.title).to be_nil
     expect(review.comment).to match comment
     expect(review.price).to be_nil
     expect(review.star_rating).to be_nil

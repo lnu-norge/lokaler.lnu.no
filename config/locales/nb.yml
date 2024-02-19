@@ -157,9 +157,9 @@ nb:
         was_not_available: 'De har ikke'
         unknown: 'Vet ikke'
       what_impression_did_you_get: 'Hvor bra totalinntrykk fikk du?'
-      why_were_you_not_allowed: 'Kort, hvorfor fikk dere ikke lov?'
+      why_were_you_not_allowed: 'Hvorfor fikk dere ikke lov?'
       for_example_not_allowed_to_sleep_in: 'F.eks. “Ville ikke la oss overnatte”'
-      how_would_you_summarize_the_experience?: 'Kort, hvordan vil du beskrive opplevelsen?'
+      how_would_you_summarize_the_experience?: 'Hvordan vil du beskrive opplevelsen?'
       what_do_you_want_to_say_to_others?: 'Hva vil du si til andre som vurderer ta kontakt?'
       what_did_you_experience_any_tips_for_others: 'Hva erfarte dere? Noen tips til nestemann?'
       what_did_you_learn: "Kort, hva lærte du av å ta kontakt?"
