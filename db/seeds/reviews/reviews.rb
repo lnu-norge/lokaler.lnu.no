@@ -18,7 +18,6 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
   )
 
   Review.create(
-    title: "Ryddig og hyggelig skole!",
     user:,
     price: 5400,
     comment: positive_review_comment,
@@ -66,7 +65,6 @@ Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!"
   )
 
   Review.create(
-    title: "Ville ikke la oss overnatte!",
     user: negative_user,
     comment: negative_review_comment,
     star_rating: nil,
