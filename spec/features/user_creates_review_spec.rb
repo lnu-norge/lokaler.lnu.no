@@ -33,7 +33,6 @@ describe "User creates review", :js do
 
       choose("review_star_rating_1", allow_label_click: true)
 
-      fill_in("review_title", with: "Review Title!")
       fill_in("review_comment", with: "Review Comment!")
 
       choose("review_how_much_one_room", allow_label_click: true)
@@ -43,7 +42,6 @@ describe "User creates review", :js do
 
       click_on(I18n.t("multistep_form_navigation.save"))
 
-      expect(page).to have_content("Review Title!")
       expect(page).to have_content("Review Comment!")
       expect(page).to have_content("5000 kr")
     end
@@ -58,13 +56,11 @@ describe "User creates review", :js do
       not_allowed_button_text = I18n.t("reviews.form.have_you_been_there_answers.not_allowed_to_use")
       choose(not_allowed_button_text, allow_label_click: true)
 
-      fill_in("review_title", with: "Review Title!")
       fill_in("review_comment", with: "Review Comment!")
 
       click_on(I18n.t("multistep_form_navigation.save"))
       expect(page).to have_content(I18n.t("activerecord.attributes.review.not_allowed_to_use"))
 
-      expect(page).to have_content("Review Title!")
       expect(page).to have_content("Review Comment!")
     end
   end

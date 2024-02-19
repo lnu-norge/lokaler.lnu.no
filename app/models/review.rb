@@ -12,11 +12,7 @@ class Review < ApplicationRecord
 
   before_validation { remove_spaces_from_price }
 
-  validates :title,
-            length: { minimum: 4, maximum: 80 },
-            presence: true,
-            if: ->(review) { review.been_there? || review.not_allowed_to_use? }
-  validates :comment, presence: true, if: :only_contacted?
+  validates :comment, presence: true, length: { minimum: 4 }
   validates :how_much, inclusion: { in: how_muches.keys }, allow_nil: true
   validates :how_long, inclusion: { in: how_longs.keys }, allow_nil: true
   validates :type_of_contact, inclusion: { in: type_of_contacts.keys }
@@ -53,7 +49,6 @@ end
 #  organization    :string           default(""), not null
 #  price           :string
 #  star_rating     :decimal(2, 1)
-#  title           :string
 #  type_of_contact :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

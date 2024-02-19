@@ -29,11 +29,11 @@ RSpec.describe Review, type: :request do
   end
 
   it "can create a new review, show the review in Space#show, and show a flash message" do
-    title = "They are all mean to me"
+    comment = "They are all mean to me"
     expect(space.reviews.count).to eq(1)
     post reviews_path, params: {
       review: {
-        title:,
+        comment:,
         type_of_contact: :not_allowed_to_use,
         space_id: space.id
       }

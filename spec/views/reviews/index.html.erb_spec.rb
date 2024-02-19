@@ -10,7 +10,7 @@ RSpec.describe "reviews/index.html.erb", type: :view do
     render
 
     expect(rendered).to match(/h1/)
-    expect(rendered).to match(/#{reviews.first.title}/)
+    expect(rendered).to match(/#{reviews.first.comment}/)
     expect(rendered).to match(/#{reviews.second.comment}/)
     expect(rendered).to match(/#{reviews.second.price}/)
     expect(rendered).to match(/#{reviews.third.star_rating}/)

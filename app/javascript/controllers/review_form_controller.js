@@ -8,10 +8,10 @@ export default class extends Controller {
       'organizationForm',
       'moreAboutYourStayForm',
       'starRatingForm',
-      'textBeenThereForm',
-      'titleForm',
-      'titleLabelBeenThere',
-      'titleLabelNotAllowed'
+      'commentForm',
+      'commentLabelBeenThere',
+      'commentLabelNotAllowed',
+      'commentLabelOnlyContacted',
   ]
 
   connect() {
@@ -71,47 +71,52 @@ export default class extends Controller {
 
   showForm() {
     this.enableSubmitButton()
-    this.fullFormTarget.classList.remove('hidden')
+    show(this.organizationFormTarget)
+    show(this.fullFormTarget)
   }
 
   showBeenThereForm() {
-    show(this.organizationFormTarget)
     show(this.moreAboutYourStayFormTarget)
     show(this.starRatingFormTarget)
-    show(this.textBeenThereFormTarget)
-    show(this.titleFormTarget)
-
-    show(this.titleLabelBeenThereTarget)
-    hide(this.titleLabelNotAllowedTarget)
+    this.showHideCommentSectionFor('BeenThere')
   }
 
   showNotAllowedToUseForm() {
-    show(this.organizationFormTarget)
     hide(this.moreAboutYourStayFormTarget)
     hide(this.starRatingFormTarget)
-    show(this.textBeenThereFormTarget)
-    show(this.titleFormTarget)
-
-    hide(this.titleLabelBeenThereTarget)
-    show(this.titleLabelNotAllowedTarget)
-
+    this.showHideCommentSectionFor('NotAllowed')
   }
 
   showOnlyContactedForm() {
-    show(this.organizationFormTarget)
     hide(this.moreAboutYourStayFormTarget)
     hide(this.starRatingFormTarget)
-    show(this.textBeenThereFormTarget)
+    this.showHideCommentSectionFor('OnlyContacted')
+  }
 
-    hide(this.titleFormTarget)
+  showHideCommentSectionFor(typeOfContact) {
+    // typeOfContact needs to be one of: OnlyContacted, BeenThere, NotAllowed
 
+    const commentTargets = {
+        BeenThere: this.commentLabelBeenThereTarget,
+        NotAllowed: this.commentLabelNotAllowedTarget,
+        OnlyContacted: this.commentLabelOnlyContactedTarget,
+    }
+    const current = commentTargets[typeOfContact]
+    const others = Object.values(commentTargets).filter(label => label !== current)
+
+    others.forEach(hide)
+    show(current)
+
+    show(this.commentFormTarget)
   }
 }
 
 function show(element) {
+  console.log("showing", element)
   element.classList.remove('hidden')
 }
 
 function hide(element) {
+  console.log("hiding", element)
   element.classList.add('hidden')
 }
