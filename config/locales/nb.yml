@@ -248,7 +248,7 @@ nb:
         remember_me: "Husk meg"
         forgot_password: "Glemt passordet ditt"
         submit_login: "Logg inn"
-        password_reset: "Send meg passord instruksjoner"
+        password_reset: "Send instruksjoner for nytt passord"
         change_password: "Endre ditt passord"
         account: Din konto
         edit_account: Rediger konto

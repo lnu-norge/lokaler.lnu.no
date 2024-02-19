@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Fabricator(:user) do
+  email { "username@example.com" }
+  password { "password" }
+
   first_name { Faker::Superhero.prefix + Faker::Superhero.descriptor }
   last_name { Faker::Superhero.suffix }
   email { Faker::Internet.email }
