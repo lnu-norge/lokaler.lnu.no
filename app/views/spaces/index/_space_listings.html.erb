@@ -1,5 +1,4 @@
 <%= render partial: 'spaces/index/space_listing_header', locals: { space_count: space_count } %>
-<%= t('space_listing.no_results') if spaces.empty? %>
 <% spaces.each do |space| %>
   <%= render partial: "spaces/index/space_listing", locals: { space: space, filtered_facilities: filtered_facilities } %>
 <% end %>
