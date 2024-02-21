@@ -180,10 +180,11 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       params[:south_east_lng]
     )
 
+    spaces = spaces.filter_on_title(params[:search_for_title]) if params[:search_for_title].present?
     spaces = spaces.filter_on_space_types(space_types) unless space_types.nil?
-    spaces = spaces.order("star_rating DESC NULLS LAST")
     spaces = Space.filter_on_facilities(spaces, facilities) unless facilities.nil?
-    spaces
+
+    spaces.order("star_rating DESC NULLS LAST")
   end
 
   def space_params # rubocop:disable  Metrics/MethodLength

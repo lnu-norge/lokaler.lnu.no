@@ -1,4 +1,14 @@
 <%= form_with data: { mapbox_target: 'form', action: "keydown->mapbox#closeModal" } do |f| %>
+
+  <div class="mb-8">
+    <%= f.label t("space_filter.title"), class: "text-xl font-bold" %>
+    <div class="mt-2">
+      <%= f.text_field :title,
+                       data: { mapbox_target: "title" },
+                       class: "w-full rounded shadow border border-gray-300 focus:ring-lnu-pink focus:border-lnu-pink" %>
+    </div>
+  </div>
+
   <div class="mb-8">
     <%= f.label t("space_filter.location"), class: "text-xl font-bold" %>
     <div class="mt-2">
