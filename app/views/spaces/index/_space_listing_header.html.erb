@@ -1,3 +1,11 @@
-<div class="flex">
-  <h1 class="text-2xl mt-1"><%= t('space_filter.spaces_that_might_work', count: space_count ) %></h1>
-</div>
+
+<h1 class="text-base mb-6 text-gray-500 text-center">
+<% if space_count == 0 %>
+    <div class="text-lnu-pink flex flex-col place-items-center place-content-center md:h-screen-2/3">
+      <%= inline_svg_tag 'empty',  class: 'max-w-24 inline-block', alt: "" %>
+      <span class="text-gray-800"><%= t('space_filter.spaces_that_might_work', count: 0 ) %></span>
+    </div>
+  <% else %>
+    <%= t('space_filter.spaces_that_might_work', count: space_count ) %>
+  <% end %>
+</h1>

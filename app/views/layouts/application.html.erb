@@ -20,7 +20,7 @@
     <main class="flex-1">
       <%= yield %>
     </main>
-    <footer class="px-2 pt-4 mt-4 pb-4 bg-gray-100">
+    <footer class="<%= "md:sr-only" if controller_name == 'spaces' && action_name == 'index' %> px-2 pt-4 mt-4 pb-4 bg-gray-100">
       <ul class="divide-x flex z-1 relative">
         <li class="inline-block px-3">
           <%= link_to t("menu.privacy_policy"),

@@ -35,7 +35,10 @@ describe "User views homepage", :js do
       expect(page).to have_content(space_one.title)
       expect(page).to have_content(space_two.title)
 
-      click_on("toggle_search_box")
+      # If on mobile, we need to toggle the search box first:
+      click_on("toggle_search_box") unless page.has_text?(facility_toilet.title)
+
+      # Then we can start filtering:
       check(facility_toilet.title)
 
       # We must wait because find will find the element but it may not be in correct order yet..

@@ -15,19 +15,20 @@
   }
 }
 
-.splide__pagination__page {
-  @apply bg-gray-100;
-}
-
-.only_show_pagination_on_hover {
-  .splide__pagination__page,
-  .splide__arrow {
-    @apply transition-opacity;
-    opacity: 0;
-  }
-  &:hover {
+@media (any-hover: hover) {
+  .splide {
+    .splide__pagination__page,
     .splide__arrow {
+      @apply transition-opacity;
+      opacity: 0;
+    }
+    &:hover .splide__arrow {
       opacity: inherit;
     }
   }
 }
+
+.splide__pagination__page {
+  @apply bg-gray-100;
+}
+

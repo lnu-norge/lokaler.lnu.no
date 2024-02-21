@@ -38,6 +38,8 @@ module.exports = {
                 zoom: 'zoom-in'
             },
             spacing: {
+                'desktop-menu-height': '3.5rem',
+                'screen-below-desktop-menu': 'calc(100vh - 3.5rem)',
                 md: '28rem',
                 '1/3': '33.33333%',
                 '2/5': '40%',
