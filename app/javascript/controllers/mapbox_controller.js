@@ -1,11 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 import { Controller } from "@hotwired/stimulus";
-
-const capsuleHtml = (title) => `<button
-        data-action="click->mapbox#disableCapsule"
-        class="bg-white px-2.5 py-0.5 mt-2 rounded-full border border-gray-200 hover:border-lnu-pink whitespace-nowrap">
-          ${title}
-        </button>`
+import capsule_html from './search_and_filter/capsule_html';
 
 export default class extends Controller {
   static targets = [
@@ -75,14 +70,14 @@ export default class extends Controller {
   }
 
   updateFilterCapsules() {
-    const titleCapsule = this.titleTarget.value ? capsuleHtml(`"${this.titleTarget.value}"`) : '';
+    const titleCapsule = this.titleTarget.value ? capsule_html(`"${this.titleTarget.value}"`) : '';
 
     const facilityCapsules = this.facilityTargets.map(t =>
-      t.checked ? capsuleHtml(t.id) : ''
+      t.checked ? capsule_html(t.id) : ''
     ).join('');
 
     const spaceTypeCapsules = this.spaceTypeTargets.map(t =>
-      t.checked ? capsuleHtml(t.id) : ''
+      t.checked ? capsule_html(t.id) : ''
     ).join('');
 
     this.filterCapsulesTarget.innerHTML = titleCapsule + facilityCapsules + spaceTypeCapsules;
