@@ -32,7 +32,8 @@ module Spaces
       return duplicates.flatten.compact if duplicates[0].present?
 
       # Then return any matches by title and/or post
-      duplicates << by_post_and_title
+      duplicates << by_post_and_title if post_number.present?
+      duplicates << by_title_only if post_number.blank?
       duplicates.flatten.compact.uniq
     end
 
@@ -45,6 +46,14 @@ module Spaces
                 address:,
                 post_number:
               })
+    end
+
+    def by_title_only
+      return nil if title.blank?
+
+      Space.where(
+        "title ILIKE ?", "%#{title}%"
+      )
     end
 
     def by_post_and_title
