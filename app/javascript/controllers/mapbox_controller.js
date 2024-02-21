@@ -224,7 +224,6 @@ export default class extends Controller {
     this.map.on('moveend', (obj) => {
       if (obj.wasZoom) {
         this.reloadPosition();
-
       }
     });
 
@@ -316,11 +315,11 @@ export default class extends Controller {
     const url =`https://ws.geonorge.no/stedsnavn/v1/sted?sok=${event.target.value}&fuzzy=true`
     const result = await (await fetch(url)).json();
 
-    if(result.navn.length === 0)
+    if(!result || !result.navn || result.navn.length === 0)
       return;
 
     const place = result.navn[0]
-    this.flyToGeoNorgeLocation(place)
+    this.moveMapToGeoNorgeLocation(place)
   }
 
   removeMarker(key) {
@@ -375,11 +374,11 @@ export default class extends Controller {
     });
   }
 
-  flyToGeoNorgeLocation(place) {
+  moveMapToGeoNorgeLocation(place) {
     const location = place.geojson.geometry;
 
     if (location.type === "Point") {
-      this.flyToPoint(location.coordinates)
+      this.moveMapTo(location.coordinates)
     }
 
     if (location.type === "MultiPoint") {
@@ -393,8 +392,12 @@ export default class extends Controller {
         bounds.extend(coord);
       }
       return this.map.fitBounds(bounds, {
-        padding: 100
-      }, { wasZoom: true });
+        padding: 100,
+        animate: false,
+        maxZoom: 13
+      }, {
+        wasZoom: true,
+      });
     }
 
     // Unsure about location type given, use the center given by representasjonspunkt instead
@@ -402,10 +405,10 @@ export default class extends Controller {
       place.representasjonspunkt.øst,
       place.representasjonspunkt.nord
     ];
-    return this.flyToPoint(point);
+    return this.moveMapTo(point);
   }
 
-  flyToPoint(point) {
+  moveMapTo(point) {
     this.map.jumpTo({ center: point, zoom: 12 }, { wasZoom: true });
   }
 
@@ -413,7 +416,7 @@ export default class extends Controller {
     const position = await this.requestPosition();
 
     if(position != null) {
-      this.flyToPoint([position.coords.longitude, position.coords.latitude]);
+      this.moveMapTo([position.coords.longitude, position.coords.latitude]);
     }
     else {
       alert('Kunne ikke hente lokasjon. Sjekk at lokasjon er skrudd på')
