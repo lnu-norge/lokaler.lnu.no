@@ -26,16 +26,14 @@ export default class extends Controller {
     };
   }
 
-  toggleSearchBox() {
-    this.searchBoxTarget.classList.toggle("hidden");
+  showSearchBox() {
+    this.searchBoxTarget.classList.remove("hidden");
     let searchField = document.getElementById("locationInput-ts-control");
     searchField.focus();
   }
 
-  closeModal(e) {
-    if (e.key === "Enter") {
-      this.toggleSearchBox();
-    }
+  hideSearchBox() {
+    this.searchBoxTarget.classList.add("hidden");
   }
 
   requestPosition() {
@@ -260,6 +258,7 @@ export default class extends Controller {
       // To stop the form from submitting, as that currently does nothing but refresh the page.
       event.preventDefault()
       this.submitSearch(event)
+      this.hideSearchBox()
     };
   }
 
