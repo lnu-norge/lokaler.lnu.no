@@ -23,17 +23,13 @@ module Spaces
     def find_potential_duplicates
       duplicates = []
 
-      # If any full matches, just return those first:
       duplicates << full_match
       return duplicates.flatten if duplicates[0].present?
 
-      # If any matches by full address, return those without checking further:
       duplicates << by_full_address
       return duplicates.flatten.compact if duplicates[0].present?
 
-      # Then return any matches by title and/or post
-      duplicates << by_post_and_title if post_number.present?
-      duplicates << by_title_only if post_number.blank?
+      duplicates << by_title_or_post_and_title
       duplicates.flatten.compact.uniq
     end
 
@@ -46,6 +42,14 @@ module Spaces
                 address:,
                 post_number:
               })
+    end
+
+    def by_title_or_post_and_title
+      if post_number.present?
+        by_post_and_title
+      else
+        by_title_only
+      end
     end
 
     def by_title_only
