@@ -229,24 +229,38 @@ export default class extends Controller {
     });
 
     this.titleTarget.oninput = () => {
-      this.updateFilterCapsules();
-      this.loadNewMapPosition();
-      this.updateUrl();
+      this.debounce(
+          "titleSearch",
+          500,
+          () => this.runSearch()
+      );
+    }
+
+    this.debounce = (name, time, callback) => {
+      this.debounceTimeouts = this.debounceTimeouts || {};
+
+      if (this.debounceTimeouts[name]) {
+        clearTimeout(this.debounceTimeouts[name]);
+      }
+      this.debounceTimeouts[name] = setTimeout(callback, time);
+    }
+
+    this.clearDebounce = (name) => {
+        if (this.debounceTimeouts &&
+            this.debounceTimeouts[name]) {
+            clearTimeout(this.debounceTimeouts[name]);
+        }
     }
 
     this.spaceTypeTargets.forEach(spaceType => {
       spaceType.onchange = () => {
-        this.updateFilterCapsules();
-        this.loadNewMapPosition();
-        this.updateUrl();
+        this.runSearch()
       };
     });
 
     this.facilityTargets.forEach(spaceType => {
       spaceType.onchange = () => {
-        this.updateFilterCapsules();
-        this.loadNewMapPosition();
-        this.updateUrl();
+        this.runSearch()
       };
     });
 
@@ -257,9 +271,16 @@ export default class extends Controller {
     this.formTarget.onsubmit = (event) => {
       // To stop the form from submitting, as that currently does nothing but refresh the page.
       event.preventDefault()
+      this.clearDebounce("titleSearch")
       this.submitSearch(event)
       this.hideSearchBox()
     };
+  }
+
+  runSearch() {
+    this.updateFilterCapsules();
+    this.loadNewMapPosition();
+    this.updateUrl();
   }
 
   loadPositionOn(event) {

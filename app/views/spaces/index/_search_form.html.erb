@@ -7,7 +7,7 @@
     <div class="mt-2">
       <%= f.text_field :title,
                        data: { mapbox_target: "title" },
-                       class: "w-full rounded shadow border border-gray-300 focus:ring-lnu-pink focus:border-lnu-pink" %>
+                       class: "text_field shadow" %>
     </div>
   </div>
 
@@ -16,7 +16,7 @@
     <div class="mt-2">
       <div data-mapbox-target="location">
         <select id="locationInput"
-                class="w-full rounded shadow border border-gray-300 focus:ring-lnu-pink focus:border-lnu-pink"
+                class="w-full rounded shadow focus:ring-lnu-pink focus:border-lnu-pink"
                 data-controller="locationsearch">
         </select>
       </div>
