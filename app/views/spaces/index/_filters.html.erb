@@ -1,38 +1,27 @@
-<div
-  data-controller="modal"
-  aria-modal="true"
-  data-modal-target="wrapper"
-  data-mapbox-target="searchBox"
-  role="dialog"
-  class="hidden transition-all"
->
-  <div class="modal-background" data-modal-target="background">
-    <div class="modal modal--with-header-and-footer">
-      <nav class="modal-header">
-        <%= button_tag data: {
-          modal_target: 'closeButton',
-          action: "click->mapbox#toggleSearchBox"
-        }, class: "hover:underline p-4 -ml-4 inline-flex content-center items-center" do %>
-          <%= inline_svg_tag 'x', class: 'inline-block' %>
-          <%= t("close") %>
-        <% end %>
-        <h2 class="font-bold text-center">
-          <%= t('space_filter.edit_filter') %>
-        </h2>
-        <div class="w-16"></div>
-      </nav>
-      <section class="modal-content">
-        <%= render partial: "spaces/index/search_form" %>
-      </section>
-      <nav class="modal-footer">
-        <%= button_tag data: {
-          modal_target: 'closeButton',
-          action: "click->mapbox#toggleSearchBox"
-        }, class: "modal-button" do %>
-          <%= inline_svg_tag 'search', class: 'inline-block' %>
-          <%= t('space_filter.show_spaces', count: '') %>
-        <% end %>
-      </nav>
-    </div>
-  </div>
+<div class="flex flex-col">
+  <header class="modal-header md:hidden flex justify-between w-full">
+    <%= button_tag data: {
+      action: "click->mapbox#toggleSearchBox"
+    }, class: "md:hidden hover:underline p-4 -ml-4 inline-flex content-center items-center" do %>
+      <%= inline_svg_tag 'x', class: 'inline-block' %>
+      <%= t("close") %>
+    <% end %>
+    <h2 class="font-bold text-center">
+      <%= t('space_filter.edit_filter') %>
+    </h2>
+    <div class="md:hidden w-16"></div>
+  </header>
+
+  <main class="p-8 md:pt-11">
+    <%= render partial: "spaces/index/search_form" %>
+  </main>
+
+  <footer class="sticky md:sr-only bottom-0 left-0 right-0 modal-footer">
+    <%= button_tag data: {
+      action: "click->mapbox#toggleSearchBox"
+    }, class: "modal-button" do %>
+      <%= inline_svg_tag 'search', class: 'inline-block' %>
+      <%= t('space_filter.show_spaces', count: '') %>
+    <% end %>
+  </footer>
 </div>
