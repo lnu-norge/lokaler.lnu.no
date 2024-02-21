@@ -1,8 +1,18 @@
 import mapboxgl from 'mapbox-gl';
 import { Controller } from "@hotwired/stimulus";
+import capsule_html from './search_and_filter/capsule_html';
 
 export default class extends Controller {
-  static targets = [ "facility", "spaceType", "location", "searchBox", "form", "filterCapsules", "searchArea" ]
+  static targets = [
+      "facility",
+      "spaceType",
+      "location",
+      "searchBox",
+      "title",
+      "form",
+      "filterCapsules",
+      "searchArea"
+  ]
 
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
@@ -16,16 +26,14 @@ export default class extends Controller {
     };
   }
 
-  toggleSearchBox() {
-    this.searchBoxTarget.classList.toggle("hidden");
+  showSearchBox() {
+    this.searchBoxTarget.classList.remove("hidden");
     let searchField = document.getElementById("locationInput-ts-control");
     searchField.focus();
   }
 
-  closeModal(e) {
-    if (e.key === "Enter") {
-      this.toggleSearchBox();
-    }
+  hideSearchBox() {
+    this.searchBoxTarget.classList.add("hidden");
   }
 
   requestPosition() {
@@ -60,35 +68,40 @@ export default class extends Controller {
   }
 
   updateFilterCapsules() {
-    const capsuleHtml = (title) => `<button
-        data-action="click->mapbox#disableCapsule"
-        class="bg-white px-2.5 py-0.5 mt-2 rounded-full border border-gray-200 hover:border-lnu-pink whitespace-nowrap">
-          ${title}
-        </button>`
+    const titleCapsule = this.titleTarget.value ? capsule_html(`"${this.titleTarget.value}"`) : '';
 
     const facilityCapsules = this.facilityTargets.map(t =>
-      t.checked ? capsuleHtml(t.id) : ''
+      t.checked ? capsule_html(t.id) : ''
     ).join('');
 
     const spaceTypeCapsules = this.spaceTypeTargets.map(t =>
-      t.checked ? capsuleHtml(t.id) : ''
+      t.checked ? capsule_html(t.id) : ''
     ).join('');
 
-    this.filterCapsulesTarget.innerHTML = facilityCapsules + spaceTypeCapsules;
+    this.filterCapsulesTarget.innerHTML = titleCapsule + facilityCapsules + spaceTypeCapsules;
   }
 
   disableCapsule(event) {
+    let foundFilterToReset = false;
+
     this.facilityTargets.forEach(t => {
       if (t.id === event.target.innerText) {
         t.checked = false;
+        foundFilterToReset = true;
       }
     });
 
     this.spaceTypeTargets.forEach(t => {
       if (t.id === event.target.innerText) {
         t.checked = false;
+        foundFilterToReset = true;
       }
     });
+
+    if (!foundFilterToReset)  {
+      // Then it's the title serach capsule
+      this.titleTarget.value = '';
+    }
 
     this.updateFilterCapsules();
     this.loadNewMapPosition();
@@ -101,10 +114,12 @@ export default class extends Controller {
     const selectedFacilities = this.selectedFacilities();
     const selectedSpaceTypes = this.selectedSpaceTypes();
     const selectedLocation = this.selectedLocation();
+    const searchForTitle = this.titleTarget.value;
 
     this.setOrDeleteToUrl('selectedFacilities', selectedFacilities);
     this.setOrDeleteToUrl('selectedSpaceTypes', selectedSpaceTypes);
     this.setOrDeleteToUrl('selectedLocation', selectedLocation);
+    this.setOrDeleteToUrl('searchForTitle', searchForTitle);
   }
 
   setOrDeleteToUrl(key, value) {
@@ -137,9 +152,11 @@ export default class extends Controller {
     const selectedFacilities = url.searchParams.get('selectedFacilities');
     const selectedSpaceTypes = url.searchParams.get('selectedSpaceTypes');
     const selectedLocation = url.searchParams.get('selectedLocation');
+    const searchForTitle = url.searchParams.get('searchForTitle');
 
     this.parseSelectedFacilities(selectedFacilities);
     this.parseSelectedSpaceTypes(selectedSpaceTypes);
+    this.parseSearchForTitle(searchForTitle);
 
     this.updateFilterCapsules();
 
@@ -157,6 +174,13 @@ export default class extends Controller {
     }
   }
 
+  parseSearchForTitle(searchForTitle) {
+    if(searchForTitle) {
+      this.titleTarget.value = searchForTitle;
+    } else {
+      this.titleTarget.value = '';
+    }
+  }
   parseSelectedFacilities(selectedFacilities) {
     if(!selectedFacilities) return;
 
@@ -204,19 +228,39 @@ export default class extends Controller {
       }
     });
 
+    this.titleTarget.oninput = () => {
+      this.debounce(
+          "titleSearch",
+          500,
+          () => this.runSearch()
+      );
+    }
+
+    this.debounce = (name, time, callback) => {
+      this.debounceTimeouts = this.debounceTimeouts || {};
+
+      if (this.debounceTimeouts[name]) {
+        clearTimeout(this.debounceTimeouts[name]);
+      }
+      this.debounceTimeouts[name] = setTimeout(callback, time);
+    }
+
+    this.clearDebounce = (name) => {
+        if (this.debounceTimeouts &&
+            this.debounceTimeouts[name]) {
+            clearTimeout(this.debounceTimeouts[name]);
+        }
+    }
+
     this.spaceTypeTargets.forEach(spaceType => {
       spaceType.onchange = () => {
-        this.updateFilterCapsules();
-        this.loadNewMapPosition();
-        this.updateUrl();
+        this.runSearch()
       };
     });
 
     this.facilityTargets.forEach(spaceType => {
       spaceType.onchange = () => {
-        this.updateFilterCapsules();
-        this.loadNewMapPosition();
-        this.updateUrl();
+        this.runSearch()
       };
     });
 
@@ -227,7 +271,16 @@ export default class extends Controller {
     this.formTarget.onsubmit = (event) => {
       // To stop the form from submitting, as that currently does nothing but refresh the page.
       event.preventDefault()
+      this.clearDebounce("titleSearch")
+      this.submitSearch(event)
+      this.hideSearchBox()
     };
+  }
+
+  runSearch() {
+    this.updateFilterCapsules();
+    this.loadNewMapPosition();
+    this.updateUrl();
   }
 
   loadPositionOn(event) {
@@ -287,12 +340,15 @@ export default class extends Controller {
       t.checked ? `space_types[]=${encodeURIComponent(t.name)}&` : ''
     ).join('');
 
+    const title = this.titleTarget.value;
+
     return [
       '/spaces_search?',
       `north_west_lat=${northWest.lat}&`,
       `north_west_lng=${northWest.lng}&`,
       `south_east_lat=${southEast.lat}&`,
       `south_east_lng=${southEast.lng}&`,
+      `search_for_title=${title}&`,
       facilitiesString,
       spaceTypesString,
     ].join('');

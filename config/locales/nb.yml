@@ -84,6 +84,7 @@ nb:
       other: "%{count} lokaler passer:"
     edit_filter: 'Rediger filtre'
     location: 'Sted'
+    title: 'Navn på lokalet'
     more_filters: 'Flere filtre'
     map_reload: 'Søk i området'
   admin:
