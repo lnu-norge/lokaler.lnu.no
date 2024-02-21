@@ -1,11 +1,22 @@
-<%= form_with data: { mapbox_target: 'form', action: "keydown->mapbox#closeModal" } do |f| %>
+<%= form_with data: {
+  mapbox_target: 'form'
+} do |f| %>
+
+  <div class="mb-8">
+    <%= f.label t("space_filter.title"), class: "text-xl font-bold" %>
+    <div class="mt-2">
+      <%= f.text_field :title,
+                       data: { mapbox_target: "title" },
+                       class: "text_field shadow" %>
+    </div>
+  </div>
+
   <div class="mb-8">
     <%= f.label t("space_filter.location"), class: "text-xl font-bold" %>
     <div class="mt-2">
       <div data-mapbox-target="location">
         <select id="locationInput"
-                class="w-full rounded shadow border border-gray-300 focus:ring-lnu-pink focus:border-lnu-pink"
-                placeholder=<%= t("space_filter.location") %>
+                class="w-full rounded shadow focus:ring-lnu-pink focus:border-lnu-pink"
                 data-controller="locationsearch">
         </select>
       </div>
