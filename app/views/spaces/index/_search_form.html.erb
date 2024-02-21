@@ -1,4 +1,6 @@
-<%= form_with data: { mapbox_target: 'form', action: "keydown->mapbox#closeModal" } do |f| %>
+<%= form_with data: {
+  mapbox_target: 'form'
+} do |f| %>
 
   <div class="mb-8">
     <%= f.label t("space_filter.title"), class: "text-xl font-bold" %>
