@@ -28,15 +28,27 @@ export default class extends Controller {
     form.addEventListener('change', () =>  {
       this.checkDuplicates()
     });
+
+    const titleField = form.querySelector("#space_title")
+    titleField.addEventListener('input', (e) => {
+      if (e.target.value.length < 5) {
+        return
+      }
+
+      this.checkDuplicates()
+    })
   }
 
   async checkDuplicates() {
     const data = new FormData(this.element);
+    const title = data.get("space[title]");
     const address = data.get("space[address]");
     const post_number = data.get("space[post_number]");
 
-    if (!post_number || (!address && !post_number)) return
-    const title = data.get("space[title]");
+    const enoughDataToFindByTitle = title.length > 5
+    const enoughDataToFindByAddress = (!post_number || (!address && !post_number))
+
+    if (!enoughDataToFindByTitle || !enoughDataToFindByAddress) return
 
     if (this.checkIfDataIsStale(title, address, post_number)) {
       return
