@@ -406,7 +406,7 @@ export default class extends Controller {
   }
 
   flyToPoint(point) {
-    this.map.flyTo({ center: point, zoom: 12 }, { wasZoom: true });
+    this.map.jumpTo({ center: point, zoom: 12 }, { wasZoom: true });
   }
 
   async enableLocationService() {
