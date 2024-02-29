@@ -84,9 +84,7 @@ nb:
       other: "%{count} lokaler passer:"
     edit_filter: 'Rediger filtre'
     location: 'Område'
-    municipality: 'Kommune'
-    choose_municipality: 'Velg kommune'
-    or_choose_by_map: 'Eller flytt på kart'
+    choose_location: 'Søk her, eller flytt på kart'
     title: 'Navn på lokalet'
     more_filters: 'Flere filtre'
     map_reload: 'Søk i området'
