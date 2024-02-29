@@ -5,8 +5,7 @@
       <%= render partial: 'facility_reviews/new/facility_buttons',
                  locals: {
                    facility: facility_review,
-                   facility_review: @reviews_for_categories.dig(category.id)&.dig(facility_review[:id]) ||
-                                    current_user.new_facility_review_for(facility_review[:id], @space),
+                   facility_review: current_user.facility_review_for(facility_review[:id], @space),
                    form: form } %>
     <% end %>
   </ul>

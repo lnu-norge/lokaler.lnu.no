@@ -13,7 +13,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
     @non_relevant_facilities = @space.non_relevant_space_facilities
     @grouped_non_relevant_facilities = @space.group_space_facilities(@non_relevant_facilities)
-    @reviews_for_categories = @space.reviews_for_categories(current_user)
     @experiences = [
       "unknown",
       *FacilityReview.experiences.keys.reverse
