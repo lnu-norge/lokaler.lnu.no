@@ -1,7 +1,7 @@
 <% show_full_review = false unless defined?(:show_full_review) %>
 
 <h3 class="reset-header-styles">
-  <span class="font-bold flex gap-1">
+  <span class="font-bold inline-flex gap-1 relative">
     <%= inline_svg_tag 'star', class: 'text-pink-600' if review.star_rating %>
     <%= review.star_rating %>
     <span class="sr-only"><%= t("reviews.stars_given", count: review.star_rating.to_i) %></span>
