@@ -174,16 +174,17 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def filtered_space_facilities(relevant: true, grouped: false, user: nil)
-    matches = space_facilities.includes(facility: [:facilities_categories]).where(relevant:)
+    ungrouped_facilities = space_facilities.includes(facility: [:facilities_categories]).where(relevant:)
     # If a user is defined, include facility reviews for that user
     if user
-      matches = matches.includes(facility: [:facility_reviews]).where(facility_reviews: { user:,
-                                                                                          space: self })
+      ungrouped_facilities = ungrouped_facilities
+                             .includes(facility: [:facility_reviews])
+                             .where(relevant:, facility_reviews: { space: self })
     end
 
-    return matches unless grouped
+    return ungrouped_facilities unless grouped
 
-    group_space_facilities(matches)
+    group_space_facilities(ungrouped_facilities:, user:)
   end
 
   # Facilities (found through space facilities) that are relevant.
@@ -193,7 +194,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   # Groups given facilities by their category
   # { category_id: [facility_1, facility_2, ...] }
-  def group_space_facilities(ungrouped_facilities) # rubocop:disable Metrics/AbcSize
+  def group_space_facilities(ungrouped_facilities:, user: nil)
     ungrouped_facilities.each_with_object({}) do |space_facility, memo|
       space_facility.facility.facilities_categories.each do |facility_category|
         memo[facility_category.facility_category_id] ||= {
@@ -201,19 +202,15 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
           space_facilities: []
         }
 
-        facility_data = facility_data_from_space_facility(space_facility:, facility_category:)
-
-        if space_facility.facility.facility_reviews.present?
-          facility_data[:current_user_review] = space_facility.facility.facility_reviews.first
-        end
+        facility_data = facility_data_from_space_facility(space_facility:, facility_category:, user:)
 
         memo[facility_category.facility_category_id][:space_facilities] << facility_data
       end
     end.sort_by(&:first) # sorts by category id
   end
 
-  def facility_data_from_space_facility(space_facility:, facility_category:)
-    {
+  def facility_data_from_space_facility(space_facility:, facility_category:, user:)
+    data = {
       id: space_facility.facility.id,
       title: space_facility.facility.title,
       description: space_facility.description,
@@ -222,6 +219,22 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       relevant: space_facility.relevant,
       category_id: facility_category.facility_category.id
     }
+
+    add_current_user_review_to_data(data:, space_facility:, user:)
+  end
+
+  def add_current_user_review_to_data(data:, space_facility:, user:)
+    return data if user.blank?
+
+    if space_facility.facility.facility_reviews.present?
+      current_user_review = space_facility.facility.facility_reviews.find_by(user:,
+                                                                             space: self)
+    end
+
+    data[:current_user_review] =
+      (current_user_review.presence || FacilityReview.new(facility_id: id, space_id: @space, user_id: user.id))
+
+    data
   end
 
   def merge_paper_trail_versions

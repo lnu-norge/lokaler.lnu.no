@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 class FacilityReviewsController < BaseControllers::AuthenticateController
+  include DefineGroupedFacilitiesForSpace
+
+  def new
+    params.require([:space_id, :facility_id, :facility_category_id])
+
+    @space = Space.find(params[:space_id])
+    @facility = Facility.find(params[:facility_id])
+    @space_facility = SpaceFacility.find_by(space: @space, facility: @facility)
+    @facility_review = FacilityReview.find_or_initialize_by(facility: @facility, space: @space, user: current_user)
+    @experiences = FacilityReview::LIST_EXPERIENCES
+
+    define_category
+  end
+
   def create
     space_id_param = params.require(:space_id)
     reviews_and_descriptions = params.require(:space).permit(
@@ -38,7 +52,8 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     respond_to do |format|
       format.turbo_stream do
         flash.now[flash_type] = flash_message
-        @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
+
+        define_facilities
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),
@@ -116,5 +131,13 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     return true if existing_review.blank? && review["experience"] == "unknown"
 
     existing_review.present? && existing_review[:experience] == review["experience"]
+  end
+
+  def define_category
+    @category = if params[:facility_category_id].present?
+                  FacilityCategory.find(params[:facility_category_id])
+                else
+                  Facility.find(params[:facility_id]).facility_categories.first
+                end
   end
 end

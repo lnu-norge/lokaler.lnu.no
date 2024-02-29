@@ -4,22 +4,30 @@
   title = facility[:title]
   review = facility[:review]
   description = facility[:description]
-  tooltip = facility[:tooltip]
   category_id = facility[:category_id]
-
-  facility_review =
-    facility[:current_user_review] ||
-    FacilityReview.new(facility_id: id, space_id: @space, user: current_user)
+  facility_review = facility[:current_user_review]
 %>
 <li
-  title="<%= tooltip %>">
+  title="<%= t("tooltips.others_experience.#{review}") %>">
   <%= turbo_frame_tag dom_id(facility_review, "category_#{category_id}__facility_#{id}__") do %>
-    <span class="flex items-center gap-1.5 <%= "line-through text-gray-600" if review == "impossible" %>">
-      <%= title %>
-      <span>
-        <%= inline_svg_tag "facility_status/#{review}" %>
-      </span>
-    </span>
+    <div class="flex gap-2 text-lg items-center">
+      <h4 class="text-base <%= "line-through text-gray-600" if review == "impossible" %>"><%= title %></h4>
+
+      <%= inline_svg_tag "facility_status/#{review}", class: "#{" text-black " if review == "impossible" }" %>
+
+      <%= link_to new_facility_review_path(
+                    space_id: @space.id,
+                    facility_id: id,
+                    facility_category_id: category_id,
+                  ), class: 'edit-button edit-button--small collapsible' do %>
+        <span class="text">
+          <%= t('space_edit.edit') %>
+        </span>
+        <%= inline_svg_tag 'edit', alt: 'Redigér', title: 'Redigér' %>
+      <% end %>
+
+    </div>
+
     <% unless description.nil? %>
       <div class="text-gray-400 mb-1.5">
         <%= description %>
