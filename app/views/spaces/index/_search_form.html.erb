@@ -3,7 +3,7 @@
 } do |f| %>
 
   <div class="mb-8">
-    <%= f.label t("space_filter.title"), class: "text-xl font-bold" %>
+    <%= f.label t("space_filter.title"), for: :title, class: "text-xl font-bold" %>
     <div class="mt-2">
       <%= f.text_field :title,
                        data: { mapbox_target: "title" },
@@ -12,13 +12,14 @@
   </div>
 
   <div class="mb-8">
-    <%= f.label t("space_filter.location"), class: "text-xl font-bold" %>
+    <%= f.label t("space_filter.choose_municipality"), for: "locationInput", class: "text-xl font-bold" %>
     <div class="mt-2">
       <div data-mapbox-target="location">
         <select id="locationInput"
                 class="w-full rounded shadow focus:ring-lnu-pink focus:border-lnu-pink"
                 data-controller="locationsearch">
         </select>
+        <p class="text-sm font-thin mt-1"><%= t("space_filter.or_choose_by_map") %></p>
       </div>
     </div>
   </div>

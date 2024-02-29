@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import TomSelect from 'tom-select'
+import fylkerAndKommuner from "./search_and_filter/fylker_and_kommuner";
 
 export default class extends Controller {
   static values = {
@@ -8,29 +9,40 @@ export default class extends Controller {
 
   connect() {
     this.tomselect = new TomSelect('#locationInput', {
-      valueField: 'text',
-      labelField: 'text',
-      searchField: 'text',
-      allowEmptyOption: true,
-      create: true,
-      load: (search, callback) => {
-        this.searchGeoNorge(search, callback)
-      }}
+          maxOptions: null,
+          valueField: 'kommune',
+          labelField: 'kommune',
+          searchField: ['kommune', 'fylke'],
+          optgroupField: 'fylke',
+          sortField: ['fylke', 'kommune'],
+          allowEmptyOption: true,
+          persist: false, // but do not store user inputted options as dropdown items
+          plugins: ['clear_button'], // For multiple select
+          optgroups: this.optGroups,
+          options: this.options
+        }
     );
   }
 
-  async searchGeoNorge(search, callback) {
-    if(search === "")
-      callback([]);
+  get optGroups() {
+    return fylkerAndKommuner.map(fylke => ({ value: fylke.name, label: fylke.name }))
+  }
 
-    const url =`https://ws.geonorge.no/stedsnavn/v1/sted?sok=${search}&fuzzy=true`
+  get options() {
+    console.log(fylkerAndKommuner)
+    return fylkerAndKommuner.map(fylke => {
+      if (!fylke.kommuner) return {
+        kommune: fylke.name,
+        fylke: fylke.name
+      }
 
-    const result = await (await fetch(url)).json();
-
-    const data = result.navn.map((name) => {
-      return { text: name.stedsnavn[0].skrivemåte }
-    });
-
-    callback(data);
+      return fylke.kommuner.map(kommune => {
+        return {
+          kommune: kommune.name,
+          fylke: fylke.name
+        }
+      })
+    }).flat()
   }
 }
+
