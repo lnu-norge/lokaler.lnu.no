@@ -1,0 +1,16 @@
+<div class="grid md:grid-cols-3 md:gap-4 items-baseline py-4 md:py-8">
+  <h3 class="no-mt">
+    <%= group.second[:category].title %>
+  </h3>
+
+  <ul class="grid gap-1 md:col-span-2">
+    <% group.second[:space_facilities].each do |facility| %>
+      <%= render partial: 'spaces/show/facility_item', locals: {
+        title: facility[:title],
+        review: facility[:review],
+        description: facility[:description],
+        tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
+      } %>
+    <% end %>
+  </ul>
+</div>
