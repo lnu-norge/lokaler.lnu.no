@@ -36,9 +36,10 @@ module Spaces
       return handle_zero_facility_reviews(space_facility, belongs_to_space_type) if count.zero?
 
       # Set criteria:
-      positive_threshold = reviews.positive.count >= (count / 3.0 * 2.0).ceil
-      impossible_threshold = reviews.impossible.count >= (count / 2.0).ceil
-      negative_threshold = reviews.negative.count >= (count / 3.0 * 2.0).ceil
+      two_out_of_three = (count / 3.0 * 2.0).ceil
+      positive_threshold = reviews.positive.count >= two_out_of_three
+      impossible_threshold = reviews.impossible.count >= two_out_of_three
+      negative_threshold = reviews.negative.count >= two_out_of_three
 
       set_relevance(space_facility, belongs_to_space_type, positive_threshold)
 

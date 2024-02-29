@@ -152,33 +152,41 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     (star_rating - 2.9) / 10
   end
 
-  # Groups all of the users facility reviews into a hash like
-  # { category_id: { facility_id: review } }
-  def reviews_for_categories(user)
-    user.facility_reviews
-        .where(space: self)
-        .includes(facility: [:facilities_categories])
-        .joins(facility: [:facilities_categories])
-        .each_with_object({}) do |review, memo|
-      review.facility.facilities_categories.each do |facility_category|
-        memo[facility_category.facility_category_id] ||= {}
-        memo[facility_category.facility_category_id][review.facility.id] = review
-      end
-    end
-  end
-
   # Space Facilities that are typically relevant for the space
   # Either because they share a space type with the space
   # or because someone has said that they are relevant for
   # this specific space by setting a space_facilities experience.
   #
-  # Can be grouped by category by passing grouped: true
-  def relevant_space_facilities(grouped: false)
-    relevant = space_facilities.includes(facility: [:facilities_categories]).where(relevant: true)
+  # Can be grouped by category by passing grouped: true, and
+  # if a user is defined, include facility reviews for that user
+  def relevant_space_facilities(grouped: false, user: nil)
+    filtered_space_facilities(relevant: true, grouped:, user:)
+  end
 
-    return relevant unless grouped
+  # Space Facilities that are typically NOT relevant for the space
+  # Because they DO NOT share a space type with the space AND
+  # no one has given a space_facility experience for them.
+  #
+  # Can be grouped by category by passing grouped: true.
+  # Cannot have facility reviews, else they would be relevant.
+  def non_relevant_space_facilities(grouped: false)
+    filtered_space_facilities(relevant: false, grouped:)
+  end
 
-    group_space_facilities(relevant)
+  def filtered_space_facilities(relevant: true, grouped: false, user: nil)
+    ungrouped_facilities = space_facilities
+                           .includes(
+                             facility: [
+                               :facility_reviews,
+                               :facilities_categories
+                             ]
+                           )
+                           .where(relevant:)
+                           .order("facilities.title")
+
+    return ungrouped_facilities unless grouped
+
+    group_space_facilities(ungrouped_facilities:, user:)
   end
 
   # Facilities (found through space facilities) that are relevant.
@@ -186,38 +194,49 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     space_facilities.includes(:facility).where(relevant: true).map(&:facility)
   end
 
-  # Space Facilities that are typically NOT relevant for the space
-  # Because they DO NOT share a space type with the space AND
-  # no one has given a space_facility experience for them.
-  #
-  # Can be grouped by category by passing grouped: true
-  def non_relevant_space_facilities(grouped: false)
-    non_relevant = space_facilities.includes(facility: [:facilities_categories]).where(relevant: false)
-
-    return non_relevant unless grouped
-
-    group_space_facilities(non_relevant)
-  end
-
   # Groups given facilities by their category
   # { category_id: [facility_1, facility_2, ...] }
-  def group_space_facilities(ungrouped_facilities) # rubocop:disable Metrics/AbcSize
+  def group_space_facilities(ungrouped_facilities:, user: nil)
     ungrouped_facilities.each_with_object({}) do |space_facility, memo|
       space_facility.facility.facilities_categories.each do |facility_category|
         memo[facility_category.facility_category_id] ||= {
           category: facility_category.facility_category,
           space_facilities: []
         }
-        memo[facility_category.facility_category_id][:space_facilities] << {
-          id: space_facility.facility.id,
-          title: space_facility.facility.title,
-          description: space_facility.description,
-          review: space_facility.experience,
-          space_types: space_facility.facility.space_types,
-          relevant: space_facility.relevant
-        }
+
+        facility_data = facility_data_from_space_facility(space_facility:, facility_category:, user:)
+
+        memo[facility_category.facility_category_id][:space_facilities] << facility_data
       end
     end.sort_by(&:first) # sorts by category id
+  end
+
+  def facility_data_from_space_facility(space_facility:, facility_category:, user:)
+    data = {
+      id: space_facility.facility.id,
+      title: space_facility.facility.title,
+      description: space_facility.description,
+      review: space_facility.experience,
+      space_types: space_facility.facility.space_types,
+      relevant: space_facility.relevant,
+      category_id: facility_category.facility_category.id
+    }
+
+    add_current_user_review_to_data(data:, space_facility:, user:)
+  end
+
+  def add_current_user_review_to_data(data:, space_facility:, user:)
+    return data if user.blank?
+
+    if space_facility.facility.facility_reviews.present?
+      current_user_review = space_facility.facility.facility_reviews.find_by(user:,
+                                                                             space: self)
+    end
+
+    data[:current_user_review] =
+      (current_user_review.presence || FacilityReview.new(facility_id: id, space_id: @space, user_id: user.id))
+
+    data
   end
 
   def merge_paper_trail_versions

@@ -26,6 +26,14 @@ class SpaceFacility < ApplicationRecord
   def not_relevant?
     !relevant?
   end
+
+  def user_review(user)
+    FacilityReview.find_or_initialize_by(
+      user:,
+      facility:,
+      space:
+    )
+  end
 end
 
 # == Schema Information

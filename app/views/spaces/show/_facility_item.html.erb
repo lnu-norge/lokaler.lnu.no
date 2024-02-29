@@ -1,15 +1,15 @@
-<li
-  title="<%= tooltip %>">
-  <span class="flex items-center gap-1.5 <%= "line-through text-gray-600" if review == "impossible" %>">
-    <%= title %>
-      <span>
-      <%= inline_svg_tag "facility_status/#{review}" %>
-    </span>
-  </span>
-  <% unless description.nil? %>
-    <div class="text-gray-400 mb-1.5">
-      <%= description %>
-    </div>
-  <% end %>
-
+<%# locals: (facility:, space:) %>
+<li>
+  <%= render partial: 'facility_reviews/facility_with_edit_button',
+             locals: {
+               facility_id:  facility[:id],
+               title:  facility[:title],
+               experience: facility[:review],
+               description:  facility[:description],
+               facility_category_id: facility[:category_id],
+               facility_review: facility[:current_user_review],
+               tooltip:  t("tooltips.facility_aggregated_experience.#{facility[:review]}"),
+               space_id: space[:id]
+            }
+   %>
 </li>
