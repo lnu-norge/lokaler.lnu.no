@@ -83,7 +83,8 @@ nb:
       one: "Ett lokale passer:"
       other: "%{count} lokaler passer:"
     edit_filter: 'Rediger filtre'
-    location: 'Sted'
+    location: 'Område'
+    choose_location: 'Søk her, eller flytt på kart'
     title: 'Navn på lokalet'
     more_filters: 'Flere filtre'
     map_reload: 'Søk i området'
