@@ -1,66 +1,11 @@
 export default [
     {
-        "name": "Hele Norge",
-        "id": "hele-landet"
+        "name": "Norge",
+        "id": ""
     },
     {
         "name": "Oslo",
-        "id": "fylke-03",
-        "kommuner": [
-            {
-                "name": "Bydel Alna",
-                "id": "alna"
-            },{
-                "name": "Bydel Bjerke",
-                "id": "bjerke"
-            },{
-                "name": "Bydel Frogner",
-                "id": "frogner"
-            },{
-                "name": "Bydel Gamle Oslo",
-                "id": "gamle-oslo"
-            },{
-                "name": "Bydel Grorud",
-                "id": "grorud"
-            },{
-                "name": "Bydel Grünerløkka",
-                "id": "grunderlokka"
-            },{
-                "name": "Bydel Nordre Aker",
-                "id": "norde-aker"
-            },{
-                "name": "Bydel Nordstrand",
-                "id": "nordstrand"
-            },{
-                "name": "Bydel Sagene",
-                "id": "sagene"
-            },
-            {
-                "name": "Bydel St. Hanshaugen",
-                "id": "sthanshaugen"
-            },
-            {
-                "name": "Bydel Stovner",
-                "id": "stovner"
-            },
-            {
-                "name": "Bydel Søndre Nordstrand",
-                "id": "sondre-nordstrand"
-            },
-            {
-                "name": "Bydel Ullern",
-                "id": "ullern"
-            },
-            {
-                "name": "Bydel Vestre Aker",
-                "id": "vestre-aker"
-            },
-            {
-                "name": "Bydel Østensjø",
-                "id": "ostensjo"
-            }
-
-        ]
+        "id": "fylke-03"
     }, {
         "name": "Rogaland",
         "id": "fylke-11",
