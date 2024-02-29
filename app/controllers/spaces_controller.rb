@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SpacesController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
+  include DefineGroupedFacilitiesForSpace
+
   def index
     @spaces = Space.order updated_at: :desc
     @space = Space.new
@@ -9,7 +11,8 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   def show
     @space = Space.includes(:space_contacts).where(id: params[:id]).first
     @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)
-    @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
+
+    define_facilities
   end
 
   def new

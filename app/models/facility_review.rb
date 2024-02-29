@@ -17,6 +17,11 @@ class FacilityReview < ApplicationRecord
     ICON_FOR_EXPERIENCE[experience]
   end
 
+  LIST_EXPERIENCES = [
+    "unknown",
+    *FacilityReview.experiences.keys.reverse
+  ].reverse
+
   ICON_FOR_EXPERIENCE = {
     "was_allowed" => "likely",
     "was_not_allowed" => "unlikely",

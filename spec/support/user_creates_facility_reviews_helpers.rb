@@ -69,44 +69,34 @@ module UserCreatesFacilityReviewsHelpers
 
   def click_to_create_new_facility_review(facility:,
                                           description_to_add: "")
-    open_form_modal
 
     enter_data_about_facility(facility:, description_to_add:)
-
-    save_form_modal
   end
 
   def click_to_create_multiple_facility_reviews(facilities_to_review: [])
-    open_form_modal
-
     facilities_to_review.each do |facility|
       enter_data_about_facility(facility:)
     end
-
-    save_form_modal
-  end
-
-  def open_form_modal
-    # Click the edit button
-    find("button[aria-label='Rediger fasiliteter']").click
-  end
-
-  def save_form_modal
-    click_on(I18n.t("facility_reviews.save"))
-
-    # Wait for the save to go through
-    expect(page).to have_text(I18n.t("reviews.added_review"))
   end
 
   def enter_data_about_facility(facility:, description_to_add: "")
-    fieldset = first("fieldset", text: facility.title)
-    within(fieldset) do
-      click_on("Rediger")
+    edit_button = first("a", text: facility.title)
+    edit_button.click
+
+    form = find("form", text: facility.title, wait: 10)
+    within(form) do
       choose(I18n.t("reviews.form.facility_experience_particular_tense.was_allowed"), allow_label_click: true)
 
       # Add a description
       fill_in(I18n.t("simple_form.labels.space_facility.description"), with: description_to_add)
+
+      # And save
+      submit_button = find("button[type=submit]")
+      submit_button.click
     end
+
+    # Then wait until the save is done and flash message is shown
+    expect(page).to have_text(I18n.t("reviews.added_review"))
   end
 
   # rubocop:disable Metrics/ParameterLists, Metrics/MethodLength, Metrics/AbcSize # This is a test helper, it's fine
@@ -131,8 +121,8 @@ module UserCreatesFacilityReviewsHelpers
       count_of_visible_facilities - count_should_have_new_experience
 
     # CSS selectors for reviewed and non reviewed facilities
-    no_reviews_selector = "li[title='#{I18n.t('tooltips.facility_aggregated_experience.unknown')}']"
-    reviewed_selector = "li[title='#{I18n.t("tooltips.facility_aggregated_experience.#{expected_new_experience}")}']"
+    no_reviews_selector = "a[title='#{I18n.t('tooltips.facility_aggregated_experience.unknown')}']"
+    reviewed_selector = "a[title='#{I18n.t("tooltips.facility_aggregated_experience.#{expected_new_experience}")}']"
 
     relevant_space_facilities = space.relevant_space_facilities
     space_facilities_matching_facility = relevant_space_facilities.where(facility:)
@@ -163,7 +153,7 @@ module UserCreatesFacilityReviewsHelpers
     # Check that the reviewed facility changed in the model:
     expect(
       space_facilities_matching_facility.reload.all? do |space_facility|
-        space_facility.experience == expected_new_experience
+        space_facility.reload.experience == expected_new_experience
       end
     ).to be(true)
 

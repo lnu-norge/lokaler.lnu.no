@@ -1,20 +1,18 @@
 # frozen_string_literal: true
 
 class FacilityReviewsController < BaseControllers::AuthenticateController
+  include DefineGroupedFacilitiesForSpace
+
   def new
-    @space = Space.find(params["space_id"])
-    @categories = FacilityCategory.all
+    params.require([:space_id, :facility_id, :facility_category_id])
 
-    @reviews_for_categories = @space.reviews_for_categories(current_user)
+    @space = Space.find(params[:space_id])
+    @facility = Facility.find(params[:facility_id])
+    @space_facility = SpaceFacility.find_by(space: @space, facility: @facility)
+    @facility_review = FacilityReview.find_or_initialize_by(facility: @facility, space: @space, user: current_user)
+    @experiences = FacilityReview::LIST_EXPERIENCES
 
-    @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
-    @non_relevant_facilities = @space.non_relevant_space_facilities
-    @grouped_non_relevant_facilities = @space.group_space_facilities(@non_relevant_facilities)
-
-    @experiences = [
-      "unknown",
-      *FacilityReview.experiences.keys.reverse
-    ].reverse
+    define_category
   end
 
   def create
@@ -54,7 +52,8 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     respond_to do |format|
       format.turbo_stream do
         flash.now[flash_type] = flash_message
-        @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
+
+        define_facilities
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),
@@ -132,5 +131,13 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     return true if existing_review.blank? && review["experience"] == "unknown"
 
     existing_review.present? && existing_review[:experience] == review["experience"]
+  end
+
+  def define_category
+    @category = if params[:facility_category_id].present?
+                  FacilityCategory.find(params[:facility_category_id])
+                else
+                  Facility.find(params[:facility_id]).facility_categories.first
+                end
   end
 end

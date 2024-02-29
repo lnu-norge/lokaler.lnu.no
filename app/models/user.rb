@@ -21,8 +21,8 @@ class User < ApplicationRecord
     "#{first_name} #{last_name[0]&.upcase}."
   end
 
-  def new_facility_review_for(facility_id, space)
-    FacilityReview.new(
+  def facility_review_for(facility_id, space)
+    FacilityReview.find_or_initialize_by(
       space:,
       facility_id:,
       user: self

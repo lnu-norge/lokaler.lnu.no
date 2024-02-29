@@ -2,45 +2,30 @@
 
  <header class="editable-header-type-h2 flex gap-3 items-baseline">
     <h2><%= Facility.model_name.human(count: 2) %></h2>
-    <%= button_to_modal :new_facility_review_path,
-                        "aria-label": "Rediger fasiliteter",
-                        class: 'unstyled-link edit-button collapsable' do %>
-      <span class="text">
-          Rediger
-        </span>
-      <%= inline_svg_tag 'edit', alt: 'Redigér', title: 'Redigér' %>
-    <% end %>
   </header>
 
   <% if @grouped_relevant_facilities.present? %>
     <main class="grid divide-y">
       <% @grouped_relevant_facilities.each do | group |  %>
-        <div class="grid md:grid-cols-3 md:gap-4 items-baseline py-4 md:py-8">
-          <h3 class="no-mt">
-            <%= group.second[:category].title %>
-          </h3>
-
-          <ul class="grid gap-1 md:col-span-2">
-            <% group.second[:space_facilities].each do |facility| %>
-              <%= render partial: 'spaces/show/facility_item', locals: {
-                title: facility[:title],
-                review: facility[:review],
-                description: facility[:description],
-                tooltip: t("tooltips.facility_aggregated_experience.#{facility[:review]}")
-              } %>
-            <% end %>
-          </ul>
-        </div>
+        <%= render 'spaces/show/facility_group', group: %>
       <% end %>
     </main>
   <% end %>
 
-  <aside>
-    <%= modal_for :new_facility_review_path, "h-90vh modal--with-header-and-footer" do  %>
-      <% turbo_frame_tag :new_facility_review_path, target: "_top", src: new_facility_review_path(@space), loading: "lazy" do %>
-        <%= render "shared/loading" %>
-      <% end %>
-    <% end  %>
-  </aside>
+  <% if @grouped_non_relevant_facilities.present?  %>
+    <p class="text-gray-500">
+      <%= t('facility_reviews.new.showing_relevant_facilities',
+            space_title:  @space.title,
+            space_types: @space.space_types.map{ |type| type.type_name }.to_sentence) %>
+    </p>
+    <details class="mb-8 group">
+      <summary class="link">
+        <span>Vis <%= @non_relevant_facilities.count %> andre fasiliteter</span>
+      </summary>
+      <% @grouped_non_relevant_facilities.each do |group| %>
+        <%= render 'spaces/show/facility_group', group: %>
+    <% end %>
+    </details>
+  <% end %>
 
 </section>
