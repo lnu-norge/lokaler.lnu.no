@@ -1,60 +1,84 @@
-<%= turbo_frame_tag :new_facility_review_path do %>
-  <%= simple_form_for @space,
-                      url: create_facility_review_path(@space),
-                      method: :post,
-                      data: {
-                        controller: 'sync-fields-with-same-id',
-                        'sync-fields-with-same-id-target': 'form'
-                      } do |form| %>
-    <div class="modal-header">
-      <h3><%= t("facility_reviews.edit") %></h3>
-    </div>
-    <div class="modal-content content">
-      <% if @grouped_relevant_facilities.present?  %>
-        <% @grouped_relevant_facilities.each do |group|
-            # TODO: Refactor grouped_relevant_facilities so it returns a hash with category
-            # and space_facilities, instead of an array with category_id and a hash with category
-            # and space_facilities.
-            # In the meantime, these variables should just make it clearer what's going on here.
-            category = group.second[:category]
-            facilities_in_category = group.second[:space_facilities]
-         %>
-          <%= render partial: 'facility_reviews/new/facility_category',
-            locals: {
-              facilities_in_category:,
-              form:,
-              review: form.object,
-              category:
-            } %>
-        <% end %>
-      <% end %>
-      <% if @grouped_non_relevant_facilities.present?  %>
-        <p class="text-gray-500">
-          <%= t('facility_reviews.new.showing_relevant_facilities',
-                space_title:  @space.title,
-                space_types: @space.space_types.map{ |type| type.type_name }.to_sentence) %>
-        </p>
-        <details class="mb-8 group">
-          <summary class="button">
-            <span>Vis <%= @non_relevant_facilities.count %> andre fasiliteter</span>
-          </summary>
-          <% @grouped_non_relevant_facilities.each do |group| %>
-            <%= render partial: 'facility_reviews/new/facility_category',
-              locals: {
-                facilities_in_category: group.second[:space_facilities],
-                form: form,
-                review: form.object,
-                category: group.second[:category]
-              } %>
+<main class="content max-w-prose mx-auto w-screen">
+  <h1><%= t('facility_reviews.edit') %></h1>
+  <%= turbo_frame_tag dom_id(@facility_review, "category_#{@category.id}__facility_#{@facility.id}__") do %>
+    <%= simple_form_for @space,
+                 method: :post,
+                 url: create_facility_review_path(@space) do |space_form| %>
+      <% space_form.fields_for :facility_reviews, @facility_review  do |facility_review_form| %>
+        <%= facility_review_form.hidden_field :facility_id, value: @facility.id %>
+        <%= facility_review_form.hidden_field :user_id, value: current_user.id %>
+        <%= facility_review_form.hidden_field :id, value: @facility_review.id %>
+        <fieldset class="mt-1 w-full">
+          <legend>
+            <div class="flex gap-2 text-lg items-center">
+              <h4 class="text-base <%= "line-through text-gray-600" if @space_facility.experience == "impossible" %>"><%= @facility.title %></h4>
+
+              <span class="text-sm text-gray-400 items-center flex gap-1" title="<%= t('simple_form.labels.space_facility.experience') %>">
+                    <%= inline_svg_tag "facility_status/#{@space_facility.experience}", class: "#{" text-black " if @space_facility.experience == "impossible" }" %>
+                <%= t("tooltips.others_experience.#{@space_facility.experience}") %>
+                  </span>
+
+            </div>
+          </legend>
+
+          <% if @space_facility.description %>
+            <div class="text-gray-400 mb-1.5">
+              <%= @space_facility.description %>
+            </div>
           <% end %>
-        </details>
+
+          <div class="w-fit mt-1 mb-6">
+
+            <%= space_form.fields_for :space_facilities, @space_facility do |space_facilities_form| %>
+              <%= space_facilities_form.label :description, class: "text-sm mb-1 block" do  %>
+                <%=  t('simple_form.labels.space_facility.description') %>:
+              <% end %>
+              <%= space_facilities_form.hidden_field :facility_id, input_html: { value: @facility.id} %>
+              <%= space_facilities_form.input :description,
+                                              label: false,
+                                              placeholder: false,
+                                              label_html: {
+                                                class: "text-xs mb-1"
+                                              },
+                                              required: false,
+                                              input_html: {
+                                                value: @space_facility.description
+                                              } %>
+            <% end %>
+
+
+            <fieldset>
+              <legend class="text-xs mb-1">
+                <%= t('simple_form.labels.space_facility.experience') %>
+              </legend>
+              <div class="radio-slider" role="radiogroup" data-hide-target="focusable">
+                <% @experiences.each_with_index do |value|  %>
+                  <%=
+                    facility_review_form.radio_button :experience,
+                                      value,
+                                      checked: @facility_review.experience.blank? ?
+                                                 value == 'unknown' :
+                                                 value == @facility_review.experience
+
+                  %>
+
+                  <%= facility_review_form.label :"experience_#{value}" do %>
+                        <span class="flex flex-col items-center gap-0.5 text-sm">
+                          <%= inline_svg_tag "facility_status/#{FacilityReview::ICON_FOR_EXPERIENCE[value]}",
+                                             class: "w-5 h-5 inline-block"
+                          %>
+                          <%= t("reviews.form.facility_experience_particular_tense.#{value}") %>
+                        </span>
+                  <% end %>
+                <% end %>
+              </div>
+            </fieldset>
+          </div>
+        </fieldset>
+        <%= space_form.submit t("facility_reviews.save"), class: "button submit"  %>
+        <%= link_to t("space_contacts.abort"), @space, class: "link" %>
+
       <% end %>
-    </div>
-    <div class="modal-footer">
-      <%= form.submit t("facility_reviews.save"), class: "button submit"  %>
-      <button type="button" data-action="click->modal#close" class="link">
-        <%= t("space_contacts.abort") %>
-      </button>
-    </div>
+    <% end %>
   <% end %>
-<% end %>
+</main>
