@@ -1,5 +1,6 @@
 a,
 .link {
+  @apply cursor-pointer;
   @apply text-pink-700;
   @apply rounded;
   &:hover {
