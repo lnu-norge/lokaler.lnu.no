@@ -27,14 +27,14 @@ describe "User manages homepage", :js do
       fill_in "space_post_number", with: space.post_number
       find("body").click # Blur from field
 
-      expect(page).to have_content(I18n.t("space_create.any_of_these.one"))
+      expect(page).to have_content(I18n.t("space_create.any_of_these.one"), wait: 10)
 
       click_on I18n.t("space_create.none_are_duplicates.one")
 
       tom_select("select#space_space_type_ids", option_id: space_type.id)
       tom_select("select#space_space_group_title", option_id: space_group.title)
       click_on I18n.t("helpers.submit.create", model: Space.model_name.human)
-      expect(page).to have_content(space.title)
+      expect(page).to have_text(space.title)
     end
   end
 
