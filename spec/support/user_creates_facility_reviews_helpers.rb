@@ -99,7 +99,7 @@ module UserCreatesFacilityReviewsHelpers
   end
 
   def enter_data_about_facility(facility:, description_to_add: "")
-    fieldset = find("fieldset", text: facility.title)
+    fieldset = first("fieldset", text: facility.title)
     within(fieldset) do
       click_on("Rediger")
       choose(I18n.t("reviews.form.facility_experience_particular_tense.was_allowed"), allow_label_click: true)
