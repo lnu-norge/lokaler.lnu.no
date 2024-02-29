@@ -176,10 +176,10 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def filtered_space_facilities(relevant: true, grouped: false, user: nil)
     ungrouped_facilities = space_facilities.includes(facility: [:facilities_categories]).where(relevant:)
     # If a user is defined, include facility reviews for that user
-    if user
+    if user.present?
       ungrouped_facilities = ungrouped_facilities
-                             .includes(facility: [:facility_reviews])
-                             .where(relevant:, facility_reviews: { space: self })
+                             .includes(facility: [:facilities_categories, :facility_reviews])
+                             .where(relevant:)
     end
 
     return ungrouped_facilities unless grouped
