@@ -3,6 +3,7 @@
 class Facility < ApplicationRecord
   has_many :facilities_categories, dependent: :destroy
   has_many :facility_categories, through: :facilities_categories
+  has_many :facility_reviews, dependent: :destroy
 
   has_many :space_types_facilities, dependent: :destroy
   has_many :space_types, through: :space_types_facilities

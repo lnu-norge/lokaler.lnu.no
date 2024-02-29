@@ -1,22 +1,6 @@
 # frozen_string_literal: true
 
 class FacilityReviewsController < BaseControllers::AuthenticateController
-  def new
-    @space = Space.find(params["space_id"])
-    @categories = FacilityCategory.all
-
-    @reviews_for_categories = @space.reviews_for_categories(current_user)
-
-    @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true)
-    @non_relevant_facilities = @space.non_relevant_space_facilities
-    @grouped_non_relevant_facilities = @space.group_space_facilities(@non_relevant_facilities)
-
-    @experiences = [
-      "unknown",
-      *FacilityReview.experiences.keys.reverse
-    ].reverse
-  end
-
   def create
     space_id_param = params.require(:space_id)
     reviews_and_descriptions = params.require(:space).permit(
