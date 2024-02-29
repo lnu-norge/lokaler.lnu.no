@@ -5,7 +5,18 @@
   <div class="justify-center w-full flex hidden" data-mapbox-target="searchArea">
     <button
       data-action="click->mapbox#reloadPosition"
-      class="absolute top-0 p-1 px-2 mr-4 mt-36 md:mt-2 bg-white rounded-xl hover:border-lnu-pink border-white border-2 shadow-xl">
+      class="absolute top-5
+              p-1 px-2
+              mr-4 mt-24 md:mt-2
+              rounded-xl
+              border-lnu-pink border-2
+              bg-white
+              hover:bg-lnu-pink focus:bg-lnu-pink
+              hover:text-white focus:text-white
+              hover:fill-white focus:fill-white
+              shadow-xl
+              motion-safe:animate-shake-on-load"
+    >
       <%= inline_svg_tag 'reload', class: 'inline-block' %>
       <%= t('space_filter.map_reload') %>
     </button>
