@@ -22,6 +22,10 @@
   @apply text-sm;
 }
 
+.ts-control .item {
+  @apply text-sm bg-gray-200 px-2 py-0.5;
+}
+
 .dropdown {
   .ts-control {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
@@ -62,15 +66,16 @@
 .plugin-clear_button .clear-button {
   opacity: 0;
   position: absolute;
-  top: 8px;
+  top: 0;
   right: calc(8px - 6px);
   margin-right: 0 !important;
   background: transparent !important;
   transition: opacity 0.5s;
   cursor: pointer;
+  @apply p-2 text-sm;
 }
 .plugin-clear_button.single .clear-button {
-  right: calc(8px - 6px + 2rem);
+  right: 8px;
 }
 .plugin-clear_button.focus.has-items .clear-button, .plugin-clear_button:hover.has-items .clear-button {
   opacity: 1;
@@ -336,8 +341,9 @@
   border-top: 0 none;
 }
 .ts-dropdown .optgroup-header {
-  color: #303030;
-  background: #fff;
+  color: theme('colors.gray.500');
+  @apply text-sm;
+  @apply pt-4;
   cursor: default;
 }
 

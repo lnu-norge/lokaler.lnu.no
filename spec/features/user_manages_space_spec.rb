@@ -27,7 +27,7 @@ describe "User manages homepage", :js do
       fill_in "space_post_number", with: space.post_number
       find("body").click # Blur from field
 
-      expect(page).to have_text(I18n.t("space_create.any_of_these.one"))
+      expect(page).to have_content(I18n.t("space_create.any_of_these.one"), wait: 10)
 
       click_on I18n.t("space_create.none_are_duplicates.one")
 

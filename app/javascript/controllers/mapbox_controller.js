@@ -264,14 +264,14 @@ export default class extends Controller {
     });
 
     this.locationTarget.onchange = (event) => {
-      this.submitSearch(event)
+      this.getSearchCoordinatesFromGeoNorge(event)
     };
 
     this.formTarget.onsubmit = (event) => {
       // To stop the form from submitting, as that currently does nothing but refresh the page.
       event.preventDefault()
       this.clearDebounce("titleSearch")
-      this.submitSearch(event)
+      this.getSearchCoordinatesFromGeoNorge(event)
       this.hideSearchBox()
     };
   }
@@ -311,15 +311,62 @@ export default class extends Controller {
     }
   }
 
-  async submitSearch(event) {
-    const url =`https://ws.geonorge.no/stedsnavn/v1/sted?sok=${event.target.value}&fuzzy=true`
+  async getSearchCoordinatesFromGeoNorge(event) {
+
+    const url = this.getUrlForGeoNorgeLocation(event);
+
+    if (!url) {
+      return this.moveMapToFitNorway();
+    }
+
     const result = await (await fetch(url)).json();
+    this.moveMapToGeoNorgeLocation(result);
+  }
 
-    if(!result || !result.navn || result.navn.length === 0)
-      return;
+  getUrlForGeoNorgeLocation(event) {
+    const fylkesnummer = event.target.value.split('fylke-')[1];
+    const kommunenummer = event.target.value.split('kommune-')[1];
 
-    const place = result.navn[0]
-    this.moveMapToGeoNorgeLocation(place)
+    if (kommunenummer) {
+      return `https://ws.geonorge.no/kommuneinfo/v1/kommuner/${kommunenummer}`;
+    }
+
+    if (fylkesnummer) {
+      return `https://ws.geonorge.no/kommuneinfo/v1/fylker/${fylkesnummer}`;
+    }
+
+   // Else return the whole country
+   return null
+  }
+
+
+  moveMapToGeoNorgeLocation(result) {
+
+    const avgrensningsboks = result?.avgrensningsboks?.coordinates?.[0]
+    if (!avgrensningsboks) {
+      return this.moveMapToFitNorway();
+    }
+
+    return this.moveMapToFitBounds(this.geoNorgeAvgrensingsBoksToBoundingBox(avgrensningsboks));
+  }
+
+  geoNorgeAvgrensingsBoksToBoundingBox = (avgrensningsboks) => {
+    const [lng1, lat1] = avgrensningsboks[0];
+    const [lng2, lat2] = avgrensningsboks[2];
+    return [lng1, lat1, lng2, lat2];
+  }
+
+  moveMapToFitNorway() {
+    return this.moveMapToFitBounds([4.032154,57.628953,31.497974,71.269784])
+  }
+  moveMapToFitBounds(bounds) {
+    console.log(bounds)
+    this.map.fitBounds(bounds, {
+      padding: 10,
+      animate: false
+    }, {
+      wasZoom: true,
+    });
   }
 
   removeMarker(key) {
@@ -372,40 +419,6 @@ export default class extends Controller {
     markers.reverse().forEach((space) => {
       this.addMarker(space);
     });
-  }
-
-  moveMapToGeoNorgeLocation(place) {
-    const location = place.geojson.geometry;
-
-    if (location.type === "Point") {
-      this.moveMapTo(location.coordinates)
-    }
-
-    if (location.type === "MultiPoint") {
-      // MultiPoints can have arbitrary amounts of points, and so needs to be fit
-      // as described here:  https://docs.mapbox.com/mapbox-gl-js/example/zoomto-linestring/
-      const bounds = new mapboxgl.LngLatBounds(
-          location.coordinates[0],
-          location.coordinates[0]
-      );
-      for (const coord of location.coordinates) {
-        bounds.extend(coord);
-      }
-      return this.map.fitBounds(bounds, {
-        padding: 100,
-        animate: false,
-        maxZoom: 13
-      }, {
-        wasZoom: true,
-      });
-    }
-
-    // Unsure about location type given, use the center given by representasjonspunkt instead
-    const point = [
-      place.representasjonspunkt.øst,
-      place.representasjonspunkt.nord
-    ];
-    return this.moveMapTo(point);
   }
 
   moveMapTo(point) {
