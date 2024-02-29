@@ -4,7 +4,7 @@
   <span class="font-bold flex gap-1">
     <%= inline_svg_tag 'star', class: 'text-pink-600' if review.star_rating %>
     <%= review.star_rating %>
-    <span class="sr-only"><%= t("reviews.stars_given", count: review.star_rating) %></span>
+    <span class="sr-only"><%= t("reviews.stars_given", count: review.star_rating.to_i) %></span>
     <% unless review.star_rating %>
       -
       <% if review.type_of_contact %>
