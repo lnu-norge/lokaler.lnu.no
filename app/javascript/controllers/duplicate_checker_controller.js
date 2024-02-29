@@ -25,39 +25,51 @@ export default class extends Controller {
   connect() {
     const form = this.element
     this.hideRestOfForm()
+
     form.addEventListener('change', () =>  {
       this.checkDuplicates()
     });
 
     const titleField = form.querySelector("#space_title")
     titleField.addEventListener('input', (e) => {
-      if (e.target.value.length < 5) {
-        return
-      }
-
       this.checkDuplicates()
     })
   }
 
   async checkDuplicates() {
+    const {
+      title,
+      address,
+      post_number
+    } = this.extractDataFromForm()
+
+    if (this.checkIfDataIsStale(title, address, post_number)) {
+      return // No need to check anything if we have the same data
+    }
+
+    const enoughDataToFindByTitle = title.length > 5
+    const enoughDataToFindByAddress = (!!address && !!post_number)
+
+    if (!enoughDataToFindByTitle && !enoughDataToFindByAddress) {
+      return this.renderNoDuplicates()
+    }
+
+    return await this.renderFetchedDuplicates(title, address, post_number)
+  }
+
+  extractDataFromForm() {
     const data = new FormData(this.element);
     const title = data.get("space[title]");
     const address = data.get("space[address]");
     const post_number = data.get("space[post_number]");
+    return { title, address, post_number }
+  }
 
-    const enoughDataToFindByTitle = title.length > 5
-    const enoughDataToFindByAddress = (!post_number || (!address && !post_number))
-
-    if (!enoughDataToFindByTitle || !enoughDataToFindByAddress) return
-
-    if (this.checkIfDataIsStale(title, address, post_number)) {
-      return
-    }
-
+  async renderFetchedDuplicates(title, address, post_number) {
     let url = "/check_duplicates?"
-        url += `title=${title}&`
-        url += `address=${address}&`
-        url += `post_number=${post_number}&`
+    url += `title=${title}&`
+    url += `address=${address}&`
+    url += `post_number=${post_number}&`
 
     const result = await (await fetch(url)).json()
     if (result && result.html) {
@@ -68,8 +80,16 @@ export default class extends Controller {
     return this.showRestOfForm()
   }
 
+  renderNoDuplicates() {
+    return this.duplicatesRenderHereTarget.innerHTML = ""
+  }
+
+
   checkIfDataIsStale(title, address, post_number) {
-    if (title !== this.state.title || address !== this.state.address || post_number !== this.state.post_number) {
+    if (
+      title !== this.state.title ||
+      address !== this.state.address ||
+      post_number !== this.state.post_number) {
       this.state.title = title
       this.state.address = address
       this.state.post_number = post_number
