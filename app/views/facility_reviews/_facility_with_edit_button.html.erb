@@ -1,25 +1,24 @@
 <%# locals: (title:, tooltip:, space_id:, facility_review:, experience:, facility_category_id:, facility_id:, description:  %>
 <%= turbo_frame_tag dom_id(facility_review, "category_#{facility_category_id}__facility_#{facility_id}__") do %>
-  <div title="<%= tooltip %>">
-    <%= link_to new_facility_review_path(
-                  space_id:,
-                  facility_id:,
-                  facility_category_id:,
-                  ), class: 'unstyled-link inline-flex gap-2 items-center collapsable-wrapper' do %>
+  <%= link_to new_facility_review_path(
+                space_id:,
+                facility_id:,
+                facility_category_id:,
+                ),
+              title: tooltip,
+              class: 'unstyled-link inline-flex gap-2 items-center collapsable-wrapper' do %>
 
-      <h4 class="text-base <%= "line-through text-gray-600" if experience == "impossible" %>"><%= title %></h4>
+    <h4 class="text-base <%= "line-through text-gray-600" if experience == "impossible" %>"><%= title %></h4>
 
-      <%= inline_svg_tag "facility_status/#{experience}", class: "#{" text-black " if experience == "impossible" }" %>
+    <%= inline_svg_tag "facility_status/#{experience}", class: "#{" text-black " if experience == "impossible" }" %>
 
-      <span class="edit-button edit-button--small collapsable">
-           <span class="text">
-          <%= t('space_edit.edit') %>
-        </span>
-        <%= inline_svg_tag 'edit', alt: t('space_edit.edit'), title:  t('space_edit.edit') %>
+    <span class="edit-button edit-button--small collapsable">
+         <span class="text">
+        <%= t('space_edit.edit') %>
       </span>
-   <% end %>
-
-  </div>
+      <%= inline_svg_tag 'edit', alt: t('space_edit.edit'), title:  t('space_edit.edit') %>
+    </span>
+ <% end %>
 
   <% unless description.nil? %>
     <div class="text-gray-400 mb-1.5">
