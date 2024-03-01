@@ -44,7 +44,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     )
   }
 
-
   has_rich_text :how_to_book
   has_rich_text :who_can_use
   has_rich_text :pricing
