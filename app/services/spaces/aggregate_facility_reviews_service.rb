@@ -17,8 +17,6 @@ module Spaces
 
     def aggregate_facilities
       SpaceFacility.transaction do
-        @space.space_facilities.where(facility_id: [@facilities.map(&:id)]).destroy_all
-
         @facilities.each do |facility|
           aggregate_reviews(facility)
         end
@@ -26,7 +24,7 @@ module Spaces
     end
 
     def aggregate_reviews(facility) # rubocop:disable Metrics/AbcSize
-      space_facility = SpaceFacility.create(space: @space, facility:)
+      space_facility = SpaceFacility.find_or_create_by(space: @space, facility:)
 
       reviews = @space.facility_reviews.where(facility:).order(created_at: :desc).limit(5)
       count = reviews.count
