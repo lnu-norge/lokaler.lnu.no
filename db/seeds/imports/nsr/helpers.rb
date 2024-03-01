@@ -71,7 +71,6 @@ end
 
 def space_from(school)
   space_group = SpaceGroup.find_by space_group_from(school)
-  space_type = SpaceType.find_by(space_types_from(school))
 
   address = validate_address(school)
   return unless address
@@ -88,12 +87,11 @@ def space_from(school)
     lng: position[:lng],
     municipality_code: position[:municipality_code],
     organization_number: get_meta(school, "organizationalNumber"),
-    space_group: space_group,
-    space_type: space_type
+    space_group: space_group
   }
 end
 
-def space_types_from(school)
+def space_type_from(school)
   # TODO: Make it possible to have several space types.
   { type_name: get_meta(school, "types")[0] }
 end
@@ -156,6 +154,20 @@ end
 def new_all_unless_exists(model, items)
   new_items = items.reject { |item| item && model.find_by(item) }
   new_items.map { |item| model.new item }
+end
+
+def count_stats(info:)
+  p({
+      info:,
+      spaces: Space.count,
+      space_types: SpaceType.count,
+      space_groups: SpaceGroup.count,
+      space_contacts: SpaceContact.count,
+      space_type_relations: SpaceTypesRelation.count,
+      facilities: Facility.count,
+      space_type_facility_relations: SpaceTypesFacility.count,
+      space_facilities: SpaceFacility.count
+    })
 end
 
 # rubocop:enable all
