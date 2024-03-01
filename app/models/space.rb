@@ -23,6 +23,15 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
           south_east_lat:,
           south_east_lng:)
   }
+  scope :with_aggregation_data, lambda {
+    preload(
+      :space_facilities,
+      :facility_reviews,
+      space_types: [
+        :facilities
+      ]
+    )
+  }
 
   has_many :space_types_relations, dependent: :destroy
   has_many :space_types, through: :space_types_relations, dependent: :destroy
@@ -80,7 +89,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def aggregate_facility_reviews(facilities: [])
-    Spaces::AggregateFacilityReviewsService.call(space: self, facilities:)
+    space = Space.with_aggregation_data.find(id)
+
+    Spaces::AggregateFacilityReviewsService.call(space:, facilities:)
   end
 
   def aggregate_star_rating
