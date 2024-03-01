@@ -5,7 +5,8 @@ module UserCreatesFacilityReviewsHelpers
   def expect_to_only_change_facility_review_description(
     space:,
     facility:,
-    description_to_add: ""
+    description_to_add: "",
+    count_that_already_have_the_new_experience: 1
   )
 
     expected_previous_experience =
@@ -18,7 +19,7 @@ module UserCreatesFacilityReviewsHelpers
       space:,
       facility:,
       description_to_add:,
-      count_that_already_have_the_new_experience: 1,
+      count_that_already_have_the_new_experience:,
       count_that_changes_to_new_experience: 0,
       expected_previous_experience:
     )
@@ -141,7 +142,7 @@ module UserCreatesFacilityReviewsHelpers
     # Expect that we have more than one facility visible:
     expect(count_of_visible_facilities).to be > 1
 
-    # Expect that none of those facilities to show as reviewed so far in the model:
+    # Expect that none of those facilities show as reviewed so far in the model:
     expect(
       relevant_space_facilities.where(experience: expected_new_experience).count
     ).to eq(count_that_already_have_the_new_experience)

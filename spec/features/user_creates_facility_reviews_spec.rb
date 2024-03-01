@@ -79,12 +79,14 @@ describe "User creates facility reviews for", :js do
 
     expect_to_add_facility_review(
       space:,
-      facility: second_facility_to_review
+      facility: second_facility_to_review,
+      count_that_already_have_the_new_experience: 1
     )
 
     expect_to_only_change_facility_review_description(
       space:,
       facility: second_facility_to_review,
+      count_that_already_have_the_new_experience: 2,
       description_to_add: description_of_second_facility
     )
 
