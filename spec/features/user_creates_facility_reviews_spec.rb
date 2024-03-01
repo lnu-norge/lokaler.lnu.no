@@ -40,12 +40,13 @@ describe "User creates facility reviews for", :js do
     )
   end
 
-  it "two facilities, at the same time" do
+  it "two facilities, after each other" do
     visit space_path(space)
 
     expect_to_add_multiple_facility_reviews(
       space:,
-      facilities_to_review: [facility_to_review, second_facility_to_review]
+      facilities_to_review: [facility_to_review, second_facility_to_review],
+      description_to_add: Faker::Lorem.sentence
     )
   end
 
@@ -62,6 +63,34 @@ describe "User creates facility reviews for", :js do
       space:,
       facility: second_facility_to_review
     )
+  end
+
+  it "two facilities, adding a description to the second one after the fact" do
+    visit space_path(space)
+
+    description_of_first_facility = Faker::Lorem.sentence
+    description_of_second_facility = Faker::Lorem.sentence
+
+    expect_to_add_facility_review(
+      space:,
+      facility: facility_to_review,
+      description_to_add: description_of_first_facility
+    )
+
+    expect_to_add_facility_review(
+      space:,
+      facility: second_facility_to_review
+    )
+
+    expect_to_only_change_facility_review_description(
+      space:,
+      facility: second_facility_to_review,
+      description_to_add: description_of_second_facility
+    )
+
+    # Expect both descriptions to be present:
+    expect(page).to have_content(description_of_first_facility)
+    expect(page).to have_content(description_of_second_facility)
   end
 
   it "a single facility twice, adding a description the second time" do
