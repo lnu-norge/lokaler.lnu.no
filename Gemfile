@@ -68,6 +68,7 @@ end
 
 group :test do
   gem "capybara"
+  gem "rspec-benchmark"
   gem "rspec-rails"
   gem "selenium-webdriver"
   gem "vcr"

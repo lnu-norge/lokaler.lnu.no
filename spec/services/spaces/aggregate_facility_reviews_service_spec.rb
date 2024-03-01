@@ -196,4 +196,14 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
     # And still the same experience:
     expect(space_facility.experience).to eq("likely")
   end
+
+  it "is performant for a changing a single facility, even if there are a large amount of other facilities" do
+    Array.new(10) { Fabricate(:facility, space_types: [space_type]) }
+    expect { space.aggregate_facility_reviews(facilities: [facility]) }.to perform_under(20).ms
+  end
+
+  it "is performant for a large amount of facilities" do
+    Array.new(10) { Fabricate(:facility, space_types: [space_type]) }
+    expect { space.aggregate_facility_reviews }.to perform_under(30).ms
+  end
 end
