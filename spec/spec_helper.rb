@@ -15,8 +15,11 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require "rspec-benchmark"
 
 RSpec.configure do |config|
+  config.include RSpec::Benchmark::Matchers
+
   # Set locale, to make sure the tests run correctly:
   config.before(:suite) do
     Faker::Config.locale = "en"
