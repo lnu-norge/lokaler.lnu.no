@@ -157,4 +157,43 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
 
     expect(space.reload.relevance_of_facility(facility)).to be(false)
   end
+
+  it "allows setting descriptions for facilities, and keeping them after specific aggregation" do
+    description = "This is a description"
+    space.aggregate_facility_reviews(facilities: [facility])
+
+    space_facility = SpaceFacility.find_by(space:, facility:)
+    space_facility.update!(description:)
+
+    space.aggregate_facility_reviews(facilities: [facility])
+
+    expect(space_facility.reload.description).to eq(description)
+  end
+
+  it "does not touch the descriptions of space facilities, even after a broad aggregation" do
+    before_space_facility = SpaceFacility.find_by(space:, facility:)
+    before_space_facility.update!(description: "old description")
+
+    expect(before_space_facility.reload.description).to eq("old description")
+
+    space.aggregate_facility_reviews
+
+    after_space_facility = SpaceFacility.find_by(space:, facility:)
+    expect(after_space_facility.reload.description).to eq("old description")
+  end
+
+  it "does not update a space facility that does not need to change" do
+    experience :was_allowed
+    space_facility = SpaceFacility.find_by(space:, facility:)
+    expect(space_facility.experience).to eq("likely")
+
+    experience :was_allowed
+
+    # No new ID
+    after_space_facility = SpaceFacility.find_by(space:, facility:)
+    expect(after_space_facility.id).to eq(space_facility.id)
+
+    # And still the same experience:
+    expect(space_facility.experience).to eq("likely")
+  end
 end
