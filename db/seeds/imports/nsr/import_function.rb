@@ -8,13 +8,7 @@ require "./db/seeds/imports/nsr/helpers"
 
 def import_spaces_from_nsr_schools
   # Counts
-  p({
-      info: "In db before import from NSR:",
-      spaces: Space.count,
-      space_types: SpaceType.count,
-      space_groups: SpaceGroup.count,
-      space_contacts: SpaceContact.count
-    })
+  count_stats(info: "Before import from NSR JSON:")
 
   # Load json file
   file = File.read(Rails.root.join("db", "seeds", "imports", "nsr", "nsrParsedSchools.json"))
@@ -23,14 +17,91 @@ def import_spaces_from_nsr_schools
   p raw_schools_to_parse: data.length
 
   # Set up and save SpaceTypes
-  space_types = [
-    { type_name: "barneskole" },
-    { type_name: "ungdomsskole" },
-    { type_name: "grunnskole" },
-    { type_name: "vgs" }
+  space_type_data = [
+    {
+      type_name: "barneskole",
+      related_facilities_by_title: %w[
+        Klasserom
+        Gymsal
+        Sove på gulvet
+        Kjøkken med ovn
+        Rullestolvennlig inngang
+        Rullestolvennlig inne
+        HC-toalett
+        Wifi
+        Lov å spise medbrakt
+        Nær kollektiv
+        Parkering
+      ]
+    },
+    {
+      type_name: "ungdomsskole",
+      related_facilities_by_title: %w[
+        Klasserom
+        Gymsal
+        Sove på gulvet
+        Kjøkken med ovn
+        Rullestolvennlig inngang
+        Rullestolvennlig inne
+        HC-toalett
+        Wifi
+        Lov å spise medbrakt
+        Nær kollektiv
+        Parkering
+      ]
+    },
+    {
+      type_name: "grunnskole",
+      related_facilities_by_title: %w[
+        Klasserom
+        Gymsal
+        Sove på gulvet
+        Kjøkken med ovn
+        Rullestolvennlig inngang
+        Rullestolvennlig inne
+        HC-toalett
+        Wifi
+        Lov å spise medbrakt
+        Nær kollektiv
+        Parkering
+      ]
+    },
+    {
+      type_name: "vgs",
+      related_facilities_by_title: %w[
+        Klasserom
+        Gymsal
+        Sove på gulvet
+        Rullestolvennlig inngang
+        Rullestolvennlig inne
+        HC-toalett
+        Wifi
+        Prosjektor
+        Nær kollektiv
+        Parkering
+      ]
+    }
   ]
+  space_types = space_type_data.map do |data|
+    {
+      type_name: data[:type_name]
+    }
+  end
+  # TODO: Set up facility relations?
   p "importing #{space_types.length} space types"
   SpaceType.import new_all_unless_exists(SpaceType, space_types)
+
+  space_types_facility_relations = space_type_data.map do |data|
+    space_type = SpaceType.find_by(type_name: data[:type_name])
+
+    data[:related_facilities_by_title].map do |facility_title|
+      {
+        space_type:,
+        facility: Facility.find_by(title: facility_title)
+      }
+    end
+  end.flatten
+  SpaceTypesFacility.import new_all_unless_exists(SpaceTypesFacility, space_types_facility_relations)
 
   # Trawl through it, and extract information into Rails format
 
@@ -46,13 +117,22 @@ def import_spaces_from_nsr_schools
   # Then start parsing Spaces, as they depend on the above
   spaces = []
   space_contacts = []
+  space_type_relations = []
   data.each_with_index do |school, index|
-    print "\rParsing spaces and space contacts from nsr school data: #{index} / #{data.length}"
+    print "\rParsing spaces, space contacts and space type relations from nsr school data: #{index} / #{data.length}"
 
     space = new_unless_exists Space, space_from(school)
     spaces << space if space
 
-    space_contact_space = space || (space_from(school) && Space.find_by(space_from(school)))
+    guaranteed_space_for_relations = space || (space_from(school) && Space.find_by(space_from(school)))
+
+    space_type_relation = new_unless_exists(SpaceTypesRelation, {
+      space: guaranteed_space_for_relations,
+      space_type: SpaceType.find_by(space_type_from(school))
+    })
+    space_type_relations << space_type_relation if space_type_relation
+
+    space_contact_space = guaranteed_space_for_relations
     next unless space_contact_space
 
     space_contacts_from(school).each do |contact|
@@ -65,34 +145,25 @@ def import_spaces_from_nsr_schools
   end
 
   # Save them all with import
-  p "\nimporting #{spaces.length} spaces"
+  print "\nimporting #{spaces.length} spaces"
   Space.import(spaces)
 
-  spaces.each_with_index do |space, index|
-    print "\rAdding unknown aggregated facility reviews for spaces #{index} / #{spaces.length}"
+  print "\nimporting #{space_type_relations.length} space type relations:"
+  SpaceTypesRelation.import(space_type_relations)
 
-    Facility.all.order(:created_at).map do |facility|
-      AggregatedFacilityReview.create!(experience: "unknown", space: space, facility: facility)
-    end
+
+  print "\nAggregating facility reviews for all #{Space.count} spaces:\n"
+
+  Space.all.each_with_index do |space, index|
+      print "\raggregating facility reviews for ##{index} / #{Space.count} / space_id: #{space.id}"
+      space.aggregate_facility_reviews
   end
 
-  p "\nimporting #{space_contacts.length} space contacts"
+  print "\nimporting #{space_contacts.length} space contacts"
   SpaceContact.import(space_contacts)
 
 
-  p({
-      info: "To import from NSR JSON:",
-      spaces: spaces.length,
-      space_types: space_types.length,
-      space_groups: space_groups.length
-    })
-  p({
-      info: "In db after import from NSR:",
-      spaces: Space.count,
-      space_types: SpaceType.count,
-      space_groups: SpaceGroup.count,
-      space_contacts: SpaceContact.count
-    })
+  count_stats(info: "After import from NSR JSON:")
 end
 
 # rubocop:enable all
