@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_19_111137) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_02_202011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -84,6 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_111137) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["facility_id"], name: "index_facility_reviews_on_facility_id"
+    t.index ["space_id", "facility_id"], name: "index_facility_reviews_on_space_id_and_facility_id"
     t.index ["space_id", "user_id", "facility_id"], name: "index_facility_reviews_on_space_id_and_user_id_and_facility_id", unique: true
     t.index ["space_id"], name: "index_facility_reviews_on_space_id"
     t.index ["user_id"], name: "index_facility_reviews_on_user_id"
@@ -163,6 +164,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_111137) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["facility_id"], name: "index_space_types_facilities_on_facility_id"
+    t.index ["space_type_id", "facility_id"], name: "index_space_types_facilities_on_space_type_id_and_facility_id", unique: true
     t.index ["space_type_id"], name: "index_space_types_facilities_on_space_type_id"
   end
 

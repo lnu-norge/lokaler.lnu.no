@@ -11,6 +11,7 @@ module Spaces
       @facilities = facilities.any? ? facilities : Facility.order(:created_at)
       @space_facilities = @space.space_facilities
       @space_types = @space.space_types
+      @facility_reviews = @space.facility_reviews_ordered_by_newest_first
       group_recent_facility_reviews_by_facility(count: 5)
 
       super()

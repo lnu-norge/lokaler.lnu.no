@@ -4,13 +4,7 @@ class SpaceTypesFacility < ApplicationRecord
   belongs_to :space_type
   belongs_to :facility
 
-  after_create do
-    space_type.reload.spaces.each do |space|
-      space.reload.aggregate_facility_reviews(facilities: [facility])
-    end
-  end
-
-  after_destroy do
+  after_commit do
     space_type.reload.spaces.each do |space|
       space.reload.aggregate_facility_reviews(facilities: [facility])
     end
@@ -29,8 +23,9 @@ end
 #
 # Indexes
 #
-#  index_space_types_facilities_on_facility_id    (facility_id)
-#  index_space_types_facilities_on_space_type_id  (space_type_id)
+#  index_space_types_facilities_on_facility_id                    (facility_id)
+#  index_space_types_facilities_on_space_type_id                  (space_type_id)
+#  index_space_types_facilities_on_space_type_id_and_facility_id  (space_type_id,facility_id) UNIQUE
 #
 # Foreign Keys
 #
