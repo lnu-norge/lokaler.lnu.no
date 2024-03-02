@@ -13,6 +13,10 @@ class FacilityReview < ApplicationRecord
 
   validates :space, uniqueness: { scope: [:user, :facility] }
 
+  after_commit do
+    space.aggregate_facility_reviews(facilities: [facility])
+  end
+
   def experience_icon
     ICON_FOR_EXPERIENCE[experience]
   end
