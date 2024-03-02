@@ -4,15 +4,26 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_paper_trail skip: [:star_rating]
 
   has_many :images, dependent: :destroy
+  accepts_nested_attributes_for :images
+
   has_many :facility_reviews, dependent: :destroy
+  accepts_nested_attributes_for :facility_reviews
+
   has_many :space_facilities, dependent: :destroy
+  accepts_nested_attributes_for :space_facilities
+
   has_many :reviews, dependent: :destroy
+  accepts_nested_attributes_for :reviews
+
   has_many :space_contacts, dependent: :destroy
+  accepts_nested_attributes_for :space_contacts
 
   belongs_to :space_group, optional: true
   accepts_nested_attributes_for :space_group
-  accepts_nested_attributes_for :facility_reviews
-  accepts_nested_attributes_for :space_facilities
+
+  has_many :space_types_relations, dependent: :destroy
+  has_many :space_types, through: :space_types_relations, dependent: :destroy
+  accepts_nested_attributes_for :space_types
 
   scope :filter_on_title, ->(title) { where("title ILIKE ?", "%#{title}%") }
   scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids).distinct }
@@ -32,9 +43,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       ]
     )
   }
-
-  has_many :space_types_relations, dependent: :destroy
-  has_many :space_types, through: :space_types_relations, dependent: :destroy
 
   has_rich_text :how_to_book
   has_rich_text :who_can_use
