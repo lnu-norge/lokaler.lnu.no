@@ -8,10 +8,9 @@ module CountableReviews
   end
 
   def group_recent_facility_reviews_by_facility(count: 5)
-    @grouped_facility_reviews = @space.facility_reviews
-                                      .order(created_at: :desc)
-                                      .group_by(&:facility_id)
-                                      .transform_values { |reviews| reviews.first(count) }
+    @grouped_facility_reviews = @facility_reviews
+                                .group_by(&:facility_id)
+                                .transform_values { |reviews| reviews.first(count) }
   end
 
   def facility_reviews_for(facility)

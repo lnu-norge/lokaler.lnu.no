@@ -29,8 +29,9 @@ end
 #
 # Indexes
 #
-#  index_space_types_facilities_on_facility_id    (facility_id)
-#  index_space_types_facilities_on_space_type_id  (space_type_id)
+#  index_space_types_facilities_on_facility_id                    (facility_id)
+#  index_space_types_facilities_on_space_type_id                  (space_type_id)
+#  index_space_types_facilities_on_space_type_id_and_facility_id  (space_type_id,facility_id) UNIQUE
 #
 # Foreign Keys
 #
