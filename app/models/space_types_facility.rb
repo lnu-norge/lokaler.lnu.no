@@ -4,13 +4,7 @@ class SpaceTypesFacility < ApplicationRecord
   belongs_to :space_type
   belongs_to :facility
 
-  after_create do
-    space_type.reload.spaces.each do |space|
-      space.reload.aggregate_facility_reviews(facilities: [facility])
-    end
-  end
-
-  after_destroy do
+  after_commit do
     space_type.reload.spaces.each do |space|
       space.reload.aggregate_facility_reviews(facilities: [facility])
     end
