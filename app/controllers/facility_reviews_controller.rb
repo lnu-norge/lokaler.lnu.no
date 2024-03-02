@@ -29,9 +29,6 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
 
     return create_failed unless FacilityReview.create!(relevant_reviews)
 
-    # NB: Under the current model, this needs to happen before we add the descriptions with update_space_facilities,
-    # as aggregating DESTROYS all space_facilities, including the descriptions (wtf)
-    @space.aggregate_facility_reviews(facilities: @affected_facilities)
     update_space_facilities(reviews_and_descriptions[:space_facilities_attributes].values)
 
     create_succeeded
