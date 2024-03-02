@@ -23,6 +23,7 @@ end
 #
 #  index_facility_reviews_on_facility_id                           (facility_id)
 #  index_facility_reviews_on_space_id                              (space_id)
+#  index_facility_reviews_on_space_id_and_facility_id              (space_id,facility_id)
 #  index_facility_reviews_on_space_id_and_user_id_and_facility_id  (space_id,user_id,facility_id) UNIQUE
 #  index_facility_reviews_on_user_id                               (user_id)
 #

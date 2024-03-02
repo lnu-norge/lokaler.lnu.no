@@ -34,10 +34,14 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
           south_east_lat:,
           south_east_lng:)
   }
+
+  # This scope cuts the db calls when aggregating space_facilities
+  has_many :facility_reviews_ordered_by_newest_first, -> { order(created_at: :desc) },
+           class_name: "FacilityReview", dependent: :destroy, inverse_of: :space
   scope :with_aggregation_data, lambda {
     preload(
       :space_facilities,
-      :facility_reviews,
+      :facility_reviews_ordered_by_newest_first,
       space_types: [
         :facilities
       ]
