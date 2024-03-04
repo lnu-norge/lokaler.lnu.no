@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "concerns/countable_reviews"
-
 module Spaces
   class AggregateFacilityReviewsService < ApplicationService
     include CountableReviews
