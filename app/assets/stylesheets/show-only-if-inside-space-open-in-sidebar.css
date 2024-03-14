@@ -1,0 +1,7 @@
+.show-only-if-inside-space-open-in-sidebar {
+    display: none;
+}
+
+.space-open-in-sidebar .show-only-if-inside-space-open-in-sidebar {
+    display: inherit;
+}

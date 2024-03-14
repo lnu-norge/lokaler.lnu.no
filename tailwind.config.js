@@ -32,7 +32,8 @@ module.exports = {
         },
         extend: {
             screens: {
-                'xs': '360px'
+                'xs': '360px',
+                '3xl': '1792px'
             },
             cursor: {
                 zoom: 'zoom-in'

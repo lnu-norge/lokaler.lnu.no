@@ -5,59 +5,81 @@
 
   Styled in part by content.scss
 %>
-<main class="max-w-prose mx-auto w-screen">
-  <%= render partial: "spaces/show/image_header"  %>
+<%= turbo_frame_tag "spaces-open-here", target: "_top" do %>
+  <button class=" show-only-if-inside-space-open-in-sidebar
+                  absolute top-5
+                  z-10
+                  p-1 px-3
+                  mr-4 mt-24 md:mt-2
+                  rounded-xl
+                  border-lnu-pink border-2
+                  bg-white
+                  hover:bg-lnu-pink focus:bg-lnu-pink
+                  hover:text-white focus:text-white
+                  hover:fill-white focus:fill-white
+                  shadow-xl
 
-  <section class="content px-4 pb-8">
+  "
 
-    <%= render partial: 'spaces/show/basics' %>
+          onclick="document.getElementById('spaces-open-here').innerHTML = ''">
+    Tilbake til kartet
+  </button>
+  <main
+    class="max-w-prose mx-auto w-full">
+      <%= render partial: "spaces/show/image_header"  %>
 
-    <hr />
 
-    <%= inline_editable :how_to_book  do %>
-      <%= render_space_and_group_field @space, :how_to_book %>
-    <% end %>
-    <%= render 'space_contacts/index' %>
+      <section class="content px-4 pb-8">
 
-    <hr />
+        <%= render partial: 'spaces/show/basics' %>
 
-    <%= render partial: 'spaces/show/facilities' %>
-    <hr />
+        <hr />
 
-    <%= inline_editable :who_can_use  do %>
-      <%= render_space_and_group_field @space, :who_can_use %>
-    <% end %>
-    <hr />
+        <%= inline_editable :how_to_book  do %>
+          <%= render_space_and_group_field @space, :how_to_book %>
+        <% end %>
+        <%= render 'space_contacts/index' %>
 
-    <%= inline_editable :pricing do %>
-      <%= render_space_and_group_field @space, :pricing %>
-    <% end %>
-    <hr />
+        <hr />
 
-    <%= render partial: 'spaces/show/where' %>
-    <hr />
+        <%= render partial: 'spaces/show/facilities' %>
+        <hr />
 
-    <%= inline_editable :more_info do %>
-      <%= render_space_and_group_field @space, :more_info %>
-    <% end %>
-    <hr />
+        <%= inline_editable :who_can_use  do %>
+          <%= render_space_and_group_field @space, :who_can_use %>
+        <% end %>
+        <hr />
 
-    <%= inline_editable :terms do %>
-      <%= render_space_and_group_field @space, :terms %>
-    <% end %>
-    <hr />
+        <%= inline_editable :pricing do %>
+          <%= render_space_and_group_field @space, :pricing %>
+        <% end %>
+        <hr />
 
-    <%= render partial: 'spaces/show/reviews' %>
+        <%= render partial: 'spaces/show/where' %>
+        <hr />
 
-    <% if current_user&.admin? %>
-      <hr />
-      <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink">
-        <h3 class="no-mt pt-1">Admin:</h3>
-        <p>
-          <%= link_to t("space_show.show_changelog"), admin_history_path(@space) %>
-        </p>
+        <%= inline_editable :more_info do %>
+          <%= render_space_and_group_field @space, :more_info %>
+        <% end %>
+        <hr />
+
+        <%= inline_editable :terms do %>
+          <%= render_space_and_group_field @space, :terms %>
+        <% end %>
+        <hr />
+
+        <%= render partial: 'spaces/show/reviews' %>
+
+        <% if current_user&.admin? %>
+          <hr />
+          <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink">
+            <h3 class="no-mt pt-1">Admin:</h3>
+            <p>
+              <%= link_to t("space_show.show_changelog"), admin_history_path(@space) %>
+            </p>
+          </section>
+        <% end %>
+
       </section>
-    <% end %>
-
-  </section>
-</main>
+  </main>
+<% end %>
