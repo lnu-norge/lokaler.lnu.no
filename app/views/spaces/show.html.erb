@@ -5,59 +5,64 @@
 
   Styled in part by content.scss
 %>
-<main class="max-w-prose mx-auto w-screen">
-  <%= render partial: "spaces/show/image_header"  %>
+<%= turbo_frame_tag "spaces-open-here", target: "_top" do %>
+  <%= render 'back_to_search_button' %>
+  <main
+    class="max-w-prose mx-auto w-full">
+      <%= render partial: "spaces/show/image_header"  %>
 
-  <section class="content px-4 pb-8">
 
-    <%= render partial: 'spaces/show/basics' %>
+      <section class="content px-4 pb-8">
 
-    <hr />
+        <%= render partial: 'spaces/show/basics' %>
 
-    <%= inline_editable :how_to_book  do %>
-      <%= render_space_and_group_field @space, :how_to_book %>
-    <% end %>
-    <%= render 'space_contacts/index' %>
+        <hr />
 
-    <hr />
+        <%= inline_editable :how_to_book  do %>
+          <%= render_space_and_group_field @space, :how_to_book %>
+        <% end %>
+        <%= render 'space_contacts/index' %>
 
-    <%= render partial: 'spaces/show/facilities' %>
-    <hr />
+        <hr />
 
-    <%= inline_editable :who_can_use  do %>
-      <%= render_space_and_group_field @space, :who_can_use %>
-    <% end %>
-    <hr />
+        <%= render partial: 'spaces/show/facilities' %>
+        <hr />
 
-    <%= inline_editable :pricing do %>
-      <%= render_space_and_group_field @space, :pricing %>
-    <% end %>
-    <hr />
+        <%= inline_editable :who_can_use  do %>
+          <%= render_space_and_group_field @space, :who_can_use %>
+        <% end %>
+        <hr />
 
-    <%= render partial: 'spaces/show/where' %>
-    <hr />
+        <%= inline_editable :pricing do %>
+          <%= render_space_and_group_field @space, :pricing %>
+        <% end %>
+        <hr />
 
-    <%= inline_editable :more_info do %>
-      <%= render_space_and_group_field @space, :more_info %>
-    <% end %>
-    <hr />
+        <%= render partial: 'spaces/show/where' %>
+        <hr />
 
-    <%= inline_editable :terms do %>
-      <%= render_space_and_group_field @space, :terms %>
-    <% end %>
-    <hr />
+        <%= inline_editable :more_info do %>
+          <%= render_space_and_group_field @space, :more_info %>
+        <% end %>
+        <hr />
 
-    <%= render partial: 'spaces/show/reviews' %>
+        <%= inline_editable :terms do %>
+          <%= render_space_and_group_field @space, :terms %>
+        <% end %>
+        <hr />
 
-    <% if current_user&.admin? %>
-      <hr />
-      <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink">
-        <h3 class="no-mt pt-1">Admin:</h3>
-        <p>
-          <%= link_to t("space_show.show_changelog"), admin_history_path(@space) %>
-        </p>
+        <%= render partial: 'spaces/show/reviews' %>
+
+        <% if current_user&.admin? %>
+          <hr />
+          <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink">
+            <h3 class="no-mt pt-1">Admin:</h3>
+            <p>
+              <%= link_to t("space_show.show_changelog"), admin_history_path(@space) %>
+            </p>
+          </section>
+        <% end %>
+
       </section>
-    <% end %>
-
-  </section>
-</main>
+  </main>
+<% end %>

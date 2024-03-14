@@ -8,6 +8,9 @@ class Image < ApplicationRecord
 
   before_destroy :delete_image
 
+  # Default to order by newest first. TODO: Add some way to order images manually
+  default_scope { order(created_at: :desc) }
+
   def url
     Rails.application.routes.url_helpers.url_for(image)
   end
