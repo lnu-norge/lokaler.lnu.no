@@ -13,6 +13,12 @@
   @apply bg-gray-700 bg-opacity-75 transition-opacity;
 }
 
+.space-open-in-sidebar .modal-background {
+  @apply md:left-1/2 md:px-2;
+  @apply md:top-desktop-menu-height;
+  @apply bottom-24 md:bottom-0;
+}
+
 .modal-close-button {
   @apply text-left text-sm hover:underline;
 }
