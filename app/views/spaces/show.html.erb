@@ -6,24 +6,7 @@
   Styled in part by content.scss
 %>
 <%= turbo_frame_tag "spaces-open-here", target: "_top" do %>
-  <button class=" show-only-if-inside-space-open-in-sidebar
-                  absolute top-5
-                  z-10
-                  p-1 px-3
-                  mr-4 mt-24 md:mt-2
-                  rounded-xl
-                  border-lnu-pink border-2
-                  bg-white
-                  hover:bg-lnu-pink focus:bg-lnu-pink
-                  hover:text-white focus:text-white
-                  hover:fill-white focus:fill-white
-                  shadow-xl
-
-  "
-
-          onclick="document.getElementById('spaces-open-here').innerHTML = ''">
-    Tilbake til kartet
-  </button>
+  <%= render 'back_to_search_button' %>
   <main
     class="max-w-prose mx-auto w-full">
       <%= render partial: "spaces/show/image_header"  %>
