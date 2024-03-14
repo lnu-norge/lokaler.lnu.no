@@ -49,8 +49,15 @@ export default class extends Controller {
     this.map = new mapboxgl.Map({
       container: 'map-frame',
       style: 'mapbox://styles/mapbox/streets-v11',
+      trackResize: true,
       ...options,
     });
+
+    // Set up a resize observer as well
+    const resizeObserver = new ResizeObserver(() => {
+      this.map.resize();
+    });
+    resizeObserver.observe(document.getElementById('map-frame'));
 
     this.setupEventCallbacks();
 
@@ -356,7 +363,7 @@ export default class extends Controller {
   moveMapToFitBounds(bounds) {
     console.log(bounds)
     this.map.fitBounds(bounds, {
-      padding: 10,
+      padding: 0,
       animate: false
     }, {
       wasZoom: true,
