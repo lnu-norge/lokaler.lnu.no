@@ -18,12 +18,6 @@ export default class extends Controller {
     mapboxgl.accessToken = this.element.dataset.apiKey;
 
     await this.parseUrl();
-
-    // When you hit the back button, the page will reload.
-    // Even if the history was set with replaceState or pushState.
-    window.onpopstate = () => {
-      location.reload();
-    };
   }
 
   showSearchBox() {
