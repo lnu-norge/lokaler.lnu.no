@@ -2,7 +2,12 @@
   Partial for rendering a space listing in the search results.
 %>
 
-<%= link_to space_path(space), class: "unstyled-link space-listing" do %>
+<%= link_to space_path(space),
+            class: "unstyled-link space-listing",
+            data: {
+              "turbo-frame": "spaces-open-here", # This updates the spaces-open-here frame
+              "turbo-action": "advance" # And updates browser history
+            } do %>
 
   <div class="mt-4 mb-12 max-w-lg">
 

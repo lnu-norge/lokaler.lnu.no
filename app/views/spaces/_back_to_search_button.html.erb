@@ -1,0 +1,25 @@
+<div class="hidden md:block h-0 w-fit sticky top-2  inset-x-auto mx-auto md:right-2 md:mr-0 z-100">
+  <%= link_to spaces_path,
+              data: {
+                "turbo-frame": "spaces-open-here", # This updates the spaces-open-here frame
+                "turbo-action": "advance" # And updates browser history
+              },
+              class:"
+                    show-only-if-inside-space-open-in-sidebar
+                    inline-block
+                    unstyled-link
+                    rounded-xl
+                    bg-white
+                    hover:bg-lnu-pink focus:bg-lnu-pink
+                    hover:text-white focus:text-white
+                    hover:fill-white focus:fill-white
+                    shadow-xl"  do %>
+    <span class="inline-flex md:hidden gap-0.5 items-center py-2 pl-3 pr-4">
+      <%= inline_svg "search" %> Tilbake til søket
+    </span>
+    <span class="hidden md:inline-flex gap-0.5 items-center py-2 pl-3 pr-4">
+      <%= inline_svg "x" %> Lukk
+    </span>
+<% end %>
+
+</div>
