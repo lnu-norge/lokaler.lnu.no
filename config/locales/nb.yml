@@ -115,6 +115,7 @@ nb:
         other: 'Vis %{count} andre fasiliteter'
     edit: 'Redigér fasiliteter'
     save: 'Lagre fasiliteter'
+    error: 'Kunne ikke lagre erfaring, noe gikk galt'
   reviews:
     save_review: 'Lagre erfaring'
     review_about: 'Erfaring om:'
