@@ -6,7 +6,8 @@ module DefineFacilityParams
   private
 
   def require_facility_params
-    params.require([:space_id, :facility_id, :facility_category_id])
+    params.require([:space_id, :facility_id])
+    params.permit([:facility_category_id])
     @space = Space.find(params[:space_id])
     @facility = Facility.find(params[:facility_id])
     @space_facility = SpaceFacility.find_by(space: @space, facility: @facility)
@@ -26,7 +27,8 @@ module DefineFacilityParams
   end
 
   def set_facility_review
-    @facility_review = FacilityReview.find_or_initialize_by(facility: @facility, space: @space, user: current_user)
+    user = @user || current_user
+    @facility_review = FacilityReview.find_or_initialize_by(facility: @facility, space: @space, user:)
   end
 
   def set_experiences
