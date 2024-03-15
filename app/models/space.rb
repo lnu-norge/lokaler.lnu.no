@@ -236,19 +236,15 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def facility_data_from_space_facility(space_facility:, facility_category:, user:)
     data = {
-      id: space_facility.facility.id,
-      title: space_facility.facility.title,
-      description: space_facility.description,
-      review: space_facility.experience,
-      space_types: space_facility.facility.space_types,
-      relevant: space_facility.relevant,
-      category_id: facility_category.facility_category.id
+      facility: space_facility.facility,
+      space_facility:,
+      facility_category: facility_category.facility_category
     }
 
-    add_current_user_review_to_data(data:, space_facility:, user:)
+    add_current_user_facility_review_to_data(data:, space_facility:, user:)
   end
 
-  def add_current_user_review_to_data(data:, space_facility:, user:)
+  def add_current_user_facility_review_to_data(data:, space_facility:, user:)
     return data if user.blank?
 
     if space_facility.facility.facility_reviews.present?
@@ -256,7 +252,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
                                                                              space: self)
     end
 
-    data[:current_user_review] =
+    data[:facility_review] =
       (current_user_review.presence || FacilityReview.new(facility_id: id, space_id: @space, user_id: user.id))
 
     data

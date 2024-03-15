@@ -1,15 +1,10 @@
-<%# locals: (facility:, space:) %>
+<%# locals: (facility_data:, space:) %>
 <li>
   <%= render partial: 'facility_reviews/facility_with_edit_button',
              locals: {
-               facility_id:  facility[:id],
-               title:  facility[:title],
-               experience: facility[:review],
-               description:  facility[:description],
-               facility_category_id: facility[:category_id],
-               facility_review: facility[:current_user_review],
-               tooltip:  t("tooltips.facility_aggregated_experience.#{facility[:review]}"),
-               space_id: space[:id]
+               facility_review:  facility_data[:facility_review],
+               space_facility: facility_data[:space_facility],
+               facility_category: facility_data[:facility_category],
             }
    %>
 </li>

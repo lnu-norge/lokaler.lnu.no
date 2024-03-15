@@ -1,16 +1,20 @@
-<%# locals: (title:, tooltip:, space_id:, facility_review:, experience:, facility_category_id:, facility_id:, description:  %>
-<%= turbo_frame_tag dom_id(facility_review, "category_#{facility_category_id}__facility_#{facility_id}__") do %>
+<%# locals: (facility_review:, facility_category:, space_facility: %>
+<%
+  facility = facility_review.facility
+%>
+
+<%= turbo_frame_tag dom_id(facility_review, "category_#{facility_category.id}__facility_#{facility.id}__") do %>
   <%= link_to new_facility_review_path(
-                space_id:,
-                facility_id:,
-                facility_category_id:,
+                space_id: space_facility.space_id,
+                facility_id: facility.id,
+                facility_category_id: facility_category.id,
                 ),
-              title: tooltip,
+              title: t("tooltips.facility_aggregated_experience.#{space_facility.experience}"),
               class: 'unstyled-link inline-flex gap-2 items-center collapsable-wrapper' do %>
 
-    <h4 class="text-base <%= "line-through text-gray-600" if experience == "impossible" %>"><%= title %></h4>
+    <h4 class="text-base <%= "line-through text-gray-600" if space_facility.experience == "impossible" %>"><%= facility.title %></h4>
 
-    <%= inline_svg_tag "facility_status/#{experience}", class: "#{" text-black " if experience == "impossible" }" %>
+    <%= inline_svg_tag "facility_status/#{space_facility.experience}", class: "#{" text-black " if space_facility.experience == "impossible" }" %>
 
     <span class="edit-button edit-button--small collapsable">
          <span class="text">
@@ -20,9 +24,9 @@
     </span>
  <% end %>
 
-  <% unless description.nil? %>
+  <% unless space_facility.description.nil? %>
     <div class="text-gray-400 mb-1.5">
-      <%= description %>
+      <%= space_facility.description %>
     </div>
   <% end %>
 <% end %>

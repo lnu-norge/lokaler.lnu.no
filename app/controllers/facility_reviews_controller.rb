@@ -1,19 +1,20 @@
 # frozen_string_literal: true
 
 class FacilityReviewsController < BaseControllers::AuthenticateController
+  include DefineFacilityParams
   include DefineGroupedFacilitiesForSpace
 
-  def new
-    params.require([:space_id, :facility_id, :facility_category_id])
+  before_action :require_facility_params,
+                :set_space,
+                :set_facility,
+                :set_space_facility,
+                :set_facility_review,
+                :set_experiences,
+                :set_category,
+                only: %i[new show]
 
-    @space = Space.find(params[:space_id])
-    @facility = Facility.find(params[:facility_id])
-    @space_facility = SpaceFacility.find_by(space: @space, facility: @facility)
-    @facility_review = FacilityReview.find_or_initialize_by(facility: @facility, space: @space, user: current_user)
-    @experiences = FacilityReview::LIST_EXPERIENCES
-
-    define_category
-  end
+  def show; end
+  def new; end
 
   def create
     space_id_param = params.require(:space_id)
@@ -25,9 +26,11 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     @space = Space.find(space_id_param)
 
     @affected_facilities = [] # filtered_facility_reviews will mutate this array
-    relevant_reviews = filtered_facility_reviews(reviews_and_descriptions[:facility_reviews_attributes].values)
+    reviews_to_create = prepare_facility_reviews_for_creation(
+      reviews_and_descriptions[:facility_reviews_attributes].values
+    )
 
-    return create_failed unless FacilityReview.create!(relevant_reviews)
+    return create_failed unless FacilityReview.create!(reviews_to_create)
 
     update_space_facilities(reviews_and_descriptions[:space_facilities_attributes].values)
 
@@ -77,7 +80,7 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
   # Does two things:
   # 1. Destroys any existing reviews that are changed, and returns an array of new reviews to be created
   # 2. And mutates affected_facilities so we can aggregate facilities for those
-  def filtered_facility_reviews(facility_reviews)
+  def prepare_facility_reviews_for_creation(facility_reviews)
     facility_reviews.filter_map do |review|
       next unless facility_review_has_required_params?(review)
 
@@ -128,13 +131,5 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     return true if existing_review.blank? && review["experience"] == "unknown"
 
     existing_review.present? && existing_review[:experience] == review["experience"]
-  end
-
-  def define_category
-    @category = if params[:facility_category_id].present?
-                  FacilityCategory.find(params[:facility_category_id])
-                else
-                  Facility.find(params[:facility_id]).facility_categories.first
-                end
   end
 end
