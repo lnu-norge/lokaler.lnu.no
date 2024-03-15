@@ -1,43 +1,55 @@
 # frozen_string_literal: true
 
 class FacilityReviewsController < BaseControllers::AuthenticateController
+  include DefineFacilityParams
   include DefineGroupedFacilitiesForSpace
+  include FacilityReviewsHelper
 
-  def new
-    params.require([:space_id, :facility_id, :facility_category_id])
+  before_action :require_facility_params,
+                :set_space,
+                :set_facility,
+                :set_space_facility,
+                :set_facility_review
 
-    @space = Space.find(params[:space_id])
-    @facility = Facility.find(params[:facility_id])
-    @space_facility = SpaceFacility.find_by(space: @space, facility: @facility)
-    @facility_review = FacilityReview.find_or_initialize_by(facility: @facility, space: @space, user: current_user)
-    @experiences = FacilityReview::LIST_EXPERIENCES
+  before_action :set_category,
+                :set_experiences,
+                only: %i[new show]
 
-    define_category
-  end
+  def show; end
+
+  def new; end
 
   def create
-    space_id_param = params.require(:space_id)
-    reviews_and_descriptions = params.require(:space).permit(
-      facility_reviews_attributes: %i[id experience facility_id user_id],
-      space_facilities_attributes: [:facility_id, :description]
-    )
-
-    @space = Space.find(space_id_param)
-
-    @affected_facilities = [] # filtered_facility_reviews will mutate this array
-    relevant_reviews = filtered_facility_reviews(reviews_and_descriptions[:facility_reviews_attributes].values)
-
-    return create_failed unless FacilityReview.create!(relevant_reviews)
-
-    update_space_facilities(reviews_and_descriptions[:space_facilities_attributes].values)
-
+    save_review_data
     create_succeeded
+  rescue StandardError
+    create_failed
   end
 
   private
 
+  def save_review_data
+    # Data to save:
+    params.permit(facility_review: [:user_id, :experience, :description])
+    @user_id = params[:facility_review][:user_id]
+    @experience = params[:facility_review][:experience]
+    @description = params[:facility_review][:description]
+
+    # Update the space facility first, then the facility review
+    @space_facility.update(description: @description)
+
+    # If the experience is unknown or not set, we do not store a review
+    return @facility_review.destroy if @experience == "unknown" || @experience.blank?
+
+    # Otherwise, update the review:
+    @facility_review.update(
+      experience: @experience
+    )
+  end
+
   def create_failed
-    redirect_and_show_flash(flash_message: t("reviews.error"), flash_type: :error,
+    redirect_and_show_flash(flash_message: t("facility_reviews.error"),
+                            flash_type: :alert,
                             redirect_status: :unprocessable_entity)
   end
 
@@ -49,92 +61,34 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     respond_to do |format|
       format.turbo_stream do
         flash.now[flash_type] = flash_message
-
-        define_facilities
         render turbo_stream: [
           turbo_stream.update(:flash,
                               partial: "shared/flash"),
-          turbo_stream.update(:facilities,
-                              partial: "spaces/show/facilities")
+          *turbo_streams_to_replace_facility_data
         ]
       end
       format.html do
         flash[flash_type] = flash_message
+        # We redirect to space in case turbo is down or user
+        # does not use JS. That's the most likely place they
+        # want to go after submitting a review.
         redirect_to @space, status: redirect_status
       end
     end
   end
 
-  def update_space_facilities(space_facilities)
-    space_facilities.each do |facility|
-      next if facility[:description].blank?
+  def turbo_streams_to_replace_facility_data
+    # Find all categories for the facility
+    facility_categories = @facility.facility_categories
 
-      SpaceFacility.find_by(facility_id: facility[:facility_id], space: @space.id)
-                   .update!(description: facility[:description])
+    facility_categories.map do |facility_category|
+      turbo_stream.replace(
+        target_id_for_categorized_facility(
+          facility_id: @facility.id, category_id: facility_category.id
+        ),
+        partial: "facility_reviews/facility_with_edit_button",
+        locals: { facility: @facility.reload, facility_category:, space_facility: @space_facility.reload }
+      )
     end
-  end
-
-  # Does two things:
-  # 1. Destroys any existing reviews that are changed, and returns an array of new reviews to be created
-  # 2. And mutates affected_facilities so we can aggregate facilities for those
-  def filtered_facility_reviews(facility_reviews)
-    facility_reviews.filter_map do |review|
-      next unless facility_review_has_required_params?(review)
-
-      # Check if something is new or changed
-      existing_review = find_existing_facility_review(review)
-      next if nothing_changed(review, existing_review)
-
-      # Destroy any old review, so we are ready to return a new review for creation.
-      existing_review.destroy if existing_review.present?
-
-      # Something changed, so add facility to affected facilities
-      @affected_facilities << Facility.find(review["facility_id"])
-
-      # Unknown experiences do not create reviews, so we can just skip creating a new one:
-      next if review["experience"] == "unknown"
-
-      # Space id is not in the form, we add it from params instead
-      review["space_id"] = @space.id
-
-      # New Facility Review, ready to be made!
-      review
-    end
-  end
-
-  def facility_review_has_required_params?(facility_review)
-    # We minimum need these to do anything useful
-    facility_review[:experience].present? &&
-      facility_review[:user_id].present? &&
-      facility_review[:facility_id].present? &&
-      @space.id.present?
-  end
-
-  def find_existing_facility_review(review)
-    existing_review = FacilityReview.find_by(id: review[:id]) if review[:id].present?
-    return existing_review if existing_review.present?
-
-    FacilityReview.find_by(
-      facility_id: review[:facility_id],
-      space_id: @space.id,
-      user_id: review[:user_id]
-    )
-  end
-
-  def nothing_changed(review, existing_review)
-    # NB: Unknown experiences do not create reviews.
-    # Thus existing_review.blank? is the same as
-    # experience == "unknown"
-    return true if existing_review.blank? && review["experience"] == "unknown"
-
-    existing_review.present? && existing_review[:experience] == review["experience"]
-  end
-
-  def define_category
-    @category = if params[:facility_category_id].present?
-                  FacilityCategory.find(params[:facility_category_id])
-                else
-                  Facility.find(params[:facility_id]).facility_categories.first
-                end
   end
 end
