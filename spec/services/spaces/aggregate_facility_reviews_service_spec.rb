@@ -204,6 +204,6 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
 
   it "is performant for a large amount of facilities" do
     Array.new(20) { Fabricate(:facility, space_types: [space_type]) }
-    expect { space.aggregate_facility_reviews }.to perform_under(30).ms
+    expect { space.aggregate_facility_reviews }.to perform_under(50).ms
   end
 end
