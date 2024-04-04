@@ -10,6 +10,9 @@ module FilterableSpaces
     filter_by_title
     filter_by_space_types
     filter_and_order_by_facilities
+
+    @filterable_facility_categories = FacilityCategory.includes(:facilities).all
+    @filterable_space_types = SpaceType.all
   end
 
   def filter_by_title
