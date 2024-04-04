@@ -3,8 +3,9 @@
   <%= form.label t("space_filter.title"), for: :search_for_title, class: "text-xl font-bold" %>
   <div class="mt-2">
     <%= form.text_field :search_for_title,
-                     data: { mapbox_target: "title" },
-                     class: "text_field shadow" %>
+                        value: params[:search_for_title],
+                        data: { mapbox_target: "title" },
+                        class: "text_field shadow" %>
   </div>
 </div>
 
