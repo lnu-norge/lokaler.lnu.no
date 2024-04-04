@@ -5,8 +5,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   include DefineGroupedFacilitiesForSpace
 
   def index
-    @spaces = Space.order updated_at: :desc
-    @space = Space.new
+    filter_spaces
   end
 
   def show
@@ -105,9 +104,9 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   def spaces_search
-    filtered_spaces = filter_spaces(params)
-    space_count = filtered_spaces.count
-    spaces = filtered_spaces.first(SPACE_SEARCH_PAGE_SIZE)
+    filter_spaces
+    space_count = @spaces.count
+    spaces = @spaces.first(SPACE_SEARCH_PAGE_SIZE)
 
     markers = spaces.map(&:render_map_marker)
 
