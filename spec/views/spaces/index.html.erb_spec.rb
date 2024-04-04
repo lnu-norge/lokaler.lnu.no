@@ -4,7 +4,9 @@ require "rails_helper"
 
 RSpec.describe "spaces/index.html.erb", type: :view do
   it "renders the page" do
-    assign(:space, Space.new)
+    assign :spaces, [Fabricate(:space)]
+    assign :filterable_facility_categories, [Fabricate(:facility_category)]
+    assign :filterable_space_types, [Fabricate(:space_type)]
 
     render
 
