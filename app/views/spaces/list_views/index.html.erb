@@ -1,0 +1,17 @@
+<div class="flex">
+  <nav class="hidden fixed inset-0 z-100 bg-white overflow-y-auto overscroll-contain
+              md:block md:static md:inset-auto md:z-10 md:h-screen-below-desktop-menu
+              md:shadow-2xl md:max-w-md md:w-1/4
+  ">
+    <main class="p-8 md:pt-11">
+      <%= render partial: "spaces/list_views/search_form" %>
+    </main>
+  </nav>
+
+  <div class="flex flex-col">
+    <% @spaces.each do |space| %>
+      <li><%= space.title %></li>
+    <% end %>
+
+  </div>
+</div>

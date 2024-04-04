@@ -1,0 +1,8 @@
+<%= form_with url: spaces_list_view_path,
+  method: :get do |form| %>
+
+  <%= render 'spaces/index/search_form_fields', form: %>
+
+  <%= form.submit 'Search' %>
+
+<% end %>
