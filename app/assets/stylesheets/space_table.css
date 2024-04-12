@@ -1,0 +1,70 @@
+body.list_views_index {
+    @apply overscroll-x-contain;
+}
+
+.space_table {
+    @apply table-fixed w-full;
+
+    thead {
+        @apply sticky top-desktop-menu-height;
+        @apply bg-gray-100;
+        @apply z-5;
+        @apply border-b border-gray-200;
+        th {
+            @apply font-bold;
+            @apply bg-gray-100;
+        }
+    }
+    /* Sticky left column */
+    thead tr th:first-child,
+    tbody tr th:first-child {
+        @apply sticky left-72 z-4;
+    }
+    thead tr th:first-child::after {
+        @apply block absolute shadow-2xl left-0 right-0 top-0 h-screen-below-desktop-menu pointer-events-none;
+        content: "";
+    }
+
+    tbody {
+        th {
+            @apply bg-white;
+            font-weight: inherit;
+            h1, h2 {
+                @apply font-bold text-lg mb-2;
+            }
+        }
+    }
+
+    tr {
+        @apply border-b border-gray-200;
+    }
+
+    th,
+    td {
+        @apply w-72 align-top text-left;
+        @apply px-4 py-2;
+    }
+    td {
+        @apply relative;
+        @apply bg-white;
+        h1, h2, h3 {
+            @apply font-bold;
+        }
+        > :first-child {
+            @apply h-48 overflow-scroll block;
+        }
+    }
+
+    .inline-editing {
+        @apply pb-6;
+       header {
+           h2, h3 {
+               @apply hidden;
+           }
+       }
+        .edit-button {
+            @apply absolute bottom-0 right-0 z-2;
+        }
+    }
+
+}

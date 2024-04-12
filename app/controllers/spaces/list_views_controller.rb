@@ -5,6 +5,8 @@ module Spaces
     include FilterableSpaces
     def index
       filter_spaces
+
+      @spaces = @spaces.limit(10)
     end
   end
 end

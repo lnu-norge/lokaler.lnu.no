@@ -1,0 +1,91 @@
+<%#
+  Depends on:
+  - @space
+
+  Styled in part by content.scss
+%>
+  <tr>
+
+    <th scope="row">
+      <%= render partial: 'spaces/show/basics' %>
+    </th>
+
+    <td>
+      <% if @space.images.empty? %>
+        <div class="relative pb-1/2 w-full inline-block">
+          <div class="bg-gray-300 absolute text-gray-500  h-full w-full flex flex-col gap-4 items-center justify-center">
+            <span class="flex flex-col gap-1 items-center justify-center">
+              <%= inline_svg_tag 'image_missing', class: "inline-block h-14 w-14" %>
+              <%= t('images.image_missing') %>
+            </span>
+          </div>
+        </div>
+      <% else %>
+        <%= render partial: 'space_images/image_slider', locals: {
+          space: @space,
+          images: @space.images,
+          link_to_fullscreen: false,
+          show_caption_credits: :thumbnail
+        } %>
+      <% end %>
+    </td>
+
+
+    <td>
+    <%= inline_editable :how_to_book  do %>
+        <%= render_space_and_group_field @space, :how_to_book %>
+      <% end %>
+    </td>
+
+    <td>
+      <%= render 'space_contacts/index' %>
+    </td>
+
+    <td>
+      <%= render partial: 'spaces/show/facilities' %>
+    </td>
+
+    <td>
+      <%= inline_editable :who_can_use  do %>
+        <%= render_space_and_group_field @space, :who_can_use %>
+      <% end %>
+    </td>
+
+    <td>
+      <%= inline_editable :pricing do %>
+        <%= render_space_and_group_field @space, :pricing %>
+      <% end %>
+    </td>
+
+    <td>
+      <%= inline_editable :where do %>
+        <div class="flex gap-1 mb-3">
+          <%= inline_svg_tag 'place' %>
+          <span>
+            <%= @space.address %>,
+            <%= @space.post_number %>
+            <%= @space.post_address %>
+         </span>
+        </div>
+        <%= render partial: "spaces/show/location_description"%>
+        <%= render partial: "spaces/show/static_map" %>
+      <% end %>
+    </td>
+
+    <td>
+      <%= inline_editable :terms do %>
+        <%= render_space_and_group_field @space, :terms %>
+      <% end %>
+    </td>
+
+    <td>
+      <%= inline_editable :more_info do %>
+        <%= render_space_and_group_field @space, :more_info %>
+      <% end %>
+    </td>
+
+    <td>
+      <%= render partial: 'spaces/show/reviews' %>
+    </td>
+
+  </tr>
