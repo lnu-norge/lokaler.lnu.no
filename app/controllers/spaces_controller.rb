@@ -108,6 +108,8 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     space_count = @spaces.count
     spaces = @spaces.first(SPACE_SEARCH_PAGE_SIZE)
 
+    view_as = params[:view_as]
+
     markers = spaces.map(&:render_map_marker)
 
     facility_ids = params[:facilities]&.map(&:to_i) || []
@@ -117,6 +119,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
           spaces:,
           filtered_facilities: Facility.find(facility_ids),
           space_count:,
+          view_as:,
           page_size: SPACE_SEARCH_PAGE_SIZE
         }
       ),

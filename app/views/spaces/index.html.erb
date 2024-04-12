@@ -15,10 +15,14 @@
                 md:mt-0 md:rounded-none
                 md:max-w-md md:w-1/2 md:min-w-[14rem]
                 md:overscroll-contain md:overflow-y-auto
-                md:h-screen-below-desktop-menu">
+                md:h-screen-below-desktop-menu
+                md:view-as-table:max-w-full
+                md:view-as-table:w-full
+                md:view-as-table:absolute
+  ">
       <%= render 'spaces/index/filter_button' %>
       <%= render 'spaces/index/handlebar_for_mobile' %>
-      <div id="space-listing" class="px-4 md:py-8"></div>
+      <div id="space-listing" class="px-4 md:py-8 md:view-as-table:p-0 loading-spaces-when-empty"></div>
     </div>
     <div
       class="h-screen-3/5 md:pb-0
