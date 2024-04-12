@@ -3,10 +3,10 @@ body.list_views_index {
 }
 
 .space_table {
-    @apply table-fixed w-full;
+    @apply table-auto w-full;
 
     thead {
-        @apply sticky top-desktop-menu-height;
+        @apply sticky top-0 md:top-desktop-menu-height;
         @apply bg-gray-100;
         @apply z-5;
         @apply border-b border-gray-200;
@@ -18,10 +18,10 @@ body.list_views_index {
     /* Sticky left column */
     thead tr th:first-child,
     tbody tr th:first-child {
-        @apply sticky left-72 z-4;
+        @apply sticky left-0 md:left-72 z-4;
     }
     thead tr th:first-child::after {
-        @apply block absolute shadow-2xl left-0 right-0 top-0 h-screen-below-desktop-menu pointer-events-none;
+        @apply block absolute shadow-2xl left-0 right-0 top-0 h-screen md:h-screen-below-desktop-menu pointer-events-none;
         content: "";
     }
 
@@ -41,8 +41,14 @@ body.list_views_index {
 
     th,
     td {
-        @apply w-72 align-top text-left;
+        @apply align-top text-left;
         @apply px-4 py-2;
+        &>:first-child {
+            @apply w-72;
+        }
+        #facilities {
+            @apply w-fit;
+        }
     }
     td {
         @apply relative;
