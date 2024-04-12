@@ -24,9 +24,12 @@
           <th scope="col">
             Kontaktinfo
           </th>
-          <th scope="col">
-            Fasiliteter
-          </th>
+
+          <% FacilityCategory.all.each do |facility_category|  %>
+            <th scope="col">
+              Fasiliteter: <%= facility_category.title %>
+            </th>
+          <% end %>
           <th scope="col">
             Hvem får bruke?
           </th>
