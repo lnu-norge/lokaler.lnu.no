@@ -41,8 +41,47 @@
       <%= render 'space_contacts/index' %>
     </td>
 
-    <td>
-      <%= render partial: 'spaces/show/facilities' %>
+    <td class="w-fit overflow-x-auto">
+      <section id="facilities"  class="flex gap-2 w-fit">
+
+        <% if @grouped_relevant_facilities.present? %>
+          <main class="grid grid-flow-col gap-5 divide-x">
+            <% @grouped_relevant_facilities.each do | group |  %>
+              <div>
+                <h3 class="no-mt">
+                  <%= group.second[:category].title %>
+                </h3>
+
+                <ul class="grid gap-1 md:col-span-2">
+                  <% group.second[:space_facilities].each do |facility_data| %>
+                    <%= render partial: 'spaces/show/facility_item', locals: {
+                      space: @space,
+                      facility_data:
+                    } %>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </main>
+        <% end %>
+
+        <% if @grouped_non_relevant_facilities.present?  %>
+          <p class="text-gray-500">
+            <%= t('facility_reviews.new.showing_relevant_facilities',
+                  space_title:  @space.title,
+                  space_types: @space.space_types.map{ |type| type.type_name }.to_sentence) %>
+          </p>
+          <details class="mb-8 group">
+            <summary class="link">
+              <span>Vis <%= @non_relevant_facilities.count %> andre fasiliteter</span>
+            </summary>
+            <% @grouped_non_relevant_facilities.each do |group| %>
+              <%= render 'spaces/show/facility_group', group: %>
+            <% end %>
+          </details>
+        <% end %>
+
+      </section>
     </td>
 
     <td>
