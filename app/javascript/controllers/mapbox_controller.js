@@ -16,7 +16,6 @@ export default class extends Controller {
 
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
-
     await this.parseUrl();
   }
 
@@ -121,6 +120,7 @@ export default class extends Controller {
     this.setOrDeleteToUrl('selectedSpaceTypes', selectedSpaceTypes);
     this.setOrDeleteToUrl('selectedLocation', selectedLocation);
     this.setOrDeleteToUrl('searchForTitle', searchForTitle);
+    this.setOrDeleteToUrl('view_as', this.viewAs);
   }
 
   setOrDeleteToUrl(key, value) {
@@ -154,6 +154,7 @@ export default class extends Controller {
     const selectedSpaceTypes = url.searchParams.get('selectedSpaceTypes');
     const selectedLocation = url.searchParams.get('selectedLocation');
     const searchForTitle = url.searchParams.get('searchForTitle');
+    this.setViewTo(url.searchParams.get("view_as") || "map");
 
     this.parseSelectedFacilities(selectedFacilities);
     this.parseSelectedSpaceTypes(selectedSpaceTypes);
@@ -391,6 +392,7 @@ export default class extends Controller {
 
     return [
       '/spaces_search?',
+      `view_as=${this.viewAs}&`,
       `north_west_lat=${northWest.lat}&`,
       `north_west_lng=${northWest.lng}&`,
       `south_east_lat=${southEast.lat}&`,
@@ -401,8 +403,27 @@ export default class extends Controller {
     ].join('');
   }
 
+  setViewTo(view) {
+    this.viewAs = view;
+    document.body.classList.toggle('view-as-map', view === "map");
+    document.body.classList.toggle('view-as-table', view === "table");
+  }
+
+  setViewToMap() {
+    this.setViewTo("map")
+    this.updateUrl();
+    this.loadNewMapPosition();
+
+  }
+
+  setViewToTable() {
+    this.setViewTo("table")
+    this.updateUrl();
+    this.loadNewMapPosition();
+  }
+
   async loadNewMapPosition() {
-    //document.getElementById('space-listing').innerText = 'Laster...';
+    document.getElementById('space-listing').innerHTML = '';
 
     const spacesInRect = await (await fetch(this.buildSearchURL())).json();
 

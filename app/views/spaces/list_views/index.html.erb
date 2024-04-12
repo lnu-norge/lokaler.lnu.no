@@ -9,61 +9,6 @@
   </nav>
 
   <main class="relative">
-    <table class="space_table border-collapse">
-      <thead>
-        <tr>
-          <th scope="col">
-            Lokale
-          </th>
-          <th scope="col">
-            Bilder
-          </th>
-          <th scope="col">
-            Hvordan booke
-          </th>
-          <th scope="col">
-            Kontaktinfo
-          </th>
-
-          <% FacilityCategory.all.each do |facility_category|  %>
-            <th scope="col">
-              Fasiliteter: <%= facility_category.title %>
-            </th>
-          <% end %>
-          <th scope="col">
-            Hvem får bruke?
-          </th>
-          <th scope="col">
-            Pris
-          </th>
-          <th scope="col">
-            Hvor er det?
-          </th>
-          <th scope="col">
-            Vilkår
-          </th>
-          <th scope="col">
-            Mer info
-          </th>
-          <th scope="col">
-            Erfaringer
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-      <% @spaces.each do |space| %>
-        <%
-          @space = space
-          @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true, user: current_user)
-          @non_relevant_facilities = @space.non_relevant_space_facilities
-          @grouped_non_relevant_facilities = @space.group_space_facilities(ungrouped_facilities: @non_relevant_facilities,
-                                                                           user: current_user)
-          @experiences = FacilityReview::LIST_EXPERIENCES
-        %>
-        <% @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)  %>
-        <%= render partial: "spaces/list_views/space", locals: { space: space } %>
-      <% end %>
-      </tbody>
-    </table>
+    <%= render 'space_table_view' %>
   </main>
 </div>

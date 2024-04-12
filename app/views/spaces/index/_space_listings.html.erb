@@ -1,6 +1,11 @@
-<%= render partial: 'spaces/index/space_listing_header', locals: { space_count: space_count } %>
-<% spaces.each do |space| %>
-  <%= render partial: "spaces/index/space_listing", locals: { space: space, filtered_facilities: filtered_facilities } %>
+<% if view_as == "table" %>
+  <% @spaces = spaces %>
+  <%= render partial: "spaces/list_views/space_table_view" %>
+<% else # default to map view %>
+  <%= render partial: 'spaces/index/space_listing_header', locals: { space_count: space_count } %>
+  <% spaces.each do |space| %>
+    <%= render partial: "spaces/index/space_listing", locals: { space: space, filtered_facilities: filtered_facilities } %>
+  <% end %>
 <% end %>
 <% if space_count > page_size %>
   <div class="content">

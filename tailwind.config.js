@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
     // Purge unused TailwindCSS styles
     content: [
@@ -83,5 +85,9 @@ module.exports = {
     },
     plugins: [
         require('@tailwindcss/forms'),
+        plugin(function({ addVariant }) {
+            addVariant('view-as-table', 'body.view-as-table &');
+            addVariant('view-as-map', 'body.view-as-map &');
+        }),
     ],
 }
