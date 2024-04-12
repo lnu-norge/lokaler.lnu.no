@@ -5,6 +5,6 @@
   </div>
   <%= turbo_frame_tag "space_contacts", class: 'flex flex-col' do %>
     <%= turbo_stream_from "space_contacts" %>
-    <%= render @space.space_contacts %>
+    <%= render partial: "space_contacts/space_contact", collection: @space.space_contacts %>
   <% end %>
 </div>
