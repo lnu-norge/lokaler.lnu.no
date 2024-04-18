@@ -33,6 +33,12 @@ body.view-as-table {
                 @apply font-bold text-lg mb-2;
             }
         }
+
+        th, td {
+            > :first-child {
+                @apply h-48 overflow-scroll block;
+            }
+        }
     }
 
     tr {
@@ -56,10 +62,8 @@ body.view-as-table {
         h1, h2, h3 {
             @apply font-bold;
         }
-        > :first-child {
-            @apply h-48 overflow-scroll block;
-        }
     }
+
 
     .inline-editing {
         @apply pb-6;
@@ -70,6 +74,15 @@ body.view-as-table {
        }
         .edit-button {
             @apply absolute bottom-0 right-0 z-2;
+        }
+
+        /* Make the form into a modal of sorts */
+        > form {
+            @apply fixed z-20 bg-gray-600/50 inset-0 flex items-center justify-center md:pl-[26%] md:pr-[1%];
+            > section {
+                @apply max-w-prose max-h-fit bg-white p-8;
+                @apply drop-shadow-2xl rounded-lg;
+            }
         }
     }
 

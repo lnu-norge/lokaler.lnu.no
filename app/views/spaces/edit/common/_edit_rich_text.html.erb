@@ -1,7 +1,4 @@
 <div>
-  <h2 class="font-bold text-xl mt-4 mb-2">
-    <%= Space.human_attribute_name(field) %>
-  </h2>
   <%=
     ## For when SpaceGroup has the same field, show this header:
     if @space.space_group && (SpaceGroup.method_defined? field)
