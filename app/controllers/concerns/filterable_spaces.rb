@@ -4,15 +4,14 @@ module FilterableSpaces
   private
 
   def filter_spaces
-    @spaces = Space.includes([:images]).order("star_rating DESC NULLS LAST")
+    @filterable_facility_categories = FacilityCategory.includes(:facilities).all
+    @filterable_space_types = SpaceType.all
 
     filter_by_location
     filter_by_title
     filter_by_space_types
-    filter_and_order_by_facilities
 
-    @filterable_facility_categories = FacilityCategory.includes(:facilities).all
-    @filterable_space_types = SpaceType.all
+    filter_and_order_by_facilities
   end
 
   def filter_by_title
@@ -47,6 +46,6 @@ module FilterableSpaces
   def filter_and_order_by_facilities
     return if params[:facilities].blank?
 
-    @spaces = Space.filter_on_facilities(@spaces, params[:facilities])
+    @spaces.filter_and_order_by_facilities(params[:facilities])
   end
 end
