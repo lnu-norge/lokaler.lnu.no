@@ -1,6 +1,6 @@
 <%# locals: (view_as:, spaces:, space_count:, page_size:, filtered_facilities: %>
 <% if view_as == "table" %>
-  <%= render "spaces/list_views/space_table_view", spaces:, filtered_facilities: %>
+  <%= render "spaces/table_views/space_table_view", spaces:, filtered_facilities: %>
 <% else # default to map view %>
   <%= render 'spaces/index/space_listing_header', space_count: %>
   <% spaces.each do |space| %>
