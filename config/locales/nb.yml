@@ -48,7 +48,7 @@ nb:
     save_changed_space: "Lagre endringer"
     save_changed_field_html: 'Lagre <em>%{field}</em>'
     cancel_changed_space: "Avbryt"
-    editing_field_for_title: "Redigerer %{field} for %{title}"
+    editing_field_for_title: "Redigerer \"%{field}\" for %{title}"
     edit: "Rediger"
     edit_images: "Bilder til"
   space_create:
