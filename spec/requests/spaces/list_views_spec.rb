@@ -10,7 +10,7 @@ RSpec.describe "ListViews", type: :request do
   end
 
   it "can load the list view path" do
-    get spaces_list_view_path
+    get spaces_table_view_url
     expect(response).to have_http_status(:success)
   end
 end
