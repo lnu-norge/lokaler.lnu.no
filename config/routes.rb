@@ -56,7 +56,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get "rect_for_spaces", to: "spaces#rect_for_spaces"
   get "address_search", to: "spaces#address_search"
   get "check_duplicates", to: "spaces#check_duplicates"
-  get "lokaler/liste", to: "spaces/list_views#index", as: "spaces_list_view"
+  get "lokaler/liste", to: "spaces/table_views#index", as: "spaces_table_view"
 
   # Space images routes
   resources "space_images"

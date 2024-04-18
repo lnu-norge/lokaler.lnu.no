@@ -50,7 +50,7 @@
       #                                                                 user: current_user)
     %>
     <% @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)  %>
-    <%= render partial: "spaces/list_views/space" %>
+    <%= render partial: "spaces/table_views/space" %>
   <% end %>
   </tbody>
 </table>
