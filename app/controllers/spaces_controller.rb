@@ -5,6 +5,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   include DefineGroupedFacilitiesForSpace
 
   def index
+    @spaces = Space.includes_data_for_filter_list
     filter_spaces
   end
 
@@ -104,13 +105,18 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   def spaces_search
-    filter_spaces
-    space_count = @spaces.count
-    spaces = @spaces.first(SPACE_SEARCH_PAGE_SIZE)
-
     view_as = params[:view_as]
 
+    @spaces = Space.all.order_by_star_rating
+    filter_spaces
+
+    space_count = @spaces.size
+
+    spaces = preload_spaces_data_for_view(view_as)
+
     markers = spaces.map(&:render_map_marker)
+
+    @experiences = FacilityReview::LIST_EXPERIENCES
 
     facility_ids = params[:facilities]&.map(&:to_i) || []
     render json: {
@@ -125,6 +131,18 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       ),
       markers:
     }
+  end
+
+  def preload_spaces_data_for_view(view_as)
+    if view_as == "table"
+      @spaces
+        .includes_data_for_show
+        .limit(SPACE_SEARCH_PAGE_SIZE)
+    else
+      @spaces
+        .includes_data_for_filter_list
+        .limit(SPACE_SEARCH_PAGE_SIZE)
+    end
   end
 
   def check_duplicates
@@ -143,7 +161,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
           spaces: duplicates
         }
       ),
-      count: duplicates.count
+      count: duplicates.size
     }
   end
 

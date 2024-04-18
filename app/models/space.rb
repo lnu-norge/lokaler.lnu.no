@@ -48,6 +48,103 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     )
   }
 
+  scope :with_images, lambda {
+    includes(
+      {
+        images: [
+          {
+            image_attachment: :blob
+          }
+        ]
+      }
+    )
+  }
+
+  scope :order_by_star_rating, lambda {
+    order(
+      "spaces.star_rating DESC NULLS LAST"
+    )
+  }
+
+  scope :includes_data_for_filter_list, lambda {
+    with_images
+      .includes(
+        :reviews,
+        :space_facilities,
+        :space_types
+      )
+  }
+
+  scope :with_space_facilities, lambda {
+    includes(
+      {
+        space_facilities: {
+          facility: [
+            :facility_categories,
+            :facility_reviews
+          ]
+        }
+      }
+    )
+  }
+
+  scope :with_reviews, lambda {
+    includes({
+               reviews: [
+                 :user
+               ]
+             })
+  }
+
+  scope :with_rich_text_from_space_group, lambda {
+                                            includes(
+                                              {
+                                                space_group: %i[
+                                                  rich_text_how_to_book
+                                                  rich_text_pricing
+                                                  rich_text_who_can_use
+                                                  rich_text_terms
+                                                  rich_text_about
+                                                  space_contacts
+                                                ]
+                                              }
+                                            )
+                                          }
+
+  scope :includes_data_for_show, lambda {
+    with_all_rich_text
+      .with_rich_text_from_space_group
+      .with_images
+      .with_space_facilities
+      .with_reviews
+      .includes(
+        :space_types,
+        :space_contacts
+      )
+  }
+
+  scope :filter_and_order_by_facilities, lambda { |filtered_facilities|
+    where(space_facilities: { relevant: true, facility_id: filtered_facilities })
+      .select("spaces.*, (
+        (
+            SELECT
+               SUM(
+                  CASE
+                    WHEN space_facilities.experience = 'likely' THEN 3.0
+                    WHEN space_facilities.experience = 'maybe' THEN 2.0
+                    WHEN space_facilities.experience = 'unknown' THEN 1.0
+                    WHEN space_facilities.experience = 'unlikely' THEN -1.0
+                    WHEN space_facilities.experience = 'impossible' THEN -2.0
+                    ELSE 0
+                  END
+               )
+            FROM space_facilities
+            WHERE space_facilities.space_id = spaces.id)
+        + COALESCE((spaces.star_rating - 2.9) / 10, 0)
+      ) AS score")
+      .order(score: :desc)
+  }
+
   has_rich_text :how_to_book
   has_rich_text :who_can_use
   has_rich_text :pricing
@@ -64,10 +161,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   after_create do
     aggregate_facility_reviews
     aggregate_star_rating
-  end
-
-  def reviews
-    Review.includes([:user]).where(space_id: id)
   end
 
   def reviews_for_facility(facility)
@@ -125,54 +218,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def potential_duplicates
     Spaces::DuplicateDetectorService.call(self)
-  end
-
-  # Move this somewhere better, either a service or figure out a way to make it a scope
-  # NOTE: this expects a scope for spaces but returns an array
-  # preferably we would find some way to return a scope too
-  def self.filter_on_facilities(spaces, filtered_facilities)
-    results = spaces.includes(:space_facilities)
-                    .where(space_facilities: { relevant: true, facility_id: filtered_facilities })
-                    .filter_map(&:score_by_filter_on_facilities)
-
-    results.sort_by(&:score).map(&:space)
-  end
-
-  def score_by_filter_on_facilities
-    space_score = 0.0
-    # The more correct matches the lower the number.
-    # this is so the sort_by later will be correct as it sorts by lowest first
-    # we could do a reverse on the result of sort_by but this will incur
-    # a performance overhead
-
-    space_facilities.each do |space_facility|
-      space_score -= score_from_experience(space_facility)
-    end
-
-    # Add a score for the star_rating to use as a tie-breaker.
-    space_score -= score_from_star_rating
-
-    OpenStruct.new(score: space_score, space: self) # rubocop:disable Style/OpenStructUse
-  end
-
-  def score_from_experience(space_facility)
-    return 3.0 if space_facility.likely?
-    return 2.0 if space_facility.maybe?
-    return 1.0 if space_facility.unknown?
-    return -1.0 if space_facility.unlikely?
-
-    -2.0 if space_facility.impossible?
-  end
-
-  def score_from_star_rating
-    # Star ratings under 3 should score so the space is filtered lower,
-    # star ratings at 3 or over should place the search result higher.
-    #
-    # Star ratings go from 1-5, if present, so just subtract 2.9 to get the right
-    # sorting, then divide by 10 to make it less relevant than scores based on matches
-    return 0 if star_rating.blank?
-
-    (star_rating - 2.9) / 10
   end
 
   # Space Facilities that are typically relevant for the space

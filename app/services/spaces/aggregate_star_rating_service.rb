@@ -8,7 +8,7 @@ module Spaces
     end
 
     def call
-      if space.reviews.count.zero?
+      if space.reviews.empty?
         space.update!(star_rating: nil)
         return
       end
