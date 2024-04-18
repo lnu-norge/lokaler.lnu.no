@@ -1,9 +1,4 @@
-<%#
-  Depends on:
-  - @space
-
-  Styled in part by content.scss
-%>
+<%# locals: ( ) %>
   <tr>
 
     <th scope="row">
@@ -41,8 +36,9 @@
       <%= render 'space_contacts/index' %>
     </td>
 
-    <% FacilityCategory.all.each do |facility_category|  %>
+    <% @filterable_facility_categories.each do |facility_category|  %>
       <td>
+        <% if false %>
         <div>
           <ul>
             <%
@@ -81,7 +77,7 @@
             </details>
           <% end %>
         </div>
-
+        <% end %>
 
       </td>
     <% end %>
