@@ -75,7 +75,7 @@ export default class extends Controller {
     field.id = `${field.id}-${index}`
 
     // Update labels with correct for
-    const label = field.parentElement.querySelector(`label[for=${field.dataset.original_id}]`)
+    const label = field.parentElement.querySelector(`label[for="${field.dataset.original_id}"]`)
     if (label) {
       label.setAttribute('for', field.id)
     }
