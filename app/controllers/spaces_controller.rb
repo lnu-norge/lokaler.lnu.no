@@ -115,16 +115,17 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
 
     @spaces = preload_spaces_data_for_view(view_as)
 
+    facility_ids = params[:facilities]&.map(&:to_i) || []
+    @filtered_facilities = Facility.find(facility_ids)
+
     markers = [] # @spaces.map(&:render_map_marker)
 
     @experiences = FacilityReview::LIST_EXPERIENCES
 
-    facility_ids = params[:facilities]&.map(&:to_i) || []
     render json: {
       listing: render_to_string(
         partial: "spaces/index/space_listings", locals: {
           spaces: @spaces,
-          filtered_facilities: Facility.find(facility_ids),
           space_count:,
           view_as:,
           page_size: SPACE_SEARCH_PAGE_SIZE

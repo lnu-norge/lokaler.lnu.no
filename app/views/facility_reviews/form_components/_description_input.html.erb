@@ -1,0 +1,11 @@
+<%# locals: (form:, space_facility:) %>
+<%= form.input :description,
+               label: false,
+               placeholder: false,
+               label_html: {
+                 class: "text-xs mb-1"
+               },
+               required: false,
+               input_html: {
+                 value: space_facility.description
+               } %>

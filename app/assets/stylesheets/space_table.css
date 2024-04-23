@@ -41,12 +41,9 @@ body.view-as-table {
         }
     }
 
-    tr {
-        @apply border-b border-gray-200;
-    }
-
     th,
     td {
+        @apply border-b border-r border-gray-200;
         @apply align-top text-left;
         @apply px-4 py-2;
         &>:first-child {
