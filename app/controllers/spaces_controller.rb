@@ -5,8 +5,8 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   include DefineGroupedFacilitiesForSpace
 
   def index
-    @spaces = Space.includes_data_for_filter_list
-    filter_spaces
+    set_filterable_facility_categories
+    set_filterable_space_types
   end
 
   def show
@@ -107,14 +107,15 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   def spaces_search
     view_as = params[:view_as]
 
-    @spaces = Space.all.order_by_star_rating
     filter_spaces
 
-    space_count = @spaces.size
+    space_count = @spaces.to_a.size
 
-    spaces = preload_spaces_data_for_view(view_as)
+    @spaces = @spaces.limit(SPACE_SEARCH_PAGE_SIZE)
 
-    markers = spaces.map(&:render_map_marker)
+    @spaces = preload_spaces_data_for_view(view_as)
+
+    markers = [] # @spaces.map(&:render_map_marker)
 
     @experiences = FacilityReview::LIST_EXPERIENCES
 
@@ -122,7 +123,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     render json: {
       listing: render_to_string(
         partial: "spaces/index/space_listings", locals: {
-          spaces:,
+          spaces: @spaces,
           filtered_facilities: Facility.find(facility_ids),
           space_count:,
           view_as:,
@@ -134,14 +135,17 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   def preload_spaces_data_for_view(view_as)
+    # Fresh query to get all the data for the filtered and ordered spaces, without
+    # the need to include all this data while filtering
+
     if view_as == "table"
-      @spaces
+      Space
         .includes_data_for_show
-        .limit(SPACE_SEARCH_PAGE_SIZE)
+        .find(@spaces.map(&:id)) # This keeps the order of the spaces
     else
-      @spaces
+      Space
         .includes_data_for_filter_list
-        .limit(SPACE_SEARCH_PAGE_SIZE)
+        .find(@spaces.map(&:id)) # This keeps the order of the spaces
     end
   end
 
