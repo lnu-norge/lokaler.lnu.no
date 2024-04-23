@@ -38,6 +38,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # This scope cuts the db calls when aggregating space_facilities
   has_many :facility_reviews_ordered_by_newest_first, -> { order(created_at: :desc) },
            class_name: "FacilityReview", dependent: :destroy, inverse_of: :space
+
   scope :with_aggregation_data, lambda {
     preload(
       :space_facilities,
@@ -68,9 +69,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   scope :includes_data_for_filter_list, lambda {
     with_images
+      .with_space_facilities
       .includes(
         :reviews,
-        :space_facilities,
         :space_types
       )
   }
@@ -97,19 +98,19 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   }
 
   scope :with_rich_text_from_space_group, lambda {
-                                            includes(
-                                              {
-                                                space_group: %i[
-                                                  rich_text_how_to_book
-                                                  rich_text_pricing
-                                                  rich_text_who_can_use
-                                                  rich_text_terms
-                                                  rich_text_about
-                                                  space_contacts
-                                                ]
-                                              }
-                                            )
-                                          }
+    includes(
+      {
+        space_group: %i[
+          rich_text_how_to_book
+          rich_text_pricing
+          rich_text_who_can_use
+          rich_text_terms
+          rich_text_about
+          space_contacts
+        ]
+      }
+    )
+  }
 
   scope :includes_data_for_show, lambda {
     with_all_rich_text
@@ -123,26 +124,26 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       )
   }
 
-  scope :filter_and_order_by_facilities, lambda { |filtered_facilities|
-    where(space_facilities: { relevant: true, facility_id: filtered_facilities })
-      .select("spaces.*, (
-        (
-            SELECT
-               SUM(
-                  CASE
-                    WHEN space_facilities.experience = 'likely' THEN 3.0
-                    WHEN space_facilities.experience = 'maybe' THEN 2.0
-                    WHEN space_facilities.experience = 'unknown' THEN 1.0
-                    WHEN space_facilities.experience = 'unlikely' THEN -1.0
-                    WHEN space_facilities.experience = 'impossible' THEN -2.0
-                    ELSE 0
-                  END
-               )
-            FROM space_facilities
-            WHERE space_facilities.space_id = spaces.id)
-        + COALESCE((spaces.star_rating - 2.9) / 10, 0)
-      ) AS score")
-      .order(score: :desc)
+  scope :filter_and_order_by_facilities, lambda { |facility_ids|
+    # NB: This grouping means that the results are not countable with .size or .count
+    group(:id)
+      .joins(:space_facilities)
+      .where(space_facilities: { relevant: true, facility_id: facility_ids })
+      .order(Arel.sql("
+                    SUM(
+                                     CASE
+                                        WHEN space_facilities.experience = 4 THEN 3.0 -- likely
+                                        WHEN space_facilities.experience = 3 THEN 2.0 -- maybe
+                                        WHEN space_facilities.experience = 2 THEN -1.0 -- unlikely
+                                        WHEN space_facilities.experience = 1 THEN -2.0 -- impossible
+                                        WHEN space_facilities.relevant THEN 1.0 -- unknown experience, but relevant
+                                        ELSE 0.0 -- unknown experience, irrelevant facility
+                                      END
+                    )
+                DESC"),
+             Arel.sql(
+               "COALESCE((spaces.star_rating - 2.9) / 10, 0) DESC"
+             ))
   }
 
   has_rich_text :how_to_book
