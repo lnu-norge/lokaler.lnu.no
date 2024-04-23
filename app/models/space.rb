@@ -26,7 +26,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   accepts_nested_attributes_for :space_types
 
   scope :filter_on_title, ->(title) { where("title ILIKE ?", "%#{title}%") }
-  scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids).distinct }
+  scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids) }
   scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
           north_west_lat:,
