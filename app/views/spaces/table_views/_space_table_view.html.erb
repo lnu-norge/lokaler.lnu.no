@@ -14,7 +14,11 @@
 
     <% if @non_filtered_facilities.present? %>
       <th scope="col">
-        Andre fasiliteter
+        <% if @filtered_facilities.present? %>
+          Andre fasiliteter
+        <% else %>
+          Fasiliteter
+        <% end %>
       </th>
     <% end %>
 
