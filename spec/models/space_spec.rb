@@ -8,7 +8,9 @@ RSpec.describe Space, type: :model do
   end
 
   describe "filter on factilites" do
-    subject(:filter_subject) { described_class.filter_on_facilities(described_class.all, facilities) }
+    subject(:filtered_spaces) do
+      described_class.find(described_class.filter_and_order_by_facilities(facilities).pluck(:id))
+    end
 
     let(:space_without_toilet) { Fabricate(:space) }
     let(:space_with_toilet) { Fabricate(:space) }
@@ -34,7 +36,7 @@ RSpec.describe Space, type: :model do
       let(:facilities) { [kitchen.id] }
 
       it "when both spaces have kitchen" do
-        expect(filter_subject.count).to eq(2)
+        expect(filtered_spaces.count).to eq(2)
       end
     end
 
@@ -42,7 +44,7 @@ RSpec.describe Space, type: :model do
       let(:facilities) { [toilet.id] }
 
       it "when only one space have toilet" do
-        expect(filter_subject.count).to eq(1)
+        expect(filtered_spaces.count).to eq(1)
       end
     end
 
@@ -50,11 +52,11 @@ RSpec.describe Space, type: :model do
       let(:facilities) { [kitchen.id, toilet.id] }
 
       it "when both spaces has either kitchen or toilet" do
-        expect(filter_subject.count).to eq(2)
+        expect(filtered_spaces.count).to eq(2)
       end
 
       it "with correct order" do
-        expect(filter_subject.first).to eq(space_with_toilet)
+        expect(filtered_spaces.first).to eq(space_with_toilet)
       end
     end
   end
