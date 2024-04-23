@@ -116,7 +116,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     @spaces = preload_spaces_data_for_view(view_as)
 
     facility_ids = params[:facilities]&.map(&:to_i) || []
-    @filtered_facilities = Facility.find(facility_ids)
+    @filtered_facilities = Facility.includes(:facility_categories).find(facility_ids)
 
     markers = [] # @spaces.map(&:render_map_marker)
 

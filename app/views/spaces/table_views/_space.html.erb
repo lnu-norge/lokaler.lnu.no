@@ -11,7 +11,7 @@
         <div class="min-w-[22rem]">
           <%= render "facility_reviews/facility_with_edit_button",
                      facility: facility,
-                     space_facility: @space.space_facilities.find_by(facility_id: facility.id),
+                     space_facility: @space.space_facilities.detect { |sf| sf.facility == facility },
                      facility_category: facility.facility_categories.first
           %>
         </div>
