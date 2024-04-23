@@ -2,7 +2,12 @@
   <tr>
 
     <th scope="row">
-      <%= render partial: 'spaces/show/basics' %>
+      <div>
+        <section class="flex flex-col justify-around h-full items-start">
+          <%= render partial: 'spaces/show/basics' %>
+          <%= link_to "Åpne ↗", @space %>
+        </section>
+      </div>
     </th>
 
 
@@ -31,7 +36,8 @@
         <div class="flex flex-col gap-2 flex-nowrap">
           <%
             non_filtered_space_facilities = @space.space_facilities.filter{|sf| @non_filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
-            non_filtered_space_facilities.each do |space_facility|
+            relevant_non_filtered_space_facilities = non_filtered_space_facilities.filter{|sf| sf.relevant? }
+            relevant_non_filtered_space_facilities.each do |space_facility|
           %>
             <%= render "facility_reviews/facility_with_edit_button",
                        facility: space_facility.facility,
