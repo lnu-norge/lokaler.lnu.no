@@ -6,27 +6,37 @@
     </th>
 
 
-    <% @filtered_facilities.each do |facility| %>
+    <% if @filtered_facilities.present? %>
       <td>
         <div class="min-w-[22rem]">
-          <%= render "facility_reviews/facility_with_edit_button",
-                     facility: facility,
-                     space_facility: @space.space_facilities.detect { |sf| sf.facility == facility },
-                     facility_category: facility.facility_categories.first
+          <div class="flex flex-col gap-2 flex-nowrap">
+          <%
+            filtered_space_facilities = @space.space_facilities.filter{|sf| @filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
+            filtered_space_facilities.each do |space_facility|
           %>
+            <%= render "facility_reviews/facility_with_edit_button",
+                       facility: space_facility.facility,
+                       space_facility: space_facility,
+                       facility_category: space_facility.facility.facility_categories.first
+            %>
+          <% end %>
+          </div>
         </div>
       </td>
-    <% end %>
+  <% end %>
 
     <% if @non_filtered_facilities.present? %>
     <td>
-      <div>
-        <div class="flex flex-col gap-2">
-          <% @non_filtered_facilities.each do |facility| %>
+      <div class="min-w-[22rem]">
+        <div class="flex flex-col gap-2 flex-nowrap">
+          <%
+            non_filtered_space_facilities = @space.space_facilities.filter{|sf| @non_filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
+            non_filtered_space_facilities.each do |space_facility|
+          %>
             <%= render "facility_reviews/facility_with_edit_button",
-                       facility: facility,
-                       space_facility: @space.space_facilities.detect { |sf| sf.facility == facility },
-                       facility_category: facility.facility_categories.first
+                       facility: space_facility.facility,
+                       space_facility: space_facility,
+                       facility_category: space_facility.facility.facility_categories.first
             %>
           <% end %>
         </div>

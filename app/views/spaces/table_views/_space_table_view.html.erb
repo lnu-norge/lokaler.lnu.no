@@ -6,15 +6,17 @@
       Lokale
     </th>
 
-    <% @filtered_facilities.each do |facility|  %>
+    <% if @filtered_facilities.present? %>
       <th scope="col">
-        <%= facility.title %>
+        Valgte fasiliteter
       </th>
     <% end %>
 
-    <th scope="col">
-      Andre fasiliteter
-    </th>
+    <% if @non_filtered_facilities.present? %>
+      <th scope="col">
+        Andre fasiliteter
+      </th>
+    <% end %>
 
     <th scope="col">
       Bilder
