@@ -137,7 +137,7 @@ export default class extends Controller {
   }
 
   selectedFacilities() {
-    return this.facilityTargets.filter(t => t.checked).map(t => t.id).join(',');
+    return this.facilityTargets.filter(t => t.checked && !t.id.match("-duplicate-")).map(t => t.id).join(',');
   }
 
   selectedSpaceTypes() {
@@ -381,7 +381,7 @@ export default class extends Controller {
     const southEast = this.map.getBounds().getSouthEast();
 
     const facilitiesString = this.facilityTargets.map(t =>
-      t.checked ? `facilities[]=${encodeURIComponent(t.name)}&` : ''
+      !t.id.match("-duplicate-") && t.checked ? `facilities[]=${encodeURIComponent(t.name)}&` : ''
     ).join('');
 
     const spaceTypesString = this.spaceTypeTargets.map(t =>
