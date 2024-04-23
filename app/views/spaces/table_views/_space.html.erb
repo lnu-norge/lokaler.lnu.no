@@ -5,6 +5,20 @@
       <%= render partial: 'spaces/show/basics' %>
     </th>
 
+
+    <% @filtered_facilities.each do |facility| %>
+      <td>
+        <div class="min-w-[22rem]">
+          <%= render "facility_reviews/facility_with_edit_button",
+                     facility: facility,
+                     space_facility: @space.space_facilities.find_by(facility_id: facility.id),
+                     facility_category: facility.facility_categories.first
+          %>
+        </div>
+      </td>
+    <% end %>
+
+
     <td>
       <% if @space.images.empty? %>
         <div class="relative pb-1/2 w-full inline-block">
@@ -35,52 +49,6 @@
     <td>
       <%= render 'space_contacts/index' %>
     </td>
-
-    <% @filterable_facility_categories.each do |facility_category|  %>
-      <td>
-        <% if false %>
-        <div>
-          <ul>
-            <%
-              # Find space facilities
-              #TODO: Do this efficiently in the controller, not here!
-
-              facilities = facility_category.facilities
-              space_facilities = @space.space_facilities.where(facility: facilities)
-              relevant_space_facilities = space_facilities.where(relevant: true)
-              irrelevant_space_facilities = space_facilities.where(relevant: false)
-            %>
-
-            <%
-              relevant_space_facilities.each do |space_facility|
-            %>
-              <li>
-                <%= render 'facility_reviews/facility_with_edit_button', space_facility: space_facility, facility: space_facility.facility, facility_category: %>
-              </li>
-            <%
-              end
-            %>
-          </ul>
-
-          <% if irrelevant_space_facilities.present? %>
-            <details>
-              <summary><%= t('spaces.show.irrelevant_facilities') %></summary>
-              <ul>
-                <% irrelevant_space_facilities.each do |space_facility| %>
-                  <li>
-                    <%= render 'facility_reviews/facility_with_edit_button', space_facility: space_facility, facility: space_facility.facility, facility_category: %>
-                  </li>
-                <%
-                  end
-                %>
-              </ul>
-            </details>
-          <% end %>
-        </div>
-        <% end %>
-
-      </td>
-    <% end %>
 
     <td>
       <%= inline_editable :who_can_use  do %>

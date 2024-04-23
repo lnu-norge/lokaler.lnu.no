@@ -1,10 +1,17 @@
-<%# locals: (spaces:, filtered_facilities:) %>
+<%# locals: (spaces: ) %>
 <table class="space_table border-collapse">
   <thead>
   <tr>
     <th scope="col">
       Lokale
     </th>
+
+    <% @filtered_facilities.each do |facility|  %>
+      <th scope="col">
+        <%= facility.title %>
+      </th>
+    <% end %>
+
     <th scope="col">
       Bilder
     </th>
@@ -15,11 +22,6 @@
       Kontaktinfo
     </th>
 
-    <% @filterable_facility_categories.each do |facility_category|  %>
-      <th scope="col">
-        Fasiliteter: <%= facility_category.title %>
-      </th>
-    <% end %>
     <th scope="col">
       Hvem får bruke?
     </th>
@@ -44,12 +46,8 @@
   <% spaces.each do |space| %>
     <%
       @space = space
-      # @grouped_relevant_facilities = @space.relevant_space_facilities(grouped: true, user: current_user)
-      #@non_relevant_facilities = @space.non_relevant_space_facilities
-      #@grouped_non_relevant_facilities = @space.group_space_facilities(ungrouped_facilities: @non_relevant_facilities,
-      #                                                                 user: current_user)
+      @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)
     %>
-    <% @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)  %>
     <%= render partial: "spaces/table_views/space" %>
   <% end %>
   </tbody>

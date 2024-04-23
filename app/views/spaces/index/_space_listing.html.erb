@@ -1,4 +1,4 @@
-<%# locals: (space:, filtered_facilities: ) %>
+<%# locals: (space: ) %>
 
 <%#
   Partial for rendering a space listing in the search results.
@@ -48,7 +48,7 @@
 
     <!-- Filtered facilites listing -->
 
-    <%= render partial: 'spaces/index/space_facility_listing', locals: { space: space, filtered_facilities: filtered_facilities } if filtered_facilities  %>
+    <%= render partial: 'spaces/index/space_facility_listing', locals: { space: space, filtered_facilities: @filtered_facilities } if @filtered_facilities.present?  %>
 
   </div>
 <% end %>

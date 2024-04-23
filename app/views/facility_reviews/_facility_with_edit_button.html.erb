@@ -1,7 +1,7 @@
-<%# locals: (facility:, facility_category:, space_facility: %>
+<%# locals: ( facility_category:, space_facility:, facility: %>
 
 <%= turbo_frame_tag target_id_for_categorized_facility(
-                      facility_id: facility.id, category_id: facility_category.id
+                      facility_id: facility.id, category_id: facility_category.id, space_id: space_facility.space_id
                     ) do %>
   <%= link_to new_facility_review_path(
                 space_id: space_facility.space_id,

@@ -84,7 +84,7 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
     facility_categories.map do |facility_category|
       turbo_stream.replace(
         target_id_for_categorized_facility(
-          facility_id: @facility.id, category_id: facility_category.id
+          facility_id: @facility.id, category_id: facility_category.id, space_id: @space.id
         ),
         partial: "facility_reviews/facility_with_edit_button",
         locals: { facility: @facility.reload, facility_category:, space_facility: @space_facility.reload }

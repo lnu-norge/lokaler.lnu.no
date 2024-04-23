@@ -1,0 +1,3 @@
+<%# locals: (space_facility:) %>
+<%= inline_svg_tag "facility_status/#{space_facility.experience}", class: "#{" text-black " if space_facility.experience == "impossible" }" %>
+<%= t("tooltips.others_experience.#{space_facility.experience}") %>

@@ -1,10 +1,10 @@
-<%# locals: (view_as:, spaces:, space_count:, page_size:, filtered_facilities: %>
+<%# locals: (view_as:, spaces:, space_count:, page_size: %>
 <% if view_as == "table" %>
-  <%= render "spaces/table_views/space_table_view", spaces:, filtered_facilities: %>
+  <%= render "spaces/table_views/space_table_view", spaces: %>
 <% else # default to map view %>
   <%= render 'spaces/index/space_listing_header', space_count: %>
   <% spaces.each do |space| %>
-    <%= render "spaces/index/space_listing", space: space, filtered_facilities: %>
+    <%= render "spaces/index/space_listing", space: space  %>
   <% end %>
 <% end %>
 <% if space_count > page_size %>
