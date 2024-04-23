@@ -1,11 +1,10 @@
 <%# locals: ( ) %>
   <tr>
-
     <th scope="row">
       <div>
-        <section class="flex flex-col justify-around h-full items-start">
+        <section class="flex flex-col justify-between h-full items-start">
           <%= render partial: 'spaces/show/basics' %>
-          <%= link_to "Åpne ↗", @space %>
+          <%= link_to "Åpne ↗", @space, class: "text-gray-600 hover:text-lnu-pink" %>
         </section>
       </div>
     </th>
