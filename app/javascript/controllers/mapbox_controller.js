@@ -422,10 +422,31 @@ export default class extends Controller {
     this.loadNewMapPosition();
   }
 
+  showErrorInListing(options) {
+    const {message, error_html} = options
+
+    document.getElementById('space-listing').innerHTML = `<div class='text-left p-8 bg-lnu-pink/10 rounded-lg text-lnu-pink'>
+        <h2 class="text-lg pb-8 font-bold">${message}</h2>
+        <p>Fungerer det ikke så vis dette til teknisk ansvarlig:</p>
+          <iframe class='w-full h-screen border-8 border-lnu-pink' src='data:text/html;charset=utf-8,${escape(error_html)}' />
+    </div>`
+  }
+
   async loadNewMapPosition() {
     document.getElementById('space-listing').innerHTML = '';
 
-    const spacesInRect = await (await fetch(this.buildSearchURL())).json();
+    const searchUrl = this.buildSearchURL()
+
+    const results = await fetch(searchUrl);
+    if (!results.ok) {
+      const error_html = await results.text();
+      return this.showErrorInListing({
+        message: "Ooops, noe har gått galt, prøv igjen?",
+        error_html: error_html
+      });
+    }
+
+    const spacesInRect = await results.json();
 
     // Replace the spaces list with the new view rendered by the server
     document.getElementById('space-listing').innerHTML = spacesInRect.listing;
