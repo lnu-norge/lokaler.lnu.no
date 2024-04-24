@@ -77,28 +77,32 @@
     </td>
 
     <td>
-      <div id="<%= "#{ dom_id(@space)}" %>-contacts">
-        <%= turbo_frame_tag "new_space_contact_button" do %>
-          <div>
-            <%= button_to_modal "space_contacts_new",
-                                id:  "space_contacts_new",
-                                class: "edit-button" do %>
-              <span class="text">
-              <%= t('space_contacts.new') %>
-            </span>
-              <%= inline_svg_tag "plus" %>
-            <% end %>
+      <div>
+        <div id="<%= "#{ dom_id(@space)}" %>-contacts"  class="flex flex-col min-h-full justify-center">
+          <%= turbo_frame_tag "space_contacts", class: 'flex flex-col' do %>
+            <%= turbo_stream_from "space_contacts" %>
+            <%= render partial: "space_contacts/space_contact", collection: @space.space_contacts %>
+          <% end %>
+          <div class="flex flex-col items-center">
+            <%= turbo_frame_tag "new_space_contact_button" do %>
+              <div>
+                    <%= button_to_modal "space_contacts_new",
+                                        id:  "space_contacts_new",
+                                        class: "edit-button" do %>
+                      <span class="text">
+                        <%= t('space_contacts.new_contact') %>
+                      </span>
+                      <%= inline_svg_tag "plus" %>
+                    <% end %>
 
-            <%= modal_for "space_contacts_new", "modal--with-header-and-footer" do  %>
-              <%= render partial: "space_contacts/new" %>
-            <% end %>
+                    <%= modal_for "space_contacts_new", "modal--with-header-and-footer" do  %>
+                      <%= render partial: "space_contacts/new" %>
+                    <% end %>
+                  </div>
+                <% end %>
+
           </div>
-        <% end %>
-
-        <%= turbo_frame_tag "space_contacts", class: 'flex flex-col' do %>
-          <%= turbo_stream_from "space_contacts" %>
-          <%= render partial: "space_contacts/space_contact", collection: @space.space_contacts %>
-        <% end %>
+        </div>
       </div>
     </td>
 

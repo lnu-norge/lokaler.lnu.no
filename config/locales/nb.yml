@@ -14,7 +14,7 @@ nb:
     url: 'Nettside'
     description: 'Notat'
     submit: "Lagre kontakt"
-    new_contact: 'Ny kontaktinformasjon'
+    new_contact: 'Ny kontaktinfo'
     new: 'Ny'
     at_least_one_error_message: 'Du må minst legge inn telefon, e-post, nettside eller en beskrivelse'
     abort: "Avbryt"
