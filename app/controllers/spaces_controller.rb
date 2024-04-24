@@ -44,23 +44,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     end
   end
 
-  def address_search
-    address = Space.search_for_address(
-      address: params[:address],
-      post_number: params[:post_number]
-    )
-
-    return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
-
-    render json: { **address, map_image_html: helpers.static_map_of_lat_lng(lat: address[:lat], lng: address[:lng]) }
-  end
-
-  def edit_field
-    @space = Space.find(params[:id])
-    @field = params[:field]
-    render "spaces/edit/common/edit_field"
-  end
-
   def update
     @space = Space.find(params[:id])
     address_params = get_address_params(params)
@@ -76,6 +59,23 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       @field = "basics"
       render "spaces/edit/common/edit_field"
     end
+  end
+
+  def address_search
+    address = Space.search_for_address(
+      address: params[:address],
+      post_number: params[:post_number]
+    )
+
+    return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
+
+    render json: { **address, map_image_html: helpers.static_map_of_lat_lng(lat: address[:lat], lng: address[:lng]) }
+  end
+
+  def edit_field
+    @space = Space.find(params[:id])
+    @field = params[:field]
+    render "spaces/edit/common/edit_field"
   end
 
   def space_group_from(params)
@@ -105,50 +105,11 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   def spaces_search
-    view_as = params[:view_as]
-
     filter_spaces
-
-    space_count = @spaces.to_a.size
-
+    @space_count = @spaces.to_a.size
     @spaces = @spaces.limit(SPACE_SEARCH_PAGE_SIZE)
 
-    @spaces = preload_spaces_data_for_view(view_as)
-
-    facility_ids = params[:facilities]&.map(&:to_i) || []
-    @filtered_facilities = Facility.includes(:facility_categories).find(facility_ids)
-    @non_filtered_facilities = Facility.includes(:facility_categories).where.not(id: facility_ids)
-
-    markers = [] # @spaces.map(&:render_map_marker)
-
-    @experiences = FacilityReview::LIST_EXPERIENCES
-
-    render json: {
-      listing: render_to_string(
-        partial: "spaces/index/space_listings", locals: {
-          spaces: @spaces,
-          space_count:,
-          view_as:,
-          page_size: SPACE_SEARCH_PAGE_SIZE
-        }
-      ),
-      markers:
-    }
-  end
-
-  def preload_spaces_data_for_view(view_as)
-    # Fresh query to get all the data for the filtered and ordered spaces, without
-    # the need to include all this data while filtering
-
-    if view_as == "table"
-      Space
-        .includes_data_for_show
-        .find(@spaces.map(&:id)) # This keeps the order of the spaces
-    else
-      Space
-        .includes_data_for_filter_list
-        .find(@spaces.map(&:id)) # This keeps the order of the spaces
-    end
+    render_listing_and_markers_json
   end
 
   def check_duplicates
@@ -180,6 +141,55 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   private
 
   SPACE_SEARCH_PAGE_SIZE = 20
+
+  def render_listing_and_markers_json
+    view_as = params[:view_as]
+
+    render json: {
+      listing: get_listing_json_for_view(view_as),
+      markers: get_marker_json_for_view(view_as)
+    }
+  end
+
+  def get_listing_json_for_view(view_as)
+    @experiences = FacilityReview::LIST_EXPERIENCES
+
+    facility_ids = params[:facilities]&.map(&:to_i) || []
+    @filtered_facilities = Facility.includes(:facility_categories).find(facility_ids)
+    @non_filtered_facilities = Facility.includes(:facility_categories).where.not(id: facility_ids)
+
+    spaces = preload_spaces_data_for_view(view_as)
+
+    render_to_string(
+      partial: "spaces/index/space_listings", locals: {
+        spaces:,
+        space_count: @space_count,
+        view_as:,
+        page_size: SPACE_SEARCH_PAGE_SIZE
+      }
+    )
+  end
+
+  def get_marker_json_for_view(view_as)
+    return [] unless view_as == "map"
+
+    @spaces.map(&:render_map_marker)
+  end
+
+  def preload_spaces_data_for_view(view_as)
+    # Fresh query to get all the data for the filtered and ordered spaces, without
+    # the need to include all this data while filtering
+
+    if view_as == "table"
+      Space
+        .includes_data_for_show
+        .find(@spaces.map(&:id)) # This keeps the order of the spaces
+    else
+      Space
+        .includes_data_for_filter_list
+        .find(@spaces.map(&:id)) # This keeps the order of the spaces
+    end
+  end
 
   def duplicates_from_params
     test_space = Space.new(
