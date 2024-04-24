@@ -109,8 +109,6 @@ export default class extends Controller {
   }
 
   updateUrl() {
-    const url = new URL(window.location);
-
     const selectedFacilities = this.selectedFacilities();
     const selectedSpaceTypes = this.selectedSpaceTypes();
     const selectedLocation = this.selectedLocation();
@@ -121,6 +119,13 @@ export default class extends Controller {
     this.setOrDeleteToUrl('selectedLocation', selectedLocation);
     this.setOrDeleteToUrl('searchForTitle', searchForTitle);
     this.setOrDeleteToUrl('view_as', this.viewAs);
+  }
+
+  resetUrlToRootPath() {
+    const url = new URL(window.location);
+    url.pathname = '/';
+
+    window.history.replaceState(null, null, url);
   }
 
   setOrDeleteToUrl(key, value) {
@@ -411,13 +416,14 @@ export default class extends Controller {
 
   setViewToMap() {
     this.setViewTo("map")
+    this.resetUrlToRootPath();
     this.updateUrl();
     this.loadNewMapPosition();
-
   }
 
   setViewToTable() {
     this.setViewTo("table")
+    this.resetUrlToRootPath();
     this.updateUrl();
     this.loadNewMapPosition();
   }
