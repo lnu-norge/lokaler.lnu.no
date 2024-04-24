@@ -88,6 +88,11 @@ nb:
     title: 'Navn på lokalet'
     more_filters: 'Flere filtre'
     map_reload: 'Søk i området'
+    choose_view: 'Visning'
+    map: 'Kart'
+    table: 'Tabell'
+    view_results_in_table: 'Vis resultater i tabell'
+    view_results_in_map: 'Vis resultater i kart'
   admin:
     user: 'Bruker'
     field: 'Felt'

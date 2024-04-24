@@ -1,0 +1,49 @@
+<fieldset class="mb-8 flex flex-col items-center">
+  <legend class="text-center mb-1 text-xs uppercase text-gray-400 sr-only">
+    <%= t('space_filter.choose_view') %>
+  </legend>
+  <div class="flex justify-center shadow-lg h-fit w-fit rounded-lg">
+    <button
+      data-action="click->mapbox#setViewToMap"
+      aria-label="<%= t('space_filter.view_results_in_map') %>"
+      title="<%= t('space_filter.view_results_in_map') %>"
+      class="
+              cursor-pointer
+              bg-gray-100 text-gray-700
+              rounded-lg rounded-r-none border border-gray-100
+              hover:text-lnu-pink hover:border-lnu-pink
+              py-2 px-3
+              inline-flex gap-1 content-center items-center
+              [body.view-as-map_&]:bg-lnu-pink
+              [body.view-as-map_&]:border-lnu-pink
+              [body.view-as-map_&]:text-white
+              [body.view-as-map_&]:hover:text-white
+              [body.view-as-map_&]:hover:cursor-default
+            "
+    >
+      <%= inline_svg "place", class: 'h-4' %>
+      <%= t('space_filter.map') %>
+    </button>
+    <button
+      data-action="click->mapbox#setViewToTable"
+      aria-label="<%= t('space_filter.view_results_in_table') %>"
+      title="<%= t('space_filter.view_results_in_table') %>"
+      class="
+              cursor-pointer
+              bg-gray-100 text-gray-700
+              rounded-lg rounded-l-none border border-gray-100
+              hover:text-lnu-pink hover:border-lnu-pink
+              py-2 px-3
+              inline-flex gap-1 content-center items-center
+              [body.view-as-table_&]:bg-lnu-pink
+              [body.view-as-table_&]:border-lnu-pink
+              [body.view-as-table_&]:text-white
+              [body.view-as-table_&]:hover:text-white
+              [body.view-as-table_&]:hover:cursor-default
+            "
+    >
+      <%= t('space_filter.table') %>
+      <%= inline_svg "table", class: 'h-4' %>
+    </button>
+  </div>
+</fieldset>
