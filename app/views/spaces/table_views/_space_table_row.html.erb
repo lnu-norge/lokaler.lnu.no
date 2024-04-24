@@ -2,82 +2,94 @@
   <tr>
     <th scope="row">
       <div>
-        <section class="flex flex-col justify-between h-full items-start">
-          <%= render partial: 'spaces/show/basics' %>
-          <%= link_to "Åpne ↗", @space, class: "text-gray-600 hover:text-lnu-pink" %>
-        </section>
+          <%= link_to space_path(@space),
+                      class: "unstyled-link space-listing",
+                      data: {
+                        "turbo-frame": "spaces-open-here", # This updates the spaces-open-here frame
+                        "turbo-action": "advance" # And updates browser history
+                      } do %>
+            <div>
+                <h3 class="text-xl mb-2.5 font-bold mt-0">
+                  <%= @space.title %>
+                </h3>
+
+                <!-- Meta information listing -->
+                <div class="flex gap-4 mb-2.5">
+
+                <div class="flex gap-2" title="<%= t('space_show.number_of_reviews', count: @space.reviews.size) %>">
+                  <%= inline_svg_tag 'star', class: "#{@space.star_rating ? 'text-pink-500' : 'text-gray-300'}" %>
+                  <span>
+                    <%=  @space.star_rating_s %>
+                    <% if @space.reviews.size > 0 %>
+                        <span class="opacity-50">(<%= @space.reviews.size %>)</span>
+                    <% end %>
+                  </span>
+                </div>
+
+                <div class="flex gap-2">
+                  <%= inline_svg_tag 'building', class: 'text-gray-500' %>
+                  <span>
+            <%= @space.space_types_joined %>
+          </span>
+                </div>
+
+              </div>
+              <div class="flex gap-1 mb-3">
+                <%= inline_svg_tag 'place', class: "text-gray-500" %>
+                <span>
+            <%= @space.address %>,
+                  <%= @space.post_number %>
+                  <%= @space.post_address %>
+         </span>
+              </div>
+            </div>
+          <% end %>
       </div>
     </th>
 
 
-    <% if @filtered_facilities.present? %>
-      <td>
-        <div class="min-w-[22rem]">
-          <div class="flex flex-col gap-2 flex-nowrap">
-          <%
-            filtered_space_facilities = @space.space_facilities.filter{|sf| @filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
-            filtered_space_facilities.each do |space_facility|
-          %>
-            <%= render "facility_reviews/facility_with_edit_button",
-                       facility: space_facility.facility,
-                       space_facility: space_facility,
-                       facility_category: space_facility.facility.facility_categories.first
+    <td>
+      <div class="min-w-[22rem]">
+        <div class="flex flex-col gap-1 ">
+        <% if @filtered_facilities.present? %>
+            <h3 class="font-bold mt-4 sr-only">Valgte:</h3>
+            <%
+                filtered_space_facilities = @space.space_facilities.filter{|sf| @filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
+                filtered_space_facilities.each do |space_facility|
+              %>
+                <%= render "facility_reviews/facility_with_edit_button",
+                           facility: space_facility.facility,
+                           space_facility: space_facility,
+                           facility_category: space_facility.facility.facility_categories.first
+                %>
+               <% end %>
+        <% end %>
+
+          <% if @non_filtered_facilities.present? %>
+              <% if @filtered_facilities.present? and @non_filtered_facilities.present? %>
+                <h3 class="mt-4 mb-1">Flere fasiliteter:</h3>
+              <% end %>
+            <%
+              non_filtered_space_facilities = @space.space_facilities.filter{|sf| @non_filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
+              relevant_non_filtered_space_facilities = non_filtered_space_facilities.filter{|sf| sf.relevant? }
+              relevant_non_filtered_space_facilities.each do |space_facility|
             %>
+              <%= render "facility_reviews/facility_with_edit_button",
+                         facility: space_facility.facility,
+                         space_facility: space_facility,
+                         facility_category: space_facility.facility.facility_categories.first
+              %>
+            <% end %>
           <% end %>
           </div>
         </div>
       </td>
-  <% end %>
-
-    <% if @non_filtered_facilities.present? %>
-    <td>
-      <div class="min-w-[22rem]">
-        <div class="flex flex-col gap-2 flex-nowrap">
-          <%
-            non_filtered_space_facilities = @space.space_facilities.filter{|sf| @non_filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
-            relevant_non_filtered_space_facilities = non_filtered_space_facilities.filter{|sf| sf.relevant? }
-            relevant_non_filtered_space_facilities.each do |space_facility|
-          %>
-            <%= render "facility_reviews/facility_with_edit_button",
-                       facility: space_facility.facility,
-                       space_facility: space_facility,
-                       facility_category: space_facility.facility.facility_categories.first
-            %>
-          <% end %>
-        </div>
-      </div>
-    </td>
-    <% end %>
-
-    <td>
-      <% if @space.images.empty? %>
-        <div class="relative pb-1/2 w-full inline-block">
-          <div class="bg-gray-300 absolute text-gray-500  h-full w-full flex flex-col gap-4 items-center justify-center">
-            <span class="flex flex-col gap-1 items-center justify-center">
-              <%= inline_svg_tag 'image_missing', class: "inline-block h-14 w-14" %>
-              <%= t('images.image_missing') %>
-            </span>
-          </div>
-        </div>
-      <% else %>
-        <%= render partial: 'space_images/image_slider', locals: {
-          space: @space,
-          images: @space.images,
-          link_to_fullscreen: false,
-          show_caption_credits: :thumbnail
-        } %>
-      <% end %>
-    </td>
-
-
-    <td>
-    <%= inline_editable :how_to_book  do %>
-        <%= render_space_and_group_field @space, :how_to_book %>
-      <% end %>
-    </td>
 
     <td>
       <div>
+        <%= inline_editable :how_to_book  do %>
+          <%= render_space_and_group_field @space, :how_to_book %>
+        <% end %>
         <div id="<%= "#{ dom_id(@space)}" %>-contacts"  class="flex flex-col min-h-full justify-center">
           <%= turbo_frame_tag "space_contacts", class: 'flex flex-col' do %>
             <%= turbo_stream_from "space_contacts" %>
@@ -86,20 +98,20 @@
           <div class="flex flex-col items-center">
             <%= turbo_frame_tag "new_space_contact_button" do %>
               <div>
-                    <%= button_to_modal "space_contacts_new",
-                                        id:  "space_contacts_new",
-                                        class: "edit-button" do %>
+                <%= button_to_modal "space_contacts_new",
+                                    id:  "space_contacts_new",
+                                    class: "edit-button" do %>
                       <span class="text">
                         <%= t('space_contacts.new_contact') %>
                       </span>
-                      <%= inline_svg_tag "plus" %>
-                    <% end %>
-
-                    <%= modal_for "space_contacts_new", "modal--with-header-and-footer" do  %>
-                      <%= render partial: "space_contacts/new" %>
-                    <% end %>
-                  </div>
+                  <%= inline_svg_tag "plus" %>
                 <% end %>
+
+                <%= modal_for "space_contacts_new", "modal--with-header-and-footer" do  %>
+                  <%= render partial: "space_contacts/new" %>
+                <% end %>
+              </div>
+            <% end %>
 
           </div>
         </div>
@@ -107,46 +119,64 @@
     </td>
 
     <td>
-      <%= inline_editable :who_can_use  do %>
-        <%= render_space_and_group_field @space, :who_can_use %>
-      <% end %>
-    </td>
-
-    <td>
-      <%= inline_editable :pricing do %>
-        <%= render_space_and_group_field @space, :pricing %>
-      <% end %>
-    </td>
-
-    <td>
-      <%= inline_editable :where do %>
-        <div class="flex gap-1 mb-3">
-          <%= inline_svg_tag 'place' %>
-          <span>
-            <%= @space.address %>,
-            <%= @space.post_number %>
-            <%= @space.post_address %>
-         </span>
-        </div>
-        <%= render partial: "spaces/show/location_description"%>
-        <%= render partial: "spaces/show/static_map" %>
-      <% end %>
-    </td>
-
-    <td>
-      <%= inline_editable :terms do %>
-        <%= render_space_and_group_field @space, :terms %>
-      <% end %>
-    </td>
-
-    <td>
-      <%= inline_editable :more_info do %>
-        <%= render_space_and_group_field @space, :more_info %>
-      <% end %>
-    </td>
-
-    <td>
       <%= render partial: 'spaces/show/reviews' %>
+    </td>
+
+    <td>
+      <div>
+        <div class="flex flex-col gap-4">
+          <%= inline_editable :pricing do %>
+            <%= render_space_and_group_field @space, :pricing %>
+          <% end %>
+
+          <%= inline_editable :terms do %>
+            <%= render_space_and_group_field @space, :terms %>
+          <% end %>
+
+          <%= inline_editable :who_can_use  do %>
+            <%= render_space_and_group_field @space, :who_can_use %>
+          <% end %>
+        </div>
+      </div>
+    </td>
+
+    <td>
+      <div>
+        <%= inline_editable :where do %>
+          <div class="flex gap-1 mb-3">
+            <%= inline_svg_tag 'place' %>
+            <span>
+            <%= @space.address %>,
+              <%= @space.post_number %>
+              <%= @space.post_address %>
+         </span>
+          </div>
+          <%= render partial: "spaces/show/location_description"%>
+          <%= render partial: "spaces/show/static_map" %>
+        <% end %>
+
+        <%= inline_editable :more_info do %>
+          <%= render_space_and_group_field @space, :more_info %>
+        <% end %>
+
+        <% if @space.images.empty? %>
+          <div class="relative pb-1/2 w-full inline-block">
+            <div class="bg-gray-300 absolute text-gray-500  h-full w-full flex flex-col gap-4 items-center justify-center">
+              <span class="flex flex-col gap-1 items-center justify-center">
+                <%= inline_svg_tag 'image_missing', class: "inline-block h-14 w-14" %>
+                <%= t('images.image_missing') %>
+              </span>
+            </div>
+          </div>
+        <% else %>
+          <%= render partial: 'space_images/image_slider', locals: {
+            space: @space,
+            images: @space.images,
+            link_to_fullscreen: false,
+            show_caption_credits: :thumbnail
+          } %>
+        <% end %>
+      </div>
     </td>
 
   </tr>
