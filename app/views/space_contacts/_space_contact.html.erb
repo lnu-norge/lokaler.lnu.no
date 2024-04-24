@@ -1,6 +1,6 @@
 
 <%= turbo_frame_tag dom_id(space_contact) do %>
-  <div class="group rounded-md shadow-md p-4 border border-gray-100 flex justify-between gap-6 mb-3 md:w-3/4">
+  <div class="group rounded-md shadow-md p-4 border border-gray-100 flex justify-between gap-6 mb-3 md:w-3/4 [td_&]:md:w-full">
     <div class="min-w-0">
         <h4 class="font-bold"><%= space_contact.title %></h4>
       <dl>
@@ -36,7 +36,7 @@
       </dl>
     </div>
     <nav class="">
-      <%= link_to edit_space_contact_path(space_contact), id: "edit_space_contact_#{space_contact.id}", class: 'unstyled-link edit-button' do %>
+      <%= link_to edit_space_contact_path(space_contact), id: "edit_space_contact_#{space_contact.id}", class: 'unstyled-link edit-button collapsable' do %>
         <span class="text">
           <%= t('space_contacts.edit') %>
         </span>
