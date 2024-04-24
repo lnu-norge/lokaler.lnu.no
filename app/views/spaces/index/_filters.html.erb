@@ -12,11 +12,8 @@
     <div class="md:hidden w-16"></div>
   </header>
 
-  <main class="p-8 md:pt-11">
-    <div class="flex justify-center">
-      <button data-action="click->mapbox#setViewToMap" class="set-view-to-map-button button">Kart 🗺️</button>
-      <button data-action="click->mapbox#setViewToTable" class="set-view-to-table-button button">Tabell 📋</button>
-    </div>
+  <main class="p-8">
+    <%= render 'spaces/index/set_view_buttons' %>
     <%= render partial: "spaces/index/search_form" %>
   </main>
 
