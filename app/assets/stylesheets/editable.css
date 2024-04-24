@@ -19,14 +19,30 @@
   @apply text-gray-700;
 
   &.collapsable {
-    @apply gap-0;
-
+    @apply gap-0 min-h-10 min-w-10 justify-center;
+    @apply relative;
     .text {
+      @apply absolute right-0 py-2 z-1;
       max-width: 0;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       @apply transition-all;
+    }
+    svg {
+      @apply relative z-2;
+      @apply bg-gray-100;
+    }
+    &.edit-button--small {
+      @apply min-h-8 min-w-8;
+      .text {
+        @apply py-1;
+      }
+    }
+    &.collapsable--to-right {
+      .text {
+        @apply left-0 right-auto;
+      }
     }
   }
   &:hover {
@@ -35,15 +51,37 @@
   }
 }
 
-.collapsable-wrapper:hover .collapsable,
-.edit-button.collapsable:hover {
-    .text {
-      max-width: 200px;
-      margin-right: 0.5em;
-    }
-}
-
 .collapsable-wrapper:hover .edit-button {
   @apply shadow-md;
   @apply border border-pink-700;
 }
+
+.collapsable-wrapper:hover .edit-button.collapsable,
+.edit-button.collapsable:hover {
+    @apply shadow-none border border-transparent;
+    .text {
+      @apply shadow-md;
+      @apply bg-gray-100 border border-gray-100;
+      @apply border border-pink-700;
+      @apply rounded-lg py-2 pl-3 pr-[3ch];
+      max-width: 200px;
+      margin-right: 0;
+    }
+    &.collapsable--to-right {
+      .text {
+        @apply pr-3 pl-[3ch];
+      }
+    }
+    &.edit-button--small {
+      .text {
+        @apply rounded-lg py-1 px-1.5 pr-[3ch];
+      }
+      &.collapsable--to-right {
+        .text {
+          @apply pr-1.5 pl-[3ch];
+        }
+      }
+    }
+}
+
+
