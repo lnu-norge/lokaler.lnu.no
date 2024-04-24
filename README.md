@@ -189,3 +189,7 @@ We recommend [The Odin Project](https://www.theodinproject.com/) if you are star
 They have a Discord channel for help and they offer two paths - Rails and Javascript (Node). If you choose one, then the other will be easy afterwards.
 
 Let us know if we can help you out in any way, and feel free to clone this project to experiment your new found knowledge on as you progress in the course.
+
+# Backups and restoring
+
+If you have Parity, you can follow the instructions here to back up and restore the database: https://thoughtbot.com/blog/how-to-back-up-a-heroku-production-database-to-staging
