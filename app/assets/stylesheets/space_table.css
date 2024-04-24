@@ -63,16 +63,6 @@ body.view-as-table {
 
 
     .inline-editing {
-        @apply pb-6;
-       header {
-           h2, h3 {
-               @apply hidden;
-           }
-       }
-        .edit-button {
-            @apply absolute bottom-0 right-0 z-2;
-        }
-
         /* Make the form into a modal of sorts */
         > form {
             @apply fixed z-20 bg-gray-600/50 inset-0 flex items-center justify-center md:pl-[26%] md:pr-[1%];
