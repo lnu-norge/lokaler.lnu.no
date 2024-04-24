@@ -1,9 +1,17 @@
 
 <%= turbo_frame_tag dom_id(space_contact) do %>
-  <div class="group rounded-md shadow-md p-4 border border-gray-100 flex justify-between gap-6 mb-3 md:w-3/4 [td_&]:md:w-full">
-    <div class="min-w-0">
+  <div class="rounded-md shadow-md p-4 border border-gray-100  mb-3 md:w-3/4 [td_&]:md:w-auto">
+    <nav class="float-right pl-2 pb-2">
+      <%= link_to edit_space_contact_path(space_contact), id: "edit_space_contact_#{space_contact.id}", class: 'unstyled-link edit-button collapsable' do %>
+        <span class="text">
+          <%= t('space_contacts.edit') %>
+        </span>
+        <%= inline_svg_tag 'edit', alt: t('space_contacts.edit'), title: t('space_contacts.edit') %>
+      <% end %>
+    </nav>
+    <div>
         <h4 class="font-bold"><%= space_contact.title %></h4>
-      <dl>
+      <dl class="break-words">
         <% if space_contact.telephone? %>
           <dt class="sr-only">
             <%= t('space_contacts.phone') %>
@@ -23,7 +31,7 @@
           <dt class="sr-only">
             <%= t('space_contacts.email') %>
           </dt>
-          <dd><%= mail_to space_contact.email %></dd>
+          <dd class="truncate"><%= mail_to space_contact.email %></dd>
         <% end %>
         <% if space_contact.url? %>
           <dt class="sr-only"><%= t('space_contacts.url') %></dt>
@@ -35,13 +43,6 @@
         <% end %>
       </dl>
     </div>
-    <nav class="">
-      <%= link_to edit_space_contact_path(space_contact), id: "edit_space_contact_#{space_contact.id}", class: 'unstyled-link edit-button collapsable' do %>
-        <span class="text">
-          <%= t('space_contacts.edit') %>
-        </span>
-        <%= inline_svg_tag 'edit', alt: t('space_contacts.edit'), title: t('space_contacts.edit') %>
-      <% end %>
-    </nav>
+
   </div>
 <% end %>
