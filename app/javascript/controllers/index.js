@@ -48,3 +48,6 @@ application.register("tom-select", TomSelectController)
 
 import TrixPasteController from "./trix_paste_controller.js"
 application.register("trix-paste", TrixPasteController)
+
+import SetSelectedSpaceController from "./search_and_filter/set_selected_space_controller.js"
+application.register("set-selected-space", SetSelectedSpaceController)

@@ -8,6 +8,9 @@
 <%= turbo_frame_tag "spaces-open-here", target: "_top" do %>
   <%= render 'back_to_search_button' %>
   <main
+    data-controller="set-selected-space"
+    data-set-selected-space-target="space"
+    data-space="<%= @space.id %>"
     class="max-w-prose mx-auto w-full">
       <%= render partial: "spaces/show/image_header"  %>
 

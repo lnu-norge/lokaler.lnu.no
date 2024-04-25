@@ -12,9 +12,7 @@ a,
       }
     }
   }
-  &:focus {
-    @extend .focused-outline;
-  }
+  @extend .focused-outline;
   &.collapsable {
     @apply inline-flex gap-0;
     .text {

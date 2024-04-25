@@ -7,11 +7,12 @@
 <%= link_to space_path(space),
             class: "unstyled-link space-listing",
             data: {
+              "set-as-selected-when-this-space-is-open": space.id,
               "turbo-frame": "spaces-open-here", # This updates the spaces-open-here frame
               "turbo-action": "advance" # And updates browser history
             } do %>
 
-  <div class="mt-4 mb-12 max-w-lg">
+  <div class="max-w-lg p-2">
 
     <!-- Space image(s) -->
 

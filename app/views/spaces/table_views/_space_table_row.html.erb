@@ -1,12 +1,12 @@
 <%# locals: ( ) %>
-  <tr>
+  <tr data-set-as-selected-when-this-space-is-open="<%= @space.id %>">
     <th scope="row">
-      <div>
+      <div class="w-[20rem]">
           <%= link_to space_path(@space),
-                      class: "unstyled-link space-listing",
+                      class: "space-listing",
                       data: {
                         "turbo-frame": "spaces-open-here", # This updates the spaces-open-here frame
-                        "turbo-action": "advance" # And updates browser history
+                        "turbo-action": "advance" # Does not update browser history
                       } do %>
             <div>
                 <h3 class="text-xl mb-2.5 font-bold mt-0">
