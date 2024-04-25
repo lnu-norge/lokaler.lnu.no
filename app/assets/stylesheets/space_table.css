@@ -26,6 +26,7 @@ body.view-as-table {
     }
 
     tbody {
+        @apply relative;
         th {
             @apply bg-white;
             font-weight: inherit;
@@ -69,6 +70,28 @@ body.view-as-table {
             > section {
                 @apply max-w-prose max-h-fit bg-white p-8;
                 @apply drop-shadow-2xl rounded-lg;
+            }
+        }
+    }
+
+    a.space-listing {
+        @apply text-inherit no-underline;
+        @apply block absolute inset-0 px-4 py-2 rounded-none border-t border-b border-transparent;
+        &:hover {
+            h3 {
+                @apply text-lnu-pink no-underline;
+            }
+        }
+        &:focus {
+            @apply bg-gray-100 ring-0;
+        }
+    }
+
+    tr.selected a.space-listing {
+        @apply bg-gray-50 border-t-gray-300 border-b-gray-300 ring-0;
+        &:hover {
+            h3 {
+                @apply text-inherit;
             }
         }
     }

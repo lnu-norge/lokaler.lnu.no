@@ -160,12 +160,13 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
 
     spaces = preload_spaces_data_for_view(view_as)
 
+    @page_size = SPACE_SEARCH_PAGE_SIZE
     render_to_string(
       partial: "spaces/index/space_listings", locals: {
         spaces:,
         space_count: @space_count,
         view_as:,
-        page_size: SPACE_SEARCH_PAGE_SIZE
+        page_size: @page_size
       }
     )
   end

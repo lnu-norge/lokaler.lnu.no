@@ -75,13 +75,13 @@ nb:
       one: 'Vis ett lokale'
       other: 'Vis %{count} lokaler'
     showing_only_page_size_spaces:
-      one: 'Viser kun ett lokale av gangen.'
-      other: 'Viser kun %{count} lokaler av gangen.'
+      one: 'Viser ett lokale av gangen'
+      other: 'Viser %{count} lokaler av gangen'
     filter_or_zoom: "Filtrér eller zoom inn for å se andre."
     spaces_that_might_work:
-      zero: "Ingen lokaler passer sted og filter."
-      one: "Ett lokale passer:"
-      other: "%{count} lokaler passer:"
+      zero: "Ingen lokaler passer sted og filter"
+      one: "Ett lokale kan fungere"
+      other: "%{count} lokaler kan fungere"
     edit_filter: 'Rediger filtre'
     location: 'Område'
     choose_location: 'Søk her, eller flytt på kart'

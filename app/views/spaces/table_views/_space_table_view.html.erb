@@ -1,9 +1,13 @@
 <%# locals: (spaces: ) %>
 
-<div class="w-fit sticky left-0 pt-8 pl-8">
-  <%= render 'spaces/index/space_listing_header', space_count: @space_count %>
-</div>
-<table class="space_table border-collapse">
+<table
+  class="space_table border-collapse">
+  <caption class="w-96 sticky left-0 p-8 text-left ">
+    <%= t('space_filter.spaces_that_might_work', count: @space_count ) %>
+    <p class="text-gray-500">
+      <%= t('space_filter.showing_only_page_size_spaces', count: @page_size) %><br />
+    </p>
+  </caption>
   <thead>
   <tr>
     <th scope="col">

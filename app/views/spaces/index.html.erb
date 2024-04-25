@@ -1,14 +1,18 @@
 <div
-  class="md:flex"
+  class="md:flex max-w-screen"
   data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
   <nav data-mapbox-target="searchBox"
        class="hidden fixed inset-0 z-100 bg-white overflow-y-auto overscroll-contain
               md:block md:static md:inset-auto md:z-10 md:h-screen-below-desktop-menu
-              md:shadow-2xl md:max-w-md md:w-1/4
+              md:shadow-2xl md:max-w-md md:w-1/4 md:min-w-60
   ">
     <%= render 'spaces/index/filters' %>
   </nav>
-  <div class="relative flex flex-col-reverse md:flex-row md:flex-1">
+  <div class="relative
+        flex flex-col-reverse
+        md:flex-row
+        md:flex-1">
+
     <div class="relative z-4
                 bg-white md:shadow-2xl
                 rounded-t-xl -mt-8
@@ -17,17 +21,30 @@
                 md:overscroll-contain md:overflow-y-auto
                 md:h-screen-below-desktop-menu
                 md:view-as-table:max-w-full
-                md:view-as-table:w-full
-                md:view-as-table:absolute
+                md:view-as-table:w-[14rem]
+                md:view-as-table:flex-1
   ">
       <%= render 'spaces/index/filter_button' %>
       <%= render 'spaces/index/handlebar_for_mobile' %>
-      <div id="space-listing" class="px-4 md:py-8 md:view-as-table:p-0 loading-spaces-when-empty"></div>
+      <div
+        id="space-listing"
+        data-controller="set-selected-space"
+        class="px-2 md:py-8 md:view-as-table:p-0 loading-spaces-when-empty"></div>
     </div>
     <div
-      class="h-screen-3/5 md:pb-0
-    md:h-screen-below-desktop-menu md:relative
-    w-full md:w-min-1/2">
+      class="
+      h-screen-3/5 md:pb-0
+      md:h-screen-below-desktop-menu
+      w-full md:w-min-1/2
+      md:view-as-table:absolute
+      md:view-as-table:right-0
+      md:view-as-table:top-0
+      md:view-as-table:w-[calc(100%-20rem)]
+      md:view-as-table:w-min-auto
+      md:view-as-table:z-10
+      md:view-as-table:pointer-events-none
+      md:relative
+  ">
       <%= turbo_frame_tag "spaces-open-here",
                           target: "_top",
                           class: "empty:hidden
@@ -39,10 +56,15 @@
                                   3xl:shadow-2xl
                                   3xl:px-4
                                   overscroll-contain
+                                  bg-white
                                   overflow-y-auto
-                                  bg-white"
+                                  md:view-as-table:pointer-events-auto
+                                  md:view-as-table:border-l border-gray-200
+                                  "
       %>
-      <%= render "spaces/index/map" %>
+      <div class="md:view-as-table:hidden relative h-full md:h-full w-full pl-1/2 peer-empty/space:pl-0">
+        <%= render "spaces/index/map" %>
+      </div>
     </div>
   </div>
 </div>
