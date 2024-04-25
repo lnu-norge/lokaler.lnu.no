@@ -1,3 +1,17 @@
 <%# locals: (space_facility:) %>
 <%= inline_svg_tag "facility_status/#{space_facility.experience}", class: "#{" text-black " if space_facility.experience == "impossible" }" %>
-<%= t("tooltips.others_experience.#{space_facility.experience}") %>
+<span class=" <%=
+  case space_facility.experience
+  when "impossible"
+    "text-red-500"
+  when "likely"
+    "text-green-500"
+  when "unlikely"
+    "text-red-500"
+  when "maybe"
+    "text-yellow-500"
+  else "text-gray-400"
+  end
+%>">
+  <%= t("tooltips.others_experience.#{space_facility.experience}") %>
+</span>
