@@ -18,12 +18,15 @@ body.view-as-table {
     /* Sticky left column */
     thead tr th:first-child,
     tbody tr th:first-child {
-        @apply sticky left-0 z-4;
+        @apply md:sticky md:left-0 md:z-4;
     }
-    thead tr th:first-child::after {
-        @apply block absolute shadow-2xl left-0 right-0 top-0 h-screen md:h-screen-below-desktop-menu pointer-events-none;
-        content: "";
+    @media (min-width: theme('screens.md')) {
+        thead tr th:first-child::after {
+            @apply block absolute shadow-2xl left-0 right-0 top-0 h-screen md:h-screen-below-desktop-menu pointer-events-none;
+            content: "";
+        }
     }
+
 
     tbody {
         @apply relative;
@@ -36,6 +39,7 @@ body.view-as-table {
         }
 
         th, td {
+            @apply relative;
             > :first-child {
                 @apply h-48 overflow-scroll block;
             }
