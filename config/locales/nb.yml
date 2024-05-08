@@ -302,7 +302,16 @@ nb:
     deleted: 'Space type slettet'
     not_deleted: 'Space type kunne ikke bli slettet!'
     created: 'Space type lagret'
-
   session:
     my_content: "Mitt innhold"
     my_experiences: "Mine erfaringer"
+  personal_space_lists:
+    no_access: "Du har ikke tilgang til denne listen"
+    need_to_choose_a_list_and_space: "Du må velge en liste og et lokale å legge i listen"
+    space_already_in_list: "%{space_name} er allerede i listen %{list_title}"
+    space_not_in_list: "%{space_name} er ikke i listen %{list_title}"
+    space_added_to_list: "%{space_name} lagt i %{list_title}"
+    space_removed_from_list: "%{space_name} fjernet fra %{list_title}"
+    list_created: "Ny liste laget"
+    list_updated: "Liste oppdatert"
+    list_deleted: "Liste slettet"

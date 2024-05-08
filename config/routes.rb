@@ -57,6 +57,11 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get "address_search", to: "spaces#address_search"
   get "check_duplicates", to: "spaces#check_duplicates"
 
+  # Personal space list routes
+  resources "personal_space_lists"
+  post "space_in_list/:id/:space_id", to: "space_in_list#create", as: "space_in_list"
+  delete "space_in_list/:id/:space_id", to: "space_in_list#destroy", as: "space_in_List"
+
   # Space images routes
   resources "space_images"
   post "spaces/upload_image", to: "space_images#upload_image"

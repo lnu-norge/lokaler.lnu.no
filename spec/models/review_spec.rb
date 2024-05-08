@@ -2,7 +2,6 @@
 
 require "rails_helper"
 
-# Model test here, requests spec follows below
 RSpec.describe Review, type: :model do
   it "can add a review of type :been_there" do
     review = Fabricate(:review, type_of_contact: :been_there)
