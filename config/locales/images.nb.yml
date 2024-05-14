@@ -1,0 +1,12 @@
+nb:
+  images:
+    image_missing: "Bilde mangler"
+    upload_success: "Bilde lastet opp"
+    upload_failed: "Fikk ikke lastet opp bilde, noe gikk galt"
+    upload: "Last opp"
+    upload_image: "Last opp bilde"
+    edit_images: "Rediger bilder"
+    delete_success: "Bildet ble slettet"
+    photo_by: 'Foto:'
+    update_success: "Bilde lagret"
+    back_to_space: "Tilbake til %{title}"

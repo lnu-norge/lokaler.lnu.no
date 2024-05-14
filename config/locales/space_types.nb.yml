@@ -1,0 +1,6 @@
+space_types:
+  index: "Space type"
+  updated: 'Space type oppdatert'
+  deleted: 'Space type slettet'
+  not_deleted: 'Space type kunne ikke bli slettet!'
+  created: 'Space type lagret'

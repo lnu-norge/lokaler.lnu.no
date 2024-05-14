@@ -1,0 +1,6 @@
+nb:
+  multistep_form_navigation:
+    save_and_go_to_next: 'Lagre og gå til neste'
+    save: 'Lagre'
+    previous: 'Tilbake'
+    next: 'Neste'

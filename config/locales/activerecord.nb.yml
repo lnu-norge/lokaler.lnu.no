@@ -1,0 +1,56 @@
+nb:
+  activerecord:
+    models:
+      facility:
+        one: 'Fasilitet'
+        other: 'Fasiliteter'
+      space:
+        one: 'Lokale'
+        other: 'Lokaler'
+      review:
+        one: 'Erfaring'
+        other: 'Erfaringer'
+      space_type:
+        one: 'Type lokale'
+        other: 'Typer lokale'
+      facility_review:
+        one: 'Fasilitetserfaring'
+        other: 'Fasilitetserfaringer'
+    attributes:
+      space:
+        space_type: 'Type lokale'
+        basics: 'grunnleggende informasjon'
+        how_to_book: 'Hvordan booker vi?'
+        who_can_use: 'Hvem får bruke lokalet?'
+        more_info: 'Mer om lokalet'
+        facility_description: 'Fasilitets beskrivelse'
+        terms: 'Vilkår for å bruke lokalet'
+        pricing: 'Pris'
+        where: 'Hvor er det?'
+        location_description: 'Mer om hvordan finne fram'
+        address: 'Adresse'
+        street_name: 'Gatenavn'
+        post_number: 'Postnummer'
+        post_address: 'Poststed'
+        organization_number: 'Organisasjonsnummer'
+        municipality_code: 'Kommunenummer'
+        lat: 'Breddegrad'
+        lng: 'Lengdegrad'
+        url: 'Nettside'
+      review:
+        how_much_custom: 'Hvor mye av lokalet brukte dere'
+        how_long_custom: 'Hvor lenge brukte dere lokalet'
+        price: 'Pris'
+        title: 'Tittel'
+        only_contacted: 'Kun kontaktet dem'
+        been_there: 'Brukt lokalet'
+        not_allowed_to_use: 'Fikk ikke lov'
+        facility_reviews: 'Fasilitetserfaringer'
+        organization: 'Organisasjon'
+      space_contact:
+        title: "Tittel"
+        telephone: "Telefon"
+        telephone_opening_hours: "Åpningstider"
+        email: "E-post"
+        url: "Nettside"
+        description: "Beskrivelse"

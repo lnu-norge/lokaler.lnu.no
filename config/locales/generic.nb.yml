@@ -1,0 +1,6 @@
+nb:
+  generic:
+    'yes': 'Ja'
+    'no': 'Nei'
+  read_more: 'Les mer'
+  close: 'Lukk'
