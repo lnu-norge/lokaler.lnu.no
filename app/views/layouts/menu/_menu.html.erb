@@ -14,6 +14,11 @@
             text: t('menu.find_spaces')
           } %>
           <%= render partial: 'layouts/menu/menu_item', locals: {
+            path: personal_space_lists_path,
+            icon: 'heart-outlined',
+            text: t('menu.lists')
+          } %>
+          <%= render partial: 'layouts/menu/menu_item', locals: {
             path: new_space_path,
             icon: 'plus_circled',
             text: t('menu.new_space')
