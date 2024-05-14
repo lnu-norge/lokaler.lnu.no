@@ -14,7 +14,7 @@ RSpec.describe SpaceInListController, type: :request do
   it "can add spaces to a list" do
     space = Fabricate(:space)
     expect(users_space_list.spaces.count).to eq(0)
-    post space_in_list_path(id: users_space_list.id, space_id: space.id)
+    post add_space_to_list_path(personal_space_list_id: users_space_list.id, space_id: space.id)
     follow_redirect!
     expect(response).to have_http_status(:success)
     expect(users_space_list.spaces.count).to eq(1)
@@ -24,7 +24,7 @@ RSpec.describe SpaceInListController, type: :request do
     space = Fabricate(:space)
     users_space_list.spaces << space
     expect(users_space_list.spaces.count).to eq(1)
-    delete space_in_list_path(id: users_space_list.id, space_id: space.id)
+    delete remove_space_from_list_path(personal_space_list_id: users_space_list.id, space_id: space.id)
     follow_redirect!
     expect(response).to have_http_status(:success)
     expect(users_space_list.spaces.count).to eq(0)
@@ -33,7 +33,7 @@ RSpec.describe SpaceInListController, type: :request do
   it "can't add spaces to someone else's list" do
     space = Fabricate(:space)
     expect(someone_elses_space_list.spaces.count).to eq(0)
-    post space_in_list_path(id: someone_elses_space_list.id, space_id: space.id)
+    post add_space_to_list_path(personal_space_list_id: someone_elses_space_list.id, space_id: space.id)
     expect(response).to have_http_status(:redirect)
     expect(response).to redirect_to(personal_space_lists_path)
     expect(someone_elses_space_list.spaces.count).to eq(0)
@@ -43,7 +43,7 @@ RSpec.describe SpaceInListController, type: :request do
     space = Fabricate(:space)
     someone_elses_space_list.spaces << space
     expect(someone_elses_space_list.spaces.count).to eq(1)
-    delete space_in_list_path(id: someone_elses_space_list.id, space_id: space.id)
+    delete remove_space_from_list_path(personal_space_list_id: someone_elses_space_list.id, space_id: space.id)
     expect(response).to have_http_status(:redirect)
     expect(response).to redirect_to(personal_space_lists_path)
     expect(someone_elses_space_list.spaces.count).to eq(1)
