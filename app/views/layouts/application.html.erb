@@ -16,7 +16,7 @@
     <%= " #{controller_name}_#{action_name} " %>
 ">
     <div id="flash">
-      <%= render "shared/flash" %>
+      <%= render "shared/flash", flash: %>
     </div>
     <%= render partial: "layouts/menu/menu" %>
     <main class="flex-1">

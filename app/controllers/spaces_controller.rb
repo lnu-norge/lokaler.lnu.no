@@ -160,6 +160,8 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
 
     spaces = preload_spaces_data_for_view(view_as)
 
+    @active_personal_space_list = PersonalSpaceList.find_or_initialize_by(user: current_user)
+
     @page_size = SPACE_SEARCH_PAGE_SIZE
     render_to_string(
       partial: "spaces/index/space_listings", locals: {

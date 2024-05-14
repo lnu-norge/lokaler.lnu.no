@@ -13,6 +13,12 @@
   <% end %>
 
   <div class="mb-4">
+    <%= form.label :title, "Navn på listen" %>
+    <%= form.text_field :title %>
+  </div>
+
+
+  <div class="mb-4">
     <%= form.label :spaces_ids, "Lokaler" %>
     <%= form.collection_select(:spaces_ids, Space.all, :id, :title, { selected: personal_space_list.spaces.pluck(:id) }, { :multiple => true } )%>
   </div>

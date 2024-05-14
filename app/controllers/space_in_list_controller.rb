@@ -6,29 +6,82 @@ class SpaceInListController < BaseControllers::AuthenticateController
                 :set_list,
                 :check_user_privileges
 
+  include PersonalSpaceListsHelper
+
+  def show; end
+
   def create
-    if @list.spaces.include?(@space)
-      flash[:notice] = t("personal_space_lists.space_already_in_list", space_name: @space.name, list_title: @list.title)
-      return redirect_to personal_space_list_path(@list)
-    end
+    return already_in_list if @list.spaces.include?(@space)
 
     @list.spaces << @space
-    flash[:notice] = t("personal_space_lists.space_added_to_list", space_name: @space.name, list_title: @list.title)
-    redirect_to personal_space_list_path(@list)
+    added_to_list
   end
 
   def destroy
-    if @list.spaces.exclude?(@space)
-      flash[:notice] = t("personal_space_lists.space_not_in_list", space_name: @space.name, list_title: @list.title)
-      return redirect_to personal_space_list_path(@list)
-    end
+    return not_in_list if @list.spaces.exclude?(@space)
 
     @list.spaces.delete(@space)
-    flash[:notice] = t("personal_space_lists.space_removed_from_list", space_name: @space.name, list_title: @list.title)
-    redirect_to personal_space_list_path(@list)
+    removed_from_list
   end
 
   private
+
+  def already_in_list
+    flash_and_reload(message: t("personal_space_lists.space_not_in_list", space_title: @space.title,
+                                                                          list_title: @list.title))
+  end
+
+  def not_in_list
+    flash_and_reload(type: :alert,
+                     message: t("personal_space_lists.space_not_in_list", space_title: @space.title,
+                                                                          list_title: @list.title))
+  end
+
+  def added_to_list
+    flash_and_reload(message: t("personal_space_lists.space_added_to_list", space_title: @space.title,
+                                                                            list_title: @list.title))
+  end
+
+  def removed_from_list
+    flash_and_reload(message: t("personal_space_lists.space_removed_from_list", space_title: @space.title,
+                                                                                list_title: @list.title))
+  end
+
+  def flash_and_reload(
+    message:, type: :notice,
+    redirect_path: list_status_for_space_path(@list, @space)
+  )
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[type] = message
+        render turbo_stream: [
+          prepend_flash_with_turbo_stream,
+          replace_list_status_for_space_with_turbo_stream
+        ]
+      end
+
+      format.html do
+        flash[type] = message
+        redirect_to redirect_path
+      end
+    end
+  end
+
+  def prepend_flash_with_turbo_stream
+    turbo_stream.prepend(
+      "flash",
+      partial: "shared/flash",
+      locals: { flash: }
+    )
+  end
+
+  def replace_list_status_for_space_with_turbo_stream
+    turbo_stream.replace(
+      dom_id_for_list_and_space(@list, @space),
+      partial: "space_in_list/list_status_for_space",
+      locals: { list: @list, space: @space }
+    )
+  end
 
   def require_space_in_list_params
     return unless params[:space_id].blank? || params[:personal_space_list_id].blank?
