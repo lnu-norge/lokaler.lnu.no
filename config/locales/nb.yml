@@ -308,10 +308,10 @@ nb:
   personal_space_lists:
     no_access: "Du har ikke tilgang til denne listen"
     need_to_choose_a_list_and_space: "Du må velge en liste og et lokale å legge i listen"
-    space_already_in_list: "%{space_name} er allerede i listen %{list_title}"
-    space_not_in_list: "%{space_name} er ikke i listen %{list_title}"
-    space_added_to_list: "%{space_name} lagt i %{list_title}"
-    space_removed_from_list: "%{space_name} fjernet fra %{list_title}"
+    space_already_in_list: "%{space_title} er allerede i listen %{list_title}"
+    space_not_in_list: '%{space_title} er ikke i listen "%{list_title}"'
+    space_added_to_list: '%{space_title} lagt i listen "%{list_title}"'
+    space_removed_from_list: "%{space_title} fjernet fra listen \"%{list_title}\""
     list_created: "Ny liste laget"
     list_updated: "Liste oppdatert"
     list_deleted: "Liste slettet"

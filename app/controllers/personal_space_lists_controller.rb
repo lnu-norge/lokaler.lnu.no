@@ -77,7 +77,7 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
 
   # Only allow a list of trusted parameters through.
   def personal_space_list_params
-    allowed_params = params.require(:personal_space_list).permit(:user_id, :spaces_ids)
+    allowed_params = params.require(:personal_space_list).permit(:user_id, :spaces_ids, :title)
     allowed_params[:user_id] = current_user.id
 
     allowed_params
