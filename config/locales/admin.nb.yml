@@ -1,0 +1,9 @@
+nb:
+  admin:
+    user: 'Bruker'
+    field: 'Felt'
+    event: 'Hendelse'
+    changes: 'Endringer'
+    changed_at: 'Endringstidspunkt'
+    history: Historikk
+    space_type: Type lokaler
