@@ -5,7 +5,7 @@
 %>
 
 <%= link_to space_path(space),
-            class: "unstyled-link space-listing",
+            class: "unstyled-link space-listing relative",
             data: {
               "set-as-selected-when-this-space-is-open": space.id,
               "turbo-frame": "spaces-open-here", # This updates the spaces-open-here frame
@@ -50,6 +50,12 @@
     <!-- Filtered facilites listing -->
 
     <%= render partial: 'spaces/index/space_facility_listing', locals: { space: space, filtered_facilities: @filtered_facilities } if @filtered_facilities.present?  %>
+
+    <!-- List status -->
+
+    <button class="absolute top-2.5 left-2.5 p-1.5 pr-2.5 rounded-md z-2 collapsable text-white hover:bg-lnu-pink hover:shadow-md group">
+      <%= inline_svg "heart-filled", class: "w-7 h-7  group-hover:p-1" %> <span class="text ">Legg i liste</span>
+    </button>
 
   </div>
 <% end %>
