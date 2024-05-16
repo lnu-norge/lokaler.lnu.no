@@ -9,3 +9,4 @@ nb:
     list_created: "Ny liste laget"
     list_updated: "Liste oppdatert"
     list_deleted: "Liste slettet"
+    default_list_name: "%{name} sin liste"

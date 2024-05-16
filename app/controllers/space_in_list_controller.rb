@@ -55,8 +55,9 @@ class SpaceInListController < BaseControllers::AuthenticateController
       format.turbo_stream do
         flash.now[type] = message
         render turbo_stream: [
-          prepend_flash_with_turbo_stream,
-          replace_list_status_for_space_with_turbo_stream
+          add_flash_with_turbo_stream,
+          refresh_list_status_for_space_with_turbo_stream,
+          refresh_active_list_with_turbo_stream
         ]
       end
 
@@ -67,7 +68,7 @@ class SpaceInListController < BaseControllers::AuthenticateController
     end
   end
 
-  def prepend_flash_with_turbo_stream
+  def add_flash_with_turbo_stream
     turbo_stream.prepend(
       "flash",
       partial: "shared/flash",
@@ -75,11 +76,19 @@ class SpaceInListController < BaseControllers::AuthenticateController
     )
   end
 
-  def replace_list_status_for_space_with_turbo_stream
-    turbo_stream.replace(
-      dom_id_for_list_and_space(@list, @space),
+  def refresh_list_status_for_space_with_turbo_stream
+    turbo_stream.update(
+      dom_id_for_list_status_for_space(@space),
       partial: "space_in_list/list_status_for_space",
       locals: { list: @list, space: @space }
+    )
+  end
+
+  def refresh_active_list_with_turbo_stream
+    turbo_stream.update(
+      dom_id_for_active_list_updates_here,
+      partial: "personal_space_lists/personal_space_list",
+      locals: { personal_space_list: @list }
     )
   end
 
@@ -95,6 +104,11 @@ class SpaceInListController < BaseControllers::AuthenticateController
   end
 
   def set_list
+    if params[:personal_space_list_id] == "new"
+      return @list = PersonalSpaceList.create_default_list_for(current_user,
+                                                               active: true)
+    end
+
     @list = PersonalSpaceList.find(params[:personal_space_list_id])
   end
 

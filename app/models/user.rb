@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_many :facility_reviews, dependent: :restrict_with_exception
 
   has_many :personal_space_lists, dependent: :destroy
+  has_one :active_personal_space_list, dependent: :destroy
 
   def name
     return first_name if last_name.blank?

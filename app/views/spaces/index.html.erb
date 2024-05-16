@@ -8,6 +8,13 @@
     <div class="fixed bottom-24 left-0 right-0 z-2 md:sticky md:right-auto md:bottom-auto md:top-2 md:mt-8">
       <%= render 'spaces/index/set_view_buttons' %>
     </div>
+    <div id="<%= dom_id_for_active_list_updates_here %>">
+      <% if @active_personal_space_list.present? %>
+        <div class="">
+          <%= render "personal_space_lists/personal_space_list", personal_space_list: @active_personal_space_list  %>
+        </div>
+      <% end %>
+    </div>
     <div class="hidden md:block " data-mapbox-target="searchBox">
       <%= render 'spaces/index/filters' %>
     </div>

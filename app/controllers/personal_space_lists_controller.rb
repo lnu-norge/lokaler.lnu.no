@@ -2,8 +2,9 @@
 
 class PersonalSpaceListsController < BaseControllers::AuthenticateController
   before_action :set_personal_space_list, only: %i[show edit update destroy]
-  before_action :verify_that_user_has_access
+  before_action :new_personal_space_list, only: [:create, :update]
   before_action :add_spaces_to_list, only: [:create, :update]
+  before_action :verify_that_user_has_access
 
   def index
     @personal_space_lists = PersonalSpaceList.where(user: current_user)
@@ -19,10 +20,6 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
   def edit; end
 
   def create
-    @personal_space_list = PersonalSpaceList.new(
-      personal_space_list_params
-    )
-
     respond_to do |format|
       if @personal_space_list.save
         format.html do
@@ -65,6 +62,12 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
   # Use callbacks to share common setup or constraints between actions.
   def set_personal_space_list
     @personal_space_list = PersonalSpaceList.find(params[:id])
+  end
+
+  def new_personal_space_list
+    @personal_space_list = PersonalSpaceList.new(
+      personal_space_list_params
+    )
   end
 
   def add_spaces_to_list
