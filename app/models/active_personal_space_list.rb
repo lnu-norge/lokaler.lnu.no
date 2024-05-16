@@ -5,15 +5,6 @@ class ActivePersonalSpaceList < ApplicationRecord
   belongs_to :personal_space_list
 
   validates :user, uniqueness: true
-
-  before_create do
-    # Make sure to deactivate the previous active list for the user
-    deactivate_all_for(user)
-  end
-
-  def deactivate_all_for(user)
-    ActivePersonalSpaceList.where(user:).destroy_all
-  end
 end
 
 # == Schema Information
