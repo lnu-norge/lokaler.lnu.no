@@ -1,7 +1,11 @@
 <%# locals: (list:, space:) %>
 
-<%= turbo_frame_tag dom_id_for_list_and_space(list, space) do %>
-  <% if list.excludes_space?(space) %>
+<%= turbo_frame_tag dom_id_for_list_status_for_space(space) do %>
+  <% if list.blank? %>
+    <%= button_to add_space_to_list_path("new", space), class: "p-1.5 pr-2.5 rounded-md z-2 collapsable text-current hover:bg-lnu-pink hover:shadow-md group" do  %>
+      <%= inline_svg "heart-outlined", class: "w-7 h-7  group-hover:p-1" %> <span class="text">Legg i liste</span>
+    <% end %>
+  <% elsif list.excludes_space?(space) %>
     <%= button_to add_space_to_list_path(list, space), class: "p-1.5 pr-2.5 rounded-md z-2 collapsable text-current hover:bg-lnu-pink hover:shadow-md group" do  %>
       <%= inline_svg "heart-outlined", class: "w-7 h-7  group-hover:p-1" %> <span class="text">Legg i liste</span>
     <% end %>

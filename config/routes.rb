@@ -31,9 +31,9 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources "space_contacts", only: [:create, :edit, :update, :destroy, :show]
 
   get "/lokaler/:space_id/facility_review/:facility_id/:facility_category_id", to: "facility_reviews#show",
-                                                                              as: "facility_review"
+                                                                               as: "facility_review"
   get "/lokaler/:space_id/facility_review/:facility_id/new/:facility_category_id/", to: "facility_reviews#new",
-                                                                                   as: "new_facility_review"
+                                                                                    as: "new_facility_review"
   post "/lokaler/:space_id/facility_review/:facility_id", to: "facility_reviews#create", as: "create_facility_review"
 
   # Review routes

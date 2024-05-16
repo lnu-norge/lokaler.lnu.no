@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_06_065506) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_15_125704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_065506) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
+  create_table "active_personal_space_lists", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "personal_space_list_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["personal_space_list_id"], name: "index_active_personal_space_lists_on_personal_space_list_id"
+    t.index ["user_id"], name: "index_active_personal_space_lists_on_user_id", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -238,6 +247,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_065506) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "active_personal_space_lists", "personal_space_lists"
+  add_foreign_key "active_personal_space_lists", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "facilities_categories", "facilities"

@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class SpacesController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
-  include FilterableSpaces
   include DefineGroupedFacilitiesForSpace
+  include FilterableSpaces
+  include AccessibleActivePersonalSpaceList
+
+  before_action :access_active_personal_list, only: %i[index show spaces_search]
 
   def index
     set_filterable_facility_categories
@@ -159,8 +162,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     @non_filtered_facilities = Facility.includes(:facility_categories).where.not(id: facility_ids)
 
     spaces = preload_spaces_data_for_view(view_as)
-
-    @active_personal_space_list = PersonalSpaceList.find_or_initialize_by(user: current_user)
 
     @page_size = SPACE_SEARCH_PAGE_SIZE
     render_to_string(
