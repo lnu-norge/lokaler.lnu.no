@@ -1,7 +1,7 @@
 <%# locals: (personal_space_list:) %>
 <div id="<%= dom_id personal_space_list %>" class="content">
   <h1>
-    <%= personal_space_list.title %>
+    <%= personal_space_list.title %> <% if personal_space_list.active? %> (aktiv) <% end %>
   </h1>
 
   <p class="my-5">

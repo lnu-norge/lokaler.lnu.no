@@ -27,8 +27,8 @@ class SpaceInListController < BaseControllers::AuthenticateController
   private
 
   def already_in_list
-    flash_and_reload(message: t("personal_space_lists.space_not_in_list", space_title: @space.title,
-                                                                          list_title: @list.title))
+    flash_and_reload(message: t("personal_space_lists.space_already_in_list", space_title: @space.title,
+                                                                              list_title: @list.title))
   end
 
   def not_in_list

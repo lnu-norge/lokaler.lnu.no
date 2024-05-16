@@ -2,9 +2,11 @@
 
 class PersonalSpaceListsController < BaseControllers::AuthenticateController
   before_action :set_personal_space_list, only: %i[show edit update destroy]
-  before_action :new_personal_space_list, only: [:create, :update]
+  before_action :new_personal_space_list, only: [:create]
   before_action :add_spaces_to_list, only: [:create, :update]
   before_action :verify_that_user_has_access
+
+  after_action :activate_or_deactivate_list_based_on_params, only: [:create, :update]
 
   def index
     @personal_space_lists = PersonalSpaceList.where(user: current_user)
@@ -61,6 +63,8 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_personal_space_list
+    return new_personal_space_list if params[:id] == "new"
+
     @personal_space_list = PersonalSpaceList.find(params[:id])
   end
 
@@ -75,15 +79,28 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
 
     space_ids = params[:personal_space_list][:spaces_ids].reject(&:empty?).map(&:to_i).uniq
     spaces_from_params = Space.find(space_ids)
-    @personal_space_list.spaces = spaces_from_params
+    @personal_space_list.update(spaces: spaces_from_params, updated_at: Time.zone.now)
   end
 
   # Only allow a list of trusted parameters through.
   def personal_space_list_params
-    allowed_params = params.require(:personal_space_list).permit(:user_id, :spaces_ids, :title)
-    allowed_params[:user_id] = current_user.id
+    allowed_params = params.require(:personal_space_list).permit(:user_id, { spaces_ids: [] }, :title, :active)
+
+    @active_param = allowed_params[:active].to_s
+    allowed_params.delete(:active) # Not part of the model, but used by the controller
+    allowed_params.delete(:spaces_ids) # Not part of the model, but used by the controller
+
+    allowed_params[:user_id] = current_user.id if allowed_params[:user_id].blank?
 
     allowed_params
+  end
+
+  def activate_or_deactivate_list_based_on_params
+    return if @active_param.blank?
+
+    return @personal_space_list.activate if @active_param == "1"
+
+    @personal_space_list.deactivate
   end
 
   def verify_that_user_has_access
