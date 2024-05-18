@@ -1,28 +1,34 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
+<div class="w-screen">
     <% if notice.present? %>
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
 
-    <div id="<%= dom_id @personal_space_list %>" class="content">
+    <div id="<%= dom_id @personal_space_list %>">
       <h1>
         <%= @personal_space_list.title %> <% if @personal_space_list.active? %> (aktiv) <% end %>
       </h1>
 
-      <p class="my-5">
-        <strong class="block font-medium mb-1">User:</strong>
-        <%= @personal_space_list.user_id %>
-      </p>
+      <% if @personal_space_list.active? %>
+        <%= button_to "Deaktiver liste", deactivate_personal_space_list_path(@personal_space_list), method: :post, class: "button" %>
+      <% else %>
+        <%= button_to "Aktiver liste", activate_personal_space_list_path(@personal_space_list), method: :post, class: "button" %>
+      <% end %>
+      <%= link_to 'Edit this personal_space_list', edit_personal_space_list_path(@personal_space_list), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= link_to 'Back to personal_space_lists', personal_space_lists_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+      <% unless @personal_space_list.user == current_user %>
+        <p class="my-5">
+          <strong class="block font-medium mb-1">Listen tilhører:</strong>
+          <%= @personal_space_list.user.name %>
+        </p>
+      <% end %>
 
 
-      <p class="my-5">
-        <strong class="block font-medium mb-1">Spaces:</strong>
-        <%= @personal_space_list.spaces.map(&:title).join(", ") %>
-      </p>
+      <h2 class="mx-8">Lokaler</h2>
+      <div class="w-screen max-w-screen relative overflow-x-scroll">
+        <%= render 'spaces/table_views/space_table_view',
+                   spaces: @personal_space_list.spaces %>
+      </div>
 
     </div>
-
-    <%= link_to 'Edit this personal_space_list', edit_personal_space_list_path(@personal_space_list), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Back to personal_space_lists', personal_space_lists_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  </div>
 </div>

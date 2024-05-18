@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module FilterableSpaces
+  extend ActiveSupport::Concern
+
   private
 
   def set_filterable_facility_categories

@@ -1,4 +1,4 @@
-<%# locals: (personal_space_list:, url: personal_space_list) %>
+<%# locals: (personal_space_list:, url: personal_space_list, highlight: false) %>
 <%= link_to url,
             id: dom_id(personal_space_list, "_card"),
             class: "unstyled-link
@@ -8,7 +8,7 @@
               bg-white
               border border-gray-200
               hover:border-lnu-pink
-              #{ "border-2 border-lnu-pink" if personal_space_list.active? }
+              #{ "border-2 border-lnu-pink" if highlight }
               group
       " do %>
   <%= yield %>

@@ -3,12 +3,27 @@
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <div class="flex justify-between items-center">
-    <h1 class="text-lg font-bold text-4xl">Personal space lists</h1>
-    <%= link_to 'New personal space list', new_personal_space_list_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
-  </div>
+  <h1 class="font-bold text-3xl text-center mb-4 mt-16 text-gray-700">Mine lister</h1>
+  <p class="text-center mb-12">
+    <%= link_to  new_personal_space_list_path, class: "inline-flex items-center gap-2 rounded-md py-1.5 px-3 border border-lnu-pink" do %>
+      <%= inline_svg "plus", class: "h-4 w-4" %>
+      <span class="text">Ny liste</span>
+    <% end %>
+  </p>
 
-  <div id="personal_space_lists" class="flex flex-col gap-6">
-    <%= render @personal_space_lists %>
+
+  <% if @active_personal_space_list.present? %>
+    <h2 class="text-center font-bold text-xl mb-6 text-gray-700">Aktiv liste</h2>
+    <%= render "personal_space_lists/active_personal_space_list",
+               personal_space_list: @active_personal_space_list  %>
+
+    <h2 class="text-center font-bold text-xl mt-12 mb-4 text-gray-700">Andre lister</h2>
+
+  <% end %>
+
+  <div id="personal_space_lists" class="flex flex-col gap-6 mt-8">
+    <% @inactive_personal_space_lists.each do |personal_space_list| %>
+      <%= render "personal_space_lists/personal_space_list", personal_space_list: %>
+    <% end %>
   </div>
 </div>
