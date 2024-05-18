@@ -75,6 +75,7 @@ module.exports = {
             },
             animation: {
                 'shake-on-load': 'shake 0.3s ease-in-out',
+                'pulse-on-load': 'pulse 0.5s ease-in-out',
             },
         },
     },

@@ -1,4 +1,4 @@
-<div class="w-full">
+<div class="max-w-prose mx-auto my-6">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
@@ -8,7 +8,7 @@
     <%= link_to 'New personal space list', new_personal_space_list_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
-  <div id="personal_space_lists" class="min-w-full">
+  <div id="personal_space_lists" class="flex flex-col gap-6">
     <%= render @personal_space_lists %>
   </div>
 </div>

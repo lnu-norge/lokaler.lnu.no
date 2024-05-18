@@ -5,18 +5,18 @@
        class="fixed top-0 left-0 right-0 max-h-screen z-100 bg-white overflow-y-auto overscroll-contain
               md:static md:inset-auto md:z-10 md:h-screen-below-desktop-menu
               md:shadow-2xl md:max-w-md md:w-1/4 md:min-w-60">
-    <div class="fixed bottom-24 left-0 right-0 z-2 md:sticky md:right-auto md:bottom-auto md:top-2 md:mt-8">
-      <%= render 'spaces/index/set_view_buttons' %>
-    </div>
-    <div id="<%= dom_id_for_active_list_updates_here %>">
+    <div id="<%= dom_id_for_active_list_updates_here %>" class="mx-8 sticky top-4 z-5 mb-6">
       <% if @active_personal_space_list.present? %>
-        <div class="">
-          <%= render "personal_space_lists/personal_space_list", personal_space_list: @active_personal_space_list  %>
-        </div>
+          <%= render "personal_space_lists/card_for_spaces_index",
+                     personal_space_list: @active_personal_space_list
+          %>
       <% end %>
     </div>
     <div class="hidden md:block " data-mapbox-target="searchBox">
       <%= render 'spaces/index/filters' %>
+    </div>
+    <div class="fixed bottom-24 left-0 right-0 z-2 md:sticky md:right-auto md:bottom-6 md:mb-8">
+      <%= render 'spaces/index/set_view_buttons' %>
     </div>
   </nav>
   <div class="relative
