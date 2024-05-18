@@ -24,7 +24,7 @@
 
 <div  class="my-8">
   <h3 class="text-xl font-bold mt-4">
-    <%= Facility.model_name.human(count: 2) %>
+    <%= Facility.model_name.human(count: 2).capitalize %>
   </h3>
   <div class="divide-y border-b border-t my-4">
     <% @filterable_facility_categories.each do |category| %>
@@ -52,7 +52,7 @@
 </div>
 
 <div class="my-8">
-  <h3 class="text-xl font-bold mt-4"><%= SpaceType.model_name.human(count: @filterable_space_types.count) %></h3>
+  <h3 class="text-xl font-bold mt-4"><%= SpaceType.model_name.human(count: @filterable_space_types.count).capitalize %></h3>
   <div class="mt-2">
     <% @filterable_space_types.each do |space_type| %>
       <%= form.label space_type.type_name, class: "flex gap-2 my-1" do %>

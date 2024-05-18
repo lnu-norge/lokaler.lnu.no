@@ -2,20 +2,20 @@ nb:
   activerecord:
     models:
       facility:
-        one: 'Fasilitet'
-        other: 'Fasiliteter'
+        one: 'fasilitet'
+        other: 'fasiliteter'
       space:
-        one: 'Lokale'
-        other: 'Lokaler'
+        one: 'lokale'
+        other: 'lokaler'
       review:
-        one: 'Erfaring'
-        other: 'Erfaringer'
+        one: 'erfaring'
+        other: 'erfaringer'
       space_type:
-        one: 'Type lokale'
-        other: 'Typer lokale'
+        one: 'type lokale'
+        other: 'typer lokale'
       facility_review:
-        one: 'Fasilitetserfaring'
-        other: 'Fasilitetserfaringer'
+        one: 'fasilitetserfaring'
+        other: 'fasilitetserfaringer'
     attributes:
       space:
         space_type: 'Type lokale'

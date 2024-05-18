@@ -70,7 +70,7 @@ class SpaceInListController < BaseControllers::AuthenticateController
 
   def add_flash_with_turbo_stream
     turbo_stream.prepend(
-      "flash",
+      "notifications_for_adding_to_or_removing_spaces_from_active_list",
       partial: "shared/flash",
       locals: { flash: }
     )
@@ -87,7 +87,7 @@ class SpaceInListController < BaseControllers::AuthenticateController
   def refresh_active_list_with_turbo_stream
     turbo_stream.update(
       dom_id_for_active_list_updates_here,
-      partial: "personal_space_lists/personal_space_list",
+      partial: "personal_space_lists/card_for_spaces_index",
       locals: { personal_space_list: @list }
     )
   end

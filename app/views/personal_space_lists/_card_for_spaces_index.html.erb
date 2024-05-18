@@ -1,0 +1,13 @@
+<%# locals: (personal_space_list:) %>
+<div class="motion-safe:animate-pulse-on-load">
+<%= render "personal_space_lists/card/card_wrapper", personal_space_list: do %>
+  <%= render 'personal_space_lists/card/title', personal_space_list: %>
+    <%= render 'personal_space_lists/card/space_list', personal_space_list: %>
+<% end %>
+</div>
+<div
+  id="notifications_for_adding_to_or_removing_spaces_from_active_list"
+  class="absolute top-0 md:bottom-0 left-0 right-0 -translate-y-full md:translate-y-full"
+>
+  <%= render "shared/flash" %>
+</div>

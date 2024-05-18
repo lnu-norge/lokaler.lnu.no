@@ -3,6 +3,13 @@
 
   <%= render "form", personal_space_list: @personal_space_list %>
 
+
+
   <%= link_to "Show this personal space list", @personal_space_list, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+  <div class="inline-block ml-2">
+    <%= button_to 'Delete this personal_space_list', personal_space_list_path(@personal_space_list), method: :delete, data: { confirm: "Are you sure you want to delete this personal_space_list?" }, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+  </div>
+
   <%= link_to "Back to personal space lists", personal_space_lists_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>
