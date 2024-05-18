@@ -1,7 +1,9 @@
 <%# locals: (view_as:, spaces:, space_count:, page_size: %>
 <% if spaces.any? %>
   <% if view_as == "table" %>
-    <%= render "spaces/table_views/space_table_view", spaces: %>
+    <%= render "spaces/table_views/space_table_view",
+               spaces:,
+               space_count: @space_count, page_size: @page_size %>
   <% else # default to map view %>
     <%= render 'spaces/index/space_listing_header', space_count: %>
     <ul id="space-list" class="flex flex-col gap-8">
