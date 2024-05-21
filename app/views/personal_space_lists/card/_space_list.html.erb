@@ -1,3 +1,34 @@
-<p class="text-gray-700 text-sm">
-  <%= personal_space_list.spaces.size %> <%= Space.model_name.human(count: personal_space_list.spaces.size) %>
-</p>
+<%# locals: (personal_space_list:) %>
+<div class="flex gap-2 w-fit flex-1 items-center flex-wrap">
+  <div class="text-gray-600 text-sm">
+    <%= personal_space_list.space_contacted_count %> / <%= personal_space_list.space_count %> spurt
+  </div>
+  <div class="grid grid-flow-col auto-cols-fr flex-1
+      <%= "min-w-12" if personal_space_list.space_count > 6 %>
+    max-w-fit">
+    <% personal_space_list.space_said_no_count.times do %>
+      <%= render 'personal_space_lists/card/contact_status_icon',
+                 icon: "facility_status/unlikely",
+                 title: "#{personal_space_list.space_said_no_count} sa nei"
+      %>
+    <% end %>
+    <% personal_space_list.space_not_contacted_count.times do %>
+      <%= render 'personal_space_lists/card/contact_status_icon',
+                 icon: "facility_status/unknown",
+                 title: "#{personal_space_list.space_not_contacted_count} ikke kontaktet"
+      %>
+    <% end %>
+    <% personal_space_list.space_said_maybe_count.times do %>
+      <%= render 'personal_space_lists/card/contact_status_icon',
+                 icon: "facility_status/maybe",
+                 title: "#{personal_space_list.space_said_maybe_count} kanskje"
+      %>
+    <% end %>
+    <% personal_space_list.space_said_yes_count.times do %>
+      <%= render 'personal_space_lists/card/contact_status_icon',
+                 icon: "facility_status/likely",
+                 title: "#{personal_space_list.space_said_yes_count} sa ja"
+      %>
+    <% end %>
+  </div>
+</div>

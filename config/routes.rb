@@ -61,9 +61,13 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources "lister", controller: "personal_space_lists", as: "personal_space_lists"
   post "lister/:id/activate", to: "active_personal_space_lists#activate", as: "activate_personal_space_list"
   post "lister/:id/deactivate", to: "active_personal_space_lists#deactivate", as: "deactivate_personal_space_list"
-  get "space_in_list/:personal_space_list_id/:space_id", to: "space_in_list#show", as: "list_status_for_space"
-  post "space_in_list/:personal_space_list_id/:space_id", to: "space_in_list#create", as: "add_space_to_list"
-  delete "space_in_list/:personal_space_list_id/:space_id", to: "space_in_list#destroy", as: "remove_space_from_list"
+  get "lister/:personal_space_list_id/:space_id", to: "space_in_list#show", as: "list_status_for_space"
+  post "lister/:personal_space_list_id/:space_id", to: "space_in_list#create", as: "add_space_to_list"
+  delete "lister/:personal_space_list_id/:space_id", to: "space_in_list#destroy", as: "remove_space_from_list"
+  post "lister/:personal_space_list_id/:space_id/personal_notes",
+       to: "personal_space_lists_spaces#update_personal_notes", as: "personal_notes_for_space_in_list"
+  post "lister/:personal_space_list_id/:space_id/contact_status",
+       to: "personal_space_lists_spaces#update_contact_status", as: "contact_status_for_space_in_list"
 
   # Space images routes
   resources "space_images"

@@ -27,24 +27,20 @@ class SpaceInListController < BaseControllers::AuthenticateController
   private
 
   def already_in_list
-    flash_and_reload(message: t("personal_space_lists.space_already_in_list", space_title: @space.title,
-                                                                              list_title: @list.title))
+    flash_and_reload(message: t("personal_space_lists.space_already_in_list", space_title: @space.title))
   end
 
   def not_in_list
     flash_and_reload(type: :alert,
-                     message: t("personal_space_lists.space_not_in_list", space_title: @space.title,
-                                                                          list_title: @list.title))
+                     message: t("personal_space_lists.space_not_in_list", space_title: @space.title))
   end
 
   def added_to_list
-    flash_and_reload(message: t("personal_space_lists.space_added_to_list", space_title: @space.title,
-                                                                            list_title: @list.title))
+    flash_and_reload(message: t("personal_space_lists.space_added_to_list", space_title: @space.title))
   end
 
   def removed_from_list
-    flash_and_reload(message: t("personal_space_lists.space_removed_from_list", space_title: @space.title,
-                                                                                list_title: @list.title))
+    flash_and_reload(message: t("personal_space_lists.space_removed_from_list", space_title: @space.title))
   end
 
   def flash_and_reload(
