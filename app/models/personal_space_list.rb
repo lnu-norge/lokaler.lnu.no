@@ -5,6 +5,8 @@ class PersonalSpaceList < ApplicationRecord
 
   has_one :active_personal_space_list, dependent: :destroy
   accepts_nested_attributes_for :active_personal_space_list
+
+  has_many :personal_space_lists_spaces, dependent: :destroy
   has_and_belongs_to_many :spaces
 
   validates :title, presence: true
@@ -45,6 +47,30 @@ class PersonalSpaceList < ApplicationRecord
 
   def deactivate
     active_personal_space_list.destroy if active?
+  end
+
+  def space_count
+    personal_space_lists_spaces.size
+  end
+
+  def space_contacted_count
+    personal_space_lists_spaces.not_not_contacted.size
+  end
+
+  def space_not_contacted_count
+    personal_space_lists_spaces.not_contacted.size
+  end
+
+  def space_said_no_count
+    personal_space_lists_spaces.said_no.size
+  end
+
+  def space_said_maybe_count
+    personal_space_lists_spaces.said_maybe.size
+  end
+
+  def space_said_yes_count
+    personal_space_lists_spaces.said_yes.size
   end
 
   # self.METHOD_NAME makes this a Class method, the others are instance methods

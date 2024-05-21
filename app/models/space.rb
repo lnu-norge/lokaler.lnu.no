@@ -26,6 +26,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   accepts_nested_attributes_for :space_types
 
   has_and_belongs_to_many :personal_space_lists
+  has_many :personal_space_lists_spaces, dependent: :destroy
 
   scope :filter_on_title, ->(title) { where("title ILIKE ?", "%#{title}%") }
   scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids) }

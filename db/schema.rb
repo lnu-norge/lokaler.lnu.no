@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_15_125704) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_21_071109) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -119,6 +119,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_15_125704) do
   create_table "personal_space_lists_spaces", id: false, force: :cascade do |t|
     t.bigint "personal_space_list_id", null: false
     t.bigint "space_id", null: false
+    t.integer "contact_status", default: 0
+    t.text "personal_notes"
     t.index ["personal_space_list_id"], name: "index_personal_space_lists_spaces_on_personal_space_list_id"
     t.index ["space_id"], name: "index_personal_space_lists_spaces_on_space_id"
   end

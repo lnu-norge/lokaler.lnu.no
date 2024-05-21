@@ -26,8 +26,16 @@
 
       <h2 class="mx-8">Lokaler</h2>
       <div class="w-screen max-w-screen relative overflow-x-scroll">
-        <%= render 'spaces/table_views/space_table_view',
-                   spaces: @personal_space_list.spaces %>
+        <% @personal_space_list.personal_space_lists_spaces.each do |space_information| %>
+          <h2><%= space_information.space.title %></h2>
+          <p>
+            Status: <%= space_information.contact_status %>
+          </p>
+          <p>
+            Notater:
+            <%= space_information.personal_notes %>
+          </p>
+        <% end %>
       </div>
 
     </div>

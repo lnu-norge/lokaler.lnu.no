@@ -5,7 +5,7 @@
        class="fixed top-0 left-0 right-0 max-h-screen z-100 bg-white overflow-y-auto overscroll-contain
               md:static md:inset-auto md:z-10 md:h-screen-below-desktop-menu
               md:shadow-2xl md:max-w-md md:w-1/4 md:min-w-60">
-    <div id="<%= dom_id_for_active_list_updates_here %>" class="mx-8 sticky top-4 z-5 mb-6">
+    <div id="<%= dom_id_for_active_list_updates_here %>" class="mx-8 mt-8 sticky top-4 z-5 mb-2">
       <% if @active_personal_space_list.present? %>
           <%= render "personal_space_lists/card_for_spaces_index",
                      personal_space_list: @active_personal_space_list
