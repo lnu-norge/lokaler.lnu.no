@@ -50,9 +50,7 @@ module PersonalSpaceListsSpaces
     )
       respond_to do |format|
         format.turbo_stream do
-          flash.now[type] = message
           render turbo_stream: [
-            add_flash_with_turbo_stream,
             refresh_list_status_for_space_with_turbo_stream,
             refresh_active_list_with_turbo_stream
           ]
@@ -63,14 +61,6 @@ module PersonalSpaceListsSpaces
           redirect_to redirect_path
         end
       end
-    end
-
-    def add_flash_with_turbo_stream
-      turbo_stream.prepend(
-        "notifications_for_adding_to_or_removing_spaces_from_active_list",
-        partial: "shared/flash",
-        locals: { flash: }
-      )
     end
 
     def refresh_list_status_for_space_with_turbo_stream
