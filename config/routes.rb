@@ -64,14 +64,14 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       post "deactivate", to: "active_personal_space_lists#destroy", as: "deactivate_personal_space_list"
     end
     resources :spaces, path: "lokale" do
-      scope module: "personal_space_lists_space" do
+      scope module: "personal_space_lists_spaces" do
         member do
           get "space_in_list", to: "space_in_list#show", as: "status_for"
           post "space_in_list", to: "space_in_list#create", as: "add_to"
           delete "space_in_list", to: "space_in_list#destroy", as: "remove_from"
         end
         resources :personal_notes, only: [:edit, :update], path: "personlige_notater"
-        resources :contact_status, only: [:edit, :update], path: "kontaktstatus"
+        resources :contact_status, only: [:edit, :update], path: "status"
       end
     end
   end

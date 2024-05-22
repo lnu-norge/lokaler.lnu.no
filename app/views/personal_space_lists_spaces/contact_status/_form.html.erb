@@ -1,0 +1,23 @@
+<%# locals: (personal_space_list_space:) %>
+<%= turbo_frame_tag dom_id(personal_space_list_space, "contact_status") do %>
+  <%= render 'shared/turbo_stream_flash_on_load' %>
+  <h3>Status:</h3>
+  <%= form_with scope: personal_space_list_space,
+                namespace: personal_space_list_space.id,
+                method: :patch,
+                url: personal_space_list_space_contact_status_path(
+                  personal_space_list_id: personal_space_list_space.personal_space_list_id,
+                  space_id: personal_space_list_space.space_id,
+                  id: personal_space_list_space.id,
+                ) do |form| %>
+    <%= render "shared/radio_slider",
+               form:,
+               legend: "Status",
+               field: "contact_status",
+               values: PersonalSpaceListsSpace.contact_statuses.keys.reverse,
+               labels: PersonalSpaceListsSpace.contact_statuses.keys.reverse.map { |contact_status|
+                 render partial: 'personal_space_lists_spaces/contact_status/radio_label', locals: { contact_status: }
+               } %>
+    <%= form.submit t('personal_space_lists.save_contact_status'), class: "button submit" %>
+  <% end %>
+<% end %>

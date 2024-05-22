@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PersonalSpaceListsSpace
+module PersonalSpaceListsSpaces
   class SpaceInListController < BaseControllers::AuthenticateController
     before_action :require_space_in_list_params,
                   :set_space,

@@ -21,7 +21,9 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
                                      .where.not(id: @active_personal_space_list&.id)
   end
 
-  def show; end
+  def show
+    @personal_space_lists_spaces = @personal_space_list.personal_space_lists_spaces.order(id: :desc)
+  end
 
   def new
     @personal_space_list = PersonalSpaceList.new(user: current_user)

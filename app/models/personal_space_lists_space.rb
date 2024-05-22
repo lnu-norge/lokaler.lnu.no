@@ -5,6 +5,13 @@ class PersonalSpaceListsSpace < ApplicationRecord
   belongs_to :space
 
   enum contact_status: { not_contacted: 0, said_no: 1, said_maybe: 2, said_yes: 3 }
+
+  ICON_FOR_CONTACT_STATUS = {
+    "not_contacted" => "unknown",
+    "said_no" => "unlikely",
+    "said_maybe" => "maybe",
+    "said_yes" => "likely"
+  }.freeze
 end
 
 # == Schema Information
