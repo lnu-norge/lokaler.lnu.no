@@ -1,5 +1,6 @@
 <%# locals: (personal_space_list_space:) %>
 <%= turbo_frame_tag dom_id(personal_space_list_space, "personal_notes") do %>
+  <%= render 'shared/turbo_stream_flash_on_load' %>
   <h3>Mine notater:</h3>
   <%= form_for personal_space_list_space, url: personal_space_list_space_personal_note_path(
     personal_space_list_id: personal_space_list_space.personal_space_list_id,

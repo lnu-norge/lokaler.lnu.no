@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PersonalSpaceListsSpace
+module PersonalSpaceListsSpaces
   class PersonalNotesController < BaseControllers::AuthenticateController
     include SettablePersonalSpaceListSpaceFromParams
     before_action :set_personal_space_list_space
@@ -9,11 +9,8 @@ class PersonalSpaceListsSpace
 
     def update
       @personal_space_list_space.update(personal_notes_params)
-      redirect_to edit_personal_space_list_space_personal_note_path(
-        personal_space_list_id: @personal_space_list.id,
-        space_id: @space.id,
-        id: @personal_space_list_space.id
-      )
+      flash.now[:notice] = t("personal_space_lists.notes_saved")
+      render :edit, locals: { personal_space_list: @personal_space_list }
     end
 
     private

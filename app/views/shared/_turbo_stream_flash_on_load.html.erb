@@ -1,0 +1,5 @@
+<% if notice.present? %>
+  <%= turbo_stream.prepend("flash") do  %>
+    <%= render "shared/flash", flash:  %>
+  <% end %>
+<% end %>

@@ -21,15 +21,10 @@
 
       <h2 class="mx-8">Lokaler</h2>
       <div class="w-screen max-w-screen relative overflow-x-scroll">
-        <% @personal_space_list.personal_space_lists_spaces.each do |space_information| %>
-          <h2><%= space_information.space.title %></h2>
-          <p>
-            Status: <%= space_information.contact_status %>
-          </p>
-          <p>
-            Notater:
-            <%= render "personal_space_lists_spaces/personal_notes/form", personal_space_list_space: space_information %>
-          </p>
+        <% @personal_space_lists_spaces.each do |personal_space_list_space| %>
+          <h2><%= personal_space_list_space.space.title %></h2>
+          <%= render "personal_space_lists_spaces/contact_status/form",personal_space_list_space:  %>
+          <%= render "personal_space_lists_spaces/personal_notes/form", personal_space_list_space: %>
         <% end %>
       </div>
 

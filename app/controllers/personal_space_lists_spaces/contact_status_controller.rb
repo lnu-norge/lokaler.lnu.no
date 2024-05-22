@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-class PersonalSpaceListsSpace
+module PersonalSpaceListsSpaces
   class ContactStatusController < BaseControllers::AuthenticateController
     include SettablePersonalSpaceListSpaceFromParams
     before_action :set_personal_space_list_space
 
-    def show; end
+    def edit; end
 
     def update
       @personal_space_list_space.update(contact_status_params)
-      redirect_to personal_space_list_space_contact_status_path(@personal_space_list_space)
+      flash.now[:notice] = t("personal_space_lists.contact_status_saved")
+      render :edit, locals: { personal_space_list: @personal_space_list }
     end
 
     private
