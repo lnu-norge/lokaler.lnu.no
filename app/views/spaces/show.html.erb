@@ -21,6 +21,14 @@
 
         <hr />
 
+        <% if @active_personal_space_list %>
+          <%= render "personal_space_lists_spaces/contact_status/form",
+                     personal_space_list_space: @active_personal_space_list.personal_space_lists_spaces.find_by(space: @space) %>
+          <%= render "personal_space_lists_spaces/personal_notes/form",
+                     personal_space_list_space: @active_personal_space_list.personal_space_lists_spaces.find_by(space: @space) %>
+          <hr />
+        <% end %>
+
         <%= inline_editable :how_to_book  do %>
           <%= render_space_and_group_field @space, :how_to_book %>
         <% end %>
