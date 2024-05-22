@@ -1,6 +1,12 @@
-<%# locals: (personal_space_list_space:) %>
+<%# locals: (personal_space_list_space:, contact_status_updated: false) %>
 <%= turbo_frame_tag dom_id(personal_space_list_space, "contact_status") do %>
   <%= render 'shared/turbo_stream_flash_on_load' %>
+  <% if contact_status_updated %>
+    <%= render 'personal_space_lists/turbo_stream_update_active_personal_space_list',
+               personal_space_list: personal_space_list_space.personal_space_list
+
+    %>
+  <% end %>
   <h3>Status:</h3>
   <%= form_with scope: personal_space_list_space,
                 namespace: personal_space_list_space.id,

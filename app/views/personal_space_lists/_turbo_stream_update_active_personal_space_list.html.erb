@@ -1,0 +1,7 @@
+<%# locals: (personal_space_list:) %>
+<%= turbo_stream.update( dom_id_for_active_list_updates_here) do  %>
+  <%=
+    render "personal_space_lists/card_for_spaces_index",
+           personal_space_list:
+  %>
+<% end %>
