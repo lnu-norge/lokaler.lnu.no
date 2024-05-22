@@ -1,0 +1,12 @@
+<%# locals: (personal_space_list_space:) %>
+<%= turbo_frame_tag dom_id(personal_space_list_space, "personal_notes") do %>
+  <h3>Mine notater:</h3>
+  <%= form_for personal_space_list_space, url: personal_space_list_space_personal_note_path(
+    personal_space_list_id: personal_space_list_space.personal_space_list_id,
+    space_id: personal_space_list_space.space_id,
+    id: personal_space_list_space.id
+  ) do |form| %>
+    <%= form.text_area :personal_notes %>
+    <%= form.submit t('personal_space_lists.save_notes'), class: "button submit" %>
+  <% end %>
+<% end %>

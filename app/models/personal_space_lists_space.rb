@@ -11,6 +11,7 @@ end
 #
 # Table name: personal_space_lists_spaces
 #
+#  id                     :bigint           not null, primary key
 #  contact_status         :integer          default("not_contacted")
 #  personal_notes         :text
 #  personal_space_list_id :bigint           not null

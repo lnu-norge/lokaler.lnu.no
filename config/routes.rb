@@ -58,16 +58,23 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get "check_duplicates", to: "spaces#check_duplicates"
 
   # Personal space list routes
-  resources "lister", controller: "personal_space_lists", as: "personal_space_lists"
-  post "lister/:id/activate", to: "active_personal_space_lists#activate", as: "activate_personal_space_list"
-  post "lister/:id/deactivate", to: "active_personal_space_lists#deactivate", as: "deactivate_personal_space_list"
-  get "lister/:personal_space_list_id/:space_id", to: "space_in_list#show", as: "list_status_for_space"
-  post "lister/:personal_space_list_id/:space_id", to: "space_in_list#create", as: "add_space_to_list"
-  delete "lister/:personal_space_list_id/:space_id", to: "space_in_list#destroy", as: "remove_space_from_list"
-  post "lister/:personal_space_list_id/:space_id/personal_notes",
-       to: "personal_space_lists_spaces#update_personal_notes", as: "personal_notes_for_space_in_list"
-  post "lister/:personal_space_list_id/:space_id/contact_status",
-       to: "personal_space_lists_spaces#update_contact_status", as: "contact_status_for_space_in_list"
+  resources :personal_space_lists, path: "lister" do
+    member do # Member adds more paths to resources
+      post "activate", to: "active_personal_space_lists#create", as: "activate_personal_space_list"
+      post "deactivate", to: "active_personal_space_lists#destroy", as: "deactivate_personal_space_list"
+    end
+    resources :spaces, path: "lokale" do
+      scope module: "personal_space_lists_space" do
+        member do
+          get "space_in_list", to: "space_in_list#show", as: "status_for"
+          post "space_in_list", to: "space_in_list#create", as: "add_to"
+          delete "space_in_list", to: "space_in_list#destroy", as: "remove_from"
+        end
+        resources :personal_notes, only: [:edit, :update], path: "personlige_notater"
+        resources :contact_status, only: [:edit, :update], path: "kontaktstatus"
+      end
+    end
+  end
 
   # Space images routes
   resources "space_images"
