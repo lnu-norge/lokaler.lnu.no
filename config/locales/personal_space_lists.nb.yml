@@ -9,4 +9,7 @@ nb:
     list_created: "Ny liste laget"
     list_updated: "Liste oppdatert"
     list_deleted: "Liste slettet"
+    list_activated: "Aktiverte listen \"%{name}\""
+    list_deactivated: "Deaktiverte listen \"%{name}\""
     default_list_name: "%{name} sin liste"
+    save_notes: "Lagre notater"

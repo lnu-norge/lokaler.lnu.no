@@ -1,0 +1,17 @@
+<%# locals: (list:, space:) %>
+
+<%= turbo_frame_tag dom_id_for_list_status_for_space(space) do %>
+  <% if list.blank? %>
+    <%= button_to add_to_personal_space_list_space_path(personal_space_list_id: "new", id: space.id), class: "p-1.5 pr-2.5 rounded-md z-2 collapsable text-current hover:text-white hover:bg-lnu-pink hover:shadow-md group" do  %>
+      <%= inline_svg "heart-outlined", class: "w-7 h-7  group-hover:p-1" %> <span class="text">Legg i liste</span>
+    <% end %>
+  <% elsif list.excludes_space?(space) %>
+    <%= button_to add_to_personal_space_list_space_path(personal_space_list_id: list.id, id: space.id), class: "p-1.5 pr-2.5 rounded-md z-2 collapsable text-current hover:text-white hover:bg-lnu-pink hover:shadow-md group" do  %>
+      <%= inline_svg "heart-outlined", class: "w-7 h-7  group-hover:p-1" %> <span class="text">Legg i liste</span>
+    <% end %>
+  <% else %>
+    <%= button_to remove_from_personal_space_list_space_path(personal_space_list_id: list.id, id: space.id), method: :delete, class: "p-1.5 pr-2.5 rounded-md z-2 collapsable text-current hover:text-white hover:bg-lnu-pink hover:shadow-md group" do  %>
+      <%= inline_svg "heart-filled", class: "w-7 h-7 text-lnu-pink group-hover:p-1 group-hover:text-white" %> <span class="text">Fjern fra liste</span>
+    <% end %>
+  <% end %>
+<% end %>

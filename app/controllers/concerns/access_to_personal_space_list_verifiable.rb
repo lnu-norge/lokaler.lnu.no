@@ -10,6 +10,6 @@ module AccessToPersonalSpaceListVerifiable
     return if params[:user_id] == current_user.id
     return if current_user.admin?
 
-    redirect_to personal_space_lists_url, alert: t("personal_space_lists.no_access")
+    redirect_to personal_space_list_url, alert: t("personal_space_lists.no_access")
   end
 end

@@ -1,17 +1,13 @@
 <div class="w-screen">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-    <% end %>
-
     <div id="<%= dom_id @personal_space_list %>">
       <h1>
         <%= @personal_space_list.title %> <% if @personal_space_list.active? %> (aktiv) <% end %>
       </h1>
 
       <% if @personal_space_list.active? %>
-        <%= button_to "Deaktiver liste", deactivate_personal_space_list_path(@personal_space_list), method: :post, class: "button" %>
+        <%= button_to "Deaktiver liste", deactivate_personal_space_list_personal_space_list_path(@personal_space_list), method: :post, class: "button" %>
       <% else %>
-        <%= button_to "Aktiver liste", activate_personal_space_list_path(@personal_space_list), method: :post, class: "button" %>
+        <%= button_to "Aktiver liste", activate_personal_space_list_personal_space_list_path(@personal_space_list), method: :post, class: "button" %>
       <% end %>
       <%= link_to 'Edit this personal_space_list', edit_personal_space_list_path(@personal_space_list), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
       <%= link_to 'Back to personal_space_lists', personal_space_lists_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
@@ -23,7 +19,6 @@
         </p>
       <% end %>
 
-
       <h2 class="mx-8">Lokaler</h2>
       <div class="w-screen max-w-screen relative overflow-x-scroll">
         <% @personal_space_list.personal_space_lists_spaces.each do |space_information| %>
@@ -33,7 +28,7 @@
           </p>
           <p>
             Notater:
-            <%= space_information.personal_notes %>
+            <%= render "personal_space_lists_spaces/personal_notes/form", personal_space_list_space: space_information %>
           </p>
         <% end %>
       </div>
