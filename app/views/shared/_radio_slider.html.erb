@@ -1,4 +1,4 @@
-<%# locals: (form:, values:, labels:, field:, legend: "", custom_input: nil %>
+<%# locals: (form:, values:, labels:, field:, legend: nil, submit_on_click: false, custom_input: nil %>
 <%
   # Locals:
   # form: Form
@@ -19,7 +19,7 @@
       <%= form.radio_button field, value, data: has_custom_input && {
         "show-on-radio-button-value-target":
           "radioButton#{' toggleOnChecked' if value.start_with? 'custom'}"
-      } %>
+      }, onchange: "#{"this.form.requestSubmit()" if submit_on_click }" %>
       <%= form.label :"#{field}_#{value}" do  %>
         <%= label %>
       <% end  %>
