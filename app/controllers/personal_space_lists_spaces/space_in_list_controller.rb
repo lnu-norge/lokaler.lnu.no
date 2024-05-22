@@ -52,7 +52,8 @@ module PersonalSpaceListsSpaces
         format.turbo_stream do
           render turbo_stream: [
             refresh_list_status_for_space_with_turbo_stream,
-            refresh_active_list_with_turbo_stream
+            refresh_active_list_with_turbo_stream,
+            refresh_active_list_space_status_with_turbo_stream
           ]
         end
 
@@ -76,6 +77,15 @@ module PersonalSpaceListsSpaces
         dom_id_for_active_list_updates_here,
         partial: "personal_space_lists/card_for_spaces_index",
         locals: { personal_space_list: @list }
+      )
+    end
+
+    def refresh_active_list_space_status_with_turbo_stream
+      turbo_stream.replace(
+        dom_id_for_space_list_status_and_notes_for_space(@space),
+        partial: "spaces/show/space_list_status_and_notes",
+        locals: { personal_space_list: @list, space: @space,
+                  personal_space_list_space: @list.personal_space_lists_spaces.find_by(space: @space) }
       )
     end
 

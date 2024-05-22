@@ -22,10 +22,9 @@
         <hr />
 
         <% if @active_personal_space_list %>
-          <%= render "personal_space_lists_spaces/contact_status/form",
-                     personal_space_list_space: @active_personal_space_list.personal_space_lists_spaces.find_by(space: @space) %>
-          <%= render "personal_space_lists_spaces/personal_notes/form",
-                     personal_space_list_space: @active_personal_space_list.personal_space_lists_spaces.find_by(space: @space) %>
+        <%= render 'spaces/show/space_list_status_and_notes',
+          personal_space_list: @active_personal_space_list,
+          space: @space %>
           <hr />
         <% end %>
 

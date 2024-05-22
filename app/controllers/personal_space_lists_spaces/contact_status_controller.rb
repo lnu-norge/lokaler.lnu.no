@@ -9,7 +9,6 @@ module PersonalSpaceListsSpaces
 
     def update
       @personal_space_list_space.update(contact_status_params)
-      flash.now[:notice] = t("personal_space_lists.contact_status_saved")
       render partial: "personal_space_lists_spaces/contact_status/form",
              locals: { personal_space_list_space: @personal_space_list_space,
                        contact_status_updated: true }

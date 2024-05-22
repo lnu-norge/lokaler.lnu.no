@@ -1,0 +1,35 @@
+<%# locals: (personal_space_list: @active_personal_space_list, space: @space, personal_space_list_space: personal_space_list.personal_space_lists_spaces.find_by(space:)) %>
+<% if personal_space_list %>
+  <aside
+    id="<%= dom_id_for_space_list_status_and_notes_for_space(space) %>"
+    class="
+        divide-y divide-gray-200
+        flex flex-col
+        reset-content-styles
+        shadow-lg rounded-lg
+        bg-white
+        border border-gray-200
+        <%= "border-1 border-lnu-pink" if personal_space_list_space.present? %>
+    ">
+    <header class="flex flex-col gap-3 reset-content-styles pb-5 px-6 pt-5">
+      <h2 class="text-gray-700 font-bold text-md my-0 leading-tight">
+        <span class="font-normal">Aktiv liste:</span> <%= link_to personal_space_list do personal_space_list.title  end %>
+      </h2>
+      <%= render 'personal_space_lists/card/space_list', personal_space_list:  %>
+      <%= render "personal_space_lists_spaces/space_in_list/list_status_for_space",
+                 list: personal_space_list, space:, collapsable: false %>
+    </header>
+    <%
+
+      if personal_space_list_space.present?
+    %>
+      <main class="px-6 pb-5 pt-5 bg-gray-50 rounded-b-lg flex flex-col gap-4">
+        <%= render "personal_space_lists_spaces/contact_status/form",
+                   personal_space_list_space: %>
+        <%= render "personal_space_lists_spaces/personal_notes/form",
+                   personal_space_list_space: %>
+
+      </main>
+    <% end %>
+  </aside>
+<% end %>
