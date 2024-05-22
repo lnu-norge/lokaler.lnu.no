@@ -1,7 +1,7 @@
 <section id="facilities">
 
  <header class="editable-header-type-h2 flex gap-3 items-baseline">
-    <h2><%= Facility.model_name.human(count: 2) %></h2>
+    <h2><%= Facility.model_name.human(count: 2).capitalize %></h2>
   </header>
 
   <% if @grouped_relevant_facilities.present? %>
