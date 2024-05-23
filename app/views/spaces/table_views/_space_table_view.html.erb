@@ -18,7 +18,12 @@
 
     <% if @active_personal_space_list.present? %>
       <th scope="col">
-        Status
+        <span class="flex justify-between items-baseline flex-wrap gap-x-2">
+          Status og notater
+          <span class="text-sm font-normal">
+            <%= @active_personal_space_list.title %>
+          </span>
+        </span>
       </th>
     <% end %>
 
