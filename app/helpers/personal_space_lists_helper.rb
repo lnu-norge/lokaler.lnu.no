@@ -17,7 +17,7 @@ module PersonalSpaceListsHelper
     "space_list_status_and_notes_for_space_#{space.id}"
   end
 
-  def dom_id_space_list_icons_for(personal_space_list)
-    "space_list_icons_for_personal_space_list_#{personal_space_list.id}"
+  def dom_id_space_list_icons_for(personal_space_list, scope: "standard")
+    "space_list_icons_for_personal_space_list_#{personal_space_list.id}_#{scope}"
   end
 end

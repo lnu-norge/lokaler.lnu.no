@@ -15,7 +15,7 @@
       <h2 class="text-gray-700 font-bold text-md my-0 leading-tight">
         <span class="font-normal">Aktiv liste:</span> <%= link_to personal_space_list do personal_space_list.title  end %>
       </h2>
-      <%= render 'personal_space_lists/card/space_list', personal_space_list:  %>
+      <%= render 'personal_space_lists/card/space_list', personal_space_list:, scope: "inside_space"  %>
       <%= render "personal_space_lists_spaces/space_in_list/list_status_for_space",
                  list: personal_space_list, space:, collapsable: false %>
     </header>

@@ -6,7 +6,8 @@
 
     %>
     <%= render 'personal_space_lists/turbo_stream_refresh_space_list_for_personal_space_list',
-               personal_space_list: personal_space_list_space.personal_space_list
+               personal_space_list: personal_space_list_space.personal_space_list,
+               scope: "inside_space"
     %>
   <% end %>
   <%= form_with scope: personal_space_list_space,
