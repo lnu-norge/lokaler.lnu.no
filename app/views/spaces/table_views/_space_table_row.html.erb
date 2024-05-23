@@ -1,4 +1,4 @@
-<%# locals: ( ) %>
+<%# locals: ( personal_space_list: nil, personal_space_list_space: nil ) %>
   <tr data-set-as-selected-when-this-space-is-open="<%= @space.id %>">
     <th scope="row">
       <div class="w-[20rem]">
@@ -45,18 +45,17 @@
             </div>
           <% end %>
         <div class="absolute bottom-2.5 left-2.5 text-lnu-pink">
-          <%= render 'personal_space_lists_spaces/space_in_list/list_status_for_space', list: @active_personal_space_list, space: @space %>
+          <%= render 'personal_space_lists_spaces/space_in_list/list_status_for_space', list: personal_space_list, space: @space %>
         </div>
       </div>
     </th>
 
-    <% if @active_personal_space_list.present? %>
-      <% personal_space_list_space = @active_personal_space_list.personal_space_lists_spaces.find_by(space: @space) %>
+    <% if personal_space_list.present? %>
       <td class="personal">
         <div class="w-[21rem]">
           <div class="flex flex-col gap-1 justify-center h-full group/confined">
             <%= render "personal_space_lists_spaces/contact_status/form",
-                       personal_space_list_space: %>
+                       personal_space_list_space:  %>
             <%= render "personal_space_lists_spaces/personal_notes/form",
                        personal_space_list_space: %>
           </div>
