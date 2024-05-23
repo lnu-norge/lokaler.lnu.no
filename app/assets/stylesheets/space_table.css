@@ -1,3 +1,4 @@
+.view-as-table,
 body.view-as-table {
     @apply overscroll-x-contain;
 }

@@ -1,27 +1,29 @@
-<%# locals: (spaces:, space_count: spaces.count, page_size: nil ) %>
+<%# locals: (spaces:, space_count: spaces.count, page_size: nil, personal_space_list: @active_personal_space_list ) %>
 
 <table
   class="space_table border-collapse">
-  <caption class="w-96 sticky left-0 p-8 text-left ">
-    <%= t('space_filter.spaces_that_might_work', count: space_count ) %>
-    <% if page_size.present? %>
-      <p class="text-gray-500">
-        <%= t('space_filter.showing_only_page_size_spaces', count: page_size) %><br />
-      </p>
-    <% end %>
-  </caption>
+  <% if controller_name == "spaces" %>
+    <caption class="w-96 sticky left-0 p-8 text-left">
+      <%= t('space_filter.spaces_that_might_work', count: space_count ) %>
+      <% if page_size.present? %>
+        <p class="text-gray-500">
+          <%= t('space_filter.showing_only_page_size_spaces', count: page_size) %><br />
+        </p>
+      <% end %>
+    </caption>
+  <% end %>
   <thead>
   <tr>
     <th scope="col">
       Lokale
     </th>
 
-    <% if @active_personal_space_list.present? %>
+    <% if personal_space_list.present? %>
       <th scope="col">
         <span class="flex justify-between items-baseline flex-wrap gap-x-2">
           Status og notater
           <span class="text-sm font-normal">
-            <%= @active_personal_space_list.title %>
+            <%= personal_space_list.title %>
           </span>
         </span>
       </th>
@@ -53,9 +55,12 @@
   <% spaces.each do |space| %>
     <%
       @space = space
+      personal_space_list_space = personal_space_list.personal_space_lists_spaces.find_by(space:)
       @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)
     %>
-    <%= render partial: "spaces/table_views/space_table_row" %>
+    <%= render "spaces/table_views/space_table_row",
+                 personal_space_list:,
+                 personal_space_list_space:  %>
   <% end %>
   </tbody>
 </table>
