@@ -1,0 +1,31 @@
+<%# locals: (personal_space_list:, scope: "standard") %>
+<div
+    id="<%= dom_id_space_list_coins_for(personal_space_list, scope:) %>"
+    class="grid grid-flow-col auto-cols-fr flex-1
+      <%= "min-w-12" if personal_space_list.space_count > 6 %>
+    max-w-fit">
+  <% personal_space_list.space_said_no_count.times do %>
+    <%= render 'personal_space_lists/card/contact_status_icon',
+               icon: "facility_status/unlikely",
+               title: "#{personal_space_list.space_said_no_count} sa nei"
+    %>
+  <% end %>
+  <% personal_space_list.space_not_contacted_count.times do %>
+    <%= render 'personal_space_lists/card/contact_status_icon',
+               icon: "facility_status/unknown",
+               title: "#{personal_space_list.space_not_contacted_count} ikke kontaktet"
+    %>
+  <% end %>
+  <% personal_space_list.space_said_maybe_count.times do %>
+    <%= render 'personal_space_lists/card/contact_status_icon',
+               icon: "facility_status/maybe",
+               title: "#{personal_space_list.space_said_maybe_count} kanskje"
+    %>
+  <% end %>
+  <% personal_space_list.space_said_yes_count.times do %>
+    <%= render 'personal_space_lists/card/contact_status_icon',
+               icon: "facility_status/likely",
+               title: "#{personal_space_list.space_said_yes_count} sa ja"
+    %>
+  <% end %>
+</div>

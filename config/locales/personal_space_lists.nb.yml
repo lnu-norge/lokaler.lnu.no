@@ -1,5 +1,6 @@
 nb:
   personal_space_lists:
+    chosen_list: "Aktiv liste"
     no_access: "Du har ikke tilgang til denne listen"
     need_to_choose_a_list_and_space: "Du må velge en liste og et lokale å legge i listen"
     space_already_in_list: "%{space_title} er allerede i listen"
