@@ -51,16 +51,13 @@ body.view-as-table {
         @apply border-b border-r border-gray-200;
         @apply align-top text-left;
         @apply px-4 py-2;
-        &>:first-child {
-            @apply w-72;
-        }
-        #facilities {
-            @apply w-fit;
-        }
     }
     td {
         @apply relative;
         @apply bg-white;
+        &.personal {
+            @apply bg-gray-100;
+        }
         h1, h2, h3 {
             @apply font-bold;
         }
