@@ -50,6 +50,19 @@
       </div>
     </th>
 
+    <% if @active_personal_space_list.present? %>
+      <% personal_space_list_space = @active_personal_space_list.personal_space_lists_spaces.find_by(space: @space) %>
+      <td class="personal">
+        <div class="w-[21rem]">
+          <div class="flex flex-col gap-1 justify-center h-full group/confined">
+            <%= render "personal_space_lists_spaces/contact_status/form",
+                       personal_space_list_space: %>
+            <%= render "personal_space_lists_spaces/personal_notes/form",
+                       personal_space_list_space: %>
+          </div>
+        </div>
+      </td>
+    <% end %>
 
     <td>
       <div class="min-w-[22rem]">

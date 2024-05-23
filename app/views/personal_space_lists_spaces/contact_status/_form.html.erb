@@ -1,4 +1,5 @@
 <%# locals: (personal_space_list_space:, contact_status_updated: false) %>
+<% return unless personal_space_list_space %>
 <%= turbo_frame_tag dom_id(personal_space_list_space, "contact_status") do %>
   <% if contact_status_updated %>
     <%= render 'personal_space_lists/turbo_stream_update_active_personal_space_list',
@@ -19,9 +20,9 @@
                   id: personal_space_list_space.id,
                 ) do |form| %>
     <fieldset>
-      <legend class="text-gray-500 mb-1">Status</legend>
+      <legend class="text-gray-500 mb-1 group-first/confined:hidden">Status</legend>
       <div>
-        <div class="radio-slider">
+        <div class="radio-slider group-first/confined:w-full justify-between">
           <%  PersonalSpaceListsSpace.contact_statuses.keys.reverse.each do |contact_status| %>
             <%= form.radio_button "contact_status", contact_status, onchange: "this.form.requestSubmit()" %>
             <%= form.label "contact_status_#{contact_status}" do  %>
