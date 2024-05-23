@@ -54,3 +54,6 @@ nb:
         email: "E-post"
         url: "Nettside"
         description: "Beskrivelse"
+      personal_space_lists_space:
+          contact_status: "Status"
+          personal_notes: "Mine notater"
