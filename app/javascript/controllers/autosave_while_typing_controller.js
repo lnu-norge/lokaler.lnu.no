@@ -62,8 +62,8 @@ export default class extends Controller {
 
   disconnect() {
     clearTimeout(this.debouncedSave);
-    this.element.removeListener(this.inputListener)
-    this.element.removeListener(this.onchangeListener)
+    this.element.removeEventListener("input", this.inputListener)
+    this.element.removeEventListener("onchange", this.onchangeListener)
     this.statusElement.remove()
   }
 }
