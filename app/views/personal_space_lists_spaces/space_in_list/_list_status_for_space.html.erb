@@ -11,7 +11,11 @@
     <% end %>
   <% else %>
     <%= button_to remove_from_personal_space_list_space_path(personal_space_list_id: list.id, id: space.id), method: :delete, class: "relative p-1.5 pr-2.5 rounded-md z-2 collapsable  text-lnu-pink  hover:text-white hover:bg-lnu-pink hover:shadow-md group" do  %>
-      <%= inline_svg "heart-filled", class: "w-7 h-7 group-hover:p-1 text-lnu-pink group-hover:text-white" %> <span class="text-lnu-pink absolute left-8 w-24 group-hover:text-transparent">Lagt i liste</span> <span class="text">Fjern fra liste</span>
+      <%= inline_svg "heart-filled", class: "w-7 h-7 group-hover:p-1 text-lnu-pink group-hover:text-white" %>
+      <% unless collapsable %>
+        <span class="text-lnu-pink absolute left-8 w-24 group-hover:text-transparent">Lagt i liste</span>
+      <% end %>
+      <span class="text">Fjern fra liste</span>
     <% end %>
   <% end %>
 <% end %>
