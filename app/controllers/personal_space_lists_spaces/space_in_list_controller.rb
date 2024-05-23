@@ -78,6 +78,11 @@ module PersonalSpaceListsSpaces
         partial: "personal_space_lists/card_for_spaces_index",
         locals: { personal_space_list: @list }
       )
+      turbo_stream.update(
+        dom_id_for_list_status_in_filter_button,
+        partial: "spaces/index/filter_button_list_status",
+        locals: { personal_space_list: @list }
+      )
     end
 
     def refresh_active_list_space_status_with_turbo_stream
