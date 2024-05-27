@@ -1,6 +1,20 @@
 <%# locals: (personal_space_list:) %>
-<%= render "personal_space_lists/card/card_wrapper", personal_space_list:, highlight: true do %>
+<%= link_to personal_space_list,
+            id: dom_id(personal_space_list, "_card"),
+            class: "unstyled-link
+              flex flex-col gap-3
+              pb-5 px-6 pt-5
+              shadow-lg rounded-lg
+              bg-white
+              border border-gray-200
+              hover:border-lnu-pink
+              border-2 border-lnu-pink
+              group
+      " do %>
   <%= render 'personal_space_lists/card/title', personal_space_list: %>
   <%= render 'personal_space_lists/card/space_list', personal_space_list: %>
   <%= render 'personal_space_lists/card/meta', personal_space_list: %>
+  <div class="button submit justify-around group-hover:bg-pink-600 group-hover:border-pink-600 group-hover:shadow-md">
+    Til liste →
+  </div>
 <% end %>

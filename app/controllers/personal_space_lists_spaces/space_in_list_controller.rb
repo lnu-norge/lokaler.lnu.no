@@ -50,11 +50,12 @@ module PersonalSpaceListsSpaces
     )
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: [
-            refresh_list_status_for_space_with_turbo_stream,
-            refresh_active_list_with_turbo_stream,
-            refresh_active_list_space_status_with_turbo_stream
-          ]
+          render partial: "personal_space_lists_spaces/space_in_list/turbo_stream_updates_when_list_status_changes",
+                 locals: {
+                   personal_space_list: @list,
+                   space: @space,
+                   personal_space_list_space: find_personal_space_list_space
+                 }
         end
 
         format.html do
@@ -62,36 +63,6 @@ module PersonalSpaceListsSpaces
           redirect_to redirect_path
         end
       end
-    end
-
-    def refresh_list_status_for_space_with_turbo_stream
-      turbo_stream.update(
-        dom_id_for_list_status_for_space(@space),
-        partial: "personal_space_lists_spaces/space_in_list/list_status_for_space",
-        locals: { list: @list, space: @space }
-      )
-    end
-
-    def refresh_active_list_with_turbo_stream
-      turbo_stream.update(
-        dom_id_for_active_list_updates_here,
-        partial: "personal_space_lists/card_for_spaces_index",
-        locals: { personal_space_list: @list }
-      )
-      turbo_stream.update(
-        dom_id_for_list_status_in_filter_button,
-        partial: "spaces/index/filter_button_list_status",
-        locals: { personal_space_list: @list }
-      )
-    end
-
-    def refresh_active_list_space_status_with_turbo_stream
-      turbo_stream.replace(
-        dom_id_for_space_list_status_and_notes_for_space(@space),
-        partial: "spaces/show/space_list_status_and_notes",
-        locals: { personal_space_list: @list, space: @space,
-                  personal_space_list_space: @list.personal_space_lists_spaces.find_by(space: @space) }
-      )
     end
 
     def require_space_in_list_params
@@ -102,6 +73,12 @@ module PersonalSpaceListsSpaces
         message: t("personal_space_lists.need_to_choose_a_list_and_space"),
         redirect_path: personal_space_lists_path
       )
+    end
+
+    def find_personal_space_list_space
+      return unless @space.present? && @list.present?
+
+      @list.personal_space_lists_spaces.find_by(space: @space)
     end
 
     def set_space

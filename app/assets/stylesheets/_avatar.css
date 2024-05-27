@@ -1,5 +1,8 @@
 .avatar {
   @apply w-10 h-10 relative flex justify-center items-center;
+  &.avatar--small {
+    @apply w-7 h-7;
+  }
   img {
     @apply absolute inset-0;
     @apply rounded-full object-fill;

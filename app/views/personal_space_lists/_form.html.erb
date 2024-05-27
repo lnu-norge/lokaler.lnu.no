@@ -17,18 +17,6 @@
     <%= form.text_field :title %>
   </div>
 
-
-  <div class="mb-4">
-    <%= form.label :spaces_ids, "Lokaler" %>
-    <%= form.collection_select(:spaces_ids, Space.all, :id, :title, { selected: personal_space_list.spaces.pluck(:id) }, { :multiple => true } )%>
-  </div>
-
-  <% if personal_space_list.active? %>
-    <%= button_to "Deaktiver liste", deactivate_personal_space_list_personal_space_list_path(personal_space_list), method: :post, class: "button no-submit-styling" %>
-  <% else %>
-    <%= button_to "Aktiver liste", activate_personal_space_list_personal_space_list_path(personal_space_list), method: :post, class: "button" %>
-  <% end %>
-
     <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
   </div>
