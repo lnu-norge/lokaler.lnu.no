@@ -31,3 +31,12 @@
               personal_space_list_space:  }
   )
 %>
+<%=
+  # Refresh table row list space status
+  turbo_stream.update(
+    dom_id_for_space_list_status_and_notes_for_space_in_table_row(space),
+    partial: "spaces/table_views/space_list_contact_status_and_notes_for_table_row",
+    locals: { personal_space_list: , space: ,
+              personal_space_list_space: }
+  )
+%>

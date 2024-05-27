@@ -9,12 +9,22 @@ module SettablePersonalSpaceListSpaceFromParams
     set_personal_space_list
     set_space
 
-    return @personal_space_list_space = PersonalSpaceListsSpace.find(params[:id]) if params[:id].present?
+    return if personal_space_list_space_settable_from_from_id
 
     @personal_space_list_space = PersonalSpaceListsSpace.find_or_create_by(
       personal_space_list: @personal_space_list,
       space: @space
     )
+  end
+
+  def personal_space_list_space_settable_from_from_id
+    return false if params[:id].blank?
+
+    @personal_space_list_space = PersonalSpaceListsSpace.find_by(id: params[:id])
+
+    return false if @personal_space_list_space.blank?
+
+    true
   end
 
   def set_personal_space_list

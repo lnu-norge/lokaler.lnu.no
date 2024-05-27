@@ -51,14 +51,9 @@
     </th>
 
     <% if personal_space_list.present? %>
-      <td class="personal">
+      <td class="personal" >
         <div class="w-[21rem]">
-          <div class="flex flex-col gap-1 justify-center h-full group/confined">
-            <%= render "personal_space_lists_spaces/contact_status/form",
-                       personal_space_list_space:  %>
-            <%= render "personal_space_lists_spaces/personal_notes/form",
-                       personal_space_list_space: %>
-          </div>
+          <%= render 'spaces/table_views/space_list_contact_status_and_notes_for_table_row', personal_space_list:, personal_space_list_space:, space: @space %>
         </div>
       </td>
     <% end %>
