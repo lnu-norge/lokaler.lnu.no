@@ -1,0 +1,33 @@
+<%# locals: (personal_space_list:, space:, personal_space_list_space: personal_space_list.personal_space_lists_spaces.find_by(space: )) %>
+<%=
+  # Refresh list status for the space itself
+  turbo_stream.update(
+    dom_id_for_list_status_for_space(space),
+    partial: "personal_space_lists_spaces/space_in_list/list_status_for_space",
+    locals: { list: personal_space_list, space: }
+  )
+  %>
+<%=
+  # Refresh active list in space index
+  turbo_stream.update(
+    dom_id_for_active_list_updates_here,
+    partial: "personal_space_lists/card_for_spaces_index",
+    locals: { personal_space_list: }
+  )  %>
+<%=
+  # Refresh list status in filter button
+  turbo_stream.update(
+    dom_id_for_list_status_in_filter_button,
+    partial: "spaces/index/filter_button_list_status",
+    locals: { personal_space_list: }
+  )
+%>
+<%=
+  # Refresh active list space status
+  turbo_stream.replace(
+    dom_id_for_space_list_status_and_notes_for_space(space),
+    partial: "spaces/show/space_list_status_and_notes",
+    locals: { personal_space_list: , space: ,
+              personal_space_list_space:  }
+  )
+%>

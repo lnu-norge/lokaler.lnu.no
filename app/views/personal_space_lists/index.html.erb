@@ -7,17 +7,22 @@
     <% end %>
   </p>
 
-
   <% if @active_personal_space_list.present? %>
     <h2 class="text-center font-bold text-xl mb-6 text-gray-700">Aktiv liste</h2>
     <%= render "personal_space_lists/active_personal_space_list",
                personal_space_list: @active_personal_space_list  %>
+    <p class="text-center mt-4">
+      <%= link_to deactivate_personal_space_list_personal_space_list_path(@active_personal_space_list), method: :post do %>
+        Deaktiver
+      <% end %>
+      </p>
 
-    <h2 class="text-center font-bold text-xl mt-12 mb-4 text-gray-700">Andre lister</h2>
-
+    <h2 class="text-center font-bold text-xl mt-12 mb-4 text-gray-700">Bytt liste</h2>
+  <% else %>
+    <h2 class="text-center font-bold text-xl mt-12 mb-4 text-gray-700">Velg liste</h2>
   <% end %>
 
-  <div id="personal_space_lists" class="flex flex-col gap-6 mt-8">
+    <div id="personal_space_lists" class="flex flex-col gap-6 mt-8">
     <% @inactive_personal_space_lists.each do |personal_space_list| %>
       <%= render "personal_space_lists/personal_space_list", personal_space_list: %>
     <% end %>
