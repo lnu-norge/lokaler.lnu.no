@@ -3,24 +3,19 @@
 class PersonalSpaceListsSpace < ApplicationRecord
   belongs_to :personal_space_list
   belongs_to :space
+  belongs_to :personal_data_on_space_in_list, query_constraints: [:space_id, :personal_space_list_id]
 
-  enum contact_status: { not_contacted: 0, said_no: 1, said_maybe: 2, said_yes: 3 }
+  after_create :set_up_personal_data_on_space_in_list
 
-  ICON_FOR_CONTACT_STATUS = {
-    "not_contacted" => "unknown",
-    "said_no" => "unlikely",
-    "said_maybe" => "maybe",
-    "said_yes" => "likely"
-  }.freeze
+  def set_up_personal_data_on_space_in_list
+    PersonalDataOnSpaceInList.find_or_create_by(personal_space_list:, space:)
+  end
 end
 
 # == Schema Information
 #
 # Table name: personal_space_lists_spaces
 #
-#  id                     :bigint           not null, primary key
-#  contact_status         :integer          default("not_contacted")
-#  personal_notes         :text
 #  personal_space_list_id :bigint           not null
 #  space_id               :bigint           not null
 #

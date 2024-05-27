@@ -1,32 +1,32 @@
-<%# locals: (personal_space_list_space:, contact_status_updated: false) %>
-<% return unless personal_space_list_space %>
-<%= turbo_frame_tag dom_id(personal_space_list_space, "contact_status") do %>
+<%# locals: (personal_data_on_space_in_list:, contact_status_updated: false) %>
+<% return unless personal_data_on_space_in_list %>
+<%= turbo_frame_tag dom_id(personal_data_on_space_in_list, "contact_status") do %>
   <% if contact_status_updated %>
     <%= render 'personal_space_lists/turbo_stream_update_active_personal_space_list',
-               personal_space_list: personal_space_list_space.personal_space_list
+               personal_space_list: personal_data_on_space_in_list.personal_space_list
 
     %>
     <%= render 'personal_space_lists/turbo_stream_refresh_space_list_for_personal_space_list',
-               personal_space_list: personal_space_list_space.personal_space_list,
+               personal_space_list: personal_data_on_space_in_list.personal_space_list,
                scope: "inside_space"
     %>
   <% end %>
-  <%= form_with scope: personal_space_list_space,
-                namespace: personal_space_list_space.id,
+  <%= form_with scope: personal_data_on_space_in_list,
+                namespace: personal_data_on_space_in_list.id,
                 method: :patch,
                 url: personal_space_list_space_contact_status_path(
-                  personal_space_list_id: personal_space_list_space.personal_space_list_id,
-                  space_id: personal_space_list_space.space_id,
-                  id: personal_space_list_space.id,
+                  personal_space_list_id: personal_data_on_space_in_list.personal_space_list_id,
+                  space_id: personal_data_on_space_in_list.space_id,
+                  id: personal_data_on_space_in_list.id,
                 ) do |form| %>
     <fieldset>
       <legend class="text-gray-500 mb-1 group-first/confined:hidden">Status</legend>
       <div>
         <div class="radio-slider group-first/confined:w-full justify-between">
-          <%  PersonalSpaceListsSpace.contact_statuses.keys.reverse.each do |contact_status| %>
+          <%  PersonalDataOnSpaceInList.contact_statuses.keys.reverse.each do |contact_status| %>
             <%= form.radio_button "contact_status", contact_status, onchange: "this.form.requestSubmit()" %>
             <%= form.label "contact_status_#{contact_status}" do  %>
-              <%= render partial: 'personal_space_lists_spaces/contact_status/radio_label', locals: { contact_status: } %>
+              <%= render partial: 'personal_space_lists/contact_status/radio_label', locals: { contact_status: } %>
             <% end  %>
           <% end  %>
         </div>

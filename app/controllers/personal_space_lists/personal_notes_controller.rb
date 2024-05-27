@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-module PersonalSpaceListsSpaces
+module PersonalSpaceLists
   class PersonalNotesController < BaseControllers::AuthenticateController
-    include SettablePersonalSpaceListSpaceFromParams
-    before_action :set_personal_space_list_space
+    include SettablePersonalDataOnSpaceInListFromParams
+    before_action :set_personal_data_on_space_in_list
 
     def edit; end
 
     def update
-      @personal_space_list_space.update(personal_notes_params)
+      @personal_data_on_space_in_list.update(personal_notes_params)
       flash.now[:notice] = t("personal_space_lists.notes_saved")
       render :edit, locals: { personal_space_list: @personal_space_list }
     end
@@ -16,7 +16,7 @@ module PersonalSpaceListsSpaces
     private
 
     def personal_notes_params
-      params.require(:personal_space_lists_space).permit(:personal_notes)
+      params.require(:personal_data_on_space_in_list).permit(:personal_notes)
     end
   end
 end

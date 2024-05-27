@@ -22,7 +22,7 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
   end
 
   def show
-    @personal_space_lists_spaces = @personal_space_list.personal_space_lists_spaces.order(id: :desc)
+    @personal_data_on_space_in_lists = @personal_space_list.personal_data_on_space_in_lists.order(id: :desc)
   end
 
   def new

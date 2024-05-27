@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_22_081654) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_27_081855) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -108,6 +108,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_081654) do
     t.index ["space_id"], name: "index_images_on_space_id"
   end
 
+  create_table "personal_data_on_space_in_lists", primary_key: ["space_id", "personal_space_list_id"], force: :cascade do |t|
+    t.integer "contact_status", default: 0, null: false
+    t.text "personal_notes"
+    t.bigint "space_id", null: false
+    t.bigint "personal_space_list_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["personal_space_list_id"], name: "idx_on_personal_space_list_id_d490dca030"
+    t.index ["space_id", "personal_space_list_id"], name: "index_personal_data_on_space_in_lists_on_space_and_list", unique: true
+    t.index ["space_id"], name: "index_personal_data_on_space_in_lists_on_space_id"
+  end
+
   create_table "personal_space_lists", force: :cascade do |t|
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -116,11 +128,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_081654) do
     t.index ["user_id"], name: "index_personal_space_lists_on_user_id"
   end
 
-  create_table "personal_space_lists_spaces", force: :cascade do |t|
+  create_table "personal_space_lists_spaces", id: false, force: :cascade do |t|
     t.bigint "personal_space_list_id", null: false
     t.bigint "space_id", null: false
-    t.integer "contact_status", default: 0
-    t.text "personal_notes"
     t.index ["personal_space_list_id"], name: "index_personal_space_lists_spaces_on_personal_space_list_id"
     t.index ["space_id"], name: "index_personal_space_lists_spaces_on_space_id"
   end
@@ -258,6 +268,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_081654) do
   add_foreign_key "facility_reviews", "facilities"
   add_foreign_key "facility_reviews", "spaces"
   add_foreign_key "facility_reviews", "users"
+  add_foreign_key "personal_data_on_space_in_lists", "personal_space_lists"
+  add_foreign_key "personal_data_on_space_in_lists", "spaces"
   add_foreign_key "reviews", "spaces"
   add_foreign_key "reviews", "users"
   add_foreign_key "space_contacts", "space_groups"
