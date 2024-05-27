@@ -1,0 +1,21 @@
+<%# locals: (personal_data_on_space_in_list:) %>
+<% return unless personal_data_on_space_in_list %>
+
+<%= turbo_frame_tag dom_id(personal_data_on_space_in_list, "personal_notes") do %>
+  <%= render 'shared/turbo_stream_flash_on_load' %>
+  <%= form_for personal_data_on_space_in_list,
+               url: personal_space_list_space_personal_note_path(
+                 personal_space_list_id: personal_data_on_space_in_list.personal_space_list_id,
+                 space_id: personal_data_on_space_in_list.space_id,
+                 id: personal_data_on_space_in_list.id
+               ) do |form| %>
+    <fieldset class="flex flex-col gap-0 ">
+      <%= form.label :personal_notes, class: "text-gray-500 mb-1 group-first/confined:text-xs" %>
+      <%= form.text_area :personal_notes, class: "text_field min-h-24", data: {
+        controller: "autosave-while-typing",
+      } %>
+      <%= form.submit t('personal_space_lists.save_notes'), class: "button submit w-fit sr-only" %>
+    </fieldset>
+
+  <% end %>
+<% end %>

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PersonalSpaceListsSpaces
+module PersonalSpaceLists
   class SpaceInListController < BaseControllers::AuthenticateController
     before_action :require_space_in_list_params,
                   :set_space,
@@ -50,11 +50,11 @@ module PersonalSpaceListsSpaces
     )
       respond_to do |format|
         format.turbo_stream do
-          render partial: "personal_space_lists_spaces/space_in_list/turbo_stream_updates_when_list_status_changes",
+          render partial: "personal_space_lists/space_in_list/turbo_stream_updates_when_list_status_changes",
                  locals: {
                    personal_space_list: @list,
                    space: @space,
-                   personal_space_list_space: find_personal_space_list_space
+                   personal_data_on_space_in_list: find_personal_data_on_space_in_list
                  }
         end
 
@@ -75,10 +75,10 @@ module PersonalSpaceListsSpaces
       )
     end
 
-    def find_personal_space_list_space
+    def find_personal_data_on_space_in_list
       return unless @space.present? && @list.present?
 
-      @list.personal_space_lists_spaces.find_by(space: @space)
+      @list.personal_data_on_space_in_lists.find_by(space: @space)
     end
 
     def set_space
