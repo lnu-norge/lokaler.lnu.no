@@ -1,7 +1,0 @@
-<%# locals: (space:, personal_space_list:) %>
-<%= turbo_stream.update( dom_id_for_list_status_for_space(space)) do  %>
-  <%=
-    render "personal_space_lists/space_in_list/list_status_for_space",
-             locals: { list: personal_space_list , space: }
-  %>
-<% end %>

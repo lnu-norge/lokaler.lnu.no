@@ -54,7 +54,8 @@ module PersonalSpaceLists
                  locals: {
                    personal_space_list: @list,
                    space: @space,
-                   personal_data_on_space_in_list: find_personal_data_on_space_in_list
+                   personal_data_on_space_in_list: find_personal_data_on_space_in_list,
+                   update_status_of_all_spaces_in_list: !creating_new_list?.nil?
                  }
         end
 
@@ -85,8 +86,12 @@ module PersonalSpaceLists
       @space = Space.find(params[:id])
     end
 
+    def creating_new_list?
+      params[:personal_space_list_id] == "new"
+    end
+
     def set_list
-      if params[:personal_space_list_id] == "new"
+      if creating_new_list?
         return @list = PersonalSpaceList.create_default_list_for(current_user,
                                                                  active: true)
       end
