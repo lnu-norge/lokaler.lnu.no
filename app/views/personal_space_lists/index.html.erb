@@ -7,6 +7,13 @@
     <% end %>
   </p>
 
+  <% unless @active_personal_space_list.present? or @inactive_personal_space_lists.present? %>
+    <div class="max-w-prose text-gray-800 border border-gray-200 p-8 rounded-lg shadow-2xl">
+      <p class="mb-4">Klikk på hjertet på et lokale for å legge det i en ringeliste.</p>
+      <p>I listene kan du holde oversikt over hvilke lokaler dere har kontaktet, skrive personlige notater, og loggføre om de sa ja eller nei.</p>
+    </div>
+  <% end %>
+
   <% if @active_personal_space_list.present? %>
     <h2 class="text-center font-bold text-xl mb-6 text-gray-700">Aktiv liste</h2>
     <%= render "personal_space_lists/active_personal_space_list",
@@ -16,15 +23,20 @@
         Deaktiver
       <% end %>
       </p>
+  <% end %>
 
+
+  <% if @active_personal_space_list.present? and @inactive_personal_space_lists.present? %>
     <h2 class="text-center font-bold text-xl mt-12 mb-4 text-gray-700">Bytt liste</h2>
-  <% else %>
+  <% elsif @inactive_personal_space_lists.present? %>
     <h2 class="text-center font-bold text-xl mt-12 mb-4 text-gray-700">Velg liste</h2>
   <% end %>
 
+  <% if @inactive_personal_space_lists.present? %>
     <div id="personal_space_lists" class="flex flex-col gap-6 mt-8">
-    <% @inactive_personal_space_lists.each do |personal_space_list| %>
-      <%= render "personal_space_lists/personal_space_list", personal_space_list: %>
-    <% end %>
-  </div>
+      <% @inactive_personal_space_lists.each do |personal_space_list| %>
+        <%= render "personal_space_lists/personal_space_list", personal_space_list: %>
+      <% end %>
+    </div>
+  <% end %>
 </div>
