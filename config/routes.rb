@@ -49,7 +49,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   # Spaces routes
-  resources "lokaler", controller: "spaces", as: "spaces"
+  resources "lokaler", controller: "spaces", as: "spaces", except: "new"
+  get "/nytt-lokale/", to: "spaces#new", as: "new_space"
   get "/lokaler/:id/edit/:field", to: "spaces#edit_field", as: "edit_field"
   get "/lokaler/:id/images/:start", to: "spaces#fullscreen_images", as: "fullscreen_images"
   get "spaces_search", to: "spaces#spaces_search"

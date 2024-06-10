@@ -5,13 +5,7 @@
   class=""
 >
   <header class="px-4 h-[3.5rem] py-2 sticky top-0 left-0 flex gap-4 flex-wrap justify-between align-center items-center">
-    <div class="flex-1">
-      <%= link_to personal_space_lists_path do %>
-        <span class="text text-sm">← Til alle lister</span>
-      <% end %>
-    </div>
     <div class="inline-flex gap-2 items-center">
-
         <%= link_to edit_personal_space_list_path(@personal_space_list),
                     class: "
                       edit-button edit-button--small
@@ -28,18 +22,11 @@
         <%= render "personal_space_lists/card/space_list", personal_space_list: @personal_space_list %>
       </div>
     </div>
-    <div class="flex gap-2 flex-1 justify-end">
-      <div class="flex gap-2 items-center">
-          <span class="text text-sm">Tilhører
-            <%= @personal_space_list.user.name %>
-          </span>
-        <div class="avatar avatar--small flex-shrink-0">
-          <%= image_tag @personal_space_list.user.gravatar_url %>
-        </div>
-      </div>
+    <div class="flex gap-2 justify-end items-baseline">
+      <%= link_to personal_space_lists_path do %>
+        <span class="text text-sm">Til alle lister →</span>
+      <% end %>
     </div>
-
-
   </header>
   <main class="fixed
         bg-gray-100
