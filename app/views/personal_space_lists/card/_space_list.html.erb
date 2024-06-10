@@ -1,6 +1,6 @@
 <%# locals: (personal_space_list:, scope: nil) %>
 <%= turbo_frame_tag dom_id_space_list_icons_for(personal_space_list, scope:),
-                    class: "flex gap-2 w-fit flex-1 items-center flex-wrap" do %>
+                    class: "flex gap-2 w-fit flex-1 items-center flex-wrap #{ "motion-safe:animate-pulse-on-load" if turbo_request? }" do %>
   <div class="text-gray-600 text-sm">
     <%= personal_space_list.space_contacted_count %> / <%= personal_space_list.space_count %> spurt
   </div>

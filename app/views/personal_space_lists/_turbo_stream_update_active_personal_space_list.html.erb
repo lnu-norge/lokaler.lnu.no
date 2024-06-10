@@ -11,3 +11,6 @@
            personal_space_list:
   %>
 <% end %>
+<%= turbo_stream.update(dom_id_space_list_icons_for(personal_space_list, scope: nil)) do %>
+  <%= render "personal_space_lists/card/space_list", personal_space_list: %>
+<% end %>

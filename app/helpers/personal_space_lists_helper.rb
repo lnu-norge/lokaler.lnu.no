@@ -25,10 +25,6 @@ module PersonalSpaceListsHelper
     "space_list_icons_for_personal_space_list_#{personal_space_list.id}_scope_#{scope}"
   end
 
-  def dom_id_space_list_coins_for(perosnal_space_list, scope: "standard")
-    "space_list_coins_for_perosnal_space_list_#{perosnal_space_list.id}_scope_#{scope}"
-  end
-
   def dom_id_for_list_status_in_filter_button
     "list_status_in_filter_button"
   end

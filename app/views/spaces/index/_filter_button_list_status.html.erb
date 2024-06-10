@@ -1,5 +1,5 @@
 <%# locals: (personal_space_list:) %>
-<div id="<%= dom_id_for_list_status_in_filter_button %>" class="animate-pulse-on-load">
+<div id="<%= dom_id_for_list_status_in_filter_button %>" class="<%= "motion-safe:animate-pulse-on-load" if turbo_request? %>">
   <% if personal_space_list.present? %>
     <span class="inline-flex flex-1 gap-2 items-center">
       <span class="font-bold text-left leading-tight"><%= personal_space_list.title %></span>
