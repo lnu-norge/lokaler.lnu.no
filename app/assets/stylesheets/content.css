@@ -5,6 +5,7 @@
     }
   }
 
+  .content:not(.reset-content-styles),
   .content :not(.reset-content-styles),
   .trix-content {
     .h1, .h2, .h3, h1, h2, h3 {
