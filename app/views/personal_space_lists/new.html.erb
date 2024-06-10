@@ -1,7 +1,9 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="text-lg font-bold text-4xl">New personal space list</h1>
+<div class="mx-auto max-w-prose py-4 content">
+  <%= link_to "← Til alle lister", personal_space_lists_path, class: "link" %>
+
+
+  <h1 class="font-bold text-2xl mt-8 mb-4">Ny liste</h1>
 
   <%= render "form", personal_space_list: @personal_space_list %>
 
-  <%= link_to 'Back to personal space lists', personal_space_lists_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>

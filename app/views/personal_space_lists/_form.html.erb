@@ -1,8 +1,8 @@
 <%# locals: (personal_space_list:) %>
-<%= form_with(model: personal_space_list, class: "contents") do |form| %>
+<%= simple_form_for(personal_space_list) do |form| %>
   <% if personal_space_list.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(personal_space_list.errors.count, "error") %> prohibited this personal_space_list from being saved:</h2>
+      <h2><%= personal_space_list.errors.count %> feil hindret oss å lagre:</h2>
 
       <ul>
         <% personal_space_list.errors.each do |error| %>
@@ -13,11 +13,10 @@
   <% end %>
 
   <div class="mb-4">
-    <%= form.label :title, "Navn på listen" %>
-    <%= form.text_field :title %>
+    <%= form.input :title %>
   </div>
 
     <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
+    <%= form.submit class: "button submit" %>
   </div>
 <% end %>

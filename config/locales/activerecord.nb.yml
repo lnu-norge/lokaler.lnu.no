@@ -16,6 +16,9 @@ nb:
       facility_review:
         one: 'fasilitetserfaring'
         other: 'fasilitetserfaringer'
+      personal_space_list:
+        one: "liste"
+        other: "lister"
     attributes:
       space:
         space_type: 'Type lokale'
@@ -55,5 +58,10 @@ nb:
         url: "Nettside"
         description: "Beskrivelse"
       personal_data_on_space_in_lists:
-          contact_status: "Status"
-          personal_notes: "Mine notater"
+        contact_status: "Status"
+        personal_notes: "Mine notater"
+      personal_space_list:
+        title: "Navn"
+        space:
+          one: "lokale"
+          other: "lokaler"
