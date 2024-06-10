@@ -1,5 +1,5 @@
 <%# locals: (personal_space_list:) %>
-<div class="motion-safe:animate-pulse-on-load">
+<div class="<%= "motion-safe:animate-pulse-on-load" if turbo_request? %>">
 <%= render "personal_space_lists/card/link_to_list_card_wrapper",
            url: personal_space_lists_path,
            personal_space_list:,
