@@ -8,16 +8,19 @@ class PersonalSpaceList < ApplicationRecord
 
   has_and_belongs_to_many :spaces
   has_many :personal_space_lists_spaces, dependent: :destroy
-  has_many :personal_data_on_space_in_lists, dependent: :destroy, through: :personal_space_lists_spaces
+  has_many :personal_data_on_space_in_lists,
+           dependent: :destroy,
+           through: :personal_space_lists_spaces
+  # Only return personal data on the space if the space is in the space list
 
   validates :title, presence: true
 
   def add_space(space)
-    spaces << space
+    personal_space_lists_spaces.create_or_find_by(space:)
   end
 
   def remove_space(space)
-    spaces.delete(space)
+    personal_space_lists_spaces.delete_by(space:)
   end
 
   def includes_space?(space)

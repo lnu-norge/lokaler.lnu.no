@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class PersonalSpaceListsSpace < ApplicationRecord
+  self.primary_key = [:space_id, :personal_space_list_id]
+
   belongs_to :personal_space_list
   belongs_to :space
-  belongs_to :personal_data_on_space_in_list, query_constraints: [:space_id, :personal_space_list_id]
+  has_one :personal_data_on_space_in_list, query_constraints: [:space_id, :personal_space_list_id], dependent: :nullify
 
   after_create :set_up_personal_data_on_space_in_list
 
@@ -16,8 +18,8 @@ end
 #
 # Table name: personal_space_lists_spaces
 #
-#  personal_space_list_id :bigint           not null
-#  space_id               :bigint           not null
+#  personal_space_list_id :bigint           not null, primary key
+#  space_id               :bigint           not null, primary key
 #
 # Indexes
 #

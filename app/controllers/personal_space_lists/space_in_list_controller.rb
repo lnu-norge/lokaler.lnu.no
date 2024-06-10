@@ -12,16 +12,16 @@ module PersonalSpaceLists
     def show; end
 
     def create
-      return already_in_list if @list.spaces.include?(@space)
+      return already_in_list if @list.includes_space?(@space)
 
-      @list.spaces << @space
+      @list.add_space(@space)
       added_to_list
     end
 
     def destroy
-      return not_in_list if @list.spaces.exclude?(@space)
+      return not_in_list if @list.excludes_space?(@space)
 
-      @list.spaces.delete(@space)
+      @list.remove_space(@space)
       removed_from_list
     end
 
