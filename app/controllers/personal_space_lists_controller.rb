@@ -36,7 +36,7 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
     respond_to do |format|
       if @personal_space_list.save
         format.html do
-          redirect_to personal_space_list_url(@personal_space_list), notice: t("personal_space_lists.list_created")
+          redirect_to personal_space_lists_url, notice: t("personal_space_lists.list_created")
         end
         format.json { render :show, status: :created, location: @personal_space_list }
       else
