@@ -1,12 +1,26 @@
-<%# locals: (personal_space_list:, space:, personal_data_on_space_in_list: personal_space_list.personal_data_on_space_in_lists.find_by(space: )) %>
-<%=
-  # Refresh list status for the space itself
-  turbo_stream.update(
-    dom_id_for_list_status_for_space(space),
-    partial: "personal_space_lists/space_in_list/list_status_for_space",
-    locals: { list: personal_space_list, space: }
-  )
+<%# locals: (personal_space_list:, space:, personal_data_on_space_in_list: personal_space_list.personal_data_on_space_in_lists.find_by(space: ), update_status_of_all_spaces_in_list: false) %>
+<%
+  if update_status_of_all_spaces_in_list
+%>
+  <% personal_space_list.spaces.each do |space_in_list|  %>
+    <%= turbo_stream.update(
+        dom_id_for_list_status_for_space(space_in_list),
+        partial: "personal_space_lists/space_in_list/list_status_for_space",
+        locals: { list: personal_space_list, space: space_in_list}
+      ) %>
+  <% end %>
+<%
+  else
+%>
+  <%=
+    # Only refresh list status for the relevant space
+    turbo_stream.update(
+      dom_id_for_list_status_for_space(space),
+      partial: "personal_space_lists/space_in_list/list_status_for_space",
+      locals: { list: personal_space_list, space: }
+      )
   %>
+<% end %>
 <%=
   # Refresh active list in space index
   turbo_stream.update(
