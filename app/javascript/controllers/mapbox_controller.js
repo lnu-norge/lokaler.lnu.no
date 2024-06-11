@@ -159,11 +159,10 @@ export default class extends Controller {
   async runStoredFilters() {
     this.setSearchUrlFromStorage()
     await this.parseUrl()
-    this.storeSearchUrl(window.location)
   }
 
   storeSearchUrl(searchUrl) {
-    document.cookie = `mapbox_controller_search_url=${searchUrl}`
+    document.cookie = `mapbox_controller_search_url=${searchUrl};path=/;SameSite=strict`
   }
 
   setSearchUrlFromStorage() {

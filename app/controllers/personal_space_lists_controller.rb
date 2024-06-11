@@ -22,6 +22,7 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
   end
 
   def show
+    set_filtered_facilities
     @personal_data_on_space_in_lists = @personal_space_list.personal_data_on_space_in_lists.order(id: :desc)
   end
 
@@ -92,6 +93,21 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
     space_ids = params[:personal_space_list][:spaces_ids].reject(&:empty?).map(&:to_i).uniq
     spaces_from_params = Space.find(space_ids)
     @personal_space_list.update(spaces: spaces_from_params, updated_at: Time.zone.now)
+  end
+
+  def set_filtered_facilities
+    # TODO: This should be COMPLETELY redone or ripped out when we redo search
+    mapbox_controller_search_url = cookies[:mapbox_controller_search_url]
+    uri = Addressable::URI.parse(mapbox_controller_search_url)
+    return if uri.blank?
+
+    queries = uri.query_values
+    return if queries.blank? || queries["selectedFacilities"].blank?
+
+    selected_facilities_by_title = queries["selectedFacilities"].split(",")
+    facility_ids = Facility.where(title: selected_facilities_by_title).pluck(:id)
+    @filtered_facilities = Facility.includes(:facility_categories).find(facility_ids)
+    @non_filtered_facilities = Facility.includes(:facility_categories).where.not(id: facility_ids)
   end
 
   # Only allow a list of trusted parameters through.
