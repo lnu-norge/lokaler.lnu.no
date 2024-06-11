@@ -16,7 +16,7 @@ export default class extends Controller {
 
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
-    await this.parseUrl();
+    await this.runStoredFilters();
   }
 
   showSearchBox() {
@@ -139,6 +139,8 @@ export default class extends Controller {
     }
 
     window.history.replaceState(null, null, url);
+
+    this.storeSearchUrl(url)
   }
 
   selectedFacilities() {
@@ -151,6 +153,25 @@ export default class extends Controller {
 
   selectedLocation() {
     return [this.map.getCenter().lat.toFixed(4), this.map.getCenter().lng.toFixed(4), this.map.getZoom()].join(',');
+  }
+
+
+  async runStoredFilters() {
+    this.setSearchUrlFromStorage()
+    await this.parseUrl()
+  }
+
+  storeSearchUrl(searchUrl) {
+    localStorage.setItem("search_url", searchUrl)
+  }
+
+  setSearchUrlFromStorage() {
+    const stored_url = localStorage.getItem("search_url")
+    if (!stored_url || stored_url === "") {
+      return
+    }
+
+    window.history.replaceState("", "", stored_url)
   }
 
   async parseUrl() {
