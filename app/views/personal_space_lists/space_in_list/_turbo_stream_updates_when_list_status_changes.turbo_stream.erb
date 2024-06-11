@@ -48,9 +48,12 @@
 <%=
   # Refresh table row list space status
   turbo_stream.update(
-    dom_id_for_space_list_status_and_notes_for_space_in_table_row(space),
-    partial: "spaces/table_views/space_list_contact_status_and_notes_for_table_row",
-    locals: { personal_space_list: , space: ,
-              personal_data_on_space_in_list: }
+    dom_id_for_space_table_row(space),
+    partial: "spaces/table_views/space_table_row",
+    locals: {
+      space:,
+      personal_space_list:,
+      personal_data_on_space_in_list:
+    }
   )
 %>

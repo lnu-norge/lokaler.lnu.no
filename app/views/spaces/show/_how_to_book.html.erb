@@ -1,4 +1,4 @@
-<%= inline_editable :how_to_book  do %>
+<%= inline_editable :how_to_book, space: @space  do %>
   <%= @space.how_to_book %>
 
   <% if  @space.space_group.how_to_book.present? and @space.how_to_book.present? %>
