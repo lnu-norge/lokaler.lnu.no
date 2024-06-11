@@ -28,7 +28,7 @@
           <hr />
         <% end %>
 
-        <%= inline_editable :how_to_book  do %>
+        <%= inline_editable :how_to_book, space: @space  do %>
           <%= render_space_and_group_field @space, :how_to_book %>
         <% end %>
         <%= render 'space_contacts/index' %>
@@ -38,12 +38,12 @@
         <%= render partial: 'spaces/show/facilities' %>
         <hr />
 
-        <%= inline_editable :who_can_use  do %>
+        <%= inline_editable :who_can_use, space: @space  do %>
           <%= render_space_and_group_field @space, :who_can_use %>
         <% end %>
         <hr />
 
-        <%= inline_editable :pricing do %>
+        <%= inline_editable :pricing, space: @space do %>
           <%= render_space_and_group_field @space, :pricing %>
         <% end %>
         <hr />
@@ -51,12 +51,12 @@
         <%= render partial: 'spaces/show/where' %>
         <hr />
 
-        <%= inline_editable :more_info do %>
+        <%= inline_editable :more_info, space: @space do %>
           <%= render_space_and_group_field @space, :more_info %>
         <% end %>
         <hr />
 
-        <%= inline_editable :terms do %>
+        <%= inline_editable :terms, space: @space do %>
           <%= render_space_and_group_field @space, :terms %>
         <% end %>
         <hr />

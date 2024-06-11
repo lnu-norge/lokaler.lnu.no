@@ -20,12 +20,7 @@
 
     <% if personal_space_list.present? %>
       <th scope="col">
-        <span class="flex justify-between items-baseline flex-wrap gap-x-2">
-          Status og notater
-          <span class="text-sm font-normal">
-            <%= personal_space_list.title %>
-          </span>
-        </span>
+        Vår status og notater
       </th>
     <% end %>
 
@@ -37,28 +32,16 @@
       Kontaktinfo
     </th>
 
-    <th scope="col">
-      Erfaringer
-    </th>
-
-    <th scope="col">
-      Pris og vilkår
-    </th>
-
-    <th scope="col">
-      Mer informasjon
-    </th>
-
   </tr>
   </thead>
   <tbody>
   <% spaces.each do |space| %>
     <%
-      @space = space
       personal_data_on_space_in_list = personal_space_list.personal_data_on_space_in_lists.find_by(space:)
-      @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)
+      @space_contact = SpaceContact.new(space_id: space.id, space_group_id: space.space_group_id)
     %>
     <%= render "spaces/table_views/space_table_row",
+                 space:,
                  personal_space_list:,
                  personal_data_on_space_in_list:  %>
   <% end %>

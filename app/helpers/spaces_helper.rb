@@ -5,9 +5,10 @@ module SpacesHelper
     render partial: "spaces/edit/#{partial}", locals: { form: }
   end
 
-  def inline_editable(field, title_tag: :h2, title_text: Space.human_attribute_name(field), &block)
+  def inline_editable(field, space:, title_tag: :h2, title_text: Space.human_attribute_name(field), &block)
     render partial: "spaces/edit/common/editable_inline", locals: {
       field:,
+      space:,
       title_tag:,
       title_text:,
       block:
@@ -21,6 +22,7 @@ module SpacesHelper
     field_in_space_group = (group.public_send(field) if group.respond_to?(field) && group.public_send(field).present?)
 
     render partial: "spaces/show/common/render_space_and_group_field", locals: {
+      space:,
       field_in_space:,
       field_in_space_group:
     }
@@ -104,5 +106,9 @@ module SpacesHelper
     link_to external_map_url, **html_options do
       yield block
     end
+  end
+
+  def dom_id_for_space_table_row(space)
+    "space_table_row_for_#{space.id}"
   end
 end
