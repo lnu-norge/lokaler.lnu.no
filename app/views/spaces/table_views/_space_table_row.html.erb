@@ -23,11 +23,7 @@
     </th>
 
     <% if personal_space_list.present? %>
-      <td class="personal" >
-        <div class="w-[21rem]">
           <%= render 'spaces/table_views/space_list_contact_status_and_notes_for_table_row', personal_space_list:, personal_data_on_space_in_list:, space: space %>
-        </div>
-      </td>
     <% end %>
 
     <td>
