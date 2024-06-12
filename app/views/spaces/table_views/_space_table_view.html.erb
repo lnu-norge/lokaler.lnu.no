@@ -20,7 +20,11 @@
 
     <% if personal_space_list.present? %>
       <th scope="col">
-        Vår status og notater
+        <div class="group override-text">
+        <span class="sr-only">Status</span>
+        <%= render "personal_space_lists/card/space_list", personal_space_list: %>
+        </div>
+
       </th>
     <% end %>
 

@@ -1,10 +1,14 @@
-<div class="mx-auto max-w-prose py-4 content">
-  <%= link_to "← Tilbake til listen", @personal_space_list, class: "link" %>
+<div class="mx-auto max-w-prose py-10 content">
+  <nav class="mb-8">
+    <%= link_to "← Tilbake til listen", @personal_space_list, class: "link" %>
+  </nav>
 
+  <h1>Redigerer "<%= @personal_space_list.title %>"</h1>
 
-  <h1 class="font-bold text-2xl mt-8 mb-4">Redigerer "<%= @personal_space_list.title %>"</h1>
+  <main class="mt-6 mb-12">
+    <%= render "form", personal_space_list: @personal_space_list %>
 
-  <%= render "form", personal_space_list: @personal_space_list %>
+  </main>
 
   <hr />
 

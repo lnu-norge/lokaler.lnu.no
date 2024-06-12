@@ -4,29 +4,36 @@
   id="<%= dom_id @personal_space_list %>"
   class=""
 >
-  <header class="px-4 h-[3.5rem] py-2 sticky top-0 left-0 flex gap-4 flex-wrap justify-between align-center items-center">
-    <div class="inline-flex gap-2 items-center">
-        <%= link_to edit_personal_space_list_path(@personal_space_list),
-                    class: "
-                      edit-button edit-button--small
-                      collapsable" do %>
-        <h1 class="font-bold inline-block mr-2">
-          <%= @personal_space_list.title %>
-        </h1>
-        <%= inline_svg "edit" %>
-        <span class="text">
-            <%= t('space_edit.edit') %>
-          </span>
-        <% end %>
-      <div>
-        <%= render "personal_space_lists/card/space_list", personal_space_list: @personal_space_list %>
-      </div>
-    </div>
-    <div class="flex gap-2 justify-end items-baseline">
-      <%= link_to personal_space_lists_path do %>
-        <span class="text text-sm">Til alle lister →</span>
+  <header class="px-4 h-[3.5rem] py-2 sticky top-0 left-0 grid grid-cols-[minmax(10%,auto),1fr,minmax(10%,auto)] gap-4 align-center items-center text-sm">
+    <div>
+      <%= link_to spaces_path do %>
+        ← Finn lokaler
       <% end %>
     </div>
+    <div class="flex gap-6 items-baseline justify-center">
+      <div>
+        Aktiv liste:
+      <%= link_to edit_personal_space_list_path(@personal_space_list),
+                    class: "unstyled-link inline-flex gap-0 items-center group collapsable-wrapper" do %>
+        <h1 class="font-bold inline-block mr-2 text-gray-700 group-hover:text-lnu-pink">
+          <%= @personal_space_list.title %>
+        </h1>
+        <span class="edit-button edit-button--small collapsable collapsable">
+        <%= inline_svg "edit" %>
+          <span class="text">
+            <%= t('personal_space_lists.edit_list') %>
+          </span>
+        </span>
+      <% end %>
+      </div>
+      <nav>
+        <%= link_to "Bytt liste", personal_space_lists_path %>
+      </nav>
+    </div>
+    <div class="flex justify-end">
+      Del liste TODO
+    </div>
+
   </header>
   <main class="fixed
         bg-gray-100
