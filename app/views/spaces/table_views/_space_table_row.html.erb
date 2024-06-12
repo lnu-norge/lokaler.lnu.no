@@ -113,15 +113,15 @@
           <%= render_space_and_group_field space, :how_to_book %>
         <% end %>
         <div id="<%= "#{ dom_id(space)}" %>-contacts"  class="flex flex-col min-h-full justify-center">
-          <%= turbo_frame_tag "space_contacts", class: 'flex flex-col' do %>
-            <%= turbo_stream_from "space_contacts" %>
+          <%= turbo_frame_tag dom_id_for_space_contacts_stream(space), class: 'flex flex-col' do %>
+            <%= turbo_stream_from dom_id_for_space_contacts_stream(space) %>
             <%= render partial: "space_contacts/space_contact", collection: space.space_contacts %>
           <% end %>
           <div class="flex flex-col items-center">
-            <%= turbo_frame_tag "new_space_contact_button" do %>
+            <%= turbo_frame_tag dom_id_button_for_new_space_contact_for(space) do %>
               <div>
-                <%= button_to_modal "space_contacts_new",
-                                    id:  "space_contacts_new",
+                <%= button_to_modal dom_id_new_space_contact_modal(space),
+                                    id:  dom_id_new_space_contact_modal(space),
                                     class: "edit-button" do %>
                       <span class="text">
                         <%= t('space_contacts.new_contact') %>
@@ -129,8 +129,8 @@
                   <%= inline_svg_tag "plus" %>
                 <% end %>
 
-                <%= modal_for "space_contacts_new", "modal--with-header-and-footer" do  %>
-                  <%= render partial: "space_contacts/new" %>
+                <%= modal_for dom_id_new_space_contact_modal(space), "modal--with-header-and-footer" do  %>
+                  <%= render "space_contacts/new", space_contact: @space_contact %>
                 <% end %>
               </div>
             <% end %>
