@@ -1,0 +1,11 @@
+<%# locals: (space:, block: nil) %>
+<!-- Meta information listing -->
+<div class="flex flex-col gap-3">
+  <div class="flex gap-4">
+    <%= render 'spaces/components/meta/review_score', space: %>
+    <%= render 'spaces/components/meta/type', space: %>
+  </div>
+  <%= render 'spaces/components/meta/place', space: %>
+
+  <%= yield block %>
+</div>
