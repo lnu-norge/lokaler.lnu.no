@@ -6,12 +6,7 @@ class SpaceContactsController < BaseControllers::AuthenticateController
 
   def create
     @space_contact = SpaceContact.new(space_contact_params)
-
-    saved = @space_contact.save
-    @space_contact = saved ? SpaceContact.new(space: @space_contact.space) : @space_contact
-    @space = @space_contact.space
-
-    return successful_save if saved
+    return successful_save if @space_contact.save
 
     error_handling
   end
@@ -37,7 +32,7 @@ class SpaceContactsController < BaseControllers::AuthenticateController
   def successful_save
     # When saved, load the new button again
     render turbo_stream: turbo_stream.replace(
-      dom_id_button_for_new_space_contact_for(@space),
+      dom_id_for_button,
       partial: "space_contacts/new_button",
       locals: {
         space_contact: @space_contact
@@ -48,7 +43,7 @@ class SpaceContactsController < BaseControllers::AuthenticateController
   def error_handling
     # Error handling, show the errors:
     render turbo_stream: turbo_stream.replace(
-      dom_id_form_for_new_space_contact_for(@space),
+      dom_id_for_form,
       partial: "space_contacts/new",
       locals: {
         space_contact: @space_contact
@@ -58,6 +53,14 @@ class SpaceContactsController < BaseControllers::AuthenticateController
 
   def set_space_contact
     @space_contact = SpaceContact.find(params[:id])
+  end
+
+  def dom_id_for_button
+    dom_id_button_for_new_space_contact_for(@space_contact.space || @space_contact.space_group)
+  end
+
+  def dom_id_for_form
+    dom_id_form_for_new_space_contact_for(@space_contact.space || @space_contact.space_group)
   end
 
   def space_contact_params
