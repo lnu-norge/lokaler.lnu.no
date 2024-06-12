@@ -42,7 +42,10 @@
     <%= render "spaces/table_views/space_table_row",
                  space:,
                  personal_space_list:,
-                 personal_data_on_space_in_list:  %>
+                 personal_data_on_space_in_list:,
+                 filtered_facilities: @filtered_facilities,
+                 non_filtered_facilities: @non_filtered_facilities
+    %>
   <% end %>
   </tbody>
 </table>

@@ -8,6 +8,7 @@ module PersonalSpaceLists
                   :check_user_privileges
 
     include PersonalSpaceListsHelper
+    include SettableFilteredFacilities
 
     def show; end
 
@@ -48,6 +49,7 @@ module PersonalSpaceLists
       message:, type: :notice,
       redirect_path: status_for_personal_space_list_space_path(@list, @space)
     )
+      set_filtered_facilities
       respond_to do |format|
         format.turbo_stream do
           render partial: "personal_space_lists/space_in_list/turbo_stream_updates_when_list_status_changes",
@@ -55,7 +57,7 @@ module PersonalSpaceLists
                    personal_space_list: @list,
                    space: @space,
                    personal_data_on_space_in_list: find_personal_data_on_space_in_list,
-                   update_status_of_all_spaces_in_list: !creating_new_list?.nil?
+                   update_status_of_all_spaces_in_list: creating_new_list?
                  }
         end
 
