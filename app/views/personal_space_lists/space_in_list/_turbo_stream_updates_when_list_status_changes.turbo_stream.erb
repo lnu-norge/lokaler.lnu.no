@@ -47,13 +47,15 @@
 %>
 <%=
   # Refresh table row list space status
-  turbo_stream.update(
+  turbo_stream.replace(
     dom_id_for_space_table_row(space),
     partial: "spaces/table_views/space_table_row",
     locals: {
       space:,
       personal_space_list:,
-      personal_data_on_space_in_list:
+      personal_data_on_space_in_list:,
+      filtered_facilities: @filtered_facilities,
+      non_filtered_facilities: @non_filtered_facilities
     }
   )
 %>

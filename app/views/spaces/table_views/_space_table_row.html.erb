@@ -1,4 +1,4 @@
-<%# locals: ( space:, personal_space_list: nil, personal_data_on_space_in_list: nil ) %>
+<%# locals: ( space:, personal_space_list: nil, personal_data_on_space_in_list: nil, filtered_facilities:, non_filtered_facilities: ) %>
   <tr
     id="<%= dom_id_for_space_table_row(space) %>"
     data-set-as-selected-when-this-space-is-open="<%= space.id %>"
@@ -33,7 +33,7 @@
     <td>
       <div class="min-w-[22rem]">
         <div class="flex flex-col gap-1 ">
-          <% unless @filtered_facilities or @non_filtered_facilities %>
+          <% unless filtered_facilities or non_filtered_facilities %>
             <% space.relevant_space_facilities.each do |space_facility| %>
               <%= render "facility_reviews/facility_with_edit_button",
                          facility: space_facility.facility,
@@ -42,10 +42,10 @@
               %>
             <% end %>
           <% end %>
-        <% if @filtered_facilities.present? %>
+        <% if filtered_facilities.present? %>
             <h3 class="font-bold mt-4 sr-only">Valgte:</h3>
             <%
-                filtered_space_facilities = space.space_facilities.filter{|sf| @filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
+                filtered_space_facilities = space.space_facilities.filter{|sf| filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
                 filtered_space_facilities.each do |space_facility|
               %>
                 <%= render "facility_reviews/facility_with_edit_button",
@@ -56,12 +56,12 @@
                <% end %>
         <% end %>
 
-          <% if @non_filtered_facilities.present? %>
-              <% if @filtered_facilities.present? and @non_filtered_facilities.present? %>
+          <% if non_filtered_facilities.present? %>
+              <% if filtered_facilities.present? and non_filtered_facilities.present? %>
                 <h3 class="mt-4 mb-1">Flere fasiliteter:</h3>
               <% end %>
             <%
-              non_filtered_space_facilities = space.space_facilities.filter{|sf| @non_filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
+              non_filtered_space_facilities = space.space_facilities.filter{|sf| non_filtered_facilities.detect{|facility| facility.id == sf.facility_id }}
               relevant_non_filtered_space_facilities = non_filtered_space_facilities.filter{|sf| sf.relevant? }
               relevant_non_filtered_space_facilities.each do |space_facility|
             %>
