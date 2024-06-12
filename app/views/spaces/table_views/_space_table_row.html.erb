@@ -6,47 +6,16 @@
     <th scope="row">
       <div class="w-[20rem]">
           <%= link_to space_path(space),
-                      class: "space-listing",
+                      class: "space-listing group",
                       data: {
                         "turbo-frame": "spaces-open-here", # This updates the spaces-open-here frame
                         "turbo-action": "advance" # Does not update browser history
                       } do %>
-            <div>
-                <h3 class="text-xl mb-2.5 font-bold mt-0">
-                  <%= space.title %>
-                </h3>
-
-                <!-- Meta information listing -->
-                <div class="flex gap-4 mb-2.5">
-
-                <div class="flex gap-2" title="<%= t('space_show.number_of_reviews', count: space.reviews.size) %>">
-                  <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'}" %>
-                  <span>
-                    <%=  space.star_rating_s %>
-                    <% if space.reviews.size > 0 %>
-                        <span class="opacity-50">(<%= space.reviews.size %>)</span>
-                    <% end %>
-                  </span>
-                </div>
-
-                <div class="flex gap-2">
-                  <%= inline_svg_tag 'building', class: 'text-gray-500' %>
-                  <span>
-            <%= space.space_types_joined %>
-          </span>
-                </div>
-
-              </div>
-              <div class="flex gap-1 mb-3">
-                <%= inline_svg_tag 'place', class: "text-gray-500" %>
-                <span>
-            <%= space.address %>,
-                  <%= space.post_number %>
-                  <%= space.post_address %>
-         </span>
-              </div>
-            </div>
-          <% end %>
+              <h3 class="text-xl mb-2.5 font-bold mt-0">
+                <%= space.title %>
+              </h3>
+              <%= render 'spaces/components/meta', space: %>
+        <% end %>
         <div class="absolute bottom-2.5 left-2.5 text-lnu-pink">
           <%= render 'personal_space_lists/space_in_list/list_status_for_space', list: personal_space_list, space: space %>
         </div>
