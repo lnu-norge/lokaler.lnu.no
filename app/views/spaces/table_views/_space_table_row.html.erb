@@ -16,7 +16,7 @@
               </h3>
               <%= render 'spaces/components/meta', space: %>
         <% end %>
-        <div class="absolute bottom-2.5 left-2.5 text-lnu-pink">
+        <div class="absolute bottom-2.5 right-2.5 text-lnu-pink">
           <%= render 'personal_space_lists/space_in_list/list_status_for_space', list: personal_space_list, space: space %>
         </div>
       </div>
@@ -99,7 +99,7 @@
                 <% end %>
 
                 <%= modal_for dom_id_new_space_contact_modal(space), "modal--with-header-and-footer" do  %>
-                  <%= render "space_contacts/new", space_contact: @space_contact %>
+                  <%= render "space_contacts/new", space_contact: SpaceContact.new(space:) %>
                 <% end %>
               </div>
             <% end %>
