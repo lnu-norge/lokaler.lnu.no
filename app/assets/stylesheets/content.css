@@ -5,8 +5,7 @@
     }
   }
 
-  .content:not(.reset-content-styles),
-  .content :not(.reset-content-styles),
+  .content,
   .trix-content {
     .h1, .h2, .h3, h1, h2, h3 {
       @apply mt-6 font-bold block;
@@ -23,6 +22,9 @@
 
     .h1, .h2, .h3, p, ul, ol, h3, h2, h1 {
       @apply mb-3;
+      &.reset-header-styles {
+        @apply mb-0;
+      }
     }
 
     .h1, h1 {
