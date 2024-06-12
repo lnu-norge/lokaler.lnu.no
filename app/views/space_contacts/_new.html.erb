@@ -1,14 +1,15 @@
-<%= turbo_frame_tag "new_space_contact_form" do %>
-  <%= simple_form_for @space_contact,
-                      url: @space_contact&.id.present? ? space_contact_path(@space_contact) : space_contacts_path,
+<%# locals: (space_contact:) %>
+<%= turbo_frame_tag dom_id_form_for_new_space_contact_for(space_contact.space) do %>
+  <%= simple_form_for space_contact,
+                      url: space_contact.id.present? ? space_contact_path(space_contact) : space_contacts_path,
                       html: {
                         data: { 'controller':"reset-form" } } do |form| %>
 
       <div class="modal-header">
-        <h3><%= t('space_contacts.new_contact') %></h3>
+        <h3><%= t('space_contacts.new_contact_for_space', space_title: space_contact.space.title) %></h3>
       </div>
       <div class="modal-content">
-        <%= render partial: 'space_contacts/form', locals: { form: form, space_contact: @space_contact } %>
+        <%= render 'space_contacts/form', space_contact:, form: %>
       </div>
       <div class="modal-footer">
         <button
