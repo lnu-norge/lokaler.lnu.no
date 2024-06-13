@@ -70,7 +70,10 @@
       .getElementById(
         "scroll_to_<%= target_id_for_categorized_facility(facility_id:,  category_id:, space_id: ) %>"
       )
-      .scrollIntoView(false)
+      .scrollIntoView({
+        block: "nearest",
+        inline: "nearest"
+      })
   </script>
 
 <% end %>
