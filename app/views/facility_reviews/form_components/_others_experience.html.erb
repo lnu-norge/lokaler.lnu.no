@@ -1,17 +1,30 @@
 <%# locals: (space_facility:) %>
-<%= inline_svg_tag "facility_status/#{space_facility.experience}", class: "#{" text-black " if space_facility.experience == "impossible" }" %>
-<span class=" <%=
-  case space_facility.experience
-  when "impossible"
-    "text-red-500"
-  when "likely"
-    "text-green-500"
-  when "unlikely"
-    "text-red-500"
-  when "maybe"
-    "text-yellow-500"
-  else "text-gray-400"
-  end
-%>">
-  <%= t("tooltips.others_experience.#{space_facility.experience}") %>
-</span>
+<% my_facility_review = space_facility.facility.facility_reviews.find_by(user: current_user, space: space_facility.space) %>
+<%
+  others_experience = space_facility.experience
+  my_experience = "unknown" unless my_facility_review.present?
+  my_experience = facility_experience_to_space_facility_experience_translator(my_facility_review.experience) if my_facility_review.present?
+%>
+
+<% if my_facility_review.present? and others_experience == my_experience %>
+  <%= icon_for_space_facility_experience(my_experience) %>
+  <span class="<%= css_class_for_space_facility_experience(my_experience) %>">
+    <%= t("tooltips.experience.#{my_experience}") %>
+  </span>
+<% elsif others_experience == my_experience %>
+  <%= icon_for_space_facility_experience(my_experience) %>
+  <span class="<%= css_class_for_space_facility_experience(my_experience) %>">
+    <%= t("tooltips.others_experience.#{my_experience}") %>
+  </span>
+<% else %>
+  <div class="inline-flex -gap-1">
+    <%= icon_for_space_facility_experience(others_experience) %>
+    <span class="-ml-1">
+      <%= icon_for_space_facility_experience(my_experience) %>
+    </span>
+  </div>
+  <span class="<%= css_class_for_space_facility_experience(my_experience) %>">
+    <%= "#{t("tooltips.experience.#{my_experience}")}. " unless my_experience == "unknown" %>
+    <%= t("tooltips.others_experience.#{others_experience}") %>
+  </span>
+<% end %>
