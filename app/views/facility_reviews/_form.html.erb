@@ -23,7 +23,10 @@
               </span>
 
               <span class="text-sm font-normal text-gray-400 items-center inline-flex gap-1">
-                <%= render 'facility_reviews/form_components/others_experience', space_facility: space_facility %>
+                <%= icon_for_space_facility_experience(space_facility.experience) %>
+                  <span class="<%= css_class_for_space_facility_experience(space_facility.experience) %>">
+                    <%= t("tooltips.others_experience.#{space_facility.experience}") %>
+                  </span>
               </span>
             </span>
           </h4>
