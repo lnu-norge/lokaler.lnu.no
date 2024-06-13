@@ -14,7 +14,9 @@
     <h4 class="text-base inline-flex items-baseline <%= "line-through text-gray-600" if space_facility.experience == "impossible" %>"><%= facility.title %></h4>
 
     <span class="text-sm font-normal items-center inline-flex gap-1">
-      <%= render 'facility_reviews/form_components/others_experience', space_facility: space_facility %>
+        <%= render 'facility_reviews/form_components/others_experience',
+                   space_facility:
+        %>
     </span>
 
     <span class="edit-button edit-button--small collapsable collapsable--to-right">

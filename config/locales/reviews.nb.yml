@@ -38,15 +38,10 @@ nb:
       show_facilities_others_said_wasnt_here: 'Vis fasiliteter andre har sagt ikke finnes i lokalet'
       do_you_know_which_facilities_exist_and_can_be_loaned?: 'Vet du om de har følgende fasiliteter, og om man får lov til å låne dem?'
       facility_experience_particular_tense:
-        was_allowed: 'Fikk lov'
-        was_not_allowed: 'Ikke lov'
+        was_allowed: 'Ja'
+        was_not_allowed: 'Nei'
         was_not_available: 'De har ikke'
-        unknown: 'Vet ikke'
-      facility_experience_general_tense:
-        was_allowed: 'Får lov'
-        was_not_allowed: 'Ikke lov'
-        was_not_available: 'De har ikke'
-        unknown: 'Vet ikke'
+        unknown: 'Ikke spurt'
       what_impression_did_you_get: 'Hvor bra totalinntrykk fikk du?'
       why_were_you_not_allowed: 'Hvorfor fikk dere ikke lov?'
       for_example_not_allowed_to_sleep_in: 'F.eks. “Ville ikke la oss overnatte”'
