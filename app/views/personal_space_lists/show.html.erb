@@ -4,7 +4,7 @@
   id="<%= dom_id @personal_space_list %>"
   class=""
 >
-  <header class="px-4 h-[3.5rem] py-2 sticky top-0 left-0 grid grid-cols-[minmax(10%,auto),1fr,minmax(10%,auto)] gap-4 align-center items-center text-sm">
+  <header class="px-4 h-[3.5rem] py-2 fixed top-0 md:top-desktop-menu-height left-0 right-0 grid grid-cols-[minmax(10%,auto),1fr,minmax(10%,auto)] gap-4 align-center items-center text-sm">
     <div>
       <%= link_to spaces_path do %>
         ← Finn lokaler
@@ -39,17 +39,17 @@
         bg-gray-100
         z-4
         overscroll-x-contain overflow-auto
-        top-[7rem] left-0 right-0 bottom-0 border-t border-gray-200">
+        top-[3.5rem] md:top-[7rem] left-0 right-0 bottom-24 md:bottom-0 border-t border-gray-200">
     <%= render "spaces/table_views/space_table_view",
                spaces: @personal_space_list.spaces,
                personal_space_list: @personal_space_list  %>
-      <div class="border-b border-gray-200 sticky left-0 pt-4 pb-12 w-screen flex flex-col gap-2 items-center text-center bg-gray-100 z-20">
-        <%= inline_svg "empty", class: "text-gray-300" %>
-        <p>
-          Litt tomt?<br />
-          <%= link_to "Finn flere lokaler", spaces_path %>
-        </p>
-      </div>
+    <div class="border-b border-gray-200 sticky left-0 pt-4 pb-12 w-screen flex flex-col gap-2 items-center text-center bg-gray-100 z-5">
+      <%= inline_svg "empty", class: "text-gray-300" %>
+      <p>
+        Litt tomt?<br />
+        <%= link_to "Finn flere lokaler", spaces_path %>
+      </p>
+    </div>
   </main>
 
 </div>
