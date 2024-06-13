@@ -35,7 +35,8 @@ module.exports = {
         extend: {
             screens: {
                 'xs': '360px',
-                '3xl': '1792px'
+                '3xl': '1792px',
+                'any-hover': {'raw': 'media (any-hover: hover)'}
             },
             cursor: {
                 zoom: 'zoom-in'

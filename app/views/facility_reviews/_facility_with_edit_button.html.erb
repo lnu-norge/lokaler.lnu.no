@@ -9,11 +9,15 @@
                 facility_category_id: facility_category.id,
                 ),
               title: t("tooltips.facility_aggregated_experience.#{space_facility.experience}"),
-              class: 'unstyled-link inline-flex gap-2 items-center collapsable-wrapper' do %>
+              class: 'leading-0 unstyled-link inline-flex gap-2 items-center collapsable-wrapper' do %>
 
-    <h4 class="text-base inline-flex items-baseline <%= "line-through text-gray-600" if space_facility.experience == "impossible" %>"><%= facility.title %></h4>
+    <h4 class="text-base leading-none
+              inline-flex items-baseline
+              text-nowrap
+              <%= "line-through text-gray-600" if space_facility.experience == "impossible" %>"
+    ><%= facility.title %></h4>
 
-    <span class="text-sm font-normal items-center inline-flex gap-1">
+    <span class="text-sm font-normal items-center inline-flex gap-1 overflow-ellipsis text-nowrap">
         <%= render 'facility_reviews/form_components/others_experience',
                    space_facility:
         %>
@@ -27,7 +31,7 @@
     </span>
  <% end %>
 
-  <% unless space_facility.description.nil? %>
+  <% if space_facility.description.present? %>
     <div class="text-sm text-gray-500 mb-1.5">
       <%= space_facility.description %>
     </div>
