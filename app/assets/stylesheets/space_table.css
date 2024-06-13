@@ -14,6 +14,7 @@ body.view-as-table {
         th {
             @apply font-bold;
             @apply bg-gray-100;
+            @apply px-4 py-2;
         }
     }
     /* Sticky left column */
@@ -40,9 +41,9 @@ body.view-as-table {
         }
 
         th, td {
-            @apply relative;
+            @apply relative ;
             > :first-child {
-                @apply h-48 overflow-scroll block;
+                @apply h-52 overflow-y-auto overflow-x-clip block px-4 py-2;
             }
         }
     }
@@ -51,7 +52,7 @@ body.view-as-table {
     td {
         @apply border-b border-r border-gray-200;
         @apply align-top text-left;
-        @apply px-4 py-2;
+        @apply p-0;
     }
     td {
         @apply relative;
