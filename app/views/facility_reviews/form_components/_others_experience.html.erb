@@ -24,7 +24,7 @@
     </span>
   </div>
   <span class="<%= css_class_for_space_facility_experience(my_experience) %>">
-    <%= "#{t("tooltips.experience.#{my_experience}")}. " unless my_experience == "unknown" %>
-    <%= t("tooltips.others_experience.#{others_experience}") %>
+    <%= t("tooltips.experience.#{my_experience}") unless my_experience == "unknown" %>
+    <%= t("tooltips.others_experience.#{others_experience}") if my_experience == "unknown" %>
   </span>
 <% end %>
