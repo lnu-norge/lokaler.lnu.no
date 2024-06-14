@@ -8,7 +8,7 @@
 %>
 <%= turbo_frame_tag target_id_for_categorized_facility(facility_id:,  category_id:, space_id: ) do %>
   <div class="[td_&]:h-8">
-    <section id="scroll_to_<%= target_id_for_categorized_facility(facility_id:,  category_id:, space_id: ) %>" class="shadow-lg md:shadow-2xl p-4 -m-4 mb-6 rounded-lg bg-white [td_&]:absolute [td_&]:top-0 [td_&]:z-6 ">
+    <section id="scroll_to_<%= target_id_for_categorized_facility(facility_id:,  category_id:, space_id: ) %>" class="shadow-lg md:shadow-2xl p-4 -m-4 mb-6 rounded-lg bg-white [td_&]:absolute [td_&]:top-0 [td_&]:z-7 ">
       <%= simple_form_for facility_review,
                           method: :post,
                           namespace: target_id_for_categorized_facility(facility_id:,  category_id:, space_id: ),
@@ -60,8 +60,8 @@
       space_id:,
       facility_id:,
       facility_category_id: category_id,
-      ), class: "hidden [td_&]:block fixed inset-0 bg-gray-300/30 z-5" do %>
-      test
+      ), class: "hidden [td_&]:block fixed inset-0 bg-gray-300/30 z-6" do %>
+      <%= t("space_contacts.abort") %>
     <% end %>
 <% end %>
   </div>
