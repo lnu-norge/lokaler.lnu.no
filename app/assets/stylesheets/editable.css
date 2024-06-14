@@ -14,7 +14,7 @@
     @apply text-sm;
   }
 
-  @apply bg-gray-100 border border-gray-100;
+  @apply bg-gray-200/50 border border-gray-100;
   @apply inline-flex gap-2 content-center items-center;
   @apply text-gray-700;
 

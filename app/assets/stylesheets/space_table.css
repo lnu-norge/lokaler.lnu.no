@@ -10,7 +10,10 @@ body.view-as-table {
         @apply sticky top-0;
         @apply bg-gray-100;
         @apply z-5;
-        @apply border-b border-gray-200;
+        @apply shadow-sm;
+        tr {
+            @apply border-b border-gray-200;
+        }
         th {
             @apply font-bold;
             @apply bg-gray-100;
@@ -23,8 +26,18 @@ body.view-as-table {
         @apply md:sticky md:left-0 md:z-4;
     }
     @media (min-width: theme('screens.md')) {
-        thead tr th:first-child::after {
-            @apply block absolute shadow-2xl left-0 right-0 top-0 h-screen md:h-screen-below-desktop-menu pointer-events-none;
+        thead tr th:nth-of-type(2) {
+            @apply relative;
+        }
+        thead tr th:first-child::after,
+        tbody tr th:first-child::after {
+            @apply block absolute shadow-inner-2xl-left overflow-clip
+                    right-0
+                    top-0
+                    bottom-0
+                    pointer-events-none;
+            width: 40px;
+            transform: translateX(40px);
             content: "";
         }
     }

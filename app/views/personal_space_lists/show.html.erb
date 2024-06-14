@@ -4,31 +4,24 @@
   id="<%= dom_id @personal_space_list %>"
   class=""
 >
-  <header class="px-4 h-[3.5rem] py-2 fixed top-0 md:top-desktop-menu-height left-0 right-0 grid grid-cols-[minmax(10%,auto),1fr,minmax(10%,auto)] gap-4 align-center items-center text-sm">
-    <div>
-      <%= link_to spaces_path do %>
-        ← Finn lokaler
-      <% end %>
-    </div>
-    <div class="flex gap-6 items-baseline justify-center">
-      <div>
-        Aktiv liste:
-      <%= link_to edit_personal_space_list_path(@personal_space_list),
-                    class: "unstyled-link inline-flex gap-0 items-center group collapsable-wrapper" do %>
+  <header class="bg-gray-100
+                px-4 py-1
+                h-[3rem]
+                fixed top-0 md:top-desktop-menu-height left-0 right-0 grid grid-cols-2 gap-4 align-center items-center text-sm">
+    <div class="flex gap-0.5 items-center justify-start">
         <h1 class="font-bold inline-block mr-2 text-gray-700 group-hover:text-lnu-pink">
           <%= @personal_space_list.title %>
+          <% if @personal_space_list.id == @active_personal_space_list.id %>
+            <span class="font-light">(aktiv)</span>
+          <% end %>
         </h1>
-        <span class="edit-button edit-button--small collapsable collapsable">
-        <%= inline_svg "edit" %>
+        <%= link_to edit_personal_space_list_path(@personal_space_list),
+                    class: "edit-button edit-button--small" do %>
+          <%= inline_svg "edit" %>
           <span class="text">
             <%= t('personal_space_lists.edit_list') %>
           </span>
-        </span>
-      <% end %>
-      </div>
-      <nav>
-        <%= link_to "Bytt liste", personal_space_lists_path %>
-      </nav>
+        <% end %>
     </div>
     <div class="flex justify-end">
       Del liste TODO
@@ -39,7 +32,7 @@
         bg-gray-100
         z-4
         overscroll-x-contain overflow-auto
-        top-[3.5rem] md:top-[7rem] left-0 right-0 bottom-24 md:bottom-0 border-t border-gray-200">
+        top-[3rem] md:top-[6.5rem] left-0 right-0 bottom-24 md:bottom-0 border-t border-gray-200">
     <%= render "spaces/table_views/space_table_view",
                spaces: @personal_space_list.spaces,
                personal_space_list: @personal_space_list  %>

@@ -33,6 +33,10 @@ module.exports = {
             'auto': 'auto',
         },
         extend: {
+            boxShadow: {
+                'inner-2xl-top': "inset 0 10px 30px -40px rgb(0 0 0 / 1)",
+                'inner-2xl-left': "inset 10px 0 30px -40px rgb(0 0 0 / 1)"
+            },
             screens: {
                 'xs': '360px',
                 '3xl': '1792px',
