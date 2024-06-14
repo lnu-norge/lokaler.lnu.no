@@ -1,14 +1,14 @@
-<%# locals: (space:, field:, title_tag:, title_text:, block:) %>
+<%# locals: (space:, field:, title_tag:, title_text:, button_classes:, block:) %>
 <%= turbo_frame_tag "#{dom_id(space)}-#{field}", class: 'inline-editing' do %>
   <section>
     <header class="editable-header-type-<%= title_tag %> flex gap-3 items-baseline">
-      <%= content_tag title_tag, class: 'mt-0' do %>
+      <%= content_tag title_tag, class: 'mt-0 editable-header' do %>
        <%= title_text %>
       <% end %>
       <%= link_to edit_field_path(space, field),
                   "aria-label": "Rediger #{title_text}",
                   id: "edit_#{field}",
-                  class: 'unstyled-link edit-button collapsable' do %>
+                  class: button_classes do %>
         <span class="text">
           Rediger
         </span>
