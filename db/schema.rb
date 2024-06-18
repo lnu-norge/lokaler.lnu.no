@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_14_114804) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_18_101339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -127,6 +127,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_14_114804) do
     t.string "title"
     t.boolean "shared_with_public", default: false
     t.index ["user_id"], name: "index_personal_space_lists_on_user_id"
+  end
+
+  create_table "personal_space_lists_shared_with_mes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "personal_space_list_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["personal_space_list_id"], name: "idx_on_personal_space_list_id_d87a69044d"
+    t.index ["user_id"], name: "index_personal_space_lists_shared_with_mes_on_user_id"
   end
 
   create_table "personal_space_lists_spaces", id: false, force: :cascade do |t|
@@ -271,6 +280,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_14_114804) do
   add_foreign_key "facility_reviews", "users"
   add_foreign_key "personal_data_on_space_in_lists", "personal_space_lists"
   add_foreign_key "personal_data_on_space_in_lists", "spaces"
+  add_foreign_key "personal_space_lists_shared_with_mes", "personal_space_lists"
+  add_foreign_key "personal_space_lists_shared_with_mes", "users"
   add_foreign_key "reviews", "spaces"
   add_foreign_key "reviews", "users"
   add_foreign_key "space_contacts", "space_groups"

@@ -7,6 +7,8 @@ class PersonalSpaceList < ApplicationRecord
   accepts_nested_attributes_for :active_personal_space_list
 
   has_and_belongs_to_many :spaces
+
+  has_many :personal_space_lists_shared_with_mes, dependent: :destroy
   has_many :personal_space_lists_spaces, dependent: :destroy
   has_many :personal_data_on_space_in_lists,
            dependent: :destroy,
@@ -43,14 +45,13 @@ class PersonalSpaceList < ApplicationRecord
     active_personal_space_list.blank?
   end
 
-  def activate
-    # Deactivate any active lists for this user
-    ActivePersonalSpaceList.where(user:).destroy_all
+  def activate_for(user:)
+    deactivate_for(user:)
     ActivePersonalSpaceList.create(user:, personal_space_list: self)
   end
 
-  def deactivate
-    active_personal_space_list.destroy if active?
+  def deactivate_for(user:)
+    ActivePersonalSpaceList.where(user:).destroy_all
   end
 
   def space_count
@@ -102,6 +103,24 @@ class PersonalSpaceList < ApplicationRecord
 
   def stop_sharing
     update(shared_with_public: false)
+
+    # Deactivate for any other users who have it activated:
+    ActivePersonalSpaceList.where(
+      personal_space_list: self
+    ).where.not(user:).destroy_all
+  end
+
+  def add_to_shared_with_user(user:)
+    PersonalSpaceListsSharedWithMe.find_or_create_by(personal_space_list: self, user:)
+  end
+
+  def already_shared_with_user(user:)
+    PersonalSpaceListsSharedWithMe.find_by(personal_space_list: self, user:).present?
+  end
+
+  def remove_from_shared_with_user(user:)
+    PersonalSpaceListsSharedWithMe.where(personal_space_list: self, user:).destroy_all
+    ActivePersonalSpaceList.where(personal_space_list: self, user:).destroy_all
   end
 end
 
