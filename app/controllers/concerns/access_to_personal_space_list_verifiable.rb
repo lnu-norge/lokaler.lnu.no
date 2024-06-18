@@ -6,10 +6,15 @@ module AccessToPersonalSpaceListVerifiable
   private
 
   def verify_that_user_has_access_to_personal_space_list
-    return unless params[:user_id]
-    return if params[:user_id] == current_user.id
+    return no_access if @personal_space_list.blank?
+    return if @personal_space_list&.shared_with_public?
+    return if @personal_space_list&.user_id == current_user.id
     return if current_user.admin?
 
-    redirect_to personal_space_list_url, alert: t("personal_space_lists.no_access")
+    no_access
+  end
+
+  def no_access
+    redirect_to personal_space_lists_url, alert: t("personal_space_lists.no_access")
   end
 end

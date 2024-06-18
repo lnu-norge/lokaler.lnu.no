@@ -16,6 +16,27 @@
     <%= form.input :title %>
   </div>
 
+  <div class="mb-4">
+    <fieldset>
+      <legend class="label">
+        Del listen offentlig:
+      </legend>
+      <div>
+        <%= form.radio_button :shared_with_public, false %>
+        <%= form.label :shared_with_public_false, "Ikke del" %>
+      </div>
+      <div>
+        <%= form.radio_button :shared_with_public, true %>
+        <%= form.label :shared_with_public_true, "Del offentlig" %>
+      </div>
+    </fieldset>
+    <p>
+      Deler du listen offentlig kan flere hjelpe deg redigere gjennom denne lenken:
+      <code><%= personal_space_list_url(personal_space_list) %></code>
+
+    </p>
+  </div>
+
     <div class="inline">
     <%= form.submit class: "button submit" %>
   </div>

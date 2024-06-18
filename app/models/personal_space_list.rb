@@ -91,17 +91,30 @@ class PersonalSpaceList < ApplicationRecord
 
     default_list
   end
+
+  def shared_with_public?
+    shared_with_public
+  end
+
+  def start_sharing
+    update(shared_with_public: true)
+  end
+
+  def stop_sharing
+    update(shared_with_public: false)
+  end
 end
 
 # == Schema Information
 #
 # Table name: personal_space_lists
 #
-#  id         :bigint           not null, primary key
-#  title      :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :bigint
+#  id                 :bigint           not null, primary key
+#  shared_with_public :boolean          default(FALSE)
+#  title              :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  user_id            :bigint
 #
 # Indexes
 #
