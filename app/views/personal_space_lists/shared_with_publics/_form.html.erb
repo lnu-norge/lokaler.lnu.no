@@ -1,20 +1,36 @@
 <%# locals: (personal_space_list:) %>
 
 <%= turbo_frame_tag dom_id(personal_space_list, "shared_with_public") do %>
-  <% if personal_space_list.shared_with_public? %>
-    Delt offentlig.
-    <%=
-      button_to "Skru av deling", personal_space_list_shared_with_public_path(personal_space_list),
-                params: { personal_space_list: { shared_with_public: false } },
-                method: :put,
-                class: "link"
-    %>
+
+  <% if personal_space_list.user == current_user %>
+    <% if personal_space_list.shared_with_public?  %>
+      <div class="inline-flex gap-1 text-gray-500 items-center">
+        <%= "Kopier for å dele:" if personal_space_list.shared_with_public? %>
+        <input value="<%= personal_space_list_url(personal_space_list) %>"
+               class="bg-transparent text-sm" />
+
+        <%=
+          button_to personal_space_list_shared_with_public_path(personal_space_list),
+                    params: { personal_space_list: { shared_with_public: false } },
+                    method: :put,
+                    title: "Skru av deling",
+                    class: "inline-flex gap-1 items-center cursor-pointer group focus:outline-none" do %>
+          <%= render 'shared/toggle_switch', checked: true, text: "Delt offentlig" %>
+        <% end %>
+      </div>
+
+
+    <% else %>
+      <%=
+        button_to personal_space_list_shared_with_public_path(personal_space_list),
+                  params: { personal_space_list: { shared_with_public: true } },
+                  method: :put,
+                  title: "Skru på deling",
+                  class: "inline-flex gap-1 items-center cursor-pointer group focus:outline-none" do %>
+        <%= render 'shared/toggle_switch', checked: false, text: "Skru på deling" %>
+      <% end %>
+    <% end %>
   <% else %>
-    <%=
-      button_to "Del offentlig", personal_space_list_shared_with_public_path(personal_space_list),
-                params: { personal_space_list: { shared_with_public: true } },
-                method: :put,
-                class: "link"
-    %>
+    <%= render 'personal_space_lists/shared_with_publics/byline', personal_space_list: %>
   <% end %>
 <% end %>
