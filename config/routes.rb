@@ -65,7 +65,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       post "deactivate", to: "active_personal_space_lists#destroy", as: "deactivate_personal_space_list"
     end
     scope module: "personal_space_lists" do
-      resource :shared_with_public, only: [:edit, :update]
+      resource :shared_with_public, only: [:show, :create, :destroy]
+      resource :shared_with_me, only: [:show, :create, :destroy]
     end
     resources :spaces, path: "lokale" do
       scope module: "personal_space_lists" do

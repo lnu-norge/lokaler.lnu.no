@@ -6,7 +6,7 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
   before_action :set_personal_space_list, only: %i[show edit update destroy]
   before_action :new_personal_space_list, only: [:create]
   before_action :add_spaces_to_list, only: [:create, :update]
-  before_action :verify_that_user_has_access_to_personal_space_list, except: %i[index]
+  before_action :verify_that_user_has_access_to_personal_space_list, except: %i[new create index]
 
   after_action :activate_or_deactivate_list_based_on_params, only: [:create, :update]
 
@@ -14,12 +14,17 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
     @active_personal_space_list = PersonalSpaceList
                                   .joins(:active_personal_space_list)
                                   .find_by(
-                                    user: current_user,
                                     active_personal_space_list: { user: current_user }
                                   )
     @inactive_personal_space_lists = PersonalSpaceList
                                      .where(user: current_user)
                                      .where.not(id: @active_personal_space_list&.id)
+
+    @personal_space_lists_shared_with_me = PersonalSpaceList
+                                           .where(shared_with_public: true)
+                                           .joins(:personal_space_lists_shared_with_mes)
+                                           .where(personal_space_lists_shared_with_mes: { user: current_user })
+                                           .where.not(id: @active_personal_space_list&.id)
   end
 
   def show
@@ -79,12 +84,13 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
     return new_personal_space_list if params[:id] == "new"
 
     @personal_space_list = PersonalSpaceList.find(params[:id])
-    @active_personal_space_list = @personal_space_list
+    @active_personal_space_list = ActivePersonalSpaceList.find_by(user: current_user)&.personal_space_list
   end
 
   def new_personal_space_list
     @personal_space_list = PersonalSpaceList.new(
-      personal_space_list_params
+      **personal_space_list_params,
+      user: current_user
     )
   end
 
@@ -111,8 +117,8 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
   def activate_or_deactivate_list_based_on_params
     return if @active_param.blank?
 
-    return @personal_space_list.activate if @active_param == "1"
+    return @personal_space_list.activate_for(user: current_user) if @active_param == "1"
 
-    @personal_space_list.deactivate
+    @personal_space_list.deactivate_for(user: current_user)
   end
 end

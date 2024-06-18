@@ -3,17 +3,24 @@
 module PersonalSpaceLists
   class SharedWithPublicsController < BaseControllers::AuthenticateController
     before_action :set_personal_space_list, :check_that_user_has_access
-    def edit; end
+    def show; end
 
-    def update
-      @personal_space_list.update(allowed_params)
-      render :edit
+    def create
+      @personal_space_list.update(shared_with_public: true)
+      render :show
+    end
+
+    def destroy
+      @personal_space_list.update(shared_with_public: false)
+      clean_up_shared_lists
+      render :show
     end
 
     private
 
-    def allowed_params
-      params.require(:personal_space_list).permit(:shared_with_public)
+    def clean_up_shared_lists
+      PersonalSpaceListsSharedWithMe.where(personal_space_list: @personal_space_list).destroy_all
+      ActivePersonalSpaceList.where(personal_space_list: @personal_space_list).where.not(user: current_user).destroy_all
     end
 
     def set_personal_space_list

@@ -30,11 +30,12 @@
         <%= form.label :shared_with_public_true, "Del offentlig" %>
       </div>
     </fieldset>
-    <p>
-      Deler du listen offentlig kan flere hjelpe deg redigere gjennom denne lenken:
-      <code><%= personal_space_list_url(personal_space_list) %></code>
-
-    </p>
+    <% if personal_space_list.id %>
+      <p>
+        Deler du listen offentlig kan flere hjelpe deg redigere gjennom denne lenken:
+        <code><%= personal_space_list_url(personal_space_list) %></code>
+      </p>
+    <% end %>
   </div>
 
     <div class="inline">
