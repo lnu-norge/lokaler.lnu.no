@@ -6,7 +6,7 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
   before_action :set_personal_space_list, only: %i[show edit update destroy]
   before_action :new_personal_space_list, only: [:create]
   before_action :add_spaces_to_list, only: [:create, :update]
-  before_action :verify_that_user_has_access_to_personal_space_list
+  before_action :verify_that_user_has_access_to_personal_space_list, except: %i[index]
 
   after_action :activate_or_deactivate_list_based_on_params, only: [:create, :update]
 
@@ -98,13 +98,12 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
 
   # Only allow a list of trusted parameters through.
   def personal_space_list_params
-    allowed_params = params.require(:personal_space_list).permit(:user_id, { spaces_ids: [] }, :title, :active)
+    allowed_params = params.require(:personal_space_list).permit({ spaces_ids: [] }, :title, :active,
+                                                                 :shared_with_public)
 
     @active_param = allowed_params[:active].to_s
     allowed_params.delete(:active) # Not part of the model, but used by the controller
     allowed_params.delete(:spaces_ids) # Not part of the model, but used by the controller
-
-    allowed_params[:user_id] = current_user.id if allowed_params[:user_id].blank?
 
     allowed_params
   end
