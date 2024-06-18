@@ -1,0 +1,26 @@
+<%# locals: (text:, checked: false) %>
+<span class="text-sm font-medium text-gray-900 dark:text-gray-700">
+  <%= text %>
+</span>
+<div class="relative w-11 h-6
+            group-focus:outline-none
+            group-focus:ring-2
+            group-focus:ring-offset-2
+            group-focus:ring-lnu-pink
+            rounded-full
+
+            <%= "bg-gray-300" unless checked %>
+            <%= "bg-lnu-pink" if checked %>
+            <%= "after:translate-x-full" if checked %>
+            <%= "after:border-gray-300" unless checked %>
+            <%= "after:border-white" if checked %>
+            after:content-['']
+            after:absolute
+            after:top-[2px]
+            after:start-[2px]
+            after:bg-white
+            after:border
+            after:rounded-full
+            after:h-5 after:w-5
+            after:transition-all
+"></div>

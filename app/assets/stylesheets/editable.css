@@ -14,9 +14,10 @@
     @apply text-sm;
   }
 
-  @apply bg-gray-200/50 border border-gray-100;
+  @apply bg-gray-200/50 border border-gray-200/50;
   @apply inline-flex gap-2 content-center items-center;
   @apply text-gray-700;
+
 
   &.collapsable {
     @apply gap-0 min-h-10 min-w-10 justify-center;
