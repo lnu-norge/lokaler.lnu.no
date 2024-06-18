@@ -4,11 +4,11 @@
 
   <% if personal_space_list.user == current_user %>
     <% if personal_space_list.shared_with_public?  %>
-      <div class="inline-flex gap-1 text-gray-500 items-center">
-        <%= "Kopier for å dele:" if personal_space_list.shared_with_public? %>
+      <div class="inline-flex gap-3 text-gray-500 items-center">
+        <label><%= "Kopier for å dele:" if personal_space_list.shared_with_public? %>
         <input value="<%= personal_space_list_url(personal_space_list) %>"
-               class="bg-transparent text-sm" />
-
+               class="bg-transparent text-sm px-1.5 py-1.5 border-gray-300 " />
+        </label>
         <%=
           button_to personal_space_list_shared_with_public_path(personal_space_list),
                     params: { personal_space_list: { shared_with_public: false } },
