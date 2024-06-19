@@ -104,10 +104,11 @@ class PersonalSpaceList < ApplicationRecord
   def stop_sharing
     update(shared_with_public: false)
 
-    # Deactivate for any other users who have it activated:
-    ActivePersonalSpaceList.where(
-      personal_space_list: self
-    ).where.not(user:).destroy_all
+    clean_up_shared_lists
+  end
+
+  def clean_up_shared_lists
+    ActivePersonalSpaceList.where(personal_space_list: self).where.not(user:).destroy_all
   end
 
   def add_to_shared_with_user(user:)
