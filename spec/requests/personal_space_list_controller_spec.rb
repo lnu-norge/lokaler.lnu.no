@@ -34,7 +34,6 @@ RSpec.describe PersonalSpaceList, type: :request do
     expect(user.personal_space_lists.count).to eq(1)
     post personal_space_lists_path, params: {
       personal_space_list: {
-        user_id: user.id,
         title:
       }
     }
