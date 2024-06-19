@@ -6,22 +6,16 @@ module PersonalSpaceLists
     def show; end
 
     def create
-      @personal_space_list.update(shared_with_public: true)
+      @personal_space_list.start_sharing
       render :show
     end
 
     def destroy
-      @personal_space_list.update(shared_with_public: false)
-      clean_up_shared_lists
+      @personal_space_list.stop_sharing
       render :show
     end
 
     private
-
-    def clean_up_shared_lists
-      PersonalSpaceListsSharedWithMe.where(personal_space_list: @personal_space_list).destroy_all
-      ActivePersonalSpaceList.where(personal_space_list: @personal_space_list).where.not(user: current_user).destroy_all
-    end
 
     def set_personal_space_list
       @personal_space_list = PersonalSpaceList.find(params[:personal_space_list_id])
