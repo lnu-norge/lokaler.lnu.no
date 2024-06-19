@@ -8,8 +8,7 @@
           <%= link_to space_path(space),
                       class: "space-listing group",
                       data: {
-                        "turbo-frame": "spaces-open-here", # This updates the spaces-open-here frame
-                        "turbo-action": "advance" # Does not update browser history
+                        "turbo-frame": "spaces-open-here" # This updates the spaces-open-here frame
                       } do %>
               <h3 class="text-xl mb-2.5 font-bold mt-0">
                 <%= space.title %>

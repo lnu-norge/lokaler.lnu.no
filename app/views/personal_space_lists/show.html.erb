@@ -1,5 +1,6 @@
 <%= turbo_frame_tag "spaces-open-here",
-                    class: "empty:hidden border-l border-t border-gray-200 space-open-in-sidebar z-5 fixed left-[20rem] top-[7rem] right-0 h-screen-below-desktop-menu bg-white overflow-auto overscroll-contain" %>
+                    class: "empty:hidden border-l border-t border-gray-200 space-open-in-sidebar
+                    z-5 fixed left-0 md:left-[20rem] top-0 md:top-desktop-menu-height right-0 bottom-24 md:bottom-0 bg-white overflow-auto overscroll-contain" %>
 <div
   id="<%= dom_id @personal_space_list %>"
   class="fixed z-3 top-0 bottom-24 md:bottom-0 md:top-desktop-menu-height right-0 left-0 overflow-auto overscroll-contain"
