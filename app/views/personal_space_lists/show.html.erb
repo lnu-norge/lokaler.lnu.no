@@ -2,54 +2,32 @@
                     class: "empty:hidden border-l border-t border-gray-200 space-open-in-sidebar z-5 fixed left-[20rem] top-[7rem] right-0 h-screen-below-desktop-menu bg-white overflow-auto overscroll-contain" %>
 <div
   id="<%= dom_id @personal_space_list %>"
-  class=""
+  class="fixed z-3 top-0 bottom-24 md:bottom-0 md:top-desktop-menu-height right-0 left-0 overflow-auto overscroll-contain"
 >
-  <header class="bg-gray-100
-                px-4 py-1
-                h-[3rem]
-                fixed top-0 md:top-desktop-menu-height left-0 right-0 flex justify-between gap-4 items-center text-sm">
-    <div class="flex gap-1 items-center justify-start">
-        <h1 class="font-bold inline-block text-gray-700 group-hover:text-lnu-pink">
-          <%= @personal_space_list.title %>
-          <% if @personal_space_list.id == @active_personal_space_list&.id %>
-            <span class="font-light">(aktiv)</span>
-          <% end %>
-        </h1>
-        <%= link_to edit_personal_space_list_path(@personal_space_list),
-                    class: "edit-button edit-button--small" do %>
-          <%= inline_svg "edit" %>
-          <span class="text">
-            <%= t('personal_space_lists.edit_list') %>
-          </span>
-        <% end %>
-      <% unless @personal_space_list.id == @active_personal_space_list&.id %>
-        <%= link_to activate_personal_space_list_personal_space_list_path(@personal_space_list),
-                    method: :post,
-                    class: "button submit" do %>
-          Bruk som aktiv
-        <% end %>
-      <% end %>
-    </div>
-    <div class="text-right">
-      <%= render "personal_space_lists/shared_with_publics/form", personal_space_list: @personal_space_list %>
-    </div>
+  <header class="sticky left-0 right-0 bg-gray-100 border-b border-gray-200
+                px-4 py-2
+                min-h-[3rem]
+                w-full flex md:flex-wrap justify-between gap-1 items-center text-sm">
+    <%=
+      render 'personal_space_lists/show/header',
+              personal_space_list: @personal_space_list,
+              active_personal_space_list: @active_personal_space_list
+    %>
 
   </header>
-  <main class="fixed
+  <main class="
         bg-gray-100
-        z-4
-        overscroll-x-contain overflow-auto
-        top-[3rem] md:top-[6.5rem] left-0 right-0 bottom-24 md:bottom-0 border-t border-gray-200">
+        z-4">
     <%= render "spaces/table_views/space_table_view",
                spaces: @personal_space_list.spaces,
                personal_space_list: @personal_space_list  %>
-    <div class="border-b border-gray-200 sticky left-0 pt-4 pb-12 w-screen flex flex-col gap-2 items-center text-center bg-gray-100 z-5">
-      <%= inline_svg "empty", class: "text-gray-300" %>
-      <p>
-        Litt tomt?<br />
-        <%= link_to "Finn flere lokaler", spaces_path %>
-      </p>
-    </div>
   </main>
+  <footer class="border-b border-gray-200 sticky left-0 right-0 pt-4 pb-12 w-full flex flex-col gap-2 items-center text-center bg-gray-100 z-5">
+    <%= inline_svg "empty", class: "text-gray-300" %>
+    <p>
+      Litt tomt?<br />
+      <%= link_to "Finn flere lokaler", spaces_path %>
+    </p>
+  </footer>
 
 </div>

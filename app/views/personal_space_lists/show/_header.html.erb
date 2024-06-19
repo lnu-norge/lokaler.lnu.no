@@ -1,0 +1,29 @@
+<%# locals: (personal_space_list:, active_personal_space_list: ) %>
+<div class="flex flex-wrap gap-1 items-center justify-start mr-2">
+  <h1 class="font-bold inline-block text-gray-700 group-hover:text-lnu-pink">
+    <%= personal_space_list.title %>
+    <% if personal_space_list.id == active_personal_space_list&.id %>
+      <span class="font-light">(aktiv)</span>
+    <% end %>
+  </h1>
+</div>
+<div class="flex-grow flex flex-wrap gap-2 justify-end items-center content-center">
+  <%= link_to edit_personal_space_list_path(personal_space_list),
+              class: "edit-button edit-button--small w-fit" do %>
+    <%= inline_svg "edit" %>
+    <span class="text">
+            <%= t('personal_space_lists.edit_list') %>
+          </span>
+  <% end %>
+  <% unless personal_space_list.id == active_personal_space_list&.id %>
+    <%= link_to activate_personal_space_list_personal_space_list_path(personal_space_list),
+                method: :post,
+                class: "button submit" do %>
+      Bruk som aktiv
+    <% end %>
+  <% end %>
+  <div class="flex-shrink-0 flex-grow text-right">
+    <%= render "personal_space_lists/shared_with_publics/form", personal_space_list: personal_space_list %>
+  </div>
+
+</div>
