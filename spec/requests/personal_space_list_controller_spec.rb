@@ -29,7 +29,7 @@ RSpec.describe PersonalSpaceList, type: :request do
     expect(response).to redirect_to(personal_space_lists_path)
   end
 
-  it "can create a new list" do
+  it "can create a new list manually" do
     title = "My new list"
     expect(user.personal_space_lists.count).to eq(1)
     post personal_space_lists_path, params: {
