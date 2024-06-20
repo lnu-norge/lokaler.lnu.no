@@ -5,7 +5,9 @@ class PersonalSpaceListsSpace < ApplicationRecord
 
   belongs_to :personal_space_list
   belongs_to :space
-  has_one :personal_data_on_space_in_list, query_constraints: [:space_id, :personal_space_list_id], dependent: :nullify
+  has_one :personal_data_on_space_in_list,
+          query_constraints: [:space_id, :personal_space_list_id],
+          dependent: :nullify
 
   after_create :set_up_personal_data_on_space_in_list
 
