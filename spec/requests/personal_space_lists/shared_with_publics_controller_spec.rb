@@ -57,6 +57,18 @@ RSpec.describe PersonalSpaceLists::SharedWithPublicsController, type: :request d
     expect(user.personal_space_lists_shared_with_mes.reload.count).to eq(0)
   end
 
+  it "cannot delete someone elses list, even if it is shared" do
+    delete personal_space_list_path(someone_elses_space_list)
+    someone_elses_space_list.reload
+    expect(someone_elses_space_list).to be_truthy
+
+    someone_elses_space_list.start_sharing
+
+    delete personal_space_list_path(someone_elses_space_list)
+    someone_elses_space_list.reload
+    expect(someone_elses_space_list).to be_truthy
+  end
+
   it "can add and remove spaces in someone elses shared list, but only when shared" do
     post add_to_personal_space_list_space_path(personal_space_list_id: someone_elses_space_list.id, id: space.id)
     expect(someone_elses_space_list.reload.spaces.count).to eq(0)

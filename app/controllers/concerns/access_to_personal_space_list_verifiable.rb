@@ -14,6 +14,14 @@ module AccessToPersonalSpaceListVerifiable
     no_access
   end
 
+  def verify_that_user_is_owner_or_admin
+    return no_access if @personal_space_list.blank?
+    return if @personal_space_list&.user_id == current_user.id
+    return if current_user.admin?
+
+    no_access
+  end
+
   def set_as_shared_with_me
     return if @personal_space_list.already_shared_with_user(user: current_user)
 

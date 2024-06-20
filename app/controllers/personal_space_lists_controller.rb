@@ -6,7 +6,8 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
   before_action :set_personal_space_list, only: %i[show edit update destroy]
   before_action :new_personal_space_list, only: [:create]
   before_action :add_spaces_to_list, only: [:create, :update]
-  before_action :verify_that_user_has_access_to_personal_space_list, except: %i[new create index]
+  before_action :verify_that_user_has_access_to_personal_space_list, except: %i[new create index destroy]
+  before_action :verify_that_user_is_owner_or_admin, only: %i[destroy]
 
   after_action :activate_or_deactivate_list_based_on_params, only: [:create, :update]
 
