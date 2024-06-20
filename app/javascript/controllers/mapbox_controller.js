@@ -461,7 +461,6 @@ export default class extends Controller {
   }
 
   async loadNewMapPosition() {
-    document.getElementById('space-listing').innerHTML = '';
 
     const searchUrl = this.buildSearchURL()
 
@@ -475,9 +474,6 @@ export default class extends Controller {
     }
 
     const spacesInRect = await results.json();
-
-    // Replace the spaces list with the new view rendered by the server
-    document.getElementById('space-listing').innerHTML = spacesInRect.listing;
 
     const { markers } = spacesInRect;
     // Remove markers that are no longer relevant
