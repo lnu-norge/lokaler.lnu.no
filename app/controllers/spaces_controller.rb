@@ -10,6 +10,11 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   def index
     set_filterable_facility_categories
     set_filterable_space_types
+    filter_spaces
+
+    @space_count = @spaces.to_a.size
+    @page_size = SPACE_SEARCH_PAGE_SIZE
+    @spaces = @spaces.limit(@page_size)
   end
 
   def show
