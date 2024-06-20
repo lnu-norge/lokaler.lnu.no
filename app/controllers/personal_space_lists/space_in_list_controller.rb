@@ -11,7 +11,6 @@ module PersonalSpaceLists
     include SettableFilteredFacilities
     include AccessToPersonalSpaceListVerifiable
 
-
     def show; end
 
     def create
@@ -97,7 +96,7 @@ module PersonalSpaceLists
     def set_list
       if creating_new_list?
         return @personal_space_list = PersonalSpaceList.create_default_list_for(current_user,
-                                                                 active: true)
+                                                                                active: true)
       end
 
       @personal_space_list = PersonalSpaceList.find(params[:personal_space_list_id])
