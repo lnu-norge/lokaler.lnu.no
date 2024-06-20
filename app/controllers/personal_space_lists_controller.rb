@@ -12,9 +12,9 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
 
   def index
     @active_personal_space_list = PersonalSpaceList
-                                  .joins(:active_personal_space_list)
+                                  .joins(:active_personal_space_lists)
                                   .find_by(
-                                    active_personal_space_list: { user: current_user }
+                                    active_personal_space_lists: { user: current_user }
                                   )
     @inactive_personal_space_lists = PersonalSpaceList
                                      .where(user: current_user)

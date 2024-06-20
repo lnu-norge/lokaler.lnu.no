@@ -3,8 +3,8 @@
 class PersonalSpaceList < ApplicationRecord
   belongs_to :user
 
-  has_one :active_personal_space_list, dependent: :destroy
-  accepts_nested_attributes_for :active_personal_space_list
+  has_many :active_personal_space_lists, dependent: :destroy
+  accepts_nested_attributes_for :active_personal_space_lists
 
   has_and_belongs_to_many :spaces
 
