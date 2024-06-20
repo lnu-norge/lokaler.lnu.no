@@ -31,7 +31,7 @@ RSpec.describe PersonalSpaceList, type: :request do
 
   it "can create a new list manually" do
     title = "My new list"
-    expect(user.personal_space_lists.count).to eq(1)
+    expect(user.personal_space_lists.count).to eq(0)
     post personal_space_lists_path, params: {
       personal_space_list: {
         title:
@@ -40,7 +40,7 @@ RSpec.describe PersonalSpaceList, type: :request do
     follow_redirect!
     expect(response).to have_http_status(:success)
     expect(response.body).to match title
-    expect(user.personal_space_lists.count).to eq(2)
+    expect(user.personal_space_lists.count).to eq(1)
   end
 
   it "can edit a list" do
