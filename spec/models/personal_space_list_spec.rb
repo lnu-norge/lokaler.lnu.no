@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe PersonalSpaceList, type: :model do
-  let(:users_space_list) { Fabricate(:personal_space_list) }
+  let!(:users_space_list) { Fabricate(:personal_space_list) }
   let(:user) { users_space_list.user }
   let(:space_to_add_to_list) { Fabricate(:space) }
 
@@ -12,14 +12,14 @@ RSpec.describe PersonalSpaceList, type: :model do
   end
 
   it "can destroy a list" do
-    expect(users_space_list.destroy).to change(described_class, :count).by(-1)
+    expect { users_space_list.destroy }.to change(described_class, :count).by(-1)
   end
 
   it "can destroy a list, even if it has a space" do
     space = Fabricate(:space)
     users_space_list.add_space(space)
     users_space_list.reload
-    expect(users_space_list.destroy).to change(described_class, :count).by(-1)
+    expect { users_space_list.destroy }.to change(described_class, :count).by(-1)
   end
 
   it "can share a list" do
@@ -55,7 +55,7 @@ RSpec.describe PersonalSpaceList, type: :model do
 
   it "can add personal data about a space in a list, without having it removed if the space is removed from the list" do
     users_space_list.add_space(space_to_add_to_list)
-    personal_data = users_space_list.personal_data_on_space_in_lists.find_by(space: space_to_add_to_list)
+    personal_data = users_space_list.this_lists_personal_data_on_spaces.find_by(space: space_to_add_to_list)
 
     expect(personal_data.personal_notes).to be_nil
     expect(personal_data.contact_status).to eq("not_contacted")
@@ -88,7 +88,7 @@ RSpec.describe PersonalSpaceList, type: :model do
     expect(users_space_list.space_said_maybe_count).to eq(0)
     expect(users_space_list.space_said_yes_count).to eq(0)
 
-    personal_data = users_space_list.personal_data_on_space_in_lists.find_by(space: space_to_add_to_list)
+    personal_data = users_space_list.this_lists_personal_data_on_spaces.find_by(space: space_to_add_to_list)
     personal_data.update(
       contact_status: "said_no"
     )
@@ -130,7 +130,7 @@ RSpec.describe PersonalSpaceList, type: :model do
     expect(users_space_list.space_said_no_count).to eq(0)
 
     # Changing the contact_status of a space changes the counts:
-    personal_data = users_space_list.personal_data_on_space_in_lists.find_by(space: space_to_add_to_list)
+    personal_data = users_space_list.this_lists_personal_data_on_spaces.find_by(space: space_to_add_to_list)
     personal_data.update(
       contact_status: "said_no"
     )

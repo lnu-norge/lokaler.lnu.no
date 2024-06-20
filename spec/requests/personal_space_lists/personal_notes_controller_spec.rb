@@ -36,7 +36,7 @@ RSpec.describe PersonalSpaceLists::PersonalNotesController, type: :request do
     }
     expect(response).to have_http_status(:success)
 
-    personal_data = personal_space_list.personal_data_on_space_in_lists.find_by(space: space_added_to_list)
+    personal_data = personal_space_list.this_lists_personal_data_on_spaces.find_by(space: space_added_to_list)
     expect(personal_data.reload.personal_notes).to eq(first_note_text)
 
     new_note_text = "New note is newer"

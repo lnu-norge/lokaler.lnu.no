@@ -41,7 +41,7 @@
   <tbody>
   <% spaces.each do |space| %>
     <%
-      personal_data_on_space_in_list = personal_space_list.personal_data_on_space_in_lists.find_by(space:)
+      personal_data_on_space_in_list = personal_space_list.this_lists_personal_data_on_spaces.find_by(space:)
     %>
     <%= render "spaces/table_views/space_table_row",
                  space:,
