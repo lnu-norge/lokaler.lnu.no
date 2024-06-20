@@ -1,3 +1,7 @@
+/* TODO: per 20th of june 2024 Everything related to view-as-table is not used
+   as we have turned off the view-as-table option for the main search.
+   If this still isn't turned on in a month or three, then do a search for view-as-table and delete all of it.
+ */
 .view-as-table,
 body.view-as-table {
     @apply overscroll-x-contain;
