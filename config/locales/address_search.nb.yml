@@ -1,0 +1,4 @@
+nb:
+  address_search:
+    no_address_given: 'Kart'
+    didnt_find: 'Fant ikke adressen'

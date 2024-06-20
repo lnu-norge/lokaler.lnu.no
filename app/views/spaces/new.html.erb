@@ -1,7 +1,7 @@
 <% content_for(:html_title) { t('space_listing.new_space') } %>
 
 <div class="p-4 max-w-prose content mx-auto">
-  <h2><%= t('space_listing.new_space') %></h2>
+  <h1><%= t('space_listing.new_space') %></h1>
     <%= simple_form_for @space, data: { controller: 'duplicate-checker'  } do |form|  %>
       <%= edit_field 'title', form %>
       <%= edit_field 'where', form %>

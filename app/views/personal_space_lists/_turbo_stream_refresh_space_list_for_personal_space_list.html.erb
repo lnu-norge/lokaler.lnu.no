@@ -1,0 +1,8 @@
+<%# locals: (personal_space_list:, scope: nil) %>
+<%= turbo_stream.replace( dom_id_space_list_icons_for(personal_space_list, scope:)) do  %>
+  <%=
+    render "personal_space_lists/card/space_list",
+           personal_space_list:,
+           scope:
+  %>
+<% end %>

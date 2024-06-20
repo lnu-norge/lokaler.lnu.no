@@ -5,6 +5,7 @@
 @import "./_avatar.css";
 @import "./_horizontal_card.css";
 @import "./actiontext.css";
+@import "./autosave-while-typing.css";
 @import "./common_elements.css";
 @import "./content.css";
 @import "./devise.css";
@@ -12,10 +13,12 @@
 @import "./flash.css";
 @import "./forms.css";
 @import "./image_slider.css";
+@import "./loading_spaces_when_empty.css";
 @import "./map.css";
 @import "./modal.css";
 @import "./radio_slider.css";
 @import "./show-only-if-inside-space-open-in-sidebar.css";
 @import "./space_index.css";
+@import "./space_table.css";
 @import "./star_picker.css";
 @import "./tom_select.css";

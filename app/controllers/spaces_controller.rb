@@ -2,15 +2,18 @@
 
 class SpacesController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
   include DefineGroupedFacilitiesForSpace
+  include FilterableSpaces
+  include AccessibleActivePersonalSpaceList
+
+  before_action :access_active_personal_list, only: %i[index show spaces_search]
 
   def index
-    @spaces = Space.order updated_at: :desc
-    @space = Space.new
+    set_filterable_facility_categories
+    set_filterable_space_types
   end
 
   def show
     @space = Space.includes(:space_contacts).where(id: params[:id]).first
-    @space_contact = SpaceContact.new(space_id: @space.id, space_group_id: @space.space_group_id)
 
     define_facilities
   end
@@ -43,23 +46,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     end
   end
 
-  def address_search
-    address = Space.search_for_address(
-      address: params[:address],
-      post_number: params[:post_number]
-    )
-
-    return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
-
-    render json: { **address, map_image_html: helpers.static_map_of_lat_lng(lat: address[:lat], lng: address[:lng]) }
-  end
-
-  def edit_field
-    @space = Space.find(params[:id])
-    @field = params[:field]
-    render "spaces/edit/common/edit_field"
-  end
-
   def update
     @space = Space.find(params[:id])
     address_params = get_address_params(params)
@@ -75,6 +61,23 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       @field = "basics"
       render "spaces/edit/common/edit_field"
     end
+  end
+
+  def address_search
+    address = Space.search_for_address(
+      address: params[:address],
+      post_number: params[:post_number]
+    )
+
+    return render json: { map_image_html: helpers.static_map_of_lat_lng(lat: nil, lng: nil) } if address.nil?
+
+    render json: { **address, map_image_html: helpers.static_map_of_lat_lng(lat: address[:lat], lng: address[:lng]) }
+  end
+
+  def edit_field
+    @space = Space.find(params[:id])
+    @field = params[:field]
+    render "spaces/edit/common/edit_field"
   end
 
   def space_group_from(params)
@@ -104,24 +107,11 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   def spaces_search
-    filtered_spaces = filter_spaces(params)
-    space_count = filtered_spaces.count
-    spaces = filtered_spaces.first(SPACE_SEARCH_PAGE_SIZE)
+    filter_spaces
+    @space_count = @spaces.to_a.size
+    @spaces = @spaces.limit(SPACE_SEARCH_PAGE_SIZE)
 
-    markers = spaces.map(&:render_map_marker)
-
-    facility_ids = params[:facilities]&.map(&:to_i) || []
-    render json: {
-      listing: render_to_string(
-        partial: "spaces/index/space_listings", locals: {
-          spaces:,
-          filtered_facilities: Facility.find(facility_ids),
-          space_count:,
-          page_size: SPACE_SEARCH_PAGE_SIZE
-        }
-      ),
-      markers:
-    }
+    render_listing_and_markers_json
   end
 
   def check_duplicates
@@ -140,7 +130,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
           spaces: duplicates
         }
       ),
-      count: duplicates.count
+      count: duplicates.size
     }
   end
 
@@ -153,6 +143,56 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   private
 
   SPACE_SEARCH_PAGE_SIZE = 20
+
+  def render_listing_and_markers_json
+    view_as = params[:view_as]
+
+    render json: {
+      listing: get_listing_json_for_view(view_as),
+      markers: get_marker_json_for_view(view_as)
+    }
+  end
+
+  def get_listing_json_for_view(view_as)
+    @experiences = FacilityReview::LIST_EXPERIENCES
+
+    facility_ids = params[:facilities]&.map(&:to_i) || []
+    @filtered_facilities = Facility.includes(:facility_categories).find(facility_ids)
+    @non_filtered_facilities = Facility.includes(:facility_categories).where.not(id: facility_ids)
+
+    spaces = preload_spaces_data_for_view(view_as)
+
+    @page_size = SPACE_SEARCH_PAGE_SIZE
+    render_to_string(
+      partial: "spaces/index/space_listings", locals: {
+        spaces:,
+        space_count: @space_count,
+        view_as:,
+        page_size: @page_size
+      }
+    )
+  end
+
+  def get_marker_json_for_view(view_as)
+    return [] unless view_as == "map"
+
+    @spaces.map(&:render_map_marker)
+  end
+
+  def preload_spaces_data_for_view(view_as)
+    # Fresh query to get all the data for the filtered and ordered spaces, without
+    # the need to include all this data while filtering
+
+    if view_as == "table"
+      Space
+        .includes_data_for_show
+        .find(@spaces.map(&:id)) # This keeps the order of the spaces
+    else
+      Space
+        .includes_data_for_filter_list
+        .find(@spaces.map(&:id)) # This keeps the order of the spaces
+    end
+  end
 
   def duplicates_from_params
     test_space = Space.new(
@@ -170,30 +210,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       address: params[:space][:address],
       post_number: params[:space][:post_number]
     ) || {}
-  end
-
-  def filter_spaces(params)
-    space_types = params[:space_types]&.map(&:to_i)
-
-    spaces = Space.includes([:images]).filter_on_location(
-      params[:north_west_lat],
-      params[:north_west_lng],
-      params[:south_east_lat],
-      params[:south_east_lng]
-    )
-
-    spaces = spaces.filter_on_title(params[:search_for_title]) if params[:search_for_title].present?
-    spaces = spaces.filter_on_space_types(space_types) if space_types.present?
-
-    filter_on_facilities_and_return_ordered_spaces(spaces:, params:)
-  end
-
-  def filter_on_facilities_and_return_ordered_spaces(spaces:, params:)
-    facilities = params[:facilities]&.map(&:to_i)
-
-    return spaces.order("star_rating DESC NULLS LAST") if facilities.blank?
-
-    Space.filter_on_facilities(spaces, params[:facilities])
   end
 
   def space_params # rubocop:disable  Metrics/MethodLength

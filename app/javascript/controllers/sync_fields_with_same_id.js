@@ -72,10 +72,10 @@ export default class extends Controller {
   make_field_fake_and_unique(field, group, index) {
     // Add unique ids:
     field.dataset.original_id = field.id
-    field.id = `${field.id}-${index}`
+    field.id = `${field.id}-duplicate-${index}`
 
     // Update labels with correct for
-    const label = field.parentElement.querySelector(`label[for=${field.dataset.original_id}]`)
+    const label = field.parentElement.querySelector(`label[for="${field.dataset.original_id}"]`)
     if (label) {
       label.setAttribute('for', field.id)
     }

@@ -1,0 +1,27 @@
+nb:
+  personal_space_lists:
+    chosen_list: "Aktiv liste"
+    no_access: "Du har ikke tilgang til denne listen"
+    need_to_choose_a_list_and_space: "Du må velge en liste og et lokale å legge i listen"
+    space_already_in_list: "%{space_title} er allerede i listen"
+    space_not_in_list: '%{space_title} er ikke i listen'
+    space_added_to_list: '%{space_title} lagt i listen'
+    space_removed_from_list: "%{space_title} fjernet fra listen"
+    edit_list: "Rediger"
+    list_added: "Lagt til mine lister"
+    list_removed: "Fjernet fra mine lister"
+    list_created: "Ny liste laget"
+    list_updated: "Liste oppdatert"
+    list_deleted: "Liste slettet"
+    list_activated: "Aktiverte listen \"%{name}\""
+    list_deactivated: "Deaktiverte listen \"%{name}\""
+    default_list_name: "%{name} sin liste"
+    save_notes: "Lagre notater"
+    notes_saved: "Notater lagret"
+    save_contact_status: "Lagre status"
+    contact_status_saved: "Status lagret"
+    contact_status:
+      not_contacted: "Ikke spurt"
+      said_no: "Sagt nei"
+      said_maybe: "Kanskje"
+      said_yes: "Sagt ja"

@@ -1,0 +1,10 @@
+nb:
+  facility_reviews:
+    new:
+      showing_relevant_facilities: 'Viser kun fasiliteter med erfaringer fra %{space_title} eller som er vanlige for %{space_types}.'
+      show_other_facilities:
+        one: 'Vis den siste fasiliteten'
+        other: 'Vis %{count} andre fasiliteter'
+    edit: 'Redigér fasiliteter'
+    save: 'Lagre fasiliteter'
+    error: 'Kunne ikke lagre erfaring, noe gikk galt'

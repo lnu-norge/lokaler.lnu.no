@@ -1,0 +1,79 @@
+<%# locals: (space_facility:, facility_review:, facility_category: ) %>
+
+<%
+  facility_id = space_facility.facility.id
+  facility_title = space_facility.facility.title
+  category_id = facility_category.id
+  space_id = space_facility.space.id
+%>
+<%= turbo_frame_tag target_id_for_categorized_facility(facility_id:,  category_id:, space_id: ) do %>
+  <div class="[td_&]:h-8">
+    <section id="scroll_to_<%= target_id_for_categorized_facility(facility_id:,  category_id:, space_id: ) %>" class="shadow-lg md:shadow-2xl p-4 -m-4 mb-6 rounded-lg bg-white [td_&]:absolute [td_&]:top-0 [td_&]:z-7 ">
+      <%= simple_form_for facility_review,
+                          method: :post,
+                          namespace: target_id_for_categorized_facility(facility_id:,  category_id:, space_id: ),
+                          url: create_facility_review_path(space_id:, facility_id:) do |form| %>
+        <%= form.hidden_field :user_id, value: current_user.id %>
+        <%= form.hidden_field :id, value: facility_review.id %>
+        <fieldset class="mt-1 w-full">
+          <h4 class="no-mt">
+            <span class="flex gap-2 text-base items-baseline">
+              <span class="font-bold mb-2 <%= "line-through text-gray-600" if space_facility.experience == "impossible" %>">
+                <%= facility_title %>
+              </span>
+
+              <span class="text-sm font-normal text-gray-400 items-center inline-flex gap-1">
+                <%= icon_for_space_facility_experience(space_facility.experience) %>
+                  <span class="<%= css_class_for_space_facility_experience(space_facility.experience) %>">
+                    <%= t("tooltips.others_experience.#{space_facility.experience}") %>
+                  </span>
+              </span>
+            </span>
+          </h4>
+
+          <div class="w-fit mt-1 mb-2 flex flex-col gap-2">
+            <fieldset>
+              <legend class="text-sm mb-1">
+                <%= t('simple_form.labels.space_facility.experience') %>
+              </legend>
+              <%= render 'facility_reviews/form_components/my_experience_radio_buttons',  form:, facility_review: %>
+            </fieldset>
+
+            <div>
+              <%= form.label :description, class: "text-sm mb-1 block" do  %>
+                <%=  t('simple_form.labels.space_facility.description') %>:
+              <% end %>
+              <%= render 'facility_reviews/form_components/description_input', form:, space_facility: %>
+            </div>
+          </div>
+        </fieldset>
+        <%= button_tag :submit, class: "button submit mr-2" do %>
+          <%= t("space_edit.save_changed_field_html", field: facility_title) %>
+        <% end %>
+        <%= link_to t("space_contacts.abort"), facility_review_path(
+          space_id:,
+          facility_id:,
+          facility_category_id: category_id,
+          ), class: "link" %>
+    </section>
+    <%= link_to facility_review_path(
+      space_id:,
+      facility_id:,
+      facility_category_id: category_id,
+      ), class: "hidden [td_&]:block fixed inset-0 bg-gray-300/30 z-6" do %>
+      <%= t("space_contacts.abort") %>
+    <% end %>
+<% end %>
+  </div>
+  <script>
+    document
+      .getElementById(
+        "scroll_to_<%= target_id_for_categorized_facility(facility_id:,  category_id:, space_id: ) %>"
+      )
+      .scrollIntoView({
+        block: "nearest",
+        inline: "nearest"
+      })
+  </script>
+
+<% end %>

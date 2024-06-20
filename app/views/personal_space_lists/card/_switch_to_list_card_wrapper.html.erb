@@ -1,0 +1,17 @@
+<%# locals: (personal_space_list:, url: personal_space_list, highlight: false, extra_css_classes: "") %>
+<%= link_to activate_personal_space_list_personal_space_list_path(personal_space_list),
+            method: :post,
+            id: dom_id(personal_space_list, "_card"),
+            class: "unstyled-link
+              flex flex-col gap-3
+              pb-5 px-6 pt-5
+              shadow-lg rounded-lg
+              bg-white
+              border border-gray-200
+              hover:border-lnu-pink
+              #{ "border-2 border-lnu-pink" if highlight }
+              group
+              #{ extra_css_classes }
+      " do %>
+  <%= yield %>
+<% end %>

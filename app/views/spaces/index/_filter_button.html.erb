@@ -1,20 +1,18 @@
-<nav class="fixed md:hidden m-4 md:m-0 z-10 top-0 md:top-14 right-0 left-0 justify-center md:block md:px-4 md:pt-4 md:mb-8">
+<nav class="fixed md:hidden m-4 md:m-0 z-10 top-0 md:top-14 right-0 left-0 justify-center md:px-4 md:pt-4 md:mb-8">
   <button
     id="toggle_search_box"
     data-action="click->mapbox#showSearchBox"
     class="border-white hover:border-lnu-pink w-full md:w-full border-2 py-3 px-4 bg-white rounded-md shadow-xl ">
-    <span class="flex justify-between">
-        <span class="inline-flex items-center justify-start">
-          <%= inline_svg_tag 'search', class: 'inline-block' %>
-        </span>
+    <span class="flex justify-between gap-6 items-center">
+        <%= render 'spaces/index/filter_button_list_status', personal_space_list: @active_personal_space_list %>
 
-        <span class="inline-flex items-center w-full justify-center" id="searchbox-text">
+        <%= inline_svg_tag 'search' unless @active_personal_space_list.present? %>
+        <span class="inline-flex items-center w-full justify-center <%= "sr-only" if @active_personal_space_list.present? %>" id="searchbox-text">
           <%= t('space_filter.search_and_filter') %>
         </span>
-
-        <span class="inline-flex items-center justify-end">
-          <span id="searchbox-count"></span>
-          <%= inline_svg_tag 'filter', class: 'inline-block' %>
+        <span class="inline-flex gap-3 items-center">
+          <%= inline_svg_tag 'search' if @active_personal_space_list.present? %>
+          <%= inline_svg_tag 'filter' %>
         </span>
     </span>
   </button>

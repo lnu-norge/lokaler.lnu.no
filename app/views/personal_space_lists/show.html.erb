@@ -1,0 +1,34 @@
+<%= turbo_frame_tag "spaces-open-here",
+                    class: "empty:hidden border-l border-t border-gray-200 space-open-in-sidebar
+                    z-5 fixed left-0 md:left-[20rem] top-0 md:top-desktop-menu-height right-0 bottom-24 md:bottom-0 bg-white overflow-auto overscroll-contain" %>
+<div
+  id="<%= dom_id @personal_space_list %>"
+  class="fixed z-3 top-0 bottom-24 md:bottom-0 md:top-desktop-menu-height right-0 left-0 overflow-auto overscroll-contain"
+>
+  <header class="sticky left-0 right-0 bg-gray-100 border-b border-gray-200
+                px-4 py-2
+                min-h-[3rem]
+                w-full flex md:flex-wrap justify-between gap-1 items-center text-sm">
+    <%=
+      render 'personal_space_lists/show/header',
+              personal_space_list: @personal_space_list,
+              active_personal_space_list: @active_personal_space_list
+    %>
+
+  </header>
+  <main class="
+        bg-gray-100
+        z-4">
+    <%= render "spaces/table_views/space_table_view",
+               spaces: @personal_space_list.spaces,
+               personal_space_list: @personal_space_list  %>
+  </main>
+  <footer class="border-b border-gray-200 sticky left-0 right-0 pt-4 pb-12 w-full flex flex-col gap-2 items-center text-center bg-gray-100 z-5">
+    <%= inline_svg "empty", class: "text-gray-300" %>
+    <p>
+      Litt tomt?<br />
+      <%= link_to "Finn flere lokaler", spaces_path %>
+    </p>
+  </footer>
+
+</div>

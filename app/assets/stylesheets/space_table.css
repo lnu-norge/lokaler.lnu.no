@@ -1,0 +1,145 @@
+/* TODO: per 20th of june 2024 Everything related to view-as-table is not used
+   as we have turned off the view-as-table option for the main search.
+   If this still isn't turned on in a month or three, then do a search for view-as-table and delete all of it.
+ */
+.view-as-table,
+body.view-as-table {
+    @apply overscroll-x-contain;
+}
+
+.space_table {
+    @apply table-auto w-full;
+
+    thead {
+        @apply sticky top-0;
+        @apply bg-gray-100;
+        @apply z-5;
+        @apply shadow-sm;
+        tr {
+            @apply border-b border-gray-200;
+        }
+        th {
+            @apply font-bold;
+            @apply bg-gray-100;
+            @apply px-4 py-2;
+        }
+    }
+    /* Sticky left column */
+    thead tr th:first-child,
+    tbody tr th:first-child {
+        @apply md:sticky md:left-0 md:z-4;
+    }
+    @media (min-width: theme('screens.md')) {
+        thead tr th:nth-of-type(2) {
+            @apply relative;
+        }
+        thead tr th:first-child::after,
+        tbody tr th:first-child::after {
+            @apply block absolute shadow-inner-2xl-left overflow-clip
+                    right-0
+                    top-0
+                    bottom-0
+                    pointer-events-none;
+            width: 40px;
+            transform: translateX(40px);
+            content: "";
+        }
+    }
+
+
+    tbody {
+        @apply relative;
+        th {
+            @apply bg-white;
+            font-weight: inherit;
+            h1, h2 {
+                @apply font-bold text-lg mb-2;
+            }
+        }
+
+        th, td {
+            @apply relative ;
+            > :first-child {
+                @apply h-52 overflow-y-auto overflow-x-clip block px-4 py-2;
+
+                /* Show a shadow when the element is scrollable */
+                background:
+                    /* Cover any shadows if we are at the end of the element or there is no scrolling */
+                    linear-gradient(rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%),
+                    linear-gradient(rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%),
+
+                    /* Shadows that show at the top while content is hidden above  */
+                    linear-gradient(180deg, rgba(3,0,3,0.15) 0%,  rgba(3,0,3,0.05) 30%, rgba(3,0,3,0) 100%),
+                    /* Shadow  that show at the bottom while content is hidden below */
+                    linear-gradient(0deg, rgba(3,0,3,0.15) 0%,  rgba(3,0,3,0.05) 30%, rgba(3,0,3,0) 100%);
+
+                background-repeat: no-repeat;
+                background-color: white;
+                background-size: 100% 70px, 100% 70px, 100% 20px, 100% 20px;
+                background-position: top, bottom, top, bottom;
+
+                /* Opera doesn't support this in the shorthand */
+                background-attachment: local, local, scroll, scroll;
+            }
+        }
+    }
+
+    th,
+    td {
+        @apply border-b border-r border-gray-200;
+        @apply align-top text-left;
+        @apply p-0;
+    }
+    td {
+        @apply relative;
+        @apply bg-white;
+        &.personal {
+            @apply bg-gray-100;
+        }
+        h1, h2, h3 {
+            @apply font-bold;
+        }
+    }
+
+
+    .inline-editing {
+        /* Make the form into a modal of sorts */
+        > form {
+            @apply fixed z-20 bg-gray-600/50 inset-0 flex items-center justify-center md:pl-[26%] md:pr-[1%];
+            > section {
+                @apply max-w-prose max-h-fit bg-white p-8;
+                @apply drop-shadow-2xl rounded-lg;
+                h2 {
+                    @apply text-2xl mb-6 font-bold;
+                }
+                h3, label {
+                    @apply font-bold text-lg mt-6 mb-2;
+                }
+            }
+
+        }
+    }
+
+    a.space-listing {
+        @apply text-inherit no-underline;
+        @apply block absolute inset-0 px-4 py-2 rounded-none border-t border-b border-transparent;
+        &:hover {
+            h3 {
+                @apply text-lnu-pink no-underline;
+            }
+        }
+        &:focus {
+            @apply bg-gray-100 ring-0;
+        }
+    }
+
+    tr.selected a.space-listing {
+        @apply bg-gray-50 border-t-gray-300 border-b-gray-300 ring-0;
+        &:hover {
+            h3 {
+                @apply text-inherit;
+            }
+        }
+    }
+
+}

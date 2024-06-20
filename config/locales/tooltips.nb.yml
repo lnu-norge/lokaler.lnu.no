@@ -1,0 +1,20 @@
+nb:
+  tooltips:
+    facility_aggregated_experience:
+      unknown: 'Usikkert. Ingen har spurt!'
+      impossible: 'De har ikke.'
+      unlikely: 'Usannsynlig. De fleste får nei'
+      maybe: 'Kanskje! Noen får ja, noen får nei'
+      likely: 'Sannsynlig: Andre har fått ja!'
+    experience:
+      unknown: 'Ikke spurt'
+      impossible: 'De har ikke'
+      unlikely: 'Nei'
+      maybe: 'Kanskje'
+      likely: 'Ja'
+    others_experience:
+      unknown: 'Ingen har spurt'
+      impossible: 'De har ikke'
+      unlikely: 'Andre får nei'
+      maybe: 'Andre får noen ganger'
+      likely: 'Andre får ja'

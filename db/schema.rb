@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_02_202011) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_18_101339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_02_202011) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
+  create_table "active_personal_space_lists", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "personal_space_list_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["personal_space_list_id"], name: "index_active_personal_space_lists_on_personal_space_list_id"
+    t.index ["user_id"], name: "index_active_personal_space_lists_on_user_id", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -97,6 +106,43 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_02_202011) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["space_id"], name: "index_images_on_space_id"
+  end
+
+  create_table "personal_data_on_space_in_lists", primary_key: ["space_id", "personal_space_list_id"], force: :cascade do |t|
+    t.integer "contact_status", default: 0, null: false
+    t.text "personal_notes"
+    t.bigint "space_id", null: false
+    t.bigint "personal_space_list_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["personal_space_list_id"], name: "idx_on_personal_space_list_id_d490dca030"
+    t.index ["space_id", "personal_space_list_id"], name: "index_personal_data_on_space_in_lists_on_space_and_list", unique: true
+    t.index ["space_id"], name: "index_personal_data_on_space_in_lists_on_space_id"
+  end
+
+  create_table "personal_space_lists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
+    t.boolean "shared_with_public", default: false
+    t.index ["user_id"], name: "index_personal_space_lists_on_user_id"
+  end
+
+  create_table "personal_space_lists_shared_with_mes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "personal_space_list_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["personal_space_list_id"], name: "idx_on_personal_space_list_id_d87a69044d"
+    t.index ["user_id"], name: "index_personal_space_lists_shared_with_mes_on_user_id"
+  end
+
+  create_table "personal_space_lists_spaces", id: false, force: :cascade do |t|
+    t.bigint "personal_space_list_id", null: false
+    t.bigint "space_id", null: false
+    t.index ["personal_space_list_id"], name: "index_personal_space_lists_spaces_on_personal_space_list_id"
+    t.index ["space_id"], name: "index_personal_space_lists_spaces_on_space_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -223,6 +269,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_02_202011) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "active_personal_space_lists", "personal_space_lists"
+  add_foreign_key "active_personal_space_lists", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "facilities_categories", "facilities"
@@ -230,6 +278,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_02_202011) do
   add_foreign_key "facility_reviews", "facilities"
   add_foreign_key "facility_reviews", "spaces"
   add_foreign_key "facility_reviews", "users"
+  add_foreign_key "personal_data_on_space_in_lists", "personal_space_lists"
+  add_foreign_key "personal_data_on_space_in_lists", "spaces"
+  add_foreign_key "personal_space_lists_shared_with_mes", "personal_space_lists"
+  add_foreign_key "personal_space_lists_shared_with_mes", "users"
   add_foreign_key "reviews", "spaces"
   add_foreign_key "reviews", "users"
   add_foreign_key "space_contacts", "space_groups"

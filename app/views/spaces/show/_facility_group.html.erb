@@ -1,14 +1,3 @@
 <div class="grid md:grid-cols-3 md:gap-4 items-baseline py-4 md:py-8">
-  <h3 class="no-mt">
-    <%= group.second[:category].title %>
-  </h3>
-
-  <ul class="grid gap-1 md:col-span-2">
-    <% group.second[:space_facilities].each do |facility_data| %>
-      <%= render partial: 'spaces/show/facility_item', locals: {
-        space: @space,
-        facility_data:
-      } %>
-    <% end %>
-  </ul>
+  <%= render 'spaces/show/facility_group_inner_html', group: %>
 </div>

@@ -1,7 +1,7 @@
 <div id="reviews">
   <% if @space.reviews.any? %>
     <div class="flex gap-2 items-baseline justify-between">
-      <h2><%= Review.model_name.human(count: 2) %></h2>
+      <h2><%= Review.model_name.human(count: 2).capitalize %></h2>
       <%= render partial: 'spaces/show/review_link_to_new_review' %>
     </div>
 

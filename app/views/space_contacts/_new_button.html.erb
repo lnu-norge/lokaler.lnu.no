@@ -1,16 +1,17 @@
-<%= turbo_frame_tag "new_space_contact_button" do %>
+<%# locals: (space_contact:) %>
+<%= turbo_frame_tag dom_id_button_for_new_space_contact_for(space_contact.space) do %>
   <div>
-    <%= button_to_modal "space_contacts_new",
-                        id:  "space_contacts_new",
+    <%= button_to_modal dom_id_new_space_contact_modal(space_contact.space),
+                        id:  dom_id_new_space_contact_modal(space_contact.space),
                         class: "edit-button collapsable" do %>
-        <span class="text">
-        <%= t('space_contacts.new') %>
+      <span class="text">
+        <%= t('space_contacts.new_contact') %>
       </span>
       <%= inline_svg_tag "plus" %>
     <% end %>
 
-    <%= modal_for "space_contacts_new", "modal--with-header-and-footer" do  %>
-      <%= render partial: "space_contacts/new" %>
+    <%= modal_for dom_id_new_space_contact_modal(space_contact.space), "modal--with-header-and-footer" do  %>
+      <%= render "space_contacts/new", space_contact:  %>
     <% end %>
   </div>
 <% end %>

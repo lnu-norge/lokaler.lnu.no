@@ -12,9 +12,11 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
 
-  <body class="<%= "pb-24" if current_user %> md:pb-0 md:pt-14 flex flex-col justify-between min-h-screen">
+  <body class="<%= "pb-24" if current_user %> md:pb-0 md:pt-14 flex flex-col justify-between min-h-screen min-w-fit
+    <%= " #{controller_name}_#{action_name} " %>
+">
     <div id="flash">
-      <%= render "shared/flash" %>
+      <%= render "shared/flash", flash: %>
     </div>
     <%= render partial: "layouts/menu/menu" %>
     <main class="flex-1">

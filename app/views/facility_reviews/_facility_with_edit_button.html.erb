@@ -1,7 +1,7 @@
-<%# locals: (facility:, facility_category:, space_facility: %>
+<%# locals: ( facility_category:, space_facility:, facility: %>
 
 <%= turbo_frame_tag target_id_for_categorized_facility(
-                      facility_id: facility.id, category_id: facility_category.id
+                      facility_id: facility.id, category_id: facility_category.id, space_id: space_facility.space_id
                     ) do %>
   <%= link_to new_facility_review_path(
                 space_id: space_facility.space_id,
@@ -9,13 +9,21 @@
                 facility_category_id: facility_category.id,
                 ),
               title: t("tooltips.facility_aggregated_experience.#{space_facility.experience}"),
-              class: 'unstyled-link inline-flex gap-2 items-center collapsable-wrapper' do %>
+              class: 'leading-0 unstyled-link inline-flex gap-2 items-center collapsable-wrapper' do %>
 
-    <h4 class="text-base <%= "line-through text-gray-600" if space_facility.experience == "impossible" %>"><%= facility.title %></h4>
+    <h4 class="text-base leading-none
+              inline-flex items-baseline
+              text-nowrap
+              <%= "line-through text-gray-600" if space_facility.experience == "impossible" %>"
+    ><%= facility.title %></h4>
 
-    <%= inline_svg_tag "facility_status/#{space_facility.experience}", class: "#{" text-black " if space_facility.experience == "impossible" }" %>
+    <span class="text-sm font-normal items-center inline-flex gap-1 overflow-ellipsis text-nowrap">
+        <%= render 'facility_reviews/form_components/others_experience',
+                   space_facility:
+        %>
+    </span>
 
-    <span class="edit-button edit-button--small collapsable">
+    <span class="edit-button edit-button--small collapsable collapsable--to-right">
          <span class="text">
         <%= t('space_edit.edit') %>
       </span>
@@ -23,8 +31,8 @@
     </span>
  <% end %>
 
-  <% unless space_facility.description.nil? %>
-    <div class="text-gray-400 mb-1.5">
+  <% if space_facility.description.present? %>
+    <div class="text-sm text-gray-500 mb-1.5">
       <%= space_facility.description %>
     </div>
   <% end %>

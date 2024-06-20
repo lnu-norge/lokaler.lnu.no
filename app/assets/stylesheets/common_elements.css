@@ -5,24 +5,22 @@ a,
   @apply rounded;
   &:hover {
     @apply underline;
-    &.collapsable {
-      .text {
-        max-width: 200px;
-        margin-right: 0.5em;
-      }
-    }
   }
-  &:focus {
-    @extend .focused-outline;
+  @extend .focused-outline;
+}
+
+.collapsable {
+  @apply inline-flex gap-1 items-center;
+  .text {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    @apply transition-all;
   }
-  &.collapsable {
-    @apply inline-flex gap-0;
+  &:hover {
     .text {
-      max-width: 0;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      @apply transition-all;
+      max-width: 200px;
     }
   }
 }

@@ -1,0 +1,44 @@
+<%# locals: (personal_space_list:) %>
+<%= simple_form_for(personal_space_list) do |form| %>
+  <% if personal_space_list.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= personal_space_list.errors.count %> feil hindret oss å lagre:</h2>
+
+      <ul>
+        <% personal_space_list.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= form.input :title %>
+  </div>
+
+  <div class="mb-4">
+    <fieldset>
+      <legend class="label">
+        Del listen offentlig:
+      </legend>
+      <div>
+        <%= form.radio_button :shared_with_public, false %>
+        <%= form.label :shared_with_public_false, "Ikke del" %>
+      </div>
+      <div>
+        <%= form.radio_button :shared_with_public, true %>
+        <%= form.label :shared_with_public_true, "Del offentlig" %>
+      </div>
+    </fieldset>
+    <% if personal_space_list.id %>
+      <p>
+        Deler du listen offentlig kan flere hjelpe deg redigere gjennom denne lenken:
+        <code><%= personal_space_list_url(personal_space_list) %></code>
+      </p>
+    <% end %>
+  </div>
+
+    <div class="inline">
+    <%= form.submit class: "button submit" %>
+  </div>
+<% end %>

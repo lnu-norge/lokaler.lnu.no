@@ -1,0 +1,7 @@
+<%# locals: (contact_status:) %>
+<span class="flex flex-col items-center gap-0.5 text-sm">
+  <%= inline_svg_tag "facility_status/#{PersonalDataOnSpaceInList::ICON_FOR_CONTACT_STATUS[contact_status]}",
+                     class: "w-5 h-5 inline-block"
+  %>
+  <%= t("personal_space_lists.contact_status.#{contact_status}") %>
+</span>

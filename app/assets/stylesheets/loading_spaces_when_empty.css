@@ -1,0 +1,12 @@
+.loading-spaces-when-empty {
+    &:empty {
+        @apply flex flex-col gap-4;
+        @apply animate-pulse;
+        &::before {
+            content: "Leter etter lokaler...";
+            display: block;
+            @apply w-full h-48 rounded-sm flex items-center justify-center;
+            @apply bg-gray-100;
+        }
+    }
+}
