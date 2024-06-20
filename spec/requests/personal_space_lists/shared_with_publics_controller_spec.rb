@@ -143,4 +143,25 @@ RSpec.describe PersonalSpaceLists::SharedWithPublicsController, type: :request d
     expect(response).to redirect_to(personal_space_lists_path)
     expect(someone_elses_data_on_space.reload.contact_status).to eq("said_no")
   end
+
+  it "can activate and deactivate a list shared by someone, and have it removed if the list is no longer shared" do
+    expect(user.active_personal_space_list).to be_nil
+
+    post activate_personal_space_list_personal_space_list_path(id: someone_elses_space_list.id)
+    expect(user.reload.active_personal_space_list).to be_nil
+
+    someone_elses_space_list.start_sharing
+
+    post activate_personal_space_list_personal_space_list_path(id: someone_elses_space_list.id)
+    expect(user.reload.active_personal_space_list.personal_space_list_id).to be(someone_elses_space_list.id)
+
+    post deactivate_personal_space_list_personal_space_list_path(id: someone_elses_space_list.id)
+    expect(user.reload.active_personal_space_list).to be_nil
+
+    post activate_personal_space_list_personal_space_list_path(id: someone_elses_space_list.id)
+    expect(user.reload.active_personal_space_list.personal_space_list_id).to be(someone_elses_space_list.id)
+
+    someone_elses_space_list.stop_sharing
+    expect(user.reload.active_personal_space_list).to be_nil
+  end
 end
