@@ -6,7 +6,7 @@
     <%= turbo_stream.update(
         dom_id_for_list_status_for_space(space_in_list),
         partial: "personal_space_lists/space_in_list/list_status_for_space",
-        locals: { list: personal_space_list, space: space_in_list}
+        locals: { personal_space_list:, space: space_in_list}
       ) %>
   <% end %>
 <%
@@ -17,7 +17,7 @@
     turbo_stream.update(
       dom_id_for_list_status_for_space(space),
       partial: "personal_space_lists/space_in_list/list_status_for_space",
-      locals: { list: personal_space_list, space: }
+      locals: { personal_space_list: personal_space_list, space: }
       )
   %>
 <% end %>
