@@ -82,7 +82,7 @@ module PersonalSpaceLists
     def find_personal_data_on_space_in_list
       return unless @space.present? && @personal_space_list.present?
 
-      @personal_space_list.personal_data_on_space_in_lists.find_by(space: @space)
+      @personal_space_list.this_lists_personal_data_on_spaces.find_by(space: @space)
     end
 
     def set_space

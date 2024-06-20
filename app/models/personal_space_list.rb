@@ -10,10 +10,14 @@ class PersonalSpaceList < ApplicationRecord
 
   has_many :personal_space_lists_shared_with_mes, dependent: :destroy
   has_many :personal_space_lists_spaces, dependent: :destroy
-  has_many :personal_data_on_space_in_lists,
-           dependent: :destroy,
+
+  # NB: This ALSO returns personal data on a space that has since been removed from the list
+  has_many :personal_data_on_space_in_lists, dependent: :destroy
+
+  # This only returns personal data on the space if the space is currently in the space list
+  has_many :this_lists_personal_data_on_spaces,
+           source: :personal_data_on_space_in_lists,
            through: :personal_space_lists_spaces
-  # Only return personal data on the space if the space is in the space list
 
   validates :title, presence: true
 
@@ -43,27 +47,27 @@ class PersonalSpaceList < ApplicationRecord
   end
 
   def space_count
-    personal_data_on_space_in_lists.size
+    this_lists_personal_data_on_spaces.size
   end
 
   def space_contacted_count
-    personal_data_on_space_in_lists.not_not_contacted.size
+    this_lists_personal_data_on_spaces.not_not_contacted.size
   end
 
   def space_not_contacted_count
-    personal_data_on_space_in_lists.not_contacted.size
+    this_lists_personal_data_on_spaces.not_contacted.size
   end
 
   def space_said_no_count
-    personal_data_on_space_in_lists.said_no.size
+    this_lists_personal_data_on_spaces.said_no.size
   end
 
   def space_said_maybe_count
-    personal_data_on_space_in_lists.said_maybe.size
+    this_lists_personal_data_on_spaces.said_maybe.size
   end
 
   def space_said_yes_count
-    personal_data_on_space_in_lists.said_yes.size
+    this_lists_personal_data_on_spaces.said_yes.size
   end
 
   # self.METHOD_NAME makes this a Class method, the others are instance methods

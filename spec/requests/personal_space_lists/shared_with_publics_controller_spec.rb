@@ -77,7 +77,7 @@ RSpec.describe PersonalSpaceLists::SharedWithPublicsController, type: :request d
 
   it "can change contact status and personal_notes for spaces in someone elses shared list, but only when shared" do
     someone_elses_space_list.add_space(space)
-    someone_elses_data_on_space = someone_elses_space_list.personal_data_on_space_in_lists.find_by(space:)
+    someone_elses_data_on_space = someone_elses_space_list.this_lists_personal_data_on_spaces.find_by(space:)
 
     put personal_space_list_space_personal_note_path(
       personal_space_list_id: someone_elses_space_list.id,

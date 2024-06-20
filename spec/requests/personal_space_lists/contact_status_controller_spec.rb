@@ -23,7 +23,7 @@ RSpec.describe PersonalSpaceLists::ContactStatusController, type: :request do
   end
 
   it "can add and edit a contact status about a space in the list" do
-    personal_data = personal_space_list.personal_data_on_space_in_lists.find_or_create_by(space: space_added_to_list)
+    personal_data = personal_space_list.this_lists_personal_data_on_spaces.find_or_create_by(space: space_added_to_list)
 
     expect(personal_data.contact_status).to eq("not_contacted")
 

@@ -29,7 +29,7 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
 
   def show
     set_filtered_facilities
-    @personal_data_on_space_in_lists = @personal_space_list.personal_data_on_space_in_lists.order(id: :desc)
+    @personal_data_on_space_in_lists = @personal_space_list.this_lists_personal_data_on_spaces.order(id: :desc)
   end
 
   def new
