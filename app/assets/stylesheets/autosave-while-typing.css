@@ -1,0 +1,52 @@
+.autosave-while-typing-status {
+    position: relative;
+    &::before {
+        content: "";
+        @apply text-sm bottom-1 right-0 absolute z-10  pointer-events-none;
+        display: none;
+    }
+}
+
+.autosave-while-typing-status--success {
+    &::before {
+        display: block;
+        content: "Lagret";
+        @apply text-green-500;
+        opacity: 1;
+        animation: fade-in-out 1.5s ease-in-out;
+    }
+}
+
+.autosave-while-typing-status--saving {
+    &::before {
+        display: block;
+        content: "Lagrer...";
+        opacity: 0;
+        @apply text-gray-500 animate-pulse;
+    }
+}
+
+.autosave-while-typing-status--error {
+    &::before {
+        display: block;
+        content: "Fikk ikke lagret";
+        @apply text-red-600;
+    }
+}
+
+@keyframes fade-in-out {
+    0% {
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+

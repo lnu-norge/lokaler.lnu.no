@@ -16,8 +16,7 @@ export default class extends Controller {
 
   async initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
-
-    await this.parseUrl();
+    await this.runStoredFilters();
   }
 
   showSearchBox() {
@@ -110,8 +109,6 @@ export default class extends Controller {
   }
 
   updateUrl() {
-    const url = new URL(window.location);
-
     const selectedFacilities = this.selectedFacilities();
     const selectedSpaceTypes = this.selectedSpaceTypes();
     const selectedLocation = this.selectedLocation();
@@ -121,6 +118,14 @@ export default class extends Controller {
     this.setOrDeleteToUrl('selectedSpaceTypes', selectedSpaceTypes);
     this.setOrDeleteToUrl('selectedLocation', selectedLocation);
     this.setOrDeleteToUrl('searchForTitle', searchForTitle);
+    this.setOrDeleteToUrl('view_as', this.viewAs);
+  }
+
+  resetUrlToRootPath() {
+    const url = new URL(window.location);
+    url.pathname = '/';
+
+    window.history.replaceState(null, null, url);
   }
 
   setOrDeleteToUrl(key, value) {
@@ -134,10 +139,12 @@ export default class extends Controller {
     }
 
     window.history.replaceState(null, null, url);
+
+    this.storeSearchUrl(url)
   }
 
   selectedFacilities() {
-    return this.facilityTargets.filter(t => t.checked).map(t => t.id).join(',');
+    return this.facilityTargets.filter(t => t.checked && !t.id.match("-duplicate-")).map(t => t.id).join(',');
   }
 
   selectedSpaceTypes() {
@@ -148,12 +155,33 @@ export default class extends Controller {
     return [this.map.getCenter().lat.toFixed(4), this.map.getCenter().lng.toFixed(4), this.map.getZoom()].join(',');
   }
 
+
+  async runStoredFilters() {
+    this.setSearchUrlFromStorage()
+    await this.parseUrl()
+  }
+
+  storeSearchUrl(searchUrl) {
+    document.cookie = `mapbox_controller_search_url=${searchUrl};path=/;SameSite=strict`
+  }
+
+  setSearchUrlFromStorage() {
+    const all_cookies = Object.fromEntries(document.cookie.split('; ').map(v=>v.split(/=(.*)/s).map(decodeURIComponent)))
+    const stored_url = all_cookies["mapbox_controller_search_url"]
+    if (!stored_url || stored_url === "" || stored_url === "undefined") {
+      return
+    }
+
+    window.history.replaceState("", "", stored_url)
+  }
+
   async parseUrl() {
     const url = new URL(window.location);
     const selectedFacilities = url.searchParams.get('selectedFacilities');
     const selectedSpaceTypes = url.searchParams.get('selectedSpaceTypes');
     const selectedLocation = url.searchParams.get('selectedLocation');
     const searchForTitle = url.searchParams.get('searchForTitle');
+    this.setViewTo(url.searchParams.get("view_as") || "map");
 
     this.parseSelectedFacilities(selectedFacilities);
     this.parseSelectedSpaceTypes(selectedSpaceTypes);
@@ -380,7 +408,7 @@ export default class extends Controller {
     const southEast = this.map.getBounds().getSouthEast();
 
     const facilitiesString = this.facilityTargets.map(t =>
-      t.checked ? `facilities[]=${encodeURIComponent(t.name)}&` : ''
+      !t.id.match("-duplicate-") && t.checked ? `facilities[]=${encodeURIComponent(t.name)}&` : ''
     ).join('');
 
     const spaceTypesString = this.spaceTypeTargets.map(t =>
@@ -391,6 +419,7 @@ export default class extends Controller {
 
     return [
       '/spaces_search?',
+      `view_as=${this.viewAs}&`,
       `north_west_lat=${northWest.lat}&`,
       `north_west_lng=${northWest.lng}&`,
       `south_east_lat=${southEast.lat}&`,
@@ -401,10 +430,51 @@ export default class extends Controller {
     ].join('');
   }
 
-  async loadNewMapPosition() {
-    //document.getElementById('space-listing').innerText = 'Laster...';
+  setViewTo(view) {
+    this.viewAs = view;
+    document.body.classList.toggle('view-as-map', view === "map");
+    document.body.classList.toggle('view-as-table', view === "table");
+  }
 
-    const spacesInRect = await (await fetch(this.buildSearchURL())).json();
+  setViewToMap() {
+    this.setViewTo("map")
+    this.resetUrlToRootPath();
+    this.updateUrl();
+    this.loadNewMapPosition();
+  }
+
+  setViewToTable() {
+    this.setViewTo("table")
+    this.resetUrlToRootPath();
+    this.updateUrl();
+    this.loadNewMapPosition();
+  }
+
+  showErrorInListing(options) {
+    const {message, error_html} = options
+
+    document.getElementById('space-listing').innerHTML = `<div class='text-left p-8 bg-lnu-pink/10 rounded-lg text-lnu-pink'>
+        <h2 class="text-lg pb-8 font-bold">${message}</h2>
+        <p>Fungerer det ikke så vis dette til teknisk ansvarlig:</p>
+          <iframe class='w-full h-screen border-8 border-lnu-pink' src='data:text/html;charset=utf-8,${escape(error_html)}' />
+    </div>`
+  }
+
+  async loadNewMapPosition() {
+    document.getElementById('space-listing').innerHTML = '';
+
+    const searchUrl = this.buildSearchURL()
+
+    const results = await fetch(searchUrl);
+    if (!results.ok) {
+      const error_html = await results.text();
+      return this.showErrorInListing({
+        message: "Ooops, noe har gått galt, prøv igjen?",
+        error_html: error_html
+      });
+    }
+
+    const spacesInRect = await results.json();
 
     // Replace the spaces list with the new view rendered by the server
     document.getElementById('space-listing').innerHTML = spacesInRect.listing;

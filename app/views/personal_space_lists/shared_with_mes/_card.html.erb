@@ -1,0 +1,18 @@
+<%# locals: (personal_space_list:) %>
+<div class="relative">
+  <%= render "personal_space_lists/card/switch_to_list_card_wrapper", personal_space_list: do %>
+    <%= render 'personal_space_lists/card/title', personal_space_list: %>
+    <%= render 'personal_space_lists/card/space_list', personal_space_list: %>
+    <%= render 'personal_space_lists/card/meta', personal_space_list: %>
+    <%= render 'personal_space_lists/shared_with_publics/byline', personal_space_list: %>
+  <% end %>
+  <%= button_to personal_space_list_shared_with_me_path(personal_space_list),
+                method: :delete,
+                data: { confirm: "Sikker på at du vil fjerne \"#{personal_space_list.title}\"?" },
+                class: "link inline-flex gap-1 items-center text-sm absolute right-4 bottom-6" do
+  %>
+    Fjern fra min liste
+    <%= inline_svg "delete", class: "h-4 w-4" %>
+  <% end %>
+</div>
+

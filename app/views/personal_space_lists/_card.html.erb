@@ -1,0 +1,6 @@
+<%# locals: (personal_space_list:) %>
+<%= render "personal_space_lists/card/switch_to_list_card_wrapper", personal_space_list: do %>
+  <%= render 'personal_space_lists/card/title', personal_space_list: %>
+  <%= render 'personal_space_lists/card/space_list', personal_space_list: %>
+  <%= render 'personal_space_lists/card/meta', personal_space_list: %>
+<% end %>

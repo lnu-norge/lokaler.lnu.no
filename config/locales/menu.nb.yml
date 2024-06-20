@@ -1,6 +1,7 @@
 nb:
   menu:
     find_spaces: 'Lokaler'
+    lists: 'Lister'
     new_space: 'Nytt lokale'
     about: 'Om siden'
     account: 'Konto'

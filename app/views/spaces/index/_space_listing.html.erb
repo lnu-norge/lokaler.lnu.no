@@ -1,52 +1,61 @@
+<%# locals: (space: ) %>
+
 <%#
   Partial for rendering a space listing in the search results.
 %>
 
-<%= link_to space_path(space),
+<div class="relative">
+  <%= link_to space_path(space),
             class: "unstyled-link space-listing",
             data: {
-              "turbo-frame": "spaces-open-here", # This updates the spaces-open-here frame
-              "turbo-action": "advance" # And updates browser history
+              "set-as-selected-when-this-space-is-open": space.id,
+              "turbo-frame": "spaces-open-here" # This updates the spaces-open-here frame
             } do %>
 
-  <div class="mt-4 mb-12 max-w-lg">
+    <div class="max-w-lg p-2">
 
-    <!-- Space image(s) -->
+      <!-- Space image(s) -->
 
-    <%= render partial: "spaces/index/image_preview", locals: { images: space.images } %>
+      <%= render partial: "spaces/index/image_preview", locals: { images: space.images } %>
 
-    <!-- Space title -->
+      <!-- Space title -->
 
-    <h3 class="text-xl mt-2.5 mb-2.5 font-bold">
-      <%= space.title %>
-    </h3>
+      <h3 class="text-xl mt-2.5 mb-2.5 font-bold">
+        <%= space.title %>
+      </h3>
 
-    <!-- Meta information listing -->
+      <!-- Meta information listing -->
 
-    <div class="flex gap-4 mb-2.5">
+      <div class="flex gap-4 mb-2.5">
 
-      <div class="flex gap-2" title="<%= t('space_show.number_of_reviews', count: space.reviews.count) %>">
-        <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'}" %>
-        <span>
-          <%=  space.star_rating_s %>
-          <% if space.reviews.count > 0 %>
-              <span class="opacity-50">(<%= space.reviews.count %>)</span>
-          <% end %>
-        </span>
-      </div>
-
-      <div class="flex gap-2">
-          <%= inline_svg_tag 'building', class: 'text-gray-500' %>
+        <div class="flex gap-2" title="<%= t('space_show.number_of_reviews', count: space.reviews.size) %>">
+          <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'}" %>
           <span>
-            <%= space.space_types_joined %>
+            <%=  space.star_rating_s %>
+            <% if space.reviews.size > 0 %>
+                <span class="opacity-50">(<%= space.reviews.size %>)</span>
+            <% end %>
           </span>
+        </div>
+
+        <div class="flex gap-2">
+            <%= inline_svg_tag 'building', class: 'text-gray-500' %>
+            <span>
+              <%= space.space_types_joined %>
+            </span>
+        </div>
+
       </div>
+
+      <!-- Filtered facilites listing -->
+
+      <%= render partial: 'spaces/index/space_facility_listing', locals: { space: space, filtered_facilities: @filtered_facilities } if @filtered_facilities.present?  %>
 
     </div>
+  <% end %>
+  <!-- List status -->
 
-    <!-- Filtered facilites listing -->
-
-    <%= render partial: 'spaces/index/space_facility_listing', locals: { space: space, filtered_facilities: filtered_facilities } if filtered_facilities  %>
-
+  <div class="absolute top-2.5 left-2.5 text-white">
+    <%= render 'personal_space_lists/space_in_list/list_status_for_space', personal_space_list: @active_personal_space_list, space: %>
   </div>
-<% end %>
+</div>

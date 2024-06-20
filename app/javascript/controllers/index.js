@@ -4,47 +4,50 @@
 
 import { application } from "./application"
 
-import AutofilladdressController from "./autofilladdress_controller.js"
+import AutofilladdressController from "./autofilladdress_controller"
 application.register("autofilladdress", AutofilladdressController)
 
-import DuplicateCheckerController from "./duplicate_checker_controller.js"
+import AutosaveWhileTypingController from "./autosave_while_typing_controller"
+application.register("autosave-while-typing", AutosaveWhileTypingController)
+
+import DuplicateCheckerController from "./duplicate_checker_controller"
 application.register("duplicate-checker", DuplicateCheckerController)
 
-import SyncFieldsWithSameId from "./sync_fields_with_same_id.js"
-application.register("sync-fields-with-same-id", SyncFieldsWithSameId)
-
-import FlashController from "./flash_controller.js"
+import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
-import HideController from "./hide_controller.js"
+import HideController from "./hide_controller"
 application.register("hide", HideController)
 
-import LocationsearchController from "./locationsearch_controller.js"
+import LocationsearchController from "./locationsearch_controller"
 application.register("locationsearch", LocationsearchController)
 
-import MapboxController from "./mapbox_controller.js"
+import MapboxController from "./mapbox_controller"
 application.register("mapbox", MapboxController)
 
-import ModalController from "./modal_controller.js"
+import ModalController from "./modal_controller"
 application.register("modal", ModalController)
 
-import MultistepFormController from "./multistep_form_controller.js"
+import MultistepFormController from "./multistep_form_controller"
 application.register("multistep-form", MultistepFormController)
 
-import ReviewFormController from "./review_form_controller.js"
-application.register("review-form", ReviewFormController)
-
-import ResetFormController from "./reset_form_controller.js"
+import ResetFormController from "./reset_form_controller"
 application.register("reset-form", ResetFormController)
 
-import ShowOnRadioButtonValueController from "./show_on_radio_button_value_controller.js"
+import ReviewFormController from "./review_form_controller"
+application.register("review-form", ReviewFormController)
+
+import SearchAndFilter__SetSelectedSpaceController from "./search_and_filter/set_selected_space_controller"
+application.register("search-and-filter--set-selected-space", SearchAndFilter__SetSelectedSpaceController)
+
+import ShowOnRadioButtonValueController from "./show_on_radio_button_value_controller"
 application.register("show-on-radio-button-value", ShowOnRadioButtonValueController)
 
-import SliderController from "./slider_controller.js"
+import SliderController from "./slider_controller"
 application.register("slider", SliderController)
 
-import TomSelectController from "./tom_select_controller.js"
+import TomSelectController from "./tom_select_controller"
 application.register("tom-select", TomSelectController)
 
-import TrixPasteController from "./trix_paste_controller.js"
+import TrixPasteController from "./trix_paste_controller"
 application.register("trix-paste", TrixPasteController)

@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
     // Purge unused TailwindCSS styles
     content: [
@@ -31,9 +33,14 @@ module.exports = {
             'auto': 'auto',
         },
         extend: {
+            boxShadow: {
+                'inner-2xl-top': "inset 0 10px 30px -40px rgb(0 0 0 / 1)",
+                'inner-2xl-left': "inset 10px 0 30px -40px rgb(0 0 0 / 1)"
+            },
             screens: {
                 'xs': '360px',
-                '3xl': '1792px'
+                '3xl': '1792px',
+                'any-hover': {'raw': 'media (any-hover: hover)'}
             },
             cursor: {
                 zoom: 'zoom-in'
@@ -73,6 +80,7 @@ module.exports = {
             },
             animation: {
                 'shake-on-load': 'shake 0.3s ease-in-out',
+                'pulse-on-load': 'pulse 0.5s ease-in-out',
             },
         },
     },
@@ -83,5 +91,9 @@ module.exports = {
     },
     plugins: [
         require('@tailwindcss/forms'),
+        plugin(function({ addVariant }) {
+            addVariant('view-as-table', 'body.view-as-table &');
+            addVariant('view-as-map', 'body.view-as-map &');
+        }),
     ],
 }

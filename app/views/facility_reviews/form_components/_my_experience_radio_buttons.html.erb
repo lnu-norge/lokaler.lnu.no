@@ -1,0 +1,22 @@
+<%# locals: (facility_review:, form:) %>
+<div class="radio-slider" role="radiogroup" data-hide-target="focusable">
+  <% FacilityReview::LIST_EXPERIENCES.each_with_index do |value|  %>
+    <%=
+      form.radio_button :experience,
+                        value,
+                        checked: facility_review.experience.blank? ?
+                                   value == 'unknown' :
+                                   value == facility_review.experience
+
+    %>
+
+    <%= form.label :"experience_#{value}" do %>
+                        <span class="flex flex-col items-center gap-0.5 text-sm">
+                          <%= inline_svg_tag "facility_status/#{FacilityReview::ICON_FOR_EXPERIENCE[value]}",
+                                             class: "w-5 h-5 inline-block"
+                          %>
+                          <%= t("reviews.form.facility_experience_particular_tense.#{value}") %>
+                        </span>
+    <% end %>
+  <% end %>
+</div>

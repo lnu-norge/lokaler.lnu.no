@@ -60,7 +60,7 @@ nb:
         space_group_title: "Lokalet har felles informasjon med:"
       space_facility:
         description: "Beskrivelse"
-        experience: "Min erfaring:"
+        experience: "Får vi lov?"
         review: "Andres erfaring"
 
       space_contact:

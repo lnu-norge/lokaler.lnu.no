@@ -3,6 +3,8 @@
 require "rails_helper"
 
 describe "User manages homepage", :js do
+  include SpaceContactHelper
+
   let!(:space_type) { Fabricate(:space_type) }
   let!(:space_group) { Fabricate(:space_group) }
   let!(:space) { Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien") }
@@ -86,7 +88,7 @@ describe "User manages homepage", :js do
   it "user adds new space contact" do
     login_and_logout_with_warden do
       visit space_path(id: space.id)
-      click_on "space_contacts_new"
+      click_on dom_id_new_space_contact_modal(space)
 
       fill_in "space_contact_title", with: "Space Contact Title"
       fill_in "space_contact_telephone", with: "48484848"
@@ -99,7 +101,7 @@ describe "User manages homepage", :js do
   it "user adds new space contact unsuccessfully" do
     login_and_logout_with_warden do
       visit space_path(id: space.id)
-      click_on "space_contacts_new"
+      click_on dom_id_new_space_contact_modal(space)
 
       fill_in "space_contact_title", with: "Space Contact Title"
 

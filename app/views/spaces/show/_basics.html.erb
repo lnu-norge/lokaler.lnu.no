@@ -1,43 +1,16 @@
 <!-- Space title and basics -->
 
-<%= inline_editable :basics, :h1,  @space.title  do %>
+<%= inline_editable :basics, title_tag: :h1,  title_text: @space.title, space: @space  do %>
 
   <!-- Meta information listing -->
-
-  <div class="flex gap-4 mb-2.5">
-
-    <div class="flex gap-2" title="<%= t('space_show.number_of_reviews', count: @space.reviews.count) %>">
-      <%= inline_svg_tag 'star', class: @space.star_rating ? "text-pink-600" : "text-gray-300" %>
-      <span>
-          <%= @space.star_rating_s %>
-          <% if @space.reviews.count > 0 %>
-            <span class="opacity-50">(<%=  @space.reviews.count %>)</span>
-          <% end %>
-        </span>
-    </div>
-
-    <div class="flex gap-2">
-      <%= inline_svg_tag 'building', class: 'text-pink-600' %>
-      <span>
-        <%= @space.space_types_joined %>
-      </span>
-    </div>
-
-  </div>
-  <div class="flex gap-2">
-    <%= inline_svg_tag 'place' %>
-    <span>
-        <%= @space.address %>,
-      <%= @space.post_number %>
-      <%= @space.post_address %>
-      </span>
-  </div>
-  <% if @space.url.present? %>
-    <div class="flex gap-2 mt-2">
-      <%= inline_svg_tag 'url' %>
-      <span>
+  <%= render 'spaces/components/meta', space: @space do %>
+    <% if @space.url.present? %>
+      <div class="flex gap-1.5 items-center">
+        <%= inline_svg_tag 'url', class: "h-5 text-gray-600" %>
+        <span>
         <%= link_to @space.url, @space.url %>
       </span>
-    </div>
+      </div>
+    <% end %>
   <% end %>
 <% end %>

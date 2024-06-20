@@ -1,8 +1,8 @@
 .radio-slider {
   @apply overflow-hidden; /* To hide the shadow from the buttons */
-  @apply bg-gray-50 border border-gray-200 shadow-inner;
+  @apply bg-gray-200/30 border border-gray-200 shadow-inner;
   @apply p-0.5 rounded-xl;
-  @apply inline-flex gap-1 items-stretch flex-wrap;
+  @apply inline-grid gap-0.5 grid-cols-4;
   &:focus-within {
     @apply outline-none ring-2 ring-offset-2 ring-lnu-pink;
   }
@@ -14,6 +14,7 @@
     @apply flex justify-center items-center;
     @apply px-3 py-1.5;
     @apply border border-transparent;
+    @apply text-nowrap overflow-clip;
   }
   input + label:focus,
   input:focus + label,

@@ -1,0 +1,55 @@
+<%# locals: (spaces:, space_count: spaces.count, page_size: nil, personal_space_list: @active_personal_space_list ) %>
+
+<table
+  class="space_table border-collapse">
+  <% if controller_name == "spaces" %>
+    <caption class="w-96 sticky left-0 p-8 text-left">
+      <%= t('space_filter.spaces_that_might_work', count: space_count ) %>
+      <% if page_size.present? %>
+        <p class="text-gray-500">
+          <%= t('space_filter.showing_only_page_size_spaces', count: page_size) %><br />
+        </p>
+      <% end %>
+    </caption>
+  <% end %>
+  <thead>
+  <tr>
+    <th scope="col">
+      Lokale
+    </th>
+
+    <% if personal_space_list.present? %>
+      <th scope="col">
+        <div class="group override-text">
+          <span class="sr-only">Status</span>
+          <%= render "personal_space_lists/card/space_list", personal_space_list: %>
+        </div>
+
+      </th>
+    <% end %>
+
+    <th scope="col">
+      Fasiliteter
+    </th>
+
+    <th scope="col">
+      Kontaktinfo
+    </th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <% spaces.each do |space| %>
+    <%
+      personal_data_on_space_in_list = personal_space_list.this_lists_personal_data_on_spaces.find_by(space:)
+    %>
+    <%= render "spaces/table_views/space_table_row",
+                 space:,
+                 personal_space_list:,
+                 personal_data_on_space_in_list:,
+                 filtered_facilities: @filtered_facilities,
+                 non_filtered_facilities: @non_filtered_facilities
+    %>
+  <% end %>
+  </tbody>
+</table>

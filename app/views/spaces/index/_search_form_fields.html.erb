@@ -1,0 +1,69 @@
+<%# locals: (form:) %>
+<div class="mb-8">
+  <%= form.label t("space_filter.title"), for: :search_for_title, class: "text-xl font-bold" %>
+  <div class="mt-2">
+    <%= form.text_field :search_for_title,
+                        value: params[:search_for_title],
+                        data: { mapbox_target: "title" },
+                        class: "text_field shadow" %>
+  </div>
+</div>
+
+<div class="mb-8">
+  <%= form.label t("space_filter.location"), for: "locationInput", class: "text-xl font-bold" %>
+  <div class="mt-2">
+    <div data-mapbox-target="location">
+      <select id="locationInput"
+              placeholder="<%= t("space_filter.choose_location") %>"
+              class="w-full rounded shadow focus:ring-lnu-pink focus:border-lnu-pink"
+              data-controller="locationsearch">
+      </select>
+    </div>
+  </div>
+</div>
+
+<div  class="my-8">
+  <h3 class="text-xl font-bold mt-4">
+    <%= Facility.model_name.human(count: 2).capitalize %>
+  </h3>
+  <div class="divide-y border-b border-t my-4">
+    <% @filterable_facility_categories.each do |category| %>
+      <details open>
+        <summary class="py-4 text-l font-bold cursor-pointer">
+          <%= category.title %>
+        </summary>
+
+        <div class="mb-4">
+          <% category.facilities.each do |facility| %>
+            <%= form.label facility.title, class: "flex gap-2 my-1" do %>
+              <%= form.check_box facility.title,
+                              class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                              name: facility.id,
+                              data: { mapbox_target: "facility" }
+              %>
+              <%= inline_svg_tag "facilities/#{facility.icon}" if facility.icon %>
+              <%= facility.title %>
+            <% end %>
+          <% end %>
+        </div>
+      </details>
+    <% end %>
+  </div>
+</div>
+
+<div class="my-8">
+  <h3 class="text-xl font-bold mt-4"><%= SpaceType.model_name.human(count: @filterable_space_types.count).capitalize %></h3>
+  <div class="mt-2">
+    <% @filterable_space_types.each do |space_type| %>
+      <%= form.label space_type.type_name, class: "flex gap-2 my-1" do %>
+        <%=
+          form.check_box space_type.type_name,
+                      class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                      name: space_type.id,
+                      data: { mapbox_target: "spaceType" }
+        %>
+        <%= space_type.type_name %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

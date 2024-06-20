@@ -30,11 +30,11 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources "space_groups", except: "new"
   resources "space_contacts", only: [:create, :edit, :update, :destroy, :show]
 
-  get "/spaces/:space_id/facility_review/:facility_id/:facility_category_id", to: "facility_reviews#show",
-                                                                              as: "facility_review"
-  get "/spaces/:space_id/facility_review/:facility_id/new/:facility_category_id/", to: "facility_reviews#new",
-                                                                                   as: "new_facility_review"
-  post "/spaces/:space_id/facility_review/:facility_id", to: "facility_reviews#create", as: "create_facility_review"
+  get "/lokaler/:space_id/facility_review/:facility_id/:facility_category_id", to: "facility_reviews#show",
+                                                                               as: "facility_review"
+  get "/lokaler/:space_id/facility_review/:facility_id/new/:facility_category_id/", to: "facility_reviews#new",
+                                                                                    as: "new_facility_review"
+  post "/lokaler/:space_id/facility_review/:facility_id", to: "facility_reviews#create", as: "create_facility_review"
 
   # Review routes
   resources "reviews", except: "new"
@@ -49,13 +49,37 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   # Spaces routes
-  resources "spaces"
-  get "/spaces/:id/edit/:field", to: "spaces#edit_field", as: "edit_field"
+  resources "lokaler", controller: "spaces", as: "spaces", except: "new"
+  get "/nytt-lokale/", to: "spaces#new", as: "new_space"
+  get "/lokaler/:id/edit/:field", to: "spaces#edit_field", as: "edit_field"
+  get "/lokaler/:id/images/:start", to: "spaces#fullscreen_images", as: "fullscreen_images"
   get "spaces_search", to: "spaces#spaces_search"
   get "rect_for_spaces", to: "spaces#rect_for_spaces"
   get "address_search", to: "spaces#address_search"
   get "check_duplicates", to: "spaces#check_duplicates"
-  get "/spaces/:id/images/:start", to: "spaces#fullscreen_images", as: "fullscreen_images"
+
+  # Personal space list routes
+  resources :personal_space_lists, path: "lister" do
+    member do # Member adds more paths to resources
+      post "activate", to: "active_personal_space_lists#create", as: "activate_personal_space_list"
+      post "deactivate", to: "active_personal_space_lists#destroy", as: "deactivate_personal_space_list"
+    end
+    scope module: "personal_space_lists" do
+      resource :shared_with_public, only: [:show, :create, :destroy]
+      resource :shared_with_me, only: [:show, :create, :destroy]
+    end
+    resources :spaces, path: "lokale" do
+      scope module: "personal_space_lists" do
+        member do
+          get "space_in_list", to: "space_in_list#show", as: "status_for"
+          post "space_in_list", to: "space_in_list#create", as: "add_to"
+          delete "space_in_list", to: "space_in_list#destroy", as: "remove_from"
+        end
+        resources :personal_notes, only: [:edit, :update], path: "personlige_notater"
+        resources :contact_status, only: [:edit, :update], path: "status"
+      end
+    end
+  end
 
   # Space images routes
   resources "space_images"

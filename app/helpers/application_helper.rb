@@ -9,4 +9,10 @@ module ApplicationHelper
       render partial: "shared/alert", locals: { message: }
     end
   end
+
+  def active_path?(path)
+    return current_page?(root_path) if path == "/lokaler" && current_page?(root_path)
+
+    current_page?(path) || request.path.start_with?(path)
+  end
 end

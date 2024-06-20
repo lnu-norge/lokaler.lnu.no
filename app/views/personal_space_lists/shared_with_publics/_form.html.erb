@@ -1,0 +1,45 @@
+<%# locals: (personal_space_list:) %>
+
+<%= turbo_frame_tag dom_id(personal_space_list, "shared_with_public") do %>
+
+  <% if personal_space_list.user == current_user %>
+    <% if personal_space_list.shared_with_public?  %>
+      <div class="inline-flex gap-3 text-gray-500 items-center">
+        <label class="sr-only md:not-sr-only">
+          <%= "Kopier for å dele:" if personal_space_list.shared_with_public? %>
+          <input value="<%= personal_space_list_url(personal_space_list) %>"
+               class="bg-transparent text-sm px-1.5 py-1.5 border-gray-300 " />
+        </label>
+        <%=
+          button_to personal_space_list_shared_with_public_path(personal_space_list),
+                    method: :delete,
+                    title: "Skru av deling",
+                    class: "inline-flex gap-1 items-center cursor-pointer group focus:outline-none" do %>
+          <%= render 'shared/toggle_switch', checked: true, text: "Delt offentlig" %>
+        <% end %>
+      </div>
+
+
+    <% else %>
+      <%=
+        button_to personal_space_list_shared_with_public_path(personal_space_list),
+                  method: :post,
+                  title: "Skru på deling",
+                  class: "inline-flex gap-1 items-center cursor-pointer group focus:outline-none" do %>
+        <%= render 'shared/toggle_switch', checked: false, text: "Skru på deling" %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% if personal_space_list.shared_with_public? %>
+      <%= render 'personal_space_lists/shared_with_publics/byline', personal_space_list: %>
+    <% else %>
+      <div class="inline-flex gap-1 items-center text-gray-700 text-sm">
+          Tilhører <%= personal_space_list.user.name %>
+          <%= image_tag personal_space_list.user.gravatar_url, class: "h-6 w-6 rounded-full shadow-sm" %>
+      </div>
+      <%  if current_user.admin? %>
+        <div class="font-bold">Ikke delt. Du er admin og har tilgang</div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,3 +1,4 @@
+<%# locals: (space_contact:) %>
 <%= turbo_frame_tag dom_id(space_contact) do %>
   <%= simple_form_for space_contact,
                       url: space_contact.id.nil? ? space_contacts_path : space_contact_path(space_contact),
