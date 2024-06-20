@@ -33,18 +33,6 @@ class PersonalSpaceList < ApplicationRecord
     spaces.exclude?(space)
   end
 
-  def active
-    active?
-  end
-
-  def active?
-    active_personal_space_list.present?
-  end
-
-  def inactive?
-    active_personal_space_list.blank?
-  end
-
   def activate_for(user:)
     deactivate_for(user:)
     ActivePersonalSpaceList.create(user:, personal_space_list: self)
@@ -88,7 +76,7 @@ class PersonalSpaceList < ApplicationRecord
                                         name: user.name))
     end
     default_list.save
-    default_list.activate if active
+    default_list.activate_for(user:) if active
 
     default_list
   end
