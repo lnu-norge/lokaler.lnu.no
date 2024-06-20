@@ -7,17 +7,16 @@
 
   <main class="mt-6 mb-12">
     <%= render "form", personal_space_list: @personal_space_list %>
-
   </main>
 
-  <hr />
+  <% if @personal_space_list.user == current_user %>
+    <hr />
 
-
-  <%= button_to personal_space_list_path(@personal_space_list),
-                method: :delete,
-                data: { confirm: "Sikker på at du vil slette?" },
-                class: "link inline-flex gap-1" do %>
-    <%= inline_svg "delete" %> Slett listen
+    <%= button_to personal_space_list_path(@personal_space_list),
+                  method: :delete,
+                  data: { confirm: "Sikker på at du vil slette?" },
+                  class: "link inline-flex gap-1" do %>
+      <%= inline_svg "delete" %> Slett listen
+    <% end %>
   <% end %>
-
 </div>
