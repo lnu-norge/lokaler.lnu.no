@@ -1,7 +1,7 @@
 <div class="flex flex-col">
   <header class="modal-header md:hidden flex w-full relative">
     <%= button_tag data: {
-      action: "click->mapbox#hideSearchBox"
+      action: "click->search#hideSearchBox"
     }, class: "absolute left-8 md:hidden hover:underline p-4 -ml-4 inline-flex content-center items-center" do %>
       <%= inline_svg_tag 'x', class: 'inline-block' %>
       <%= t("close") %>
@@ -36,7 +36,7 @@
 
   <footer class="sticky md:sr-only bottom-0 left-0 right-0 modal-footer">
     <%= button_tag data: {
-      action: "click->mapbox#hideSearchBox"
+      action: "click->search#hideSearchBox"
     }, class: "modal-button" do %>
       <%= inline_svg_tag 'search', class: 'inline-block' %>
       <%= t('space_filter.show_spaces', count: '') %>

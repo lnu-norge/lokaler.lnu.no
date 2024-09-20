@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="search"
 export default class extends Controller {
 
-  static targets = ["form"]
+  static targets = ["form", "searchBox"]
 
   connect() {
 
@@ -18,5 +18,13 @@ export default class extends Controller {
     }
 
     this.formTarget.requestSubmit()
+  }
+
+  showSearchBox() {
+    this.searchBoxTarget.classList.remove("hidden");
+  }
+
+  hideSearchBox() {
+    this.searchBoxTarget.classList.add("hidden");
   }
 }
