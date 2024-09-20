@@ -221,7 +221,8 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
 
   def params_for_search
     params.permit(
-      :search_for_title
+      :search_for_title,
+      :facilities
     )
   end
 

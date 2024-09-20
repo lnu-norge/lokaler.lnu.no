@@ -4,7 +4,6 @@ import capsule_html from './search_and_filter/capsule_html';
 
 export default class extends Controller {
   static targets = [
-      "facility",
       "spaceType",
       "location",
       "searchBox",
@@ -66,26 +65,15 @@ export default class extends Controller {
   }
 
   updateFilterCapsules() {
-    const facilityCapsules = this.facilityTargets.map(t =>
-      t.checked ? capsule_html(t.id) : ''
-    ).join('');
-
     const spaceTypeCapsules = this.spaceTypeTargets.map(t =>
       t.checked ? capsule_html(t.id) : ''
     ).join('');
 
-    this.filterCapsulesTarget.innerHTML = facilityCapsules + spaceTypeCapsules;
+    this.filterCapsulesTarget.innerHTML = spaceTypeCapsules;
   }
 
   disableCapsule(event) {
     let foundFilterToReset = false;
-
-    this.facilityTargets.forEach(t => {
-      if (t.id === event.target.innerText) {
-        t.checked = false;
-        foundFilterToReset = true;
-      }
-    });
 
     this.spaceTypeTargets.forEach(t => {
       if (t.id === event.target.innerText) {
@@ -100,13 +88,11 @@ export default class extends Controller {
   }
 
   updateUrl() {
-    const selectedFacilities = this.selectedFacilities();
     const selectedSpaceTypes = this.selectedSpaceTypes();
     const selectedLocation = this.selectedLocation();
 
-    this.setOrDeleteToUrl('selectedFacilities', selectedFacilities);
-    this.setOrDeleteToUrl('selectedSpaceTypes', selectedSpaceTypes);
-    this.setOrDeleteToUrl('selectedLocation', selectedLocation);
+    this.setOrDeleteToUrl('space_types', selectedSpaceTypes);
+    this.setOrDeleteToUrl('location', selectedLocation);
     this.setOrDeleteToUrl('view_as', this.viewAs);
   }
 
@@ -132,10 +118,6 @@ export default class extends Controller {
     this.storeSearchUrl(url)
   }
 
-  selectedFacilities() {
-    return this.facilityTargets.filter(t => t.checked && !t.id.match("-duplicate-")).map(t => t.id).join(',');
-  }
-
   selectedSpaceTypes() {
     return this.spaceTypeTargets.filter(t => t.checked).map(t => t.id).join(',');
   }
@@ -146,32 +128,15 @@ export default class extends Controller {
 
 
   async runStoredFilters() {
-    this.setSearchUrlFromStorage()
     await this.parseUrl()
-  }
-
-  storeSearchUrl(searchUrl) {
-    document.cookie = `mapbox_controller_search_url=${searchUrl};path=/;SameSite=strict`
-  }
-
-  setSearchUrlFromStorage() {
-    const all_cookies = Object.fromEntries(document.cookie.split('; ').map(v=>v.split(/=(.*)/s).map(decodeURIComponent)))
-    const stored_url = all_cookies["mapbox_controller_search_url"]
-    if (!stored_url || stored_url === "" || stored_url === "undefined") {
-      return
-    }
-
-    window.history.replaceState("", "", stored_url)
   }
 
   async parseUrl() {
     const url = new URL(window.location);
-    const selectedFacilities = url.searchParams.get('selectedFacilities');
-    const selectedSpaceTypes = url.searchParams.get('selectedSpaceTypes');
-    const selectedLocation = url.searchParams.get('selectedLocation');
+    const selectedSpaceTypes = url.searchParams.get('space_types');
+    const selectedLocation = url.searchParams.get('location');
     this.setViewTo(url.searchParams.get("view_as") || "map");
 
-    this.parseSelectedFacilities(selectedFacilities);
     this.parseSelectedSpaceTypes(selectedSpaceTypes);
 
     this.updateFilterCapsules();
@@ -190,18 +155,6 @@ export default class extends Controller {
     }
   }
 
-
-  parseSelectedFacilities(selectedFacilities) {
-    if(!selectedFacilities) return;
-
-    selectedFacilities.split(',').forEach(facility => {
-      this.facilityTargets.forEach(t => {
-        if (t.id === facility) {
-          t.checked = true;
-        }
-      });
-    });
-  }
 
   parseSelectedSpaceTypes(selectedSpaceTypes) {
     if(!selectedSpaceTypes) return;
@@ -254,12 +207,6 @@ export default class extends Controller {
     }
 
     this.spaceTypeTargets.forEach(spaceType => {
-      spaceType.onchange = () => {
-        this.runSearch()
-      };
-    });
-
-    this.facilityTargets.forEach(spaceType => {
       spaceType.onchange = () => {
         this.runSearch()
       };
@@ -372,9 +319,6 @@ export default class extends Controller {
     const northWest = this.map.getBounds().getNorthWest();
     const southEast = this.map.getBounds().getSouthEast();
 
-    const facilitiesString = this.facilityTargets.map(t =>
-      !t.id.match("-duplicate-") && t.checked ? `facilities[]=${encodeURIComponent(t.name)}&` : ''
-    ).join('');
 
     const spaceTypesString = this.spaceTypeTargets.map(t =>
       t.checked ? `space_types[]=${encodeURIComponent(t.name)}&` : ''
@@ -388,7 +332,6 @@ export default class extends Controller {
       `north_west_lng=${northWest.lng}&`,
       `south_east_lat=${southEast.lat}&`,
       `south_east_lng=${southEast.lng}&`,
-      facilitiesString,
       spaceTypesString,
     ].join('');
   }
@@ -424,6 +367,8 @@ export default class extends Controller {
   }
 
   async loadNewMapPosition() {
+
+    return console.log("Turned off map search")
 
     const searchUrl = this.buildSearchURL()
 

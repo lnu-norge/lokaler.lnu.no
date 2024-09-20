@@ -1,3 +1,4 @@
+<%# locals: (space:, filtered_facilities:) %>
 <ul class="grid grid-cols-2 gap-2 mt-2">
   <% filtered_facilities.each do |facility| %>
     <% next unless space.relevance_of_facility(facility) %>

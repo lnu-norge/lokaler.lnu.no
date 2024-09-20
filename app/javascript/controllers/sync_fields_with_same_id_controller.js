@@ -33,7 +33,7 @@ export default class extends Controller {
           group.forEach(duplicate => duplicate.checked = field.checked)
         }
 
-        // Only do the rest for the duplicates:
+        // Only do the duplicates:
         if (index === 0) return
         this.make_field_fake_and_unique(field, group, index)
       })
