@@ -4,6 +4,7 @@
   <div class="mt-2">
     <%= form.text_field :search_for_title,
                         value: params[:search_for_title],
+                        onchange: "this.form.requestSubmit()",
                         data: { mapbox_target: "title" },
                         class: "text_field shadow" %>
   </div>

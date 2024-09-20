@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AutoSubmittingSearchFormController from "./auto_submitting_search_form_controller"
+application.register("auto-submitting-search-form", AutoSubmittingSearchFormController)
+
 import AutofilladdressController from "./autofilladdress_controller"
 application.register("autofilladdress", AutofilladdressController)
 

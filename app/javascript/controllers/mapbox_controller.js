@@ -8,8 +8,6 @@ export default class extends Controller {
       "spaceType",
       "location",
       "searchBox",
-      "title",
-      "form",
       "filterCapsules",
       "searchArea"
   ]
@@ -68,8 +66,6 @@ export default class extends Controller {
   }
 
   updateFilterCapsules() {
-    const titleCapsule = this.titleTarget.value ? capsule_html(`"${this.titleTarget.value}"`) : '';
-
     const facilityCapsules = this.facilityTargets.map(t =>
       t.checked ? capsule_html(t.id) : ''
     ).join('');
@@ -78,7 +74,7 @@ export default class extends Controller {
       t.checked ? capsule_html(t.id) : ''
     ).join('');
 
-    this.filterCapsulesTarget.innerHTML = titleCapsule + facilityCapsules + spaceTypeCapsules;
+    this.filterCapsulesTarget.innerHTML = facilityCapsules + spaceTypeCapsules;
   }
 
   disableCapsule(event) {
@@ -98,11 +94,6 @@ export default class extends Controller {
       }
     });
 
-    if (!foundFilterToReset)  {
-      // Then it's the title serach capsule
-      this.titleTarget.value = '';
-    }
-
     this.updateFilterCapsules();
     this.loadNewMapPosition();
     this.updateUrl();
@@ -112,12 +103,10 @@ export default class extends Controller {
     const selectedFacilities = this.selectedFacilities();
     const selectedSpaceTypes = this.selectedSpaceTypes();
     const selectedLocation = this.selectedLocation();
-    const searchForTitle = this.titleTarget.value;
 
     this.setOrDeleteToUrl('selectedFacilities', selectedFacilities);
     this.setOrDeleteToUrl('selectedSpaceTypes', selectedSpaceTypes);
     this.setOrDeleteToUrl('selectedLocation', selectedLocation);
-    this.setOrDeleteToUrl('searchForTitle', searchForTitle);
     this.setOrDeleteToUrl('view_as', this.viewAs);
   }
 
@@ -180,12 +169,10 @@ export default class extends Controller {
     const selectedFacilities = url.searchParams.get('selectedFacilities');
     const selectedSpaceTypes = url.searchParams.get('selectedSpaceTypes');
     const selectedLocation = url.searchParams.get('selectedLocation');
-    const searchForTitle = url.searchParams.get('searchForTitle');
     this.setViewTo(url.searchParams.get("view_as") || "map");
 
     this.parseSelectedFacilities(selectedFacilities);
     this.parseSelectedSpaceTypes(selectedSpaceTypes);
-    this.parseSearchForTitle(searchForTitle);
 
     this.updateFilterCapsules();
 
@@ -203,13 +190,7 @@ export default class extends Controller {
     }
   }
 
-  parseSearchForTitle(searchForTitle) {
-    if(searchForTitle) {
-      this.titleTarget.value = searchForTitle;
-    } else {
-      this.titleTarget.value = '';
-    }
-  }
+
   parseSelectedFacilities(selectedFacilities) {
     if(!selectedFacilities) return;
 
@@ -256,14 +237,6 @@ export default class extends Controller {
       }
     });
 
-    this.titleTarget.oninput = () => {
-      this.debounce(
-          "titleSearch",
-          500,
-          () => this.runSearch()
-      );
-    }
-
     this.debounce = (name, time, callback) => {
       this.debounceTimeouts = this.debounceTimeouts || {};
 
@@ -294,14 +267,6 @@ export default class extends Controller {
 
     this.locationTarget.onchange = (event) => {
       this.getSearchCoordinatesFromGeoNorge(event)
-    };
-
-    this.formTarget.onsubmit = (event) => {
-      // To stop the form from submitting, as that currently does nothing but refresh the page.
-      event.preventDefault()
-      this.clearDebounce("titleSearch")
-      this.getSearchCoordinatesFromGeoNorge(event)
-      this.hideSearchBox()
     };
   }
 
@@ -415,7 +380,6 @@ export default class extends Controller {
       t.checked ? `space_types[]=${encodeURIComponent(t.name)}&` : ''
     ).join('');
 
-    const title = this.titleTarget.value;
 
     return [
       '/spaces_search?',
@@ -424,7 +388,6 @@ export default class extends Controller {
       `north_west_lng=${northWest.lng}&`,
       `south_east_lat=${southEast.lat}&`,
       `south_east_lng=${southEast.lng}&`,
-      `search_for_title=${title}&`,
       facilitiesString,
       spaceTypesString,
     ].join('');
