@@ -4,6 +4,7 @@ import capsule_html from './search_and_filter/capsule_html';
 
 export default class extends Controller {
   static targets = [
+      "form",
       "location",
       "northWestLatInput",
       "northWestLngInput",
@@ -261,6 +262,8 @@ export default class extends Controller {
     this.northWestLngInputTarget.value = northWestLng;
     this.southEastLatInputTarget.value = southEastLat;
     this.southEastLngInputTarget.value = southEastLng;
+
+    this.formTarget.requestSubmit();
 
     this.map.fitBounds(bounds, {
       padding: 0,
