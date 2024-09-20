@@ -16,7 +16,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
 
     @space_count = @spaces.to_a.size
     @page_size = SPACE_SEARCH_PAGE_SIZE
-    @spaces = @spaces.limit(@page_size)
+    @spaces = @spaces.limit(@page_size).includes_data_for_filter_list
     @markers = @spaces.map(&:render_map_marker)
   end
 

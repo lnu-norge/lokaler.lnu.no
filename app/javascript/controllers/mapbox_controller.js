@@ -81,29 +81,36 @@ export default class extends Controller {
 
   async parseUrl() {
     const url = new URL(window.location);
-    const north_west_lat = url.searchParams.get('north_west_lat');
-    const north_west_lng = url.searchParams.get('north_west_lng');
-    const south_east_lat = url.searchParams.get('south_east_lat');
-    const south_east_lng = url.searchParams.get('south_east_lng');
 
-    const location_bounds_defined = north_west_lat && north_west_lng && south_east_lat && south_east_lng;
+    const bounds = {
+      northWestLat: url.searchParams.get('north_west_lat'),
+      northWestLng: url.searchParams.get('north_west_lng'),
+      southEastLat: url.searchParams.get('south_east_lat'),
+      southEastLng: url.searchParams.get('south_east_lng')
+    }
+
+    const location_bounds_defined = !!bounds.northWestLat && !!bounds.northWestLng && !!bounds.southEastLat && !!bounds.southEastLng;
 
     if (location_bounds_defined) {
       return this.initializeMap({
-        bounds: new mapboxgl.LngLatBounds(
-          new mapboxgl.LngLat(north_west_lng, north_west_lat),
-          new mapboxgl.LngLat(south_east_lng, south_east_lat)
-        ),
+        bounds: this.boundsToMapBoxBounds(bounds)
       });
     }
 
-    const {northEast, southWest} = await (await fetch('/rect_for_spaces')).json();
     this.initializeMap({
-      bounds: new mapboxgl.LngLatBounds(
-        new mapboxgl.LngLat(southWest.lng, southWest.lat),
-        new mapboxgl.LngLat(northEast.lng, northEast.lat),
-      ),
+      bounds: this.boundsToMapBoxBounds(this.BOUNDS_OF_NORWAY)
     });
+  }
+
+  boundsToMapBoxBounds(bounds) {
+    const {northWestLat, northWestLng, southEastLat, southEastLng} = bounds;
+    if (!northWestLat) {
+      debugger
+    }
+    return new mapboxgl.LngLatBounds(
+      new mapboxgl.LngLat(northWestLng, northWestLat),
+      new mapboxgl.LngLat(southEastLng, southEastLat)
+    );
   }
 
   setupEventCallbacks() {
@@ -119,22 +126,6 @@ export default class extends Controller {
         this.reloadPosition();
       }
     });
-
-    this.debounce = (name, time, callback) => {
-      this.debounceTimeouts = this.debounceTimeouts || {};
-
-      if (this.debounceTimeouts[name]) {
-        clearTimeout(this.debounceTimeouts[name]);
-      }
-      this.debounceTimeouts[name] = setTimeout(callback, time);
-    }
-
-    this.clearDebounce = (name) => {
-        if (this.debounceTimeouts &&
-            this.debounceTimeouts[name]) {
-            clearTimeout(this.debounceTimeouts[name]);
-        }
-    }
 
     this.locationTarget.onchange = (event) => {
       this.getSearchCoordinatesFromGeoNorge(event)
@@ -218,13 +209,15 @@ export default class extends Controller {
     };
   }
 
+  BOUNDS_OF_NORWAY = {
+    northWestLat: 71.51756773,
+    northWestLng: 3.559116286,
+    southEastLat: 57.44508079,
+    southEastLng: 31.29341841
+  }
+
   moveMapToFitNorway() {
-    return this.storeBoundsAndMoveMapToFit({
-      northWestLat: 4.032154,
-      northWestLng: 71.269784,
-      southEastLat: 31.497974,
-      southEastLng: 57.628953
-    })
+    return this.storeBoundsAndMoveMapToFit(this.BOUNDS_OF_NORWAY);
   }
 
   storeBounds(bounds) {
@@ -247,7 +240,7 @@ export default class extends Controller {
       bounds.northWestLng, bounds.northWestLat,
       bounds.southEastLng, bounds.southEastLat
     ], {
-      padding: 0,
+      padding: 50,
       animate: false
     }, {
       wasZoom: true,
