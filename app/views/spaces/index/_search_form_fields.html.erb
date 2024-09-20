@@ -46,6 +46,7 @@
                                   multiple: true,
                                   class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
                                   data: { mapbox_target: "facility" },
+                                  onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
                                   checked: params[:facilities]&.include?(facility.id.to_s)
                                 },
                                facility.id.to_s,
@@ -72,6 +73,7 @@
                            id: "space_type_#{space_type.id}",
                            data: { mapbox_target: "spaceType" },
                            class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                           onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
                            checked: params[:space_types]&.include?(space_type.id.to_s)
 
           },
