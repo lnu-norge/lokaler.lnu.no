@@ -8,6 +8,8 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   before_action :access_active_personal_list, only: %i[index show spaces_search]
 
   def index
+    params_for_search
+
     set_filterable_facility_categories
     set_filterable_space_types
     filter_spaces
@@ -215,6 +217,12 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       address: params[:space][:address],
       post_number: params[:space][:post_number]
     ) || {}
+  end
+
+  def params_for_search
+    params.permit(
+      :search_for_title
+    )
   end
 
   def space_params # rubocop:disable  Metrics/MethodLength
