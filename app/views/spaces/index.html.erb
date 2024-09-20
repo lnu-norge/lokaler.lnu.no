@@ -1,21 +1,23 @@
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
 <div
   class="md:flex max-w-screen"
   data-controller="mapbox search"
-  data-api-key="<%= ENV["MAPBOX_API_KEY"]%>"
-  data-markers="<%= @markers.to_json %>">
+  data-api-key="<%= ENV["MAPBOX_API_KEY"]%>">
   <nav
        class="fixed top-0 left-0 right-0 max-h-screen z-100 bg-white overflow-y-auto overscroll-contain
               md:static md:inset-auto md:z-10 md:h-screen-below-desktop-menu
               md:shadow-2xl md:max-w-md md:w-1/4 md:min-w-60">
-    <div class="hidden md:block " data-mapbox-target="searchBox">
+    <div class="hidden md:block " data-search-target="searchBox">
       <%= render 'spaces/index/filters' %>
     </div>
   </nav>
-  <div class="relative
+
+  <%= turbo_frame_tag "search_results",
+                      data: { 'turbo-action': 'advance' },
+                        class: "relative
         flex flex-col-reverse
         md:flex-row
-        md:flex-1">
-
+        md:flex-1" do %>
     <div class="relative z-4
                 bg-white md:shadow-2xl
                 rounded-t-xl -mt-8
@@ -30,12 +32,18 @@
       <%= render 'spaces/index/filter_button' %>
 
       <%= render 'spaces/index/handlebar_for_mobile' %>
-      <div
-        id="space-listing"
-        data-controller="set-selected-space"
-        class="px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
-        <%= render 'spaces/index/space_listings', view_as: "map", spaces: @spaces, space_count: @space_count, page_size: @page_size %>
-      </div>
+
+        <div
+          id="space-listing"
+          data-controller="set-selected-space"
+          class="px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
+          <%= render 'spaces/index/space_listings', view_as: "map", spaces: @spaces, space_count: @space_count, page_size: @page_size %>
+          <div
+            class="hidden"
+            data-mapbox-target="markerContainer"
+            data-markers="<%= @markers.to_json %>">
+          </div>
+        </div>
 
     </div>
     <div
@@ -75,5 +83,6 @@
         <%= render "spaces/index/map" %>
       </div>
     </div>
-  </div>
+  <% end %>
+
 </div>

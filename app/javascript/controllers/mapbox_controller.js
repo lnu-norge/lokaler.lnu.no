@@ -9,8 +9,8 @@ export default class extends Controller {
       "northWestLngInput",
       "southEastLatInput",
       "southEastLngInput",
-      "searchBox",
-      "searchArea"
+      "searchThisArea",
+      "markerContainer"
   ]
 
   async initialize() {
@@ -18,13 +18,14 @@ export default class extends Controller {
     await this.runStoredFilters();
   }
 
-  showSearchBox() {
-    this.searchBoxTarget.classList.remove("hidden");
+  markerContainerTargetConnected() {
+    if (!this.map) {
+      return;
+    }
+
+    this.loadMarkers();
   }
 
-  hideSearchBox() {
-    this.searchBoxTarget.classList.add("hidden");
-  }
 
   requestPosition() {
     const options = {
@@ -62,36 +63,6 @@ export default class extends Controller {
     this.markers = {};
 
     this.loadMarkers();
-  }
-
-  disableCapsule(event) {
-    let foundFilterToReset = false;
-
-    this.loadMarkers();
-    this.updateUrl();
-  }
-
-  updateUrl() {
-  }
-
-  resetUrlToRootPath() {
-    const url = new URL(window.location);
-    url.pathname = '/';
-
-    window.history.replaceState(null, null, url);
-  }
-
-  setOrDeleteToUrl(key, value) {
-    const url = new URL(window.location);
-
-    if (value) {
-      url.searchParams.set(key, value);
-    }
-    else {
-      url.searchParams.delete(key);
-    }
-
-    window.history.replaceState(null, null, url);
   }
 
   currentBounds() {
@@ -169,23 +140,16 @@ export default class extends Controller {
       this.getSearchCoordinatesFromGeoNorge(event)
     };
   }
-
-  runSearch() {
-    this.loadMarkers();
-    this.updateUrl();
-  }
-
   loadPositionOn(event) {
     this.map.on(event, () => {
-      this.updateUrl();
-      this.searchAreaTarget.classList.remove('hidden');
+      this.searchThisAreaTarget.classList.remove('hidden');
     });
   }
 
   reloadPosition() {
     const bounds = this.currentBounds();
     this.submitNewBounds(bounds);
-    this.searchAreaTarget.classList.add('hidden');
+    this.searchThisAreaTarget.classList.add('hidden');
   }
 
   addMarker(space) {
@@ -307,7 +271,7 @@ export default class extends Controller {
 
   async loadMarkers() {
 
-    const new_markers = JSON.parse(this.element.dataset.markers) || [];
+    const new_markers = JSON.parse(this.markerContainerTarget.dataset.markers) || [];
 
       // Remove markers that are no longer relevant
     Object.keys(this.markers).forEach((key) => {
