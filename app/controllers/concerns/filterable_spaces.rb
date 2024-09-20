@@ -13,11 +13,17 @@ module FilterableSpaces
     @filterable_space_types = SpaceType.all
   end
 
+  def set_filtered_facilities
+    facility_ids = sanitize_facility_list(params[:facilities])
+    @filtered_facilities = Facility.includes(:facility_categories).find(facility_ids)
+  end
+
   def filter_spaces
     @spaces = spaces_from_facilities
 
     set_filterable_facility_categories
     set_filterable_space_types
+    set_filtered_facilities
 
     filter_by_location
     filter_by_title

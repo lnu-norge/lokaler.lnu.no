@@ -4,9 +4,6 @@
 
 import { application } from "./application"
 
-import AutoSubmittingSearchFormController from "./auto_submitting_search_form_controller"
-application.register("auto-submitting-search-form", AutoSubmittingSearchFormController)
-
 import AutofilladdressController from "./autofilladdress_controller"
 application.register("autofilladdress", AutofilladdressController)
 
@@ -45,6 +42,9 @@ application.register("search-and-filter--set-selected-space", SearchAndFilter__S
 
 import ShowOnRadioButtonValueController from "./show_on_radio_button_value_controller"
 application.register("show-on-radio-button-value", ShowOnRadioButtonValueController)
+
+import SyncFieldsWithSameIdController from "./sync_fields_with_same_id_controller"
+application.register("sync-fields-with-same-id", SyncFieldsWithSameIdController)
 
 import SliderController from "./slider_controller"
 application.register("slider", SliderController)
