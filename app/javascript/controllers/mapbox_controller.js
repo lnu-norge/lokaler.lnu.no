@@ -5,6 +5,10 @@ import capsule_html from './search_and_filter/capsule_html';
 export default class extends Controller {
   static targets = [
       "location",
+      "northWestLatInput",
+      "northWestLngInput",
+      "southEastLatInput",
+      "southEastLngInput",
       "searchBox",
       "searchArea"
   ]
@@ -16,8 +20,6 @@ export default class extends Controller {
 
   showSearchBox() {
     this.searchBoxTarget.classList.remove("hidden");
-    let searchField = document.getElementById("locationInput-ts-control");
-    searchField.focus();
   }
 
   hideSearchBox() {
@@ -72,8 +74,7 @@ export default class extends Controller {
   updateUrl() {
     const selectedLocation = this.selectedLocation();
 
-    this.setOrDeleteToUrl('location', selectedLocation);
-    this.setOrDeleteToUrl('view_as', this.viewAs);
+    this.setOrDeleteToUrl('location_bounds', selectedLocation);
   }
 
   resetUrlToRootPath() {
@@ -94,12 +95,10 @@ export default class extends Controller {
     }
 
     window.history.replaceState(null, null, url);
-
-    this.storeSearchUrl(url)
   }
 
   selectedLocation() {
-    return [this.map.getCenter().lat.toFixed(4), this.map.getCenter().lng.toFixed(4), this.map.getZoom()].join(',');
+    return this.map.getBounds().toArray();
   }
 
 
@@ -109,28 +108,28 @@ export default class extends Controller {
 
   async parseUrl() {
     const url = new URL(window.location);
-    const selectedLocation = url.searchParams.get('location');
-    this.setViewTo(url.searchParams.get("view_as") || "map");
+    const north_west_lat = url.searchParams.get('north_west_lat');
+    const north_west_lng = url.searchParams.get('north_west_lng');
+    const south_east_lat = url.searchParams.get('south_east_lat');
+    const south_east_lng = url.searchParams.get('south_east_lng');
 
-    if (selectedLocation) {
-      this.parseSelectedLocation(selectedLocation);
-    }
-    else {
-      const {northEast, southWest} = await (await fetch('/rect_for_spaces')).json();
-      this.initializeMap({
+    const location_bounds_defined = north_west_lat && north_west_lng && south_east_lat && south_east_lng;
+
+    if (location_bounds_defined) {
+      return this.initializeMap({
         bounds: new mapboxgl.LngLatBounds(
-          new mapboxgl.LngLat(southWest.lng, southWest.lat),
-          new mapboxgl.LngLat(northEast.lng, northEast.lat),
+          new mapboxgl.LngLat(north_west_lng, north_west_lat),
+          new mapboxgl.LngLat(south_east_lng, south_east_lat)
         ),
       });
     }
-  }
 
-  parseSelectedLocation(selectedLocation) {
-    const [lat, lng, zoom] = selectedLocation.split(',');
+    const {northEast, southWest} = await (await fetch('/rect_for_spaces')).json();
     this.initializeMap({
-      center: [lng, lat],
-      zoom: zoom,
+      bounds: new mapboxgl.LngLatBounds(
+        new mapboxgl.LngLat(southWest.lng, southWest.lat),
+        new mapboxgl.LngLat(northEast.lng, northEast.lat),
+      ),
     });
   }
 
@@ -239,7 +238,7 @@ export default class extends Controller {
       return this.moveMapToFitNorway();
     }
 
-    return this.moveMapToFitBounds(this.geoNorgeAvgrensingsBoksToBoundingBox(avgrensningsboks));
+    return this.storeBoundsAndMoveMapToFit(this.geoNorgeAvgrensingsBoksToBoundingBox(avgrensningsboks));
   }
 
   geoNorgeAvgrensingsBoksToBoundingBox = (avgrensningsboks) => {
@@ -249,10 +248,20 @@ export default class extends Controller {
   }
 
   moveMapToFitNorway() {
-    return this.moveMapToFitBounds([4.032154,57.628953,31.497974,71.269784])
+    return this.storeBoundsAndMoveMapToFit([4.032154,57.628953,31.497974,71.269784])
   }
-  moveMapToFitBounds(bounds) {
-    console.log(bounds)
+  storeBoundsAndMoveMapToFit(bounds) {
+
+    const northWestLng = bounds[0];
+    const southEastLat = bounds[1];
+    const southEastLng = bounds[2];
+    const northWestLat = bounds[3];
+
+    this.northWestLatInputTarget.value = northWestLat;
+    this.northWestLngInputTarget.value = northWestLng;
+    this.southEastLatInputTarget.value = southEastLat;
+    this.southEastLngInputTarget.value = southEastLng;
+
     this.map.fitBounds(bounds, {
       padding: 0,
       animate: false
@@ -267,39 +276,11 @@ export default class extends Controller {
   }
 
   buildSearchURL() {
-    const northWest = this.map.getBounds().getNorthWest();
-    const southEast = this.map.getBounds().getSouthEast();
-
-
     return [
-      '/spaces_search?',
-      `view_as=${this.viewAs}&`,
-      `north_west_lat=${northWest.lat}&`,
-      `north_west_lng=${northWest.lng}&`,
-      `south_east_lat=${southEast.lat}&`,
-      `south_east_lng=${southEast.lng}&`
+      '/spaces_search'
     ].join('');
   }
 
-  setViewTo(view) {
-    this.viewAs = view;
-    document.body.classList.toggle('view-as-map', view === "map");
-    document.body.classList.toggle('view-as-table', view === "table");
-  }
-
-  setViewToMap() {
-    this.setViewTo("map")
-    this.resetUrlToRootPath();
-    this.updateUrl();
-    this.loadNewMapPosition();
-  }
-
-  setViewToTable() {
-    this.setViewTo("table")
-    this.resetUrlToRootPath();
-    this.updateUrl();
-    this.loadNewMapPosition();
-  }
 
   showErrorInListing(options) {
     const {message, error_html} = options

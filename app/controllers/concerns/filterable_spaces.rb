@@ -52,10 +52,10 @@ module FilterableSpaces
     return unless location_params_present?
 
     @spaces = @spaces.filter_on_location(
-      params[:north_west_lat],
-      params[:north_west_lng],
-      params[:south_east_lat],
-      params[:south_east_lng]
+      params[:north_west_lat].to_f,
+      params[:north_west_lng].to_f,
+      params[:south_east_lat].to_f,
+      params[:south_east_lng].to_f
     )
   end
 
