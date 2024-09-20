@@ -5,7 +5,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   include FilterableSpaces
   include AccessibleActivePersonalSpaceList
 
-  before_action :access_active_personal_list, only: %i[index show spaces_search]
+  before_action :access_active_personal_list, only: %i[index show]
 
   def index
     params_for_search

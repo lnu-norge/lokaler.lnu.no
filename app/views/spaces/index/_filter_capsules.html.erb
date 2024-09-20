@@ -1,1 +1,11 @@
-<span data-mapbox-target="filterCapsules" class="flex overflow-x-auto gap-1"></span>
+<span class="flex overflow-x-auto gap-1">
+  <% if @search_by_title.present? %>
+    <%= render 'spaces/index/filter_capsule', title: @search_by_title, id_to_clear: 'search_for_title' %>
+  <% end %>
+  <% @filtered_facilities&.each do |facility| %>
+    <%= render 'spaces/index/filter_capsule', title: facility.title, id_to_clear: "facilities_#{facility.id}" %>
+  <% end %>
+  <% @filtered_space_types&.each do |space_type| %>
+    <%= render 'spaces/index/filter_capsule', title: space_type.title, id_to_clear: "space_types_#{space_type.id}" %>
+  <% end %>
+</span>

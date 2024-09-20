@@ -33,13 +33,15 @@ module FilterableSpaces
   def filter_by_title
     return if params[:search_for_title].blank?
 
-    @spaces = @spaces.filter_on_title(params[:search_for_title])
+    @search_by_title = params[:search_for_title]
+    @spaces = @spaces.filter_on_title(@search_by_title)
   end
 
   def filter_by_space_types
     return if params[:space_types].blank?
 
     space_types = params[:space_types]&.map(&:to_i)
+    @filtered_space_types = SpaceType.where(space_types:)
     @spaces = @spaces.filter_on_space_types(space_types)
   end
 

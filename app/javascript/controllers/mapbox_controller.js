@@ -1,6 +1,5 @@
 import mapboxgl from 'mapbox-gl';
 import { Controller } from "@hotwired/stimulus";
-import capsule_html from './search_and_filter/capsule_html';
 
 export default class extends Controller {
   static targets = [
