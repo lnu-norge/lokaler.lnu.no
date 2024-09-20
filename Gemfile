@@ -29,52 +29,6 @@ gem "image_processing"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false
 
-group :production do
-  gem "aws-sdk-s3"
-  gem "newrelic_rpm"
-end
-
-group :development, :test do
-  # Call "byebug" anywhere in the code to stop execution and get a debugger console
-  gem "byebug", platforms: %i[mri mingw x64_mingw]
-  gem "dotenv-rails"
-  gem "fabrication"
-  gem "faker"
-  gem "parallel_tests"
-  gem "scout_apm"
-end
-
-group :development do
-  # Display performance information such as SQL time and flame graphs for each request in your browser.
-  # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
-  gem "annotate"
-  gem "foreman"
-  gem "guard"
-  gem "guard-livereload", require: false
-  gem "guard-rspec", require: false
-  gem "letter_opener"
-  gem "listen"
-  gem "overcommit"
-  gem "rack-livereload", require: false
-  gem "rack-mini-profiler"
-  gem "rails-erd"
-  gem "rails_real_favicon"
-  gem "rubocop", require: false
-  gem "rubocop-performance"
-  gem "rubocop-rails"
-  gem "rubocop-rspec"
-  gem "web-console"
-end
-
-group :test do
-  gem "capybara"
-  gem "rspec-benchmark"
-  gem "rspec-rails"
-  gem "selenium-webdriver"
-  gem "vcr"
-  gem "webmock"
-end
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
@@ -102,6 +56,49 @@ gem "tailwindcss-rails-webpacker"
 gem "turbo-rails"
 gem "validate_url"
 
+gem "cssbundling-rails", "~> 1.3"
 gem "jsbundling-rails", "~> 1.2"
 
-gem "cssbundling-rails", "~> 1.3"
+group :production do
+  gem "aws-sdk-s3"
+  gem "newrelic_rpm"
+end
+
+group :development, :test do
+  # Call "byebug" anywhere in the code to stop execution and get a debugger console
+  gem "byebug", platforms: %i[mri mingw x64_mingw]
+  gem "dotenv-rails"
+  gem "fabrication"
+  gem "faker"
+  gem "parallel_tests"
+  gem "scout_apm"
+end
+
+group :development do
+  gem "annotate"
+  gem "foreman"
+  gem "guard"
+  gem "guard-livereload", require: false
+  gem "guard-rspec", require: false
+  gem "letter_opener"
+  gem "listen"
+  gem "overcommit"
+  gem "rack-livereload", require: false
+  gem "rack-mini-profiler"
+  gem "rails-erd"
+  gem "rails_real_favicon"
+  gem "rubocop", require: false
+  gem "rubocop-performance"
+  gem "rubocop-rails"
+  gem "rubocop-rspec"
+  gem "web-console"
+end
+
+group :test do
+  gem "capybara"
+  gem "rspec-benchmark"
+  gem "rspec-rails"
+  gem "selenium-webdriver"
+  gem "vcr"
+  gem "webmock"
+end
