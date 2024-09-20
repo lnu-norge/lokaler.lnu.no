@@ -4,10 +4,8 @@ import capsule_html from './search_and_filter/capsule_html';
 
 export default class extends Controller {
   static targets = [
-      "spaceType",
       "location",
       "searchBox",
-      "filterCapsules",
       "searchArea"
   ]
 
@@ -64,34 +62,16 @@ export default class extends Controller {
     this.loadNewMapPosition();
   }
 
-  updateFilterCapsules() {
-    const spaceTypeCapsules = this.spaceTypeTargets.map(t =>
-      t.checked ? capsule_html(t.id) : ''
-    ).join('');
-
-    this.filterCapsulesTarget.innerHTML = spaceTypeCapsules;
-  }
-
   disableCapsule(event) {
     let foundFilterToReset = false;
 
-    this.spaceTypeTargets.forEach(t => {
-      if (t.id === event.target.innerText) {
-        t.checked = false;
-        foundFilterToReset = true;
-      }
-    });
-
-    this.updateFilterCapsules();
     this.loadNewMapPosition();
     this.updateUrl();
   }
 
   updateUrl() {
-    const selectedSpaceTypes = this.selectedSpaceTypes();
     const selectedLocation = this.selectedLocation();
 
-    this.setOrDeleteToUrl('space_types', selectedSpaceTypes);
     this.setOrDeleteToUrl('location', selectedLocation);
     this.setOrDeleteToUrl('view_as', this.viewAs);
   }
@@ -118,10 +98,6 @@ export default class extends Controller {
     this.storeSearchUrl(url)
   }
 
-  selectedSpaceTypes() {
-    return this.spaceTypeTargets.filter(t => t.checked).map(t => t.id).join(',');
-  }
-
   selectedLocation() {
     return [this.map.getCenter().lat.toFixed(4), this.map.getCenter().lng.toFixed(4), this.map.getZoom()].join(',');
   }
@@ -133,13 +109,8 @@ export default class extends Controller {
 
   async parseUrl() {
     const url = new URL(window.location);
-    const selectedSpaceTypes = url.searchParams.get('space_types');
     const selectedLocation = url.searchParams.get('location');
     this.setViewTo(url.searchParams.get("view_as") || "map");
-
-    this.parseSelectedSpaceTypes(selectedSpaceTypes);
-
-    this.updateFilterCapsules();
 
     if (selectedLocation) {
       this.parseSelectedLocation(selectedLocation);
@@ -153,19 +124,6 @@ export default class extends Controller {
         ),
       });
     }
-  }
-
-
-  parseSelectedSpaceTypes(selectedSpaceTypes) {
-    if(!selectedSpaceTypes) return;
-
-    selectedSpaceTypes.split(',').forEach(spaceType => {
-      this.spaceTypeTargets.forEach(t => {
-        if (t.id === spaceType) {
-          t.checked = true;
-        }
-      });
-    });
   }
 
   parseSelectedLocation(selectedLocation) {
@@ -206,19 +164,12 @@ export default class extends Controller {
         }
     }
 
-    this.spaceTypeTargets.forEach(spaceType => {
-      spaceType.onchange = () => {
-        this.runSearch()
-      };
-    });
-
     this.locationTarget.onchange = (event) => {
       this.getSearchCoordinatesFromGeoNorge(event)
     };
   }
 
   runSearch() {
-    this.updateFilterCapsules();
     this.loadNewMapPosition();
     this.updateUrl();
   }
@@ -320,19 +271,13 @@ export default class extends Controller {
     const southEast = this.map.getBounds().getSouthEast();
 
 
-    const spaceTypesString = this.spaceTypeTargets.map(t =>
-      t.checked ? `space_types[]=${encodeURIComponent(t.name)}&` : ''
-    ).join('');
-
-
     return [
       '/spaces_search?',
       `view_as=${this.viewAs}&`,
       `north_west_lat=${northWest.lat}&`,
       `north_west_lng=${northWest.lng}&`,
       `south_east_lat=${southEast.lat}&`,
-      `south_east_lng=${southEast.lng}&`,
-      spaceTypesString,
+      `south_east_lng=${southEast.lng}&`
     ].join('');
   }
 
