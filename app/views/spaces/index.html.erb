@@ -1,6 +1,8 @@
 <div
   class="md:flex max-w-screen"
-  data-controller="mapbox" data-api-key="<%= ENV["MAPBOX_API_KEY"]%>" >
+  data-controller="mapbox"
+  data-api-key="<%= ENV["MAPBOX_API_KEY"]%>"
+  data-markers="<%= @markers.to_json %>">
   <nav
        class="fixed top-0 left-0 right-0 max-h-screen z-100 bg-white overflow-y-auto overscroll-contain
               md:static md:inset-auto md:z-10 md:h-screen-below-desktop-menu
@@ -34,6 +36,7 @@
         class="px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
         <%= render 'spaces/index/space_listings', view_as: "map", spaces: @spaces, space_count: @space_count, page_size: @page_size %>
       </div>
+
     </div>
     <div
       class="

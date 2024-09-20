@@ -62,20 +62,17 @@ export default class extends Controller {
     // { spaceId: mapBoxMarker }
     this.markers = {};
 
-    this.loadNewMapPosition();
+    this.loadMarkers();
   }
 
   disableCapsule(event) {
     let foundFilterToReset = false;
 
-    this.loadNewMapPosition();
+    this.loadMarkers();
     this.updateUrl();
   }
 
   updateUrl() {
-    const selectedLocation = this.selectedLocation();
-
-    this.setOrDeleteToUrl('location_bounds', selectedLocation);
   }
 
   resetUrlToRootPath() {
@@ -98,8 +95,13 @@ export default class extends Controller {
     window.history.replaceState(null, null, url);
   }
 
-  selectedLocation() {
-    return this.map.getBounds().toArray();
+  currentBounds() {
+    return {
+      northWestLat: this.map.getBounds().getNorthWest().lat,
+      northWestLng: this.map.getBounds().getNorthWest().lng,
+      southEastLat: this.map.getBounds().getSouthEast().lat,
+      southEastLng: this.map.getBounds().getSouthEast().lng
+    }
   }
 
 
@@ -170,7 +172,7 @@ export default class extends Controller {
   }
 
   runSearch() {
-    this.loadNewMapPosition();
+    this.loadMarkers();
     this.updateUrl();
   }
 
@@ -182,8 +184,8 @@ export default class extends Controller {
   }
 
   reloadPosition() {
-    this.loadNewMapPosition();
-    this.updateUrl();
+    const bounds = this.currentBounds();
+    this.submitNewBounds(bounds);
     this.searchAreaTarget.classList.add('hidden');
   }
 
@@ -243,29 +245,45 @@ export default class extends Controller {
   }
 
   geoNorgeAvgrensingsBoksToBoundingBox = (avgrensningsboks) => {
-    const [lng1, lat1] = avgrensningsboks[0];
-    const [lng2, lat2] = avgrensningsboks[2];
-    return [lng1, lat1, lng2, lat2];
+    const [northWestLng, northWestLat] = avgrensningsboks[1];
+    const [southEastLng, southEastLat] = avgrensningsboks[3];
+    return {
+      northWestLat,
+      northWestLng,
+      southEastLat,
+      southEastLng
+    };
   }
 
   moveMapToFitNorway() {
-    return this.storeBoundsAndMoveMapToFit([4.032154,57.628953,31.497974,71.269784])
+    return this.storeBoundsAndMoveMapToFit({
+      northWestLat: 4.032154,
+      northWestLng: 71.269784,
+      southEastLat: 31.497974,
+      southEastLng: 57.628953
+    })
   }
+
+  storeBounds(bounds) {
+    this.northWestLatInputTarget.value = bounds.northWestLat;
+    this.northWestLngInputTarget.value = bounds.northWestLng;
+    this.southEastLatInputTarget.value = bounds.southEastLat;
+    this.southEastLngInputTarget.value = bounds.southEastLng;
+  }
+
+  submitNewBounds(bounds) {
+    this.storeBounds(bounds);
+    this.formTarget.requestSubmit();
+  }
+
   storeBoundsAndMoveMapToFit(bounds) {
 
-    const northWestLng = bounds[0];
-    const southEastLat = bounds[1];
-    const southEastLng = bounds[2];
-    const northWestLat = bounds[3];
+    this.submitNewBounds(bounds);
 
-    this.northWestLatInputTarget.value = northWestLat;
-    this.northWestLngInputTarget.value = northWestLng;
-    this.southEastLatInputTarget.value = southEastLat;
-    this.southEastLngInputTarget.value = southEastLng;
-
-    this.formTarget.requestSubmit();
-
-    this.map.fitBounds(bounds, {
+    this.map.fitBounds([
+      bounds.northWestLng, bounds.northWestLat,
+      bounds.southEastLng, bounds.southEastLat
+    ], {
       padding: 0,
       animate: false
     }, {
@@ -278,13 +296,6 @@ export default class extends Controller {
     delete this.markers[key];
   }
 
-  buildSearchURL() {
-    return [
-      '/spaces_search'
-    ].join('');
-  }
-
-
   showErrorInListing(options) {
     const {message, error_html} = options
 
@@ -295,32 +306,18 @@ export default class extends Controller {
     </div>`
   }
 
-  async loadNewMapPosition() {
+  async loadMarkers() {
 
-    return console.log("Turned off map search")
+    const new_markers = JSON.parse(this.element.dataset.markers) || [];
 
-    const searchUrl = this.buildSearchURL()
-
-    const results = await fetch(searchUrl);
-    if (!results.ok) {
-      const error_html = await results.text();
-      return this.showErrorInListing({
-        message: "Ooops, noe har gått galt, prøv igjen?",
-        error_html: error_html
-      });
-    }
-
-    const spacesInRect = await results.json();
-
-    const { markers } = spacesInRect;
-    // Remove markers that are no longer relevant
+      // Remove markers that are no longer relevant
     Object.keys(this.markers).forEach((key) => {
-      if (markers.find((space) => space.id === key)) return;
+      if (new_markers.find((space) => space.id === key)) return;
       this.removeMarker(key);
     });
 
     // Add or update the ones we want to show:
-    markers.reverse().forEach((space) => {
+    new_markers.reverse().forEach((space) => {
       this.addMarker(space);
     });
   }

@@ -1,10 +1,5 @@
 <%# locals: (view_as:, spaces:, space_count:, page_size: %>
 <% if spaces.any? %>
-  <% if view_as == "table" %>
-    <%= render "spaces/table_views/space_table_view",
-               spaces:,
-               space_count: @space_count, page_size: @page_size %>
-  <% else # default to map view %>
     <%= render 'spaces/index/space_listing_header', space_count: %>
     <ul id="space-list" class="flex flex-col gap-8">
       <% spaces.each do |space| %>
@@ -12,11 +7,10 @@
       <% end %>
     </ul>
     <%= render 'spaces/index/pagination', space_count:, page_size: %>
-  <% end %>
-
 <% else %>
   <div class="text-lnu-pink flex flex-col place-items-center place-content-center md:h-screen-2/3">
     <%= inline_svg_tag 'empty',  class: 'max-w-24 inline-block', alt: "" %>
     <span class="text-gray-800"><%= t('space_filter.spaces_that_might_work', count: 0 ) %></span>
   </div>
 <% end %>
+
