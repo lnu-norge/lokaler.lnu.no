@@ -222,7 +222,12 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   def params_for_search
     params.permit(
       :search_for_title,
-      :facilities
+      :facilities,
+      :space_types,
+      :north_west_lat,
+      :north_west_lng,
+      :south_east_lat,
+      :south_east_lng
     )
   end
 
