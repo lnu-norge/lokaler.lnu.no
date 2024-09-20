@@ -41,7 +41,8 @@
                                   id: "facilities_#{facility.id}",
                                   multiple: true,
                                   class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
-                                  data: { mapbox_target: "facility" }
+                                  data: { mapbox_target: "facility" },
+                                  checked: params[:facilities]&.include?(facility.id.to_s)
                                 },
                                facility.id.to_s,
                                nil
@@ -66,8 +67,10 @@
                 multiple: true,
                            id: "space_type_#{space_type.id}",
                            data: { mapbox_target: "spaceType" },
-                           class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded"
-                         },
+                           class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                           checked: params[:space_types]&.include?(space_type.id.to_s)
+
+          },
                          space_type.id.to_s,
                          nil
 
