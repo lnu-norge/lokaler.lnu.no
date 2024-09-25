@@ -6,8 +6,14 @@ module AccessibleActivePersonalSpaceList
   private
 
   def access_active_personal_list
-    @active_personal_space_list = current_user
-                                  &.active_personal_space_list
-                                  &.personal_space_list
+    my_personal_space_list = current_user
+                             &.active_personal_space_list
+                             &.personal_space_list
+
+    return @active_personal_space_list = nil if my_personal_space_list.blank?
+
+    @active_personal_space_list = PersonalSpaceList.includes(:spaces,
+                                                             :this_lists_personal_data_on_spaces)
+                                                   .find(my_personal_space_list.id)
   end
 end

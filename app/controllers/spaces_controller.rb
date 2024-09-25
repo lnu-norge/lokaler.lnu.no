@@ -5,11 +5,20 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   include FilterableSpaces
   include AccessibleActivePersonalSpaceList
 
-  before_action :access_active_personal_list, only: %i[index show spaces_search]
+  before_action :access_active_personal_list, only: %i[index show]
 
   def index
     set_filterable_facility_categories
     set_filterable_space_types
+    filter_spaces
+
+    @space_count = @spaces.to_a.size
+    @page_size = SPACE_SEARCH_PAGE_SIZE
+    # TODO: Make sure we can use .includes_data_for_filter_list here. That will mean we need
+    # to rewrite the filter_and_order_by_facilities method. Probably that will happen if we
+    # switch to a new search library.
+    @spaces = @spaces.limit(@page_size)
+    @markers = @spaces.map(&:render_map_marker)
   end
 
   def show
@@ -106,14 +115,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     }
   end
 
-  def spaces_search
-    filter_spaces
-    @space_count = @spaces.to_a.size
-    @spaces = @spaces.limit(SPACE_SEARCH_PAGE_SIZE)
-
-    render_listing_and_markers_json
-  end
-
   def check_duplicates
     duplicates = duplicates_from_params
 
@@ -144,39 +145,10 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
 
   SPACE_SEARCH_PAGE_SIZE = 20
 
-  def render_listing_and_markers_json
-    view_as = params[:view_as]
-
+  def render_markers_json
     render json: {
-      listing: get_listing_json_for_view(view_as),
-      markers: get_marker_json_for_view(view_as)
+      markers: @spaces.map(&:render_map_marker)
     }
-  end
-
-  def get_listing_json_for_view(view_as)
-    @experiences = FacilityReview::LIST_EXPERIENCES
-
-    facility_ids = params[:facilities]&.map(&:to_i) || []
-    @filtered_facilities = Facility.includes(:facility_categories).find(facility_ids)
-    @non_filtered_facilities = Facility.includes(:facility_categories).where.not(id: facility_ids)
-
-    spaces = preload_spaces_data_for_view(view_as)
-
-    @page_size = SPACE_SEARCH_PAGE_SIZE
-    render_to_string(
-      partial: "spaces/index/space_listings", locals: {
-        spaces:,
-        space_count: @space_count,
-        view_as:,
-        page_size: @page_size
-      }
-    )
-  end
-
-  def get_marker_json_for_view(view_as)
-    return [] unless view_as == "map"
-
-    @spaces.map(&:render_map_marker)
   end
 
   def preload_spaces_data_for_view(view_as)

@@ -1,7 +1,13 @@
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
-  <div class="w-full h-full md:h-full" id="map-frame"></div>
+<%= turbo_frame_tag 'mapbox_map',
+                    data: {
+                      'turbo-permanent': true
+                    } do %>
+<div
+    class="w-full h-full md:h-full"
+    data-mapbox-target="mapContainer"
+    id="map-frame"></div>
 
-  <div class="justify-center w-full flex hidden" data-mapbox-target="searchArea">
+  <div class="justify-center w-full flex hidden" data-mapbox-target="searchThisArea">
     <button
       data-action="click->mapbox#reloadPosition"
       class="absolute top-5
@@ -29,3 +35,4 @@
       <%= inline_svg_tag 'gps', class: 'inline-block' %>
     </button>
   </div>
+<% end %>
