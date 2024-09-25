@@ -1,9 +1,13 @@
-<%= form_with data: {
-  mapbox_target: 'form',
+<%= form_with url: spaces_path, method: :get, data: {
+  turbo_frame: 'search_results',
   controller: 'sync-fields-with-same-id',
-  sync_fields_with_same_id_target: 'form'
+  sync_fields_with_same_id_target: 'form',
+  mapbox_target: 'form',
+  search_target: 'form'
 } do |form| %>
 
   <%= render 'spaces/index/search_form_fields', form: %>
+
+  <%= form.submit "Søk", class: "button submit fixed bottom-4 sr-only" %>
 
 <% end %>

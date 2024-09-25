@@ -4,7 +4,7 @@
   <div class="mt-2">
     <%= form.text_field :search_for_title,
                         value: params[:search_for_title],
-                        data: { mapbox_target: "title" },
+                        onchange: "this.form.requestSubmit()",
                         class: "text_field shadow" %>
   </div>
 </div>
@@ -18,6 +18,10 @@
               class="w-full rounded shadow focus:ring-lnu-pink focus:border-lnu-pink"
               data-controller="locationsearch">
       </select>
+      <%= form.hidden_field :north_west_lat, value: params[:north_west_lat], class: "text_field", data: { mapbox_target: "northWestLatInput" } %>
+      <%= form.hidden_field :north_west_lng, value: params[:north_west_lng], class: "text_field", data: { mapbox_target: "northWestLngInput" } %>
+      <%= form.hidden_field :south_east_lat, value: params[:south_east_lat], class: "text_field", data: { mapbox_target: "southEastLatInput" } %>
+      <%= form.hidden_field :south_east_lng, value: params[:south_east_lng], class: "text_field", data: { mapbox_target: "southEastLngInput" } %>
     </div>
   </div>
 </div>
@@ -35,11 +39,18 @@
 
         <div class="mb-4">
           <% category.facilities.each do |facility| %>
-            <%= form.label facility.title, class: "flex gap-2 my-1" do %>
-              <%= form.check_box facility.title,
-                              class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
-                              name: facility.id,
-                              data: { mapbox_target: "facility" }
+            <%= form.label "facilities_#{facility.id}", class: "flex gap-2 my-1" do %>
+              <%= form.check_box "facilities",
+                                {
+                                  id: "facilities_#{facility.id}",
+                                  multiple: true,
+                                  class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                                  data: { mapbox_target: "facility" },
+                                  onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
+                                  checked: params[:facilities]&.include?(facility.id.to_s)
+                                },
+                               facility.id.to_s,
+                               nil
               %>
               <%= inline_svg_tag "facilities/#{facility.icon}" if facility.icon %>
               <%= facility.title %>
@@ -55,12 +66,20 @@
   <h3 class="text-xl font-bold mt-4"><%= SpaceType.model_name.human(count: @filterable_space_types.count).capitalize %></h3>
   <div class="mt-2">
     <% @filterable_space_types.each do |space_type| %>
-      <%= form.label space_type.type_name, class: "flex gap-2 my-1" do %>
+      <%= form.label "space_type_#{space_type.id}", class: "flex gap-2 my-1" do %>
         <%=
-          form.check_box space_type.type_name,
-                      class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
-                      name: space_type.id,
-                      data: { mapbox_target: "spaceType" }
+          form.check_box "space_types", {
+                multiple: true,
+                           id: "space_type_#{space_type.id}",
+                           data: { mapbox_target: "spaceType" },
+                           class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                           onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
+                           checked: params[:space_types]&.include?(space_type.id.to_s)
+
+          },
+                         space_type.id.to_s,
+                         nil
+
         %>
         <%= space_type.type_name %>
       <% end %>

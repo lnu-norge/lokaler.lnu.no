@@ -46,6 +46,10 @@ module.exports = {
                 zoom: 'zoom-in'
             },
             spacing: {
+                'safe-area-inset-bottom': 'env(safe-area-inset-bottom)',
+                'safe-area-inset-top': 'env(safe-area-inset-top)',
+                'safe-area-inset-left': 'env(safe-area-inset-left)',
+                'safe-area-inset-right': 'env(safe-area-inset-right)',
                 'desktop-menu-height': '3.5rem',
                 'screen-below-desktop-menu': 'calc(100vh - 3.5rem)',
                 md: '28rem',

@@ -40,11 +40,17 @@ application.register("review-form", ReviewFormController)
 import SearchAndFilter__SetSelectedSpaceController from "./search_and_filter/set_selected_space_controller"
 application.register("search-and-filter--set-selected-space", SearchAndFilter__SetSelectedSpaceController)
 
+import SearchController from "./search_controller"
+application.register("search", SearchController)
+
 import ShowOnRadioButtonValueController from "./show_on_radio_button_value_controller"
 application.register("show-on-radio-button-value", ShowOnRadioButtonValueController)
 
 import SliderController from "./slider_controller"
 application.register("slider", SliderController)
+
+import SyncFieldsWithSameIdController from "./sync_fields_with_same_id_controller"
+application.register("sync-fields-with-same-id", SyncFieldsWithSameIdController)
 
 import TomSelectController from "./tom_select_controller"
 application.register("tom-select", TomSelectController)
