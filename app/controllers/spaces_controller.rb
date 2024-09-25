@@ -12,12 +12,10 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     set_filterable_space_types
     filter_spaces
 
-    @space_count = @spaces.to_a.size
-    @page_size = SPACE_SEARCH_PAGE_SIZE
     # TODO: Make sure we can use .includes_data_for_filter_list here. That will mean we need
     # to rewrite the filter_and_order_by_facilities method. Probably that will happen if we
     # switch to a new search library.
-    @spaces = @spaces.limit(@page_size)
+    @pagy, @spaces = pagy(@filtered_spaces)
     @markers = @spaces.map(&:render_map_marker)
   end
 
