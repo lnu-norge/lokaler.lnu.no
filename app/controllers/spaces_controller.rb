@@ -8,15 +8,16 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   before_action :access_active_personal_list, only: %i[index show]
 
   def index
-    params_for_search
-
     set_filterable_facility_categories
     set_filterable_space_types
     filter_spaces
 
     @space_count = @spaces.to_a.size
     @page_size = SPACE_SEARCH_PAGE_SIZE
-    @spaces = @spaces.limit(@page_size).includes_data_for_filter_list
+    # TODO: Make sure we can use .includes_data_for_filter_list here. That will mean we need
+    # to rewrite the filter_and_order_by_facilities method. Probably that will happen if we
+    # switch to a new search library.
+    @spaces = @spaces.limit(@page_size)
     @markers = @spaces.map(&:render_map_marker)
   end
 
@@ -181,18 +182,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       address: params[:space][:address],
       post_number: params[:space][:post_number]
     ) || {}
-  end
-
-  def params_for_search
-    params.permit(
-      :search_for_title,
-      :facilities,
-      :space_types,
-      :north_west_lat,
-      :north_west_lng,
-      :south_east_lat,
-      :south_east_lng
-    )
   end
 
   def space_params # rubocop:disable  Metrics/MethodLength

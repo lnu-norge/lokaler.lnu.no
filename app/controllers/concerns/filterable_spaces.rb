@@ -19,6 +19,8 @@ module FilterableSpaces
   end
 
   def filter_spaces
+    # set_filters_from_session_or_params
+
     @spaces = spaces_from_facilities
 
     set_filterable_facility_categories
@@ -28,6 +30,8 @@ module FilterableSpaces
     filter_by_location
     filter_by_title
     filter_by_space_types
+
+    #    store_filters_in_session
   end
 
   def filter_by_title
@@ -41,7 +45,7 @@ module FilterableSpaces
     return if params[:space_types].blank?
 
     space_types = params[:space_types]&.map(&:to_i)
-    @filtered_space_types = SpaceType.where(space_types:)
+    @filtered_space_types = SpaceType.find(space_types)
     @spaces = @spaces.filter_on_space_types(space_types)
   end
 
@@ -72,5 +76,41 @@ module FilterableSpaces
     return Space.order_by_star_rating if sanitized_facility_list.blank?
 
     Space.filter_and_order_by_facilities(sanitized_facility_list)
+  end
+
+  def any_filters_set?
+    filter_keys.any? { |key| params[key].present? }
+  end
+
+  def store_filters_in_session
+    session[:last_filter_params] = params_from_search
+  end
+
+  def filter_keys
+    %i[
+      facilities
+      space_types
+      search_for_title
+      north_west_lat
+      north_west_lng
+      south_east_lat
+      south_east_lng
+    ]
+  end
+
+  def set_filters_from_session_or_params
+    return params_from_search if any_filters_set?
+
+    params_from_session
+  end
+
+  def params_from_session
+    filter_keys.each do |key|
+      params[key] = session[:last_filter_params][key]
+    end
+  end
+
+  def params_from_search
+    params.permit(*filter_keys)
   end
 end

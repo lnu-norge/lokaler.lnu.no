@@ -129,6 +129,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   scope :filter_and_order_by_facilities, lambda { |facility_ids|
     # NB: This grouping means that the results are not countable with .size or .count
+    # And cannot be used with includes...
+    # We really need to fix this in the current rewrite of search
     group(:id)
       .joins(:space_facilities)
       .where(space_facilities: { relevant: true, facility_id: facility_ids })
