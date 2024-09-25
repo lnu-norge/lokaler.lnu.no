@@ -19,7 +19,7 @@ module FilterableSpaces
   end
 
   def filter_spaces
-    # set_filters_from_session_or_params
+    set_filters_from_session_or_params
 
     @spaces = spaces_from_facilities
 
@@ -31,7 +31,7 @@ module FilterableSpaces
     filter_by_title
     filter_by_space_types
 
-    #    store_filters_in_session
+    store_filters_in_session
   end
 
   def filter_by_title
@@ -79,7 +79,12 @@ module FilterableSpaces
   end
 
   def any_filters_set?
-    filter_keys.any? { |key| params[key].present? }
+    filter_keys.detect { |key| params[key] }
+  end
+
+  def any_filters_stored_in_session?
+    session[:last_filter_params].present? &&
+      filter_keys.any? { |key| session[:last_filter_params][key].present? }
   end
 
   def store_filters_in_session
@@ -87,7 +92,7 @@ module FilterableSpaces
   end
 
   def filter_keys
-    %i[
+    %w[
       facilities
       space_types
       search_for_title
@@ -100,17 +105,31 @@ module FilterableSpaces
 
   def set_filters_from_session_or_params
     return params_from_search if any_filters_set?
+    return params_from_session if any_filters_stored_in_session?
 
-    params_from_session
+    set_permitted_params
   end
 
   def params_from_session
     filter_keys.each do |key|
       params[key] = session[:last_filter_params][key]
     end
+    set_permitted_params
   end
 
   def params_from_search
-    params.permit(*filter_keys)
+    set_permitted_params
+  end
+
+  def set_permitted_params
+    remove_duplicate_params
+    params.permit(*filter_keys, facilities: [], space_types: [])
+  end
+
+  def remove_duplicate_params
+    # When a facility is in multiple facility categories, they are marked as duplicates
+    # using JS, by changing the name and id to start with 'duplicate_'.
+    # Here we filter them out as we don't need them in the back end:
+    params.delete_if { |key, _| key.to_s.start_with?("duplicate_") }
   end
 end
