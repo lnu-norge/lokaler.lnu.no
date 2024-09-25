@@ -1,4 +1,7 @@
-#search_results[aria-busy="true"] .loading-spaces-when-empty,
+#search_results[aria-busy="true"] .loading-spaces-when-empty {
+    @apply animate-pulse;
+}
+
 .loading-spaces-when-empty:empty {
     @apply flex flex-col gap-4;
     @apply animate-pulse;
