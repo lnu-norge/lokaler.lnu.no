@@ -34,9 +34,6 @@ application.register("multistep-form", MultistepFormController)
 import NestedCheckboxFilterController from "./nested_checkbox_filter_controller"
 application.register("nested-checkbox-filter", NestedCheckboxFilterController)
 
-import PagyController from "./pagy_controller"
-application.register("pagy", PagyController)
-
 import ResetFormController from "./reset_form_controller"
 application.register("reset-form", ResetFormController)
 
