@@ -30,22 +30,33 @@
   <h3 class="text-xl font-bold mt-4">
     <%= Facility.model_name.human(count: 2).capitalize %>
   </h3>
-  <div class="divide-y border-b border-t my-4">
+  <div class="">
     <% @filterable_facility_categories.each do |category| %>
-      <details open>
-        <summary class="py-4 text-l font-bold cursor-pointer">
+      <div data-controller="nested-checkbox-filter" class="">
+        <label class="flex gap-1 my-1 items-top" for="facility-category-<%= category.id %>">
+          <input
+            id="facility-category-<%= category.id %>"
+            type="checkbox"
+            class="h-5 w-5
+                  relative top-0.5
+                  text-lnu-pink indeterminate:bg-gray-500
+                  focus:ring-lnu-pink border-gray-300 rounded"
+            data-nested-checkbox-filter-target="parent" />
           <%= category.title %>
-        </summary>
+        </label>
 
-        <div class="mb-4">
+        <div class="ml-4 pb-2" data-nested-checkbox-filter-target="childrenContainer">
           <% category.facilities.each do |facility| %>
-            <%= form.label "facilities_#{facility.id}", class: "flex gap-2 my-1" do %>
+            <%= form.label "facilities_#{facility.id}", class: "flex gap-1 my-1 items-top" do %>
               <%= form.check_box "facilities",
                                 {
                                   id: "facilities_#{facility.id}",
                                   multiple: true,
-                                  class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
-                                  data: { mapbox_target: "facility" },
+                                  class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                                  data: {
+                                    'nested-checkbox-filter-target': 'child',
+                                    mapbox_target: "facility"
+                                  },
                                   onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
                                   checked: params[:facilities]&.include?(facility.id.to_s)
                                 },
@@ -57,8 +68,8 @@
             <% end %>
           <% end %>
         </div>
-      </details>
-    <% end %>
+      </div>
+  <% end %>
   </div>
 </div>
 
