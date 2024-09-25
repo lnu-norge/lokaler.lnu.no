@@ -21,7 +21,7 @@ module FilterableSpaces
   def filter_spaces
     set_filters_from_session_or_params
 
-    @spaces = spaces_from_facilities
+    @filtered_spaces = spaces_from_facilities
 
     set_filterable_facility_categories
     set_filterable_space_types
@@ -38,7 +38,7 @@ module FilterableSpaces
     return if params[:search_for_title].blank?
 
     @search_by_title = params[:search_for_title]
-    @spaces = @spaces.filter_on_title(@search_by_title)
+    @filtered_spaces = @filtered_spaces.filter_on_title(@search_by_title)
   end
 
   def filter_by_space_types
@@ -46,7 +46,7 @@ module FilterableSpaces
 
     space_types = params[:space_types]&.map(&:to_i)
     @filtered_space_types = SpaceType.find(space_types)
-    @spaces = @spaces.filter_on_space_types(space_types)
+    @filtered_spaces = @filtered_spaces.filter_on_space_types(space_types)
   end
 
   def location_params_present?
@@ -57,7 +57,7 @@ module FilterableSpaces
   def filter_by_location
     return unless location_params_present?
 
-    @spaces = @spaces.filter_on_location(
+    @filtered_spaces = @filtered_spaces.filter_on_location(
       params[:north_west_lat].to_f,
       params[:north_west_lng].to_f,
       params[:south_east_lat].to_f,
