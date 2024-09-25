@@ -37,7 +37,7 @@
           id="space-listing"
           data-controller="set-selected-space"
           class="px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
-          <%= render 'spaces/index/space_listings', view_as: "map", spaces: @spaces, space_count: @space_count, page_size: @page_size %>
+          <%= render 'spaces/index/space_listings', spaces: @spaces, space_count: @space_count, page_size: @page_size %>
           <div
             class="hidden"
             data-mapbox-target="markerContainer"
