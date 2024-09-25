@@ -30,11 +30,11 @@
     </h2>
   <% end %>
 
-  <main class="p-8">
+  <main class="p-8 pb-48 md:pb-8">
     <%= render partial: "spaces/index/search_form" %>
   </main>
 
-  <footer class="sticky md:sr-only bottom-0 left-0 right-0 modal-footer">
+  <footer class="fixed md:sr-only bottom-0 left-0 right-0 modal-footer">
     <%= button_tag data: {
       action: "click->search#hideSearchBox"
     }, class: "modal-button" do %>
