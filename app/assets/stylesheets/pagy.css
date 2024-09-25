@@ -1,0 +1,26 @@
+.pagy.nav {
+    @apply flex space-x-1 font-semibold text-sm text-gray-500 justify-center;
+    a:not(.gap) {
+        @apply block rounded-lg px-2 py-1 bg-gray-200 text-gray-700 decoration-0;
+        &:hover {
+            @apply bg-gray-300 text-lnu-pink decoration-0;
+        }
+        &:not([href]) { /* disabled links */
+            @apply text-gray-300 bg-gray-100 cursor-default decoration-0;
+        }
+        &.current {
+            @apply text-white bg-lnu-pink;
+        }
+    }
+    label {
+        @apply inline-block whitespace-nowrap bg-gray-200 rounded-lg px-3 py-0.5;
+        input {
+            @apply bg-gray-100 border-none rounded-md;
+        }
+    }
+}
+
+
+.pagy.info {
+    @apply text-center text-gray-500 text-sm block my-2;
+}
