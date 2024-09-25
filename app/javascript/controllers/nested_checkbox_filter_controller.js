@@ -36,8 +36,6 @@ export default class extends Controller {
   toggle(e) {
     e.preventDefault()
 
-    this.childrenContainerTarget.classList.toggle("hidden", !e.target.checked)
-
     this.childTargets.forEach((checkbox) => {
       checkbox.checked = e.target.checked
       this.triggerInputEvent(checkbox)
@@ -52,7 +50,6 @@ export default class extends Controller {
 
     this.parentTarget.checked = checkboxesCheckedCount > 0
     this.parentTarget.indeterminate = checkboxesCheckedCount > 0 && checkboxesCheckedCount < checkboxesCount
-    this.childrenContainerTarget.classList.toggle("hidden", !this.parentTarget.checked)
   }
 
   triggerInputEvent(checkbox) {
