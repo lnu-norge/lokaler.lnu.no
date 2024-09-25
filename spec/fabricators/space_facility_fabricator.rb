@@ -14,6 +14,7 @@ end
 #  description :string
 #  experience  :integer
 #  relevant    :boolean          default(FALSE)
+#  score       :integer          default(0)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  facility_id :bigint           not null
