@@ -10,12 +10,19 @@ export default class extends Controller {
       "southEastLatInput",
       "southEastLngInput",
       "searchThisArea",
-      "markerContainer"
+      "markerContainer",
+      "mapContainer"
   ]
 
-  async initialize() {
+  initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
-    await this.runStoredFilters();
+    this.markers = {};
+    this.map = false;
+    this.resizeObserver = false;
+  }
+
+  connect() {
+    this.setUpMapAndMarkers();
   }
 
   markerContainerTargetConnected() {
@@ -26,6 +33,10 @@ export default class extends Controller {
     this.loadMarkers();
   }
 
+  async setUpMapAndMarkers() {
+    console.log("Setting up mapbox, this should only happen once")
+    await this.runStoredFilters();
+  }
 
   requestPosition() {
     const options = {
@@ -42,27 +53,57 @@ export default class extends Controller {
     });
   }
 
-  initializeMap(options) {
-    this.map = new mapboxgl.Map({
-      container: 'map-frame',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      trackResize: true,
-      ...options,
-    });
+  async initializeMap(options) {
+    await this.mapContainerIsLoaded();
+    if (!this.map) {
+      this.map = new mapboxgl.Map({
+        container: 'map-frame',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        trackResize: true,
+        ...options,
+      });
+      this.setupEventCallbacks();
+    } else {
+      console.log("Map already exists");
+      this.map.fitBounds(options.bounds)
+    }
 
-    // Set up a resize observer as well
-    const resizeObserver = new ResizeObserver(() => {
+    this.setUpResizeObserver();
+
+    this.markers = {};
+    this.loadMarkers();
+  }
+
+  setUpResizeObserver() {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+
+    this.resizeObserver = new ResizeObserver(() => {
       this.map.resize();
     });
-    resizeObserver.observe(document.getElementById('map-frame'));
 
-    this.setupEventCallbacks();
+    this.resizeObserver.observe(document.getElementById('map-frame'));
+  }
 
-    // Hash for storing markers, based on
-    // { spaceId: mapBoxMarker }
-    this.markers = {};
+  mapContainerIsLoaded() {
+    return new Promise((resolve) => {
+      if (this.hasMapContainerTarget) {
+        resolve()
+      } else {
+        const observer = new MutationObserver((mutations, obs) => {
+          if (this.hasMapContainerTarget) {
+            obs.disconnect()
+            resolve()
+          }
+        })
 
-    this.loadMarkers();
+        observer.observe(this.element, {
+          childList: true,
+          subtree: true
+        })
+      }
+    })
   }
 
   currentBounds() {
@@ -83,10 +124,10 @@ export default class extends Controller {
     const url = new URL(window.location);
 
     const bounds = {
-      northWestLat: url.searchParams.get('north_west_lat'),
-      northWestLng: url.searchParams.get('north_west_lng'),
-      southEastLat: url.searchParams.get('south_east_lat'),
-      southEastLng: url.searchParams.get('south_east_lng')
+      northWestLat: url.searchParams.get('north_west_lat') || this.northWestLatInputTarget.value,
+      northWestLng: url.searchParams.get('north_west_lng') || this.northWestLngInputTarget.value,
+      southEastLat: url.searchParams.get('south_east_lat') || this.southEastLatInputTarget.value,
+      southEastLng: url.searchParams.get('south_east_lng') || this.southEastLngInputTarget.value
     }
 
     const location_bounds_defined = !!bounds.northWestLat && !!bounds.northWestLng && !!bounds.southEastLat && !!bounds.southEastLng;
@@ -104,9 +145,6 @@ export default class extends Controller {
 
   boundsToMapBoxBounds(bounds) {
     const {northWestLat, northWestLng, southEastLat, southEastLng} = bounds;
-    if (!northWestLat) {
-      debugger
-    }
     return new mapboxgl.LngLatBounds(
       new mapboxgl.LngLat(northWestLng, northWestLat),
       new mapboxgl.LngLat(southEastLng, southEastLat)
@@ -263,7 +301,6 @@ export default class extends Controller {
   }
 
   async loadMarkers() {
-
     const new_markers = JSON.parse(this.markerContainerTarget.dataset.markers) || [];
 
       // Remove markers that are no longer relevant
