@@ -52,7 +52,7 @@ class PersonalSpaceList < ApplicationRecord
   end
 
   def update_counter_caches
-    update(
+    update!(
       space_count: this_lists_personal_data_on_spaces.count,
       space_not_contacted_count: this_lists_personal_data_on_spaces.not_contacted.count,
       space_said_no_count: this_lists_personal_data_on_spaces.said_no.count,
