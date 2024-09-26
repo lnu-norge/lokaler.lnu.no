@@ -2,10 +2,13 @@
 
 class PersonalDataOnSpaceInList < ApplicationRecord
   belongs_to :space
-  belongs_to :personal_space_list
+  belongs_to :personal_space_list, touch: true
   belongs_to :personal_space_lists_space, query_constraints: [:space_id, :personal_space_list_id], optional: true
 
   enum contact_status: { not_contacted: 0, said_no: 1, said_maybe: 2, said_yes: 3 }
+
+  after_destroy :update_personal_space_list_counters
+  after_save :update_personal_space_list_counters
 
   ICON_FOR_CONTACT_STATUS = {
     "not_contacted" => "unknown",
@@ -13,6 +16,12 @@ class PersonalDataOnSpaceInList < ApplicationRecord
     "said_maybe" => "maybe",
     "said_yes" => "likely"
   }.freeze
+
+  private
+
+  def update_personal_space_list_counters
+    personal_space_list.update_counter_caches
+  end
 end
 
 # == Schema Information

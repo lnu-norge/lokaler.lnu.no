@@ -13,7 +13,10 @@ module AccessibleActivePersonalSpaceList
     return @active_personal_space_list = nil if my_personal_space_list.blank?
 
     @active_personal_space_list = PersonalSpaceList.includes(:spaces,
-                                                             :this_lists_personal_data_on_spaces)
+                                                             {
+                                                               personal_space_lists_spaces:
+                                                                :personal_data_on_space_in_lists
+                                                             })
                                                    .find(my_personal_space_list.id)
   end
 end
