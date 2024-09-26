@@ -61,6 +61,10 @@ export default class extends Controller {
         container: 'map-frame',
         style: 'mapbox://styles/mapbox/streets-v11',
         trackResize: true,
+        pitchWithRotate: false,
+        dragRotate: false,
+        touchZoomRotate: false,
+        keyboardRotate: false,
         ...options,
       });
       this.setupEventCallbacks();
