@@ -1,0 +1,15 @@
+<%# locals: (form:) %>
+<%= form.label t("space_filter.location"), for: "locationInput", class: "text-xl font-bold my-4" %>
+<div class="mt-2">
+  <div data-mapbox-target="location">
+    <select id="locationInput"
+            placeholder="<%= t("space_filter.choose_location") %>"
+            class="w-full rounded shadow focus:ring-lnu-pink focus:border-lnu-pink"
+            data-controller="locationsearch">
+    </select>
+    <%= form.hidden_field :north_west_lat, value: params[:north_west_lat], class: "text_field", data: { mapbox_target: "northWestLatInput" } %>
+    <%= form.hidden_field :north_west_lng, value: params[:north_west_lng], class: "text_field", data: { mapbox_target: "northWestLngInput" } %>
+    <%= form.hidden_field :south_east_lat, value: params[:south_east_lat], class: "text_field", data: { mapbox_target: "southEastLatInput" } %>
+    <%= form.hidden_field :south_east_lng, value: params[:south_east_lng], class: "text_field", data: { mapbox_target: "southEastLngInput" } %>
+  </div>
+</div>
