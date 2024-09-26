@@ -3,16 +3,23 @@
 class PersonalSpaceListsSpace < ApplicationRecord
   self.primary_key = [:space_id, :personal_space_list_id]
 
-  belongs_to :personal_space_list
+  belongs_to :personal_space_list, touch: true
   belongs_to :space
   has_many :personal_data_on_space_in_lists,
            query_constraints: [:space_id, :personal_space_list_id],
            dependent: nil # Keep it around in case the space is added again
 
   after_create :set_up_personal_data_on_space_in_list
+  after_commit :update_personal_space_list_counters
 
   def set_up_personal_data_on_space_in_list
     PersonalDataOnSpaceInList.find_or_create_by(personal_space_list:, space:)
+  end
+
+  private
+
+  def update_personal_space_list_counters
+    personal_space_list.update_counter_caches
   end
 end
 
