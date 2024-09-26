@@ -1,99 +1,16 @@
 <%# locals: (form:) %>
 <div class="mb-8">
-  <%= form.label t("space_filter.title"), for: :search_for_title, class: "text-xl font-bold my-4"  %>
-  <div class="mt-2">
-    <%= form.text_field :search_for_title,
-                        value: params[:search_for_title],
-                        onchange: "this.form.requestSubmit()",
-                        class: "text_field shadow" %>
-  </div>
+  <%= render "spaces/index/search_form_fields/filter_on_title", form: form %>
 </div>
 
 <div class="mb-8">
-  <%= form.label t("space_filter.location"), for: "locationInput", class: "text-xl font-bold my-4" %>
-  <div class="mt-2">
-    <div data-mapbox-target="location">
-      <select id="locationInput"
-              placeholder="<%= t("space_filter.choose_location") %>"
-              class="w-full rounded shadow focus:ring-lnu-pink focus:border-lnu-pink"
-              data-controller="locationsearch">
-      </select>
-      <%= form.hidden_field :north_west_lat, value: params[:north_west_lat], class: "text_field", data: { mapbox_target: "northWestLatInput" } %>
-      <%= form.hidden_field :north_west_lng, value: params[:north_west_lng], class: "text_field", data: { mapbox_target: "northWestLngInput" } %>
-      <%= form.hidden_field :south_east_lat, value: params[:south_east_lat], class: "text_field", data: { mapbox_target: "southEastLatInput" } %>
-      <%= form.hidden_field :south_east_lng, value: params[:south_east_lng], class: "text_field", data: { mapbox_target: "southEastLngInput" } %>
-    </div>
-  </div>
-</div>
-
-<div  class="my-8">
-  <h3 class="text-xl font-bold my-4">
-    <%= Facility.model_name.human(count: 2).capitalize %>
-  </h3>
-  <div class="">
-    <% @filterable_facility_categories.each do |category| %>
-      <div data-controller="nested-checkbox-filter" class="my-2">
-        <label class="flex font-bold gap-1 my-1 items-top" for="facility-category-<%= category.id %>">
-          <input
-            id="facility-category-<%= category.id %>"
-            type="checkbox"
-            class="h-5 w-5
-                  relative top-0.5
-                  text-lnu-pink indeterminate:bg-gray-500
-                  focus:ring-lnu-pink border-gray-300 rounded"
-            data-nested-checkbox-filter-target="parent" />
-          <%= category.title %>
-        </label>
-
-        <div class="ml-4 pb-2" data-nested-checkbox-filter-target="childrenContainer">
-          <% category.facilities.each do |facility| %>
-            <%= form.label "facilities_#{facility.id}", class: "flex gap-1 my-1 items-top" do %>
-              <%= form.check_box "facilities",
-                                {
-                                  id: "facilities_#{facility.id}",
-                                  multiple: true,
-                                  class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
-                                  data: {
-                                    'nested-checkbox-filter-target': 'child',
-                                    mapbox_target: "facility"
-                                  },
-                                  onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
-                                  checked: params[:facilities]&.include?(facility.id.to_s)
-                                },
-                               facility.id.to_s,
-                               nil
-              %>
-              <%= inline_svg_tag "facilities/#{facility.icon}" if facility.icon %>
-              <%= facility.title %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-  <% end %>
-  </div>
+  <%= render "spaces/index/search_form_fields/filter_on_location", form: form %>
 </div>
 
 <div class="my-8">
-  <h3 class="text-xl font-bold my-4"><%= SpaceType.model_name.human(count: @filterable_space_types.count).capitalize %></h3>
-  <div class="mt-2">
-    <% @filterable_space_types.each do |space_type| %>
-      <%= form.label "space_type_#{space_type.id}", class: "flex gap-2 my-1" do %>
-        <%=
-          form.check_box "space_types", {
-                multiple: true,
-                           id: "space_type_#{space_type.id}",
-                           data: { mapbox_target: "spaceType" },
-                           class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
-                           onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
-                           checked: params[:space_types]&.include?(space_type.id.to_s)
+  <%= render "spaces/index/search_form_fields/filter_on_facilities", form: form %>
+</div>
 
-          },
-                         space_type.id.to_s,
-                         nil
-
-        %>
-        <%= space_type.type_name %>
-      <% end %>
-    <% end %>
-  </div>
+<div class="my-8">
+  <%= render "spaces/index/search_form_fields/filter_on_space_types", form: form %>
 </div>
