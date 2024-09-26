@@ -19,6 +19,7 @@ export default class extends Controller {
     this.markers = {};
     this.map = false;
     this.resizeObserver = false;
+    this.reloadMapDebouncer = false;
   }
 
   connect() {
@@ -172,6 +173,7 @@ export default class extends Controller {
   loadPositionOn(event) {
     this.map.on(event, () => {
       this.searchThisAreaTarget.classList.remove('hidden');
+      this.deboounceReloadMap(500);
     });
   }
 
@@ -179,6 +181,17 @@ export default class extends Controller {
     const bounds = this.currentBounds();
     this.submitNewBounds(bounds);
     this.searchThisAreaTarget.classList.add('hidden');
+  }
+
+  deboounceReloadMap(time) {
+    if (this.reloadMapDebouncer) {
+      clearTimeout(this.reloadMapDebouncer);
+    }
+
+    this.reloadMapDebouncer = setTimeout(() => {
+      this.reloadMapDebouncer = false;
+      this.reloadPosition();
+    }, time);
   }
 
   addMarker(space) {
