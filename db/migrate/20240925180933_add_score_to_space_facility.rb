@@ -13,6 +13,8 @@ class AddScoreToSpaceFacility < ActiveRecord::Migration[7.1]
           print  "\rCalculated score for #{processed_count} / #{total_count}\r        "
         end
       end
+
+      sleep(0.05)
     end
   end
 
