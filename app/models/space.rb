@@ -128,27 +128,16 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   }
 
   scope :filter_and_order_by_facilities, lambda { |facility_ids|
-    # NB: This grouping means that the results are not countable with .size or .count
-    # And cannot be used with includes...
-    # We really need to fix this in the current rewrite of search
-    group(:id)
-      .joins(:space_facilities)
-      .where(space_facilities: { relevant: true, facility_id: facility_ids })
-      .order(Arel.sql("
-                    SUM(
-                                     CASE
-                                        WHEN space_facilities.experience = 4 THEN 3.0 -- likely
-                                        WHEN space_facilities.experience = 3 THEN 2.0 -- maybe
-                                        WHEN space_facilities.experience = 2 THEN -1.0 -- unlikely
-                                        WHEN space_facilities.experience = 1 THEN -2.0 -- impossible
-                                        WHEN space_facilities.relevant THEN 1.0 -- unknown experience, but relevant
-                                        ELSE 0.0 -- unknown experience, irrelevant facility
-                                      END
-                    )
-                DESC"),
-             Arel.sql(
-               "COALESCE((spaces.star_rating - 2.9) / 10, 0) DESC"
-             ))
+    joins(:space_facilities)
+      .where(space_facilities: { facility_id: facility_ids, relevant: true })
+      .group("spaces.id")
+      # First sort by facility score, then by star rating to break any ties
+      # Star ratings below 3 should be sorted below those who have no rating
+      # Coalesce makes sure that 0 is returned if there is no rating
+      .order(
+        Arel.sql("SUM(space_facilities.score) DESC, COALESCE((spaces.star_rating - 2.9), 0) DESC")
+      )
+      .select("spaces.*")
   }
 
   has_rich_text :how_to_book

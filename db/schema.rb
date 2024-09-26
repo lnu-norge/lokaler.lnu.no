@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_18_101339) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_26_071852) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -126,6 +126,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_18_101339) do
     t.datetime "updated_at", null: false
     t.string "title"
     t.boolean "shared_with_public", default: false
+    t.integer "space_count", default: 0
+    t.integer "space_not_contacted_count", default: 0
+    t.integer "space_said_no_count", default: 0
+    t.integer "space_said_maybe_count", default: 0
+    t.integer "space_said_yes_count", default: 0
     t.index ["user_id"], name: "index_personal_space_lists_on_user_id"
   end
 
@@ -187,6 +192,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_18_101339) do
     t.datetime "updated_at", null: false
     t.string "description"
     t.boolean "relevant", default: false
+    t.integer "score", default: 0
     t.index ["facility_id"], name: "index_space_facilities_on_facility_id"
     t.index ["space_id", "facility_id"], name: "index_space_facilities_on_space_id_and_facility_id", unique: true
     t.index ["space_id"], name: "index_space_facilities_on_space_id"

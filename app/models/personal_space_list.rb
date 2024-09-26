@@ -27,6 +27,7 @@ class PersonalSpaceList < ApplicationRecord
 
   def remove_space(space)
     personal_space_lists_spaces.delete_by(space:)
+    update_counter_caches
   end
 
   def includes_space?(space)
@@ -46,28 +47,18 @@ class PersonalSpaceList < ApplicationRecord
     ActivePersonalSpaceList.where(user:).destroy_all
   end
 
-  def space_count
-    this_lists_personal_data_on_spaces.size
-  end
-
   def space_contacted_count
-    this_lists_personal_data_on_spaces.not_not_contacted.size
+    space_count - space_not_contacted_count
   end
 
-  def space_not_contacted_count
-    this_lists_personal_data_on_spaces.not_contacted.size
-  end
-
-  def space_said_no_count
-    this_lists_personal_data_on_spaces.said_no.size
-  end
-
-  def space_said_maybe_count
-    this_lists_personal_data_on_spaces.said_maybe.size
-  end
-
-  def space_said_yes_count
-    this_lists_personal_data_on_spaces.said_yes.size
+  def update_counter_caches
+    update!(
+      space_count: this_lists_personal_data_on_spaces.count,
+      space_not_contacted_count: this_lists_personal_data_on_spaces.not_contacted.count,
+      space_said_no_count: this_lists_personal_data_on_spaces.said_no.count,
+      space_said_maybe_count: this_lists_personal_data_on_spaces.said_maybe.count,
+      space_said_yes_count: this_lists_personal_data_on_spaces.said_yes.count
+    )
   end
 
   # self.METHOD_NAME makes this a Class method, the others are instance methods
@@ -121,12 +112,17 @@ end
 #
 # Table name: personal_space_lists
 #
-#  id                 :bigint           not null, primary key
-#  shared_with_public :boolean          default(FALSE)
-#  title              :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  user_id            :bigint
+#  id                        :bigint           not null, primary key
+#  shared_with_public        :boolean          default(FALSE)
+#  space_count               :integer          default(0)
+#  space_not_contacted_count :integer          default(0)
+#  space_said_maybe_count    :integer          default(0)
+#  space_said_no_count       :integer          default(0)
+#  space_said_yes_count      :integer          default(0)
+#  title                     :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  user_id                   :bigint
 #
 # Indexes
 #
