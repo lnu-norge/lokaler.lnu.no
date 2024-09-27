@@ -4,7 +4,7 @@ module Spaces
   class MapVectorController < ApplicationController
     include MapVectorDataForTile
     include FilterableSpaces
-    before_action :define_tile_coordinates
+    before_action :set_permitted_params, :define_tile_coordinates
 
     private
 
@@ -18,6 +18,11 @@ module Spaces
       filter_spaces_for_vector_tiles
       # SQL for getting all relevant canvassing_result IDs:
       @filtered_spaces.select(:id).to_sql
+    end
+
+    def set_permitted_params
+      remove_duplicate_params
+      params.permit([*filter_keys, :z, :x, :y, { facilities: [], space_types: [] }])
     end
 
     def vector_tile_query # rubocop:disable Metrics/MethodLength

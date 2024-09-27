@@ -38,9 +38,11 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
   def filter_spaces_for_vector_tiles
     set_filters_from_session_or_params
 
-    @filtered_spaces = spaces_from_facilities
+    @filtered_spaces = Space.all
+
     filter_by_title
     filter_by_space_types
+    filter_and_order_by_facilities
   end
 
   def filter_by_title
@@ -84,7 +86,7 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
     sanitized_facility_list = sanitize_facility_list(params[:facilities])
     return @filtered_spaces = @filtered_spaces.order_by_star_rating if sanitized_facility_list.blank?
 
-    @filtered_spaces.filter_and_order_by_facilities(sanitized_facility_list)
+    @filtered_spaces = @filtered_spaces.filter_and_order_by_facilities(sanitized_facility_list)
   end
 
   def any_filters_set?
