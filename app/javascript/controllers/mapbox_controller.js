@@ -1,5 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 import { Controller } from "@hotwired/stimulus";
+import Rails from "@rails/ujs";
 
 export default class extends Controller {
   static targets = [
@@ -16,14 +17,16 @@ export default class extends Controller {
 
   initialize() {
     mapboxgl.accessToken = this.element.dataset.apiKey;
-    this.markers = {};
+    this.markersFromSearchResults = {};
+    this.hoveringMarker = null
     this.map = false;
     this.resizeObserver = false;
     this.reloadMapDebouncer = false;
+    this.hoveredSpaceId = null;
   }
 
   connect() {
-    this.setUpMapAndMarkers();
+    this.setup();
   }
 
   markerContainerTargetConnected() {
@@ -31,10 +34,10 @@ export default class extends Controller {
       return;
     }
 
-    this.loadMarkers();
+    this.loadMarkersFromSearchResults();
   }
 
-  async setUpMapAndMarkers() {
+  async setup() {
     console.log("Setting up mapbox, this should only happen once")
     await this.runStoredFilters();
   }
@@ -75,8 +78,13 @@ export default class extends Controller {
 
     this.setUpResizeObserver();
 
-    this.markers = {};
-    this.loadMarkers();
+    this.map.on("load", () => {
+      this.markersFromSearchResults = {};
+      this.loadMarkersFromSearchResults();
+
+      this.add_spaces_vector_layer()
+      this.add_hover_effect_on_spaces_vector_layer()
+    })
   }
 
   setUpResizeObserver() {
@@ -198,21 +206,28 @@ export default class extends Controller {
     }, time);
   }
 
-  addMarker(space) {
+
+  addSearchResultMarker(space) {
     // If marker is already added, then just update that element, otherwise, create a new one
-    const element = this.markers[space.id]
-      ? this.markers[space.id].getElement()
+    const element = this.markersFromSearchResults[space.id]
+      ? this.markersFromSearchResults[space.id].getElement()
       : document.createElement('div');
 
     element.innerHTML = space.html;
 
-    if (!this.markers[space.id]) {
+    if (!this.markersFromSearchResults[space.id]) {
       // Need to add new markers to this.markers, to keep track:
-      this.markers[space.id] = new mapboxgl.Marker(element)
+      this.markersFromSearchResults[space.id] = new mapboxgl.Marker(element)
         .setLngLat([space.lng, space.lat])
         .addTo(this.map);
     }
   }
+
+  removeSearchResultMarker(key) {
+    this.markersFromSearchResults[key].remove();
+    delete this.markersFromSearchResults[key];
+  }
+
 
   async getSearchCoordinatesFromGeoNorge(event) {
 
@@ -302,10 +317,6 @@ export default class extends Controller {
     });
   }
 
-  removeMarker(key) {
-    this.markers[key].remove();
-    delete this.markers[key];
-  }
 
   showErrorInListing(options) {
     const {message, error_html} = options
@@ -317,18 +328,18 @@ export default class extends Controller {
     </div>`
   }
 
-  async loadMarkers() {
+  async loadMarkersFromSearchResults() {
     const new_markers = JSON.parse(this.markerContainerTarget.dataset.markers) || [];
 
       // Remove markers that are no longer relevant
-    Object.keys(this.markers).forEach((key) => {
+    Object.keys(this.markersFromSearchResults).forEach((key) => {
       if (new_markers.find((space) => space.id === key)) return;
-      this.removeMarker(key);
+      this.removeSearchResultMarker(key);
     });
 
     // Add or update the ones we want to show:
     new_markers.reverse().forEach((space) => {
-      this.addMarker(space);
+      this.addSearchResultMarker(space);
     });
   }
 
@@ -345,5 +356,86 @@ export default class extends Controller {
     else {
       alert('Kunne ikke hente lokasjon. Sjekk at lokasjon er skrudd på')
     }
+  }
+
+  add_spaces_vector_layer(filter_params = "") {
+    console.log("Adding filtered spaces to map")
+
+    this.map.addSource('spaces_vector_source', {
+      type: 'vector',
+      tiles: [window.location.origin + '/lokaler/mapbox_vector_tiles/{z}/{x}/{y}.mvt?' + filter_params],
+      promoteId: 'id'
+    });
+
+    this.map.addLayer({
+      id: 'spaces_vector_layer',
+      type: 'circle',
+      source: 'spaces_vector_source',
+      'source-layer': 'spaces',
+      paint: {
+        'circle-color': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          '#C40066',
+          '#FFF'
+        ],
+        'circle-radius': 5,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#C40066'
+      }
+    });
+  }
+
+  loadHoverMarkerForSpaceId(spaceId) {
+    Rails.ajax({
+      url: `/lokaler/${spaceId}/map_marker`,
+      type: "GET",
+      dataType: "json",
+      success: (data) => {
+        this.setHoverMarker(data);
+      },
+      error: (error) => {
+        console.error('Error:', error)
+      }
+    })
+  }
+
+  setHoverMarker(spaceData) {
+    console.log("Setting hover marker")
+    // If a marker is already added, then just update that element, otherwise, create a new one
+    const html_element = this.hoveringMarker
+      ? this.hoveringMarker.getElement()
+      : document.createElement('div');
+
+    html_element.innerHTML = spaceData.html;
+
+    this.hoveringMarker = this.hoveringMarker ? this.hoveringMarker : new mapboxgl.Marker(html_element).setLngLat([spaceData.lng, spaceData.lat]).addTo(this.map)
+
+    this.hoveringMarker.setLngLat([spaceData.lng, spaceData.lat])
+
+  }
+
+  removeCurrentHoverMarker(spaceId) {
+    this.hoveringMarker?.remove();
+    this.hoveringMarker = null;
+  }
+
+  add_hover_effect_on_spaces_vector_layer() {
+    this.map.on('mouseenter', 'spaces_vector_layer', (e) => {
+      if (e.features.length > 0) {
+        // If the space is already hovered, then do nothing:
+        if (this.hoveredSpaceId === e.features[0].id) {
+          return;
+        }
+        // If the space already has a marker from search results, then do nothing:
+        if (this.markersFromSearchResults[e.features[0].id]) {
+          return;
+        }
+        // Else, remove the current hover marker, and load the new one:
+        this.removeCurrentHoverMarker();
+        this.hoveredSpaceId = e.features[0].id;
+        this.loadHoverMarkerForSpaceId(this.hoveredSpaceId);
+      }
+    });
   }
 }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FilterableSpaces
+module FilterableSpaces # rubocop:disable Metrics/ModuleLength
   extend ActiveSupport::Concern
 
   private
@@ -32,6 +32,14 @@ module FilterableSpaces
     filter_by_space_types
 
     store_filters_in_session
+  end
+
+  def filter_spaces_for_vector_tiles
+    set_filters_from_session_or_params
+
+    @filtered_spaces = spaces_from_facilities
+    filter_by_title
+    filter_by_space_types
   end
 
   def filter_by_title
