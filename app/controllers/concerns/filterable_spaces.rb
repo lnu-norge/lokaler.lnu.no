@@ -21,7 +21,7 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
   def filter_spaces
     set_filters_from_session_or_params
 
-    @filtered_spaces = spaces_from_facilities
+    @filtered_spaces = Space.all
 
     set_filterable_facility_categories
     set_filterable_space_types
@@ -30,6 +30,7 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
     filter_by_location
     filter_by_title
     filter_by_space_types
+    filter_and_order_by_facilities
 
     store_filters_in_session
   end
@@ -79,11 +80,11 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
     array_of_facility_ids.uniq.select { |id| id.to_i.to_s == id }.map(&:to_i)
   end
 
-  def spaces_from_facilities
+  def filter_and_order_by_facilities
     sanitized_facility_list = sanitize_facility_list(params[:facilities])
-    return Space.order_by_star_rating if sanitized_facility_list.blank?
+    return @filtered_spaces = @filtered_spaces.order_by_star_rating if sanitized_facility_list.blank?
 
-    Space.filter_and_order_by_facilities(sanitized_facility_list)
+    @filtered_spaces.filter_and_order_by_facilities(sanitized_facility_list)
   end
 
   def any_filters_set?
