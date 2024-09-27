@@ -88,7 +88,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       .with_space_facilities
       .includes(
         :reviews,
-        :space_types
+        space_types_relations: [
+          :space_type
+        ]
       )
   }
 
