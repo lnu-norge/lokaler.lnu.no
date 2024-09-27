@@ -29,13 +29,27 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :personal_data_on_space_in_lists, dependent: :destroy
 
   scope :filter_on_title, ->(title) { where("title ILIKE ?", "%#{title}%") }
-  scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids) }
+  scope :filter_on_space_types, lambda { |space_type_ids|
+    joins(:space_types).where(space_types: { id: space_type_ids })
+  }
   scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
           north_west_lat:,
           north_west_lng:,
           south_east_lat:,
           south_east_lng:)
+  }
+  scope :filter_and_order_by_facilities, lambda { |facility_ids|
+    joins(:space_facilities)
+      .where(space_facilities: { facility_id: facility_ids, relevant: true })
+      .group("spaces.id")
+      # First sort by facility score, then by star rating to break any ties
+      # Star ratings below 3 should be sorted below those who have no rating
+      # Coalesce makes sure that 0 is returned if there is no rating
+      .order(
+        Arel.sql("SUM(space_facilities.score) DESC, COALESCE((spaces.star_rating - 2.9), 0) DESC")
+      )
+      .select("spaces.*")
   }
 
   # This scope cuts the db calls when aggregating space_facilities
@@ -125,19 +139,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
         :space_types,
         :space_contacts
       )
-  }
-
-  scope :filter_and_order_by_facilities, lambda { |facility_ids|
-    joins(:space_facilities)
-      .where(space_facilities: { facility_id: facility_ids, relevant: true })
-      .group("spaces.id")
-      # First sort by facility score, then by star rating to break any ties
-      # Star ratings below 3 should be sorted below those who have no rating
-      # Coalesce makes sure that 0 is returned if there is no rating
-      .order(
-        Arel.sql("SUM(space_facilities.score) DESC, COALESCE((spaces.star_rating - 2.9), 0) DESC")
-      )
-      .select("spaces.*")
   }
 
   has_rich_text :how_to_book
