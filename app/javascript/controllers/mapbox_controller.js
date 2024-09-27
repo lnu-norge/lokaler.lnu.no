@@ -358,7 +358,16 @@ export default class extends Controller {
     }
   }
 
-  add_spaces_vector_layer(filter_params = "") {
+  add_spaces_vector_layer() {
+    const formData = new FormData(this.formTarget);
+    const filter_params = new URLSearchParams(formData).toString();
+
+    this.formTarget.onsubmit = () => {
+      this.map.removeLayer('spaces_vector_layer');
+      this.map.removeSource('spaces_vector_source');
+      this.add_spaces_vector_layer();
+    }
+
     console.log("Adding filtered spaces to map")
 
     this.map.addSource('spaces_vector_source', {
