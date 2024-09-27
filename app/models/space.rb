@@ -49,7 +49,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       .order(
         Arel.sql("SUM(space_facilities.score) DESC, COALESCE((spaces.star_rating - 2.9), 0) DESC")
       )
-      .select("spaces.*")
   }
 
   # This scope cuts the db calls when aggregating space_facilities
