@@ -313,8 +313,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     star_rating || " - "
   end
 
-  def render_map_marker
-    html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self }
+  def render_map_marker(options: {})
+    html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self, **options }
     { lat:, lng:, id:, html: }
   end
 
