@@ -39,25 +39,27 @@ gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
 gem "activerecord-import"
+gem "activerecord-postgis-adapter" # For PostGIS and Geo commands in Active record
 gem "addressable"
+gem "cssbundling-rails", "~> 1.3"
 gem "diffy"
 gem "gravtastic"
 gem "high_voltage"
 gem "http"
 gem "inline_svg"
+gem "jsbundling-rails", "~> 1.2"
 gem "kaminari"
+gem "pagy", "~> 9.0"
 gem "paper_trail"
 gem "phonelib"
 gem "rails-i18n"
+gem "rgeo-geojson" # For parsing geo json when importing from Geo Norge
 gem "simple_form"
 gem "simple_form-tailwind"
 gem "stimulus-rails"
 gem "tailwindcss-rails-webpacker"
 gem "turbo-rails"
 gem "validate_url"
-
-gem "cssbundling-rails", "~> 1.3"
-gem "jsbundling-rails", "~> 1.2"
 
 group :production do
   gem "aws-sdk-s3"
@@ -102,5 +104,3 @@ group :test do
   gem "vcr"
   gem "webmock"
 end
-
-gem "pagy", "~> 9.0"

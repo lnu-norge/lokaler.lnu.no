@@ -1,15 +1,17 @@
-development:
-  adapter: postgresql
+default: &default
+  adapter: postgis # Uses postgis, see guide at https://medium.com/@Evert_Salinas/creating-a-basic-geolocation-search-application-with-postgis-and-rails-part-i-6f7c8985b6da
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+
+development:
+  <<: *default
   database: lokaler_lnu_no_development
 
 test:
-  adapter: postgresql
-  encoding: unicode
+  <<: *default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
