@@ -147,11 +147,12 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_rich_text :more_info
 
   include ParseUrlHelper
-  before_validation :parse_url
+  before_validation :parse_url, :set_geo_data_from_lng_lat
 
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
   validates :url, url: { allow_blank: true, public_suffix: true }
-  validates :title, :address, :post_address, :post_number, :lat, :lng, presence: true
+  validates :title, :address, :post_address, :post_number, :lat, :lng, :geo_point, presence: true
+  validates :lat, :lng, numericality: { other_than: 0 }
 
   after_create do
     aggregate_facility_reviews
@@ -326,6 +327,25 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     [id, title.parameterize].join("-")
   end
+
+  def reset_geo_data
+    update(
+      geo_point: nil
+    )
+  end
+
+  private
+
+  def set_geo_data_from_lng_lat
+    # Only set if all the geo data is not already set:
+    return if geo_point.present?
+
+    geo_point = Geo.point(lng, lat) # Postgis format
+
+    update(
+      geo_point:
+    )
+  end
 end
 
 # == Schema Information
@@ -334,6 +354,7 @@ end
 #
 #  id                   :bigint           not null, primary key
 #  address              :string
+#  geo_point            :geography        not null, point, 4326
 #  lat                  :decimal(, )
 #  lng                  :decimal(, )
 #  location_description :text
@@ -350,6 +371,7 @@ end
 #
 # Indexes
 #
+#  index_spaces_on_geo_point       (geo_point) USING gist
 #  index_spaces_on_space_group_id  (space_group_id)
 #
 # Foreign Keys

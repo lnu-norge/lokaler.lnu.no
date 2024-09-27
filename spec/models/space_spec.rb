@@ -119,4 +119,20 @@ RSpec.describe Space, type: :model do
       expect(space.images.count).to eq(1)
     end
   end
+
+  describe "Geo data" do
+    let(:space) { Fabricate(:space) }
+
+    it "generates a geo point from lng lat" do
+      expect(space.geo_point).to be_truthy
+      expect(space.geo_point.y).to eq(space.lat)
+      expect(space.geo_point.x).to eq(space.lng)
+    end
+
+    it "cannot create a space with a lng lat of 0" do
+      space.lng = 0
+      space.lat = 0
+      expect(space).not_to be_valid
+    end
+  end
 end
