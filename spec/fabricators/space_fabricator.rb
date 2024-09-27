@@ -47,6 +47,7 @@ end
 #
 #  id                   :bigint           not null, primary key
 #  address              :string
+#  geo_point            :geography        not null, point, 4326
 #  lat                  :decimal(, )
 #  lng                  :decimal(, )
 #  location_description :text
@@ -63,6 +64,7 @@ end
 #
 # Indexes
 #
+#  index_spaces_on_geo_point       (geo_point) USING gist
 #  index_spaces_on_space_group_id  (space_group_id)
 #
 # Foreign Keys
