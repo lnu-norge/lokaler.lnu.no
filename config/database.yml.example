@@ -15,3 +15,9 @@ test:
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
+
+production:
+  <<: *default
+  # This fixes an Heroku bug where it doesn't respect the postgis adapter,
+  # see https://github.com/rgeo/activerecord-postgis-adapter/wiki/Heroku
+  url: <%= ENV.fetch("DATABASE_URL").gsub(/postgres/, 'postgis') %>
