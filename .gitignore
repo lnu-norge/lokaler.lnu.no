@@ -45,10 +45,7 @@ yarn-debug.log*
 
 # Ignores local .env file
 .env
-
 /webdrivers
-
-/config/database.yml
 
 # Yarn, from https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
 .yarn/*
