@@ -21,7 +21,6 @@ export default class extends Controller {
     this.hoveringMarker = null
     this.map = false;
     this.resizeObserver = false;
-    this.reloadMapDebouncer = false;
     this.hoveredSpaceId = null;
   }
 
@@ -196,13 +195,18 @@ export default class extends Controller {
   }
 
   deboounceReloadMap(time) {
-    if (this.reloadMapDebouncer) {
-      clearTimeout(this.reloadMapDebouncer);
-    }
-
-    this.reloadMapDebouncer = setTimeout(() => {
-      this.reloadMapDebouncer = false;
+    this.debounce("reloadMap", () => {
       this.reloadPosition();
+    }, time);
+  }
+
+  debounce(timeoutName, func, time) {
+    if (this[timeoutName]) {
+      clearTimeout(this[timeoutName]);
+    }
+    this[timeoutName] = setTimeout(() => {
+      this[timeoutName] = false;
+      func();
     }, time);
   }
 
@@ -362,10 +366,16 @@ export default class extends Controller {
     const formData = new FormData(this.formTarget);
     const filter_params = new URLSearchParams(formData).toString();
 
-    this.formTarget.onsubmit = () => {
-      this.map.removeLayer('spaces_vector_layer');
-      this.map.removeSource('spaces_vector_source');
-      this.add_spaces_vector_layer();
+    this.formTarget.onchange = (e) => {
+      if (e.target.name === 'north_west_lat' || e.target.name === 'north_west_lng' || e.target.name === 'south_east_lat' || e.target.name === 'south_east_lng') {
+        return;
+      }
+
+      this.debounce("reloadVectorTiles", () => {
+        this.map.removeLayer('spaces_vector_layer');
+        this.map.removeSource('spaces_vector_source');
+        this.add_spaces_vector_layer();
+      }, 100);
     }
 
     console.log("Adding filtered spaces to map")
