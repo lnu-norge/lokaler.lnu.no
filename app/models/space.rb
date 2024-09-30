@@ -149,7 +149,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_rich_text :more_info
 
   include ParseUrlHelper
-  before_validation :parse_url, :set_geo_data_from_lng_lat
+  before_validation :parse_url
+  before_validation :set_geo_data_from_lng_lat, if: :lat_lng_changed?
 
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
   validates :url, url: { allow_blank: true, public_suffix: true }
@@ -159,6 +160,13 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   after_create do
     aggregate_facility_reviews
     aggregate_star_rating
+    clear_vector_tile_caches
+  end
+
+  after_update :clear_vector_tile_caches, if: :saved_changes_to_lat_or_lng?
+
+  after_destroy do
+    clear_vector_tile_caches
   end
 
   def reviews_for_facility(facility)
@@ -330,23 +338,33 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     [id, title.parameterize].join("-")
   end
 
-  def reset_geo_data
-    update(
-      geo_point: nil
-    )
-  end
-
   private
 
+  def clear_vector_tile_caches
+    Rails.cache.delete_matched("#{Spaces::MapVectorController::VECTOR_TILE_CACHE_KEY_PREFIX}*")
+  end
+
+  def lat_lng_changed?
+    lat_changed? || lng_changed?
+  end
+
+  def saved_changes_to_lat_or_lng?
+    saved_change_to_lat? || saved_change_to_lng?
+  end
+
+  def lat_lng_set?
+    lat.present? && lng.present?
+  end
+
+  def geo_point_equal_to_lng_lat?
+    geo_point.present? && geo_point.x.to_d == lng.to_d && geo_point.y.to_d == lat.to_d
+  end
+
   def set_geo_data_from_lng_lat
-    # Only set if all the geo data is not already set:
-    return if geo_point.present?
+    return unless lat_lng_set?
+    return if geo_point_equal_to_lng_lat?
 
-    geo_point = Geo.point(lng, lat) # Postgis format
-
-    update(
-      geo_point:
-    )
+    self.geo_point = Geo.point(lng, lat) # Postgis format
   end
 end
 
