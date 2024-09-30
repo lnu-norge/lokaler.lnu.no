@@ -35,7 +35,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get "/lokaler/:space_id/facility_review/:facility_id/new/:facility_category_id/", to: "facility_reviews#new",
                                                                                     as: "new_facility_review"
   post "/lokaler/:space_id/facility_review/:facility_id", to: "facility_reviews#create", as: "create_facility_review"
-  get "/lokaler/mapbox_vector_tiles/:z/:x/:y", to: "spaces/map_vector#show"
+  get "/lokaler/mapbox_vector_tiles/:z/:x/:y", to: "spaces/map_vector#show", as: "space_map_vector"
   get "/lokaler/:space_id/map_marker", to: "spaces/map_marker#show", as: "map_marker"
 
   # Review routes

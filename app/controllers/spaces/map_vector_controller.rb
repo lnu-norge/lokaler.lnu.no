@@ -8,8 +8,10 @@ module Spaces
 
     private
 
+    VECTOR_TILE_CACHE_KEY_PREFIX = "spaces_vector_tile/"
+
     def mvt_data_to_use
-      cached_mvt_data_for_tile(cache_key_prefix: "spaces_vector_tile/")
+      cached_mvt_data_for_tile(cache_key_prefix: VECTOR_TILE_CACHE_KEY_PREFIX)
       # This cache never expires. To clear it, do
       # Rails.cache.delete_matched("venstre_score_vector/*")
     end
