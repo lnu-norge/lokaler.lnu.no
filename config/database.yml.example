@@ -19,5 +19,5 @@ test:
 production:
   <<: *default
   # This fixes an Heroku bug where it doesn't respect the postgis adapter,
-  # see https://github.com/rgeo/activerecord-postgis-adapter/wiki/Heroku
-  url: <%= ENV.fetch("DATABASE_URL").gsub(/postgres/, 'postgis') %>
+  # see https://devcenter.heroku.com/articles/rails-database-connection-behavior
+  url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
