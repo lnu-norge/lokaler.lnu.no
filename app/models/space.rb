@@ -29,13 +29,26 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :personal_data_on_space_in_lists, dependent: :destroy
 
   scope :filter_on_title, ->(title) { where("title ILIKE ?", "%#{title}%") }
-  scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids) }
+  scope :filter_on_space_types, lambda { |space_type_ids|
+    joins(:space_types).where(space_types: { id: space_type_ids })
+  }
   scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
           north_west_lat:,
           north_west_lng:,
           south_east_lat:,
           south_east_lng:)
+  }
+  scope :filter_and_order_by_facilities, lambda { |facility_ids|
+    joins(:space_facilities)
+      .where(space_facilities: { facility_id: facility_ids, relevant: true })
+      .group("spaces.id")
+      # First sort by facility score, then by star rating to break any ties
+      # Star ratings below 3 should be sorted below those who have no rating
+      # Coalesce makes sure that 0 is returned if there is no rating
+      .order(
+        Arel.sql("SUM(space_facilities.score) DESC, COALESCE((spaces.star_rating - 2.9), 0) DESC")
+      )
   }
 
   # This scope cuts the db calls when aggregating space_facilities
@@ -75,7 +88,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       .with_space_facilities
       .includes(
         :reviews,
-        :space_types
+        space_types_relations: [
+          :space_type
+        ]
       )
   }
 
@@ -127,19 +142,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       )
   }
 
-  scope :filter_and_order_by_facilities, lambda { |facility_ids|
-    joins(:space_facilities)
-      .where(space_facilities: { facility_id: facility_ids, relevant: true })
-      .group("spaces.id")
-      # First sort by facility score, then by star rating to break any ties
-      # Star ratings below 3 should be sorted below those who have no rating
-      # Coalesce makes sure that 0 is returned if there is no rating
-      .order(
-        Arel.sql("SUM(space_facilities.score) DESC, COALESCE((spaces.star_rating - 2.9), 0) DESC")
-      )
-      .select("spaces.*")
-  }
-
   has_rich_text :how_to_book
   has_rich_text :who_can_use
   has_rich_text :pricing
@@ -148,14 +150,23 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   include ParseUrlHelper
   before_validation :parse_url
+  before_validation :set_geo_data_from_lng_lat, if: :lat_lng_changed?
 
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
   validates :url, url: { allow_blank: true, public_suffix: true }
-  validates :title, :address, :post_address, :post_number, :lat, :lng, presence: true
+  validates :title, :address, :post_address, :post_number, :lat, :lng, :geo_point, presence: true
+  validates :lat, :lng, numericality: { other_than: 0 }
 
   after_create do
     aggregate_facility_reviews
     aggregate_star_rating
+    clear_vector_tile_caches
+  end
+
+  after_update :clear_vector_tile_caches, if: :saved_changes_to_lat_or_lng?
+
+  after_destroy do
+    clear_vector_tile_caches
   end
 
   def reviews_for_facility(facility)
@@ -312,8 +323,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     star_rating || " - "
   end
 
-  def render_map_marker
-    html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self }
+  def render_map_marker(options: {})
+    html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self, **options }
     { lat:, lng:, id:, html: }
   end
 
@@ -326,6 +337,35 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     [id, title.parameterize].join("-")
   end
+
+  private
+
+  def clear_vector_tile_caches
+    Rails.cache.delete_matched("#{Spaces::MapVectorController::VECTOR_TILE_CACHE_KEY_PREFIX}*")
+  end
+
+  def lat_lng_changed?
+    lat_changed? || lng_changed?
+  end
+
+  def saved_changes_to_lat_or_lng?
+    saved_change_to_lat? || saved_change_to_lng?
+  end
+
+  def lat_lng_set?
+    lat.present? && lng.present?
+  end
+
+  def geo_point_equal_to_lng_lat?
+    geo_point.present? && geo_point.x.to_d == lng.to_d && geo_point.y.to_d == lat.to_d
+  end
+
+  def set_geo_data_from_lng_lat
+    return unless lat_lng_set?
+    return if geo_point_equal_to_lng_lat?
+
+    self.geo_point = Geo.point(lng, lat) # Postgis format
+  end
 end
 
 # == Schema Information
@@ -334,6 +374,7 @@ end
 #
 #  id                   :bigint           not null, primary key
 #  address              :string
+#  geo_point            :geography        not null, point, 4326
 #  lat                  :decimal(, )
 #  lng                  :decimal(, )
 #  location_description :text
@@ -350,6 +391,7 @@ end
 #
 # Indexes
 #
+#  index_spaces_on_geo_point       (geo_point) USING gist
 #  index_spaces_on_space_group_id  (space_group_id)
 #
 # Foreign Keys

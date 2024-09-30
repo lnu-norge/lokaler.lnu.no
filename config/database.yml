@@ -21,3 +21,5 @@ production:
   # This fixes an Heroku bug where it doesn't respect the postgis adapter,
   # see https://devcenter.heroku.com/articles/rails-database-connection-behavior
   url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
+
+
