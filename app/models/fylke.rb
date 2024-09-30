@@ -1,7 +1,17 @@
 # frozen_string_literal: true
 
 class Fylke < GeographicalArea
-  default_scope { where(geographical_area_type: GeographicalAreaType.find_by(name: "Fylke")) }
+  default_scope do
+    where(
+      geographical_area_type: GeographicalAreaType.find_by(name: "Fylke")
+    )
+      .order(:unique_id_for_external_source)
+  end
+  has_many :kommuner,
+           class_name: "Kommune",
+           foreign_key: :parent_id,
+           inverse_of: :fylke,
+           dependent: :destroy
 
   before_validation :set_geographical_area_type
 
