@@ -2,11 +2,45 @@
 <%= form.label t("space_filter.location"), for: "locationInput", class: "text-xl font-bold my-4" %>
 <div class="mt-2">
   <div data-mapbox-target="location">
-    <select id="locationInput"
-            placeholder="<%= t("space_filter.choose_location") %>"
-            class="w-full rounded shadow focus:ring-lnu-pink focus:border-lnu-pink"
-            data-controller="locationsearch">
-    </select>
+    <% Fylke.all.each do |fylke| %>
+      <% fylke_checked = params[:fylke]&.include?(fylke.id.to_s) %>
+      <%= form.label "geo_area_#{fylke.id}",  class: "flex gap-1 my-1 items-top" do  %>
+        <%= form.check_box :fylke,
+                           {
+                             id: "geo_area_#{fylke.id}",
+                             multiple: true,
+                             class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                             onchange: "this.form.requestSubmit()",
+                             checked: fylke_checked
+                           },
+                           fylke.id.to_s,
+                           nil
+        %>
+        <%= fylke.name %>
+      <% end %>
+
+      <% next unless fylke_checked and fylke.kommuner.any? or fylke.kommuner.find_by(id: params[:kommune]).present? %>
+
+      <div class="ml-4 pb-2">
+      <% fylke.kommuner.each do |kommune| %>
+        <%= form.label "geo_area_#{kommune.id}", class: "flex gap-1 my-1 items-top" do %>
+          <%= form.check_box :kommune,
+                             {
+                               id: "geo_area_#{kommune.id}",
+                               multiple: true,
+                               class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                               onchange: "this.form.requestSubmit()",
+                               checked: params[:kommune]&.include?(kommune.id.to_s)
+                             },
+                             kommune.id.to_s,
+                             nil
+          %>
+          <%= kommune.name %>
+        <% end %>
+      <% end %>
+      </div>
+    <% end %>
+
     <%= form.hidden_field :north_west_lat, value: params[:north_west_lat], class: "text_field", data: { mapbox_target: "northWestLatInput" } %>
     <%= form.hidden_field :north_west_lng, value: params[:north_west_lng], class: "text_field", data: { mapbox_target: "northWestLngInput" } %>
     <%= form.hidden_field :south_east_lat, value: params[:south_east_lat], class: "text_field", data: { mapbox_target: "southEastLatInput" } %>
