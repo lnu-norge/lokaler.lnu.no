@@ -3,6 +3,10 @@
 class GeographicalAreaType < ApplicationRecord
   include WithParentChildRelationship
 
+  belongs_to :parent, class_name: "GeographicalArea", optional: true, inverse_of: :children
+  has_many :children, class_name: "GeographicalArea", foreign_key: "parent_id", dependent: :nullify, inverse_of: :parent
+  validate :no_circular_references
+
   validates :name, presence: true
 end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_30_105603) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_30_112551) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -117,6 +117,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_30_105603) do
     t.bigint "geographical_area_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "unique_id_for_external_source"
+    t.string "external_source"
     t.index ["geographical_area_type_id"], name: "index_geographical_areas_on_geographical_area_type_id"
     t.index ["parent_id"], name: "index_geographical_areas_on_parent_id"
   end

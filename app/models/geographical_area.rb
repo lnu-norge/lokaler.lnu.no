@@ -3,6 +3,12 @@
 class GeographicalArea < ApplicationRecord
   include WithParentChildRelationship
 
+  belongs_to :parent, class_name: "GeographicalArea", optional: true, inverse_of: :children
+  has_many :children, class_name: "GeographicalArea", foreign_key: "parent_id", dependent: :nullify, inverse_of: :parent
+  validate :no_circular_references
+
+  belongs_to :geographical_area_type
+
   validates :name, presence: true
   validates :geo_area, presence: true
 end
@@ -11,15 +17,17 @@ end
 #
 # Table name: geographical_areas
 #
-#  id                        :bigint           not null, primary key
-#  filterable                :boolean          default(TRUE)
-#  geo_area                  :geometry         not null, geometry, 0
-#  name                      :string
-#  order                     :integer
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  geographical_area_type_id :bigint
-#  parent_id                 :bigint
+#  id                            :bigint           not null, primary key
+#  external_source               :string
+#  filterable                    :boolean          default(TRUE)
+#  geo_area                      :geometry         not null, geometry, 0
+#  name                          :string
+#  order                         :integer
+#  unique_id_for_external_source :string
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
+#  geographical_area_type_id     :bigint
+#  parent_id                     :bigint
 #
 # Indexes
 #
