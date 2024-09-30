@@ -7,6 +7,8 @@ class GeographicalArea < ApplicationRecord
   has_many :children, class_name: "GeographicalArea", foreign_key: "parent_id", dependent: :nullify, inverse_of: :parent
   validate :no_circular_references
 
+  has_many :spaces, dependent: :nullify
+
   belongs_to :geographical_area_type
 
   validates :name, presence: true
@@ -31,6 +33,7 @@ end
 #
 # Indexes
 #
+#  index_geographical_areas_on_geo_area                   (geo_area) USING gist
 #  index_geographical_areas_on_geographical_area_type_id  (geographical_area_type_id)
 #  index_geographical_areas_on_parent_id                  (parent_id)
 #

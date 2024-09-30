@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_30_112551) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_30_125554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -119,6 +119,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_30_112551) do
     t.datetime "updated_at", null: false
     t.string "unique_id_for_external_source"
     t.string "external_source"
+    t.index ["geo_area"], name: "index_geographical_areas_on_geo_area", using: :gist
     t.index ["geographical_area_type_id"], name: "index_geographical_areas_on_geographical_area_type_id"
     t.index ["parent_id"], name: "index_geographical_areas_on_parent_id"
   end
@@ -269,7 +270,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_30_112551) do
     t.string "url"
     t.text "location_description"
     t.geography "geo_point", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}, null: false
+    t.bigint "fylke_id"
+    t.bigint "kommune_id"
+    t.index ["fylke_id"], name: "index_spaces_on_fylke_id"
     t.index ["geo_point"], name: "index_spaces_on_geo_point", using: :gist
+    t.index ["kommune_id"], name: "index_spaces_on_kommune_id"
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
   end
 
@@ -327,5 +332,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_30_112551) do
   add_foreign_key "space_types_facilities", "space_types"
   add_foreign_key "space_types_relations", "space_types"
   add_foreign_key "space_types_relations", "spaces"
+  add_foreign_key "spaces", "geographical_areas", column: "fylke_id"
+  add_foreign_key "spaces", "geographical_areas", column: "kommune_id"
   add_foreign_key "spaces", "space_groups"
 end
