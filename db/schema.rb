@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_26_071852) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_27_071029) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -244,6 +245,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_26_071852) do
     t.decimal "star_rating", precision: 2, scale: 1
     t.string "url"
     t.text "location_description"
+    t.geography "geo_point", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}, null: false
+    t.index ["geo_point"], name: "index_spaces_on_geo_point", using: :gist
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
   end
 

@@ -1,0 +1,22 @@
+<h3 class="text-xl font-bold my-4"><%= SpaceType.model_name.human(count: @filterable_space_types.count).capitalize %></h3>
+<div class="mt-2">
+  <% @filterable_space_types.each do |space_type| %>
+    <%= form.label "space_type_#{space_type.id}", class: "flex gap-2 my-1" do %>
+      <%=
+        form.check_box "space_types", {
+          multiple: true,
+          id: "space_type_#{space_type.id}",
+          data: { mapbox_target: "spaceType" },
+          class: "h-5 w-5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+          onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
+          checked: params[:space_types]&.include?(space_type.id.to_s)
+
+        },
+                       space_type.id.to_s,
+                       nil
+
+      %>
+      <%= space_type.type_name %>
+    <% end %>
+  <% end %>
+</div>
