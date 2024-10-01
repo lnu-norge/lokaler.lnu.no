@@ -9,6 +9,10 @@ module PersonalSpaceListsHelper
     "list_status_for_space_#{space.id}_updates_here"
   end
 
+  def dom_id_for_list_status_for_space_in_map_marker(space)
+    "list_status_for_space_#{space.id}_in_map_marker"
+  end
+
   def dom_id_for_active_list_updates_here
     "active_list_updates_here"
   end

@@ -1,40 +1,51 @@
-<%# locals: (space:, collapse_unless_hovered: false) %>
-<%= link_to space,
-            class: "unstyled-link cursor-pointer
-              flex
-              gap-2
+<%# locals: (space:, personal_space_list: @active_personal_space_list, collapse_unless_hovered: false) %>
+<div
+  class="flex
+              gap-0
               items-center
+
               text-base
               rounded-full
               overflow-hidden
               text-nowrap
               border
               group
-              #{
+              <%=
               if collapse_unless_hovered
                 "transition-all
-                py-1 px-1 hover:px-4
-                max-w-2 hover:max-w-96
-                max-h-2 hover:max-h-96
-                text-transparent hover:text-current
-                border-lnu-pink
-                "
+                   max-w-2 hover:max-w-96
+                   max-h-2 hover:max-h-96
+                   text-transparent hover:text-current
+                   border-lnu-pink
+                   hover:pr-1
+              "
               else
-                "py-1 px-4
-
+                "
+                pr-1
                 border-gray-100 hover:border-lnu-pink
                 "
               end
-              }
-              bg-white shadow-lg",
+               %>
+              bg-white shadow-lg">
+
+<%= link_to space,
+            class: "flex
+              gap-2
+              items-center
+              unstyled-link cursor-pointer #{
+              if collapse_unless_hovered
+                "py-1 px-1 hover:pl-4 group-hover:pl-4"
+              else
+                "py-1 pl-4"
+              end
+            } block h-8 w-full",
             data: {
                 "turbo-frame": "spaces-open-here" # This updates the spaces-open-here frame
             } do %>
    <span class="font-bold <%= "text-transparent group-hover:text-current" if collapse_unless_hovered %>">
      <%= space.title.truncate(20) %>
    </span>
-   <span class="inline-flex items-center gap-0.5 <%= space.star_rating ? 'text-pink-500' : 'text-gray-300' %>">
-       <%= space.star_rating_s %>
-       <%= inline_svg_tag 'star' %>
-   </span>
  <% end %>
+
+ <%= render "spaces/index/map_marker_list_status", space: space, personal_space_list: personal_space_list %>
+</div>
