@@ -49,7 +49,7 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
 
     @filtered_spaces = Space.all
     @filtered_spaces = filter_by_fylker_and_kommuner
-    @filtered_spaces = filter_by_map_bounds
+    @filtered_spaces = filter_by_map_bounds unless filter_by_map_bounds_turned_off?
     @filtered_spaces = filter_by_title
     @filtered_spaces = filter_by_space_types
     @filtered_spaces = filter_and_order_by_facilities
@@ -127,6 +127,10 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
     @filtered_spaces.filter_and_order_by_facilities(sanitized_facility_list)
   end
 
+  def filter_by_map_bounds_turned_off?
+    params[:filter_by_map_bounds] == "off"
+  end
+
   def any_filters_set?
     filter_keys.detect { |key| params[key] }
   end
@@ -142,6 +146,7 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
 
   def filter_keys
     %w[
+      filter_by_map_bounds
       search_for_title
       north_west_lat
       north_west_lng

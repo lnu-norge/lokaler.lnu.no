@@ -378,12 +378,7 @@ export default class extends Controller {
       }
 
       this.debounce("reload_layers", () => {
-        this.map.removeLayer('selected_geo_area_layer');
-        this.map.removeSource('selected_geo_area_source');
         this.add_selected_geo_area_layer();
-
-        this.map.removeLayer('spaces_vector_layer');
-        this.map.removeSource('spaces_vector_source');
         this.add_spaces_vector_layer();
       }, 100);
     }
@@ -392,9 +387,21 @@ export default class extends Controller {
   async add_selected_geo_area_layer() {
     const formData = new FormData(this.formTarget);
     const filter_params = new URLSearchParams(formData).toString();
+    const selected_geo_areas = formData.getAll('fylker[]').concat(formData.getAll('kommuner[]'));
     this.selected_geo_areas_string = JSON.stringify(formData.getAll('fylker[]').concat(formData.getAll('kommuner[]')));
 
+    if (selected_geo_areas.length === 0 && this.selectedGeoAreaHasChanged()) {
+      return this.moveMapToFitNorway();
+    }
+
     this.selected_geo_areas_geo_json = await fetch(`${window.location.origin}/lokaler/map_selected_geo_area?${filter_params}`).then(response => response.json());
+
+    if (this.map.getLayer('selected_geo_area_layer')) {
+      this.map.removeLayer('selected_geo_area_layer');
+    }
+    if (this.map.getSource('selected_geo_area_source')) {
+      this.map.removeSource('selected_geo_area_source');
+    }
 
     this.map.addSource('selected_geo_area_source', {
       type: 'geojson',
@@ -414,12 +421,16 @@ export default class extends Controller {
     this.map.on('sourcedata', this.fitMapToSelectedGeoArea.bind(this));
   }
 
+  selectedGeoAreaHasChanged() {
+    return !!this.selected_geo_areas_string && !!this.previously_selected_geo_areas_string && this.selected_geo_areas_string === this.previously_selected_geo_areas_string;
+  }
+
   fitMapToSelectedGeoArea(e) {
     if (e.sourceId !== 'selected_geo_area_source' || !e.isSourceLoaded) {
       return;
     }
 
-    if (!!this.selected_geo_areas_string && !!this.previously_selected_geo_areas_string && this.selected_geo_areas_string === this.previously_selected_geo_areas_string) {
+    if (this.selectedGeoAreaHasChanged()) {
       return;
     }
 
@@ -473,6 +484,13 @@ export default class extends Controller {
   add_spaces_vector_layer() {
     const formData = new FormData(this.formTarget);
     const filter_params = new URLSearchParams(formData).toString();
+
+    if (this.map.getLayer('spaces_vector_layer')) {
+      this.map.removeLayer('spaces_vector_layer');
+    }
+    if (this.map.getSource('spaces_vector_source')) {
+      this.map.removeSource('spaces_vector_source');
+    }
 
     this.map.addSource('spaces_vector_source', {
       type: 'vector',

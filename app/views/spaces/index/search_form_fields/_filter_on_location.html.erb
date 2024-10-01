@@ -1,6 +1,19 @@
 <%# locals: (form:) %>
 <h3 class="text-xl font-bold my-4"><%=  t("space_filter.location") %></h3>
 <div class="mt-2">
+    <%= form.label :filter_by_map_bounds, class: "flex gap-1 items-top" do %>
+        <%= form.check_box :filter_by_map_bounds,
+                           {
+                             class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                             onchange: "this.form.requestSubmit()",
+                             checked: params[:filter_by_map_bounds] == "off" ? nil : "checked"
+                           },
+                           'on',
+                           'off'
+        %>
+        <%= t("space_filter.filter_by_map_bounds") %>
+    <% end %>
+  <hr class="my-4" />
     <% Fylke.includes(:kommuner).all.each do |fylke| %>
       <% fylke_checked = params[:fylker]&.include?(fylke.id.to_s) %>
       <%= form.label "geo_area_#{fylke.id}",  class: "flex gap-1 my-1 items-top" do  %>
