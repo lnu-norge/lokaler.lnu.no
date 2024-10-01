@@ -47,7 +47,7 @@
           <%= t('simple_form.labels.user.session.login_with_email') %>
         <% end %>
         <% if devise_mapping.rememberable? %>
-          <%= f.input :remember_me, as: :boolean, wrapper_html: { class: "flex items-center" } %>
+          <%= f.input :remember_me, as: :boolean, input_html: {checked: 'checked'}, wrapper_html: { class: "flex items-center" } %>
         <% end %>
       </div>
     <% end %>

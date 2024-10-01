@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_27_071029) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_30_125554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
@@ -98,6 +98,30 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_27_071029) do
     t.index ["space_id", "user_id", "facility_id"], name: "index_facility_reviews_on_space_id_and_user_id_and_facility_id", unique: true
     t.index ["space_id"], name: "index_facility_reviews_on_space_id"
     t.index ["user_id"], name: "index_facility_reviews_on_user_id"
+  end
+
+  create_table "geographical_area_types", force: :cascade do |t|
+    t.string "name"
+    t.bigint "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_geographical_area_types_on_parent_id"
+  end
+
+  create_table "geographical_areas", force: :cascade do |t|
+    t.string "name"
+    t.boolean "filterable", default: true
+    t.integer "order"
+    t.geometry "geo_area", limit: {:srid=>0, :type=>"geometry"}, null: false
+    t.bigint "parent_id"
+    t.bigint "geographical_area_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "unique_id_for_external_source"
+    t.string "external_source"
+    t.index ["geo_area"], name: "index_geographical_areas_on_geo_area", using: :gist
+    t.index ["geographical_area_type_id"], name: "index_geographical_areas_on_geographical_area_type_id"
+    t.index ["parent_id"], name: "index_geographical_areas_on_parent_id"
   end
 
   create_table "images", force: :cascade do |t|
@@ -246,7 +270,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_27_071029) do
     t.string "url"
     t.text "location_description"
     t.geography "geo_point", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}, null: false
+    t.bigint "fylke_id"
+    t.bigint "kommune_id"
+    t.index ["fylke_id"], name: "index_spaces_on_fylke_id"
     t.index ["geo_point"], name: "index_spaces_on_geo_point", using: :gist
+    t.index ["kommune_id"], name: "index_spaces_on_kommune_id"
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
   end
 
@@ -287,6 +315,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_27_071029) do
   add_foreign_key "facility_reviews", "facilities"
   add_foreign_key "facility_reviews", "spaces"
   add_foreign_key "facility_reviews", "users"
+  add_foreign_key "geographical_area_types", "geographical_area_types", column: "parent_id"
+  add_foreign_key "geographical_areas", "geographical_area_types"
+  add_foreign_key "geographical_areas", "geographical_areas", column: "parent_id"
   add_foreign_key "personal_data_on_space_in_lists", "personal_space_lists"
   add_foreign_key "personal_data_on_space_in_lists", "spaces"
   add_foreign_key "personal_space_lists_shared_with_mes", "personal_space_lists"
@@ -301,5 +332,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_27_071029) do
   add_foreign_key "space_types_facilities", "space_types"
   add_foreign_key "space_types_relations", "space_types"
   add_foreign_key "space_types_relations", "spaces"
+  add_foreign_key "spaces", "geographical_areas", column: "fylke_id"
+  add_foreign_key "spaces", "geographical_areas", column: "kommune_id"
   add_foreign_key "spaces", "space_groups"
 end

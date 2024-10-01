@@ -3,6 +3,9 @@
 class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_paper_trail skip: [:star_rating]
 
+  belongs_to :fylke, class_name: "Fylke", optional: true
+  belongs_to :kommune, class_name: "Kommune", optional: true
+
   has_many :images, dependent: :destroy
   accepts_nested_attributes_for :images
 
@@ -32,7 +35,10 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :filter_on_space_types, lambda { |space_type_ids|
     joins(:space_types).where(space_types: { id: space_type_ids })
   }
-  scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
+  scope :filter_on_fylker_or_kommuner, lambda { |fylke_ids:, kommune_ids:|
+    where(fylke_id: fylke_ids).or(where(kommune_id: kommune_ids))
+  }
+  scope :filter_on_map_bounds, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
           north_west_lat:,
           north_west_lng:,
@@ -338,6 +344,11 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     [id, title.parameterize].join("-")
   end
 
+  def set_geo_data
+    set_geo_point
+    set_geo_areas_space_belongs_to
+  end
+
   private
 
   def clear_vector_tile_caches
@@ -364,7 +375,21 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     return unless lat_lng_set?
     return if geo_point_equal_to_lng_lat?
 
+    set_geo_data
+  end
+
+  def set_geo_point
     self.geo_point = Geo.point(lng, lat) # Postgis format
+  end
+
+  def set_geo_areas_space_belongs_to
+    # Find the Fylke that contains this point
+    fylke = Fylke.where("ST_Contains(geo_area, ?)", geo_point).first
+    self.fylke = fylke if fylke
+
+    # Find the Kommune that contains this point
+    kommune = Kommune.where("ST_Contains(geo_area, ?)", geo_point).first
+    self.kommune = kommune if kommune
   end
 end
 
@@ -387,14 +412,20 @@ end
 #  url                  :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  fylke_id             :bigint
+#  kommune_id           :bigint
 #  space_group_id       :bigint
 #
 # Indexes
 #
+#  index_spaces_on_fylke_id        (fylke_id)
 #  index_spaces_on_geo_point       (geo_point) USING gist
+#  index_spaces_on_kommune_id      (kommune_id)
 #  index_spaces_on_space_group_id  (space_group_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (fylke_id => geographical_areas.id)
+#  fk_rails_...  (kommune_id => geographical_areas.id)
 #  fk_rails_...  (space_group_id => space_groups.id)
 #
