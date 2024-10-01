@@ -1,8 +1,6 @@
 <%# locals: (spaces:) %>
 <% if spaces.any? %>
   <%= render 'spaces/index/space_listing_header', space_count: @pagy.count %>
-  <%= render 'spaces/index/pagination' %>
-  <hr class="my-8" />
   <ul id="space-list" class="flex flex-col gap-8">
       <% spaces.each do |space| %>
         <li><%= render "spaces/index/space_listing", space: space  %></li>
