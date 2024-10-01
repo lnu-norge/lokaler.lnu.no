@@ -15,7 +15,7 @@ nb:
     edit_filter: 'Rediger filtre'
     location: 'Område'
     choose_location: 'Søk her, eller flytt på kart'
-    set_location_by_map: 'Søk i kartet'
+    filter_by_map_bounds: 'Filtrer når kartet flyttes'
     title: 'Navn på lokalet'
     more_filters: 'Flere filtre'
     map_reload: 'Søk i området'
