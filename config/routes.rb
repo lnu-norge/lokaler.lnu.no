@@ -14,12 +14,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   devise_scope :user do
     authenticated :user do
       root to: "spaces#index"
+      get "session", to: "devise/sessions#edit", as: "edit_session"
     end
-  end
-
-  # Devise addons
-  devise_scope :user do
-    get "session", to: "devise/sessions#edit", as: "edit_session"
   end
 
   # Homepage for unauthenticated users
