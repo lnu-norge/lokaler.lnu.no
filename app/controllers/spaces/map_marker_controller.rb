@@ -9,7 +9,8 @@ module Spaces
       @space = Space.find(params[:space_id])
 
       render json: @space.render_map_marker(options: {
-                                              collapse_unless_hovered: true
+                                              collapse_unless_hovered: true,
+                                              personal_space_list: @active_personal_space_list
                                             })
     end
   end

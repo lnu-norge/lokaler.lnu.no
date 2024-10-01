@@ -19,7 +19,11 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       @filtered_spaces.includes_data_for_filter_list,
       limit: 10
     )
-    @markers = @spaces.map(&:render_map_marker)
+    @markers = @spaces.map do |space|
+      space.render_map_marker(options: {
+                                personal_space_list: @active_personal_space_list
+                              })
+    end
   end
 
   def show
@@ -143,14 +147,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   private
-
-  SPACE_SEARCH_PAGE_SIZE = 20
-
-  def render_markers_json
-    render json: {
-      markers: @spaces.map(&:render_map_marker)
-    }
-  end
 
   def preload_spaces_data_for_view(view_as)
     # Fresh query to get all the data for the filtered and ordered spaces, without
