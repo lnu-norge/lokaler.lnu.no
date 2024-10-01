@@ -343,9 +343,8 @@ export default class extends Controller {
   async loadMarkersFromSearchResults() {
     const new_markers = JSON.parse(this.markerContainerTarget.dataset.markers) || [];
 
-      // Remove markers that are no longer relevant
+    // Remove old markers
     Object.keys(this.markersFromSearchResults).forEach((key) => {
-      if (new_markers.find((space) => space.id === key)) return;
       this.removeSearchResultMarker(key);
     });
 
