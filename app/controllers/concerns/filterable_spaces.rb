@@ -43,6 +43,8 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
 
   def filter_spaces
     set_filters_from_session_or_params
+    store_filters_in_session
+
     set_filterable_facility_categories
     set_filterable_space_types
     set_filtered_facilities
@@ -53,8 +55,6 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
     @filtered_spaces = filter_by_title
     @filtered_spaces = filter_by_space_types
     @filtered_spaces = filter_and_order_by_facilities
-
-    store_filters_in_session
   end
 
   def filter_spaces_for_vector_tiles
@@ -132,19 +132,22 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
   end
 
   def any_filters_set?
-    filter_keys.detect { |key| params[key] }
+    all_filter_keys.detect { |key| params[key] }
   end
 
   def any_filters_stored_in_session?
     session[:last_filter_params].present? &&
-      filter_keys.any? { |key| session[:last_filter_params][key].present? }
+      all_filter_keys.any? { |key| session[:last_filter_params][key].present? }
   end
 
   def store_filters_in_session
-    session[:last_filter_params] = params_from_search
+    session[:last_filter_params] = {}
+    all_filter_keys.each do |key|
+      session[:last_filter_params][key] = params[key]
+    end
   end
 
-  def filter_keys
+  def singular_filters
     %w[
       filter_by_map_bounds
       search_for_title
@@ -155,13 +158,27 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
     ]
   end
 
-  def filter_array_keys
+  def filter_arrays
     {
       facilities: [],
       space_types: [],
       fylker: [],
       kommuner: []
     }
+  end
+
+  def all_filters
+    [
+      *singular_filters,
+      **filter_arrays
+    ]
+  end
+
+  def all_filter_keys
+    [
+      *singular_filters,
+      *filter_arrays.keys.map(&:to_s)
+    ]
   end
 
   def set_filters_from_session_or_params
@@ -172,9 +189,10 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
   end
 
   def params_from_session
-    filter_keys.each do |key|
+    all_filter_keys.each do |key|
       params[key] = session[:last_filter_params][key]
     end
+
     set_permitted_params
   end
 
@@ -184,7 +202,7 @@ module FilterableSpaces # rubocop:disable Metrics/ModuleLength
 
   def set_permitted_params
     remove_duplicate_params
-    params.permit(*filter_keys, *filter_array_keys)
+    params.permit(all_filters)
   end
 
   def remove_duplicate_params
