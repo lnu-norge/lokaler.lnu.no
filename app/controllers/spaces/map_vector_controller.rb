@@ -10,11 +10,12 @@ module Spaces
 
     VECTOR_TILE_CACHE_KEY_PREFIX = "spaces_vector_tile/"
 
-    def mvt_data_to_use
-      cached_mvt_data_for_tile(cache_key_prefix: VECTOR_TILE_CACHE_KEY_PREFIX)
-      # This cache never expires. To clear it, do
-      # Rails.cache.delete_matched("venstre_score_vector/*")
-    end
+    #  TODO: Re-enable caching once I understand how it works on Heroku
+    #  def mvt_data_to_use
+    #    cached_mvt_data_for_tile(cache_key_prefix: VECTOR_TILE_CACHE_KEY_PREFIX)
+    #    # This cache never expires. To clear it, do
+    #    # Rails.cache.delete_matched("spaces_vector_tile/*")
+    #  end
 
     def pre_filter_spaces_subquery
       filter_spaces_for_vector_tiles
