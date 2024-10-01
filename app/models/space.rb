@@ -35,7 +35,10 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :filter_on_space_types, lambda { |space_type_ids|
     joins(:space_types).where(space_types: { id: space_type_ids })
   }
-  scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
+  scope :filter_on_fylker_or_kommuner, lambda { |fylke_ids:, kommune_ids:|
+    where(fylke_id: fylke_ids).or(where(kommune_id: kommune_ids))
+  }
+  scope :filter_on_map_bounds, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
           north_west_lat:,
           north_west_lng:,
