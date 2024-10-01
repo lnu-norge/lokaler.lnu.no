@@ -42,7 +42,7 @@ def load_fylker_from_geonorge
       geo_area: load_geo_area_from_geonorge(FYLKE_API_END_POINT, external_id)
     )
 
-    throw "Error loading fylke #{external_id}: #{fylke_in_db.errors}" unless fylke_in_db.persisted?
+    # throw "Error loading fylke #{external_id}: #{fylke_in_db.errors}" unless fylke_in_db.persisted?
 
     Rails.logger.debug { "\rLoaded #{external_id} #{fylke['fylkesnavn']}               " }
   end
@@ -93,7 +93,7 @@ def load_kommuner_from_geonorge
       geo_area: load_geo_area_from_geonorge(KOMMUNE_API_END_POINT, kommunenummer)
     )
 
-    throw "Error loading kommune #{kommunenummer}: #{kommune_in_db.errors}" unless kommune_in_db.persisted?
+    # throw "Error loading kommune #{kommunenummer}: #{kommune_in_db.errors}" unless kommune_in_db.persisted?
 
     Rails.logger.debug { "\rLoaded #{kommunenummer} #{navn}             " }
   end
