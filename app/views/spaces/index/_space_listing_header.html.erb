@@ -1,4 +1,11 @@
 <%# locals: (space_count:) %>
-<h1 class="text-base mb-6 text-gray-500 text-center">
+<div class="mb-6">
+<h1 class="text-base text-gray-500 text-left px-2 mb-2">
     <%= t('space_filter.spaces_that_might_work', count: space_count ) %>
 </h1>
+<% if @filtered_facilities.any? and space_count > 1 %>
+  <p class="text-sm text-gray-500 text-left px-2">
+    <%= t('space_filter.showing_spaces_matching_one_or_more_filters') %>
+  </p>
+<% end %>
+</div>
