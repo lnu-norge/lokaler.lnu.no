@@ -7,6 +7,8 @@ export default class extends Controller {
   initialize() {
     this.toggle = this.toggle.bind(this)
     this.refresh = this.refresh.bind(this)
+    this.checkAllIfParentIsChecked = this.element.dataset.checkAllIfParentIsChecked === "true"
+    this.hideUnlessParentIsChecked = this.element.dataset.hideUnlessParentIsChecked === "true"
   }
 
   parentTargetConnected(parentCheckbox) {
@@ -36,10 +38,16 @@ export default class extends Controller {
   toggle(e) {
     e.preventDefault()
 
-    this.childTargets.forEach((checkbox) => {
-      checkbox.checked = e.target.checked
-      this.triggerInputEvent(checkbox)
-    })
+    if (this.checkAllIfParentIsChecked || this.parentTarget.checked === false) {
+      this.childTargets.forEach((checkbox) => {
+        checkbox.checked = e.target.checked
+        this.triggerInputEvent(checkbox)
+      })
+    }
+
+    if (this.hideUnlessParentIsChecked) {
+      this.childrenContainerTarget.classList.toggle('hidden', !this.parentTarget.checked)
+    }
 
     this.parentTarget.form.requestSubmit()
   }
@@ -48,8 +56,15 @@ export default class extends Controller {
     const checkboxesCount = this.childTargets.length
     const checkboxesCheckedCount = this.checked.length
 
-    this.parentTarget.checked = checkboxesCheckedCount > 0
+    if (this.checkAllIfParentIsChecked) {
+      this.parentTarget.checked = checkboxesCheckedCount > 0
+    }
+
     this.parentTarget.indeterminate = checkboxesCheckedCount > 0 && checkboxesCheckedCount < checkboxesCount
+
+    if (this.hideUnlessParentIsChecked) {
+      this.childrenContainerTarget.classList.toggle('hidden', !this.parentTarget.checked)
+    }
   }
 
   triggerInputEvent(checkbox) {
