@@ -5,7 +5,6 @@ import Rails from "@rails/ujs";
 export default class extends Controller {
   static targets = [
       "form",
-      "location",
       "northWestLatInput",
       "northWestLngInput",
       "southEastLatInput",
@@ -81,8 +80,12 @@ export default class extends Controller {
       this.markersFromSearchResults = {};
       this.loadMarkersFromSearchResults();
 
+      this.add_selected_geo_area_layer()
+
       this.add_spaces_vector_layer()
       this.add_hover_effect_on_spaces_vector_layer()
+
+      this.reload_layers_when_filter_changes()
     })
   }
 
@@ -176,10 +179,6 @@ export default class extends Controller {
         this.reloadPosition();
       }
     });
-
-    this.locationTarget.onchange = (event) => {
-      this.getSearchCoordinatesFromGeoNorge(event)
-    };
   }
   loadPositionOn(event) {
     this.map.on(event, () => {
@@ -272,6 +271,15 @@ export default class extends Controller {
     return this.storeBoundsAndMoveMapToFit(this.geoNorgeAvgrensingsBoksToBoundingBox(avgrensningsboks));
   }
 
+  mapboxglBoundsToBoundingBox(mapboxBounds) {
+    return {
+      northWestLat: mapboxBounds.getNorthWest().lat,
+      northWestLng: mapboxBounds.getNorthWest().lng,
+      southEastLat: mapboxBounds.getSouthEast().lat,
+      southEastLng: mapboxBounds.getSouthEast().lng
+    }
+  }
+
   geoNorgeAvgrensingsBoksToBoundingBox = (avgrensningsboks) => {
     const [northWestLng, northWestLat] = avgrensningsboks[1];
     const [southEastLng, southEastLat] = avgrensningsboks[3];
@@ -335,9 +343,8 @@ export default class extends Controller {
   async loadMarkersFromSearchResults() {
     const new_markers = JSON.parse(this.markerContainerTarget.dataset.markers) || [];
 
-      // Remove markers that are no longer relevant
+    // Remove old markers
     Object.keys(this.markersFromSearchResults).forEach((key) => {
-      if (new_markers.find((space) => space.id === key)) return;
       this.removeSearchResultMarker(key);
     });
 
@@ -362,23 +369,127 @@ export default class extends Controller {
     }
   }
 
-  add_spaces_vector_layer() {
-    const formData = new FormData(this.formTarget);
-    const filter_params = new URLSearchParams(formData).toString();
 
+  reload_layers_when_filter_changes() {
     this.formTarget.onchange = (e) => {
       if (e.target.name === 'north_west_lat' || e.target.name === 'north_west_lng' || e.target.name === 'south_east_lat' || e.target.name === 'south_east_lng') {
         return;
       }
 
-      this.debounce("reloadVectorTiles", () => {
-        this.map.removeLayer('spaces_vector_layer');
-        this.map.removeSource('spaces_vector_source');
+      this.debounce("reload_layers", () => {
+        this.add_selected_geo_area_layer();
         this.add_spaces_vector_layer();
       }, 100);
     }
+  }
 
-    console.log("Adding filtered spaces to map")
+  async add_selected_geo_area_layer() {
+    const formData = new FormData(this.formTarget);
+    const filter_params = new URLSearchParams(formData).toString();
+    const selected_geo_areas = formData.getAll('fylker[]').concat(formData.getAll('kommuner[]'));
+    this.selected_geo_areas_string = JSON.stringify(formData.getAll('fylker[]').concat(formData.getAll('kommuner[]')));
+
+    if (selected_geo_areas.length === 0 && this.selectedGeoAreaHasChanged()) {
+      return this.moveMapToFitNorway();
+    }
+
+    this.selected_geo_areas_geo_json = await fetch(`${window.location.origin}/lokaler/map_selected_geo_area?${filter_params}`).then(response => response.json());
+
+    if (this.map.getLayer('selected_geo_area_layer')) {
+      this.map.removeLayer('selected_geo_area_layer');
+    }
+    if (this.map.getSource('selected_geo_area_source')) {
+      this.map.removeSource('selected_geo_area_source');
+    }
+
+    this.map.addSource('selected_geo_area_source', {
+      type: 'geojson',
+      data: this.selected_geo_areas_geo_json
+    });
+
+    this.map.addLayer({
+      id: 'selected_geo_area_layer',
+      type: 'fill',
+      source: 'selected_geo_area_source',
+      paint: {
+        'fill-color': '#C40066',
+        'fill-opacity': 0.1
+      }
+    });
+
+    this.map.on('sourcedata', this.fitMapToSelectedGeoArea.bind(this));
+  }
+
+  selectedGeoAreaHasChanged() {
+    return !!this.selected_geo_areas_string && !!this.previously_selected_geo_areas_string && this.selected_geo_areas_string === this.previously_selected_geo_areas_string;
+  }
+
+  fitMapToSelectedGeoArea(e) {
+    if (e.sourceId !== 'selected_geo_area_source' || !e.isSourceLoaded) {
+      return;
+    }
+
+    if (this.selectedGeoAreaHasChanged()) {
+      return;
+    }
+
+    const features = this.selected_geo_areas_geo_json.features;
+    if (!features || features.length === 0) {
+      return;
+    }
+
+    this.previously_selected_geo_areas_string = `${this.selected_geo_areas_string}`;
+
+
+    // Get the bounds of the source data
+    let bounds = new mapboxgl.LngLatBounds();
+
+    features.forEach(function(feature) {
+      switch (feature.geometry.type) {
+        case 'Point':
+          bounds.extend(feature.geometry.coordinates);
+          break;
+        case 'LineString':
+          feature.geometry.coordinates.forEach(function(coord) {
+            bounds.extend(coord);
+          });
+          break;
+        case 'Polygon':
+          feature.geometry.coordinates[0].forEach(function(coord) {
+            bounds.extend(coord);
+          });
+          break;
+        case 'MultiPolygon':
+          feature.geometry.coordinates.forEach(function(polygon) {
+            polygon[0].forEach(function(coord) {
+              bounds.extend(coord);
+            });
+          });
+          break;
+        default:
+          console.warn('Unsupported geometry type:', feature.geometry.type);
+      }
+    });
+
+    const formattedBounds = this.mapboxglBoundsToBoundingBox(bounds);
+
+    // Fit the map to the bounds
+    this.storeBoundsAndMoveMapToFit(formattedBounds);
+
+  }
+
+
+
+  add_spaces_vector_layer() {
+    const formData = new FormData(this.formTarget);
+    const filter_params = new URLSearchParams(formData).toString();
+
+    if (this.map.getLayer('spaces_vector_layer')) {
+      this.map.removeLayer('spaces_vector_layer');
+    }
+    if (this.map.getSource('spaces_vector_source')) {
+      this.map.removeSource('spaces_vector_source');
+    }
 
     this.map.addSource('spaces_vector_source', {
       type: 'vector',
