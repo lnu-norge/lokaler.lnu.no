@@ -9,6 +9,8 @@ class Kommune < GeographicalArea
 
   before_validation :set_geographical_area_type
 
+  has_many :spaces, dependent: :nullify, inverse_of: :kommune
+
   private
 
   def set_geographical_area_type

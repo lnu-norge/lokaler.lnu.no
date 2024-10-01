@@ -19,17 +19,16 @@ end
 
 FYLKE_API_END_POINT = "https://ws.geonorge.no/kommuneinfo/v1/fylker"
 def load_fylker_from_geonorge
+  # rubocop:disable Rails/Output
   geographical_area_type = GeographicalAreaType.find_or_create_by(name: "Fylke")
 
-  Rails.logger.debug do
-    "Loading fylker from API. We currently have: #{GeographicalArea.where(geographical_area_type:).count} fylker"
-  end
+  p "Loading fylker from API. We currently have: #{GeographicalArea.where(geographical_area_type:).count} fylker"
 
   uri = URI.parse(FYLKE_API_END_POINT)
   response = Net::HTTP.get_response(uri)
   fylker = JSON.parse(response.body)
 
-  Rails.logger.debug { "API has #{fylker.size} fylker to sync with" }
+  p "API has #{fylker.size} fylker to sync with"
 
   fylker.each do |fylke|
     external_id = fylke["fylkesnummer"]
@@ -42,36 +41,37 @@ def load_fylker_from_geonorge
       geo_area: load_geo_area_from_geonorge(FYLKE_API_END_POINT, external_id)
     )
 
-    # throw "Error loading fylke #{external_id}: #{fylke_in_db.errors}" unless fylke_in_db.persisted?
+    p fylke_in_db.errors.full_messages if fylke_in_db.errors.any?
+    throw "Error loading fylke #{external_id}: #{fylke_in_db.errors.full_messages}" unless fylke_in_db.persisted?
 
-    Rails.logger.debug { "\rLoaded #{external_id} #{fylke['fylkesnavn']}               " }
+    print "\rLoaded #{external_id} #{fylke['fylkesnavn']}               "
   end
 
-  Rails.logger.debug "\rRemoving any fylker that are not in the API              \n"
+  print "\rRemoving any fylker that are not in the API              \n"
   GeographicalArea
     .where(geographical_area_type:)
     .where.not(unique_id_for_external_source: fylker.pluck("fylkesnummer"))
     .destroy_all
 
-  Rails.logger.debug do
-    "\rLoaded fylker from API. We now have: #{GeographicalArea.where(geographical_area_type:).count} fylker     \n"
-  end
+  print "\rLoaded fylker from API. We now have: #{GeographicalArea.where(geographical_area_type:).count} fylker     \n"
+
+  # rubocop:enable Rails/Output
 end
 
 KOMMUNE_API_END_POINT = "https://ws.geonorge.no/kommuneinfo/v1/kommuner"
 
 def load_kommuner_from_geonorge
+  # rubocop:disable Rails/Output
+
   geographical_area_type = GeographicalAreaType.find_or_create_by(name: "Kommune")
 
-  Rails.logger.debug do
-    "Loading kommuner from API. We currently have: #{GeographicalArea.where(geographical_area_type:).count} kommuner"
-  end
+  p "Loading kommuner from API. We currently have: #{GeographicalArea.where(geographical_area_type:).count} kommuner"
 
   uri = URI.parse(KOMMUNE_API_END_POINT)
   response = Net::HTTP.get_response(uri)
   kommuner = JSON.parse(response.body)
 
-  Rails.logger.debug { "API has #{kommuner.size} kommuner to sync with" }
+  p "API has #{kommuner.size} kommuner to sync with"
 
   kommuner.each do |kommune|
     kommunenummer = kommune["kommunenummer"]
@@ -93,20 +93,21 @@ def load_kommuner_from_geonorge
       geo_area: load_geo_area_from_geonorge(KOMMUNE_API_END_POINT, kommunenummer)
     )
 
-    # throw "Error loading kommune #{kommunenummer}: #{kommune_in_db.errors}" unless kommune_in_db.persisted?
+    throw "Error loading kommune #{kommunenummer}: #{kommune_in_db.errors}" unless kommune_in_db.persisted?
 
-    Rails.logger.debug { "\rLoaded #{kommunenummer} #{navn}             " }
+    print "\rLoaded #{kommunenummer} #{navn}             "
   end
 
-  Rails.logger.debug "\rRemoving any kommuner that are not in the API              \n"
+  print "\rRemoving any kommuner that are not in the API              \n"
   GeographicalArea
     .where(geographical_area_type:)
     .where.not(unique_id_for_external_source: kommuner.pluck("kommunenummer"))
     .destroy_all
 
-  Rails.logger.debug do
-    "\rLoaded kommuner from API. We now have: #{GeographicalArea.where(geographical_area_type:).count} kommuner    \n"
-  end
+  count = GeographicalArea.where(geographical_area_type:).count
+  print "\rLoaded kommuner from API. We now have: #{count} kommuner    \n"
+
+  # rubocop:enable Rails/Output
 end
 
 # rubocop:enable Metrics/methodLength Metrics/AbcSize

@@ -7,8 +7,6 @@ class GeographicalArea < ApplicationRecord
   has_many :children, class_name: "GeographicalArea", foreign_key: "parent_id", dependent: :nullify, inverse_of: :parent
   validate :no_circular_references
 
-  has_many :spaces, dependent: :nullify
-
   belongs_to :geographical_area_type
 
   validates :name, presence: true

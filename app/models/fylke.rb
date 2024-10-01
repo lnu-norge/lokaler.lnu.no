@@ -13,6 +13,8 @@ class Fylke < GeographicalArea
            inverse_of: :fylke,
            dependent: :destroy
 
+  has_many :spaces, dependent: :nullify, inverse_of: :fylke
+
   before_validation :set_geographical_area_type
 
   private
