@@ -25,7 +25,7 @@ module Spaces
 
     def set_permitted_params
       remove_duplicate_params
-      params.permit([*filter_keys, :z, :x, :y, { facilities: [], space_types: [] }])
+      params.permit([:z, :x, :y, *all_filters])
     end
 
     def vector_tile_query # rubocop:disable Metrics/MethodLength
