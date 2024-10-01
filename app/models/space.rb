@@ -47,7 +47,14 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   }
   scope :filter_and_order_by_facilities, lambda { |facility_ids|
     joins(:space_facilities)
-      .where(space_facilities: { facility_id: facility_ids, relevant: true })
+      .where(space_facilities: {
+               # Facilities are selected
+               facility_id: facility_ids,
+               # And either have user input on this space, or are usually relevant for the space type
+               relevant: true,
+               # and have a positive or neutral experience
+               experience: [:unknown, :maybe, :likely]
+             })
       .group("spaces.id")
       # First sort by facility score, then by star rating to break any ties
       # Star ratings below 3 should be sorted below those who have no rating
