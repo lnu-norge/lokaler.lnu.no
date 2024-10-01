@@ -18,6 +18,10 @@
         flex flex-col-reverse
         md:flex-row
         md:flex-1" do %>
+    <%= turbo_stream.replace "search_form" do %>
+      <%= render partial: "spaces/index/search_form" %>
+    <% end %>
+
     <div class="relative z-4
                 bg-white md:shadow-2xl
                 rounded-t-xl -mt-8
