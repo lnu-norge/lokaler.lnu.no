@@ -1,10 +1,10 @@
 <li
   title="<%= tooltip %>">
-  <span class="flex items-center gap-1.5 <%= "line-through text-gray-600" if review == "impossible" %>">
-    <%= title %>
+  <span class="flex items-baseline gap-1.5 <%= "line-through text-gray-600" if review == "impossible" %>">
       <span>
-      <%= inline_svg_tag "facility_status/#{review}" %>
+      <%= inline_svg_tag "facility_status/#{review}", style: "transform: translateY(1px)"  %>
     </span>
+    <%= title %>
   </span>
   <% unless description.nil? %>
     <div class="text-gray-400 mb-1.5">
