@@ -38,7 +38,7 @@
         <div
           id="space-listing"
           data-controller="set-selected-space"
-          class="items-center flex flex-col px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
+          class="max-w-96 mx-auto items-stretch flex flex-col px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
           <%= render 'spaces/index/space_listings', spaces: @spaces %>
           <div
             class="hidden"
