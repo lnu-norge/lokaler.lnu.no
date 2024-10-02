@@ -6,13 +6,11 @@
 
 <div class="relative">
   <%= link_to space_path(space),
-            class: "unstyled-link space-listing",
+            class: "unstyled-link space-listing  shadow-xl shadow-gray-300 bg-white rounded-md max-w-lg",
             data: {
               "set-as-selected-when-this-space-is-open": space.id,
               "turbo-frame": "spaces-open-here" # This updates the spaces-open-here frame
             } do %>
-
-    <div class="max-w-lg p-2">
 
       <!-- Space image(s) -->
 
@@ -20,42 +18,41 @@
 
       <!-- Space title -->
 
-      <h3 class="text-xl mt-2.5 mb-2.5 font-bold">
-        <%= space.title %>
-      </h3>
+      <div class="p-4 flex flex-col gap-2">
+        <h3 class="text-base  mt-0 font-bold pr-8">
+          <%= space.title %>
+        </h3>
+        <!-- Meta information listing -->
 
-      <!-- Meta information listing -->
+        <div class="flex gap-4">
 
-      <div class="flex gap-4 mb-2.5">
-
-        <div class="flex gap-2" title="<%= t('space_show.number_of_reviews', count: space.reviews.size) %>">
-          <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'}" %>
-          <span>
+          <div class="flex items-center gap-1" title="<%= t('space_show.number_of_reviews', count: space.reviews.size) %>">
+            <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'} h-5 w-5" %>
+            <span class="text-gray-500">
             <%=  space.star_rating_s %>
-            <% if space.reviews.size > 0 %>
+              <% if space.reviews.size > 0 %>
                 <span class="opacity-50">(<%= space.reviews.size %>)</span>
             <% end %>
           </span>
-        </div>
+          </div>
 
-        <div class="flex gap-2">
-            <%= inline_svg_tag 'building', class: 'text-gray-500' %>
+          <div class="flex gap-1 items-center text-gray-500">
+            <%= inline_svg_tag 'building', class: 'text-gray-400 h-4 w-4' %>
             <span>
               <%= space.space_types_joined %>
             </span>
+          </div>
+
         </div>
-
-      </div>
-
-      <!-- Filtered facilites listing -->
-
-      <%= render partial: 'spaces/index/space_facility_listing', locals: { space: space, filtered_facilities: @filtered_facilities } if @filtered_facilities.present?  %>
-
     </div>
-  <% end %>
+    <!-- Filtered facilites listing -->
+    <%= render partial: 'spaces/index/space_facility_listing', locals: { space: space, filtered_facilities: @filtered_facilities } if @filtered_facilities.present?  %>
+<% end %>
   <!-- List status -->
 
-  <div class="absolute top-2.5 left-2.5 text-white">
-    <%= render 'personal_space_lists/space_in_list/list_status_for_space', personal_space_list: @active_personal_space_list, space: %>
+  <div class="absolute top-2.5 right-2 text-white">
+    <div class="<%= space.images.any? ? "text-white" : "text-lnu-pink/30" %> text-sm">
+      <%= render 'personal_space_lists/space_in_list/list_status_for_space', personal_space_list: @active_personal_space_list, space: %>
+    </div>
   </div>
 </div>
