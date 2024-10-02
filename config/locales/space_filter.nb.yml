@@ -4,7 +4,7 @@ nb:
     show_spaces:
       one: 'Vis ett lokale'
       other: 'Vis %{count} lokaler'
-    showing_spaces_matching_one_or_more_filters:  'Viser lokaler som passer minst en fasilitet, sortert etter beste match'
+    showing_spaces_matching_one_or_more_filters:  'Viser alle med minst en relevant fasilitet, sortert etter beste match'
     showing_spaces_matching_all_filters: 'Viser lokaler som passer alle fasiliteter'
     filter_or_zoom: "Filtrér eller zoom inn for å se andre."
     spaces_that_might_work:
@@ -15,7 +15,7 @@ nb:
     location: 'Område'
     choose_location: 'Søk her, eller flytt på kart'
     filter_by_map_bounds: 'Filtrer når kartet flyttes'
-    title: 'Navn på lokalet'
+    title: 'Søk i lokalets navn'
     more_filters: 'Flere filtre'
     map_reload: 'Søk i området'
     choose_view: 'Visning'

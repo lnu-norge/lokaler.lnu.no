@@ -1,5 +1,7 @@
 <%# locals: (space:, filtered_facilities:) %>
-<ul class="grid grid-cols-2 gap-2 mt-2">
+<% return unless filtered_facilities.any? %>
+
+<ul class="grid grid-cols-2 gap-2 text-gray-600 bg-gray-50 border-t border-gray-100 p-4 rounded-b-md">
   <% filtered_facilities.each do |facility| %>
     <% next unless space.relevance_of_facility(facility) %>
     <% review = space.reviews_for_facility(facility) %>

@@ -3,21 +3,22 @@
   class="flex
               gap-0
               items-center
-
               text-base
+              text-gray-700 hover:text-current focus:text-current
               rounded-full
               overflow-hidden
               text-nowrap
               border
+              focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-lnu-pink
               group
               <%=
               if collapse_unless_hovered
                 "transition-all
-                   max-w-2 hover:max-w-96
-                   max-h-2 hover:max-h-96
-                   text-transparent hover:text-current
+                   max-w-2 hover:max-w-96 focus:max-w-96
+                   max-h-2 hover:max-h-96 focus:max-h96
+                   text-transparent hover:text-current focus:text-current
                    border-lnu-pink
-                   hover:pr-1
+                   hover:pr-1 focus:pr-1
               "
               else
                 "
@@ -32,7 +33,9 @@
             class: "flex
               gap-2
               items-center
-              unstyled-link cursor-pointer #{
+              unstyled-link
+              cursor-pointer
+#{
               if collapse_unless_hovered
                 "py-1 hover:pl-4 group-hover:pl-4"
               else
