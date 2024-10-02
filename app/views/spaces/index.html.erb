@@ -7,7 +7,7 @@
        class="fixed top-0 left-0 right-0 max-h-screen z-100 bg-white overflow-y-auto overscroll-contain
               md:static md:inset-auto md:z-10 md:h-screen-below-desktop-menu
               md:shadow-2xl md:max-w-md md:w-1/4 md:min-w-60">
-    <div class="hidden md:block " data-search-target="searchBox">
+    <div class="hidden md:block" data-search-target="searchBox">
       <%= render 'spaces/index/filters' %>
     </div>
   </nav>
@@ -16,10 +16,12 @@
                       data: { 'turbo-action': 'advance' },
                         class: "relative
         flex flex-col-reverse
+
         md:flex-row
         md:flex-1" do %>
     <div class="relative z-4
-                bg-white md:shadow-2xl
+
+                bg-gray-100 md:shadow-2xl
                 rounded-t-xl -mt-8
                 md:mt-0 md:rounded-none
                 md:max-w-md md:w-1/2 md:min-w-[14rem]
@@ -36,7 +38,7 @@
         <div
           id="space-listing"
           data-controller="set-selected-space"
-          class="px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
+          class="max-w-96 mx-auto items-stretch flex flex-col px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
           <%= render 'spaces/index/space_listings', spaces: @spaces %>
           <div
             class="hidden"

@@ -4,6 +4,11 @@
 %>
   <% personal_space_list.spaces.each do |space_in_list|  %>
     <%= turbo_stream.update(
+          dom_id_for_list_status_for_space_in_map_marker(space_in_list),
+          partial: "spaces/index/map_marker_list_status",
+          locals: { personal_space_list:, space: space_in_list}
+        ) %>
+    <%= turbo_stream.update(
         dom_id_for_list_status_for_space(space_in_list),
         partial: "personal_space_lists/space_in_list/list_status_for_space",
         locals: { personal_space_list:, space: space_in_list}
@@ -17,9 +22,14 @@
     turbo_stream.update(
       dom_id_for_list_status_for_space(space),
       partial: "personal_space_lists/space_in_list/list_status_for_space",
-      locals: { personal_space_list: personal_space_list, space: }
+      locals: { personal_space_list:, space: }
       )
   %>
+  <%= turbo_stream.update(
+        dom_id_for_list_status_for_space_in_map_marker(space),
+        partial: "spaces/index/map_marker_list_status",
+        locals: { personal_space_list:, space: }
+      ) %>
 <% end %>
 <%=
   # Refresh active list in space index

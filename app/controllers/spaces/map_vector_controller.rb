@@ -19,7 +19,7 @@ module Spaces
 
     def pre_filter_spaces_subquery
       filter_spaces_for_vector_tiles
-      # SQL for getting all relevant canvassing_result IDs:
+      # SQL for getting all relevant space IDs:
       @filtered_spaces.select(:id).to_sql
     end
 
