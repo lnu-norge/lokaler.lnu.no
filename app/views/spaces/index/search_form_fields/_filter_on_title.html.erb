@@ -1,8 +1,6 @@
 <%# locals: (form:) %>
-<%= form.label t("space_filter.title"), for: :search_for_title, class: "text-xl font-bold my-4"  %>
-<div class="mt-2">
-  <%= form.text_field :search_for_title,
-                      value: params[:search_for_title],
-                      onchange: "this.form.requestSubmit()",
-                      class: "text_field shadow" %>
-</div>
+<%= form.label t("space_filter.title"), for: :search_for_title, class: "text-xs font-bold mb-3 block text-lnu-blue"  %>
+<%= form.text_field :search_for_title,
+                    value: params[:search_for_title],
+                    onchange: "this.form.requestSubmit()",
+                    class: "text_field shadow" %>
