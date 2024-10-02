@@ -6,7 +6,9 @@
 
 <div class="relative">
   <%= link_to space_path(space),
-            class: "unstyled-link space-listing  shadow-xl shadow-gray-300 bg-white rounded-md max-w-lg",
+            class: "unstyled-link space-listing  shadow-xl
+                  #{@filtered_facilities.any? ? "shadow-gray-300" : "shadow-gray-200"}
+                  bg-white rounded-md max-w-lg",
             data: {
               "set-as-selected-when-this-space-is-open": space.id,
               "turbo-frame": "spaces-open-here" # This updates the spaces-open-here frame

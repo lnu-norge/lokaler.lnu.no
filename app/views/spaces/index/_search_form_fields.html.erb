@@ -1,16 +1,19 @@
 <%# locals: (form:) %>
-<div class="mb-8">
-  <%= render "spaces/index/search_form_fields/filter_on_title", form: form %>
-</div>
+<div class="flex flex-col gap-12">
+  <div>
+    <%= render "spaces/index/search_form_fields/filter_on_title", form: form %>
+  </div>
 
-<div class="mb-8">
-  <%= render "spaces/index/search_form_fields/filter_on_location", form: form %>
-</div>
+  <div>
+    <%= render "spaces/index/search_form_fields/filter_on_location", form: form %>
+  </div>
 
-<div class="my-8">
-  <%= render "spaces/index/search_form_fields/filter_on_facilities", form: form %>
-</div>
+  <div>
+    <%= render "spaces/index/search_form_fields/filter_on_facilities", form: form %>
+  </div>
 
-<div class="my-8">
-  <%= render "spaces/index/search_form_fields/filter_on_space_types", form: form %>
+  <div>
+    <%= render "spaces/index/search_form_fields/filter_on_space_types", form: form %>
+  </div>
+
 </div>

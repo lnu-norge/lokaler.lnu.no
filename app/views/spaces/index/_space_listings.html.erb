@@ -1,7 +1,7 @@
 <%# locals: (spaces:) %>
 <% if spaces.any? %>
   <%= render 'spaces/index/space_listing_header', space_count: @pagy.count %>
-  <ul id="space-list" class="flex flex-col gap-4 pb-6">
+  <ul id="space-list" class="flex flex-col gap-4 pb-6 lg:px-2 max-w-96">
       <% spaces.each do |space| %>
         <li><%= render "spaces/index/space_listing", space: space  %></li>
       <% end %>
