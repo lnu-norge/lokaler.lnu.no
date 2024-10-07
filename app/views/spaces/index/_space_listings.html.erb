@@ -1,16 +1,25 @@
 <%# locals: (spaces:) %>
-<% if spaces.any? %>
-  <%= render 'spaces/index/space_listing_header', space_count: @pagy.count %>
-  <ul id="space-list" class="flex flex-col gap-4 pb-6 lg:px-2 max-w-96">
-      <% spaces.each do |space| %>
-        <li><%= render "spaces/index/space_listing", space: space  %></li>
-      <% end %>
-    </ul>
-  <%= render 'spaces/index/pagination' %>
-<% else %>
-  <div class="text-lnu-pink flex flex-col place-items-center place-content-center md:h-screen-2/3">
-    <%= inline_svg_tag 'empty',  class: 'max-w-24 inline-block', alt: "" %>
-    <span class="text-gray-800"><%= t('space_filter.spaces_that_might_work', count: 0 ) %></span>
+<div
+  id="space-listing"
+  data-controller="set-selected-space"
+  class="max-w-96 mx-auto items-stretch flex flex-col px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
+  <% if spaces.any? %>
+    <%= render 'spaces/index/space_listing_header', space_count: @pagy.count %>
+    <ul id="space-list" class="flex flex-col gap-4 pb-6 lg:px-2 max-w-96">
+        <% spaces.each do |space| %>
+          <li><%= render "spaces/index/space_listing", space: space  %></li>
+        <% end %>
+      </ul>
+    <%= render 'spaces/index/pagination' %>
+  <% else %>
+    <div class="text-lnu-pink flex flex-col place-items-center place-content-center md:h-screen-2/3">
+      <%= inline_svg_tag 'empty',  class: 'max-w-24 inline-block', alt: "" %>
+      <span class="text-gray-800"><%= t('space_filter.spaces_that_might_work', count: 0 ) %></span>
+    </div>
+  <% end %>
+  <div
+    class="hidden"
+    data-mapbox-target="markerContainer"
+    data-markers="<%= @markers.to_json %>">
   </div>
-<% end %>
-
+</div>

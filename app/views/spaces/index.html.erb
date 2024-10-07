@@ -35,18 +35,7 @@
 
       <%= render 'spaces/index/handlebar_for_mobile' %>
 
-        <div
-          id="space-listing"
-          data-controller="set-selected-space"
-          class="max-w-96 mx-auto items-stretch flex flex-col px-2 md:py-8 md:view-as-table:p-0 view-as-table:mt-16 md:view-as-table:mt-0 loading-spaces-when-empty">
-          <%= render 'spaces/index/space_listings', spaces: @spaces %>
-          <div
-            class="hidden"
-            data-mapbox-target="markerContainer"
-            data-markers="<%= @markers.to_json %>">
-          </div>
-        </div>
-
+      <%= render 'spaces/index/space_listings', spaces: @spaces %>
     </div>
     <div
       class="
