@@ -64,7 +64,8 @@ export default class extends Controller {
         trackResize: true,
         pitchWithRotate: false,
         dragRotate: false,
-        touchZoomRotate: false,
+        touchRotate: false,
+        touchPitch: false,
         keyboardRotate: false,
         ...options,
       });
@@ -182,7 +183,7 @@ export default class extends Controller {
   }
   loadPositionOn(event) {
     this.map.on(event, () => {
-      this.searchThisAreaTarget.classList.remove('hidden');
+      this.showSearchThisAreaBox();
       this.deboounceReloadMap(500);
     });
   }
@@ -190,6 +191,22 @@ export default class extends Controller {
   reloadPosition() {
     const bounds = this.currentBounds();
     this.submitNewBounds(bounds);
+    this.hideSearchThisAreaBox();
+  }
+
+  get autoFilteringByMapBounds() {
+    return document.getElementById("filter_by_map_bounds").checked;
+  }
+
+  showSearchThisAreaBox() {
+    if (this.autoFilteringByMapBounds) {
+      return;
+    }
+
+    this.searchThisAreaTarget.classList.remove('hidden');
+  }
+
+  hideSearchThisAreaBox() {
     this.searchThisAreaTarget.classList.add('hidden');
   }
 
@@ -327,17 +344,6 @@ export default class extends Controller {
     }, {
       wasZoom: true,
     });
-  }
-
-
-  showErrorInListing(options) {
-    const {message, error_html} = options
-
-    document.getElementById('space-listing').innerHTML = `<div class='text-left p-8 bg-lnu-pink/10 rounded-lg text-lnu-pink'>
-        <h2 class="text-lg pb-8 font-bold">${message}</h2>
-        <p>Fungerer det ikke så vis dette til teknisk ansvarlig:</p>
-          <iframe class='w-full h-screen border-8 border-lnu-pink' src='data:text/html;charset=utf-8,${escape(error_html)}' />
-    </div>`
   }
 
   async loadMarkersFromSearchResults() {
