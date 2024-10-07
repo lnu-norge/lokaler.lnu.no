@@ -57,7 +57,7 @@ module SpacesHelper
       zoom:,
       height:,
       width:,
-      html_options:
+      **html_options
     )
   end
 
@@ -74,7 +74,7 @@ module SpacesHelper
       "&@2x", # Render at 2x for retina
       "&access_token=#{ENV.fetch('MAPBOX_API_KEY', nil)}"
     ].join
-    image_tag static_map_image_url, html_options
+    image_tag static_map_image_url, **html_options
   end
 
   # Used before the space has any information at all
