@@ -4,9 +4,18 @@ require "rails_helper"
 
 RSpec.describe Spaces::MapVectorController, type: :request do
   let(:user) { Fabricate(:user) }
+  let(:spaces) do
+    Fabricate.times(
+      3,
+      :space,
+      lat: 61.95535345226779, # Vågå-ish
+      lng: 8.428730756987932 # Vågå-ish
+    )
+  end
 
   before do
     sign_in user
+    spaces # Initializes spaces. Why not use "let!"?, well, because of Rubocop - of course.
   end
 
   it "gives 204 if no spaces in tile" do
@@ -23,14 +32,6 @@ RSpec.describe Spaces::MapVectorController, type: :request do
   # before we get problems with performance.
 
   #  describe "cache" do
-  # let!(:spaces) do
-  #    Fabricate.times(
-  #      3,
-  #      :space,
-  #      lat: 61.95535345226779, # Vågå-ish
-  #      lng: 8.428730756987932 # Vågå-ish
-  #    )
-  #  end
   #  let(:vector_tile_cache_key_prefix) { "#{Spaces::MapVectorController::VECTOR_TILE_CACHE_KEY_PREFIX}*" }
 
   # COMMENTED_OUT_rubocop:disable RSpec/MessageSpies
