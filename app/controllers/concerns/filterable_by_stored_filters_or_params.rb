@@ -5,18 +5,22 @@ module FilterableByStoredFiltersOrParams
 
   private
 
+  def filter_keys
+    permitted_filters.flat_map { |filter| filter.is_a?(Hash) ? filter.keys : filter }.map(&:to_s)
+  end
+
   def any_filters_set?
-    all_filter_keys.detect { |key| params[key] }
+    filter_keys.detect { |key| params[key] }
   end
 
   def any_filters_stored_in_session?
     session[:last_filter_params].present? &&
-      all_filter_keys.any? { |key| session[:last_filter_params][key].present? }
+      filter_keys.any? { |key| session[:last_filter_params][key].present? }
   end
 
   def store_filters_in_session
     session[:last_filter_params] = {}
-    all_filter_keys.each do |key|
+    filter_keys.each do |key|
       session[:last_filter_params][key] = params[key]
     end
   end
@@ -29,7 +33,7 @@ module FilterableByStoredFiltersOrParams
   end
 
   def params_from_session
-    all_filter_keys.each do |key|
+    filter_keys.each do |key|
       params[key] = session[:last_filter_params][key]
     end
 
@@ -42,7 +46,7 @@ module FilterableByStoredFiltersOrParams
 
   def set_permitted_params
     remove_duplicate_params
-    params.permit(all_filters)
+    params.permit(permitted_filters)
   end
 
   def remove_duplicate_params
