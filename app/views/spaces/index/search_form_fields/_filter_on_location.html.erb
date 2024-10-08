@@ -39,33 +39,33 @@
         <%= fylke.name %>
       <% end %>
 
-      <% next if fylke.kommuner.empty? %>
-
-      <div class="ml-4 pb-2 hidden" data-nested-checkbox-filter-target="childrenContainer">
-      <% fylke.kommuner.each do |kommune| %>
-        <%= form.label "geo_area_#{kommune.id}", class: "flex gap-1 my-1 items-top" do %>
-          <%= form.check_box :kommuner,
-                             {
-                               id: "geo_area_#{kommune.id}",
-                               multiple: true,
-                               data: {
-                                 'nested-checkbox-filter-target': 'child',
+      <% if fylke.kommuner.any? %>
+        <div class="ml-4 pb-2 hidden" data-nested-checkbox-filter-target="childrenContainer">
+        <% fylke.kommuner.each do |kommune| %>
+          <%= form.label "geo_area_#{kommune.id}", class: "flex gap-1 my-1 items-top" do %>
+            <%= form.check_box :kommuner,
+                               {
+                                 id: "geo_area_#{kommune.id}",
+                                 multiple: true,
+                                 data: {
+                                   'nested-checkbox-filter-target': 'child',
+                                 },
+                                 class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                                 onchange: "this.form.requestSubmit()",
+                                 checked: params[:kommuner]&.include?(kommune.id.to_s)
                                },
-                               class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
-                               onchange: "this.form.requestSubmit()",
-                               checked: params[:kommuner]&.include?(kommune.id.to_s)
-                             },
-                             kommune.id.to_s,
-                             nil
-          %>
-          <%= kommune.name %>
-        <% end %>
+                               kommune.id.to_s,
+                               nil
+            %>
+              <%= kommune.name %>
+            <% end %>
+          <% end %>
+        </div>
       <% end %>
-      </div>
     </div>
   <% end %>
 <%= form.hidden_field :north_west_lat, value: params[:north_west_lat], class: "text_field", data: { mapbox_target: "northWestLatInput" } %>
-  <%= form.hidden_field :north_west_lng, value: params[:north_west_lng], class: "text_field", data: { mapbox_target: "northWestLngInput" } %>
-  <%= form.hidden_field :south_east_lat, value: params[:south_east_lat], class: "text_field", data: { mapbox_target: "southEastLatInput" } %>
-  <%= form.hidden_field :south_east_lng, value: params[:south_east_lng], class: "text_field", data: { mapbox_target: "southEastLngInput" } %>
+<%= form.hidden_field :north_west_lng, value: params[:north_west_lng], class: "text_field", data: { mapbox_target: "northWestLngInput" } %>
+<%= form.hidden_field :south_east_lat, value: params[:south_east_lat], class: "text_field", data: { mapbox_target: "southEastLatInput" } %>
+<%= form.hidden_field :south_east_lng, value: params[:south_east_lng], class: "text_field", data: { mapbox_target: "southEastLngInput" } %>
 
