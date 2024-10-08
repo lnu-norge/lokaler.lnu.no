@@ -173,13 +173,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   after_create do
     aggregate_facility_reviews
     aggregate_star_rating
-    clear_vector_tile_caches
-  end
-
-  after_update :clear_vector_tile_caches, if: :saved_changes_to_lat_or_lng?
-
-  after_destroy do
-    clear_vector_tile_caches
   end
 
   def reviews_for_facility(facility)
@@ -357,10 +350,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   private
-
-  def clear_vector_tile_caches
-    Rails.cache.delete_matched("#{Spaces::MapVectorController::VECTOR_TILE_CACHE_KEY_PREFIX}*")
-  end
 
   def lat_lng_changed?
     lat_changed? || lng_changed?
