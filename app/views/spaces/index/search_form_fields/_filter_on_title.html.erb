@@ -1,6 +1,14 @@
 <%# locals: (form:) %>
 <%= form.label t("space_filter.title"), for: :search_for_title, class: "text-xs font-bold mb-3 block text-lnu-blue"  %>
-<%= form.text_field :search_for_title,
-                    value: params[:search_for_title],
-                    onchange: "this.form.requestSubmit()",
-                    class: "text_field shadow" %>
+<div class="relative">
+  <%= form.text_field :search_for_title,
+                      value: params[:search_for_title],
+                      onchange: "this.form.requestSubmit()",
+                      class: "text_field shadow pr-7 font-bold" %>
+  <button
+    title="<%= t("space_filter.title") %>"
+    class="absolute right-1 top-1 bottom-1 px-1 rounded bg-transparent hover:bg-lnu-pink focus:ring focus:ring-offset-2 focus:ring-lnu-pink text-lnu-blue hover:text-white">
+    <%= inline_svg_tag "search.svg", class: "h-4 w-4", alt: "" %>
+    <span class="sr-only"><%= t("space_filter.search") %></span>
+  </button>
+</div>
