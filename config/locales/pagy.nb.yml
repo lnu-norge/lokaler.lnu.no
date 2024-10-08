@@ -1,0 +1,28 @@
+nb:
+  pagy:
+    item:
+      one: "Element"
+      other: "Elementer"
+    page: "Side"
+    pages: "Sider"
+    count:
+      one: "Viser 1 %{item_name}"
+      other: "Viser %{count} %{item_name}"
+    combo:
+      one: "Viser 1 %{item_name} fra %{count} side"
+      other: "Viser %{count} %{item_name} fra %{count} sider"
+    items_selector_js: "Viser %{items_input} av %{items_count} %{item_name}"
+    last_page: "Siste side"
+    next: "&rsaquo;"
+    prev: "&lsaquo;"
+    item_name:
+      one: "Element"
+      other: "Elementer"
+    nav:
+      prev: "&lsaquo; Forrige"
+      next: "Neste &rsaquo;"
+      gap: "&hellip;"
+    info:
+      no_items: "Ingen %{item_name} funnet"
+      single_page: "Viser <b>%{count}</b> %{item_name}"
+      multiple_pages: "Viser <b>%{from}-%{to}</b> av <b>%{count}</b> %{item_name}"

@@ -7,12 +7,22 @@ class PersonalDataOnSpaceInList < ApplicationRecord
 
   enum contact_status: { not_contacted: 0, said_no: 1, said_maybe: 2, said_yes: 3 }
 
+  after_create :update_personal_space_list_counters
+  after_update :update_personal_space_list_counters
+  after_destroy :update_personal_space_list_counters
+
   ICON_FOR_CONTACT_STATUS = {
     "not_contacted" => "unknown",
     "said_no" => "unlikely",
     "said_maybe" => "maybe",
     "said_yes" => "likely"
   }.freeze
+
+  private
+
+  def update_personal_space_list_counters
+    personal_space_list.update_counter_caches if personal_space_list.present?
+  end
 end
 
 # == Schema Information

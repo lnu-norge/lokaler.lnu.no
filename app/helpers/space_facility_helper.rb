@@ -9,7 +9,7 @@ module SpaceFacilityHelper
       "text-red-500"
     when "maybe"
       "text-yellow-500"
-    else "text-gray-400"
+    else "text-gray-500"
     end
   end
 

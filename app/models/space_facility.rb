@@ -1,10 +1,17 @@
 # frozen_string_literal: true
 
 class SpaceFacility < ApplicationRecord
-  enum experience: { unknown: 0, impossible: 1, unlikely: 2, maybe: 3, likely: 4 }
-
   belongs_to :facility
   belongs_to :space
+
+  enum experience: { unknown: 0, impossible: 1, unlikely: 2, maybe: 3, likely: 4 }
+
+  after_create :calculate_score
+  after_update :calculate_score, if: lambda {
+    saved_change_to_attribute?(:experience) ||
+      saved_change_to_attribute?(:relevant)
+  }
+
   validates :space, uniqueness: { scope: [:facility] }
 
   scope :impossible, -> { where(experience: :impossible) }
@@ -34,6 +41,29 @@ class SpaceFacility < ApplicationRecord
       space:
     )
   end
+
+  def calculate_score
+    update!(score: calculate_score_from_experience)
+  end
+
+  private
+
+  def calculate_score_from_experience
+    case experience
+    when "impossible"
+      -2
+    when "unlikely"
+      -1
+    when "maybe"
+      2
+    when "likely"
+      3
+    else
+      return 1 if relevant?
+
+      0
+    end
+  end
 end
 
 # == Schema Information
@@ -44,6 +74,7 @@ end
 #  description :string
 #  experience  :integer
 #  relevant    :boolean          default(FALSE)
+#  score       :integer          default(0)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  facility_id :bigint           not null

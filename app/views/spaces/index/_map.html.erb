@@ -3,7 +3,7 @@
                       'turbo-permanent': true
                     } do %>
 <div
-    class="w-full h-full md:h-full"
+    class="w-full h-full md:h-full show-as-loading-when-spaces-are-loading"
     data-mapbox-target="mapContainer"
     id="map-frame"></div>
 
@@ -33,6 +33,7 @@
       class="
     flex bg-white h-12 w-12 place-content-center place-items-center border-2 shadow-lg rounded-full border-white hover:border-lnu-pink gap-2">
       <%= inline_svg_tag 'gps', class: 'inline-block' %>
+      <span class="sr-only">Gå til GPS-lokasjon</span>
     </button>
   </div>
 <% end %>

@@ -1,7 +1,10 @@
-#search_results[aria-busy="true"] .loading-spaces-when-empty,
-.loading-spaces-when-empty:empty {
+#search_results[aria-busy="true"] .show-as-loading-when-spaces-are-loading {
+    @apply motion-safe:animate-pulse;
+}
+
+.show-as-loading-when-spaces-are-loading:empty {
     @apply flex flex-col gap-4;
-    @apply animate-pulse;
+    @apply motion-safe:animate-pulse;
     & > * {
         display: none;
     }

@@ -1,0 +1,29 @@
+<%# locals: (space:, personal_space_list:) %>
+<span class="inline-flex text-lnu-pink/30" id="<%= dom_id_for_list_status_for_space_in_map_marker(space) %>">
+
+  <%
+    button_styling_for_adding_to_list = "p-1 text-current hover:text-lnu-pink group flex items-center"
+    button_styling_for_removing_from_list = "p-1 text-lnu-pink  hover:text-current group flex items-center"
+  %>
+  <% if personal_space_list.blank? %>
+  <%= button_to add_to_personal_space_list_space_path(personal_space_list_id: "new", id: space.id),
+                title: "Legg i ny liste",
+                class: button_styling_for_adding_to_list do  %>
+    <%= inline_svg "heart-outlined", class: "w-5 h-5" %> <span class="text sr-only">Legg i ny liste</span>
+  <% end %>
+<% elsif personal_space_list.excludes_space?(space) %>
+  <%= button_to add_to_personal_space_list_space_path(personal_space_list_id: personal_space_list.id, id: space.id),
+                title: "Legg i aktiv liste",
+                class: button_styling_for_adding_to_list do  %>
+    <%= inline_svg "heart-outlined", class: "w-5 h-5" %> <span class="text sr-only">Legg i liste</span>
+  <% end %>
+<% else %>
+  <%= button_to remove_from_personal_space_list_space_path(personal_space_list_id: personal_space_list.id, id: space.id),
+                method: :delete,
+                title: "Fjern fra aktiv liste",
+                class: button_styling_for_removing_from_list do  %>
+    <%= inline_svg "heart-filled", class: "w-5 h-5" %>
+      <span class="text sr-only">Fjern fra liste</span>
+  <% end %>
+<% end %>
+</span>

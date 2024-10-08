@@ -10,9 +10,18 @@ class PersonalSpaceListsSpace < ApplicationRecord
            dependent: nil # Keep it around in case the space is added again
 
   after_create :set_up_personal_data_on_space_in_list
+  after_create :update_personal_space_list_counters
+  after_update :update_personal_space_list_counters
+  after_destroy :update_personal_space_list_counters
 
   def set_up_personal_data_on_space_in_list
     PersonalDataOnSpaceInList.find_or_create_by(personal_space_list:, space:)
+  end
+
+  private
+
+  def update_personal_space_list_counters
+    personal_space_list.update_counter_caches
   end
 end
 

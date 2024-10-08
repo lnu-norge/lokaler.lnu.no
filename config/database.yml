@@ -1,0 +1,25 @@
+default: &default
+  adapter: postgis # Uses postgis, see guide at https://medium.com/@Evert_Salinas/creating-a-basic-geolocation-search-application-with-postgis-and-rails-part-i-6f7c8985b6da
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+
+development:
+  <<: *default
+  database: lokaler_lnu_no_development
+
+test:
+  <<: *default
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
+
+production:
+  <<: *default
+  # This fixes an Heroku bug where it doesn't respect the postgis adapter,
+  # see https://devcenter.heroku.com/articles/rails-database-connection-behavior
+  url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
+
+

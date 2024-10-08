@@ -11,7 +11,7 @@
       @apply bg-gray-100;
     }
     &.selected {
-      @apply bg-gray-50 ring-gray-200 ring-2;
+      @apply ring-gray-200 ring-2;
       &:hover {
         h3 {
           @apply text-inherit;
