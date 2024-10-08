@@ -20,9 +20,11 @@ end
 FYLKE_API_END_POINT = "https://ws.geonorge.no/kommuneinfo/v1/fylker"
 def load_fylker_from_geonorge
   # rubocop:disable Rails/Output
-  geographical_area_type = GeographicalAreaType.find_or_create_by(name: "Fylke")
 
-  p "Loading fylker from API. We currently have: #{GeographicalArea.where(geographical_area_type:).count} fylker"
+  # Create Fylke, if we do not have it:
+  GeographicalAreaType.find_or_create_by(name: "Fylke")
+
+  p "Loading fylker from API. We currently have: #{Fylke.count} fylker"
 
   uri = URI.parse(FYLKE_API_END_POINT)
   response = Net::HTTP.get_response(uri)
@@ -33,8 +35,7 @@ def load_fylker_from_geonorge
   fylker.each do |fylke|
     external_id = fylke["fylkesnummer"]
 
-    fylke_in_db = GeographicalArea.find_or_create_by(unique_id_for_external_source: external_id,
-                                                     geographical_area_type:)
+    fylke_in_db = Fylke.find_or_create_by(unique_id_for_external_source: external_id)
     fylke_in_db.update(
       name: fylke["fylkesnavn"],
       external_source: GEONORGE_API_SOURCE_NAME,
@@ -48,12 +49,11 @@ def load_fylker_from_geonorge
   end
 
   print "\rRemoving any fylker that are not in the API              \n"
-  GeographicalArea
-    .where(geographical_area_type:)
+  Fylke
     .where.not(unique_id_for_external_source: fylker.pluck("fylkesnummer"))
     .destroy_all
 
-  print "\rLoaded fylker from API. We now have: #{GeographicalArea.where(geographical_area_type:).count} fylker     \n"
+  print "\rLoaded fylker from API. We now have: #{Fylke.count} fylker     \n"
 
   # rubocop:enable Rails/Output
 end
@@ -63,28 +63,29 @@ KOMMUNE_API_END_POINT = "https://ws.geonorge.no/kommuneinfo/v1/kommuner"
 def load_kommuner_from_geonorge
   # rubocop:disable Rails/Output
 
-  geographical_area_type = GeographicalAreaType.find_or_create_by(name: "Kommune")
+  # Create Kommune, if we do not have it
+  GeographicalAreaType.find_or_create_by(name: "Kommune")
 
-  p "Loading kommuner from API. We currently have: #{GeographicalArea.where(geographical_area_type:).count} kommuner"
+  p "Loading kommuner from API. We currently have: #{Kommune.count} kommuner"
 
   uri = URI.parse(KOMMUNE_API_END_POINT)
   response = Net::HTTP.get_response(uri)
   kommuner = JSON.parse(response.body)
+  # Exclude Oslo kommune. The fylke is enough:
+  kommuner.reject! { |kommune| kommune["kommunenummer"] == "0301" }
 
   p "API has #{kommuner.size} kommuner to sync with"
 
   kommuner.each do |kommune|
     kommunenummer = kommune["kommunenummer"]
     fylkesnummer = kommunenummer[0..1] # First two digits are the fylkesnummer
-    fylke = GeographicalArea.find_by(unique_id_for_external_source: fylkesnummer,
-                                     geographical_area_type: GeographicalAreaType.find_by(name: "Fylke"))
+    fylke = Fylke.find_by(unique_id_for_external_source: fylkesnummer)
 
     navn = kommune["kommunenavnNorsk"]
     # Add the Saami name if it exists
     navn += " (#{kommune['kommunenavn']})" if kommune["kommunenavn"] != kommune["kommunenavnNorsk"]
 
-    kommune_in_db = GeographicalArea.find_or_create_by(unique_id_for_external_source: kommunenummer,
-                                                       geographical_area_type:)
+    kommune_in_db = Kommune.find_or_create_by(unique_id_for_external_source: kommunenummer)
 
     kommune_in_db.update(
       name: navn,
@@ -99,12 +100,11 @@ def load_kommuner_from_geonorge
   end
 
   print "\rRemoving any kommuner that are not in the API              \n"
-  GeographicalArea
-    .where(geographical_area_type:)
+  Kommune
     .where.not(unique_id_for_external_source: kommuner.pluck("kommunenummer"))
     .destroy_all
 
-  count = GeographicalArea.where(geographical_area_type:).count
+  count = Kommune.count
   print "\rLoaded kommuner from API. We now have: #{count} kommuner    \n"
 
   # rubocop:enable Rails/Output
