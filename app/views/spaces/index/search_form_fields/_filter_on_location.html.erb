@@ -13,7 +13,7 @@
       <%= t("space_filter.filter_by_map_bounds") %>
   <% end %>
 <hr class="my-4" />
-  <% Fylke.includes(:kommuner).all.each do |fylke| %>
+  <% Fylke.includes(:kommuner).each do |fylke| %>
     <div
       data-controller="nested-checkbox-filter"
       data-check-all-if-parent-is-checked="false"
@@ -27,7 +27,7 @@
                              id: "geo_area_#{fylke.id}",
                              multiple: true,
                              data: {
-                               'nested-checkbox-filter-target': 'parent',
+                               'nested-checkbox-filter-target': fylke.kommuner.any? ? 'parent' : nil,
                              },
                              class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
                              onchange: "this.form.requestSubmit()",
@@ -38,6 +38,8 @@
         %>
         <%= fylke.name %>
       <% end %>
+
+      <% next if fylke.kommuner.empty? %>
 
       <div class="ml-4 pb-2 hidden" data-nested-checkbox-filter-target="childrenContainer">
       <% fylke.kommuner.each do |kommune| %>
