@@ -38,37 +38,20 @@ module FilterableSpaces
     @filtered_spaces = filter_and_order_by_facilities
   end
 
-  def singular_filters
-    %w[
-      filter_by_map_bounds
-      search_for_title
-      north_west_lat
-      north_west_lng
-      south_east_lat
-      south_east_lng
-    ]
-  end
-
-  def filter_arrays
-    {
-      facilities: [],
-      space_types: [],
-      fylker: [],
-      kommuner: []
-    }
-  end
-
-  def all_filters
+  def permitted_filters
     [
-      *singular_filters,
-      **filter_arrays
-    ]
-  end
-
-  def all_filter_keys
-    [
-      *singular_filters,
-      *filter_arrays.keys.map(&:to_s)
+      "filter_by_map_bounds",
+      "search_for_title",
+      "north_west_lat",
+      "north_west_lng",
+      "south_east_lat",
+      "south_east_lng",
+      {
+        facilities: [],
+        space_types: [],
+        fylker: [],
+        kommuner: []
+      }
     ]
   end
 end
