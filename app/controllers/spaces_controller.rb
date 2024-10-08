@@ -12,9 +12,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     set_filterable_space_types
     filter_spaces
 
-    # TODO: Make sure we can use @filtered_spaces.includes_data_for_filter_list here. That will mean we need
-    # to rewrite the filter_and_order_by_facilities method. Probably that will happen if we
-    # switch to a new search library.
     @pagy, @spaces = pagy(
       @filtered_spaces.includes_data_for_filter_list,
       limit: 10

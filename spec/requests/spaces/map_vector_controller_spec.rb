@@ -27,36 +27,4 @@ RSpec.describe Spaces::MapVectorController, type: :request do
     get space_map_vector_path(z: 0, x: 0, y: 0) # Whole world
     expect(response).to have_http_status(:ok)
   end
-
-  # Disable caching tests for now, as cache didn't work in Heroku, and I don't think it's worth the effort to fix it
-  # before we get problems with performance.
-
-  #  describe "cache" do
-  #  let(:vector_tile_cache_key_prefix) { "#{Spaces::MapVectorController::VECTOR_TILE_CACHE_KEY_PREFIX}*" }
-
-  # COMMENTED_OUT_rubocop:disable RSpec/MessageSpies
-  # it "caches the response" do
-  #   expect(Rails.cache).to receive(:write).once
-  #   get space_map_vector_path(z: 0, x: 0, y: 0) # Whole world
-  #   expect(response).to have_http_status(:ok)
-  # end
-
-  # it "clears cache when a space updates the location" do
-  #   expect(Rails.cache).to receive(:delete_matched).with(vector_tile_cache_key_prefix).once
-  #   spaces.first.update(lat: 61.9, lng: 8.4)
-  #   expect(spaces.first.geo_point.x.to_d).to eq(BigDecimal("8.4"))
-  #   expect(spaces.first.geo_point.y.to_d).to eq(BigDecimal("61.9"))
-  # end
-
-  # it "clears cache when a space is deleted" do
-  #   expect(Rails.cache).to receive(:delete_matched).with(vector_tile_cache_key_prefix).once
-  #   spaces.first.destroy
-  # end
-
-  # it "clears cache when a space is created" do
-  #   expect(Rails.cache).to receive(:delete_matched).with(vector_tile_cache_key_prefix).once
-  #   Fabricate(:space)
-  # end
-  # COMMENTED_OUT_rubocop:enable RSpec/MessageSpies
-  # end
 end
