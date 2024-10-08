@@ -1,5 +1,6 @@
 nb:
   space_filter:
+    search: "Søk"
     search_and_filter: "Søk og filtrér"
     show_spaces:
       one: 'Vis ett lokale'
