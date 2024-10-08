@@ -26,9 +26,9 @@
         </h3>
         <!-- Meta information listing -->
 
-        <div class="flex gap-4">
+        <div class="flex gap-4 items-start">
 
-          <div class="flex items-center gap-1" title="<%= t('space_show.number_of_reviews', count: space.reviews.size) %>">
+          <div class="flex items-center gap-1 flex-shrink-0" title="<%= t('space_show.number_of_reviews', count: space.reviews.size) %>">
             <%= inline_svg_tag 'star', class: "#{space.star_rating ? 'text-pink-500' : 'text-gray-300'} h-5 w-5" %>
             <span class="text-gray-500">
             <%=  space.star_rating_s %>
