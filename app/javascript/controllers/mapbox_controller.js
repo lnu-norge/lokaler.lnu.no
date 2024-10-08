@@ -211,8 +211,8 @@ export default class extends Controller {
   }
 
   deboounceReloadMap(time) {
-    this.debounce("reloadMap", () => {
-      this.reloadPosition();
+    this.debounce("reloadMap", async () => {
+      await this.reloadPosition();
     }, time);
   }
 
