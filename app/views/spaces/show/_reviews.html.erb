@@ -11,7 +11,7 @@
       <% end %>
     </ul>
   <% else %>
-    <h2><%= Review.model_name.human(count: 2) %></h2>
+    <h2><%= Review.model_name.human(count: 2).capitalize %></h2>
     <%= render partial: 'spaces/show/review_none_yet' %>
   <% end %>
 </div>
