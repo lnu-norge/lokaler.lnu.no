@@ -3,6 +3,9 @@
 class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_paper_trail skip: [:star_rating]
 
+  belongs_to :fylke, class_name: "Fylke", optional: true
+  belongs_to :kommune, class_name: "Kommune", optional: true
+
   has_many :images, dependent: :destroy
   accepts_nested_attributes_for :images
 
@@ -29,13 +32,36 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :personal_data_on_space_in_lists, dependent: :destroy
 
   scope :filter_on_title, ->(title) { where("title ILIKE ?", "%#{title}%") }
-  scope :filter_on_space_types, ->(space_type_ids) { joins(:space_types).where(space_types: space_type_ids) }
-  scope :filter_on_location, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
+  scope :filter_on_space_types, lambda { |space_type_ids|
+    joins(:space_types).where(space_types: { id: space_type_ids })
+  }
+  scope :filter_on_fylker_or_kommuner, lambda { |fylke_ids:, kommune_ids:|
+    where(fylke_id: fylke_ids).or(where(kommune_id: kommune_ids))
+  }
+  scope :filter_on_map_bounds, lambda { |north_west_lat, north_west_lng, south_east_lat, south_east_lng|
     where(":north_west_lat >= lat AND :north_west_lng <= lng AND :south_east_lat <= lat AND :south_east_lng >= lng",
           north_west_lat:,
           north_west_lng:,
           south_east_lat:,
           south_east_lng:)
+  }
+  scope :filter_and_order_by_facilities, lambda { |facility_ids|
+    joins(:space_facilities)
+      .where(space_facilities: {
+               # Facilities are selected
+               facility_id: facility_ids,
+               # And either have user input on this space, or are usually relevant for the space type
+               relevant: true,
+               # and have a positive or neutral experience
+               experience: [:unknown, :maybe, :likely]
+             })
+      .group("spaces.id")
+      # First sort by facility score, then by star rating to break any ties
+      # Star ratings below 3 should be sorted below those who have no rating
+      # Coalesce makes sure that 0 is returned if there is no rating
+      .order(
+        Arel.sql("SUM(space_facilities.score) DESC, COALESCE((spaces.star_rating - 2.9), 0) DESC")
+      )
   }
 
   # This scope cuts the db calls when aggregating space_facilities
@@ -75,7 +101,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       .with_space_facilities
       .includes(
         :reviews,
-        :space_types
+        space_types_relations: [
+          :space_type
+        ]
       )
   }
 
@@ -127,30 +155,6 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       )
   }
 
-  scope :filter_and_order_by_facilities, lambda { |facility_ids|
-    # NB: This grouping means that the results are not countable with .size or .count
-    # And cannot be used with includes...
-    # We really need to fix this in the current rewrite of search
-    group(:id)
-      .joins(:space_facilities)
-      .where(space_facilities: { relevant: true, facility_id: facility_ids })
-      .order(Arel.sql("
-                    SUM(
-                                     CASE
-                                        WHEN space_facilities.experience = 4 THEN 3.0 -- likely
-                                        WHEN space_facilities.experience = 3 THEN 2.0 -- maybe
-                                        WHEN space_facilities.experience = 2 THEN -1.0 -- unlikely
-                                        WHEN space_facilities.experience = 1 THEN -2.0 -- impossible
-                                        WHEN space_facilities.relevant THEN 1.0 -- unknown experience, but relevant
-                                        ELSE 0.0 -- unknown experience, irrelevant facility
-                                      END
-                    )
-                DESC"),
-             Arel.sql(
-               "COALESCE((spaces.star_rating - 2.9) / 10, 0) DESC"
-             ))
-  }
-
   has_rich_text :how_to_book
   has_rich_text :who_can_use
   has_rich_text :pricing
@@ -159,10 +163,12 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   include ParseUrlHelper
   before_validation :parse_url
+  before_validation :set_geo_data_from_lng_lat, if: :lat_lng_changed?
 
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
   validates :url, url: { allow_blank: true, public_suffix: true }
-  validates :title, :address, :post_address, :post_number, :lat, :lng, presence: true
+  validates :title, :address, :post_address, :post_number, :lat, :lng, :geo_point, presence: true
+  validates :lat, :lng, numericality: { other_than: 0 }
 
   after_create do
     aggregate_facility_reviews
@@ -323,8 +329,8 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     star_rating || " - "
   end
 
-  def render_map_marker
-    html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self }
+  def render_map_marker(options: {})
+    html = SpacesController.render partial: "spaces/index/map_marker", locals: { space: self, **options }
     { lat:, lng:, id:, html: }
   end
 
@@ -337,6 +343,50 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     [id, title.parameterize].join("-")
   end
+
+  def set_geo_data
+    set_geo_point
+    set_geo_areas_space_belongs_to
+  end
+
+  private
+
+  def lat_lng_changed?
+    lat_changed? || lng_changed?
+  end
+
+  def saved_changes_to_lat_or_lng?
+    saved_change_to_lat? || saved_change_to_lng?
+  end
+
+  def lat_lng_set?
+    lat.present? && lng.present?
+  end
+
+  def geo_point_equal_to_lng_lat?
+    geo_point.present? && geo_point.x.to_d == lng.to_d && geo_point.y.to_d == lat.to_d
+  end
+
+  def set_geo_data_from_lng_lat
+    return unless lat_lng_set?
+    return if geo_point_equal_to_lng_lat?
+
+    set_geo_data
+  end
+
+  def set_geo_point
+    self.geo_point = Geo.point(lng, lat) # Postgis format
+  end
+
+  def set_geo_areas_space_belongs_to
+    # Find the Fylke that contains this point
+    fylke = Fylke.where("ST_Contains(geo_area, ?)", geo_point).first
+    self.fylke = fylke if fylke
+
+    # Find the Kommune that contains this point
+    kommune = Kommune.where("ST_Contains(geo_area, ?)", geo_point).first
+    self.kommune = kommune if kommune
+  end
 end
 
 # == Schema Information
@@ -345,6 +395,7 @@ end
 #
 #  id                   :bigint           not null, primary key
 #  address              :string
+#  geo_point            :geography        not null, point, 4326
 #  lat                  :decimal(, )
 #  lng                  :decimal(, )
 #  location_description :text
@@ -357,13 +408,20 @@ end
 #  url                  :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  fylke_id             :bigint
+#  kommune_id           :bigint
 #  space_group_id       :bigint
 #
 # Indexes
 #
+#  index_spaces_on_fylke_id        (fylke_id)
+#  index_spaces_on_geo_point       (geo_point) USING gist
+#  index_spaces_on_kommune_id      (kommune_id)
 #  index_spaces_on_space_group_id  (space_group_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (fylke_id => geographical_areas.id)
+#  fk_rails_...  (kommune_id => geographical_areas.id)
 #  fk_rails_...  (space_group_id => space_groups.id)
 #

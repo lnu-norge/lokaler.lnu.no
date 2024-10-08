@@ -93,6 +93,7 @@ RSpec.describe PersonalSpaceList, type: :model do
       contact_status: "said_no"
     )
 
+    users_space_list.reload
     expect(users_space_list.space_not_contacted_count).to eq(1)
     expect(users_space_list.space_contacted_count).to eq(1)
     expect(users_space_list.space_said_no_count).to eq(1)
@@ -103,6 +104,7 @@ RSpec.describe PersonalSpaceList, type: :model do
       contact_status: "said_maybe"
     )
 
+    users_space_list.reload
     expect(users_space_list.space_not_contacted_count).to eq(1)
     expect(users_space_list.space_contacted_count).to eq(1)
     expect(users_space_list.space_said_no_count).to eq(0)
@@ -113,6 +115,7 @@ RSpec.describe PersonalSpaceList, type: :model do
       contact_status: "said_yes"
     )
 
+    users_space_list.reload
     expect(users_space_list.space_not_contacted_count).to eq(1)
     expect(users_space_list.space_contacted_count).to eq(1)
     expect(users_space_list.space_said_no_count).to eq(0)
@@ -135,6 +138,7 @@ RSpec.describe PersonalSpaceList, type: :model do
       contact_status: "said_no"
     )
 
+    users_space_list.reload
     expect(users_space_list.space_count).to eq(2)
     expect(users_space_list.space_not_contacted_count).to eq(1)
     expect(users_space_list.space_contacted_count).to eq(1)
@@ -143,6 +147,7 @@ RSpec.describe PersonalSpaceList, type: :model do
     # Removing the space changes the counts
     users_space_list.remove_space(space_to_add_to_list)
 
+    users_space_list.reload
     expect(users_space_list.space_count).to eq(1)
     expect(users_space_list.space_not_contacted_count).to eq(1)
     expect(users_space_list.space_contacted_count).to eq(0)
@@ -151,6 +156,7 @@ RSpec.describe PersonalSpaceList, type: :model do
     # Re-adding the space remembers the state and count we had
     users_space_list.add_space(space_to_add_to_list)
 
+    users_space_list.reload
     expect(users_space_list.space_count).to eq(2)
     expect(users_space_list.space_not_contacted_count).to eq(1)
     expect(users_space_list.space_contacted_count).to eq(1)

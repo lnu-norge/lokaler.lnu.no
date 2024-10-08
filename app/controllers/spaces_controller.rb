@@ -12,13 +12,15 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     set_filterable_space_types
     filter_spaces
 
-    @space_count = @spaces.to_a.size
-    @page_size = SPACE_SEARCH_PAGE_SIZE
-    # TODO: Make sure we can use .includes_data_for_filter_list here. That will mean we need
-    # to rewrite the filter_and_order_by_facilities method. Probably that will happen if we
-    # switch to a new search library.
-    @spaces = @spaces.limit(@page_size)
-    @markers = @spaces.map(&:render_map_marker)
+    @pagy, @spaces = pagy(
+      @filtered_spaces.includes_data_for_filter_list,
+      limit: 10
+    )
+    @markers = @spaces.map do |space|
+      space.render_map_marker(options: {
+                                personal_space_list: @active_personal_space_list
+                              })
+    end
   end
 
   def show
@@ -142,14 +144,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   private
-
-  SPACE_SEARCH_PAGE_SIZE = 20
-
-  def render_markers_json
-    render json: {
-      markers: @spaces.map(&:render_map_marker)
-    }
-  end
 
   def preload_spaces_data_for_view(view_as)
     # Fresh query to get all the data for the filtered and ordered spaces, without

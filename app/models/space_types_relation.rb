@@ -5,7 +5,10 @@ class SpaceTypesRelation < ApplicationRecord
   belongs_to :space
 
   after_commit do
-    space.reload.aggregate_facility_reviews(facilities: space_type.facilities)
+    # Only run this if space is not being destroyed
+    next if space.blank? || space.destroyed?
+
+    space.aggregate_facility_reviews(facilities: space_type.facilities)
   end
 end
 

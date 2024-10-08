@@ -31,6 +31,9 @@ application.register("modal", ModalController)
 import MultistepFormController from "./multistep_form_controller"
 application.register("multistep-form", MultistepFormController)
 
+import NestedCheckboxFilterController from "./nested_checkbox_filter_controller"
+application.register("nested-checkbox-filter", NestedCheckboxFilterController)
+
 import ResetFormController from "./reset_form_controller"
 application.register("reset-form", ResetFormController)
 

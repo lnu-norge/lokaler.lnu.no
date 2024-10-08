@@ -21,12 +21,10 @@
 
         <hr />
 
-        <% if @active_personal_space_list %>
         <%= render 'spaces/show/space_list_status_and_notes',
           personal_space_list: @active_personal_space_list,
           space: @space %>
-          <hr />
-        <% end %>
+         <hr />
 
         <%= inline_editable :how_to_book, space: @space  do %>
           <%= render_space_and_group_field @space, :how_to_book %>

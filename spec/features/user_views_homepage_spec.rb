@@ -4,12 +4,16 @@ require "rails_helper"
 
 describe "User views homepage", :js do
   let!(:space_one) do
-    Fabricate(:space, address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.603,
-                      space_types: [Fabricate(:space_type, type_name: "Space one type")])
+    Fabricate(:space,
+              title: "Frederik II VGS (space one)",
+              address: "Ulefossvegen 32", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.603,
+              space_types: [Fabricate(:space_type, type_name: "VGS")])
   end
   let!(:space_two) do
-    Fabricate(:space, address: "Ulefossvegen 16", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.607,
-                      space_types: [Fabricate(:space_type, type_name: "Space two type")])
+    Fabricate(:space,
+              title: "Trara barneskole (space two)",
+              address: "Ulefossvegen 16", post_number: 3730, post_address: "Skien", lat: 59.196, lng: 9.607,
+              space_types: [Fabricate(:space_type, type_name: "Barneskole")])
   end
   let!(:facility_toilet) { Fabricate(:facility, title: "Toilet") }
   let!(:facility_beds) { Fabricate(:facility, title: "Beds") }
@@ -43,7 +47,6 @@ describe "User views homepage", :js do
 
       # We must wait because find will find the element but it may not be in correct order yet..
       sleep(0.3)
-
       expect(find_by_id("space-listing").first("h3").text).to eq(space_one.title)
 
       uncheck(facility_toilet.title)
@@ -51,21 +54,18 @@ describe "User views homepage", :js do
 
       # We must wait because find will find the element but it may not be in correct order yet..
       sleep(0.3)
-
       expect(find_by_id("space-listing").first("h3").text).to eq(space_two.title)
 
       uncheck(facility_toilet.title)
       uncheck(facility_beds.title)
-
       check(space_one.space_types.first.type_name)
 
-      expect(page).to have_no_content(space_two.title)
+      expect(page).to have_no_content(space_two.title, wait: 2.0)
 
       uncheck(space_one.space_types.first.type_name)
-
       check(space_two.space_types.first.type_name)
 
-      expect(page).to have_no_content(space_one.title)
+      expect(page).to have_no_content(space_one.title, wait: 2.0)
     end
   end
 end

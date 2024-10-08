@@ -102,4 +102,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # Live reload without browser extension:
   config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
+
+  # Dev server through serveo:
+  config.hosts << "lokaler.serveo.net"
 end

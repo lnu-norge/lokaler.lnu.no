@@ -110,6 +110,31 @@ RSpec.describe Space, type: :model do
     end
   end
 
+  describe "Geo data" do
+    let(:space) { Fabricate(:space) }
+
+    it "cannot create a space with a lng lat of 0" do
+      space.lng = 0
+      space.lat = 0
+      expect(space).not_to be_valid
+    end
+
+    it "generates a geo point from lng lat" do
+      expect(space.geo_point).to be_truthy
+      expect(space.geo_point.y).to eq(space.lat)
+      expect(space.geo_point.x).to eq(space.lng)
+    end
+
+    it "updates the geo_point when the lng lat is changed" do
+      space.lng = 4
+      space.lat = 4
+      space.save
+
+      expect(space.geo_point.x).to eq(4)
+      expect(space.geo_point.y).to eq(4)
+    end
+  end
+
   describe "Image upload" do
     let(:space) { Fabricate(:space) }
     let(:image) { Fabricate(:image, space:) }

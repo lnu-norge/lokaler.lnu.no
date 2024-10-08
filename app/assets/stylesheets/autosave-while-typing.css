@@ -22,7 +22,7 @@
         display: block;
         content: "Lagrer...";
         opacity: 0;
-        @apply text-gray-500 animate-pulse;
+        @apply text-gray-500 motion-safe:animate-pulse;
     }
 }
 

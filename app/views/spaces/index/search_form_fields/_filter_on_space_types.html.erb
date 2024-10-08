@@ -1,0 +1,39 @@
+<h3 class="text-xs font-bold mb-3 text-lnu-blue"><%= SpaceType.model_name.human(count: @filterable_space_types.count).capitalize %></h3>
+<div data-controller="nested-checkbox-filter"
+     data-uncheck-all-if-parent-is-checked="true"
+>
+  <label class="flex items-top gap-1.5 my-1">
+    <input
+        type="checkbox"
+        checked="<%= params[:space_types]&.any? ? "checked" : "" %>"
+        data-nested-checkbox-filter-target="parent"
+        id="checkbox_for_all_space_types"
+        class="h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded">
+    Alle typer
+  </label>
+  <hr class="my-3 border-gray-200" />
+  <% @filterable_space_types.each do |space_type| %>
+    <%= form.label "space_type_#{space_type.id}", class: "flex items-top gap-1.5 my-1" do %>
+      <%=
+        form.check_box "space_types", {
+          multiple: true,
+          id: "space_type_#{space_type.id}",
+          data: {
+            'nested-checkbox-filter-target': 'child',
+            mapbox_target: "spaceType"
+          },
+          class: "h-5 w-5
+                  relative top-0.5
+                  text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+          onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
+          checked: params[:space_types]&.include?(space_type.id.to_s)
+
+        },
+                       space_type.id.to_s,
+                       nil
+
+      %>
+      <%= space_type.type_name %>
+    <% end %>
+  <% end %>
+</div>

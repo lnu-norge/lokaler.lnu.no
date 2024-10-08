@@ -47,6 +47,7 @@ end
 #
 #  id                   :bigint           not null, primary key
 #  address              :string
+#  geo_point            :geography        not null, point, 4326
 #  lat                  :decimal(, )
 #  lng                  :decimal(, )
 #  location_description :text
@@ -59,13 +60,20 @@ end
 #  url                  :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  fylke_id             :bigint
+#  kommune_id           :bigint
 #  space_group_id       :bigint
 #
 # Indexes
 #
+#  index_spaces_on_fylke_id        (fylke_id)
+#  index_spaces_on_geo_point       (geo_point) USING gist
+#  index_spaces_on_kommune_id      (kommune_id)
 #  index_spaces_on_space_group_id  (space_group_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (fylke_id => geographical_areas.id)
+#  fk_rails_...  (kommune_id => geographical_areas.id)
 #  fk_rails_...  (space_group_id => space_groups.id)
 #
