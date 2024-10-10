@@ -38,9 +38,9 @@
           </span>
           </div>
 
-          <div class="flex gap-1 items-center text-gray-500">
-            <%= inline_svg_tag 'building', class: 'text-gray-400 h-4 w-4' %>
-            <span>
+          <div class="flex gap-1 items-top text-gray-500 truncate">
+            <%= inline_svg_tag 'building', class: 'text-gray-400 h-4 w-4 flex-shrink-0 relative top-1' %>
+            <span class="text-ellipsis truncate">
               <%= space.space_types_joined %>
             </span>
           </div>
