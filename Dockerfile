@@ -9,12 +9,16 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -\
   && npm install -g yarn@1
 
 WORKDIR /rails
+
 COPY .ruby-version /rails/.ruby-version
 COPY Gemfile /rails/Gemfile
 COPY Gemfile.lock /rails/Gemfile.lock
 
 RUN bundle install
 RUN yarn install
+
+# Copy application code
+COPY . .
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
