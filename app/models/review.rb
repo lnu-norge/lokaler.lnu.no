@@ -6,9 +6,9 @@ class Review < ApplicationRecord
   belongs_to :user
   belongs_to :space
 
-  enum how_much: { custom_how_much: 0, whole_space: 1, one_room: 2 }
-  enum how_long: { custom_how_long: 0, one_weekend: 1, one_evening: 2 }
-  enum type_of_contact: { only_contacted: 0, not_allowed_to_use: 1, been_there: 2 }
+  enum :how_much, { custom_how_much: 0, whole_space: 1, one_room: 2 }
+  enum :how_long, { custom_how_long: 0, one_weekend: 1, one_evening: 2 }
+  enum :type_of_contact, { only_contacted: 0, not_allowed_to_use: 1, been_there: 2 }
 
   before_validation { remove_spaces_from_price }
 
