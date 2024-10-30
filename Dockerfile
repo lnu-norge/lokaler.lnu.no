@@ -2,7 +2,7 @@ FROM ruby:3.3.0
 
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -\
   && apt-get update -qq && apt-get install -qq --no-install-recommends \
-    nodejs curl libvips postgresql-client \
+    nodejs libvips \
   && apt-get upgrade -qq \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*\
