@@ -65,8 +65,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # config.active_job.queue_name_prefix = "lokaler_lnu_no_production"
 
   # Set up URL
-  Rails.application.routes.default_url_options[:host] =
-    ENV["DEFAULT_HOST"] || "#{ENV.fetch('HEROKU_APP_NAME')}.herokuapp.com"
+  Rails.application.routes.default_url_options[:host] = ENV["DEFAULT_HOST"] || "lokaler.lnu.no"
 
   # ActionMailer setup: Sendgrid over SMTP
   config.action_mailer.delivery_method = :smtp
