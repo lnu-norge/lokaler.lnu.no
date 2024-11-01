@@ -68,20 +68,22 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   Rails.application.routes.default_url_options[:host] = ENV["DEFAULT_HOST"] || "lokaler.lnu.no"
 
   # ActionMailer setup: Sendgrid over SMTP
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { host: Rails.application.routes.default_url_options[:host] }
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_caching = false
-  ActionMailer::Base.smtp_settings = {
-    user_name: "apikey", # NB: This is the string literal 'apikey', NOT the ID of your API key. Do not change this.
-    password: ENV.fetch("SENDGRID_API_KEY"),
-    domain: "lnu.no", # We should probably have our own sub domain for transactional emails eventually
-    address: "smtp.sendgrid.net",
-    port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
+  if ENV["SENDGRID_API_KEY"].present?
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.default_url_options = { host: Rails.application.routes.default_url_options[:host] }
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.perform_caching = false
+    ActionMailer::Base.smtp_settings = {
+      user_name: "apikey", # NB: This is the string literal 'apikey', NOT the ID of your API key. Do not change this.
+      password: ENV.fetch("SENDGRID_API_KEY"),
+      domain: "lnu.no", # We should probably have our own sub domain for transactional emails eventually
+      address: "smtp.sendgrid.net",
+      port: 587,
+      authentication: :plain,
+      enable_starttls_auto: true
+    }
+  end
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

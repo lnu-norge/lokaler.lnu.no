@@ -44,8 +44,9 @@ yarn-debug.log*
 # Mac ignores:
 .DS_Store
 
-# Ignores local .env file
-.env
+# Ignores local .env* files
+.env*
+!.env.example
 /webdrivers
 
 # Yarn, from https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored

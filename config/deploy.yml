@@ -1,3 +1,9 @@
+# Load environment variables from .env file
+<%
+  require "dotenv"
+  Dotenv.load(".env.staging")
+%>
+
 # Name of your application. Used to uniquely configure containers.
 service: lnu-lokaler
 
@@ -38,7 +44,20 @@ builder:
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   secret:
+    - DEFAULT_HOST
+    - SENDGRID_API_KEY
     - RAILS_MASTER_KEY
+    - SENDGRID_API_KEY
+    - SENDGRID_FROM_EMAIL
+    - SENDGRID_RESET_TEMPLATE_ID
+    - GOOGLE_OAUTH_CLIENT_ID
+    - GOOGLE_OAUTH_CLIENT_SECRET
+    - POSTHOG_API_KEY
+    - MAPBOX_API_KEY
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_S3_BUCKET
+    - AWS_S3_BUCKET_REGION
 
 # Use a persistent storage volume.
 volumes:
