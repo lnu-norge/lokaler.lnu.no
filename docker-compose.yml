@@ -3,12 +3,12 @@ services:
   db:
     image: postgis/postgis:17-3.5
     volumes:
-      - lokaler_db:/var/lib/postgresql/data
+      - app_db:/var/lib/postgresql/data
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/rails
+      - .:/app
     ports:
       - "3000:3000"
     depends_on:
@@ -16,10 +16,12 @@ services:
     environment:
       DOCKERIZED: "true"
       DATABASE_URL: "postgis://postgres:password@db/lokaler_lnu_no_development?pool=5"
-  
+
 
 volumes:
-  lokaler_db:
+  app_storage:
+    driver: local
+  app_db:
     driver: local
 
   ## Run the following after the server has started for the first time:
