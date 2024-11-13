@@ -22,7 +22,7 @@
     "dotenv": "^16.4.5",
     "esbuild-rails": "^1.0.7",
     "mapbox-gl": "^3.8.0",
-    "tom-select": "^2.0.0",
+    "tom-select": "^2.3.1",
     "trix": "^2.0.0"
   },
   "devDependencies": {
