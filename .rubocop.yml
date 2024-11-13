@@ -2,6 +2,8 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-rspec_rails
+  - rubocop-capybara
 
 Style/Documentation:
   Enabled: false
@@ -65,5 +67,5 @@ RSpec/DescribeClass:
 
 # Ref discussion here: https://github.com/rubocop/rubocop-rspec/pull/1365
 # InferredSpecType is going to be depreciated, and causes problems for view files together with DescribeClass
-RSpec/Rails/InferredSpecType:
+RSpecRails/InferredSpecType:
   Enabled: false
