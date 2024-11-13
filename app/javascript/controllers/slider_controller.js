@@ -26,7 +26,10 @@ export default class extends Controller {
         first: 'Første',
         last: 'Siste',
         slideX: 'Gå til %s',
-        pageX: 'Side %s'
+        pageX: 'Side %s',
+        carousel: "Karusell",
+        slide: "Bilde",
+        slideLabel: "%s av %s"
       }
     }).mount()
     slider.querySelectorAll('button').forEach(button =>

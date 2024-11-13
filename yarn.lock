@@ -631,10 +631,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/merge-streams/-/merge-streams-1.0.0.tgz#9cd84cc15bc865a5ca35fcaae198eb899f7b5c90"
   integrity sha512-rUV5WyJrJLoloD4NDN1V1+LDMDWOa4OTsT4yYJwQNpTU6FWxkxHpL7eu4w+DmiH8x/EAM1otkPE1+LaspIbplw==
 
-"@splidejs/splide@^3.6.4":
-  version "3.6.12"
-  resolved "https://registry.yarnpkg.com/@splidejs/splide/-/splide-3.6.12.tgz#9b6bede5c99140fd06754990c91e474374566c30"
-  integrity sha512-ggOUAuSxjWuxxL0IQEZcux26KByfKWfYM2HYmvDBdxkXc5evVW+xuECO+3iuciyrJpgcbYTr4hn0cHfbNlYIeA==
+"@splidejs/splide@^4.1.4":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@splidejs/splide/-/splide-4.1.4.tgz#02d029360569e7d75d28357a9727fc48322015a3"
+  integrity sha512-5I30evTJcAJQXt6vJ26g2xEkG+l1nXcpEw4xpKh0/FWQ8ozmAeTbtniVtVmz2sH1Es3vgfC4SS8B2X4o5JMptA==
 
 "@tailwindcss/forms@^0.5.7":
   version "0.5.7"
