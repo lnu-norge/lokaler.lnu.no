@@ -22,7 +22,6 @@
     "dotenv": "^16.4.5",
     "esbuild-rails": "^1.0.7",
     "mapbox-gl": "^3.8.0",
-    "postcss-cli": "^11.0.0",
     "tom-select": "^2.0.0",
     "trix": "^2.0.0"
   },
@@ -36,6 +35,7 @@
     "eslint-plugin-import": "^2.24.2",
     "playwright": "1.48.2",
     "postcss": "^8.4.33",
+    "postcss-cli": "^11.0.0",
     "postcss-extend-rule": "^4.0.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^16.0.0",
