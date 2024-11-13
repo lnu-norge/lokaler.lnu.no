@@ -90,9 +90,11 @@ group :development do
   gem "rails-erd"
   gem "rails_real_favicon"
   gem "rubocop", require: false
-  gem "rubocop-performance"
-  gem "rubocop-rails"
-  gem "rubocop-rspec"
+  gem "rubocop-capybara", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
+  gem "rubocop-rspec_rails", require: false
   gem "web-console"
 end
 

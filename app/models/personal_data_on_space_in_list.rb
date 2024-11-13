@@ -3,9 +3,12 @@
 class PersonalDataOnSpaceInList < ApplicationRecord
   belongs_to :space
   belongs_to :personal_space_list
-  belongs_to :personal_space_lists_space, query_constraints: [:space_id, :personal_space_list_id], optional: true
+  belongs_to :personal_space_lists_space,
+             foreign_key: [:space_id, :personal_space_list_id],
+             optional: true,
+             inverse_of: :personal_data_on_space_in_lists
 
-  enum contact_status: { not_contacted: 0, said_no: 1, said_maybe: 2, said_yes: 3 }
+  enum :contact_status, { not_contacted: 0, said_no: 1, said_maybe: 2, said_yes: 3 }
 
   after_create :update_personal_space_list_counters
   after_update :update_personal_space_list_counters
