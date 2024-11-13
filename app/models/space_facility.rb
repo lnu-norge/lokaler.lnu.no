@@ -4,7 +4,7 @@ class SpaceFacility < ApplicationRecord
   belongs_to :facility
   belongs_to :space
 
-  enum experience: { unknown: 0, impossible: 1, unlikely: 2, maybe: 3, likely: 4 }
+  enum :experience, { unknown: 0, impossible: 1, unlikely: 2, maybe: 3, likely: 4 }
 
   after_create :calculate_score
   after_update :calculate_score, if: lambda {
