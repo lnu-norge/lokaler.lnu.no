@@ -44,8 +44,11 @@ yarn-debug.log*
 .DS_Store
 
 # Ignores local .env file
-.env
+.env*
+!.env.example
 /webdrivers
+config/kamal_secrets
+
 
 # Yarn, from https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
 .yarn/*
