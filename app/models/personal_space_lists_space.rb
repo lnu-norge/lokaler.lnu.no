@@ -6,8 +6,9 @@ class PersonalSpaceListsSpace < ApplicationRecord
   belongs_to :personal_space_list
   belongs_to :space
   has_many :personal_data_on_space_in_lists,
-           query_constraints: [:space_id, :personal_space_list_id],
-           dependent: nil # Keep it around in case the space is added again
+           foreign_key: [:space_id, :personal_space_list_id],
+           dependent: nil, # Keep it around in case the space is added again
+           inverse_of: :personal_space_lists_space
 
   after_create :set_up_personal_data_on_space_in_list
   after_create :update_personal_space_list_counters
