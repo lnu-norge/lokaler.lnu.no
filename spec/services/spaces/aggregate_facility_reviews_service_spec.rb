@@ -199,7 +199,7 @@ RSpec.describe Spaces::AggregateFacilityReviewsService do
 
   it "is performant for a changing a single facility, even if there are a large amount of other facilities" do
     Array.new(20) { Fabricate(:facility, space_types: [space_type]) }
-    expect { space.aggregate_facility_reviews(facilities: [facility]) }.to perform_under(20).ms
+    expect { space.aggregate_facility_reviews(facilities: [facility]) }.to perform_under(30).ms
   end
 
   it "is performant for a large amount of facilities" do

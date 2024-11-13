@@ -98,9 +98,9 @@ end
 
 group :test do
   gem "capybara"
+  gem "capybara-playwright-driver"
   gem "rspec-benchmark"
   gem "rspec-rails"
-  gem "selenium-webdriver"
   gem "vcr"
   gem "webmock"
 end
