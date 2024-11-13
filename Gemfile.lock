@@ -568,7 +568,7 @@ DEPENDENCIES
   capybara
   capybara-playwright-driver
   cssbundling-rails
-  devise (~> 4.8)
+  devise (~> 4.9)
   devise-i18n
   diffy
   dotenv-rails
@@ -583,7 +583,7 @@ DEPENDENCIES
   http
   image_processing
   inline_svg
-  jbuilder (~> 2.7)
+  jbuilder (~> 2.13)
   jsbundling-rails
   kaminari
   letter_opener
@@ -596,7 +596,7 @@ DEPENDENCIES
   pagy
   paper_trail
   parallel_tests
-  pg (~> 1.1)
+  pg (~> 1.5)
   phonelib
   puma (~> 6.4)
   rack-livereload
@@ -605,7 +605,7 @@ DEPENDENCIES
   rails-erd
   rails-i18n
   rails_real_favicon
-  redis (~> 5.0)
+  redis (~> 5.3)
   rgeo-geojson
   rspec-benchmark
   rspec-rails
