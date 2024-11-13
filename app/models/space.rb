@@ -360,7 +360,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def lat_lng_set?
-    lat.present? && lng.present?
+    lat.present? && lng.present? && lat != 0 && lng != 0
   end
 
   def geo_point_equal_to_lng_lat?
@@ -375,17 +375,21 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def set_geo_point
-    self.geo_point = Geo.point(lng, lat) # Postgis format
+    return unless lat_lng_set?
+
+    update!(geo_point: Geo.point(lng, lat)) # Postgis format
   end
 
   def set_geo_areas_space_belongs_to
+    return unless geo_point_equal_to_lng_lat?
+
     # Find the Fylke that contains this point
     fylke = Fylke.where(Fylke.arel_table[:geo_area].st_contains(geo_point)).first
-    self.fylke = fylke if fylke
+    update!(fylke:) if fylke
 
     # Find the Kommune that contains this point
     kommune = Kommune.where(Kommune.arel_table[:geo_area].st_contains(geo_point)).first
-    self.kommune = kommune if kommune
+    update!(kommune:) if kommune
   end
 end
 
