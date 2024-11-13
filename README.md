@@ -21,9 +21,9 @@ If you find bugs, please submit them.
 
 ### Pre-requisites
 
-- Rails 7.1
+- Rails 7.2
 - Ruby 3.3.6
-- Node 20 and yarn 
+- Node 23 and yarn
 
 ### Pull the code locally
 
