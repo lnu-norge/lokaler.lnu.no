@@ -20,6 +20,12 @@ FileUtils.chdir APP_ROOT do
   # Install JavaScript dependencies
   system! 'bin/yarn'
 
+  # Set up playwright,  using guide from https://justin.searls.co/posts/running-rails-system-tests-with-playwright-instead-of-selenium/
+  puts "\n== Setting up playwright for system tests =="
+  system!(`export PLAYWRIGHT_CLI_VERSION=$(bundle exec ruby -e 'require "playwright"; puts Playwright::COMPATIBLE_PLAYWRIGHT_VERSION.strip')`)
+  system!('yarn add -D "playwright@$PLAYWRIGHT_CLI_VERSION"')
+  system!('yarn run playwright install')
+
   # puts "\n== Copying sample files =="
   # unless File.exist?('config/database.yml')
   #   FileUtils.cp 'config/database.yml.sample', 'config/database.yml'
