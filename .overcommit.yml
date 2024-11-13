@@ -30,8 +30,8 @@ PreCommit:
 
   TrailingWhitespace:
     enabled: true
-    #exclude:
-    #  - '**/db/structure.sql' # Ignore trailing whitespace in generated files
+    exclude:
+      - '*.md' # Ignore Markdown files
     #  - '**/stylesheets/paper-kit/**/*' # Ignore trailing whitespace in theme files
 
   CoffeeLint:
