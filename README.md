@@ -22,7 +22,7 @@ If you find bugs, please submit them.
 ### Pre-requisites
 
 - Rails 7.1
-- Ruby 3.3.0
+- Ruby 3.3.6
 - Node 20 and yarn 
 
 ### Pull the code locally
@@ -124,10 +124,10 @@ That should be it.
 1. Follow the instructions in this guide: https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-macos
 > IMPORTANT- for  STEP 2
 > When prompted to run the command: rbenv install 2.6.3
-> Use the command: rbenv install 3.3.0
+> Use the command: rbenv install 3.3.6
 >
 > After that it asks you to run: rbenv global 2.6.3
-> Run: rbenv global 3.3.0 instead
+> Run: rbenv global 3.3.6 instead
 >
 > This is the version of Ruby we are using.
 
