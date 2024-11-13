@@ -10,7 +10,6 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [
     "duplicatesRenderHere",
-    "hiddenUntilChecked",
     "ignoreDuplicatesButton",
     "showDuplicatesButton",
     "duplicates"
@@ -98,22 +97,24 @@ export default class extends Controller {
     return true
   }
 
+  noDataFilledOutYet() {
+    const data = this.extractDataFromForm()
+    return data.title.length === 0 && data.address.length === 0 && data.post_number.length === 0
+  }
+
   hideRestOfForm() {
     this.stopFormSubmit()
     show(this.duplicatesRenderHereTarget)
-    hide(this.hiddenUntilCheckedTarget)
   }
 
   showRestOfForm() {
     this.enableFormSubmit()
     hide(this.duplicatesRenderHereTarget)
-    show(this.hiddenUntilCheckedTarget)
   }
 
   ignoreDuplicates() {
     this.enableFormSubmit()
     show(this.showDuplicatesButtonTarget)
-    show(this.hiddenUntilCheckedTarget)
     hide(this.ignoreDuplicatesButtonTarget)
     hide(this.duplicatesTarget)
   }
