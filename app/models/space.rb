@@ -380,11 +380,11 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def set_geo_areas_space_belongs_to
     # Find the Fylke that contains this point
-    fylke = Fylke.where("ST_Contains(geo_area, ?)", geo_point).first
+    fylke = Fylke.where(Fylke.arel_table[:geo_area].st_contains(geo_point)).first
     self.fylke = fylke if fylke
 
     # Find the Kommune that contains this point
-    kommune = Kommune.where("ST_Contains(geo_area, ?)", geo_point).first
+    kommune = Kommune.where(Kommune.arel_table[:geo_area].st_contains(geo_point)).first
     self.kommune = kommune if kommune
   end
 end

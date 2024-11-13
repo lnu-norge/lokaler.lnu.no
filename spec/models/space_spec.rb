@@ -4,7 +4,12 @@ require "rails_helper"
 
 RSpec.describe Space, type: :model do
   it "can create a space" do
+    # Expect no errors when creating a space
+    expect { Fabricate(:space) }.not_to raise_error
     expect(Fabricate(:space)).to be_truthy
+
+    # NB: THIS DOES NOT TEST GEO STUFF, as
+    # we don't have that in our test suite yet.
   end
 
   describe "filter on factilites" do
