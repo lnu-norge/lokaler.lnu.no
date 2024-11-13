@@ -33,7 +33,7 @@ jobs:
 
     env:
       RAILS_ENV: test
-      GEMFILE_RUBY_VERSION: 3.3.0
+      GEMFILE_RUBY_VERSION: 3.3.6
       PGHOST: localhost
       PGUSER: postgres
       PGPASSWORD: "password"
