@@ -6,7 +6,6 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'selenium-webdriver'
 require 'vcr'
 require 'support/test_image/test_image_helper'
 
@@ -78,36 +77,18 @@ RSpec.configure do |config|
   config.include Auth, type: :feature
   config.include TomSelect, type: :feature
 
-  default_chrome_options =
-    ::Selenium::WebDriver::Chrome::Options.new(
-      args: [
-        '--window-size=1920,1080',
-      ]
+  Capybara.register_driver :browser do |app|
+    Capybara::Playwright::Driver.new(
+      app,
+      browser_type: ENV["TEST_WITH_BROWSER"]&.to_sym || :chromium,
+      headless: (!ENV["TEST_IN_FULL_BROWSER"])
     )
-
-  Capybara.register_driver :headless_chrome do |app|
-    options = default_chrome_options
-
-    options.add_argument('--headless=new')
-
-    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
-    driver
-  end
-
-  Capybara.register_driver :chrome do |app|
-    options = default_chrome_options
-
-    # See logs in devtools,
-    options.add_option('goog:loggingPrefs', { browser: 'ALL' })
-    options.add_argument('--auto-open-devtools-for-tabs')
-
-    driver = Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
-    driver
   end
 
   Capybara.default_max_wait_time = 10
-  Capybara.javascript_driver = :headless_chrome # Headless is default, only switch to :chrome if you need to debug a test
+  Capybara.javascript_driver = :browser # Headless is default, pass TEST_IN_FULL_BROWSER=true to run tests in visible browser or TEST_WITH_BROWSER=firefox et.al to test in a different browser
   Capybara.server = :puma, { Silent: true }
+  Capybara.threadsafe = true # For parallel tests
 
 
   VCR.configure do |config|

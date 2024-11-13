@@ -31,6 +31,7 @@ describe "User manages homepage", :js do
 
       expect(page).to have_content(I18n.t("space_create.any_of_these.one"), wait: 10)
 
+      sleep(0.5) # Sometimes clicking the button doesn't do anything if you are too quick
       click_on I18n.t("space_create.none_are_duplicates.one")
 
       tom_select("select#space_space_type_ids", option_id: space_type.id)
@@ -137,10 +138,11 @@ describe "User manages homepage", :js do
 
       click_on "edit_basics"
 
-      sleep(0.2)
+      sleep(0.2) # Needed to wait for tom-select to load
       tom_select("select#space_space_group_title", option_id: "")
 
       click_on "Lagre"
+      sleep(0.2) # Wait for the page to reload
 
       expect(page).to have_text(space.title)
       expect(space.reload.space_group).to be_nil
