@@ -22,6 +22,7 @@ nb:
     attributes:
       space:
         space_type: 'Type lokale'
+        space_types: 'Type lokale'
         basics: 'grunnleggende informasjon'
         how_to_book: 'Hvordan booker vi?'
         who_can_use: 'Hvem får bruke lokalet?'
