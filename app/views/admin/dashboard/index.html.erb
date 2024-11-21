@@ -31,7 +31,7 @@
   <section class="bg-white p-6 rounded-lg shadow-2xl">
     <h2 class="text-lnu-blue font-bold mb-4 text-center">Brukere med flest endringer</h2>
     <ul class="flex gap-2 flex-col">
-      <% @most_changes_per_user.first(5).map do |user_id, count| %>
+      <% @most_changes_per_user.first(@most_changes_per_user_limit).map do |user_id, count| %>
         <% user = User.find(user_id) %>
         <li class="flex gap-2 items-center">
           <div class="flex-shrink-0">
@@ -44,19 +44,24 @@
         </li>
       <% end %>
     </ul>
-    <% if @most_changes_per_user.count > 10 %>
-      <p>Og <%= @most_changes_per_user.count - 10 %> flere</p>
+    <% if @most_changes_per_user.count > @most_changes_per_user_limit %>
+      <p>Og <%= @most_changes_per_user.count - @most_changes_per_user_limit %> flere</p>
     <% end %>
   </section>
 
   <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Antall brukere med endringer i endringslogg</h2>
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Brukere med loggførte endringer</h2>
     <%= column_chart @unique_users_creating_changes %>
   </section>
 
   <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Endringer i endringslogg</h2>
-    <%= column_chart @changes_created %>
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Brukerinitierte loggførte endringer</h2>
+    <%= column_chart @changes_created_by_users %>
+  </section>
+
+  <section class="bg-white p-6 rounded-lg shadow-2xl">
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Systeminitierte loggførte endringer</h2>
+    <%= column_chart @changes_created_by_system %>
   </section>
 
   <section class="bg-white p-6 rounded-lg shadow-2xl">
