@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class DashboardController < BaseControllers::AuthenticateAsAdminController
+  class DashboardController < BaseControllers::AuthenticateAsAdminController # rubocop:disable Metrics/ClassLength:
     PERIODS_TO_GROUP_BY = %i[
       hour
       day
@@ -31,15 +31,38 @@ module Admin
       @changes_created_by_system = PaperTrail::Version
                                    .where(whodunnit: nil)
                                    .group_by_period(@period_grouping, :created_at, range: @date_range).count
+      @changes_created_by_system_count = PaperTrail::Version
+                                         .where(created_at: @date_range)
+                                         .where(whodunnit: nil)
+                                         .count
+
+      user_changes_from_paper_trail
+      most_users_creating_changes
+    end
+
+    def user_changes_from_paper_trail
       @changes_created_by_users = PaperTrail::Version
                                   .where.not(whodunnit: nil)
                                   .group_by_period(@period_grouping, :created_at, range: @date_range).count
+      @changes_created_by_users_count = PaperTrail::Version
+                                        .where(created_at: @date_range)
+                                        .where.not(whodunnit: nil)
+                                        .count
+
       @unique_users_creating_changes = PaperTrail::Version
                                        .where.not(whodunnit: nil)
                                        .group_by_period(@period_grouping, :created_at,
                                                         range: @date_range)
                                        .distinct
                                        .count(:whodunnit)
+      @unique_users_creating_changes_count = PaperTrail::Version
+                                             .where(created_at: @date_range)
+                                             .where.not(whodunnit: nil)
+                                             .distinct
+                                             .count(:whodunnit)
+    end
+
+    def most_users_creating_changes
       @most_changes_per_user = PaperTrail::Version
                                .where(created_at: @date_range)
                                .where.not(whodunnit: nil)
@@ -52,23 +75,29 @@ module Admin
 
     def space_statistics
       @spaces_created = Space.group_by_period(@period_grouping, :created_at, range: @date_range).count
+      @spaces_created_count = Space.where(created_at: @date_range).count
+      @space_count = Space.count
     end
 
     def review_statistics
       @reviews_created = Review.group_by_period(@period_grouping, :created_at, range: @date_range).count
+      @reviews_created_count = Review.where(created_at: @date_range).count
     end
 
     def facility_review_statistics
       @facility_reviews_created = FacilityReview.group_by_period(@period_grouping, :created_at,
                                                                  range: @date_range).count
+      @facility_reviews_created_count = FacilityReview.where(created_at: @date_range).count
     end
 
     def user_statistics
       @users_created = User.group_by_period(@period_grouping, :created_at, range: @date_range).count
+      @users_created_count = User.where(created_at: @date_range).count
     end
 
     def list_statistics
       @lists_created = PersonalSpaceList.group_by_period(@period_grouping, :created_at, range: @date_range).count
+      @lists_created_count = PersonalSpaceList.where(created_at: @date_range).count
     end
 
     def set_period_grouping
