@@ -28,20 +28,13 @@
 </header>
 
 <main class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 w-screen p-12 max-w-screen-2xl mx-auto">
-  <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Brukere med flest endringer</h2>
+
+  <%= render "admin/dashboard/statistics_box",
+             header: "Brukere med flest endringer" do %>
     <ul class="flex gap-2 flex-col">
       <% @most_changes_per_user.first(@most_changes_per_user_limit).map do |user_id, count| %>
         <% user = User.find(user_id) %>
-        <li class="flex gap-2 items-center">
-          <div class="flex-shrink-0">
-            <%= image_tag user.gravatar_url(size: 25), class: "rounded-full" %>
-          </div>
-          <div class="text-sm">
-            <strong><%= user.name %></strong>  (<%= count %> endringer)<br>
-            <%= user.email %><% if user.organization.present? %><%= user.organization %>, <% end %>
-          </div>
-        </li>
+        <%= render "admin/dashboard/user_with_change_count", user:, count:  %>
       <% end %>
     </ul>
     <% if @most_changes_per_user.count > @most_changes_per_user_limit %>
@@ -50,60 +43,52 @@
         <ul class="flex gap-2 flex-col">
           <% @most_changes_per_user.drop(@most_changes_per_user_limit).map do |user_id, count| %>
             <% user = User.find(user_id) %>
-            <li class="flex gap-2 items-center">
-              <div class="flex-shrink-0">
-                <%= image_tag user.gravatar_url(size: 25), class: "rounded-full" %>
-              </div>
-              <div class="text-sm">
-                <strong><%= user.name %></strong> (<%= user.email %>)<br>
-                <%= count %> endringer
-              </div>
-            </li>
-          <% end %>
+            <%= render "admin/dashboard/user_with_change_count", user:, count: %>
+        <% end %>
         </ul>
       </details>
     <% end %>
-  </section>
+  <% end %>
 
-  <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Brukere med loggførte endringer</h2>
+  <%= render "admin/dashboard/statistics_box",
+             header: "#{@unique_users_creating_changes_count} brukere med loggførte endringer" do %>
     <%= column_chart @unique_users_creating_changes %>
-  </section>
+  <% end %>
 
-  <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Brukerinitierte loggførte endringer</h2>
+  <%= render "admin/dashboard/statistics_box",
+             header: "#{@changes_created_by_users_count} brukerinitierte loggførte endringer" do %>
     <%= column_chart @changes_created_by_users %>
-  </section>
+  <% end %>
 
-  <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Systeminitierte loggførte endringer</h2>
+  <%= render "admin/dashboard/statistics_box",
+             header: "#{@changes_created_by_system_count} systeminitierte loggførte endringer" do %>
     <%= column_chart @changes_created_by_system %>
-  </section>
+  <% end %>
 
-  <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye brukere</h2>
+  <%= render "admin/dashboard/statistics_box",
+             header: "#{@users_created_count} nye brukere" do %>
     <%= column_chart @users_created %>
-  </section>
+  <% end %>
 
-  <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye lokaler</h2>
+  <%= render "admin/dashboard/statistics_box",
+             header: "#{@spaces_created_count} nye lokaler" do %>
     <%= column_chart @spaces_created %>
-  </section>
+  <% end %>
 
-  <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye fasilitetserfaringer</h2>
+  <%= render "admin/dashboard/statistics_box",
+             header: "#{@facility_reviews_created_count} nye fasilitetserfaringer" do %>
     <%= column_chart @facility_reviews_created %>
-  </section>
+  <% end %>
 
-  <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye anmeldelser</h2>
+  <%= render "admin/dashboard/statistics_box",
+             header: "#{@reviews_created_count} nye anmeldelser" do %>
     <%= column_chart @reviews_created %>
-  </section>
+  <% end %>
 
-  <section class="bg-white p-6 rounded-lg shadow-2xl">
-    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye lister</h2>
-    <%= column_chart @lists_created  %>
-  </section>
+  <%= render "admin/dashboard/statistics_box",
+             header: "#{@lists_created_count} nye lister" do %>
+    <%= column_chart @lists_created %>
+  <% end %>
 </main>
 
 
