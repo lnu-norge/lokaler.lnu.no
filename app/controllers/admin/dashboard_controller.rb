@@ -28,9 +28,18 @@ module Admin
     end
 
     def paper_trail_statistics
-      @changes_created = PaperTrail::Version.group_by_period(@period_grouping, :created_at, range: @date_range).count
-      @unique_users_creating_changes = PaperTrail::Version.group_by_period(@period_grouping, :created_at,
-                                                                           range: @date_range).count(:whodunnit)
+      @changes_created_by_system = PaperTrail::Version
+                                   .where(whodunnit: nil)
+                                   .group_by_period(@period_grouping, :created_at, range: @date_range).count
+      @changes_created_by_users = PaperTrail::Version
+                                  .where.not(whodunnit: nil)
+                                  .group_by_period(@period_grouping, :created_at, range: @date_range).count
+      @unique_users_creating_changes = PaperTrail::Version
+                                       .where.not(whodunnit: nil)
+                                       .group_by_period(@period_grouping, :created_at,
+                                                        range: @date_range)
+                                       .distinct
+                                       .count(:whodunnit)
       @most_changes_per_user = PaperTrail::Version
                                .where(created_at: @date_range)
                                .where.not(whodunnit: nil)
@@ -38,6 +47,7 @@ module Admin
                                .count
                                .sort_by { |_, count| count }
                                .reverse
+      @most_changes_per_user_limit = 5
     end
 
     def space_statistics
