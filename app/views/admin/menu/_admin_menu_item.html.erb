@@ -1,0 +1,10 @@
+<%#
+
+    Locals:
+    - path: Path to link to
+    - text: Text to show
+
+%>
+<%= link_to path, class: "#{active_path?(path) ? "text-gray-900 font-bold hover:decoration-none" : "text-lnu-pink hover:underline"}" do %>
+    <%= text %>
+<% end %>

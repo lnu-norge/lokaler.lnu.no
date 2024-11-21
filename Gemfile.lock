@@ -124,6 +124,7 @@ GEM
       addressable
       capybara
       playwright-ruby-client (>= 1.16.0)
+    chartkick (5.1.2)
     childprocess (5.1.0)
       logger (~> 1.5)
     choice (0.2.0)
@@ -177,6 +178,8 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     gravtastic (3.2.6)
+    groupdate (6.5.1)
+      activesupport (>= 7)
     guard (2.19.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -567,6 +570,7 @@ DEPENDENCIES
   byebug
   capybara
   capybara-playwright-driver
+  chartkick
   cssbundling-rails
   devise (~> 4.9)
   devise-i18n
@@ -576,6 +580,7 @@ DEPENDENCIES
   faker
   foreman
   gravtastic
+  groupdate
   guard
   guard-livereload
   guard-rspec

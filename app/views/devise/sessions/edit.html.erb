@@ -21,5 +21,7 @@
     <%= link_to t('session.my_experiences'),
                 reviews_path %>
   </p>
-
+  <% if current_user.admin? %>
+    <%= render "admin/menu/admin_boxed_menu" %>
+  <% end %>
 </div>
