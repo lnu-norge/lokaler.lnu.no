@@ -1,6 +1,6 @@
-<main class="py-8 px-4 max-w-prose mx-auto w-screen">
+<header class="pt-8 px-4 max-w-prose mx-auto w-screen">
 
-  <h1 class="font-bold text-lnu-blue mb-8">Statistikk</h1>
+  <h1 class="font-bold text-lnu-blue mb-8 sr-only">Statistikk</h1>
 
   <%= form_tag admin_dashboard_index_path, method: :get do %>
     <div class="flex flex-col gap-4 p-4 -mx-4 bg-gray-50 rounded-lg border border-gray-200">
@@ -25,62 +25,64 @@
       </div>
     </div>
   <% end %>
+</header>
 
-  <main class="flex flex-col gap-8 divide-y divide-gray-200">
-    <section>
-      <h2 class="font-bold mt-8 mb-2">Endringer i endringslogg</h2>
-      <%= column_chart @changes_created, ytitle: "Endringer" %>
-    </section>
-
-    <section>
-      <h2 class="font-bold mt-8 mb-2">Antall brukere med endringer i endringslogg</h2>
-      <%= column_chart @unique_users_creating_changes, ytitle: "Brukere" %>
-    </section>
-
-    <section>
-      <h3 class="font-bold mt-8 mb-2">Brukere med flest endringer</h3>
-      <% @most_changes_per_user.first(10).map do |user_id, count| %>
+<main class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 w-screen p-12 max-w-screen-2xl mx-auto">
+  <section class="bg-white p-6 rounded-lg shadow-2xl">
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Brukere med flest endringer</h2>
+    <ul class="flex gap-2 flex-col">
+      <% @most_changes_per_user.first(5).map do |user_id, count| %>
         <% user = User.find(user_id) %>
-        <div class="flex gap-2 items-center">
+        <li class="flex gap-2 items-center">
           <div class="flex-shrink-0">
             <%= image_tag user.gravatar_url(size: 25), class: "rounded-full" %>
           </div>
-          <div>
-            <strong><%= user.email %></strong>
+          <div class="text-sm">
+            <strong><%= user.name %></strong> (<%= user.email %>)<br>
             <%= count %> endringer
           </div>
-        </div>
+        </li>
       <% end %>
-      <% if @most_changes_per_user.count > 10 %>
-        <p>Og <%= @most_changes_per_user.count - 10 %> flere</p>
-      <% end %>
-    </section>
+    </ul>
+    <% if @most_changes_per_user.count > 10 %>
+      <p>Og <%= @most_changes_per_user.count - 10 %> flere</p>
+    <% end %>
+  </section>
 
-    <section>
-      <h2 class="font-bold mt-8 mb-2">Nye brukere</h2>
-      <%= column_chart @users_created, ytitle: "Brukere" %>
-    </section>
+  <section class="bg-white p-6 rounded-lg shadow-2xl">
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Antall brukere med endringer i endringslogg</h2>
+    <%= column_chart @unique_users_creating_changes %>
+  </section>
 
-    <section>
-      <h2 class="font-bold mt-8 mb-2">Nye lokaler</h2>
-      <%= column_chart @spaces_created, ytitle: "Lokaler" %>
-    </section>
+  <section class="bg-white p-6 rounded-lg shadow-2xl">
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Endringer i endringslogg</h2>
+    <%= column_chart @changes_created %>
+  </section>
 
-    <section>
-      <h2 class="font-bold mt-8 mb-2">Nye fasilitetserfaringer</h2>
-      <%= column_chart @facility_reviews_created, ytitle: "Fasilitetserfaringer" %>
-    </section>
+  <section class="bg-white p-6 rounded-lg shadow-2xl">
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye brukere</h2>
+    <%= column_chart @users_created %>
+  </section>
 
-    <section>
-      <h2 class="font-bold mt-8 mb-2">Nye anmeldelser</h2>
-      <%= column_chart @reviews_created, ytitle: "Anmeldelser" %>
-    </section>
+  <section class="bg-white p-6 rounded-lg shadow-2xl">
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye lokaler</h2>
+    <%= column_chart @spaces_created %>
+  </section>
 
-    <section>
-      <h2 class="font-bold mt-8 mb-2">Nye lister</h2>
-      <%= column_chart @lists_created, ytitle: "Lister" %>
-    </section>
-  </main>
+  <section class="bg-white p-6 rounded-lg shadow-2xl">
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye fasilitetserfaringer</h2>
+    <%= column_chart @facility_reviews_created %>
+  </section>
 
+  <section class="bg-white p-6 rounded-lg shadow-2xl">
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye anmeldelser</h2>
+    <%= column_chart @reviews_created %>
+  </section>
 
+  <section class="bg-white p-6 rounded-lg shadow-2xl">
+    <h2 class="text-lnu-blue font-bold mb-4 text-center">Nye lister</h2>
+    <%= column_chart @lists_created  %>
+  </section>
 </main>
+
+
