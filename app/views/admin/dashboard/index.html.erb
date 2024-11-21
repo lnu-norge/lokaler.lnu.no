@@ -38,27 +38,29 @@
             <%= image_tag user.gravatar_url(size: 25), class: "rounded-full" %>
           </div>
           <div class="text-sm">
-            <strong><%= user.name %></strong> (<%= user.email %>)<br>
-            <%= count %> endringer
+            <strong><%= user.name %></strong>  (<%= count %> endringer)<br>
+            <%= user.email %><% if user.organization.present? %><%= user.organization %>, <% end %>
           </div>
         </li>
       <% end %>
     </ul>
     <% if @most_changes_per_user.count > @most_changes_per_user_limit %>
-      <details class="mt-2">
-        <summary>Og <%= @most_changes_per_user.count - @most_changes_per_user_limit %> flere</summary>
-        <% @most_changes_per_user.drop(@most_changes_per_user_limit).map do |user, count| %>
-          <% user = User.find(user_id) %>
-          <li class="flex gap-2 items-center">
-            <div class="flex-shrink-0">
-              <%= image_tag user.gravatar_url(size: 25), class: "rounded-full" %>
-            </div>
-            <div class="text-sm">
-              <strong><%= user.name %></strong> (<%= user.email %>)<br>
-              <%= count %> endringer
-            </div>
-          </li>
-        <% end %>
+      <details>
+        <summary class="link my-4">Og <%= @most_changes_per_user.count - @most_changes_per_user_limit %> flere</summary>
+        <ul class="flex gap-2 flex-col">
+          <% @most_changes_per_user.drop(@most_changes_per_user_limit).map do |user_id, count| %>
+            <% user = User.find(user_id) %>
+            <li class="flex gap-2 items-center">
+              <div class="flex-shrink-0">
+                <%= image_tag user.gravatar_url(size: 25), class: "rounded-full" %>
+              </div>
+              <div class="text-sm">
+                <strong><%= user.name %></strong> (<%= user.email %>)<br>
+                <%= count %> endringer
+              </div>
+            </li>
+          <% end %>
+        </ul>
       </details>
     <% end %>
   </section>
