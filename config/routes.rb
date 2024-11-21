@@ -41,7 +41,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   # Admin routes
   namespace "admin" do
-    root to: "dashboard#index"
+    root to: "menu#index"
+    resources :dashboard, only: [:index]
     resources "history"
     resources "space_types"
     post "history/revert_changes", to: "history#revert_changes"

@@ -6,6 +6,9 @@ import * as ActiveStorage from "@rails/activestorage"
 import "./channels"
 import "./controllers"
 
+// Charts
+import "chartkick/chart.js"
+
 // Posthog for tracking
 import "./custom/posthog"
 

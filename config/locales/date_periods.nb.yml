@@ -1,0 +1,7 @@
+nb:
+  date_periods:
+    hour: time
+    day: dag
+    week: uke
+    month: måned
+    year: år

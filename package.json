@@ -19,6 +19,8 @@
     "@rails/activestorage": "^7.2.2",
     "@rails/ujs": "^7.1.3-4",
     "@splidejs/splide": "^4.1.4",
+    "chart.js": "^4.4.6",
+    "chartkick": "^5.0.1",
     "dotenv": "^16.4.5",
     "esbuild-rails": "^1.0.7",
     "mapbox-gl": "^3.8.0",

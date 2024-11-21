@@ -1,7 +1,86 @@
-<main class="content max-w-prose mx-auto w-screen">
+<main class="py-8 px-4 max-w-prose mx-auto w-screen">
 
-    <h1>Admin-verktøy:</h1>
-    <p><%= link_to t('admin.space_type'), admin_space_types_path %></p>
-    <p><%= link_to t('admin.history'), admin_history_index_path %></p>
+  <h1 class="font-bold text-lnu-blue mb-8">Statistikk</h1>
+
+  <%= form_tag admin_dashboard_index_path, method: :get do %>
+    <div class="flex flex-col gap-4 p-4 -mx-4 bg-gray-50 rounded-lg border border-gray-200">
+      <div class="flex gap-8 items-center justify-between">
+        <fieldset class="flex gap-2 items-center">
+          <legend class="sr-only">Datoer</legend>
+          <label for="start_date" class="label">Fra</label>
+          <%= date_field_tag :start_date, params[:start_date] || @date_range.first, class: 'text_field' %>
+          <label for="end_date" class="label">til</label>
+          <%= date_field_tag :end_date, params[:end_date] || @date_range.last,  class: 'text_field' %>
+        </fieldset>
+        <fieldset class="flex gap-2 items-center">
+          <label for="period" class="label">Per</label>
+          <%= select_tag :period_grouping, options_for_select(
+            [
+              *Admin::DashboardController::PERIODS_TO_GROUP_BY.map { |period| [t("date_periods.#{period}"), period] }
+            ],
+              @period_grouping
+            ), class: "select_field" %>
+        </fieldset>
+        <%= submit_tag "Filtrer", class: "button" %>
+      </div>
+    </div>
+  <% end %>
+
+  <main class="flex flex-col gap-8 divide-y divide-gray-200">
+    <section>
+      <h2 class="font-bold mt-8 mb-2">Endringer i endringslogg</h2>
+      <%= column_chart @changes_created, ytitle: "Endringer" %>
+    </section>
+
+    <section>
+      <h2 class="font-bold mt-8 mb-2">Antall brukere med endringer i endringslogg</h2>
+      <%= column_chart @unique_users_creating_changes, ytitle: "Brukere" %>
+    </section>
+
+    <section>
+      <h3 class="font-bold mt-8 mb-2">Brukere med flest endringer</h3>
+      <% @most_changes_per_user.first(10).map do |user_id, count| %>
+        <% user = User.find(user_id) %>
+        <div class="flex gap-2 items-center">
+          <div class="flex-shrink-0">
+            <%= image_tag user.gravatar_url(size: 25), class: "rounded-full" %>
+          </div>
+          <div>
+            <strong><%= user.email %></strong>
+            <%= count %> endringer
+          </div>
+        </div>
+      <% end %>
+      <% if @most_changes_per_user.count > 10 %>
+        <p>Og <%= @most_changes_per_user.count - 10 %> flere</p>
+      <% end %>
+    </section>
+
+    <section>
+      <h2 class="font-bold mt-8 mb-2">Nye brukere</h2>
+      <%= column_chart @users_created, ytitle: "Brukere" %>
+    </section>
+
+    <section>
+      <h2 class="font-bold mt-8 mb-2">Nye lokaler</h2>
+      <%= column_chart @spaces_created, ytitle: "Lokaler" %>
+    </section>
+
+    <section>
+      <h2 class="font-bold mt-8 mb-2">Nye fasilitetserfaringer</h2>
+      <%= column_chart @facility_reviews_created, ytitle: "Fasilitetserfaringer" %>
+    </section>
+
+    <section>
+      <h2 class="font-bold mt-8 mb-2">Nye anmeldelser</h2>
+      <%= column_chart @reviews_created, ytitle: "Anmeldelser" %>
+    </section>
+
+    <section>
+      <h2 class="font-bold mt-8 mb-2">Nye lister</h2>
+      <%= column_chart @lists_created, ytitle: "Lister" %>
+    </section>
+  </main>
+
 
 </main>
