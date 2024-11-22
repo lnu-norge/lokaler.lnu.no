@@ -152,25 +152,9 @@
           <li>
             <%=
               render "admin/dashboard/tiny_pie_chart",
-                     with: @spaces_with_who_can_use,
+                     with: @spaces_with_terms_and_pricing,
                      total: @space_count,
-                     text: "har tekst om hvem som kan bruke"
-            %>
-          </li>
-          <li>
-            <%=
-              render "admin/dashboard/tiny_pie_chart",
-                     with: @spaces_with_pricing,
-                     total: @space_count,
-                     text: "har tekst om pris"
-            %>
-          </li>
-          <li>
-            <%=
-              render "admin/dashboard/tiny_pie_chart",
-                     with: @spaces_with_terms,
-                     total: @space_count,
-                     text: "har tekst om vilkår"
+                     text: "har tekst om vilkår og pris"
             %>
           </li>
           <li>
