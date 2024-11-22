@@ -145,6 +145,10 @@
     @apply border border-gray-300 placeholder-gray-500 text-gray-900 ;
     @apply focus:outline-none focus:border-lnu-pink  focus:ring-lnu-pink;
   }
+  .select_field {
+    @extend .text_field;
+    @apply pr-8;
+  }
   .file_field {
     @apply w-full text-gray-500 px-3 py-2 border rounded;
     @extend .focused-outline;
