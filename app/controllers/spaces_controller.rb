@@ -178,7 +178,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     ) || {}
   end
 
-  def space_params # rubocop:disable  Metrics/MethodLength
+  def space_params
     params.require(:space).permit(
       :title,
       :address,
@@ -192,13 +192,11 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       :municipality_code,
       :organization_number,
       :how_to_book,
-      :who_can_use,
-      :pricing,
-      :terms,
+      :terms_and_pricing,
       :more_info,
       :facility_description,
       :url,
-      space_group_attributes: %i[id how_to_book pricing terms who_can_use]
+      space_group_attributes: %i[id how_to_book terms_and_pricing]
     )
   end
 end

@@ -12,8 +12,6 @@ RSpec.describe "space_groups/show", type: :view do
     expect(rendered).to match(/#{space_group.title}/)
     expect(rendered).to match(/#{space_group.about}/)
     expect(rendered).to match(/#{space_group.how_to_book}/)
-    expect(rendered).to match(/#{space_group.terms}/)
-    expect(rendered).to match(/#{space_group.pricing}/)
-    expect(rendered).to match(/#{space_group.who_can_use}/)
+    expect(rendered).to match(/#{space_group.terms_and_pricing}/)
   end
 end
