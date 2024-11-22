@@ -199,8 +199,46 @@
         </ul>
       </section>
 
+      <section>
+        <h3 class="mt-4 text-lnu-blue"><%= @space_groups %> grupper med "felles informasjon"</h3>
+        <p class="mb-1 text-slate-500 text-sm">F.eks. felles info for alle lokaler eid av samme eier</p>
+        <ul class="flex flex-col gap-1">
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @space_groups_with_spaces,
+                     total: @space_groups,
+                     text: "har et lokale"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @space_groups_with_terms_and_pricing,
+                     total: @space_groups,
+                     text: "har pris og vilkår"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @space_groups_with_how_to_book,
+                     total: @space_groups,
+                     text: "har hvordan booke"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @space_groups_with_about,
+                     total: @space_groups,
+                     text: "har beskrivelse"
+            %>
+          </li>
+        </ul>
+      </section>
 
-        <section>
+      <section>
         <h3 class="mt-4 mb-1 text-lnu-blue">Tilhørlighet</h3>
         <ul class="flex flex-col gap-1">
           <li>
@@ -215,7 +253,7 @@
               render "admin/dashboard/tiny_pie_chart",
                      with: @spaces_with_space_group,
                      total: @space_count,
-                     text: "tilhører en gruppe"
+                     text: "tilhører en gruppe med felles informasjon"
             %>
           </li>
           <li>
