@@ -25,8 +25,17 @@ module Admin
       review_statistics
       facility_review_statistics
       space_facility_statistics
+      space_group_statistics
       user_statistics
       list_statistics
+    end
+
+    def space_group_statistics
+      @space_groups = SpaceGroup.count
+      @space_groups_with_spaces = SpaceGroup.joins(:spaces).distinct.count
+      @space_groups_with_terms_and_pricing = space_groups_with_rich_text("terms_and_pricing")
+      @space_groups_with_how_to_book = space_groups_with_rich_text("how_to_book")
+      @space_groups_with_about = space_groups_with_rich_text("about")
     end
 
     def paper_trail_statistics
@@ -206,7 +215,15 @@ module Admin
     end
 
     def spaces_with_rich_text(field)
-      Space.joins(:"rich_text_#{field}").where.not(action_text_rich_texts: { body: [nil, ""] }).count
+      model_with_rich_text(model: Space, field:)
+    end
+
+    def space_groups_with_rich_text(field)
+      model_with_rich_text(model: SpaceGroup, field:)
+    end
+
+    def model_with_rich_text(model:, field:)
+      model.joins(:"rich_text_#{field}").where.not(action_text_rich_texts: { body: [nil, ""] }).count
     end
   end
 end
