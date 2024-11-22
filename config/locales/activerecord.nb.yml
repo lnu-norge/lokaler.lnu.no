@@ -27,7 +27,7 @@ nb:
         how_to_book: 'Hvordan booker vi?'
         more_info: 'Mer om lokalet'
         facility_description: 'Fasilitets beskrivelse'
-        terms_and_pricing: 'Vilkår og pris'
+        terms_and_pricing: 'Pris og vilkår'
         where: 'Hvor er det?'
         location_description: 'Mer om hvordan finne fram'
         address: 'Adresse'
