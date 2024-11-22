@@ -12,11 +12,9 @@ RSpec.describe "spaces/edit", type: :view do
     expect(rendered).to match(/form/)
     expect(rendered).to match(/#{space.title}/)
     expect(rendered).to match(/space_how_to_book/)
-    expect(rendered).to match(/space_who_can_use/)
-    expect(rendered).to match(/space_pricing/)
+    expect(rendered).to match(/space_terms_and_pricing/)
     expect(rendered).to match(/space_address/)
     expect(rendered).to match(/space_more_info/)
-    expect(rendered).to match(/space_terms/)
     expect(rendered).to match(/submit/)
   end
 end

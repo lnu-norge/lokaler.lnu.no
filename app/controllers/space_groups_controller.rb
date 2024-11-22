@@ -37,9 +37,7 @@ class SpaceGroupsController < BaseControllers::AuthenticateController
       :title,
       :how_to_book,
       :about,
-      :terms,
-      :pricing,
-      :who_can_use
+      :terms_and_pricing
     )
   end
 end
