@@ -36,14 +36,10 @@
         <%= render partial: 'spaces/show/facilities' %>
         <hr />
 
-        <%= inline_editable :who_can_use, space: @space  do %>
-          <%= render_space_and_group_field @space, :who_can_use %>
+        <%= inline_editable :terms_and_pricing, space: @space do %>
+          <%= render_space_and_group_field @space, :terms_and_pricing %>
         <% end %>
-        <hr />
 
-        <%= inline_editable :pricing, space: @space do %>
-          <%= render_space_and_group_field @space, :pricing %>
-        <% end %>
         <hr />
 
         <%= render partial: 'spaces/show/where' %>
@@ -51,11 +47,6 @@
 
         <%= inline_editable :more_info, space: @space do %>
           <%= render_space_and_group_field @space, :more_info %>
-        <% end %>
-        <hr />
-
-        <%= inline_editable :terms, space: @space do %>
-          <%= render_space_and_group_field @space, :terms %>
         <% end %>
         <hr />
 

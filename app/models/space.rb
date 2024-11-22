@@ -133,9 +133,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
       {
         space_group: %i[
           rich_text_how_to_book
-          rich_text_pricing
-          rich_text_who_can_use
-          rich_text_terms
+          rich_text_terms_and_pricing
           rich_text_about
           space_contacts
         ]
@@ -156,9 +154,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   }
 
   has_rich_text :how_to_book
-  has_rich_text :who_can_use
-  has_rich_text :pricing
-  has_rich_text :terms
+  has_rich_text :terms_and_pricing
   has_rich_text :more_info
 
   include ParseUrlHelper
@@ -319,9 +315,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     PaperTrail::Version
       .or(PaperTrail::Version.where(item: self))
       .or(PaperTrail::Version.where(item: how_to_book))
-      .or(PaperTrail::Version.where(item: who_can_use))
-      .or(PaperTrail::Version.where(item: pricing))
-      .or(PaperTrail::Version.where(item: terms))
+      .or(PaperTrail::Version.where(item: terms_and_pricing))
       .or(PaperTrail::Version.where(item: more_info))
   end
 

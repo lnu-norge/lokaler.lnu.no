@@ -97,9 +97,7 @@ module Admin
       @spaces_with_location_description = Space.where.not(location_description: [nil, ""]).count
       @spaces_in_a_list = Space.joins(:personal_space_lists).distinct.count
       @spaces_with_how_to_book = spaces_with_rich_text("how_to_book")
-      @spaces_with_who_can_use = spaces_with_rich_text("who_can_use")
-      @spaces_with_pricing = spaces_with_rich_text("pricing")
-      @spaces_with_terms = spaces_with_rich_text("terms")
+      @spaces_with_terms_and_pricing = spaces_with_rich_text("terms_and_pricing")
       @spaces_with_more_info = spaces_with_rich_text("more_info")
     end
 

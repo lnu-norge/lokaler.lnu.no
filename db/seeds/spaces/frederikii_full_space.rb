@@ -23,9 +23,7 @@ how_to_book = "<p>All booking foregår gjennom resepsjonen.
 Ta først kontakt med dem og spør om vi kan leie,
  og så vil du bli bedt om å fylle ut
 <a href='#'>skjema for Viken fylke</a>.</p>"
-who_can_use = nil
-pricing = nil
-terms = '<p>Må rydde så klasserom, pulter, og
+terms_and_pricing = '<p>Må rydde så klasserom, pulter, og
 annet er likt som når man kom.</p>
 <p>Ta før-og-etter-bilder for å sikre at alt
  er som det var når dere tok over. </p>'
@@ -47,9 +45,7 @@ frederikii_space = Space.create(
   municipality_code: "3004",
   star_rating: nil,
   how_to_book:,
-  who_can_use:,
-  pricing:,
-  terms:,
+  terms_and_pricing:,
   more_info:
 )
 
