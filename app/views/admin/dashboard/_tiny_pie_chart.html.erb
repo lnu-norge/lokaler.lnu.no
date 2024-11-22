@@ -1,0 +1,21 @@
+<%# locals: (with:, total:, text:) %>
+<span class="flex gap-2 items-center" title="<%= with %> har, <%= total - with %> har ikke">
+  <%= pie_chart(
+        {
+          "Har": with,
+          "Har ikke": total - with
+        },
+          colors: ["#C40066", "#C4006610"],
+          dataset: { borderWidth: 0 },
+          legend: { display: false },
+          library: { plugins: {tooltip: {enabled: false }}},
+          width: "20px",
+        height: "20px"
+
+      ) %>
+  <span>
+     <%= number_with_delimiter with %>
+     <%= text %>
+     <span class="text-gray-500">(<%= number_to_percentage((with * 100 / total)) %>)</span>
+  </span>
+</span>

@@ -1,0 +1,12 @@
+<% content_for :above_body do %>
+  <nav class="flex justify-center p-4 gap-3 gap-6 flex-wrap items-baseline
+  bg-lnu-blue/10 text-sm">
+    <h2 class="text-lnu-blue uppercase text-xs font-bold tracking-wide">
+      <%= link_to "Admin", admin_root_path, class: "unstyled-link" %>
+    </h2>
+    <ul class="flex flex-wrap gap-3 md:gap-6 items-baseline">
+      <%= render "admin/menu/admin_menu_items" %>
+    </ul>
+  </nav>
+<% end %>
+<%= render template: "layouts/application" %>

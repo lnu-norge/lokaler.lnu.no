@@ -3,6 +3,7 @@
 module BaseControllers
   class AuthenticateAsAdminController < AuthenticateController
     before_action :authenticate_admin!
+    layout "admin/authenticated_as_admin"
 
     protected
 

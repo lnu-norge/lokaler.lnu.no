@@ -1,7 +1,381 @@
-<main class="content max-w-prose mx-auto w-screen">
+<h1 class="font-bold text-lnu-blue mb-8 sr-only">Statistikk</h1>
 
-    <h1>Admin-verktøy:</h1>
-    <p><%= link_to t('admin.space_type'), admin_space_types_path %></p>
-    <p><%= link_to t('admin.history'), admin_history_index_path %></p>
+<div class="grid grid-cols-1 items-baseline justify-items-center 4xl:grid-cols-2 gap-8 p-8 max-w-screen-4xl mx-auto">
 
-</main>
+<section class="bg-gray-50 p-4 rounded-lg border border-gray-200 w-full max-w-screen-2xl">
+  <header class="mb-8 pt-4 max-w-prose mx-auto w-screen">
+
+    <h2 class="text-center uppercase text-lnu-blue/90 font-normal tracking-wider text-sm">Filtrert på dato</h2>
+    <%= form_tag admin_dashboard_index_path, method: :get do %>
+      <nav class="flex flex-col gap-3 p-4 -mx-4">
+        <div class="flex gap-8 items-center">
+          <fieldset class="flex gap-2 items-center">
+            <legend class="sr-only">Datoer</legend>
+            <label for="start_date" class="label">Fra</label>
+            <%= date_field_tag :start_date, params[:start_date] || @date_range.first, class: 'text_field' %>
+            <label for="end_date" class="label">til</label>
+            <%= date_field_tag :end_date, params[:end_date] || @date_range.last,  class: 'text_field' %>
+          </fieldset>
+          <fieldset class="flex gap-2 items-center">
+            <label for="period" class="label">Per</label>
+            <%= select_tag :period_grouping, options_for_select(
+              [
+                *Admin::DashboardController::PERIODS_TO_GROUP_BY.map { |period| [t("date_periods.#{period}"), period] }
+              ],
+                @period_grouping
+              ), class: "select_field" %>
+          </fieldset>
+          <%= submit_tag "Filtrer", class: "button" %>
+        </div>
+      </nav>
+    <% end %>
+  </header>
+
+  <main class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 max-w-screen-2xl mx-auto">
+
+    <%= render "admin/dashboard/statistics_box",
+               append_css_classes: "lg:col-span-2",
+               header: "#{@unique_users_creating_changes_count} brukere med loggførte endringer" do %>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <section>
+          <%= column_chart @unique_users_creating_changes, label: "Brukere" %>
+        </section>
+        <section>
+          <ul class="flex gap-2 flex-col">
+            <% @most_changes_per_user.first(@most_changes_per_user_limit).map do |user_id, count| %>
+              <% user = User.find(user_id) %>
+              <%= render "admin/dashboard/user_with_change_count", user:, count:  %>
+            <% end %>
+          </ul>
+          <% if @most_changes_per_user.count > @most_changes_per_user_limit %>
+            <details>
+              <summary class="link my-4">Og <%= @most_changes_per_user.count - @most_changes_per_user_limit %> flere</summary>
+              <ul class="flex gap-2 flex-col">
+                <% @most_changes_per_user.drop(@most_changes_per_user_limit).map do |user_id, count| %>
+                  <% user = User.find(user_id) %>
+                  <%= render "admin/dashboard/user_with_change_count", user:, count: %>
+                <% end %>
+              </ul>
+            </details>
+          <% end %>
+        </section>
+      </div>
+
+    <% end %>
+
+    <% colors_for_stacked_charts = ["#C40066", "#618467", "#175278", "#C4006630", "#61846730", "#17527830"] %>
+
+    <%= render "admin/dashboard/statistics_box",
+               header: "#{number_with_delimiter @changes_created_by_users_count} brukerinitierte loggførte endringer" do %>
+      <%= column_chart @changes_created_by_users, label: "Endringer", stacked: true, colors: colors_for_stacked_charts %>
+    <% end %>
+
+    <%= render "admin/dashboard/statistics_box",
+               header: "#{number_with_delimiter @changes_created_by_system_count} systeminitierte loggførte endringer" do %>
+      <%= column_chart @changes_created_by_system, label: "Endringer", stacked: true, colors: colors_for_stacked_charts %>
+    <% end %>
+
+    <%= render "admin/dashboard/statistics_box",
+               header: "#{number_with_delimiter @users_created_count} nye brukere" do %>
+      <%= column_chart @users_created, label: "Nye brukere", stacked: true, colors: colors_for_stacked_charts %>
+    <% end %>
+
+    <%= render "admin/dashboard/statistics_box",
+               header: "#{number_with_delimiter @spaces_created_count} nye lokaler" do %>
+      <%= column_chart @spaces_created, label: "Nye lokaler" %>
+    <% end %>
+
+    <%= render "admin/dashboard/statistics_box",
+               header: "#{number_with_delimiter @facility_reviews_created_count} nye fasilitetserfaringer" do %>
+      <%= column_chart @facility_reviews_created, label: "Nye fasilitetserfaringer", stacked: true, colors: colors_for_stacked_charts %>
+    <% end %>
+
+    <%= render "admin/dashboard/statistics_box",
+               header: "#{number_with_delimiter @reviews_created_count} nye anmeldelser" do %>
+      <%= column_chart @reviews_created, label: "Nye anmeldelser", stacked: true, colors: colors_for_stacked_charts %>
+    <% end %>
+
+    <%= render "admin/dashboard/statistics_box",
+               header: "#{number_with_delimiter @lists_created_count} nye lister" do %>
+      <%= column_chart @lists_created, label: "Nye lister" %>
+    <% end %>
+  </main>
+</section>
+
+<section class="bg-gray-50 p-4 rounded-lg border border-gray-200 w-full  max-w-screen-2xl">
+  <header class="mb-8 pt-4 max-w-prose mx-auto w-screen">
+    <h2 class="text-center uppercase text-lnu-blue/90 font-normal tracking-wider text-sm">Øyeblikksbilde (ikke filtrert)</h2>
+  </header>
+
+  <main class="flex flex-col gap-4 max-w-screen-2xl mx-auto">
+    <%= render "admin/dashboard/statistics_box",
+               header: "Alle #{number_with_delimiter @space_count} lokaler" do %>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mx-auto">
+      <section>
+        <h3 class="mt-4 mb-1 text-lnu-blue">Informasjon</h3>
+
+        <ul class="flex flex-col gap-1">
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_title,
+                     total: @space_count,
+                     text: "har tittel"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_image,
+                     total: @space_count,
+                     text: "har bilde"
+            %>
+          </li>
+
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_space_contacts,
+                     total: @space_count,
+                     text: "har kontaktperson"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_how_to_book,
+                     total: @space_count,
+                     text: "har tekst om hvordan booke"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_who_can_use,
+                     total: @space_count,
+                     text: "har tekst om hvem som kan bruke"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_pricing,
+                     total: @space_count,
+                     text: "har tekst om pris"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_terms,
+                     total: @space_count,
+                     text: "har tekst om vilkår"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_more_info,
+                     total: @space_count,
+                     text: "har tekst med mer info"
+            %>
+          </li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h3 class="mt-4 mb-1 text-lnu-blue">Tilbakemeldinger</h3>
+        <ul class="flex flex-col gap-1">
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_facility_reviews,
+                     total: @space_count,
+                     text: "lokaler har fasilitetserfaring(er)"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_reviews,
+                     total: @space_count,
+                     text: "lokaler har anmeldelse(r)"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @relevant_space_facilities_with_known_experience,
+                     total: @relevant_space_facilities_count,
+                     text: "av #{number_with_delimiter(@relevant_space_facilities_count)} relevante fasiliteter har en erfaring"
+            %>
+          </li>
+        </ul>
+      </section>
+
+
+        <section>
+        <h3 class="mt-4 mb-1 text-lnu-blue">Tilhørlighet</h3>
+        <ul class="flex flex-col gap-1">
+          <li>
+            <%= render "admin/dashboard/tiny_pie_chart",
+                       with: @spaces_in_a_list,
+                       total: @space_count,
+                       text: "er lagt i noens liste"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_space_group,
+                     total: @space_count,
+                     text: "tilhører en gruppe"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_space_type,
+                     total: @space_count,
+                     text: "har en space type"
+            %>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h3 class="mt-4 mb-1 text-lnu-blue">Geodata</h3>
+        <ul class="flex flex-col gap-1">
+
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_lat_lng,
+                     total: @space_count,
+                     text: "har lokasjon (lat/lng)"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_address,
+                     total: @space_count,
+                     text: "har en adresse"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_fylke,
+                     total: @space_count,
+                     text: "har et fylke i Norge"
+            %>
+          </li>
+          <li>
+            <%=
+              render "admin/dashboard/tiny_pie_chart",
+                     with: @spaces_with_location_description,
+                     total: @space_count,
+                     text: "har en lokasjonsbeskrivelse"
+            %>
+          </li>
+        </ul>
+      </section>
+      </div>
+    <% end %>
+
+    <%= render "admin/dashboard/statistics_box",
+               header: "Alle #{number_with_delimiter @users_count} brukere" do %>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mx-auto">
+        <section>
+          <h3 class="mt-4 mb-1 text-lnu-blue">Brukerdata</h3>
+
+          <ul class="flex flex-col gap-1">
+            <li>
+              <%=
+                render "admin/dashboard/tiny_pie_chart",
+                       with: @users_with_organization,
+                       total: @users_count,
+                       text: "har organisasjon"
+              %>
+            </li>
+            <li>
+              <%=
+                render "admin/dashboard/tiny_pie_chart",
+                       with: @users_with_first_name,
+                       total: @users_count,
+                       text: "har fornavn"
+              %>
+            </li>
+            <li>
+              <%=
+                render "admin/dashboard/tiny_pie_chart",
+                       with: @users_with_last_name,
+                       total: @users_count,
+                       text: "har etternavn"
+              %>
+            </li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h3 class="mt-4 mb-1 text-lnu-blue">Brukere med tilbakemeldinger</h3>
+          <ul class="flex flex-col gap-1">
+            <li>
+              <%=
+                render "admin/dashboard/tiny_pie_chart",
+                       with: @users_with_reviews,
+                       total: @users_count,
+                       text: "har lagt inn anmeldelse(r)"
+              %>
+            </li>
+            <li>
+              <%=
+                render "admin/dashboard/tiny_pie_chart",
+                       with: @users_with_facility_reviews,
+                       total: @users_count,
+                       text: "har lagt inn fasilitetserfaring(er)"
+              %>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="mt-4 mb-1 text-lnu-blue">Organisasjoner</h3>
+          <ol class="list-decimal list-inside">
+            <% @organizations_with_user_count.first(@organizations_to_show_before_expanding_list).each do |organization, count| %>
+              <li>
+                <%= organization.presence || "Ingen definert" %> <span class="text-gray-500">(<%= count %> brukere)</span>
+              </li>
+            <% end %>
+          </ol>
+          <% if @organizations_with_user_count.count > @organizations_to_show_before_expanding_list %>
+            <details>
+              <summary class="link my-4">
+                Vis <%= @organizations_with_user_count.count - @organizations_to_show_before_expanding_list %> flere
+              </summary>
+              <ol start="<%= @organizations_to_show_before_expanding_list + 1 %>" class="list-decimal list-inside">
+                <% @organizations_with_user_count.drop(@organizations_to_show_before_expanding_list).each do |organization, count| %>
+                  <li>
+                    <%= organization.presence || "Ingen definert" %> <span class="text-gray-500">(<%= count %> brukere)</span>
+                  </li>
+                <% end %>
+              </ol>
+            </details>
+          <% end %>
+        </section>
+      </div>
+    <% end %>
+
+
+  </main>
+
+</section>
+
+
+
+</div>

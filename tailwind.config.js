@@ -40,6 +40,7 @@ module.exports = {
             screens: {
                 'xs': '360px',
                 '3xl': '1792px',
+                '4xl': '2560px',
                 'any-hover': {'raw': 'media (any-hover: hover)'}
             },
             cursor: {
