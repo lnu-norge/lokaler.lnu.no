@@ -37,7 +37,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   # Review routes
   resources "reviews", except: "new"
-  get "/spaces/:space_id/new_review", to: "reviews#new", as: "new_review"
+  get "/lokaler/:space_id/new_review", to: "reviews#new", as: "new_review"
 
   # Admin routes
   namespace "admin" do
