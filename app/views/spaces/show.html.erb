@@ -17,14 +17,23 @@
 
       <section class="content px-4 pb-8">
 
-        <%= render partial: 'spaces/show/basics' %>
+        <div class="flex flex-col gap-6">
+          <%= render partial: 'spaces/show/basics' %>
+
+          <%= render 'spaces/show/space_list_status_and_notes',
+                     personal_space_list: @active_personal_space_list,
+                     space: @space %>
+
+        </div>
+
+
 
         <hr />
 
-        <%= render 'spaces/show/space_list_status_and_notes',
-          personal_space_list: @active_personal_space_list,
-          space: @space %>
-         <hr />
+        <%= render partial: 'spaces/show/reviews' %>
+
+
+        <hr />
 
         <%= inline_editable :how_to_book, space: @space  do %>
           <%= render_space_and_group_field @space, :how_to_book %>
@@ -48,9 +57,6 @@
         <%= inline_editable :more_info, space: @space do %>
           <%= render_space_and_group_field @space, :more_info %>
         <% end %>
-        <hr />
-
-        <%= render partial: 'spaces/show/reviews' %>
 
         <% if current_user&.admin? %>
           <hr />

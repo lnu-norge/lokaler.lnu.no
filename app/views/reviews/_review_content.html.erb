@@ -20,10 +20,10 @@
   <p>
     <% if show_full_review  %>
       <%= simple_format review.comment %>
-    <% elsif review.comment.length <= 88 %>
+    <% elsif review.comment.length <= 140 %>
       <%= review.comment %>
     <% else %>
-      <%= truncate(review.comment, length: 88) %>
+      <%= truncate(review.comment, length: 140) %>
       <%= button_to_modal dom_id(review), class: "link" do %>
         <%= t('read_more') %>
       <% end  %>
@@ -76,11 +76,11 @@
   </div>
 <% end %>
 
-<% if review.been_there? %>
+<% if review.been_there? && review.price != "" %>
   <div class="flex gap-1">
     <%= inline_svg_tag 'money' %>
-    <% if review.price %>
-      <%= review.price %> kr
+    <% if review.price.present? %>
+      <%= number_with_delimiter(review.price) %> kr
     <% else %>
       <%= t('reviews.data.did_not_pay') %>
     <% end %>
