@@ -32,7 +32,9 @@
 
         <%= render partial: 'spaces/show/reviews' %>
 
+        <hr />
 
+        <%= render partial: 'spaces/show/facilities' %>
         <hr />
 
         <%= inline_editable :how_to_book, space: @space  do %>
@@ -40,9 +42,6 @@
         <% end %>
         <%= render 'space_contacts/index' %>
 
-        <hr />
-
-        <%= render partial: 'spaces/show/facilities' %>
         <hr />
 
         <%= inline_editable :terms_and_pricing, space: @space do %>
