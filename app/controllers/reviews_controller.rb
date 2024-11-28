@@ -7,6 +7,8 @@ class ReviewsController < BaseControllers::AuthenticateController # rubocop:disa
 
   def index
     @reviews = current_user.reviews
+
+    @all_reviews = Review.all if current_user.admin?
   end
 
   def show; end
