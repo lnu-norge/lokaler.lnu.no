@@ -54,6 +54,5 @@ nb:
       how_long_did_you_use_the_space?: 'Hvor lenge brukte dere lokalet?'
       did_you_have_to_pay?: 'Måtte dere betale?'
       how_much?: 'Hvor mye?'
-      booked_as_organization: 'Tok du kontakt på vegne av en organisasjon?'
-      which_organization: 'Hvilken organisasjon?'
+      booked_on_behalf_of: 'Hvem tok du kontakt på vegne av?'
       placeholder_your_organization: 'F.eks. "Natur og Ungdom"'
