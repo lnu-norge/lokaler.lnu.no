@@ -2,7 +2,6 @@
   <% if @space.reviews.any? %>
     <div class="flex gap-2 items-baseline justify-between">
       <h2><%= Review.model_name.human(count: 2).capitalize %></h2>
-      <%= render partial: 'spaces/show/review_link_to_new_review' %>
     </div>
 
     <ul class="horizontal-cards">
@@ -10,6 +9,8 @@
         <%= render partial: 'spaces/show/review_card', locals: {review: review}  %>
       <% end %>
     </ul>
+
+    <%= render partial: 'spaces/show/review_link_to_new_review' %>
   <% else %>
     <h2><%= Review.model_name.human(count: 2).capitalize %></h2>
     <%= render partial: 'spaces/show/review_none_yet' %>
