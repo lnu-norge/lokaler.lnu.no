@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_22_123239) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_12_131021) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -268,7 +268,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_22_123239) do
     t.string "post_address"
     t.string "municipality_code"
     t.decimal "star_rating", precision: 2, scale: 1
-    t.string "url"
     t.text "location_description"
     t.geography "geo_point", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}, null: false
     t.bigint "fylke_id"

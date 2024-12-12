@@ -57,7 +57,6 @@ end
 #  post_number          :string
 #  star_rating          :decimal(2, 1)
 #  title                :string           not null
-#  url                  :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  fylke_id             :bigint
