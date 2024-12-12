@@ -37,7 +37,7 @@
         <%= render partial: 'spaces/show/facilities' %>
         <hr />
 
-        <%= inline_editable :how_to_book, space: @space  do %>
+        <%= inline_editable :how_to_book, space: @space do %>
           <%= render_space_and_group_field @space, :how_to_book %>
         <% end %>
         <%= render 'space_contacts/index' %>
