@@ -3,14 +3,5 @@
 <%= inline_editable :basics, title_tag: :h1,  title_text: @space.title, space: @space  do %>
 
   <!-- Meta information listing -->
-  <%= render 'spaces/components/meta', space: @space do %>
-    <% if @space.url.present? %>
-      <div class="flex gap-1.5 items-center">
-        <%= inline_svg_tag 'url', class: "h-5 text-gray-600" %>
-        <span>
-        <%= link_to @space.url, @space.url %>
-      </span>
-      </div>
-    <% end %>
-  <% end %>
+  <%= render 'spaces/components/meta', space: @space %>
 <% end %>
