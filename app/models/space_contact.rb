@@ -26,7 +26,6 @@ class SpaceContact < ApplicationRecord
   include ParseUrlHelper
   before_validation :parse_url
 
-  validates :title, presence: true
   validates :telephone, phone: { allow_blank: true }
   validates :url, url: { allow_blank: true, public_suffix: true }
   validate :any_present?
