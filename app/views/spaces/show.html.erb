@@ -38,7 +38,12 @@
 
         <div class="py-8">
           <%= inline_editable :contact_information, space: @space do %>
-            <%= render 'spaces/show/contact_information', space: @space %>
+            <%= render_space_and_group_field @space, :how_to_book %>
+            <% if @space.space_contacts.any? %>
+              <div class="mt-8">
+                <%= render 'space_contacts/non_editable_index' %>
+              </div>
+            <% end %>
           <% end %>
         </div>
 
