@@ -1,11 +1,11 @@
-<%# locals: (space:, field:, title_tag:, title_text:, button_classes:, block:) %>
+<%# locals: (space:, field:, title_tag:, title_text:, button_classes:, title_classes:, block:) %>
 
 <% content = capture(&block) %>
 
 <%= turbo_frame_tag "#{dom_id(space)}-#{field}", class: 'inline-editing' do %>
   <section>
     <header class="editable-header-type-<%= title_tag %> flex gap-3 items-baseline">
-      <%= content_tag title_tag, class: 'mt-0 editable-header' do %>
+      <%= content_tag title_tag, class: "#{title_classes} editable-header" do %>
        <%= title_text %>
       <% end %>
       <% unless content.blank? %>

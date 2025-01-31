@@ -9,6 +9,7 @@ module SpacesHelper
                       space:,
                       title_tag: :h2,
                       title_text: Space.human_attribute_name(field),
+                      title_classes: "text-2xl mb-4 font-bold",
                       button_classes: "unstyled-link edit-button collapsable",
                       &block)
 
@@ -17,6 +18,7 @@ module SpacesHelper
       space:,
       title_tag:,
       title_text:,
+      title_classes:,
       button_classes:,
       block:
     }
