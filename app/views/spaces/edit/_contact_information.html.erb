@@ -1,0 +1,7 @@
+<%= render 'space_contacts/edit',
+           space_contact: @space.space_contacts.first || SpaceContact.new %>
+
+<%= render 'spaces/edit/common/edit_rich_text',
+  form: form,
+  field: :how_to_book
+ %>
