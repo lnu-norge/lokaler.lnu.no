@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "#{dom_id(@space)}-#{@field}" do %>
   <%= simple_form_for @space do |form| %>
     <section class="bg-white p-4 pt-6 -mx-4 shadow-lg md:shadow-2xl rounded-lg">
-      <h2 class="no-mt"><%= t('space_edit.editing_field_for_title', field: Space.human_attribute_name(@field), title: @space.title) %></h2>
+      <h2 class="text-2xl mb-4 font-bold"><%= t('space_edit.editing_field_for_title', field: Space.human_attribute_name(@field), title: @space.title) %></h2>
       <%= edit_field @field, form %>
       <nav class="flex gap-4 items-baseline flex-wrap my-4">
         <%= button_tag type: 'submit', class: 'button'  do  %>
