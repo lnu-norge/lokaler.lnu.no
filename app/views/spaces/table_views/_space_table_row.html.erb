@@ -126,7 +126,7 @@
             <% end %>
             <%= turbo_frame_tag dom_id_for_space_contacts_stream(space), class: 'flex flex-col' do %>
               <%= turbo_stream_from dom_id_for_space_contacts_stream(space) %>
-              <%= render partial: "space_contacts/space_contact", collection: space.space_contacts %>
+              <%= render partial: "space_contacts/non_editable_space_contact", collection: space.space_contacts %>
             <% end %>
           </div>
         </div>

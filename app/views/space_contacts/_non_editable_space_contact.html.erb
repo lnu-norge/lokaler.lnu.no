@@ -1,0 +1,35 @@
+<%# locals: (space_contact:) %>
+  <div class="my-2 p-4 border border-lnu-blue/20 rounded">
+    <h4 class="font-bold"><%= space_contact.title %></h4>
+    <dl class="break-words">
+      <% if space_contact.telephone? %>
+        <dt class="sr-only">
+          <%= t('space_contacts.phone') %>
+        </dt>
+        <dd>
+          <%= phone_to space_contact.telephone %>
+          <% if space_contact.telephone_opening_hours? %>
+            <em title="<%= t('space_contacts.opening_hours') %>">
+              (<%= space_contact.telephone_opening_hours %>)
+            </em>
+          <% end %>
+
+        </dd>
+      <% end %>
+
+      <% if space_contact.email? %>
+        <dt class="sr-only">
+          <%= t('space_contacts.email') %>
+        </dt>
+        <dd class="truncate"><%= mail_to space_contact.email %></dd>
+      <% end %>
+      <% if space_contact.url? %>
+        <dt class="sr-only"><%= t('space_contacts.url') %></dt>
+        <dd class="truncate"><%= link_to space_contact.url, space_contact.url %></dd>
+      <% end %>
+      <% if space_contact.description? %>
+        <dt  class="sr-only"><%= t('space_contacts.description') %>:</dt>
+        <dd><%= space_contact.description %></dd>
+      <% end %>
+    </dl>
+  </div>
