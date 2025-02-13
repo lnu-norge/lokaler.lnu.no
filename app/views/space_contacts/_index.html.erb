@@ -3,8 +3,8 @@
   <div class="flex gap-3 items-baseline">
     <h3 class="uppercase text-sm font-bold mb-2 "><%= t('space_contacts.contacts_heading') %></h3>
   </div>
-  <%= turbo_frame_tag "space_contacts_for_space_#{space.id}", class: 'flex flex-col' do %>
-    <%= turbo_stream_from "space_contacts_for_space_#{space.id}" %>
+  <%= turbo_stream_from dom_id_for_space_contacts_stream(space)  %>
+  <%= turbo_frame_tag dom_id_for_space_contacts_stream(space), class: 'flex flex-col' do %>
     <%= render partial: "space_contacts/space_contact", collection: space.space_contacts %>
   <% end %>
   <%= render "space_contacts/new_button", space_contact: SpaceContact.new(space:) %>

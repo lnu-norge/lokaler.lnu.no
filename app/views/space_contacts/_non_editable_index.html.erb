@@ -1,9 +1,7 @@
-<div id="<%= "#{ dom_id(@space)}" %>-contacts">
+<%# locals: (space: @space) %>
+<div>
   <div class="flex gap-3 items-baseline">
     <h3 class="uppercase text-sm font-bold mb-2 "><%= t('space_contacts.contacts_heading') %></h3>
   </div>
-  <%= turbo_frame_tag "space_contacts_for_space_#{@space.id}", class: 'flex flex-col' do %>
-    <%= turbo_stream_from "space_contacts_for_space_#{@space.id}" %>
-    <%= render partial: "space_contacts/non_editable_space_contact", collection: @space.space_contacts, as: :space_contact %>
-  <% end %>
+  <%= render partial: "space_contacts/non_editable_space_contact", collection: space.space_contacts, as: :space_contact %>
 </div>

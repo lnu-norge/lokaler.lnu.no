@@ -9,18 +9,13 @@ class SpaceContact < ApplicationRecord
   belongs_to :space_group, optional: true
 
   after_create_commit do
-    broadcast_prepend_to dom_id_for_self,
-                         target: dom_id_for_self,
-                         partial: "space_contacts/space_contact"
+    broadcast_prepend_to dom_id_for_relevant_space_contacts_stream
   end
   after_update_commit do
-    broadcast_replace_to dom_id_for_self,
-                         target: dom_id_for_self,
-                         partial: "space_contacts/space_contact"
+    broadcast_replace_to dom_id_for_relevant_space_contacts_stream
   end
   after_destroy_commit do
-    broadcast_remove_to dom_id_for_self,
-                        target: dom_id_for_self
+    broadcast_remove_to dom_id_for_relevant_space_contacts_stream
   end
 
   include ParseUrlHelper
@@ -44,7 +39,7 @@ class SpaceContact < ApplicationRecord
 
   private
 
-  def dom_id_for_self
+  def dom_id_for_relevant_space_contacts_stream
     dom_id_for_space_contacts_stream(space || space_group)
   end
 end
