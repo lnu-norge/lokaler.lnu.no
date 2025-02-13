@@ -74,61 +74,14 @@
     <td>
       <div>
         <div class="3xl:grid 3xl:grid-cols-2">
-          <div class="pb-4 mb-4 3xl:pb-0 3xl:mb-0 3xl:pr-4 3xl:mr-4 border-b 3xl:border-b-0 3xl:border-r border-gray-200 ">
-            <% if space.how_to_book.present? %>
-              <%= inline_editable :how_to_book, space: space, button_classes: "edit-button edit-button--small collapsable collapsable--to-right" do %>
-                <%= render_space_and_group_field space, :how_to_book %>
-              <% end %>
-            <% else %>
-              <%= turbo_frame_tag "#{dom_id(space)}-#{:how_to_book}", class: 'inline-editing' do %>
-                <%= link_to edit_field_path(space, :how_to_book),
-                            class: "edit-button edit-button--small mt-2" do %>
-                        <span class="text">
-                          Legg til fritekst om hvordan man booker
-                        </span>
-                  <%= inline_svg_tag 'edit' %>
-                <% end %>
-              <% end %>
-            <% end %>
-          </div>
-
-          <div id="<%= "#{ dom_id(space)}" %>-contacts"  class="flex flex-col">
+          <%= inline_editable :contact_information, space: do %>
+            <%= render_space_and_group_field space, :how_to_book %>
             <% if space.space_contacts.any? %>
-              <div class="flex gap-1 items-center mb-2">
-                <h3 class="inline">Kontaktinfo</h3>
-                <%= turbo_frame_tag dom_id_button_for_new_space_contact_for(space) do %>
-                  <%= button_to_modal dom_id_new_space_contact_modal(space),
-                                      id:  dom_id_new_space_contact_modal(space),
-                                      class: "edit-button edit-button--small collapsable collapsable--to-right" do %>
-                        <span class="text">
-                          <%= t('space_contacts.new') %>
-                        </span>
-                    <%= inline_svg_tag "plus" %>
-                  <% end %>
-                <% end %>
+              <div class="mt-8">
+                <%= render 'space_contacts/non_editable_index', space: %>
               </div>
-          <% else %>
-              <%= turbo_frame_tag dom_id_button_for_new_space_contact_for(space) do %>
-                <%= button_to_modal dom_id_new_space_contact_modal(space),
-                                    id:  dom_id_new_space_contact_modal(space),
-                                    class: "edit-button edit-button--small" do %>
-                      <span class="text">
-                        <%= t('space_contacts.new_contact') %>
-                      </span>
-                  <%= inline_svg_tag "plus" %>
-                <% end %>
-              <% end %>
+            <% end %>
           <% end %>
-
-
-            <%= modal_for dom_id_new_space_contact_modal(space), "modal--with-header-and-footer" do  %>
-              <%= render "space_contacts/new", space_contact: SpaceContact.new(space:) %>
-            <% end %>
-            <%= turbo_frame_tag dom_id_for_space_contacts_stream(space), class: 'flex flex-col' do %>
-              <%= turbo_stream_from dom_id_for_space_contacts_stream(space) %>
-              <%= render partial: "space_contacts/non_editable_space_contact", collection: space.space_contacts %>
-            <% end %>
-          </div>
         </div>
       </div>
     </td>
