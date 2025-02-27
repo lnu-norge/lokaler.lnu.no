@@ -5,21 +5,21 @@ module SpacesHelper
     render partial: "spaces/edit/#{partial}", locals: { form: }
   end
 
-  def inline_editable(field,
-                      space:,
-                      title_tag: :h2,
-                      title_text: Space.human_attribute_name(field),
-                      title_classes: "text-2xl mb-4 font-bold",
-                      button_classes: "unstyled-link edit-button collapsable",
-                      &block)
+  def inline_editable(field, space:, title_text: Space.human_attribute_name(field), display_options: {}, &block)
+    default_display_options = {
+      title_tag: :h2,
+      title_classes: "text-2xl mb-4 font-bold",
+      button_classes: "unstyled-link edit-button collapsable"
+    }
+    display_options = default_display_options.merge(display_options)
 
     render partial: "spaces/edit/common/editable_inline", locals: {
       field:,
       space:,
-      title_tag:,
       title_text:,
-      title_classes:,
-      button_classes:,
+      title_tag: display_options[:title_tag],
+      title_classes: display_options[:title_classes],
+      button_classes: display_options[:button_classes],
       block:
     }
   end
