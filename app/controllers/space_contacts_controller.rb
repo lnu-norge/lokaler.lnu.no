@@ -12,7 +12,7 @@ class SpaceContactsController < BaseControllers::AuthenticateController
   end
 
   def update
-    return if @space_contact.update(space_contact_params)
+    return successful_update if @space_contact.update(space_contact_params)
 
     render turbo_stream: turbo_stream.replace(
       @space_contact,
@@ -22,22 +22,42 @@ class SpaceContactsController < BaseControllers::AuthenticateController
   end
 
   def destroy
-    return if @space_contact.destroy
+    return successful_delete if @space_contact.destroy
 
     flash.now[:error] = t("space_contacts.contact_not_deleted")
   end
 
   private
 
-  def successful_save
-    # When saved, load the new button again
-    render turbo_stream: turbo_stream.replace(
-      dom_id_for_button,
-      partial: "space_contacts/new_button",
-      locals: {
-        space_contact: @space_contact
-      }
+  def turbo_update_flash(flash_message:, flash_type: :notice)
+    flash.now[flash_type] = flash_message
+    turbo_stream.update(
+      :flash,
+      partial: "shared/flash"
     )
+  end
+
+  def successful_update
+    flash_message = t("space_contacts.contact_updated")
+    render turbo_stream: [
+      turbo_update_flash(flash_message:)
+    ]
+  end
+
+  def successful_delete
+    flash_message = t("space_contacts.contact_deleted")
+    render turbo_stream: [
+      turbo_update_flash(flash_message:)
+    ]
+  end
+
+  def successful_save
+    # Add flash message, update contacts list, and close the modal
+    flash_message = t("space_contacts.contact_created")
+    render turbo_stream: [
+      turbo_update_flash(flash_message:),
+      turbo_stream.update("global_modal", "")
+    ]
   end
 
   def error_handling
@@ -46,6 +66,7 @@ class SpaceContactsController < BaseControllers::AuthenticateController
       dom_id_for_form,
       partial: "space_contacts/new",
       locals: {
+        space: @space_contact.space,
         space_contact: @space_contact
       }
     )

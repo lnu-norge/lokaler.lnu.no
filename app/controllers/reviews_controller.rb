@@ -73,7 +73,8 @@ class ReviewsController < BaseControllers::AuthenticateController # rubocop:disa
           turbo_stream.update(:flash,
                               partial: "shared/flash"),
           turbo_stream.update(:reviews,
-                              partial: "spaces/show/reviews")
+                              partial: "spaces/show/reviews"),
+          turbo_stream.update("global_modal", "") # Close the modal
         ]
       end
       format.html do

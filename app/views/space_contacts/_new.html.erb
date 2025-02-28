@@ -1,7 +1,6 @@
-<%# locals: (space:) %>
+<%# locals: (space:, space_contact: SpaceContact.new(space:)) %>
 <%= turbo_frame_tag dom_id_form_for_new_space_contact_for(space) do %>
   <% new_space_contact_form_id = "form_for_#{dom_id_form_for_new_space_contact_for(space)}" %>
-  <% space_contact = SpaceContact.new(space:) %>
   <%= simple_form_for space_contact,
                       url: space_contact.id.present? ? space_contact_path(space_contact) : space_contacts_path,
                       html: {
