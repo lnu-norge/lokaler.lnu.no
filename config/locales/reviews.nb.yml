@@ -4,6 +4,8 @@ nb:
     review_about: 'Erfaring om:'
     written: 'Skrevet:'
     edit: 'Redigér'
+    delete: 'Slett'
+    delete_confirmation: 'Er du sikker på at du vil slette?'
     add_review: 'Legg til erfaring'
     add_first: 'Legg til den første!'
     added_review: 'Erfaring loggført!'

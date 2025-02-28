@@ -39,7 +39,7 @@ class ReviewsController < BaseControllers::AuthenticateController # rubocop:disa
     params = parse_before_update review_params, @review
 
     if @review.update(params)
-      redirect_to space_path(@space)
+      create_success
     else
       render :edit, status: :unprocessable_entity
     end
