@@ -1,7 +1,7 @@
-<%# locals: (space_contact:) %>
-<%= turbo_frame_tag dom_id_button_for_new_space_contact_for(space_contact.space) do %>
+<%# locals: (space:) %>
+<%= turbo_frame_tag dom_id_button_for_new_space_contact_for(space) do %>
   <div>
-      <%= button_to_modal dom_id_new_space_contact_modal(space_contact.space),
+    <%= button_to_modal dom_id_new_space_contact_modal(space),
                         class: "edit-button" do %>
       <span class="text">
         <%= t('space_contacts.new_contact') %>
@@ -9,8 +9,8 @@
       <%= inline_svg_tag "plus" %>
     <% end %>
 
-    <%= modal_for dom_id_new_space_contact_modal(space_contact.space), "modal--with-header-and-footer" do  %>
-      <%=  render "space_contacts/new", space_contact:  %>
+    <%= modal_for dom_id_new_space_contact_modal(space), "modal--with-header-and-footer" do  %>
+      <%=  render "space_contacts/new", space:  %>
     <% end %>
   </div>
 <% end %>

@@ -1,15 +1,24 @@
 <%# locals: (space_contact:) %>
 <%= turbo_frame_tag dom_id(space_contact) do %>
+  <% space_contact_edit_form_id = "space_contact_edit_form_#{space_contact.id}" %>
   <%= simple_form_for space_contact,
                       url: space_contact.id.nil? ? space_contacts_path : space_contact_path(space_contact),
                       html: {
-                        data: { 'controller':"reset-form" } } do |form| %>
+                        id: space_contact_edit_form_id,
+                        target: "_top",  # Force submission to top frame
+                        data: {
+                          'controller': "reset-form"
+                        }
+                      } do |form| %>
     <div class="rounded-md shadow-md p-4 border border-gray-500 mb-3 ">
       <%= render partial: 'space_contacts/form', locals: {
         space_contact: space_contact, form: form
       }%>
       <div class="flex gap-2 items-center flex-wrap">
-        <button type="submit" class="button">
+        <button type="submit"
+                form="<%= space_contact_edit_form_id %>"
+                formtarget="_top"
+                class="button">
           <!-- Heroicon name: figma contact -->
           <%= inline_svg_tag 'contact' %>
           <%= t('space_contacts.submit') %>
