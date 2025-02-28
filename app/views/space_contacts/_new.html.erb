@@ -1,12 +1,19 @@
-<%# locals: (space_contact:) %>
-<%= turbo_frame_tag dom_id_form_for_new_space_contact_for(space_contact.space) do %>
+<%# locals: (space:) %>
+<%= turbo_frame_tag dom_id_form_for_new_space_contact_for(space) do %>
+  <% new_space_contact_form_id = "form_for_#{dom_id_form_for_new_space_contact_for(space)}" %>
+  <% space_contact = SpaceContact.new(space:) %>
   <%= simple_form_for space_contact,
                       url: space_contact.id.present? ? space_contact_path(space_contact) : space_contacts_path,
                       html: {
-                        data: { 'controller':"reset-form" } } do |form| %>
+                        id: new_space_contact_form_id,
+                        target: "_top",  # Force submission to top frame
+                        data: {
+                          'controller': "reset-form"
+                        }
+                      } do |form| %>
 
       <div class="modal-header">
-        <h3><%= t('space_contacts.new_contact_for_space', space_title: space_contact.space.title) %></h3>
+        <h3><%= t('space_contacts.new_contact_for_space', space_title: space.title) %></h3>
       </div>
       <div class="modal-content">
         <%= render 'space_contacts/form', space_contact:, form: %>
@@ -14,6 +21,8 @@
       <div class="modal-footer">
         <button
           type="submit"
+          form="<%= new_space_contact_form_id %>"
+          formtarget="_top"
           class="button submit">
           <!-- Heroicon name: figma contact -->
           <%= inline_svg_tag 'contact' %>
