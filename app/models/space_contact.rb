@@ -9,10 +9,11 @@ class SpaceContact < ApplicationRecord
   belongs_to :space_group, optional: true
 
   after_create_commit do
-    broadcast_prepend_to dom_id_for_relevant_space_contacts_stream
+    broadcast_prepend_later_to dom_id_for_relevant_space_contacts_stream,
+                               target: dom_id_for_relevant_space_contacts_stream
   end
   after_update_commit do
-    broadcast_replace_to dom_id_for_relevant_space_contacts_stream
+    broadcast_replace_later_to dom_id_for_relevant_space_contacts_stream
   end
   after_destroy_commit do
     broadcast_remove_to dom_id_for_relevant_space_contacts_stream
