@@ -47,7 +47,7 @@
 
 .modal--with-header-and-footer {
   @apply flex flex-col;
-  @apply p-0;
+  @apply min-h-90vh p-0;
   .modal-close-button {
     @apply sm:fixed sm:z-10 ml-8 mt-9 text-left text-sm -mb-4 sm:mb-4 ;
   }

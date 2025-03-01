@@ -32,7 +32,7 @@ nb:
       have_you_been_there?: 'Har dere brukt lokalet?'
       have_you_been_there_answers:
         been_there: 'Ja'
-        only_contacted: 'Nei, kun vært i kontakt'
+        only_contacted: 'Nei, kun kontaktet'
         not_allowed_to_use: 'Nei, fikk ikke lov'
       this_space_is_new_to_us!: 'Dette lokalet er nytt for oss!'
       were_you_allowed_to_use: 'Fikk dere lov å bruke disse fasilitetene?'
