@@ -7,11 +7,6 @@
     <span class="sr-only"><%= t("reviews.stars_given", count: review.star_rating.to_i) %></span>
     <% unless review.star_rating %>
       -
-      <% if review.type_of_contact %>
-        <%= t("activerecord.attributes.review.#{review.type_of_contact}") %>
-      <% else  %>
-        <%= t('reviews.not_used') %>
-      <% end %>
     <% end %>
   </span>
 </h3>

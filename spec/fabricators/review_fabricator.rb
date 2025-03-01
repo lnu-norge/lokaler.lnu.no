@@ -14,20 +14,14 @@ end
 #
 # Table name: reviews
 #
-#  id              :bigint           not null, primary key
-#  comment         :string
-#  how_long        :integer
-#  how_long_custom :string
-#  how_much        :integer
-#  how_much_custom :string
-#  organization    :string           default(""), not null
-#  price           :string
-#  star_rating     :decimal(2, 1)
-#  type_of_contact :integer
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  space_id        :bigint           not null
-#  user_id         :bigint           not null
+#  id           :bigint           not null, primary key
+#  comment      :string
+#  organization :string           default(""), not null
+#  star_rating  :decimal(2, 1)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  space_id     :bigint           not null
+#  user_id      :bigint           not null
 #
 # Indexes
 #
