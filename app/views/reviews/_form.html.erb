@@ -1,42 +1,18 @@
 <%= form.hidden_field :space_id, value: @review.space.id %>
 
-<div class="content" data-controller="review-form">
+<div class="flex flex-col gap-4 ">
+  <%= render partial: 'shared/form_error', locals: { model: @review } %>
 
-  <%= render partial: 'reviews/form/type_of_contact', locals: {
+  <%= render partial: 'reviews/form/star_rating', locals: {
+    star_rating: @review.star_rating,
     form: form
   } %>
 
-  <div data-review-form-target="fullForm" class="hidden">
-    <hr class="my-8"/>
+  <%= render partial: 'reviews/form/comment', locals: {
+    form: form
+  } %>
 
-    <div data-review-form-target="organizationForm">
-      <%= render partial: 'reviews/form/organization', locals: {
-        form: form
-      } %>
-      <hr class="my-8"/>
-    </div>
-
-    <div data-review-form-target="moreAboutYourStayForm">
-      <%= render partial: 'reviews/form/more_about_your_stay', locals: {
-        form: form
-      } %>
-      <hr class="my-8"/>
-
-    </div>
-
-    <div data-review-form-target="starRatingForm">
-      <%= render partial: 'reviews/form/star_rating', locals: {
-        star_rating: @review.star_rating,
-        form: form
-      } %>
-    </div>
-
-    <div data-review-form-target="commentForm">
-      <%= render partial: 'reviews/form/comment', locals: {
-        form: form
-      } %>
-    </div>
-
-    <%= render partial: 'shared/form_error', locals: { model: @review } %>
-  </div>
+  <%= render partial: 'reviews/form/organization', locals: {
+   form: form
+  } %>
 </div>

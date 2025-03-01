@@ -1,13 +1,12 @@
 
 <div>
-  <%= form.label :organization, class: "h3" do %>
+  <%= form.label :organization, class: "font-bold text-gray-900 mb-1.5 block" do %>
     <%= t('reviews.form.booked_on_behalf_of') %>
   <% end %>
 
   <%= form.input :organization,
                  value: current_user.organization,
-                 label: false,
-                 class: "h3" %>
+                 label: false %>
 
   <% unless current_user.organization.present? %>
     <div class="text-sm -mt-1 text-gray-500">
