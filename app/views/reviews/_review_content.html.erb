@@ -51,42 +51,6 @@
   </div>
 </div>
 
-
-<% if review.how_much  %>
-  <div class="flex gap-1">
-    <%= inline_svg_tag 'building' %>
-    <% if review.how_much == 'custom_how_much' %>
-      <%= review.how_much_custom %>
-    <% else  %>
-        <%= t("reviews.data.#{review.how_much}") %>
-    <% end  %>
-
-  </div>
-<% end %>
-
-<% if review.how_long  %>
-  <div class="flex gap-1">
-    <%= inline_svg_tag 'calendar' %>
-    <% if review.how_long == 'custom_how_long' %>
-      <%= review.how_long_custom %>
-    <% else  %>
-      <%= t("reviews.data.#{review.how_long}") %>
-    <% end  %>
-
-  </div>
-<% end %>
-
-<% if review.been_there? && review.price != "" %>
-  <div class="flex gap-1">
-    <%= inline_svg_tag 'money' %>
-    <% if review.price.present? %>
-      <%= number_with_delimiter(review.price) %> kr
-    <% else %>
-      <%= t('reviews.data.did_not_pay') %>
-    <% end %>
-  </div>
-<% end %>
-
 <% if current_user == review.user %>
   <div class="flex gap-2 justify-between mt-auto items-center">
     <%= button_to_modal dom_id(review, :edit), class: "link" do %>
