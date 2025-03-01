@@ -98,35 +98,11 @@ class ReviewsController < BaseControllers::AuthenticateController # rubocop:disa
   end
 
   def review_params # rubocop:disable Metrics/MethodLength
-    case params[:review][:type_of_contact]
-    when "been_there"
       params.require(:review).permit(
-        :title,
         :comment,
-        :price, :star_rating,
-        :how_much, :how_much_custom,
-        :how_long, :how_long_custom,
-        :type_of_contact,
+        :star_rating,
         :space_id,
         :organization
       )
-    when "not_allowed_to_use"
-      params.require(:review).permit(
-        :title,
-        :comment,
-        :type_of_contact,
-        :space_id,
-        :organization
-      )
-    when "only_contacted"
-      params.require(:review).permit(
-        :comment,
-        :type_of_contact,
-        :space_id,
-        :organization
-      )
-    else
-      raise "No valid type of contact given. Check reviews controller."
-    end
   end
 end
