@@ -1,0 +1,19 @@
+<%#
+
+    Locals:
+    - path: Path to link to
+    - icon: Icon to show
+    - text: Text to show
+
+%>
+<span class="<%= active_path?(path) ? "text-gray-900" : "text-gray-600" %> flex justify-center text-center">
+ <%= link_to path, class: "unstyled-link text-xs md:text-sm hover:text-lnu-pink inline-flex flex-col md:flex-row items-center justify-center gap-1.5 md:gap-2" do %>
+    <% if current_user.gravatar_url.present? %>
+     <%= image_tag current_user.gravatar_url, class: "rounded-full w-8 h-8 md:w-6 md:h-6 #{active_path?(path) && "border-lnu-pink"}" %>
+    <% else %>
+      <%= inline_svg_tag icon, class: "inline-block w-7 h-7 md:w-6 md:h-6 #{active_path?(path) && "text-lnu-pink"}" %>
+    <% end %>
+    <%= current_user.name || text %>
+<% end %>
+
+</span>
