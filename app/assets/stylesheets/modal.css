@@ -1,6 +1,7 @@
 .modal {
   @apply relative;
-  @apply w-screen max-h-screen max-h-screen md:max-h-90vh md:max-w-prose;
+  @apply min-h-24;
+  @apply w-full max-w-full max-h-full md:max-h-90vh md:max-w-prose;
   @apply z-50;
   @apply bg-white;
   @apply p-8 md:rounded-lg md:drop-shadow-xl;

@@ -8,6 +8,7 @@ nb:
     space_added_to_list: '%{space_title} lagt i listen'
     space_removed_from_list: "%{space_title} fjernet fra listen"
     edit_list: "Rediger"
+    add_to_new_list: "Lag liste"
     list_added: "Lagt til mine lister"
     list_removed: "Fjernet fra mine lister"
     list_created: "Ny liste laget"

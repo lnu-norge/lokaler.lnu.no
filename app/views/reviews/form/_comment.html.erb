@@ -3,11 +3,10 @@
     - form
 =
 %>
+<div>
 
-<%= form.label :comment, class: 'h3' do %>
-  <span data-review-form-target="commentLabelBeenThere"><%= t('reviews.form.how_would_you_summarize_the_experience?') %></span>
-  <span class="hidden" data-review-form-target="commentLabelNotAllowed"><%= t('reviews.form.why_were_you_not_allowed') %></span>
-  <span class="hidden" data-review-form-target="commentLabelOnlyContacted"><%= t('reviews.form.what_do_you_want_to_say_to_others?') %></span>
+<%= form.label :comment, class: 'font-bold text-gray-900 mb-1 block' do %>
+  <%= t('reviews.form.how_would_you_summarize_the_experience?') %>
 <% end %>
 <p class="label">
   <%= t('reviews.form.what_did_you_experience_any_tips_for_others') %>
@@ -18,3 +17,4 @@
                input_html: { size: '12x12', required: true },
                class: "block w-full my-2" %>
 
+</div>

@@ -112,7 +112,6 @@ module Admin
 
     def review_statistics
       @reviews_created = Review
-                         .group("type_of_contact")
                          .group_by_period(@period_grouping, :created_at, range: @date_range).count
       @reviews_created_count = Review.where(created_at: @date_range).count
     end

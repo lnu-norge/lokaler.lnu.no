@@ -18,8 +18,8 @@ nb:
       one: "Vis mulig duplikat"
       other: "Vis %{count} mulige duplikater"
   space_show:
-    only_for_space: "Spesifikt for %{title}:"
-    common_to_all_in_group: 'Felles for alle %{group}:'
+    only_for_space: "Informasjon kun om %{title}:"
+    common_to_all_in_group: 'Informasjon som skal vises for alle %{group}:'
     show_changelog: 'Vis endringshistorikk'
     number_of_reviews:
       zero: "Ingen erfaringer"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_22_123239) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_01_121537) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -178,17 +178,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_22_123239) do
 
   create_table "reviews", force: :cascade do |t|
     t.string "comment"
-    t.string "price"
     t.decimal "star_rating", precision: 2, scale: 1
     t.bigint "user_id", null: false
     t.bigint "space_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "how_much"
-    t.string "how_much_custom"
-    t.integer "how_long"
-    t.string "how_long_custom"
-    t.integer "type_of_contact"
     t.string "organization", default: "", null: false
     t.index ["space_id"], name: "index_reviews_on_space_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
@@ -268,7 +262,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_22_123239) do
     t.string "post_address"
     t.string "municipality_code"
     t.decimal "star_rating", precision: 2, scale: 1
-    t.string "url"
     t.text "location_description"
     t.geography "geo_point", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}, null: false
     t.bigint "fylke_id"

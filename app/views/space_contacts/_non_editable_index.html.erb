@@ -1,0 +1,7 @@
+<%# locals: (space: @space) %>
+<div>
+  <div class="flex gap-3 items-baseline">
+    <h3 class="uppercase text-sm font-bold mb-2 "><%= t('space_contacts.contacts_heading') %></h3>
+  </div>
+  <%= render partial: "space_contacts/non_editable_space_contact", collection: space.space_contacts, as: :space_contact %>
+</div>

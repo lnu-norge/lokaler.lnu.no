@@ -37,9 +37,6 @@ application.register("nested-checkbox-filter", NestedCheckboxFilterController)
 import ResetFormController from "./reset_form_controller"
 application.register("reset-form", ResetFormController)
 
-import ReviewFormController from "./review_form_controller"
-application.register("review-form", ReviewFormController)
-
 import SearchAndFilter__SetSelectedSpaceController from "./search_and_filter/set_selected_space_controller"
 application.register("search-and-filter--set-selected-space", SearchAndFilter__SetSelectedSpaceController)
 

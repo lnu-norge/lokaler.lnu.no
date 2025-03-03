@@ -25,7 +25,7 @@ RSpec.describe Spaces::AggregateStarRatingService do
   it "Rating can be calculated even if there are reviews with nil stars" do
     Fabricate(:review, space:, star_rating: 3)
     Fabricate(:review, space:, star_rating: 5)
-    Fabricate(:review, space:, star_rating: nil, type_of_contact: :only_contacted)
+    Fabricate(:review, space:, star_rating: nil)
 
     expect(space.reload.star_rating).to eq((3.0 + 5.0) / 2)
   end

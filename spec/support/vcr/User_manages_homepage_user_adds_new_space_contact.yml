@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ws.geonorge.no/adresser/v1/sok?asciiKompatibel=true&side=0&treffPerSide=10&utkoordsys=4258
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - ws.geonorge.no
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 03 Mar 2025 13:06:01 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '49'
+      Connection:
+      - close
+      Access-Control-Allow-Origin:
+      - "*"
+    body:
+      encoding: UTF-8
+      string: '{"message":"Ingen s\u00f8keparametere oppgitt."}
+
+        '
+  recorded_at: Mon, 03 Mar 2025 13:06:01 GMT
+recorded_with: VCR 6.3.1

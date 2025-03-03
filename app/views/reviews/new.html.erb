@@ -2,12 +2,11 @@
 
   <%= turbo_frame_tag :new_review_path do %>
     <%= simple_form_for @review do |form| %>
-      <div class="modal-header">
-        <h2 class="h3 no-mt"><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h2>
+      <div class="modal-header mt-1">
+        <h2 class="reset-header-styles"><%= t('reviews.form.new_review_about_space', space_title: @review.space.title) %></h2>
       </div>
       <div
         class="modal-content content"
-        style="min-height: 80vh; /* This is to force the modal to not jump around in height when opening the rest of the form */"
       >
         <%= render partial: "reviews/form", locals: {
           form: form

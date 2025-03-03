@@ -25,4 +25,34 @@
       </li>
     <% end %>
   </ul>
+  <% if current_user&.admin? %>
+    <hr />
+    <p>Admin-verktøy:</p>
+    <h1>Alle erfaringer</h1>
+    <ul class="flex flex-wrap gap-4 mt-8">
+      <% @all_reviews.each do |review| %>
+        <li class="">
+          <div class="w-64 rounded-xl shadow-lg">
+            <div class="p-4 bg-gray-50">
+              <%= t('reviews.review_about') %> <%= link_to review.space.title, review.space %>
+              <br /> <%= t('reviews.written') %>  <%= review.created_at.to_formatted_s(:short)  %>
+            </div>
+            <hr />
+
+            <div class="p-4">
+              <%= render partial: 'reviews/review_content', locals: {
+                review: review
+              } %>
+
+            </div>
+            <hr />
+            <div class="p-4 bg-gray-50">
+              <%= link_to t('reviews.edit'), edit_review_path(review) %>
+
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 </div>

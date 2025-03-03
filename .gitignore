@@ -62,3 +62,6 @@ config/kamal_secrets
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
+# Ignore Claude's memory file
+CLAUDE.md
+

@@ -25,6 +25,7 @@ nb:
         space_types: 'Type lokale'
         basics: 'grunnleggende informasjon'
         how_to_book: 'Hvordan booker vi?'
+        contact_information: 'Hvordan booker vi?'
         more_info: 'Mer om lokalet'
         facility_description: 'Fasilitets beskrivelse'
         terms_and_pricing: 'Pris og vilkår'
@@ -40,13 +41,7 @@ nb:
         lng: 'Lengdegrad'
         url: 'Nettside'
       review:
-        how_much_custom: 'Hvor mye av lokalet brukte dere'
-        how_long_custom: 'Hvor lenge brukte dere lokalet'
-        price: 'Pris'
         title: 'Tittel'
-        only_contacted: 'Kun kontaktet dem'
-        been_there: 'Brukt lokalet'
-        not_allowed_to_use: 'Fikk ikke lov'
         facility_reviews: 'Fasilitetserfaringer'
         organization: 'Organisasjon'
       space_contact:

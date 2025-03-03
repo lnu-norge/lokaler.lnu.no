@@ -7,11 +7,6 @@
     <span class="sr-only"><%= t("reviews.stars_given", count: review.star_rating.to_i) %></span>
     <% unless review.star_rating %>
       -
-      <% if review.type_of_contact %>
-        <%= t("activerecord.attributes.review.#{review.type_of_contact}") %>
-      <% else  %>
-        <%= t('reviews.not_used') %>
-      <% end %>
     <% end %>
   </span>
 </h3>
@@ -20,10 +15,10 @@
   <p>
     <% if show_full_review  %>
       <%= simple_format review.comment %>
-    <% elsif review.comment.length <= 88 %>
+    <% elsif review.comment.length <= 140 %>
       <%= review.comment %>
     <% else %>
-      <%= truncate(review.comment, length: 88) %>
+      <%= truncate(review.comment, length: 140) %>
       <%= button_to_modal dom_id(review), class: "link" do %>
         <%= t('read_more') %>
       <% end  %>
@@ -51,38 +46,19 @@
   </div>
 </div>
 
+<% if current_user == review.user %>
+  <div class="flex gap-2 justify-between mt-auto items-center">
+    <%= button_to_modal dom_id(review, :edit), class: "link" do %>
+      <%= t('reviews.edit') %>
+    <% end %>
+    <%= modal_for dom_id(review, :edit), "modal--with-header-and-footer" do %>
+      <%= turbo_frame_tag dom_id(review, :edit_modal), src: edit_review_path(review), loading: "lazy" do %>
+      <% end %>
+    <% end %>
 
-<% if review.how_much  %>
-  <div class="flex gap-1">
-    <%= inline_svg_tag 'building' %>
-    <% if review.how_much == 'custom_how_much' %>
-      <%= review.how_much_custom %>
-    <% else  %>
-        <%= t("reviews.data.#{review.how_much}") %>
-    <% end  %>
-
-  </div>
-<% end %>
-
-<% if review.how_long  %>
-  <div class="flex gap-1">
-    <%= inline_svg_tag 'calendar' %>
-    <% if review.how_long == 'custom_how_long' %>
-      <%= review.how_long_custom %>
-    <% else  %>
-      <%= t("reviews.data.#{review.how_long}") %>
-    <% end  %>
-
-  </div>
-<% end %>
-
-<% if review.been_there? %>
-  <div class="flex gap-1">
-    <%= inline_svg_tag 'money' %>
-    <% if review.price %>
-      <%= review.price %> kr
-    <% else %>
-      <%= t('reviews.data.did_not_pay') %>
+    <%= link_to review_path(review), method: :delete, data: { confirm: t('reviews.delete_confirmation') }, class: 'link inline-flex gap-0 items-center' do %>
+      <%= inline_svg_tag 'delete' %>
+      <%= t('reviews.delete') %>
     <% end %>
   </div>
 <% end %>
