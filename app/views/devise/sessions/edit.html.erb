@@ -2,7 +2,7 @@
 
 <div class="content max-w-md mx-auto p-4">
   <h1>
-    <%= t('menu.account') %>
+    <%= current_user.name || t('menu.account') %>
   </h1>
   <p><%= t('devise.sessions.user.logged_in_as') %> <strong><%= current_user.email %></strong></p>
   <p>
