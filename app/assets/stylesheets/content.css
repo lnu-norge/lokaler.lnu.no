@@ -6,6 +6,7 @@
   }
 
   .content,
+  trix-editor.rich_text_area,
   .trix-content {
     .h1, .h2, .h3, h1, h2, h3 {
       @apply mt-6 font-bold block;

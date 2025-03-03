@@ -1,11 +1,26 @@
-<%= simple_form_for @review do |form| %>
-  <div class="content max-w-prose mx-auto p-4 pb-10">
-    <h1><%= t('reviews.form.edit_review_about_space', space_title: @review.space.title) %></h1>
 
-    <%= render partial: "reviews/form", locals: {
-      form: form
-    } %>
-    <%= form.submit t('reviews.save_review'), class: "button submit text-lg" %>
+<div class="max-w-prose mx-auto p-4 pb-10">
 
-  </div>
-<% end %>
+  <%= turbo_frame_tag dom_id(@review, :edit_modal) do %>
+    <%= simple_form_for @review do |form| %>
+      <div class="modal-header mt-1">
+        <h2 class="reset-header-styles"><%= t('reviews.form.edit_review_about_space', space_title: @review.space.title) %></h2>
+      </div>
+      <div
+        class="modal-content content"
+      >
+        <%= render partial: "reviews/form", locals: {
+          form: form
+        } %>
+      </div>
+      <div class="modal-footer">
+        <%= form.submit t('reviews.save_review'), class: "button submit" %>
+        <button type="button"
+                data-action="click->modal#close"
+                class="link">
+          <%= t('space_contacts.abort') %>
+        </button>
+      </div>
+    <% end%>
+  <% end%>
+</div>

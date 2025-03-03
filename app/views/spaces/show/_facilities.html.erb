@@ -1,8 +1,10 @@
 <section id="facilities">
 
  <header class="editable-header-type-h2 flex gap-3 items-baseline">
-    <h2><%= Facility.model_name.human(count: 2).capitalize %></h2>
+    <h2 class="text-2xl mb-4 font-bold"><%= Facility.model_name.human(count: 2).capitalize %></h2>
   </header>
+
+  <p class="text-lnu-blue">Del egne erfaringer med fasilitetene ved å trykke på rediger</p>
 
   <% if @grouped_relevant_facilities.present? %>
     <main class="grid divide-y">
@@ -18,7 +20,7 @@
             space_title:  @space.title,
             space_types: @space.space_types.map{ |type| type.type_name }.to_sentence) %>
     </p>
-    <details class="mb-8 group">
+    <details class="group mt-4">
       <summary class="link">
         <span>Vis <%= @non_relevant_facilities.count %> andre fasiliteter</span>
       </summary>

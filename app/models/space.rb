@@ -157,12 +157,9 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_rich_text :terms_and_pricing
   has_rich_text :more_info
 
-  include ParseUrlHelper
-  before_validation :parse_url
   before_validation :set_geo_data_from_lng_lat, if: :lat_lng_changed?
 
   validates :star_rating, numericality: { greater_than: 0, less_than: 6 }, allow_nil: true
-  validates :url, url: { allow_blank: true, public_suffix: true }
   validates :title, :address, :post_address, :post_number, :lat, :lng, :geo_point, presence: true
   validates :lat, :lng, numericality: { other_than: 0 }
 
@@ -403,7 +400,6 @@ end
 #  post_number          :string
 #  star_rating          :decimal(2, 1)
 #  title                :string           not null
-#  url                  :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  fylke_id             :bigint

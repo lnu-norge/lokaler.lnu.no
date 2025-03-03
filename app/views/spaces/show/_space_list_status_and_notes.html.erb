@@ -1,16 +1,23 @@
 <%# locals: (personal_space_list: @active_personal_space_list, space: @space, personal_data_on_space_in_list: personal_space_list&.this_lists_personal_data_on_spaces&.find_by(space:)) %>
-<aside
-  id="<%= dom_id_for_space_list_status_and_notes_for_space(space) %>"
-  class="divide-y divide-gray-200
-      flex flex-col
-      shadow-lg rounded-lg
-      bg-white
-      relative
-      border border-gray-200
-  ">
 
-  <header class="flex flex-col gap-3 pb-5 px-6 pt-5">
-    <% if personal_space_list.present? %>
+<% if personal_space_list.blank? %>
+  <aside
+    id="<%= dom_id_for_space_list_status_and_notes_for_space(space) %>">
+    <%= render "personal_space_lists/space_in_list/list_status_for_space",
+               personal_space_list:, space:, collapsable: false %>
+  </aside>
+<% else %>
+  <aside
+    id="<%= dom_id_for_space_list_status_and_notes_for_space(space) %>"
+    class="divide-y lg:divide-y-0 lg:divide-x divide-gray-200
+        flex flex-col lg:flex-row lg:items-start
+        shadow-lg rounded-lg
+        bg-white
+        relative
+        border border-gray-200
+    ">
+
+    <header class="flex flex-col gap-3 pb-5 px-6 pt-5">
       <h2 class="reset-header-styles text-gray-700 my-0 leading-tight ">
         <%= link_to personal_space_list, class: "group" do %>
           <span class="font-bold text-md text-gray-700 group-hover:text-lnu-pink"><%= personal_space_list.title %></span>
@@ -30,21 +37,21 @@
         <% end %>
       </h2>
       <%= render 'personal_space_lists/card/space_list', personal_space_list:, scope: "inside_space"  %>
-  <% end %>
 
-    <%= render "personal_space_lists/space_in_list/list_status_for_space",
-               personal_space_list:, space:, collapsable: false %>
-  </header>
-  <%
+      <%= render "personal_space_lists/space_in_list/list_status_for_space",
+                 personal_space_list:, space:, collapsable: false %>
+    </header>
+    <%
 
-    if personal_data_on_space_in_list.present?
-  %>
-    <main class="px-6 pb-5 pt-5 bg-gray-50 rounded-b-lg flex flex-col gap-4">
-      <%= render "personal_space_lists/contact_status/form",
-                 personal_data_on_space_in_list: %>
-      <%= render "personal_space_lists/personal_notes/form",
-                 personal_data_on_space_in_list: %>
+      if personal_data_on_space_in_list.present?
+    %>
+      <main class="px-6 pb-5 pt-5 bg-gray-50 rounded-b-lg lg:rounded-b-none lg:rounded-tr-lg lg:rounded-br-lg flex flex-col gap-4">
+        <%= render "personal_space_lists/contact_status/form",
+                   personal_data_on_space_in_list: %>
+        <%= render "personal_space_lists/personal_notes/form",
+                   personal_data_on_space_in_list: %>
 
-    </main>
-  <% end %>
-</aside>
+      </main>
+    <% end %>
+  </aside>
+<% end %>

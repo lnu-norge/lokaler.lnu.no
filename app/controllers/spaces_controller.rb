@@ -61,7 +61,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     @space = Space.find(params[:id])
     address_params = get_address_params(params)
 
-    space_group_from(params)
+    update_space_group_from(params)
 
     if @space.update(
       **space_params,
@@ -91,7 +91,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     render "spaces/edit/common/edit_field"
   end
 
-  def space_group_from(params)
+  def update_space_group_from(params)
     if params[:space][:space_group_title].present?
       @space.update!(
         space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
@@ -195,7 +195,6 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
       :terms_and_pricing,
       :more_info,
       :facility_description,
-      :url,
       space_group_attributes: %i[id how_to_book terms_and_pricing]
     )
   end

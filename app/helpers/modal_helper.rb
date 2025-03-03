@@ -2,22 +2,19 @@
 
 module ModalHelper
   def button_to_modal(modal_id, **options, &block)
-    button_tag(**options, data: {
-                 controller: "modal",
-                 "modal-target": "openButton",
-                 "modal-to-toggle": modal_id
-               }) do
-      yield block
-    end
-  end
+    aria_options = {
+      "aria-haspopup": "dialog",
+      "aria-expanded": "false"
+    }
 
-  def button_close_modal(modal_id, **options, &block)
     button_tag(
       type: "button",
-      **options, data: {
+      **options,
+      **aria_options,
+      data: {
         controller: "modal",
-        "modal-target": "closeButton",
-        "modal-to-toggle": modal_id
+        action: "modal#open",
+        "modal-id-param": modal_id
       }
     ) do
       yield block
@@ -25,10 +22,12 @@ module ModalHelper
   end
 
   def modal_for(modal_id, modal_classes = "", &block)
-    render partial: "shared/modal", locals: {
-      modal_id:,
-      modal_classes:,
-      block:
-    }
+    content_tag :template, data: { "modal-id": modal_id, "modal-target": "template" } do
+      render partial: "shared/modal", locals: {
+        modal_id:,
+        modal_classes:,
+        block:
+      }
+    end
   end
 end

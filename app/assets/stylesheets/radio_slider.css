@@ -2,7 +2,12 @@
   @apply overflow-hidden; /* To hide the shadow from the buttons */
   @apply bg-gray-200/30 border border-gray-200 shadow-inner;
   @apply p-0.5 rounded-xl;
-  @apply inline-grid gap-0.5 grid-cols-4;
+  @apply inline-grid gap-0.5 grid-flow-col auto-cols-fr;
+  &.horizontal {
+    @apply grid-flow-row grid-cols-1;
+    @apply gap-x-0.5;
+    @apply gap-y-1.5;
+  }
   &:focus-within {
     @apply outline-none ring-2 ring-offset-2 ring-lnu-pink;
   }

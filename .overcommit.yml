@@ -28,12 +28,6 @@ PreCommit:
     enabled: true
     # on_warn: fail # Treat all warnings as failures
 
-  TrailingWhitespace:
-    enabled: true
-    exclude:
-      - '*.md' # Ignore Markdown files
-    #  - '**/stylesheets/paper-kit/**/*' # Ignore trailing whitespace in theme files
-
   CoffeeLint:
     enabled: true
     config: coffeelint.json

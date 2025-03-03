@@ -1,25 +1,16 @@
-<%= field_set_tag t('reviews.form.booked_as_organization'),
-                  class: "my-3 field_set",
-                  data: { controller: 'show-on-radio-button-value' } do   %>
-  <div class="radio-slider mt-1.5">
-    <%  ['yes', 'no'].each_with_index do |value| %>
-      <%=
-        form.radio_button :on_behalf_of_organization,
-                          value,
-                          checked: (value == 'yes') && form.object.organization?,
-                          data: {
-                            "show-on-radio-button-value-target":
-                              "radioButton#{' toggleOnChecked' if value.start_with? 'yes'}"
-                          }
-      %>
-      <%= form.label :"on_behalf_of_organization_#{value}" do  %>
-        <%= render partial: 'reviews/form/radio_text_label', locals: { text: t("generic.#{value}") } %>
-      <% end  %>
-    <% end  %>
-  </div>
-  <div data-show-on-radio-button-value-target="elementToShow">
-    <%= form.input :organization,
-                   placeholder: t('reviews.form.placeholder_your_organization'),
-                   label: t('reviews.form.which_organization') %>
-  </div>
-<% end %>
+
+<div>
+  <%= form.label :organization, class: "font-bold text-gray-900 mb-1.5 block" do %>
+    <%= t('reviews.form.booked_on_behalf_of') %>
+  <% end %>
+
+  <%= form.input :organization,
+                 value: current_user.organization,
+                 label: false %>
+
+  <% unless current_user.organization.present? %>
+    <div class="text-sm -mt-1 text-gray-500">
+      <%= t('reviews.form.placeholder_your_organization') %>
+    </div>
+  <% end %>
+</div>

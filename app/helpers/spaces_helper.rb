@@ -5,32 +5,52 @@ module SpacesHelper
     render partial: "spaces/edit/#{partial}", locals: { form: }
   end
 
-  def inline_editable(field,
-                      space:,
-                      title_tag: :h2,
-                      title_text: Space.human_attribute_name(field),
-                      button_classes: "unstyled-link edit-button collapsable",
-                      &block)
+  def inline_editable(field, space:, title_text: Space.human_attribute_name(field), display_options: {}, &block)
+    default_display_options = {
+      title_tag: :h2,
+      title_classes: "text-2xl mb-4 font-bold",
+      button_classes: "unstyled-link edit-button collapsable"
+    }
+    display_options = default_display_options.merge(display_options)
+
     render partial: "spaces/edit/common/editable_inline", locals: {
       field:,
       space:,
-      title_tag:,
       title_text:,
-      button_classes:,
+      title_tag: display_options[:title_tag],
+      title_classes: display_options[:title_classes],
+      button_classes: display_options[:button_classes],
       block:
     }
   end
 
-  def render_space_and_group_field(space, field)
-    group = space.space_group
+  def field_in_model(field, model)
     # Setting the fields only if they are available (respond_to) and they have any content (present?)
-    field_in_space = (space.public_send(field) if space.respond_to?(field) && space.public_send(field).present?)
-    field_in_space_group = (group.public_send(field) if group.respond_to?(field) && group.public_send(field).present?)
+
+    model.public_send(field) if model.respond_to?(field) && model.public_send(field).present?
+  end
+
+  def field_in_space(field, space)
+    field_in_model(field, space)
+  end
+
+  def field_in_space_group(field, space)
+    group = space.space_group
+
+    field_in_model(field, group)
+  end
+
+  def both_space_and_space_group_field_empty?(field:, space:)
+    field_in_space(field, space).blank? && field_in_space_group(field, space).blank?
+  end
+
+  def render_space_and_group_field(space, field)
+    return if both_space_and_space_group_field_empty?(field:, space:)
 
     render partial: "spaces/show/common/render_space_and_group_field", locals: {
       space:,
-      field_in_space:,
-      field_in_space_group:
+      field_in_space: field_in_space(field, space),
+      field_in_space_group: field_in_space_group(field, space)
     }
   end
 

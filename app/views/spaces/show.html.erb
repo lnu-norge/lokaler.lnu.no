@@ -15,46 +15,58 @@
       <%= render partial: "spaces/show/image_header"  %>
 
 
-      <section class="content px-4 pb-8">
+      <section class="px-4 pb-8 grid divide-y ">
 
-        <%= render partial: 'spaces/show/basics' %>
+        <div class="flex flex-col gap-6 pb-8">
+          <%= render partial: 'spaces/show/basics' %>
 
-        <hr />
+          <%= render 'spaces/show/space_list_status_and_notes',
+                     personal_space_list: @active_personal_space_list,
+                     space: @space %>
 
-        <%= render 'spaces/show/space_list_status_and_notes',
-          personal_space_list: @active_personal_space_list,
-          space: @space %>
-         <hr />
+        </div>
 
-        <%= inline_editable :how_to_book, space: @space  do %>
-          <%= render_space_and_group_field @space, :how_to_book %>
-        <% end %>
-        <%= render 'space_contacts/index' %>
 
-        <hr />
+        <div class="py-8">
+          <%= render partial: 'spaces/show/reviews' %>
+        </div>
 
-        <%= render partial: 'spaces/show/facilities' %>
-        <hr />
+        <div class="py-8">
+          <%= render partial: 'spaces/show/facilities' %>
+        </div>
 
-        <%= inline_editable :terms_and_pricing, space: @space do %>
-          <%= render_space_and_group_field @space, :terms_and_pricing %>
-        <% end %>
 
-        <hr />
+        <div class="py-8">
+          <%= inline_editable :contact_information, space: @space do %>
+            <%= render_space_and_group_field @space, :how_to_book %>
+            <% if @space.space_contacts.any? %>
+              <div class="mt-8">
+                <%= render 'space_contacts/non_editable_index' %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
 
-        <%= render partial: 'spaces/show/where' %>
-        <hr />
+        <div class="py-8">
+          <%= inline_editable :terms_and_pricing, space: @space do %>
+            <%= render_space_and_group_field @space, :terms_and_pricing %>
+          <% end %>
+        </div>
 
-        <%= inline_editable :more_info, space: @space do %>
-          <%= render_space_and_group_field @space, :more_info %>
-        <% end %>
-        <hr />
 
-        <%= render partial: 'spaces/show/reviews' %>
+
+        <div class="py-8">
+          <%= render partial: 'spaces/show/where' %>
+        </div>
+
+        <div class="py-8">
+          <%= inline_editable :more_info, space: @space do %>
+            <%= render_space_and_group_field @space, :more_info %>
+          <% end %>
+        </div>
 
         <% if current_user&.admin? %>
-          <hr />
-          <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink">
+          <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink py-8">
             <h3 class="no-mt pt-1">Admin:</h3>
             <p>
               <%= link_to t("space_show.show_changelog"), admin_history_path(@space) %>
