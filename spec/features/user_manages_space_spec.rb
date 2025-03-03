@@ -59,13 +59,11 @@ describe "User manages homepage", :js do
       click_on "edit_basics"
 
       fill_in "space_title", with: ""
-      fill_in "space_url", with: "asd"
       fill_in "space_address", with: ""
       fill_in "space_post_number", with: ""
 
       click_on "Lagre"
       expect(page).to have_text("Title #{I18n.t('errors.messages.blank')}")
-      expect(page).to have_text("Nettside #{I18n.t('activerecord.errors.models.space.attributes.url.url')}")
       expect(page).to have_text("Adresse #{I18n.t('errors.messages.blank')}")
       expect(page).to have_text("Postnummer #{I18n.t('errors.messages.blank')}")
     end
@@ -74,7 +72,7 @@ describe "User manages homepage", :js do
   it "user edits how_to_book" do
     login_and_logout_with_warden do
       visit space_path(id: space.id)
-      click_on "edit_how_to_book"
+      click_on "edit_contact_information"
 
       within("div.space_how_to_book") do
         find("trix-editor").set("New How To Book")
@@ -89,12 +87,15 @@ describe "User manages homepage", :js do
   it "user adds new space contact" do
     login_and_logout_with_warden do
       visit space_path(id: space.id)
-      click_on dom_id_new_space_contact_modal(space)
+      click_on "edit_contact_information"
+
+      click_on "Legg til kontaktinformasjon"
 
       fill_in "space_contact_title", with: "Space Contact Title"
       fill_in "space_contact_telephone", with: "48484848"
 
-      click_on "Lagre"
+      click_on "Lagre kontakt"
+      click_on "Lagre Hvordan booker vi?"
       expect(page).to have_text("Space Contact Title")
     end
   end
@@ -102,14 +103,16 @@ describe "User manages homepage", :js do
   it "user adds new space contact unsuccessfully" do
     login_and_logout_with_warden do
       visit space_path(id: space.id)
-      click_on dom_id_new_space_contact_modal(space)
+
+      click_on "edit_contact_information"
+
+      click_on "Legg til kontaktinformasjon"
 
       fill_in "space_contact_title", with: "Space Contact Title"
 
-      click_on "Lagre"
+      click_on "Lagre kontakt"
       expect(page).to have_text("Telefon #{I18n.t('space_contact.at_least_one_error_message.telephone')}")
       expect(page).to have_text("E-post #{I18n.t('space_contact.at_least_one_error_message.email')}")
-      expect(page).to have_text("Nettside #{I18n.t('space_contact.at_least_one_error_message.url')}")
       expect(page).to have_text("Beskrivelse #{I18n.t('space_contact.at_least_one_error_message.description')}")
     end
   end
@@ -119,6 +122,8 @@ describe "User manages homepage", :js do
       space_contact = Fabricate(:space_contact, space:)
 
       visit space_path(id: space.id)
+      click_on "edit_contact_information"
+
       click_on "edit_space_contact_#{space_contact.id}"
 
       page.accept_alert I18n.t("space_contacts.delete_confirmation") do

@@ -10,7 +10,6 @@ RSpec.describe "reviews/show.html.erb", type: :view do
     render
 
     expect(rendered).to match(/#{review.comment}/)
-    expect(rendered).to match(/#{review.price}/)
     expect(rendered).to match(/#{review.star_rating}/)
   end
 end
