@@ -7,7 +7,7 @@ class SimplifyReviewData < ActiveRecord::Migration[7.2]
     # First move the old data to be a string in the comment field.
     Review.find_each do |review|
       old_data_as_text = old_columns_to_text(review)
-      return if old_data_as_text.blank?
+      next if old_data_as_text.blank?
 
       new_comment = review.comment + "\n\n" + old_columns_to_text(review)
 

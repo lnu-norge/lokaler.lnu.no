@@ -25,7 +25,7 @@
       </li>
     <% end %>
   </ul>
-  <% if current_user.admin? %>
+  <% if current_user&.admin? %>
     <hr />
     <p>Admin-verktøy:</p>
     <h1>Alle erfaringer</h1>

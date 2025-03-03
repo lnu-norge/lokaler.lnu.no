@@ -34,7 +34,6 @@ RSpec.describe Review, type: :request do
     post reviews_path, params: {
       review: {
         comment:,
-        type_of_contact: :not_allowed_to_use,
         space_id: space.id
       }
     }

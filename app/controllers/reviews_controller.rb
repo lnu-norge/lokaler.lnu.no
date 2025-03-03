@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ReviewsController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
+class ReviewsController < BaseControllers::AuthenticateController
   before_action :set_review_from_id, only: [:show, :edit, :update]
   before_action :set_space_from_review, only: [:show, :edit, :update]
   before_action :authorize_user, only: [:edit, :update]
@@ -97,12 +97,12 @@ class ReviewsController < BaseControllers::AuthenticateController # rubocop:disa
     review_params
   end
 
-  def review_params # rubocop:disable Metrics/MethodLength
-      params.require(:review).permit(
-        :comment,
-        :star_rating,
-        :space_id,
-        :organization
-      )
+  def review_params
+    params.require(:review).permit(
+      :comment,
+      :star_rating,
+      :space_id,
+      :organization
+    )
   end
 end

@@ -2,10 +2,8 @@
 
 Fabricator(:review) do
   comment { Faker::Lorem.sentences }
-  price { Faker::Number.number(digits: 3) }
   star_rating { Faker::Number.between(from: 1, to: 5) }
   organization { Faker::Name.name }
-  type_of_contact { :been_there }
   user
   space
 end

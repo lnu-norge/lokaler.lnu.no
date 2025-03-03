@@ -13,10 +13,8 @@ RSpec.describe "reviews/edit", type: :request do
     rendered = response.body
     expect(rendered).to match(/form/)
     expect(rendered).to match(/#{review.comment}/)
-    expect(rendered).to match(/#{review.price}/)
     expect(rendered).to match(/#{review.star_rating}/)
     expect(rendered).to match(/review_comment/)
-    expect(rendered).to match(/review_price/)
     expect(rendered).to match(/review_star_rating/)
     expect(rendered).to match(/submit/)
   end

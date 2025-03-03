@@ -12,8 +12,7 @@ RSpec.describe "spaces/show", type: :view do
 
     expect(rendered).to match(/h1/)
     expect(rendered).to match(/Space Title/)
-    expect(rendered).to match(/space_#{space.id}-contacts/)
-    expect(rendered).to match(/space_#{space.id}-how_to_book/)
+    expect(rendered).to match(/space_#{space.id}-contact_information/)
     expect(rendered).to match(/space_#{space.id}-terms_and_pricing/)
     expect(rendered).to match(/space_#{space.id}-where/)
     expect(rendered).to match(/space_#{space.id}-more_info/)
