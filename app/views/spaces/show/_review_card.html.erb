@@ -1,3 +1,21 @@
-<li class="horizontal-card">
-  <%=  render partial: 'reviews/review_content', locals: { review: review}   %>
+<li class="shadow-lg rounded-xl overflow-clip border border-gray-20 flex flex-col flex-shrink-0 ">
+
+  <%= render partial: 'reviews/review_content', locals: { review: review}   %>
+  <% if current_user == review.user %>
+    <div class="bg-gray-50 border-t border-gray-100 p-6 flex gap-2 justify-between mt-auto items-center">
+
+     <%= button_to_modal dom_id(review, :edit), class: "link" do %>
+       <%= t('reviews.edit') %>
+     <% end %>
+     <%= modal_for dom_id(review, :edit), "modal--with-header-and-footer" do %>
+        <%= turbo_frame_tag dom_id(review, :edit_modal), src: edit_review_path(review), loading: "lazy" do %>
+        <% end %>
+      <% end %>
+
+      <%= link_to review_path(review), method: :delete, data: { confirm: t('reviews.delete_confirmation') }, class: 'link inline-flex gap-1 items-center' do %>
+        <%= inline_svg_tag 'delete', class: 'h-5 w-5' %>
+        <%= t('reviews.delete') %>
+      <% end %>
+    </div>
+  <% end %>
 </li>
