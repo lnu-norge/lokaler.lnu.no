@@ -17,7 +17,7 @@
 
       <section class="px-4 pb-8 grid divide-y ">
 
-        <div class="flex flex-col gap-6 pb-8">
+        <div class="flex flex-col gap-11 pb-14">
           <%= render partial: 'spaces/show/basics' %>
 
           <%= render 'spaces/show/space_list_status_and_notes',
@@ -27,16 +27,16 @@
         </div>
 
 
-        <div class="py-8">
+        <div class="pt-11 pb-14">
           <%= render partial: 'spaces/show/reviews' %>
         </div>
 
-        <div class="py-8">
+        <div class="pt-11 pb-14">
           <%= render partial: 'spaces/show/facilities' %>
         </div>
 
 
-        <div class="py-8">
+        <div class="pt-11 pb-14">
           <%= inline_editable :contact_information, space: @space do %>
             <%= render_space_and_group_field @space, :how_to_book %>
             <% if @space.space_contacts.any? %>
@@ -47,7 +47,7 @@
           <% end %>
         </div>
 
-        <div class="py-8">
+        <div class="pt-11 pb-14">
           <%= inline_editable :terms_and_pricing, space: @space do %>
             <%= render_space_and_group_field @space, :terms_and_pricing %>
           <% end %>
@@ -55,18 +55,18 @@
 
 
 
-        <div class="py-8">
+        <div class="pt-11 pb-14">
           <%= render partial: 'spaces/show/where' %>
         </div>
 
-        <div class="py-8">
+        <div class="pt-11 pb-14">
           <%= inline_editable :more_info, space: @space do %>
             <%= render_space_and_group_field @space, :more_info %>
           <% end %>
         </div>
 
         <% if current_user&.admin? %>
-          <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink py-8">
+          <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink pt-11 pb-14">
             <h3 class="no-mt pt-1">Admin:</h3>
             <p>
               <%= link_to t("space_show.show_changelog"), admin_history_path(@space) %>

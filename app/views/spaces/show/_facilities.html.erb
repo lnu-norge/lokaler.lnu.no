@@ -1,10 +1,10 @@
 <section id="facilities">
 
  <header class="editable-header-type-h2 flex gap-3 items-baseline">
-    <h2 class="text-2xl mb-4 font-bold"><%= Facility.model_name.human(count: 2).capitalize %></h2>
+    <h2 class="text-2xl mb-5 font-medium text-gray-800 tracking-wide"><%= Facility.model_name.human(count: 2).capitalize %></h2>
   </header>
 
-  <p class="text-lnu-blue">Del egne erfaringer med fasilitetene ved å trykke på rediger</p>
+  <p class="text-gray-600">Del dine erfaringer med fasilitetene:</p>
 
   <% if @grouped_relevant_facilities.present? %>
     <main class="grid divide-y">

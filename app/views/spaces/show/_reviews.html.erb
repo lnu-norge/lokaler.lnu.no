@@ -1,16 +1,28 @@
 <div id="reviews">
   <% if @space.reviews.any? %>
-    <div class="flex gap-2 items-baseline justify-between">
-      <h2 class="text-2xl mb-4 font-bold"><%= Review.model_name.human(count: 2).capitalize %></h2>
+    <div class="flex gap-4 items-baseline justify-between">
+      <h2 class="text-2xl mb-5 font-medium text-gray-800"><%= Review.model_name.human(count: 2).capitalize %></h2>
+
+      <%= render partial: 'spaces/show/review_link_to_new_review' %>
     </div>
 
-    <ul class="horizontal-cards">
-      <% @space.reviews.reverse.each do |review| %>
+    <% number_of_reviews_to_show = 6 %>
+    <ul class="grid md:grid-cols-2 gap-4 mt-4">
+      <% @space.reviews.reverse.first(number_of_reviews_to_show).each do |review| %>
         <%= render partial: 'spaces/show/review_card', locals: {review: review}  %>
       <% end %>
     </ul>
+    <% if @space.reviews.length > number_of_reviews_to_show %>
+    <details class="py-2">
+      <summary class="link py-2 cursor-pointer">Vis <% @space.reviews.length - number_of_reviews_to_show %> flere erfaringer</summary>
+      <ul class="grid md:grid-cols-2 gap-4">
+        <% @space.reviews.reverse.drop(number_of_reviews_to_show).each do |review| %>
+          <%= render partial: 'spaces/show/review_card', locals: {review: review}  %>
+        <% end %>
+      </ul>
+    </details>
+    <% end %>
 
-    <%= render partial: 'spaces/show/review_link_to_new_review' %>
   <% else %>
     <h2 class="text-2xl mb-4 font-bold"><%= Review.model_name.human(count: 2).capitalize %></h2>
     <%= render partial: 'spaces/show/review_none_yet' %>
