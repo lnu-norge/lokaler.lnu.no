@@ -8,7 +8,7 @@ module SpacesHelper
   def inline_editable(field, space:, title_text: Space.human_attribute_name(field), display_options: {}, &block)
     default_display_options = {
       title_tag: :h2,
-      title_classes: "text-2xl mb-4 font-bold",
+      title_classes: "text-2xl mb-5 font-medium text-gray-800",
       button_classes: "unstyled-link edit-button collapsable"
     }
     display_options = default_display_options.merge(display_options)
