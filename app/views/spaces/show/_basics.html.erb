@@ -1,6 +1,13 @@
 <!-- Space title and basics -->
 
-<%= inline_editable :basics, space: @space, title_text: @space.title, display_options: { title_tag: :h1, title_classes: 'text-3xl font-bold mb-4 mt-6' } do %>
+<%= inline_editable :basics,
+                    space: @space,
+                    title_text: @space.title,
+                    display_options:
+                      {
+                        title_tag: :h1,
+                        title_classes: 'text-2xl font-bold mb-4 mt-6'
+                      } do %>
 
   <!-- Meta information listing -->
   <%= render 'spaces/components/meta', space: @space %>
