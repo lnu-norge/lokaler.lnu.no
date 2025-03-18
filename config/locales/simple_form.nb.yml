@@ -46,8 +46,8 @@ nb:
         email_example: "epost@epost.no"
         organization: "Organisasjon"
         session:
-          heading_new: "Logg inn"
-          login_with_google: "Logg inn med Google"
+          heading_new: "Logg inn eller lag bruker"
+          login_with_google: "Bruk Google-konto"
           login_with_email: "Logg inn med e-post"
       space:
         title: "Navn på lokalet"
