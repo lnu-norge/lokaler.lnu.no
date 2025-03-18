@@ -6,7 +6,7 @@ nb:
     edit: 'Redigér'
     delete: 'Slett'
     delete_confirmation: 'Er du sikker på at du vil slette?'
-    add_review: 'Legg til erfaring'
+    add_review: 'Ny erfaring'
     add_first: 'Legg til den første!'
     added_review: 'Erfaring loggført!'
     no_reviews: 'Ingen erfaringer loggført.'
