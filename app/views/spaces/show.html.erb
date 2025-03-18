@@ -15,18 +15,12 @@
       <%= render partial: "spaces/show/image_header"  %>
 
 
-      <section class="px-4 pb-8 grid divide-y ">
-
-        <div class="flex flex-col gap-11 pb-14">
-          <%= render partial: 'spaces/show/basics' %>
-
-          <%= render 'spaces/show/space_list_status_and_notes',
-                     personal_space_list: @active_personal_space_list,
-                     space: @space %>
-
-        </div>
-
-
+    <section class="px-4 pb-10">
+      <div class="flex flex-col gap-11">
+        <%= render partial: 'spaces/show/basics' %>
+      </div>
+    </section>
+      <section class="px-4 pb-8 grid divide-y border-t">
         <div class="pt-11 pb-14">
           <%= render partial: 'spaces/show/reviews' %>
         </div>
@@ -36,16 +30,6 @@
         </div>
 
 
-        <div class="pt-11 pb-14">
-          <%= inline_editable :contact_information, space: @space do %>
-            <%= render_space_and_group_field @space, :how_to_book %>
-            <% if @space.space_contacts.any? %>
-              <div class="mt-8">
-                <%= render 'space_contacts/non_editable_index' %>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
 
         <div class="pt-11 pb-14">
           <%= inline_editable :terms_and_pricing, space: @space do %>
@@ -65,6 +49,30 @@
           <% end %>
         </div>
 
+        <aside class="sticky left-0 right-0 bottom-24 md:bottom-0 bg-white h-20 z-4">
+          <div class="max-w-prose mx-auto w-full px-4 py-4 flex gap-2">
+            <button onclick="document.getElementById('contact_information').scrollIntoView({behavior: 'smooth'})" class="button submit">
+              ↓ Hvordan booke?
+            </button>
+          </div>
+        </aside>
+        <div class="pt-11 pb-14 -mt-20 z-5 bg-white md:scroll-mt-desktop-menu-height" id="contact_information">
+
+          <%= inline_editable :contact_information, space: @space do %>
+            <%= render_space_and_group_field @space, :how_to_book %>
+            <% if @space.space_contacts.any? %>
+              <div class="mt-8">
+                <%= render 'space_contacts/non_editable_index' %>
+              </div>
+            <% end %>
+          <% end %>
+
+          <div class="pt-11">
+          <%= render 'spaces/show/space_list_status_and_notes',
+                     personal_space_list: @active_personal_space_list,
+                     space: @space %>
+          </div>
+        </div>
         <% if current_user&.admin? %>
           <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink pt-11 pb-14">
             <h3 class="no-mt pt-1">Admin:</h3>
@@ -73,7 +81,7 @@
             </p>
           </section>
         <% end %>
-
       </section>
+
   </main>
 <% end %>
