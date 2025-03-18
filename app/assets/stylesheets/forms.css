@@ -36,6 +36,9 @@
     &.button--white {
       @apply bg-white border-gray-200;
     }
+    &.button--black {
+      @apply bg-black border-black;
+    }
   }
 
   .focused-outline {
