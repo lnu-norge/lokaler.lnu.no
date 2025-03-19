@@ -3,9 +3,9 @@
 <div class="max-w-md mt-6 mx-auto pt-16 p-4 w-full">
   <div>
     <h1 class="text-center text-3xl font-semibold tracking-wide">
-       <%=  t('simple_form.labels.user.session.heading_new') %>
+       <%=  t('simple_form.labels.user.session.heading_new') %> 👋
     </h1>
-    <p class="text-center mt-4 text-xl font-light tracking-wide">Lag bruker eller logg inn for å se lokalene</p>
+    <p class="text-center mt-4 text-xl font-light tracking-wide">Slipp inn med en <span class="inline-block">brukerkonto <span class="relative top-0.5">⤵</span></span></p>
   </div>
 
   <div class="mt-16 text-center">
@@ -20,7 +20,7 @@
     <% end %>
   </div>
 
-  <div class="relative flex py-5 items-center my-4">
+  <div class="relative flex py-5 justify-center items-center my-4">
     <div class="flex-grow border-t border-gray-200"></div>
     <span class="flex-shrink mx-4 text-gray-400">eller</span>
     <div class="flex-grow border-t border-gray-200"></div>
@@ -29,8 +29,8 @@
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="bg-gray-100 rounded-lg pt-5 pb-6 px-5">
 
-        <legend class="text-md font-normal text-gray-700 mx-auto mb-4 w-fit inline-flex gap-1.5 items-center">
-          <%= inline_svg "email.svg", class: "text-gray-600 w-6 h-6" %>
+        <legend class="text-md font-normal text-gray-600 mx-auto mb-4 w-fit inline-flex gap-1.5 items-center">
+          <%= inline_svg "email.svg", class: "text-gray-500 w-6 h-6" %>
           <%= t('simple_form.labels.user.session.login_with_email') %>
         </legend>
       <input type="hidden" name="remember" value="true">
@@ -51,11 +51,14 @@
   </div>
     <dl class="text-slate-800 my-5">
       <dt class="font-bold">Du trenger ikke ha en konto fra før</dt>
-      <dd class="text-slate-600">Skriv inn epost eller logg inn med Google-konto over, så får du en ny konto!</dd>
+      <dd class="text-slate-600">
+        Har du ikke logget inn før, får du en ny konto.
+        Bare å skrive inn epost eller logge inn med Google-konto over.
+      </dd>
       <dt class="mt-8 font-bold">Du må logge inn fordi du kan redigere lokalene</dt>
-      <dd class="text-slate-600">Vi samler informasjon om lokalene på dugnad, og alle kan redigere informasjonen som ligger her. For å sikre oss mot spam må du logge inn.</dd>
+      <dd class="text-slate-600">Vi samler lokalene på dugnad, og alle kan redigere dem. For å stoppe spam har vi innloggingsmur.</dd>
       <dt class="mt-8 font-bold">Alle kan bidra</dt>
-      <dd class="text-slate-600">Ikke i barne- og ungdsomfrivilligheten? Du må gjerne logge inn allikevel. Alle som vil hjelpe oss samle best mulig info om lokaler er hjertelig velkommen!</dd>
+      <dd class="text-slate-600">Ikke i barne- og ungdsomfrivilligheten? Alle som vil hjelpe oss samle best mulig info om lokaler er velkommen!</dd>
     </dl>
 
 
