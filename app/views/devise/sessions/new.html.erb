@@ -34,10 +34,10 @@
           <%= t('simple_form.labels.user.session.login_with_email') %>
         </legend>
       <input type="hidden" name="remember" value="true">
-      <%= f.label :email, class: "text-sm font-medium text-gray-500" do %>
+      <%= f.label :email, class: "text-sm font-medium text-gray-500 text-center md:text-left mb-1 md:mb-0.5" do %>
         E-post
       <% end %>
-      <div class="flex gap-1 justify-items-stretch align-baseline">
+      <div class="flex flex-col md:flex-row gap-2 justify-items-stretch align-baseline">
         <%= f.text_field :email, type: "email", class: "text_field" %>
         <%= f.submit value: "Send kode", class: 'button submit' %>
       </div>
