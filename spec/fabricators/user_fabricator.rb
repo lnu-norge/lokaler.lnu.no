@@ -2,13 +2,18 @@
 
 Fabricator(:user) do
   email { "username@example.com" }
-  password { "password" }
-
   first_name { Faker::Superhero.prefix + Faker::Superhero.descriptor }
   last_name { Faker::Superhero.suffix }
   email { Faker::Internet.email }
-  password "password"
-  password_confirmation "password"
+end
+
+Fabricator(:user_with_no_organization, from: :user) do
+  organization_boolean { false }
+end
+
+Fabricator(:user_with_organization, from: :user) do
+  organization_name { Faker::Company.name }
+  organization_boolean { true }
 end
 
 # == Schema Information
