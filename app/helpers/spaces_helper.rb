@@ -9,7 +9,7 @@ module SpacesHelper
     default_display_options = {
       title_tag: :h2,
       title_classes: "text-2xl mb-5 font-medium text-gray-800",
-      button_classes: "unstyled-link edit-button collapsable"
+      button_classes: "unstyled-link edit-button collapsable collapsable--to-right"
     }
     display_options = default_display_options.merge(display_options)
 

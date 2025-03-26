@@ -6,12 +6,12 @@
   Styled in part by content.scss
 %>
 <%= turbo_frame_tag "spaces-open-here", target: "_top" do %>
-  <%= render 'back_to_search_button' %>
   <main
     data-controller="set-selected-space"
     data-set-selected-space-target="space"
     data-space="<%= @space.id %>"
     class="max-w-prose mx-auto w-full bg-white">
+    <%= render 'back_to_search_button' %>
       <%= render partial: "spaces/show/image_header"  %>
 
 
@@ -49,14 +49,14 @@
           <% end %>
         </div>
 
-        <aside class="sticky left-0 right-0 bottom-24 md:bottom-0 bg-white h-20 z-4">
-          <div class="max-w-prose mx-auto w-full px-4 py-4 flex gap-2">
-            <button onclick="document.getElementById('contact_information').scrollIntoView({behavior: 'smooth'})" class="button submit">
+        <aside class="sticky left-0 right-0 bottom-24 md:bottom-0 h-16 z-4 !border-t-0">
+          <div class="max-w-prose mx-auto w-full py-2.5 justify-end flex gap-2 items-center">
+            <button onclick="document.getElementById('contact_information').scrollIntoView({behavior: 'smooth'})" class="button submit button--black">
               ↓ Hvordan booke?
             </button>
           </div>
         </aside>
-        <div class="pt-11 pb-14 -mt-20 z-5 bg-white md:scroll-mt-desktop-menu-height" id="contact_information">
+        <div class="pt-11 pb-14 -mt-16 z-5 bg-white md:scroll-mt-desktop-menu-height" id="contact_information">
 
           <%= inline_editable :contact_information, space: @space do %>
             <%= render_space_and_group_field @space, :how_to_book %>

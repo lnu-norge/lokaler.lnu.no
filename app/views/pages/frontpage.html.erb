@@ -7,12 +7,17 @@
         <%= inline_svg_tag 'logo', class: 'inline-block w-24' %>
         LOKALER
       </div>
-      <p class="mb-6 mt-4 text-3xl">Lokaler for barne- og ungdoms&shy;frivilligheten</p>
+      <p class="mt-5 mb-7 font-normal text-2xl tracking-normal">
+        Finn <%= inline_svg "search.svg", class: "h-5 w-5 text-lnu-pink inline-block relative -left-0.5 bottom-0.5" %>,
+        rediger <%= inline_svg "edit.svg", class: "h-6 w-6 text-lnu-pink inline-block relative -left-0.5 bottom-0.5"%>️,
+        og del <%= inline_svg "heart-outlined.svg", class: "h-5 w-5 text-lnu-pink inline-block relative -left-0.5 bottom-0.5" %>
+        lokaler for barne- og ungdoms&shy;frivillighet</p>
+
       <p>
         <%= link_to spaces_path,
                     class: 'button submit text-2xl' do %>
           <span class="p-1">
-            Logg inn
+            Kom i gang
           </span>
         <% end %>
       </p>

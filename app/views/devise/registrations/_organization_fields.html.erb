@@ -1,0 +1,19 @@
+<%# locals: (form:) %>
+<fieldset data-controller="show-on-radio-button-value">
+  <legend class="text-md font-semibold tracking-wide">Er du i en organisasjon?</legend>
+  <p class="text-gray-500">For eksempel en barne- eller ungdomsorganisasjon, en kommune, eller et selskap som driver med lokaler.</p>
+
+  <div class="radio-slider mt-3">
+    <%= form.radio_button :organization_boolean, true, data: { "show-on-radio-button-value-target": "radioButton toggleOnChecked" } %>
+    <%= form.label :organization_boolean_true do %>
+      Ja
+    <% end %>
+    <%= form.radio_button :organization_boolean, false, data: { "show-on-radio-button-value-target": "radioButton" } %>
+    <%= form.label :organization_boolean_false do %>
+      Nei
+    <% end %>
+  </div>
+  <div data-show-on-radio-button-value-target="elementToShow">
+    <%= form.input :organization_name, required: true %>
+  </div>
+</fieldset>
