@@ -1,5 +1,8 @@
-<%= button_to_modal :new_review_path, class: 'link inline-block border border-pink-600 py-2 px-4 rounded-md' do %>
-  <%=  t('reviews.add_review') %>
+<%= button_to_modal :new_review_path, class: 'edit-button collapsable collapsable--to-right' do %>
+  <%= inline_svg "plus.svg", class: "w-3 h-3" %>
+  <span class="text">
+    <%=  t('reviews.add_review') %>
+  </span>
 <% end %>
 
 <%= modal_for :new_review_path, "modal--with-header-and-footer " do %>

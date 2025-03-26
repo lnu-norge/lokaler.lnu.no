@@ -7,9 +7,13 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
              path_names: {
                sign_in: "logg_inn",
                sign_out: "logg_ut",
-               sign_up: "registrer_deg"
+               edit: "rediger"
              },
-             controllers: { registrations: "users/registrations", omniauth_callbacks: "users/omniauth_callbacks" }
+             controllers: {
+               sessions: "users/sessions",
+               registrations: "users/registrations",
+               omniauth_callbacks: "users/omniauth_callbacks"
+             }
 
   devise_scope :user do
     authenticated :user do

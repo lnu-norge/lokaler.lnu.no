@@ -6,32 +6,35 @@ require "support/devise_helpers"
 RSpec.describe "User signs in" do
   include DeviseHelpers
 
-  it "with valid credentials" do
+  it "sends a magic link" do
     user = Fabricate :user
 
     visit new_user_session_path
-
     within ".new_user" do
       fill_in_email user.email
-      fill_in_password user.password
-      click_login_button
+      click_on "Send kode"
     end
 
-    expect(page).to have_text I18n.t("simple_form.labels.user.signed_in")
-    expect(page).to have_current_path root_path
-  end
+    expect(page).to have_text I18n.t("devise.passwordless.magic_link_sent")
 
-  it "with invalid credentials" do
-    user = Fabricate.build :user
+    # Expect an email with a magic link inside to be sent
+    email = ActionMailer::Base.deliveries.last
+    expect(email.subject).to eq I18n.t("devise.mailer.magic_link.subject")
+    expect(email.to).to eq [user.email]
 
-    visit new_user_session_path
+    # Extract the magic link from the HTML part of the email
+    html_part = email.parts.find { |part| part.content_type.include?("text/html") }
+    html_body = html_part.body.decoded
 
-    within ".new_user" do
-      fill_in_email user.email
-      fill_in_password "wrong_password"
-      click_login_button
-    end
+    # Use a regex to extract the link
+    magic_link_from_html = html_body.match(/href="(.+)"/)[1]
+    # Replace &amp; with &
+    magic_link_from_html.gsub!("&amp;", "&")
 
-    expect(page).to have_text I18n.t("devise.failure.invalid", authentication_keys: "E-post")
+    # Visit the sign-in link
+    visit magic_link_from_html
+
+    # Expect the user to be logged in
+    expect(page).to have_text I18n.t("devise.sessions.user.signed_in")
   end
 end

@@ -1,0 +1,39 @@
+<% content_for(:html_title) { t("devise.registrations.user.edit_account") } %>
+
+
+<div class="max-w-md mt-20 mx-auto w-full flex flex-col gap-10">
+  <header class="flex flex-col gap-6">
+    <h1 class="text-3xl font-semibold tracking-wide">
+      Velkommen!
+    </h1>
+  </header>
+
+  <main>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'flex flex-col gap-6', method: :put }) do |form| %>
+      <%= render 'name_form_fields', form: %>
+      <%= render 'organization_fields', form: %>
+      <div class="mt-4">
+        <%= button_tag :submit, class: 'button submit' do %>
+          <!-- Heroicon name: solid/lock-closed -->
+         Slipp meg inn!
+        <% end %>
+      </div>
+  <% end %>
+  <div class="mt-20 relative flex py-5 items-center">
+    <div class="flex-grow border-t border-gray-200"></div>
+    <h2 class="text-slate-400 text-lg mx-4 rounded-full bg-slate-100 w-8 h-8 flex items-center place-content-center">?</h2>
+    <div class="flex-grow border-t border-gray-200"></div>
+  </div>
+  <dl class="text-slate-800 my-5">
+    <dt class="font-bold">Flere organisasjoner?</dt>
+    <dd class="text-slate-600">Skriv den du er mest aktiv i! Du kan oppgi en annen organisasjon når du legger ut erfaringer siden, om du har erfaringer fra flere organisasjoner du vil dele.</dd>
+    <dt class="mt-8 font-bold">Navn og organisasjon vises for andre</dt>
+    <dd class="text-slate-600">
+      Fornavn, første bokstav av etternavn, og organisasjon knyttes til erfaringer du legger inn om ulike lokaler, og kan sees av andre brukere.
+    </dd>
+    <dt class="mt-8 font-bold">Vil du være anonym?</dt>
+    <dd class="text-slate-600">Du trenger ikke bruke ditt ekte eller fulle navn. </dd>
+  </dl>
+
+</main>
+</div>
