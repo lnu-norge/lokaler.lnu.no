@@ -31,5 +31,5 @@ nb:
       what_impression_did_you_get: "Hvor bra er %{space_title}?"
       how_would_you_summarize_the_experience?: 'Hvorfor?'
       what_did_you_experience_any_tips_for_others: 'Skriv til andre som vurderer lokalet!'
-      booked_on_behalf_of: 'Hvem tok du kontakt på vegne av?'
+      booked_on_behalf_of: 'Hvilken organisasjon var dere? (Eller var du privatperson?)'
       placeholder_your_organization: 'F.eks. "Natur og Ungdom" eller "Meg selv"'

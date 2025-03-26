@@ -2,8 +2,9 @@
 
 class User < ApplicationRecord
   require "securerandom"
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
+  devise :magic_link_authenticatable,
+         :registerable,
+         :rememberable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
   include Gravtastic
@@ -16,11 +17,21 @@ class User < ApplicationRecord
   has_many :personal_space_lists_shared_with_mes, dependent: :destroy
   has_one :active_personal_space_list, dependent: :destroy
 
+  validates :organization_name, presence: true, if: -> { organization_boolean == true }
+
   def name
+    return nil if first_name.blank? && last_name.blank?
     return first_name if last_name.blank?
     return last_name if first_name.blank?
 
     "#{first_name} #{last_name[0]&.upcase}."
+  end
+
+  def organization
+    return organization_name if organization_boolean == true
+    return "Privatperson" if organization_boolean == false
+
+    nil
   end
 
   def facility_review_for(facility_id, space)
@@ -33,9 +44,12 @@ class User < ApplicationRecord
 
   def self.from_google(email:, first_name:, last_name:)
     create_with(first_name:,
-                last_name:,
-                password: SecureRandom.base64(13))
+                last_name:)
       .find_or_create_by!(email:)
+  end
+
+  def missing_information?
+    first_name.blank? || organization.blank?
   end
 end
 
@@ -49,8 +63,10 @@ end
 #  encrypted_password     :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
-#  organization           :string           default(""), not null
+#  organization_boolean   :boolean
+#  organization_name      :string
 #  remember_created_at    :datetime
+#  remember_token         :string(20)
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  created_at             :datetime         not null

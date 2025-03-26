@@ -146,6 +146,9 @@ GEM
       warden (~> 1.2.3)
     devise-i18n (1.12.1)
       devise (>= 4.9.0)
+    devise-passwordless (1.0.3)
+      devise
+      globalid
     diff-lcs (1.5.1)
     diffy (3.4.3)
     domain_name (0.6.20240107)
@@ -574,6 +577,7 @@ DEPENDENCIES
   cssbundling-rails
   devise (~> 4.9)
   devise-i18n
+  devise-passwordless
   diffy
   dotenv-rails
   fabrication

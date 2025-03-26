@@ -21,8 +21,10 @@ end
 #  encrypted_password     :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
-#  organization           :string           default(""), not null
+#  organization_boolean   :boolean
+#  organization_name      :string
 #  remember_created_at    :datetime
+#  remember_token         :string(20)
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  created_at             :datetime         not null

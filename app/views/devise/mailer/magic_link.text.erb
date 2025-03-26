@@ -1,0 +1,11 @@
+Hei <%= @resource.name || @resource.email %>!
+
+<% if @resource.missing_information? %>
+  Kom i gang med lenken under:
+<% else %>
+  Logg inn med lenken under:
+<% end %>
+
+<%= magic_link_url(@resource, @scope_name => {email: @resource.email, token: @token, remember_me: @remember_me}) %>
+
+Lenken er midlertidig, og utløper om <%= distance_of_time_in_words Devise.passwordless_login_within %>.
