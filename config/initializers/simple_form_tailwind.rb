@@ -39,7 +39,7 @@ SimpleForm.setup do |config| # rubocop:disable Metrics/BlockLength Layout/LineLe
   # vertical default_wrapper
   config.wrappers :vertical_form, tag: "div", class: "vertical_form" do |b|
     b.use :html5
-    b.use :placeholder
+    b.optional :placeholder
     b.optional :maxlength
     b.optional :minlength
     b.optional :pattern

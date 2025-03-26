@@ -13,7 +13,7 @@
     <% else %>
       <%= inline_svg_tag icon, class: "inline-block w-7 h-7 md:w-6 md:h-6 #{active_path?(path) && "text-lnu-pink"}" %>
     <% end %>
-    <%= current_user.name || text %>
+    <%= current_user.name || truncate(text, length: 10) %>
 <% end %>
 
 </span>

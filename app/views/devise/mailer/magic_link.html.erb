@@ -1,0 +1,15 @@
+<p>Hei <%= @resource.name || @resource.email %>!</p>
+
+<p>Her er lenken din:</p>
+
+<p>
+  <%= link_to magic_link_url(@resource, @scope_name => {email: @resource.email, token: @token, remember_me: @remember_me}) do %>
+    <% if @resource.missing_information? %>
+      Kom i gang på LNU Lokaler
+    <% else %>
+      Logg inn på LNU Lokaler
+    <% end %>
+  <% end %>
+</p>
+
+<p>Lenken er midlertidig, og utløper om <%= distance_of_time_in_words Devise.passwordless_login_within %>.</p>
