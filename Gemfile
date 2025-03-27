@@ -53,6 +53,7 @@ gem "jsbundling-rails"
 gem "kaminari"
 gem "pagy"
 gem "paper_trail"
+gem "parallel"
 gem "phonelib"
 gem "rails-i18n"
 gem "rgeo-geojson" # For parsing geo json when importing from Geo Norge
