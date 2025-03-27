@@ -1,8 +1,9 @@
+<%# locals: (space:) %>
 <h2 class="text-2xl mb-5 font-medium"><%= Review.model_name.human(count: 2).capitalize %></h2>
 <div class="mb-3">
-  <%= render partial: 'spaces/show/review_link_to_new_review', locals: {
-    space: @space,
-    text: "Legg til første erfaring",
+  <%= render 'spaces/show/review_link_to_new_review',
+    space: space,
+    text: t("reviews.add_first"),
     css_classes: "flex gap-2 w-full justify-center items-baseline p-8 text-center border-2 border-lnu-blue/20 rounded-xl border-dotted text-lnu-blue hover:border-lnu-pink hover:text-lnu-pink"
-  } %>
+   %>
 </div>

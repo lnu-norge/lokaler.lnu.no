@@ -17,7 +17,7 @@ describe "User creates review", :js do
     login_and_logout_with_warden do
       visit space_path(space)
 
-      click_on(I18n.t("reviews.add_review"))
+      click_on(I18n.t("reviews.add_first"))
 
       choose("review_star_rating_1", allow_label_click: true)
 
