@@ -9,20 +9,20 @@
   <%= button_to add_to_personal_space_list_space_path(personal_space_list_id: "new", id: space.id),
                 title: t('personal_space_lists.add_to_new_list'),
                 class: button_styling_for_adding_to_list do  %>
-    <%= inline_svg "heart-outlined", class: "w-5 h-5" %> <span class="text sr-only">Lag nyliste</span>
+    <%= inline_svg_tag "heart-outlined", class: "w-5 h-5" %> <span class="text sr-only">Lag nyliste</span>
   <% end %>
 <% elsif personal_space_list.excludes_space?(space) %>
   <%= button_to add_to_personal_space_list_space_path(personal_space_list_id: personal_space_list.id, id: space.id),
                 title: "Legg i aktiv liste",
                 class: button_styling_for_adding_to_list do  %>
-    <%= inline_svg "heart-outlined", class: "w-5 h-5" %> <span class="text sr-only">Legg i liste</span>
+    <%= inline_svg_tag "heart-outlined", class: "w-5 h-5" %> <span class="text sr-only">Legg i liste</span>
   <% end %>
 <% else %>
   <%= button_to remove_from_personal_space_list_space_path(personal_space_list_id: personal_space_list.id, id: space.id),
                 method: :delete,
                 title: "Fjern fra aktiv liste",
                 class: button_styling_for_removing_from_list do  %>
-    <%= inline_svg "heart-filled", class: "w-5 h-5" %>
+    <%= inline_svg_tag "heart-filled", class: "w-5 h-5" %>
       <span class="text sr-only">Fjern fra liste</span>
   <% end %>
 <% end %>
