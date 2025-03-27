@@ -3,7 +3,7 @@
     <div class="flex gap-4 items-baseline justify-start">
       <h2 class="text-2xl mb-5 font-medium text-gray-800"><%= Review.model_name.human(count: 2).capitalize %></h2>
 
-      <%= render partial: 'spaces/show/review_link_to_new_review' %>
+      <%= render 'spaces/show/review_link_to_new_review', space: @space %>
     </div>
 
     <% number_of_reviews_to_show = 6 %>
@@ -24,6 +24,6 @@
     <% end %>
 
   <% else %>
-    <%= render partial: 'spaces/show/review_none_yet' %>
+    <%= render 'spaces/show/review_none_yet', space: @space %>
   <% end %>
 </div>

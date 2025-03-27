@@ -7,7 +7,7 @@ nb:
     delete: 'Slett'
     delete_confirmation: 'Er du sikker på at du vil slette?'
     add_review: 'Ny erfaring'
-    add_first: 'Legg til den første!'
+    add_first: 'Legg til første erfaring'
     added_review: 'Erfaring loggført!'
     no_reviews: 'Ingen erfaringer'
     unknown_org: 'Ukjent organisasjon'
@@ -28,8 +28,8 @@ nb:
         was_not_allowed: 'Nei'
         was_not_available: 'De har ikke'
         unknown: 'Ikke spurt'
-      what_impression_did_you_get: "Hvor bra er %{space_title}?"
+      what_impression_did_you_get: "Hvor bra lokale er %{space_title}?"
       how_would_you_summarize_the_experience?: 'Hvorfor?'
       what_did_you_experience_any_tips_for_others: 'Skriv til andre som vurderer lokalet!'
-      booked_on_behalf_of: 'Hvilken organisasjon var dere? (Eller var du privatperson?)'
+      booked_on_behalf_of: 'Hvilken organisasjon er erfaringen fra? (Eller var du privatperson?)'
       placeholder_your_organization: 'F.eks. "Natur og Ungdom" eller "Meg selv"'
