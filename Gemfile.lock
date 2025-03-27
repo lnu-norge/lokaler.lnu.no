@@ -604,6 +604,7 @@ DEPENDENCIES
   overcommit
   pagy
   paper_trail
+  parallel
   parallel_tests
   pg (~> 1.5)
   phonelib

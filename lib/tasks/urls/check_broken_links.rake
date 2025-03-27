@@ -41,17 +41,6 @@ namespace :urls do # rubocop:disable Metrics/BlockLength
       "Error: #{e.message}"
     end
 
-    puts "Checking Space URLs..."
-    space_urls = Space.where.not(url: [nil, ""]).pluck(:id, :title, :url)
-    results = Parallel.map(space_urls, in_threads: 10) do |id, title, url|
-      total_checked[:spaces] += 1
-      print "."
-
-      result = parse_and_check_url(url)
-      { id: id, title: title, error: result } if result.present?
-    end
-    broken_links[:spaces] = results.compact
-
     puts "\n\nChecking SpaceContact URLs..."
     contact_urls = SpaceContact.where.not(url: [nil, ""]).pluck(:id, :space_id, :title, :url)
     results = Parallel.map(contact_urls, in_threads: 10) do |id, space_id, title, url|
@@ -67,11 +56,6 @@ namespace :urls do # rubocop:disable Metrics/BlockLength
     duration = (end_time - start_time).round(2)
 
     puts "\n\nResults (completed in #{duration} seconds):"
-    puts "Checked #{total_checked[:spaces]} Space URLs"
-    puts "Found #{broken_links[:spaces].length} broken Space URLs:"
-    broken_links[:spaces].each do |link|
-      puts "Space ##{link[:id]} (#{link[:title]}): #{link[:error]}"
-    end
 
     puts "\nChecked #{total_checked[:space_contacts]} SpaceContact URLs"
     puts "Found #{broken_links[:space_contacts].length} broken SpaceContact URLs:"
