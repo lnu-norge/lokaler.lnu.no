@@ -10,7 +10,7 @@ module Users
       end
 
       send_magic_link(user)
-      set_flash_message!(:success, :magic_link_sent)
+      set_flash_message!(:success, :magic_link_sent, email: user.email)
       redirect_to(after_magic_link_sent_path_for(user), status: devise_redirect_status)
     end
 

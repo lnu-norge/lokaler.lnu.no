@@ -2,8 +2,7 @@ nb:
   devise:
     passwordless:
       not_found_in_database: "Fant ingen bruker på den e-postadressen"
-      magic_link_sent: "En lenke er sendt til e-posten din! Følg instruksjonene i e-posten, så er du straks i gang :)"
-      magic_link_sent_paranoid: "En lenke er sendt til e-posten din! Følg instruksjonene i e-posten, så er du straks i gang :)"
+      magic_link_sent: "Sendt til %{email}! Sjekk spam om du ikke finner den :)"
     failure:
       magic_link_invalid: "Lenken er utløpt eller ugyldig. Be om en ny en!"
     mailer:
