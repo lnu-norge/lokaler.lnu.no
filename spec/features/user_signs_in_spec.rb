@@ -15,7 +15,7 @@ RSpec.describe "User signs in" do
       click_on "Send kode"
     end
 
-    expect(page).to have_text I18n.t("devise.passwordless.magic_link_sent")
+    expect(page).to have_text I18n.t("devise.passwordless.magic_link_sent", email: user.email)
 
     # Expect an email with a magic link inside to be sent
     email = ActionMailer::Base.deliveries.last
