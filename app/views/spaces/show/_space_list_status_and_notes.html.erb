@@ -3,40 +3,31 @@
 <% if personal_space_list.blank? %>
   <aside
     id="<%= dom_id_for_space_list_status_and_notes_for_space(space) %>">
+    <h3 class="text-2xl font-medium text-gray-800 mb-6">Legg i min liste</h3>
     <%= render "personal_space_lists/space_in_list/list_status_for_space",
                personal_space_list:, space:, collapsable: false %>
   </aside>
 <% else %>
   <aside
     id="<%= dom_id_for_space_list_status_and_notes_for_space(space) %>"
-    class="divide-y lg:divide-y-0 lg:divide-x divide-gray-200
-        flex flex-col lg:flex-row lg:items-start
+    >
+    <h3 class="text-2xl font-medium text-gray-800 mb-6">Min liste og mine notater</h3>
+    <div class="divide-y lg:divide-y-0 lg:divide-x divide-gray-200
+        flex flex-col
         shadow-lg rounded-lg
         bg-white
         relative
         border border-gray-200
     ">
-
     <header class="flex flex-col gap-3 pb-5 px-6 pt-5">
-      <h2 class="reset-header-styles text-gray-700 my-0 leading-tight ">
-        <%= link_to personal_space_list, class: "group" do %>
-          <span class="font-bold text-md text-gray-700 group-hover:text-lnu-pink"><%= personal_space_list.title %></span>
-          <span class="absolute -top-3 left-5
-                     bg-white
-                     rounded-lg
-                     px-2 py-1
-                     text-xs
-                     text-gray-700
-                     font-light
-                     uppercase
-                     tracking-wide
-                      border border-gray-200
-          ">
-          Aktiv liste
-        </span>
-        <% end %>
-      </h2>
-      <%= render 'personal_space_lists/card/space_list', personal_space_list:, scope: "inside_space"  %>
+      <div class="flex flex-row gap-3 items-baseline">
+        <h2 class="reset-header-styles text-gray-700 my-0 leading-tight ">
+          <%= link_to personal_space_list, class: "group" do %>
+            <span class="font-bold text-md text-gray-700 group-hover:text-lnu-pink"><%= personal_space_list.title %></span>
+          <% end %>
+        </h2>
+        <%= render 'personal_space_lists/card/space_list', personal_space_list:, scope: "inside_space"  %>
+      </div>
 
       <%= render "personal_space_lists/space_in_list/list_status_for_space",
                  personal_space_list:, space:, collapsable: false %>
@@ -53,5 +44,6 @@
 
       </main>
     <% end %>
+    </div>
   </aside>
 <% end %>
