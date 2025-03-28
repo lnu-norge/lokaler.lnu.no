@@ -66,12 +66,11 @@
               </div>
             <% end %>
           <% end %>
-
-          <div class="pt-11">
+        </div>
+        <div class="pt-11 pb-14">
           <%= render 'spaces/show/space_list_status_and_notes',
                      personal_space_list: @active_personal_space_list,
                      space: @space %>
-          </div>
         </div>
         <% if current_user&.admin? %>
           <section class="bg-pink-50 shadow-lg p-4 rounded-lg border border-lnu-pink pt-11 pb-14">
