@@ -1,0 +1,24 @@
+<%# locals: (version_obj:, css_classes: {}, empty_icon: "empty", empty_text: "Fantes ikke", non_empty_icon: "delete", non_empty_text: "Slettet") %>
+<% css_classes ||= {} %>
+<% container_classes = css_classes[:container] || "flex-1" %>
+<% border_classes = css_classes[:border] || "border-2" %>
+<% empty_container_classes = css_classes[:empty_container] || "flex-1 text-gray-600 bg-gray-100 p-4 rounded-lg flex flex-col gap-1 justify-center items-center" %>
+
+<% if version_obj.present? %>
+  <div class="<%= container_classes %> <%= border_classes %> rounded-lg p-4">
+    <% case version_obj.class.name %>
+      <% when "Space" %>
+        <%= render partial: "spaces/index/space_listing", locals: { space: version_obj } %>
+      <% when "ActionText::RichText" %>
+        <h4 class="text-2xl font-medium mb-4 text-gray-800"><%= t("activerecord.attributes.space.#{version_obj.name}") %></h4>
+        <%= version_obj.body %>
+      <% else %>
+        <%= render version_obj %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="<%= empty_container_classes %> <%= border_classes %> <%= css_classes[:dotted] ? 'border-dotted' : '' %>">
+    <%= inline_svg_tag empty_icon, class: css_classes[:icon] || "w-10 h-10" %>
+    <span><%= empty_text %></span>
+  </div>
+<% end %>

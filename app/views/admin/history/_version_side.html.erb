@@ -1,0 +1,44 @@
+<%# locals: (version:, version_obj:, side:, side_title:) %>
+<%
+  # Set CSS classes based on version event and side
+  css_classes = {}
+  
+  if side == :old
+    css_classes[:border] = "border-lnu-blue/60 border-2"
+    css_classes[:dotted] = true
+    empty_icon = "empty"
+    empty_text = "Fantes ikke"
+  else
+    # Determine styles based on version event
+    case version.event
+    when "create"
+      css_classes[:border] = "border-lnu-green border-2"
+    when "update"
+      css_classes[:border] = "border-lnu-blue border-2"
+    when "destroy"
+      css_classes[:border] = "border-lnu-pink border-2"
+    else
+      css_classes[:border] = "border-gray-300 border-2"
+    end
+    
+    empty_icon = "delete"
+    empty_text = "Slettet"
+  end
+%>
+
+<div class="flex flex-col gap-1">
+  <%= render partial: "admin/history/version_header", 
+             locals: { 
+               title: side_title, 
+               version_obj: side == :old ? version.previous : version, 
+               user_id: side == :old ? version.paper_trail_originator : version.whodunnit 
+             } %>
+             
+  <%= render partial: "admin/history/version_content", 
+             locals: { 
+               version_obj: version_obj,
+               css_classes: css_classes,
+               empty_icon: empty_icon,
+               empty_text: empty_text
+             } %>
+</div>
