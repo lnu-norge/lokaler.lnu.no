@@ -44,5 +44,14 @@ module LokalerLnuNo
     # Set default i18n translation to norwegian
     config.i18n.available_locales = %i[nb en]
     config.i18n.default_locale = :nb
+
+    # This is needed to make the `reify` method work in the PaperTrail gem
+    # as it stores the `item` as a YAML string, and the default ruby YAML parser
+    # does not allow symbols as keys.
+    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time,
+                                                          ActiveSupport::TimeWithZone,
+                                                          ActiveSupport::TimeZone,
+                                                          ActiveSupport::HashWithIndifferentAccess,
+                                                          BigDecimal]
   end
 end

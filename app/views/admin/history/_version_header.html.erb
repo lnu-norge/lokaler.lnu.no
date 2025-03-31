@@ -1,0 +1,27 @@
+<%# locals: (title:, version_obj:, user_id:) %>
+<header class="">
+  <h4 class="text-lnu-blue font-medium">
+    <%= title %>
+  </h4>
+  <% if version_obj.present? %>
+    <div class="flex items-center gap-2 text-slate-500">
+      <% 
+        # Use translations from locale file for event name
+        event_key = version_obj.event.presence || "unknown"
+        norwegian_event = t("admin.paper_trail.events.#{event_key}", default: event_key.capitalize)
+      %>
+      <% 
+        formatted_date = version_obj.created_at.strftime("%-d. %b %Y, kl. %H:%M").downcase
+      %>
+      <%= norwegian_event %> <%= formatted_date %> av
+      <% if user_id.present? && User.find(user_id).present?
+           usr = User.find(user_id)
+      %>
+        <%= usr.name %>
+        <%= image_tag usr.gravatar_url, class: "w-5 h-5 rounded-full" %>
+      <% else %>
+        ukjent bruker
+      <% end %>
+    </div>
+  <% end %>
+</header>
