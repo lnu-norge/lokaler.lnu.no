@@ -19,6 +19,19 @@ class User < ApplicationRecord
 
   validates :organization_name, presence: true, if: -> { in_organization == true }
 
+  # Scopes for STI
+  scope :humans, -> { where(type: nil) }
+  scope :robots, -> { where(type: "Robot") }
+
+  # Type checking methods
+  def human?
+    !robot?
+  end
+
+  def robot?
+    is_a?(Robot)
+  end
+
   def name
     return nil if first_name.blank? && last_name.blank?
     return first_name if last_name.blank?
@@ -69,6 +82,7 @@ end
 #  remember_token         :string(20)
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  type                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -76,4 +90,5 @@ end
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_type                  (type)
 #
