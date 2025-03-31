@@ -1,6 +1,6 @@
 <li class="shadow-lg rounded-xl overflow-clip border border-gray-20 flex flex-col flex-shrink-0 ">
 
-  <%= render partial: 'reviews/review_content', locals: { review: review}   %>
+  <%= render partial: 'reviews/review', locals: { review: review}   %>
   <% if current_user == review.user %>
     <div class="bg-gray-50 border-t border-gray-100 p-6 flex gap-2 justify-between mt-auto items-center">
 
