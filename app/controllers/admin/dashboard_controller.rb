@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class DashboardController < BaseControllers::AuthenticateAsAdminController # rubocop:disable Metrics/ClassLength:
+  class DashboardController < BaseControllers::AuthenticateAsAdminController # rubocop:disable Metrics/ClassLength
     PERIODS_TO_GROUP_BY = %i[
       hour
       day
@@ -132,7 +132,7 @@ module Admin
                                                          .count
     end
 
-    def user_statistics # rubocop:disable Metrics/AbcSize, Metrics/MethodLength:
+    def user_statistics # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       top_organizations = User
                           .where(created_at: @date_range)
                           .group(:organization)

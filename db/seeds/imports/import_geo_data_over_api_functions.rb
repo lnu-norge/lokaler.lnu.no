@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/methodLength Metrics/AbcSize
+# Metrics/AbcSize
 
 require "net/http"
 require "uri"
@@ -18,7 +18,7 @@ def load_geo_area_from_geonorge(uri_prefix, uri_id)
 end
 
 FYLKE_API_END_POINT = "https://ws.geonorge.no/kommuneinfo/v1/fylker"
-def load_fylker_from_geonorge
+def load_fylker_from_geonorge # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   # rubocop:disable Rails/Output
 
   # Create Fylke, if we do not have it:
@@ -60,7 +60,7 @@ end
 
 KOMMUNE_API_END_POINT = "https://ws.geonorge.no/kommuneinfo/v1/kommuner"
 
-def load_kommuner_from_geonorge
+def load_kommuner_from_geonorge # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   # rubocop:disable Rails/Output
 
   # Create Kommune, if we do not have it
@@ -109,5 +109,3 @@ def load_kommuner_from_geonorge
 
   # rubocop:enable Rails/Output
 end
-
-# rubocop:enable Metrics/methodLength Metrics/AbcSize
