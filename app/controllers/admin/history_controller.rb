@@ -2,27 +2,14 @@
 
 module Admin
   class HistoryController < BaseControllers::AuthenticateAsAdminController
-    MAX_PAGE_SIZE = 5
-
-    def paginate_array(array)
-      @current_page = params["page"].to_i || 1
-      @current_page = 1 if @current_page < 1
-
-      @versions = Kaminari.paginate_array(
-        array
-      ).page(@current_page).per(MAX_PAGE_SIZE)
-
-      @last_page = true if @versions.size < MAX_PAGE_SIZE
-    end
-
     def index
-      paginate_array(PaperTrail::Version.includes(:item).order(created_at: :desc))
+      @versions = PaperTrail::Version.includes(:item).order(created_at: :desc).limit(10)
     end
 
     def show
       @space = Space.find(params["id"])
 
-      paginate_array(@space.merge_paper_trail_versions.includes(:item).order(created_at: :desc))
+      @space.merge_paper_trail_versions.includes(:item).order(created_at: :desc)
     end
 
     def revert_changes
