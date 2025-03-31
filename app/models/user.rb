@@ -17,7 +17,7 @@ class User < ApplicationRecord
   has_many :personal_space_lists_shared_with_mes, dependent: :destroy
   has_one :active_personal_space_list, dependent: :destroy
 
-  validates :organization_name, presence: true, if: -> { organization_boolean == true }
+  validates :organization_name, presence: true, if: -> { in_organization == true }
 
   def name
     return nil if first_name.blank? && last_name.blank?
@@ -28,8 +28,8 @@ class User < ApplicationRecord
   end
 
   def organization
-    return organization_name if organization_boolean == true
-    return "Privatperson" if organization_boolean == false
+    return organization_name if in_organization == true
+    return "Privatperson" if in_organization == false
 
     nil
   end
@@ -62,8 +62,8 @@ end
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  first_name             :string
+#  in_organization        :boolean
 #  last_name              :string
-#  organization_boolean   :boolean
 #  organization_name      :string
 #  remember_created_at    :datetime
 #  remember_token         :string(20)
