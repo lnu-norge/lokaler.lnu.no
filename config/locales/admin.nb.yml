@@ -10,6 +10,7 @@ nb:
     dashboard: Statistikk
     filter: Filter endringslogg
     user_id: Bruker
+    user_ids: Brukere
     item_type: "Innholdstype"
     item_id: "Innholds-ID"
     space_id: "Lokale-ID"
