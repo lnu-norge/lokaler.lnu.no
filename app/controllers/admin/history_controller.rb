@@ -1,12 +1,67 @@
 # frozen_string_literal: true
 
 module Admin
-  class HistoryController < BaseControllers::AuthenticateAsAdminController
+  class HistoryController < BaseControllers::AuthenticateAsAdminController # rubocop:disable Metrics/ClassLength
     include HistoryHelper
     include Pagy::Backend
 
+    before_action :filter_params, only: :index
+
     def index
-      @pagy, @versions = pagy(PaperTrail::Version.includes(:item).order(created_at: :desc), items: 10)
+      versions = filtered_versions
+      @pagy, @versions = pagy(versions, items: 10)
+    end
+
+    # Apply filters to PaperTrail::Version
+    def filtered_versions # rubocop:disable Metrics/AbcSize
+      versions = PaperTrail::Version.includes(:item).order(created_at: :desc)
+      versions = versions.where(whodunnit: params[:user_id]) if params[:user_id].present?
+      versions = versions.where(item_type: params[:item_type]) if params[:item_type].present?
+      versions = versions.where(item_id: params[:item_id]) if params[:item_id].present?
+      filter_by_space_id(versions)
+    end
+
+    def filter_by_space_id(versions)
+      return versions if params[:space_id].blank?
+
+      space_id = params[:space_id].to_i
+
+      # Find all versions related to this space
+      # This is a two-step process - first find all related items in Ruby
+      # then filter using version IDs (which is faster)
+
+      # Load all potentially related versions (after other filters applied)
+      all_versions = versions.includes(:item).to_a
+
+      # Filter for versions related to the space
+      related_version_ids = all_versions.select do |version|
+        version_related_to_space?(version, space_id)
+      end.map(&:id)
+
+      # Return an ActiveRecord::Relation with the filtered versions
+      versions.where(id: related_version_ids)
+    end
+
+    # Check if a version is related to the specified space
+    def version_related_to_space?(version, space_id)
+      return true if version.item_type == "Space" && version.item_id == space_id
+      return false if version.item.nil?
+
+      related_to_space?(version.item, space_id)
+    end
+
+    # Check if an item is related to the specified space
+    def related_to_space?(item, space_id) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+      return false if item.nil?
+
+      # Same logic as in set_space
+      return true if item.is_a?(Space) && item.id == space_id
+      return true if defined?(item.space_id) && item.space_id == space_id
+      return true if item.is_a?(ActionText::RichText) &&
+                     item.record_type == "Space" &&
+                     item.record_id == space_id
+
+      false
     end
 
     def show
@@ -50,6 +105,10 @@ module Admin
           redirect_to admin_history_path(@old_version)
         end
       end
+    end
+
+    def filter_params
+      params.permit(:user_id, :item_type, :item_id, :space_id)
     end
 
     def set_version

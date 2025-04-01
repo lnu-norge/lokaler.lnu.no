@@ -27,6 +27,7 @@ nb:
         other: "lister"
     attributes:
       space:
+        pricing: "Pris"
         space_type: 'Type lokale'
         space_types: 'Type lokale'
         basics: 'grunnleggende informasjon'
