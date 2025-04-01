@@ -1,4 +1,30 @@
-<div class="m-4 p-2">
-  <div class="text-xl font-bold"><%= "#{@space.title}(#{@space.id})" %></div>
-  <%= render partial: "space_changes", locals: { space: @space } %>
-</div>
+<%= turbo_frame_tag dom_id_history_of(@version) do %>
+  <div class="bg-white p-6 shadow-xl relative rounded-lg">
+
+    <%= render partial: "admin/history/version_header",
+               locals: {
+                 title: @title,
+                 version: @version,
+                 event_name: @event_name,
+                 item: @most_recent_item,
+                 user_name: @user_name,
+                 user_avatar_url: @user_avatar_url
+               } %>
+
+      <%= render partial: "admin/history/version_content",
+                 locals: {
+                   version: @version,
+                   item: @item_as_changed,
+                   type_of_change: @version.event
+                 } %>
+
+
+
+    <% unless @version.event == "create" %>
+      <%= form_with url: admin_history_revert_changes_path do |f| %>
+        <%= f.hidden_field :id, value: @version.id %>
+        <%= f.submit :undo, class: 'p-2 m-2 rounded bg-red-600 text-white absolute bottom-0 right-0' %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

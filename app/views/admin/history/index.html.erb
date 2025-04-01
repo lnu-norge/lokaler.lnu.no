@@ -1,10 +1,12 @@
 <div class="relative bg-gray-200 shadow rounded p-2">
   <%= turbo_stream_from "paper_trail_versions" %>
-
   <%= turbo_frame_tag "paper_trail_versions" do %>
+    <div class="flex flex-col gap-4">
     <% @versions.each do |version| %>
-      <%= render partial: "version", locals: {
-        version: version } %>
+      <%= turbo_frame_tag dom_id_history_of(version), src: admin_history_path(version) do %>
+        <div class="animate-pulse bg-gray-50 w-full h-36"></div>
+      <% end %>
     <% end %>
+    </div>
   <% end %>
 </div>

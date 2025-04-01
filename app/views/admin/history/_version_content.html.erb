@@ -1,24 +1,60 @@
-<%# locals: (version_obj:, css_classes: {}, empty_icon: "empty", empty_text: "Fantes ikke", non_empty_icon: "delete", non_empty_text: "Slettet") %>
-<% css_classes ||= {} %>
-<% container_classes = css_classes[:container] || "flex-1" %>
-<% border_classes = css_classes[:border] || "border-2" %>
-<% empty_container_classes = css_classes[:empty_container] || "flex-1 text-gray-600 bg-gray-100 p-4 rounded-lg flex flex-col gap-1 justify-center items-center" %>
+<%# locals: (item:, type_of_change: %>
+<%
+  base_container_css = "grid grid-cols-2 content-stretch my-4 rounded-lg overflow-hidden "
+  base_empty_container_css = "flex-1 h-full text-gray-600 bg-gray-100 flex flex-col gap-1 justify-center items-center  "
 
-<% if version_obj.present? %>
-  <div class="<%= container_classes %> <%= border_classes %> rounded-lg p-4">
-    <% case version_obj.class.name %>
-      <% when "Space" %>
-        <%= render partial: "spaces/index/space_listing", locals: { space: version_obj } %>
-      <% when "ActionText::RichText" %>
-        <h4 class="text-2xl font-medium mb-4 text-gray-800"><%= t("activerecord.attributes.space.#{version_obj.name}") %></h4>
-        <%= version_obj.body %>
+  case type_of_change
+  when "create"
+    empty_icon = "empty"
+    empty_text = "Fantes ikke"
+    empty_icon_css = "w-10 h-10"
+    empty_container_css = "border-2 border-gray-500 border-dotted "
+    container_css = "border-2 border-lnu-green "
+  when "destroy"
+    empty_icon = "delete"
+    empty_text = "Slettet"
+    empty_icon_css = "w-7 h-7"
+    empty_container_css = "border-2 border-lnu-pink border-dotted "
+    container_css = "text-red-900 bg-red-50 border-2 border-lnu-pink "
+  else
+    empty_icon = "empty"
+    empty_text = "Tomt innhold"
+    empty_icon_css = "w-10 h-10"
+    empty_container_css = "border-2 border-gray-500 border-dotted "
+    container_css = "border-2 border-lnu-blue "
+  end
+
+  combined_container_css = base_container_css
+  combined_container_css += container_css unless item.nil?
+  combined_container_css += empty_container_css if item.nil?
+%>
+
+
+
+<div class="<%= combined_container_css %>">
+      <div class="p-4">
+  <% if item.nil? %>
+          <div class="<%= base_empty_container_css %>">
+      <%= inline_svg_tag empty_icon, class: empty_icon_css %>
+      <span><%= empty_text %></span>
+          </div>
+  <% else %>
+      <% case item.class.name %>
+        <% when "Space" %>
+          <%= render partial: "spaces/index/space_listing", locals: { space: item } %>
+        <% when "ActionText::RichText" %>
+          <% if item.present? %>
+            <h4 class="text-2xl font-medium mb-4 text-gray-800"><%= t("activerecord.attributes.space.#{item.name}") %></h4>
+            <%= item.body %>
+          <% else %>
+            <p class="text-gray-400 italic">(Tom tekst)</p>
+          <% end %>
       <% else %>
-        <%= render version_obj %>
+        <%= render item %>
     <% end %>
-  </div>
-<% else %>
-  <div class="<%= empty_container_classes %> <%= border_classes %> <%= css_classes[:dotted] ? 'border-dotted' : '' %>">
-    <%= inline_svg_tag empty_icon, class: css_classes[:icon] || "w-10 h-10" %>
-    <span><%= empty_text %></span>
-  </div>
 <% end %>
+  </div>
+<aside>
+  <%= render "admin/history/changeset", version: %>
+</aside>
+</div>

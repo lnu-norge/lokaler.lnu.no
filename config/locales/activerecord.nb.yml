@@ -13,6 +13,9 @@ nb:
       space_type:
         one: 'type lokale'
         other: 'typer lokale'
+      spacecontact:
+          one: 'kontaktinformasjon'
+          other: 'kontaktinformasjon'
       facility_review:
         one: 'fasilitetserfaring'
         other: 'fasilitetserfaringer'

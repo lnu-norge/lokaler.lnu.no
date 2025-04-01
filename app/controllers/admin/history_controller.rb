@@ -8,9 +8,13 @@ module Admin
     end
 
     def show
-      @space = Space.find(params["id"])
-
-      @space.merge_paper_trail_versions.includes(:item).order(created_at: :desc)
+      set_version
+      set_item
+      set_space
+      set_user
+      set_field
+      set_event_name
+      set_title
     end
 
     def revert_changes
@@ -19,6 +23,54 @@ module Admin
       result.reify.save!
 
       redirect_to admin_index_path
+    end
+
+    private
+
+    def set_version
+      @version = PaperTrail::Version.find(params[:id])
+    end
+
+    def set_item
+      @item_as_changed = @version.next&.reify(dup: true) || @version.item
+      @most_recent_item = @item_as_changed || @version.reify(dup: true)
+    end
+
+    def set_field
+      @field = field_related_to(@most_recent_item, @version)
+    end
+
+    def set_title
+      @title = "#{@event_name} #{@field} (#{@space&.title || @item_as_changed.class.name.humanize})"
+    end
+
+    def set_event_name
+      event_key = @version.event.presence || "unknown"
+      @event_name = t("admin.paper_trail.events.#{event_key}", default: event_key.capitalize)
+    end
+
+    def set_user
+      @user = User.find(@version.whodunnit) if @version.whodunnit.present?
+      @user_name = @user&.name || "ukjent bruker"
+      @user_avatar_url = @user&.gravatar_url || "https://www.gravatar.com/avatar/placeholder?d=mp"
+    end
+
+    def set_space
+      item = @most_recent_item
+
+      return @space = item if item.is_a?(Space)
+      return @space = item.space if defined? item.space
+      return @space = item.record if item.is_a?(ActionText::RichText) && (item.record_type == "Space")
+
+      nil
+    end
+
+    def field_related_to(item, version)
+      if item.is_a?(ActionText::RichText) && (item.record_type == "Space")
+        return t("activerecord.attributes.space.#{item.name}")
+      end
+
+      t("activerecord.models.#{version.item_type.downcase}", count: 1)
     end
   end
 end
