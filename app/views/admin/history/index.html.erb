@@ -1,7 +1,12 @@
-<div class="relative bg-gray-200 shadow rounded p-2">
-      <%= turbo_frame_tag "paper_trail_versions", class: "flex flex-col gap-4" do %>
-        <% @versions.each do |version| %>
-          <%= render "admin/history/version_turbo_frame", version: version %>
-        <% end %>
-      <% end %>
+
+<div class="my-4">
+  <%== pagy_nav(@pagy) %>
+</div>
+<%= turbo_frame_tag "paper_trail_versions", class: "flex flex-col gap-4" do %>
+  <% @versions.each do |version| %>
+    <%= render "admin/history/version_turbo_frame", version: version %>
+  <% end %>
+<% end %>
+<div class="mt-4">
+  <%== pagy_nav(@pagy) %>
 </div>
