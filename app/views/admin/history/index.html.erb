@@ -4,16 +4,17 @@
     <div>
       <%= form_with url: admin_history_index_path, method: :get, class: "flex flex-wrap items-end gap-4", data: { turbo_frame: "_top" } do |f| %>
         <div>
-          <%= f.label :user_id, "#{t("admin.user_id")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
-          <%= f.select :user_id,
-                       [["", ""]] + User.all.map { |user| ["#{user.name} #{"(#{user.organization_name})" if user.in_organization } <#{user.email}>", user.id] },
-                       { selected: params[:user_id], include_blank: false },
+          <%= f.label :user_ids, "#{t("admin.user_ids")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.select :user_ids,
+                       User.all.map { |user| ["#{user.name} #{"(#{user.organization_name})" if user.in_organization } <#{user.email}>", user.id] },
+                       { selected: params[:user_ids], include_blank: false },
                        {
-                         class: "mt-1 block w-60 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                         multiple: true,
+                         class: "mt-1 block w-80 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
                          data: {
                            controller: "tom-select",
                            tom_select_options_value: {
-                             allowEmptyOption: true,
+                             plugins: ["remove_button"],
                              placeholder: "#{t('admin.search_users')}"
                            }.to_json
                          }
@@ -39,10 +40,12 @@
           <%= f.label :space_id, "#{t("admin.space_id")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
           <%= f.text_field :space_id, value: params[:space_id], class: "mt-1 block w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
         </div>
-        <%= f.submit t("admin.filter_button"), class: "button" %>
-        <% if params[:user_id].present? || params[:item_type].present? || params[:item_id].present? || params[:space_id].present? %>
-          <%= link_to t("admin.remove_filter"), admin_history_index_path, data: { turbo_frame: "_top" }, class: "text-gray-600 hover:text-gray-900" %>
-        <% end %>
+        <div class="flex items-center gap-4">
+          <%= f.submit t("admin.filter_button"), class: "button" %>
+          <% if params[:user_ids].present? || params[:item_type].present? || params[:item_id].present? || params[:space_id].present? %>
+            <%= link_to t("admin.remove_filter"), admin_history_index_path, data: { turbo_frame: "_top" }, class: "text-gray-600 hover:text-gray-900" %>
+          <% end %>
+        </div>
       <% end %>
 
     </div>

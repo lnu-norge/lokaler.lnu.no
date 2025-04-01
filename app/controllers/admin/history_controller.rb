@@ -15,7 +15,7 @@ module Admin
     # Apply filters to PaperTrail::Version
     def filtered_versions # rubocop:disable Metrics/AbcSize
       versions = PaperTrail::Version.includes(:item).order(created_at: :desc)
-      versions = versions.where(whodunnit: params[:user_id]) if params[:user_id].present?
+      versions = versions.where(whodunnit: params[:user_ids]) if params[:user_ids].present?
       versions = versions.where(item_type: params[:item_type]) if params[:item_type].present?
       versions = versions.where(item_id: params[:item_id]) if params[:item_id].present?
       filter_by_space_id(versions)
@@ -108,7 +108,7 @@ module Admin
     end
 
     def filter_params
-      params.permit(:user_id, :item_type, :item_id, :space_id)
+      params.permit(:item_type, :item_id, :space_id, user_ids: [])
     end
 
     def set_version
