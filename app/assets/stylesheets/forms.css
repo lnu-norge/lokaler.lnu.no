@@ -37,7 +37,10 @@
       @apply bg-white border-gray-200;
     }
     &.button--black {
-      @apply bg-black border-black;
+      @apply text-white bg-black border-black;
+      &:hover, &:focus {
+        @apply text-white bg-black border-lnu-pink;
+      }
     }
   }
 

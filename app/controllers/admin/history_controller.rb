@@ -2,6 +2,7 @@
 
 module Admin
   class HistoryController < BaseControllers::AuthenticateAsAdminController
+    include HistoryHelper
     def index
       ActionView::Base.prefix_partial_path_with_controller_namespace = false
       @versions = PaperTrail::Version.includes(:item).order(created_at: :desc).limit(10)
@@ -18,14 +19,37 @@ module Admin
     end
 
     def revert_changes
-      result = PaperTrail::Version.find(params["id"])
+      @old_version = PaperTrail::Version.find(params["id"])
+      @old_version.reify.save!
+      @new_version = @old_version.reload.next
 
-      result.reify.save!
-
-      redirect_to admin_index_path
+      successful_update
     end
 
     private
+
+    def successful_update
+      flash_message = "Ny versjon er live"
+      respond_to do |format|
+        format.turbo_stream do
+          flash.now[:notice] = flash_message
+          render turbo_stream: [
+            turbo_stream.update(:flash,
+                                partial: "shared/flash"),
+            turbo_stream.prepend("paper_trail_versions",
+                                 partial: "admin/history/version_turbo_frame",
+                                 locals: { version: @new_version }),
+            turbo_stream.update(dom_id_history_of(@old_version),
+                                partial: "admin/history/version_turbo_frame",
+                                locals: { version: @old_version })
+          ]
+        end
+        format.html do
+          flash[:notice] = flash_message
+          redirect_to admin_history_path(@old_version)
+        end
+      end
+    end
 
     def set_version
       @version = PaperTrail::Version.find(params[:id])

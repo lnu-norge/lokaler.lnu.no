@@ -45,10 +45,18 @@ class ReviewsController < BaseControllers::AuthenticateController
     end
   end
 
+  def destroy
+    @review = Review.find(params[:id])
+    @review.destroy
+    flash[:alert] = t("reviews.deleted_review")
+    redirect_back(fallback_location: space_path(@review.space))
+  end
+
   private
 
   def authorize_user
     return if @review.user && @review.user == current_user
+    return if current_user&.admin?
 
     # TODO: This t(string) should be something like "You are not authorized".
     # TODO: Change it when the devise nb translations hit main.
