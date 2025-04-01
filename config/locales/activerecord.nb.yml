@@ -13,6 +13,9 @@ nb:
       space_type:
         one: 'type lokale'
         other: 'typer lokale'
+      spacegroup:
+        one: 'gruppe'
+        other: 'grupper'
       spacecontact:
           one: 'kontaktinformasjon'
           other: 'kontaktinformasjon'
