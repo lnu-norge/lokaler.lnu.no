@@ -1,12 +1,20 @@
 <%# locals: (version:, most_recent_item:, field:) %>
 <nav class="flex gap-4 items-center justify-end">
   <%
+
+    item_exists = case version.item_type
+                  when "ActionText::RichText"
+                    version.item.record.present?
+                  else
+                    version.item.present?
+                  end
+
     path_to_item = case version.item_type
                    when "ActionText::RichText"
                      if (version.item.record_type == "Space")
-                       edit_field_path(version.item.record, field: version.item.name)
+                       edit_field_path(version.item.record, field: version.item.name) if item_exists
                      else
-                       polymorphic_path(version.item.record)
+                       polymorphic_path(version.item.record) if item_exists
                      end
                    else
                      polymorphic_path((version.item || most_recent_item))
@@ -14,14 +22,14 @@
 
     edit_path_to_item = case version.item_type
                         when "ActionText::RichText"
-                          edit_field_path(version.item.record, field: version.item.name)
+                          edit_field_path(version.item.record, field: version.item.name) if item_exists
                         else
-                          polymorphic_path(version.item, action: :edit) if version.item
+                          polymorphic_path(version.item, action: :edit) if item_exists
                         end
 
   %>
 
-  <% if (version.index == most_recent_item.versions.count - 1) && version.item %>
+  <% if (version.index == most_recent_item.versions.count - 1) && item_exists %>
     <%# This is the newest version, and item exists. %>
     <% unless version.item_type == "ActionText::RichText" %>
       <%= button_to path_to_item,

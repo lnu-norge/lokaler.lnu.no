@@ -8,6 +8,22 @@ nb:
     history: Endringshistorikk
     space_type: Type lokaler
     dashboard: Statistikk
+    filter: Filter endringslogg
+    user_id: Bruker
+    item_type: "Innholdstype"
+    item_id: "Innholds-ID"
+    space_id: "Lokale-ID"
+    filter_by_user: "Filtrer på denne brukeren"
+    loading: "Laster..."
+    search_users: "Søk etter brukere..."
+    item_types:
+      rich_text: "Riktekst"
+      review: "Erfaring"
+      space: "Lokale"
+      contact: "Kontaktinfo"
+      group: "Lokale-gruppe"
+    filter_button: Filtrer
+    remove_filter: Fjern filter
     paper_trail:
       events:
         update: "Endret"
