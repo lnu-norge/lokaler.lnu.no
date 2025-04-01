@@ -5,9 +5,9 @@
 %>
 
 <div class="relative">
-  <%= link_to space_path(space),
+  <%= link_to space_path(space.id),
             class: "unstyled-link space-listing  shadow-xl
-                  #{@filtered_facilities.any? ? "shadow-gray-300" : "shadow-gray-200"}
+                  #{@filtered_facilities&.any? ? "shadow-gray-300" : "shadow-gray-200"}
                   bg-white rounded-md max-w-lg",
             data: {
               "set-as-selected-when-this-space-is-open": space.id,

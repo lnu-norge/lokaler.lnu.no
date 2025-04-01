@@ -9,6 +9,7 @@ nb:
     add_review: 'Ny erfaring'
     add_first: 'Legg til første erfaring'
     added_review: 'Erfaring loggført!'
+    deleted_review: 'Erfaring slettet!'
     no_reviews: 'Ingen erfaringer'
     unknown_org: 'Ukjent organisasjon'
     stars_given:

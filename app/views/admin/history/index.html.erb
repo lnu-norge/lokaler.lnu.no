@@ -1,24 +1,67 @@
-<div class="relative bg-gray-200 shadow rounded p-2">
-  <%= turbo_stream_from "paper_trail_versions" %>
 
-  <%= turbo_frame_tag "paper_trail_versions" do %>
-    <% @versions.each do |version| %>
-      <%= render partial: "version", locals: {
-        version: version } %>
-    <% end %>
-  <% end %>
+<div class="bg-gray-50 p-4 rounded-lg mb-4">
+  <nav class="flex justify-around">
+    <div>
+      <%= form_with url: admin_history_index_path, method: :get, class: "flex flex-wrap items-end gap-4", data: { turbo_frame: "_top" } do |f| %>
+        <div>
+          <%= f.label :user_ids, "#{t("admin.user_ids")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.select :user_ids,
+                       User.all.map { |user| ["#{user.name} #{"(#{user.organization_name})" if user.in_organization } <#{user.email}>", user.id] },
+                       { selected: params[:user_ids], include_blank: false },
+                       {
+                         multiple: true,
+                         class: "mt-1 block w-80 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                         data: {
+                           controller: "tom-select",
+                           tom_select_options_value: {
+                             plugins: ["remove_button"],
+                             placeholder: "#{t('admin.search_users')}"
+                           }.to_json
+                         }
+                       } %>
+        </div>
+        <div>
+          <%= f.label :item_type, "#{t("admin.item_type")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.select :item_type,
+                       [["", ""],
+                        [t("admin.item_types.rich_text"), "ActionText::RichText"],
+                        [t("admin.item_types.review"), "Review"],
+                        [t("admin.item_types.space"), "Space"],
+                        [t("admin.item_types.contact"), "SpaceContact"],
+                        [t("admin.item_types.group"), "SpaceGroup"]],
+                       { selected: params[:item_type] },
+                       { class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" } %>
+        </div>
+        <div>
+          <%= f.label :item_id, "#{t("admin.item_id")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :item_id, value: params[:item_id], class: "mt-1 block w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        </div>
+        <div>
+          <%= f.label :space_id, "#{t("admin.space_id")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :space_id, value: params[:space_id], class: "mt-1 block w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        </div>
+        <div class="flex items-center gap-4">
+          <%= f.submit t("admin.filter_button"), class: "button" %>
+          <% if params[:user_ids].present? || params[:item_type].present? || params[:item_id].present? || params[:space_id].present? %>
+            <%= link_to t("admin.remove_filter"), admin_history_index_path, data: { turbo_frame: "_top" }, class: "text-gray-600 hover:text-gray-900" %>
+          <% end %>
+        </div>
+      <% end %>
 
-  <br>
-  <% unless @current_page == 1 %>
-    <%= link_to :back,
-      admin_history_index_path(page: @current_page.to_i - 1),
-      class: "absolute right-16 bottom-0 p-2 bg-lnu-pink text-white" %>
-  <% end %>
+    </div>
+  </nav>
+</div>
 
-  <% unless @last_page %>
-    <%= link_to :next,
-      admin_history_index_path(page: @current_page.to_i + 1),
-      class: "absolute right-0 bottom-0 p-2 bg-lnu-pink text-white"
-    %>
+<div class="my-4">
+  <%== pagy_nav(@pagy) %>
+</div>
+
+<%= turbo_frame_tag "paper_trail_versions", class: "flex flex-col gap-4" do %>
+  <% @versions.each do |version| %>
+    <%= render "admin/history/version_turbo_frame", version: version %>
   <% end %>
+<% end %>
+
+<div class="mt-4">
+  <%== pagy_nav(@pagy) %>
 </div>

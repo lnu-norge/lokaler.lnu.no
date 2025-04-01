@@ -1,0 +1,26 @@
+<%# locals: (version:, item:) %>
+<nav class="flex gap-1 items-center">
+  <h4 class="font-medium text-gray-500 inline" title="Historikk">
+    <span class="sr-only">Historikk</span>
+  </h4>
+  <% if version.index == item.versions.count - 1 %>
+    <p class="text-sm bg-green-50 text-green-800 px-2 py-1 -my-1">Nyeste versjon</p>
+  <% end %>
+  <% if item.versions.count > 1 %>
+    <% if version.previous.present? %>
+      <%= link_to "Forrige", admin_history_path(version.previous), class: "link" %>
+    <% else %>
+      <span class="text-gray-400 cursor-not-allowed">Forrige</span>
+    <% end %>
+    <%= version.index + 1 %> av <%= item.versions.count %>
+    <% if version.next.present? %>
+      <%= link_to "Neste", admin_history_path(version.next), class: "link" %>
+    <% else %>
+      <span class="text-gray-400 cursor-not-allowed">Neste</span>
+    <% end %>
+  <% else %>
+      <span class="text-gray-400">
+        Eneste versjon
+      </span>
+  <% end %>
+</nav>
