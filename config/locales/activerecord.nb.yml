@@ -13,6 +13,12 @@ nb:
       space_type:
         one: 'type lokale'
         other: 'typer lokale'
+      spacegroup:
+        one: 'gruppe'
+        other: 'grupper'
+      spacecontact:
+          one: 'kontaktinformasjon'
+          other: 'kontaktinformasjon'
       facility_review:
         one: 'fasilitetserfaring'
         other: 'fasilitetserfaringer'
@@ -21,6 +27,7 @@ nb:
         other: "lister"
     attributes:
       space:
+        pricing: "Pris"
         space_type: 'Type lokale'
         space_types: 'Type lokale'
         basics: 'grunnleggende informasjon'

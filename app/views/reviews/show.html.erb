@@ -1,6 +1,6 @@
 <%=
   turbo_frame_tag @review do
-    render partial: 'reviews/review_content', locals: {
+    render partial: 'reviews/review', locals: {
       review: @review,
       show_full_review: true
     }

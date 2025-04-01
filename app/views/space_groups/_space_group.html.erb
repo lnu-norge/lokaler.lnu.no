@@ -1,0 +1,9 @@
+<%# locals: (space_group:) %>
+
+  <h3 class="font-bold text-2xl mb-4"><%= space_group.title %></h3>
+  <h4 class="font-bold"><%= t("activerecord.attributes.space.how_to_book") %></h4>
+  <%= space_group.how_to_book %>
+  <h4 class="font-bold"><%= t("activerecord.attributes.space.terms_and_pricing") %></h4>
+  <%= space_group.terms_and_pricing %>
+  <h4 class="font-bold"><%= t("space_group.about", default: "Om") %></h4>
+  <%= space_group.about %>

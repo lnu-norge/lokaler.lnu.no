@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ModuleLength # This is a test helper, it's fine
+# rubocop:disable Metrics/ModuleLength -- This is a test helper, it's fine
 module UserCreatesFacilityReviewsHelpers
   def expect_to_only_change_facility_review_description(
     space:,
@@ -8,7 +8,6 @@ module UserCreatesFacilityReviewsHelpers
     description_to_add: "",
     count_that_already_have_the_new_experience: 1
   )
-
     expected_previous_experience =
       space.reload
            .relevant_space_facilities
@@ -25,7 +24,7 @@ module UserCreatesFacilityReviewsHelpers
     )
   end
 
-  # rubocop:disable Metrics/ParameterLists # This is a test helper, it's fine
+  # rubocop:disable Metrics/ParameterLists -- This is a test helper, it's fine
   def expect_to_add_facility_review(
     space:,
     facility:,
@@ -35,7 +34,6 @@ module UserCreatesFacilityReviewsHelpers
     expected_new_experience: "likely",
     count_that_changes_to_new_experience: 1
   )
-
     expect_changes_around_reviewing_facility(
       facility:,
       space:,
@@ -74,7 +72,6 @@ module UserCreatesFacilityReviewsHelpers
 
   def click_to_create_new_facility_review(facility:,
                                           description_to_add: "")
-
     enter_data_about_facility(facility:, description_to_add:)
   end
 
@@ -110,7 +107,7 @@ module UserCreatesFacilityReviewsHelpers
     expect(page).to have_no_selector("form", text: facility.title)
   end
 
-  # rubocop:disable Metrics/ParameterLists, Metrics/MethodLength, Metrics/AbcSize # This is a test helper, it's fine
+  # rubocop:disable Metrics/ParameterLists, Metrics/MethodLength, Metrics/AbcSize -- This is a test helper, it's fine
   def expect_changes_around_reviewing_facility(
     facility:,
     space:,
@@ -122,7 +119,6 @@ module UserCreatesFacilityReviewsHelpers
     expected_new_description: "",
     expected_description_count: 1
   )
-
     count_should_have_new_experience =
       count_that_already_have_the_new_experience + count_that_changes_to_new_experience
 

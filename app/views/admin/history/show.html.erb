@@ -1,4 +1,26 @@
-<div class="m-4 p-2">
-  <div class="text-xl font-bold"><%= "#{@space.title}(#{@space.id})" %></div>
-  <%= render partial: "space_changes", locals: { space: @space } %>
-</div>
+<%= turbo_frame_tag dom_id(@version) do  %>
+<%= turbo_frame_tag dom_id_history_of(@version) do %>
+  <div class="bg-white p-6 shadow-xl relative rounded-lg">
+
+    <%= render partial: "admin/history/version_header",
+               locals: {
+                 title: @title,
+                 version: @version,
+                 event_name: @event_name,
+                 item: @most_recent_item,
+                 user_id: @user_id,
+                 user_name: @user_name,
+                 user_avatar_url: @user_avatar_url,
+               } %>
+
+      <%= render partial: "admin/history/version_content",
+                 locals: {
+                   version: @version,
+                   item: @item_as_changed,
+                   type_of_change: @version.event
+                 } %>
+
+    <%= render "admin/history/version_actions", version: @version, most_recent_item: @most_recent_item, field: @field %>
+  </div>
+<% end %>
+<% end %>

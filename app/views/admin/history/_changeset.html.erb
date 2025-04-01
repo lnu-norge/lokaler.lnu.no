@@ -1,15 +1,14 @@
-
-<h4 class="font-bold"><%= t('admin.changes') %>:</h4>
-<div class="p-4 mt-3 border border-gray-100 shadow bg-gray-50">
+<%# locals: (version:, changeset: version.changeset) %>
+<div class="h-full p-6 bg-gray-50 border-l border-gray-200">
+  <% if changeset.any? %>
   <% changeset.each do |key, value| %>
-  <% next if key == "updated_at" %>
-  <% if value[0].nil? %>
-      <p><strong><%= Space.human_attribute_name(key) %></strong>: <%= value[1] %>
-  <% else %>
+  <% next if key == "updated_at" && changeset.size > 1 %>
     <div>
       <strong><%= Space.human_attribute_name(key) %>:</strong>
       <%= sanitize Diffy::Diff.new(value[0].to_s, value[1].to_s).to_s(:html) %>
     </div>
-  <% end %>
+<% end %>
+<% else %>
+    <p class="text-gray-500">Ingen endringer (sannsynlig kun "touched")</p>
 <% end %>
 </div>

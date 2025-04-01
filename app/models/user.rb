@@ -17,7 +17,20 @@ class User < ApplicationRecord
   has_many :personal_space_lists_shared_with_mes, dependent: :destroy
   has_one :active_personal_space_list, dependent: :destroy
 
-  validates :organization_name, presence: true, if: -> { organization_boolean == true }
+  validates :organization_name, presence: true, if: -> { in_organization == true }
+
+  # Scopes for STI
+  scope :humans, -> { where(type: nil) }
+  scope :robots, -> { where(type: "Robot") }
+
+  # Type checking methods
+  def human?
+    !robot?
+  end
+
+  def robot?
+    is_a?(Robot)
+  end
 
   def name
     return nil if first_name.blank? && last_name.blank?
@@ -28,8 +41,8 @@ class User < ApplicationRecord
   end
 
   def organization
-    return organization_name if organization_boolean == true
-    return "Privatperson" if organization_boolean == false
+    return organization_name if in_organization == true
+    return "Privatperson" if in_organization == false
 
     nil
   end
@@ -62,13 +75,14 @@ end
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  first_name             :string
+#  in_organization        :boolean
 #  last_name              :string
-#  organization_boolean   :boolean
 #  organization_name      :string
 #  remember_created_at    :datetime
 #  remember_token         :string(20)
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  type                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -76,4 +90,5 @@ end
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_type                  (type)
 #

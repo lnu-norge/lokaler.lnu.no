@@ -46,7 +46,7 @@ nb:
         email_example: "epost@epost.no"
         organization: "Organisasjon"
         organization_name: "Organisasjon"
-        organization_boolean: "Er du i en organisasjon?"
+        in_organization: "Er du i en organisasjon?"
         session:
           heading_new: "Velkommen!"
           login_with_google: "Bruk Google-konto"

@@ -1,0 +1,71 @@
+<%# locals: (version:, most_recent_item:, field:) %>
+<nav class="flex gap-4 items-center justify-end">
+  <%
+
+    item_exists = case version.item_type
+                  when "ActionText::RichText"
+                    version.item.record.present?
+                  else
+                    version.item.present?
+                  end
+
+    path_to_item = case version.item_type
+                   when "ActionText::RichText"
+                     if (version.item.record_type == "Space")
+                       edit_field_path(version.item.record, field: version.item.name) if item_exists
+                     else
+                       polymorphic_path(version.item.record) if item_exists
+                     end
+                   else
+                     polymorphic_path((version.item || most_recent_item))
+                   end
+
+    edit_path_to_item = case version.item_type
+                        when "ActionText::RichText"
+                          edit_field_path(version.item.record, field: version.item.name) if item_exists
+                        else
+                          polymorphic_path(version.item, action: :edit) if item_exists
+                        end
+
+  %>
+
+  <% if (version.index == most_recent_item.versions.count - 1) && item_exists %>
+    <%# This is the newest version, and item exists. %>
+    <% unless version.item_type == "ActionText::RichText" %>
+      <%= button_to path_to_item,
+                  method: :delete,
+                  class: "flex gap-1 items-center hover:text-lnu-pink focus:outline-lnu-pink",
+                  data: { turbo_method: :delete, turbo_confirm: "Er du sikker på at du vil slette innholdet?" } do %>
+        <%= inline_svg "delete", class: "h-4 w-4" %>
+        Slett <%= field %>
+      <% end %>
+    <% end %>
+    <%= button_to edit_path_to_item,
+                  data: { turbo: false },
+                  method: :get,
+                  class: "edit-button" do  %>
+      <%= inline_svg "edit", class: "h-4 w-4" %>
+      Rediger <%= field %>
+    <% end %>
+  <% elsif version.index == most_recent_item.versions.count - 1 %>
+    <%# This is the newest version, but item is destroyed. %>
+    <%= button_to admin_history_revert_changes_path(id: version.id), method: :post, class: "edit-button" do %>
+      <%= inline_svg "history", class: "h-4 w-4" %>
+      Gjenopprett <%= field %>
+    <% end %>
+  <% elsif version.event == "destroy" %>
+    <%= button_to path_to_item,
+                  method: :delete,
+                  class: "flex gap-1 items-center hover:text-lnu-pink focus:outline-lnu-pink",
+                  data: { turbo_method: :delete, turbo_confirm: "Er du sikker på at du vil slette innholdet?" } do %>
+      <%= inline_svg "delete", class: "h-4 w-4" %>
+      Slett <%= field %> på ny
+    <% end %>
+  <% else %>
+    <%# This is not the newest version, offer a revert button %>
+    <%= button_to admin_history_revert_changes_path(id: version.next.id), method: :post, class: "edit-button" do %>
+      <%= inline_svg "history", class: "h-4 w-4" %>
+      Gjenopprett denne versjonen
+    <% end %>
+  <% end %>
+</nav>

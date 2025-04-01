@@ -1,0 +1,21 @@
+<%# locals: (title:, event_name:, version:, item:, user_id:, user_name:, user_avatar_url:) %>
+<header class="">
+  <h3 class="text-xl font-medium text-lnu-blue flex gap-2">
+    <%= title %>
+    <span class="font-light text-gray-400">ID: <%= version.id %></span>
+  </h3>
+    <div class="flex items-center justify-between gap-2 text-slate-600 my-2">
+      <%
+        formatted_date = version.created_at.strftime("%-d. %b %Y, kl. %H:%M").downcase
+      %>
+      <div>
+        <%= formatted_date %> av
+        <span class="inline-flex gap-2 items-center">
+          <%= user_name %>
+          <%= image_tag user_avatar_url, class: "w-5 h-5 rounded-full" %>
+        </span>
+      </div>
+      <%= render "admin/history/version_pagination", version: version, item: item %>
+    </div>
+
+</header>
