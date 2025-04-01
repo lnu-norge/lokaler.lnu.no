@@ -3,9 +3,10 @@
 module Admin
   class HistoryController < BaseControllers::AuthenticateAsAdminController
     include HistoryHelper
+    include Pagy::Backend
+
     def index
-      ActionView::Base.prefix_partial_path_with_controller_namespace = false
-      @versions = PaperTrail::Version.includes(:item).order(created_at: :desc).limit(10)
+      @pagy, @versions = pagy(PaperTrail::Version.includes(:item).order(created_at: :desc), items: 10)
     end
 
     def show
