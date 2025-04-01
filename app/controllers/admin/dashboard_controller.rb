@@ -135,19 +135,19 @@ module Admin
     def user_statistics # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       top_organizations = User
                           .where(created_at: @date_range)
-                          .group(:organization)
+                          .group(:organization_name)
                           .count.sort_by { |_, count| -count }
                           .take(6).filter(&:last).map(&:first)
 
       sql_for_gropuing_by_organization = Arel.sql(
         <<~SQL.squish
           CASE
-            WHEN organization = '' THEN 'Ingen organisasjon'
-            WHEN organization IN (
+            WHEN organization_name = '' THEN 'Ingen organisasjon'
+            WHEN organization_name IN (
               #{top_organizations.map do |org|
                 "'#{org}'"
               end.join(',')}
-              ) THEN organization
+              ) THEN organization_name
             ELSE 'Annen organisasjon'
           END
         SQL
@@ -169,12 +169,12 @@ module Admin
       @users_with_facility_reviews = User.joins(:facility_reviews)
                                          .where.not(facility_reviews: { id: nil })
                                          .distinct.count
-      @users_with_organization = User.where.not(organization: [nil, ""]).count
+      @users_with_organization = User.where.not(organization_name: [nil, ""]).count
       @users_with_first_name = User.where.not(first_name: [nil, ""]).count
       @users_with_last_name = User.where.not(last_name: [nil, ""]).count
       @admin_users = User.where(admin: true).count
       @organizations_with_user_count = User
-                                       .group(:organization)
+                                       .group(:organization_name)
                                        .count
                                        .sort_by { |_, count| -count }
       @organizations_to_show_before_expanding_list = 5
