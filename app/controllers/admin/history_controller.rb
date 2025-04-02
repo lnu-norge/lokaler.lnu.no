@@ -12,7 +12,52 @@ module Admin
       @pagy, @versions = pagy(versions, items: 10)
     end
 
-    # Apply filters to PaperTrail::Version
+    def show
+      set_version
+      set_missing_item_model
+      set_item # Depends on set_missing_item_model
+      set_missing_rich_text_model # Depends on set_item
+      set_space
+      set_space_group
+      set_user
+      set_field
+      set_event_name
+      set_title
+    end
+
+    def revert_changes
+      @old_version = PaperTrail::Version.find(params["id"])
+      @old_version.reify.save!
+      @new_version = @old_version.reload.next
+
+      successful_update
+    end
+
+    private
+
+    def successful_update
+      flash_message = "Ny versjon er live"
+      respond_to do |format|
+        format.turbo_stream do
+          flash.now[:notice] = flash_message
+          render turbo_stream: [
+            turbo_stream.update(:flash,
+                                partial: "shared/flash"),
+            turbo_stream.prepend("paper_trail_versions",
+                                 partial: "admin/history/version_turbo_frame",
+                                 locals: { version: @new_version }),
+            turbo_stream.update(dom_id_history_of(@old_version),
+                                partial: "admin/history/version_turbo_frame",
+                                locals: { version: @old_version })
+          ]
+        end
+        format.html do
+          flash[:notice] = flash_message
+          redirect_to admin_history_path(@old_version)
+        end
+      end
+    end
+
     def filtered_versions # rubocop:disable Metrics/AbcSize
       versions = PaperTrail::Version.includes(:item).order(created_at: :desc)
       versions = versions.where(whodunnit: params[:user_ids]) if params[:user_ids].present?
@@ -64,49 +109,6 @@ module Admin
       false
     end
 
-    def show
-      set_version
-      set_item
-      set_space
-      set_user
-      set_field
-      set_event_name
-      set_title
-    end
-
-    def revert_changes
-      @old_version = PaperTrail::Version.find(params["id"])
-      @old_version.reify.save!
-      @new_version = @old_version.reload.next
-
-      successful_update
-    end
-
-    private
-
-    def successful_update
-      flash_message = "Ny versjon er live"
-      respond_to do |format|
-        format.turbo_stream do
-          flash.now[:notice] = flash_message
-          render turbo_stream: [
-            turbo_stream.update(:flash,
-                                partial: "shared/flash"),
-            turbo_stream.prepend("paper_trail_versions",
-                                 partial: "admin/history/version_turbo_frame",
-                                 locals: { version: @new_version }),
-            turbo_stream.update(dom_id_history_of(@old_version),
-                                partial: "admin/history/version_turbo_frame",
-                                locals: { version: @old_version })
-          ]
-        end
-        format.html do
-          flash[:notice] = flash_message
-          redirect_to admin_history_path(@old_version)
-        end
-      end
-    end
-
     def filter_params
       params.permit(:item_type, :item_id, :space_id, user_ids: [])
     end
@@ -116,8 +118,26 @@ module Admin
     end
 
     def set_item
+      return if @item_model_not_found
+
       @item_as_changed = @version.next&.reify(dup: true) || @version.item
       @most_recent_item = @item_as_changed || @version.reify(dup: true)
+    end
+
+    def set_missing_item_model
+      return if Object.const_defined?(@version.item_type)
+
+      # Handle case where model class no longer exists (e.g., renamed models)
+      @item_model_not_found = true
+      @item_original_model_name = @version.item_type
+    end
+
+    def set_missing_rich_text_model
+      return unless @version.item_type == "ActionText::RichText"
+      return if Object.const_defined?(@most_recent_item&.record_type)
+
+      @rich_text_model_not_found = true
+      @rich_text_original_model_name = @version.item.record_type
     end
 
     def set_field
@@ -125,7 +145,13 @@ module Admin
     end
 
     def set_title
-      @title = "#{@event_name} #{@field} (#{@space&.title || @item_as_changed.class.name.humanize})"
+      @title = if @item_model_not_found
+                 "#{@event_name} #{@field}"
+               elsif @rich_text_model_not_found
+                 "#{@event_name} #{@field} (#{@rich_text_original_model_name})"
+               else
+                 "#{@event_name} #{@field} #{"(#{@space&.title})" if @space}"
+               end
     end
 
     def set_event_name
@@ -146,15 +172,33 @@ module Admin
       return @space = item.space if defined? item.space
       return @space = item.record if item.is_a?(ActionText::RichText) && (item.record_type == "Space")
 
-      nil
+      @space = nil
+    end
+
+    def set_space_group
+      item = @most_recent_item
+
+      return @space_group = item if item.is_a?(SpaceGroup)
+      return @space_group = item.space_group if defined? item.space_group
+      return @space_group = item.record if item.is_a?(ActionText::RichText) && (item.record_type == "SpaceGroup")
+
+      @space_group = nil
     end
 
     def field_related_to(item, version)
-      if item.is_a?(ActionText::RichText) && (item.record_type == "Space")
-        return t("activerecord.attributes.space.#{item.name}")
-      end
+      return "Ukjent modell (#{@original_model_name})" if @model_not_found
+      return action_text_field_name(item) if item.is_a?(ActionText::RichText)
 
       t("activerecord.models.#{version.item_type.downcase}", count: 1)
+    end
+
+    def action_text_field_name(item)
+      case item.record_type
+      when "Space"
+        t("activerecord.attributes.space.#{item.name}")
+      when "SpaceGroup"
+        t("activerecord.attributes.space_group.#{item.name}")
+      end
     end
   end
 end

@@ -3,10 +3,10 @@
   <h4 class="font-medium text-gray-500 inline" title="Historikk">
     <span class="sr-only">Historikk</span>
   </h4>
-  <% if version.index == item.versions.count - 1 %>
+  <% if item && version.index == item.versions.count - 1 %>
     <p class="text-sm bg-green-50 text-green-800 px-2 py-1 -my-1">Nyeste versjon</p>
   <% end %>
-  <% if item.versions.count > 1 %>
+  <% if item && item.versions.count > 1 %>
     <% if version.previous.present? %>
       <%= link_to "Forrige", admin_history_path(version.previous), class: "link" %>
     <% else %>

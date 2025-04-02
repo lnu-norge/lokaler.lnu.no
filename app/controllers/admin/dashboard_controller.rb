@@ -139,19 +139,32 @@ module Admin
                           .count.sort_by { |_, count| -count }
                           .take(6).filter(&:last).map(&:first)
 
-      sql_for_gropuing_by_organization = Arel.sql(
-        <<~SQL.squish
-          CASE
-            WHEN organization_name = '' THEN 'Ingen organisasjon'
-            WHEN organization_name IN (
-              #{top_organizations.map do |org|
-                "'#{org}'"
-              end.join(',')}
-              ) THEN organization_name
-            ELSE 'Annen organisasjon'
-          END
-        SQL
-      )
+      # Generate appropriate SQL based on whether we have top organizations or not
+      sql_for_gropuing_by_organization = if top_organizations.empty?
+                                           # If there are no top organizations, use a simplified SQL that doesn't use IN
+                                           Arel.sql(
+                                             <<~SQL.squish
+                                               CASE
+                                                 WHEN organization_name = '' THEN 'Ingen organisasjon'
+                                                 ELSE 'Annen organisasjon'
+                                               END
+                                             SQL
+                                           )
+                                         else
+                                           Arel.sql(
+                                             <<~SQL.squish
+                                               CASE
+                                                 WHEN organization_name = '' THEN 'Ingen organisasjon'
+                                                 WHEN organization_name IN (
+                                                   #{top_organizations.map do |org|
+                                                     "'#{org}'"
+                                                   end.join(',')}
+                                                   ) THEN organization_name
+                                                 ELSE 'Annen organisasjon'
+                                               END
+                                             SQL
+                                           )
+                                         end
 
       @users_created = User
                        .group(sql_for_gropuing_by_organization)
