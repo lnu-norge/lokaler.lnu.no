@@ -12,7 +12,50 @@ module Admin
       @pagy, @versions = pagy(versions, items: 10)
     end
 
-    # Apply filters to PaperTrail::Version
+    def show
+      set_version
+      set_item
+      set_space
+      set_space_group
+      set_user
+      set_field
+      set_event_name
+      set_title
+    end
+
+    def revert_changes
+      @old_version = PaperTrail::Version.find(params["id"])
+      @old_version.reify.save!
+      @new_version = @old_version.reload.next
+
+      successful_update
+    end
+
+    private
+
+    def successful_update
+      flash_message = "Ny versjon er live"
+      respond_to do |format|
+        format.turbo_stream do
+          flash.now[:notice] = flash_message
+          render turbo_stream: [
+            turbo_stream.update(:flash,
+                                partial: "shared/flash"),
+            turbo_stream.prepend("paper_trail_versions",
+                                 partial: "admin/history/version_turbo_frame",
+                                 locals: { version: @new_version }),
+            turbo_stream.update(dom_id_history_of(@old_version),
+                                partial: "admin/history/version_turbo_frame",
+                                locals: { version: @old_version })
+          ]
+        end
+        format.html do
+          flash[:notice] = flash_message
+          redirect_to admin_history_path(@old_version)
+        end
+      end
+    end
+
     def filtered_versions # rubocop:disable Metrics/AbcSize
       versions = PaperTrail::Version.includes(:item).order(created_at: :desc)
       versions = versions.where(whodunnit: params[:user_ids]) if params[:user_ids].present?
@@ -64,49 +107,6 @@ module Admin
       false
     end
 
-    def show
-      set_version
-      set_item
-      set_space
-      set_user
-      set_field
-      set_event_name
-      set_title
-    end
-
-    def revert_changes
-      @old_version = PaperTrail::Version.find(params["id"])
-      @old_version.reify.save!
-      @new_version = @old_version.reload.next
-
-      successful_update
-    end
-
-    private
-
-    def successful_update
-      flash_message = "Ny versjon er live"
-      respond_to do |format|
-        format.turbo_stream do
-          flash.now[:notice] = flash_message
-          render turbo_stream: [
-            turbo_stream.update(:flash,
-                                partial: "shared/flash"),
-            turbo_stream.prepend("paper_trail_versions",
-                                 partial: "admin/history/version_turbo_frame",
-                                 locals: { version: @new_version }),
-            turbo_stream.update(dom_id_history_of(@old_version),
-                                partial: "admin/history/version_turbo_frame",
-                                locals: { version: @old_version })
-          ]
-        end
-        format.html do
-          flash[:notice] = flash_message
-          redirect_to admin_history_path(@old_version)
-        end
-      end
-    end
-
     def filter_params
       params.permit(:item_type, :item_id, :space_id, user_ids: [])
     end
@@ -146,15 +146,32 @@ module Admin
       return @space = item.space if defined? item.space
       return @space = item.record if item.is_a?(ActionText::RichText) && (item.record_type == "Space")
 
-      nil
+      @space = nil
+    end
+
+    def set_space_group
+      item = @most_recent_item
+
+      return @space_group = item if item.is_a?(SpaceGroup)
+      return @space_group = item.space_group if defined? item.space_group
+      return @space_group = item.record if item.is_a?(ActionText::RichText) && (item.record_type == "SpaceGroup")
+
+      @space_group = nil
     end
 
     def field_related_to(item, version)
-      if item.is_a?(ActionText::RichText) && (item.record_type == "Space")
-        return t("activerecord.attributes.space.#{item.name}")
-      end
+      return action_text_field_name(item) if item.is_a?(ActionText::RichText)
 
       t("activerecord.models.#{version.item_type.downcase}", count: 1)
+    end
+
+    def action_text_field_name(item)
+      case item.record_type
+      when "Space"
+        t("activerecord.attributes.space.#{item.name}")
+      when "SpaceGroup"
+        t("activerecord.attributes.space_group.#{item.name}")
+      end
     end
   end
 end

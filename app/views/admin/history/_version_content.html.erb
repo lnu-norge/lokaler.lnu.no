@@ -49,6 +49,12 @@
           <% else %>
             <p class="text-gray-400 italic">(Tom tekst)</p>
           <% end %>
+        <% when "SpaceContact" %>
+          <%= render partial: "space_contacts/space_contact", locals: { space_contact: item } %>
+        <% when "Review" %>
+          <%= render partial: "reviews/review", locals: { review: item } %>
+        <% when "SpaceGroup" %>
+          <%= render partial: "space_groups/space_group", locals: { space_group: item } %>
       <% else %>
         <%= render item %>
     <% end %>
