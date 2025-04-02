@@ -33,7 +33,12 @@
 
 <div class="<%= combined_container_css %>">
       <div class="p-4">
-  <% if item.nil? %>
+  <% if @model_not_found || @rich_text_model_not_found %>
+          <div class="<%= base_empty_container_css %>">
+      <%= inline_svg_tag "empty", class: "w-10 h-10" %>
+      <span>Modelltypen <%= @original_model_name || @rich_text_original_model_name %> eksisterer ikke lenger</span>
+          </div>
+  <% elsif item.nil? %>
           <div class="<%= base_empty_container_css %>">
       <%= inline_svg_tag empty_icon, class: empty_icon_css %>
       <span><%= empty_text %></span>

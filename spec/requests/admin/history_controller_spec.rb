@@ -84,6 +84,20 @@ RSpec.describe "Admin::History", type: :request do
         get admin_history_path(version)
         expect(response).to have_http_status(:success)
       end
+
+      it "gracefully handles viewing history for models that no longer exist" do
+        # Use SQL to insert a version record directly, bypassing model validations
+        now = Time.current
+        ActiveRecord::Base.connection.execute(
+          "INSERT INTO versions (item_type, item_id, event, whodunnit, created_at) " \
+          "VALUES ('SpaceOwner', 123, 'create', '#{admin_user.id}', '#{now}')"
+        )
+        version = PaperTrail::Version.where(item_type: "SpaceOwner", item_id: 123).first
+        # We already have the version
+
+        get admin_history_path(version)
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 

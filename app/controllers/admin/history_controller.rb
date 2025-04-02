@@ -14,7 +14,9 @@ module Admin
 
     def show
       set_version
-      set_item
+      set_missing_item_model
+      set_item # Depends on set_missing_item_model
+      set_missing_rich_text_model # Depends on set_item
       set_space
       set_space_group
       set_user
@@ -116,8 +118,26 @@ module Admin
     end
 
     def set_item
+      return if @item_model_not_found
+
       @item_as_changed = @version.next&.reify(dup: true) || @version.item
       @most_recent_item = @item_as_changed || @version.reify(dup: true)
+    end
+
+    def set_missing_item_model
+      return if Object.const_defined?(@version.item_type)
+
+      # Handle case where model class no longer exists (e.g., renamed models)
+      @item_model_not_found = true
+      @item_original_model_name = @version.item_type
+    end
+
+    def set_missing_rich_text_model
+      return unless @version.item_type == "ActionText::RichText"
+      return if Object.const_defined?(@most_recent_item&.record_type)
+
+      @rich_text_model_not_found = true
+      @rich_text_original_model_name = @version.item.record_type
     end
 
     def set_field
@@ -125,7 +145,13 @@ module Admin
     end
 
     def set_title
-      @title = "#{@event_name} #{@field} (#{@space&.title || @item_as_changed.class.name.humanize})"
+      @title = if @item_model_not_found
+                 "#{@event_name} #{@field}"
+               elsif @rich_text_model_not_found
+                 "#{@event_name} #{@field} (#{@rich_text_original_model_name})"
+               else
+                 "#{@event_name} #{@field} #{"(#{@space&.title})" if @space}"
+               end
     end
 
     def set_event_name
@@ -160,6 +186,7 @@ module Admin
     end
 
     def field_related_to(item, version)
+      return "Ukjent modell (#{@original_model_name})" if @model_not_found
       return action_text_field_name(item) if item.is_a?(ActionText::RichText)
 
       t("activerecord.models.#{version.item_type.downcase}", count: 1)
