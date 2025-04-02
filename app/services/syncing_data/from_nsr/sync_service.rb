@@ -12,7 +12,8 @@ module SyncingData
 
       def call
         all_schools = fetch_all_schools
-        process_list_of_schools(all_schools)
+        filtered_schools = filter_schools(all_schools)
+        process_list_of_schools(filtered_schools)
       end
 
       private
@@ -23,6 +24,26 @@ module SyncingData
         end
       end
 
+      def filter_schools(schools)
+        # Return empty array if schools is nil
+        return [] unless schools.is_a?(Array)
+
+        schools.select do |school|
+          # Skip nil schools
+          next false if school.nil?
+
+          # Keep if school is active
+          next true if school["ErAktiv"] == true
+
+          # For inactive schools, keep only if we have a space with matching org number
+          if school["OrgNr"].present?
+            Space.exists?(organization_number: school["OrgNr"])
+          else
+            false # Filter out inactive schools with no org number
+          end
+        end
+      end
+
       def fetch_schools_for_category(category_id)
         url = "#{NSR_BASE_URL}/enheter/skolekategori/#{category_id}"
 
@@ -30,15 +51,17 @@ module SyncingData
           response = HTTP.get(url)
 
           if response.status.success?
-            json = response.body.to_json
-            json["EnhetListe"]
+            # Parse the JSON correctly from the body
+            parsed_json = JSON.parse(response.body.to_s)
+            # Return the list of schools or an empty array if EnhetListe is missing
+            parsed_json["EnhetListe"] || []
           else
             error_msg = "Failed to fetch schools from NSR API for category #{category_id}: #{response.status}"
             Rails.logger.error(error_msg)
             []
           end
-        rescue HTTP::Error => e
-          Rails.logger.error("HTTP error when fetching schools from NSR API for category #{category_id}: #{e.message}")
+        rescue StandardError => e
+          Rails.logger.error("Error when fetching schools from NSR API for category #{category_id}: #{e.message}")
           []
         end
       end
