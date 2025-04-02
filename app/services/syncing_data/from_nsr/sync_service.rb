@@ -13,7 +13,8 @@ module SyncingData
       def call
         all_schools = fetch_all_schools
         filtered_schools = filter_schools(all_schools)
-        process_list_of_schools(filtered_schools)
+        schools_with_details = fetch_all_school_details(filtered_schools)
+        process_list_of_schools(schools_with_details)
       end
 
       private
@@ -66,7 +67,41 @@ module SyncingData
         end
       end
 
-      def process_list_of_schools(all_schools)
+      def fetch_school_details(org_number)
+        url = "#{NSR_BASE_URL}/enhet/#{org_number}"
+
+        begin
+          response = HTTP.get(url)
+
+          if response.status.success?
+            JSON.parse(response.body.to_s)
+          else
+            error_msg = "Failed to fetch school details from NSR API for org number #{org_number}: #{response.status}"
+            Rails.logger.error(error_msg)
+            nil
+          end
+        rescue StandardError => e
+          error_msg = "Error fetching school details for org number #{org_number}: #{e.message}"
+          Rails.logger.error(error_msg)
+          nil
+        end
+      end
+
+      def fetch_all_school_details(schools)
+        result = {}
+
+        schools.each do |school|
+          org_number = school["OrgNr"]
+          next if org_number.blank?
+
+          details = fetch_school_details(org_number)
+          result[org_number] = details if details.present?
+        end
+
+        result
+      end
+
+      def process_list_of_schools(schools_with_details)
         # TODO: Implement processing logic for the fetched schools data
         # This would create/update Space and SpaceGroup records as needed
       end
