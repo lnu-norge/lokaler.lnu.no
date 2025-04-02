@@ -1,14 +1,19 @@
-<%# locals: (version:, changeset: version.changeset) %>
+<%# locals: (version:) %>
 <div class="h-full p-6 bg-gray-50 border-l border-gray-200">
-  <% if changeset.any? %>
-  <% changeset.each do |key, value| %>
-  <% next if key == "updated_at" && changeset.size > 1 %>
-    <div>
-      <strong><%= Space.human_attribute_name(key) %>:</strong>
-      <%= sanitize Diffy::Diff.new(value[0].to_s, value[1].to_s).to_s(:html) %>
-    </div>
-<% end %>
-<% else %>
+  <% if @item_model_not_found %>
+    <p class="text-gray-500">Modelltypen <%= @item_original_model_name %> eksisterer ikke lenger. Kan derfor ikke vise endringslogg. Her er rådataene:</p>
+    <pre>
+      <%= @version.object.pretty_inspect %>
+    </pre>
+  <% elsif version.changeset.any? %>
+    <% version.changeset.each do |key, value| %>
+        <% next if key == "updated_at" && version.changeset.size > 1 %>
+        <div>
+            <strong><%= Space.human_attribute_name(key) %>:</strong>
+            <%= sanitize Diffy::Diff.new(value[0].to_s, value[1].to_s).to_s(:html) %>
+        </div>
+    <% end %>
+  <% else %>
     <p class="text-gray-500">Ingen endringer (sannsynlig kun "touched")</p>
 <% end %>
 </div>
