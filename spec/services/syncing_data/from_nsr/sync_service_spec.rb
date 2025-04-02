@@ -6,6 +6,7 @@ require "webmock/rspec"
 RSpec.describe SyncingData::FromNsr::SyncService do
   let(:nsr_base_uri) { "https://data-nsr.udir.no/v4/" }
   let(:nsr_uri_skoler_per_skolekategori) { "#{nsr_base_uri}enheter/skolekategori" }
+  let(:nsr_uri_enhet) { "#{nsr_base_uri}enhet" }
 
   describe "#filter_schools" do
     let(:service) { described_class.new }
@@ -170,6 +171,84 @@ RSpec.describe SyncingData::FromNsr::SyncService do
           expect(schools_passed_to_filter.first).to include("Navn", "ErAktiv")
         end
       end
+    end
+  end
+
+  describe "#fetch_school_details" do
+    let(:service) { described_class.new }
+    let(:org_number) { "975279154" } # Use a real org number from the VCR cassette
+
+    context "when the API call is successful", :vcr do
+      it "fetches detailed information for a school" do
+        VCR.use_cassette("nsr/enhet/#{org_number}") do
+          school_details = service.send(:fetch_school_details, org_number)
+
+          # Verify the response contains expected data
+          expect(school_details).to be_a(Hash)
+          expect(school_details["Organisasjonsnummer"]).to eq(org_number)
+          expect(school_details).to include("Navn", "Beliggenhetsadresse", "Kommune")
+        end
+      end
+    end
+
+    context "when the API call fails" do
+      let(:error_response) do
+        instance_double(HTTP::Response::Status, success?: false, code: 404)
+      end
+
+      let(:error_body) do
+        instance_double(HTTP::Response::Body, to_s: "Not Found")
+      end
+
+      before do
+        allow(HTTP).to receive(:get).with("#{nsr_uri_enhet}/#{org_number}").and_return(
+          instance_double(HTTP::Response, status: error_response, body: error_body)
+        )
+      end
+
+      it "returns nil and logs an error" do
+        allow(Rails.logger).to receive(:error)
+
+        result = service.send(:fetch_school_details, org_number)
+
+        expect(result).to be_nil
+        expect(Rails.logger).to have_received(:error).with(/Failed to fetch school details/)
+      end
+    end
+  end
+
+  describe "#fetch_all_school_details" do
+    let(:service) { described_class.new }
+    let(:schools) do
+      [
+        { "OrgNr" => "975279154", "Navn" => "Aa skole" },
+        { "OrgNr" => "995922770", "Navn" => "Aalesund International School Sti" },
+        { "OrgNr" => "975283046", "Navn" => "Abel skole" }
+      ]
+    end
+
+    it "fetches details for all schools" do
+      # Mock the fetch_school_details method
+      allow(service).to receive(:fetch_school_details).and_return({ "data" => "test" })
+
+      result = service.send(:fetch_all_school_details, schools)
+
+      # Should call fetch_school_details once per school
+      expect(service).to have_received(:fetch_school_details).exactly(schools.size).times
+      # Should return a hash with org numbers as keys
+      expect(result.keys).to contain_exactly("975279154", "995922770", "975283046")
+    end
+
+    it "skips schools with no organization number" do
+      schools_with_missing_org = schools + [{ "Navn" => "Fiktiv skole uten organisasjonsnummer" }]
+
+      allow(service).to receive(:fetch_school_details).and_return({ "data" => "test" })
+
+      result = service.send(:fetch_all_school_details, schools_with_missing_org)
+
+      # Should only call fetch_school_details for schools with org numbers
+      expect(service).to have_received(:fetch_school_details).exactly(schools.size).times
+      expect(result.size).to eq(schools.size)
     end
   end
 end
