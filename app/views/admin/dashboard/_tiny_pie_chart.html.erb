@@ -16,6 +16,10 @@
   <span>
      <%= number_with_delimiter with %>
      <%= text %>
-     <span class="text-gray-500">(<%= number_to_percentage((with * 100 / total)) %>)</span>
+     <% if total && total > 0 %>
+       <span class="text-gray-500">(<%= number_to_percentage((with * 100 / total)) %>)</span>
+     <% else %>
+       <span class="text-gray-500">(0%)</span>
+     <% end %>
   </span>
 </span>
