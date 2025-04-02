@@ -4,6 +4,9 @@ require "rails_helper"
 require "webmock/rspec"
 
 RSpec.describe SyncingData::FromNsr::SyncService do
+  let(:nsr_base_uri) { "https://data-nsr.udir.no/v4/" }
+  let(:nsr_uri_skoler_per_skolekategori) { "#{nsr_base_uri}enheter/skolekategori" }
+
   describe "#call" do
     let(:service) { described_class.new }
 
@@ -23,14 +26,14 @@ RSpec.describe SyncingData::FromNsr::SyncService do
             instance_double(HTTP::Response, status: success_response, body: empty_body)
           )
           # Let only the specific endpoint use the real implementation
-          allow(HTTP).to receive(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/1").and_call_original
+          allow(HTTP).to receive(:get).with("#{nsr_uri_skoler_per_skolekategori}/1").and_call_original
 
           service.call
 
           # Verify endpoint calls
-          expect(HTTP).to have_received(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/1")
-          expect(HTTP).to have_received(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/2")
-          expect(HTTP).to have_received(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/11")
+          expect(HTTP).to have_received(:get).with("#{nsr_uri_skoler_per_skolekategori}/1")
+          expect(HTTP).to have_received(:get).with("#{nsr_uri_skoler_per_skolekategori}/2")
+          expect(HTTP).to have_received(:get).with("#{nsr_uri_skoler_per_skolekategori}/11")
         end
       end
 
@@ -41,14 +44,14 @@ RSpec.describe SyncingData::FromNsr::SyncService do
             instance_double(HTTP::Response, status: success_response, body: empty_body)
           )
           # Let only the specific endpoint use the real implementation
-          allow(HTTP).to receive(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/2").and_call_original
+          allow(HTTP).to receive(:get).with("#{nsr_uri_skoler_per_skolekategori}/2").and_call_original
 
           service.call
 
           # Verify endpoint calls
-          expect(HTTP).to have_received(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/1")
-          expect(HTTP).to have_received(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/2")
-          expect(HTTP).to have_received(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/11")
+          expect(HTTP).to have_received(:get).with("#{nsr_uri_skoler_per_skolekategori}/1")
+          expect(HTTP).to have_received(:get).with("#{nsr_uri_skoler_per_skolekategori}/2")
+          expect(HTTP).to have_received(:get).with("#{nsr_uri_skoler_per_skolekategori}/11")
         end
       end
 
@@ -59,14 +62,14 @@ RSpec.describe SyncingData::FromNsr::SyncService do
             instance_double(HTTP::Response, status: success_response, body: empty_body)
           )
           # Let only the specific endpoint use the real implementation
-          allow(HTTP).to receive(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/11").and_call_original
+          allow(HTTP).to receive(:get).with("#{nsr_uri_skoler_per_skolekategori}/11").and_call_original
 
           service.call
 
           # Verify endpoint calls
-          expect(HTTP).to have_received(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/1")
-          expect(HTTP).to have_received(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/2")
-          expect(HTTP).to have_received(:get).with("https://data-nsr.udir.no/v4/enheter/skolekategori/11")
+          expect(HTTP).to have_received(:get).with("#{nsr_uri_skoler_per_skolekategori}/1")
+          expect(HTTP).to have_received(:get).with("#{nsr_uri_skoler_per_skolekategori}/2")
+          expect(HTTP).to have_received(:get).with("#{nsr_uri_skoler_per_skolekategori}/11")
         end
       end
     end
