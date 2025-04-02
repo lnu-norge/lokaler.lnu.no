@@ -11,8 +11,8 @@ module SyncingData
       }.freeze
 
       def call
-        schools_data = fetch_all_schools
-        process_schools_data(schools_data)
+        all_schools = fetch_all_schools
+        process_list_of_schools(all_schools)
       end
 
       private
@@ -30,7 +30,8 @@ module SyncingData
           response = HTTP.get(url)
 
           if response.status.success?
-            JSON.parse(response.body.to_s)
+            json = response.body.to_json
+            json["EnhetListe"]
           else
             error_msg = "Failed to fetch schools from NSR API for category #{category_id}: #{response.status}"
             Rails.logger.error(error_msg)
@@ -42,7 +43,7 @@ module SyncingData
         end
       end
 
-      def process_schools_data(schools_data)
+      def process_list_of_schools(all_schools)
         # TODO: Implement processing logic for the fetched schools data
         # This would create/update Space and SpaceGroup records as needed
       end
