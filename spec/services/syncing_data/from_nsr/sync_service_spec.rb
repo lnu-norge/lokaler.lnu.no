@@ -177,11 +177,64 @@ RSpec.describe SyncingData::FromNsr::SyncService do
   describe "#fetch_school_details" do
     let(:service) { described_class.new }
     let(:org_number) { "975279154" } # Use a real org number from the VCR cassette
+    let(:date_changed_at_from_nsr) { "2025-03-21T08:38:18.143+01:00" }
+    let(:later_date_changed_at_from_nsr) { "2025-04-21T08:38:18.143+01:00" }
+
+    describe "caching behavior integration tests", :vcr do
+      it "caches school details and uses cache on subsequent requests" do
+        # Use the real Rails cache for this test
+        Rails.cache.clear
+
+        # Set up HTTP tracking
+        allow(HTTP).to receive(:get).and_call_original
+        http_url = "#{SyncingData::FromNsr::SyncService::NSR_BASE_URL}/enhet/#{org_number}"
+
+        # First call should fetch data and cache it
+        VCR.use_cassette("nsr/enhet/#{org_number}", allow_playback_repeats: true) do
+          first_result = service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr:)
+          expect(first_result).to be_present
+          expect(first_result["Organisasjonsnummer"]).to eq(org_number)
+
+          # Second call should use the cache
+          second_result = service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr:)
+          expect(second_result).to eq(first_result)
+
+          # Verify HTTP was called only once
+          expect(HTTP).to have_received(:get).with(http_url).once
+        end
+      end
+
+      it "refreshes cache when DatoEndret is newer" do
+        # Use the real Rails cache for this test
+        Rails.cache.clear
+
+        # First call to populate cache
+        VCR.use_cassette("nsr/enhet/#{org_number}", allow_playback_repeats: true) do
+          # Set up cache manually to ensure date_changed_at_from_nsr matching
+          cache_data = {
+            data: { "Organisasjonsnummer" => org_number, "DatoEndret" => date_changed_at_from_nsr },
+            date_changed_at_from_nsr: date_changed_at_from_nsr,
+            cached_at: Time.current.iso8601
+          }
+          Rails.cache.write("nsr:school:#{org_number}", cache_data)
+
+          # Set up HTTP tracking
+          allow(HTTP).to receive(:get).and_call_original
+          http_url = "#{SyncingData::FromNsr::SyncService::NSR_BASE_URL}/enhet/#{org_number}"
+
+          # Call with newer date
+          service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr: later_date_changed_at_from_nsr)
+
+          # Verify HTTP was called
+          expect(HTTP).to have_received(:get).with(http_url).once
+        end
+      end
+    end
 
     context "when the API call is successful", :vcr do
       it "fetches detailed information for a school" do
         VCR.use_cassette("nsr/enhet/#{org_number}") do
-          school_details = service.send(:fetch_school_details, org_number)
+          school_details = service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr:)
 
           # Verify the response contains expected data
           expect(school_details).to be_a(Hash)
@@ -206,13 +259,15 @@ RSpec.describe SyncingData::FromNsr::SyncService do
         )
       end
 
-      it "returns nil and logs an error" do
+      it "raises an error and logs it" do
         allow(Rails.logger).to receive(:error)
 
-        result = service.send(:fetch_school_details, org_number)
+        expect do
+          service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr:)
+        end.to raise_error(/API Error/)
 
-        expect(result).to be_nil
-        expect(Rails.logger).to have_received(:error).with(/Failed to fetch school details/)
+        # The error is logged and we don't care how many times, just that it happened
+        expect(Rails.logger).to have_received(:error).with(/Failed to fetch school details/).at_least(:once)
       end
     end
   end
@@ -221,9 +276,10 @@ RSpec.describe SyncingData::FromNsr::SyncService do
     let(:service) { described_class.new }
     let(:schools) do
       [
-        { "OrgNr" => "975279154", "Navn" => "Aa skole" },
-        { "OrgNr" => "995922770", "Navn" => "Aalesund International School Sti" },
-        { "OrgNr" => "975283046", "Navn" => "Abel skole" }
+        { "OrgNr" => "975279154", "Navn" => "Aa skole", "DatoEndret" => "2025-03-21T08:38:18.143+01:00" },
+        { "OrgNr" => "995922770", "Navn" => "Aalesund International School Sti",
+          "DatoEndret" => "2025-03-21T08:38:18.143+01:00" },
+        { "OrgNr" => "975283046", "Navn" => "Abel skole", "DatoEndret" => "2025-03-21T08:38:18.143+01:00" }
       ]
     end
 
@@ -249,6 +305,33 @@ RSpec.describe SyncingData::FromNsr::SyncService do
       # Should only call fetch_school_details for schools with org numbers
       expect(service).to have_received(:fetch_school_details).exactly(schools.size).times
       expect(result.size).to eq(schools.size)
+    end
+
+    it "continues processing after errors with individual schools" do
+      allow(Rails.logger).to receive(:error)
+
+      # First and third schools succeed, second fails
+      allow(service).to receive(:fetch_school_details)
+        .with(org_number: schools[0]["OrgNr"], date_changed_at_from_nsr: schools[0]["DatoEndret"])
+        .and_return({ "data" => "test1" })
+
+      allow(service).to receive(:fetch_school_details)
+        .with(org_number: schools[1]["OrgNr"], date_changed_at_from_nsr: schools[1]["DatoEndret"])
+        .and_raise("API Error")
+
+      allow(service).to receive(:fetch_school_details)
+        .with(org_number: schools[2]["OrgNr"], date_changed_at_from_nsr: schools[2]["DatoEndret"])
+        .and_return({ "data" => "test3" })
+
+      result = service.send(:fetch_all_school_details, schools)
+
+      # Should have logged errors
+      expect(Rails.logger).to have_received(:error).with(/Error fetching details for school/)
+      expect(Rails.logger).to have_received(:error).with(/Failed to fetch details for 1 schools/)
+
+      # Should continue processing after error
+      expect(result.keys).to contain_exactly("975279154", "975283046")
+      expect(result.size).to eq(2)
     end
   end
 end
