@@ -246,7 +246,7 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
     context "when the API call fails" do
       let(:error_response) do
-        instance_double(HTTP::Response::Status, success?: false, code: 404)
+        instance_double(HTTP::Response::Status, success?: false, code: 404, to_s: "404 Not Found")
       end
 
       let(:error_body) do
@@ -257,13 +257,16 @@ RSpec.describe SyncingData::FromNsr::SyncService do
         allow(HTTP).to receive(:get).with("#{nsr_uri_enhet}/#{org_number}").and_return(
           instance_double(HTTP::Response, status: error_response, body: error_body)
         )
+        allow(Rails.logger).to receive(:error)
       end
 
       it "raises an error and logs it" do
-        allow(Rails.logger).to receive(:error)
+        # Allow the cache methods to maintain test isolation
+        allow(service).to receive(:cache_still_fresh?).and_return(false)
 
         expect do
-          service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr:)
+          service.send(:fetch_school_details, org_number: org_number,
+                                              date_changed_at_from_nsr: date_changed_at_from_nsr)
         end.to raise_error(/API Error/)
 
         # The error is logged and we don't care how many times, just that it happened

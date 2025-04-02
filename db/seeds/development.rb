@@ -8,8 +8,6 @@ require "./db/seeds/common"
 ## Create a User:
 User.create(
   email: "user@example.com",
-  password: "secret",
-  password_confirmation: "secret",
   first_name: "Kari",
   last_name: "Nordmann",
   admin: true

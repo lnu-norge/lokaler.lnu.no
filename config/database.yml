@@ -7,19 +7,34 @@ default: &default
 
 
 development:
-  <<: *default
-  database: lokaler_lnu_no_development
+  primary:
+    <<: *default
+    database: lokaler_lnu_no_development
+  cache:
+    <<: *default
+    database: lokaler_lnu_no_development_cache
+    migrations_paths: db/cache_migrate
 
 test:
-  <<: *default
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
+  primary:
+    <<: *default
+    # For details on connection pooling, see Rails configuration guide
+    # https://guides.rubyonrails.org/configuring.html#database-pooling
+    database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
+  cache:
+    <<: *default
+    database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_cache
+    migrations_paths: db/cache_migrate
 
 production:
-  <<: *default
-  # This fixes an Heroku bug where it doesn't respect the postgis adapter,
-  # see https://devcenter.heroku.com/articles/rails-database-connection-behavior
-  url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
+  primary:
+    <<: *default
+    # This fixes an Heroku bug where it doesn't respect the postgis adapter,
+    # see https://devcenter.heroku.com/articles/rails-database-connection-behavior
+    url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
+  cache:
+    <<: *default
+    database: lokaler_lnu_no_production_cache
+    migrations_paths: db/cache_migrate
 
 
