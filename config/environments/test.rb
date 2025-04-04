@@ -43,10 +43,11 @@ Rails.application.configure do
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.headers = { "Cache-Control" => "public, max-age=#{1.hour.to_i}" }
 
-  # Show full error reports and disable caching.
+  # Show full error reports and configure caching.
   config.consider_all_requests_local = true
-  config.action_controller.perform_caching = false
-  config.cache_store = :null_store
+  config.action_controller.perform_caching = true
+  # Use memory store for tests to avoid database issues
+  config.cache_store = :memory_store
 
   # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :rescuable
