@@ -7,12 +7,14 @@ module SyncingData
         user_or_robot_doing_the_syncing:,
         model:,
         field:,
-        new_data:
+        new_data:,
+        allow_empty_new_data: false
       )
         @user = user_or_robot_doing_the_syncing
         @model = model
         @field = field
         @new_data = new_data
+        @allow_empty_new_data = allow_empty_new_data
       end
 
       def safely_sync_data
@@ -24,6 +26,7 @@ module SyncingData
       end
 
       def should_sync_be_allowed?
+        return false if new_data_is_empty_and_empty_data_is_not_allowed?
         return true if no_existing_data_would_be_overwritten?
         return true if existing_data_has_no_info_about_who_set_it_or_when?
         return false if proposed_new_data_is_old_data?
@@ -82,6 +85,10 @@ module SyncingData
 
       def existing_data
         @model.public_send(@field)
+      end
+
+      def new_data_is_empty_and_empty_data_is_not_allowed?
+        @new_data.blank? unless @allow_empty_new_data
       end
 
       def same_data_has_been_overwritten_before?
