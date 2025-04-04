@@ -2,7 +2,7 @@
 
 module SyncingData
   module Shared
-    class SafelySyncDataService
+    class SafelySyncDataService # rubocop:disable Metrics/ClassLength
       def initialize(
         user_or_robot_doing_the_syncing:,
         model:,
@@ -92,19 +92,36 @@ module SyncingData
       end
 
       def same_data_has_been_overwritten_before?
-        case class_name_for_data
-        when "ActionText::RichText"
-          versions_of_existing_data.any? do |version|
-            old_data = version.reify(dup: true)
-            next if old_data.blank?
+        return true if any_matching_rich_text_versions?
+        return true if any_matching_association_versions?
 
-            old_data.body == ActionText::Content.new(@new_data)
-          end
-        else
-          versions_of_existing_data
-            .where_object(@field => @new_data)
-            .any?
+        any_matching_versions?
+      end
+
+      def any_matching_rich_text_versions?
+        return false unless class_name_for_data == "ActionText::RichText"
+
+        versions_of_existing_data.any? do |version|
+          old_data = version.reify(dup: true)
+          next if old_data.blank?
+
+          old_data.body == ActionText::Content.new(@new_data)
         end
+      end
+
+      def any_matching_association_versions?
+        return false unless @new_data.respond_to?(:id)
+
+        id_of_new_data = @new_data.id.presence || @new_data
+        versions_of_existing_data
+          .where_object("#{@field}_id" => id_of_new_data)
+          .any?
+      end
+
+      def any_matching_versions?
+        versions_of_existing_data
+          .where_object(@field => @new_data)
+          .any?
       end
 
       def versions_of_existing_data
