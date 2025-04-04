@@ -107,6 +107,20 @@ RSpec.describe SyncingData::Shared::SafelySyncDataService do
       expect(space.reload.how_to_book.to_s).to include(first_change_to_data)
       expect(space.reload.how_to_book.to_s).not_to include(unknown_originator_to_data)
     end
+
+    it "when the new data is empty and we pass a flag to allow empty new data" do
+      space.update!(how_to_book: first_change_to_data)
+
+      described_class.new(
+        user_or_robot_doing_the_syncing:,
+        model: space,
+        field: :how_to_book,
+        new_data: "",
+        allow_empty_new_data: true
+      ).safely_sync_data
+
+      expect(space.reload.how_to_book.body.to_html).to eq("")
+    end
   end
 
   describe "does not write new data" do
@@ -151,10 +165,23 @@ RSpec.describe SyncingData::Shared::SafelySyncDataService do
         model: space,
         field: :title,
         new_data: "Old title"
-      )
+      ).safely_sync_data
 
       expect(space.reload.title).not_to eq("Old title")
       expect(space.reload.title).to eq("New title")
+    end
+
+    it "when the new data is empty" do
+      space.update!(how_to_book: first_change_to_data)
+
+      described_class.new(
+        user_or_robot_doing_the_syncing:,
+        model: space,
+        field: :how_to_book,
+        new_data: ""
+      ).safely_sync_data
+
+      expect(space.reload.how_to_book.body.to_html).to eq(first_change_to_data)
     end
   end
 end
