@@ -1,0 +1,147 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://data-nsr.udir.no/v4/enhet/995922770
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - data-nsr.udir.no
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+      Api-Supported-Versions:
+      - 1.0, 3.0, 4.0
+      Date:
+      - Mon, 07 Apr 2025 12:29:55 GMT
+      Connection:
+      - close
+      Set-Cookie:
+      - BIGipServer~utdanningsdirektorat~udr-np-wfe-nxr-ziis-http-80=rd26o00000000000000000000ffff0a058b25o80;
+        path=/; Httponly; Secure
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"Organisasjonsnummer":"995922770","Navn":"Aalesund International School
+        Sti","Karakteristikk":null,"FulltNavn":"Aalesund International School Sti","Fylke":{"Fylkesnummer":"15","Navn":"M\u00F8re
+        og Romsdal","Organisasjonsnummer":"944183779","StatsforvalterOrganisasjonsnummer":"974764067"},"Kommune":{"Navn":"\u00C5lesund","Kommunenummer":"1508","Organisasjonsnummer":"929911709","ErNedlagt":false,"Fylkesnummer":"15","Kostragruppe":{"Id":11,"Navn":"KOSTRA-gruppe
+        11"}},"Beliggenhetsadresse":{"Adresse":"Borgundvegen 418","Postnummer":"6015","Poststed":"\u00C5LESUND","Land":"Norge"},"Postadresse":{"Adresse":"Postboks
+        6504 Hatlane","Postnummer":"6024","Poststed":"\u00C5LESUND","Land":"Norge"},"Koordinat":{"Lengdegrad":6.25108,"Breddegrad":62.46557,"Zoom":12,"GeoKilde":"GeoNorge"},"Internettadresse":"www.aais.no","Maalform":{"Id":"B","Navn":"Bokm\u00E5l"},"Organisasjonsform":{"Id":"BEDR","Navn":"Underenhet
+        til n\u00E6ringsdrivende og offentlig sektor"},"Naeringskoder":[{"Prioritet":1,"Kode":"85.201","Navn":"Ordin\u00E6r
+        grunnskoleundervisning","Versjon":"2007"}],"Hjelpeenhetskode":null,"Utgaattype":{"Id":"A","Navn":"Ingen
+        utg\u00E5ttype"},"UtgaattDato":null,"ErAktiv":true,"ErSkole":true,"ErSkoleeier":false,"ErGrunnskole":true,"ErPrivatskole":true,"ErOffentligSkole":false,"ErVideregaaendeSkole":false,"ErSpesialskole":false,"ErGrunnopplaering":true,"PrivatskoleGodkjenning":{"Godkjenningslov":"privatskoleloven","GodkjentStatus":"Drift","GodkjentStatusTekst":"Drift","ErAktiv":true},"Elevtall":125,"AntallAnsatte":30,"SkoletrinnGSFra":1,"SkoletrinnGSTil":10,"SkoletrinnVGSFra":null,"SkoletrinnVGSTil":null,"Skolekategorier":[{"Id":"1","Navn":"Grunnskole"},{"Id":"4","Navn":"Privat
+        eiet"},{"Id":"16","Navn":"Godkjent privatskole"},{"Id":"32","Navn":"Grunnoppl\u00E6ring"}],"ForeldreRelasjoner":[{"Enhet":{"Organisasjonsnummer":"995614251","Navn":"Aalesund
+        International School Sti"},"Relasjonstype":{"Id":"1","Navn":"Eierstruktur"}},{"Enhet":{"Organisasjonsnummer":"995614251","Navn":"Aalesund
+        International School Sti"},"Relasjonstype":{"Id":"4","Navn":"Tilknytningsstruktur"}},{"Enhet":{"Organisasjonsnummer":"974764067","Navn":"Statsforvaltaren
+        i M\u00F8re og Romsdal"},"Relasjonstype":{"Id":"5","Navn":"Administrativ struktur"}},{"Enhet":{"Organisasjonsnummer":"970018131","Navn":"Utdanningsdirektoratet"},"Relasjonstype":{"Id":"2","Navn":"Tilsynsstruktur"}}],"BarnRelasjoner":[],"OppstartsEllerStiftelsesdato":"2010-08-01T00:00:00+02:00","DatoEndret":"2025-03-23T01:15:53.487+01:00"}'
+  recorded_at: Mon, 07 Apr 2025 12:29:55 GMT
+- request:
+    method: get
+    uri: https://data-nsr.udir.no/v4/enhet/975283046
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - data-nsr.udir.no
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+      Api-Supported-Versions:
+      - 1.0, 3.0, 4.0
+      Date:
+      - Mon, 07 Apr 2025 12:29:55 GMT
+      Connection:
+      - close
+      Set-Cookie:
+      - BIGipServer~utdanningsdirektorat~udr-np-wfe-nxr-ziis-http-80=rd26o00000000000000000000ffff0a058b24o80;
+        path=/; Httponly; Secure
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"Organisasjonsnummer":"975283046","Navn":"Abel skole","Karakteristikk":null,"FulltNavn":"Abel
+        skole","Fylke":{"Fylkesnummer":"42","Navn":"Agder","Organisasjonsnummer":"921707134","StatsforvalterOrganisasjonsnummer":"974762994"},"Kommune":{"Navn":"Gjerstad","Kommunenummer":"4211","Organisasjonsnummer":"964964998","ErNedlagt":false,"Fylkesnummer":"42","Kostragruppe":{"Id":5,"Navn":"KOSTRA-gruppe
+        5"}},"Beliggenhetsadresse":{"Adresse":"Gamle S\u00F8rlandske 1304","Postnummer":"4993","Poststed":"SUNDEBRU","Land":"Norge"},"Postadresse":{"Adresse":"Gjerstadveien
+        1335","Postnummer":"4980","Poststed":"GJERSTAD","Land":"Norge"},"Koordinat":{"Lengdegrad":9.09501,"Breddegrad":58.8392,"Zoom":12,"GeoKilde":"GeoNorge"},"Internettadresse":"www.abel.skole.no","Maalform":{"Id":"B","Navn":"Bokm\u00E5l"},"Organisasjonsform":{"Id":"BEDR","Navn":"Underenhet
+        til n\u00E6ringsdrivende og offentlig sektor"},"Naeringskoder":[{"Prioritet":1,"Kode":"85.201","Navn":"Ordin\u00E6r
+        grunnskoleundervisning","Versjon":"2007"}],"Hjelpeenhetskode":null,"Utgaattype":{"Id":"A","Navn":"Ingen
+        utg\u00E5ttype"},"UtgaattDato":null,"ErAktiv":true,"ErSkole":true,"ErSkoleeier":false,"ErGrunnskole":true,"ErPrivatskole":false,"ErOffentligSkole":true,"ErVideregaaendeSkole":false,"ErSpesialskole":false,"ErGrunnopplaering":true,"PrivatskoleGodkjenning":null,"Elevtall":245,"AntallAnsatte":66,"SkoletrinnGSFra":1,"SkoletrinnGSTil":10,"SkoletrinnVGSFra":null,"SkoletrinnVGSTil":null,"Skolekategorier":[{"Id":"1","Navn":"Grunnskole"},{"Id":"3","Navn":"Offentlig
+        skole"},{"Id":"5","Navn":"Kommunal"},{"Id":"32","Navn":"Grunnoppl\u00E6ring"}],"ForeldreRelasjoner":[{"Enhet":{"Organisasjonsnummer":"964964998","Navn":"Gjerstad
+        kommune"},"Relasjonstype":{"Id":"1","Navn":"Eierstruktur"}},{"Enhet":{"Organisasjonsnummer":"964964998","Navn":"Gjerstad
+        kommune"},"Relasjonstype":{"Id":"4","Navn":"Tilknytningsstruktur"}},{"Enhet":{"Organisasjonsnummer":"964964998","Navn":"Gjerstad
+        kommune"},"Relasjonstype":{"Id":"5","Navn":"Administrativ struktur"}},{"Enhet":{"Organisasjonsnummer":"974762994","Navn":"Statsforvalteren
+        i Agder"},"Relasjonstype":{"Id":"2","Navn":"Tilsynsstruktur"}}],"BarnRelasjoner":[],"OppstartsEllerStiftelsesdato":"1969-02-01T00:00:00+01:00","DatoEndret":"2025-03-21T09:16:04.82+01:00"}'
+  recorded_at: Mon, 07 Apr 2025 12:29:55 GMT
+- request:
+    method: get
+    uri: https://data-nsr.udir.no/v4/enhet/975279154
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - data-nsr.udir.no
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; charset=utf-8
+      Api-Supported-Versions:
+      - 1.0, 3.0, 4.0
+      Date:
+      - Mon, 07 Apr 2025 12:29:55 GMT
+      Connection:
+      - close
+      Set-Cookie:
+      - BIGipServer~utdanningsdirektorat~udr-np-wfe-nxr-ziis-http-80=rd26o00000000000000000000ffff0a058b24o80;
+        path=/; Httponly; Secure
+      Strict-Transport-Security:
+      - max-age=31536000
+    body:
+      encoding: UTF-8
+      string: '{"Organisasjonsnummer":"975279154","Navn":"Aa skole","Karakteristikk":"","FulltNavn":"Aa
+        skole","Fylke":{"Fylkesnummer":"50","Navn":"Tr\u00F8ndelag - Tr\u00F6\u00F6ndelage","Organisasjonsnummer":"817920632","StatsforvalterOrganisasjonsnummer":"974764350"},"Kommune":{"Navn":"Orkland","Kommunenummer":"5059","Organisasjonsnummer":"921233418","ErNedlagt":false,"Fylkesnummer":"50","Kostragruppe":{"Id":7,"Navn":"KOSTRA-gruppe
+        7"}},"Beliggenhetsadresse":{"Adresse":"Aunliveien 15","Postnummer":"7257","Poststed":"SNILLFJORD","Land":"Norge"},"Postadresse":{"Adresse":"Allfarveien
+        5","Postnummer":"7300","Poststed":"ORKANGER","Land":"Norge"},"Koordinat":{"Lengdegrad":9.50263,"Breddegrad":63.39916,"Zoom":12,"GeoKilde":"GeoNorge"},"Internettadresse":null,"Maalform":{"Id":"B","Navn":"Bokm\u00E5l"},"Organisasjonsform":{"Id":"BEDR","Navn":"Underenhet
+        til n\u00E6ringsdrivende og offentlig sektor"},"Naeringskoder":[{"Prioritet":1,"Kode":"85.201","Navn":"Ordin\u00E6r
+        grunnskoleundervisning","Versjon":"2007"}],"Hjelpeenhetskode":null,"Utgaattype":{"Id":"A","Navn":"Ingen
+        utg\u00E5ttype"},"UtgaattDato":null,"ErAktiv":true,"ErSkole":true,"ErSkoleeier":false,"ErGrunnskole":true,"ErPrivatskole":false,"ErOffentligSkole":true,"ErVideregaaendeSkole":false,"ErSpesialskole":false,"ErGrunnopplaering":true,"PrivatskoleGodkjenning":null,"Elevtall":35,"AntallAnsatte":17,"SkoletrinnGSFra":1,"SkoletrinnGSTil":10,"SkoletrinnVGSFra":null,"SkoletrinnVGSTil":null,"Skolekategorier":[{"Id":"1","Navn":"Grunnskole"},{"Id":"3","Navn":"Offentlig
+        skole"},{"Id":"5","Navn":"Kommunal"},{"Id":"32","Navn":"Grunnoppl\u00E6ring"}],"ForeldreRelasjoner":[{"Enhet":{"Organisasjonsnummer":"974764350","Navn":"Statsforvalteren
+        i Tr\u00F8ndelag"},"Relasjonstype":{"Id":"2","Navn":"Tilsynsstruktur"}},{"Enhet":{"Organisasjonsnummer":"921233418","Navn":"Orkland
+        kommune"},"Relasjonstype":{"Id":"1","Navn":"Eierstruktur"}},{"Enhet":{"Organisasjonsnummer":"921233418","Navn":"Orkland
+        kommune"},"Relasjonstype":{"Id":"5","Navn":"Administrativ struktur"}},{"Enhet":{"Organisasjonsnummer":"974767376","Navn":"Orkland
+        kommune grunnskole"},"Relasjonstype":{"Id":"4","Navn":"Tilknytningsstruktur"}}],"BarnRelasjoner":[],"OppstartsEllerStiftelsesdato":"1969-02-01T00:00:00+01:00","DatoEndret":"2025-03-21T08:38:18.143+01:00"}'
+  recorded_at: Mon, 07 Apr 2025 12:29:56 GMT
+recorded_with: VCR 6.3.1

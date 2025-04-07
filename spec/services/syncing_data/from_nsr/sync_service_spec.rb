@@ -10,10 +10,10 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
   describe "#filter_schools" do
     let(:service) { described_class.new }
-    let(:inactive_school) { { "ErAktiv" => false, "OrgNr" => "123456789" } }
-    let(:active_school) { { "ErAktiv" => true, "OrgNr" => "987654321" } }
+    let(:inactive_school) { { "ErAktiv" => false, "Organisasjonsnummer" => "123456789" } }
+    let(:active_school) { { "ErAktiv" => true, "Organisasjonsnummer" => "987654321" } }
     let(:inactive_school_no_orgnr) { { "ErAktiv" => false } }
-    let(:inactive_school_existing) { { "ErAktiv" => false, "OrgNr" => "555555555" } }
+    let(:inactive_school_existing) { { "ErAktiv" => false, "Organisasjonsnummer" => "555555555" } }
 
     before do
       # Create a space with organization_number matching inactive_school_existing
@@ -279,23 +279,21 @@ RSpec.describe SyncingData::FromNsr::SyncService do
     let(:service) { described_class.new }
     let(:schools) do
       [
-        { "OrgNr" => "975279154", "Navn" => "Aa skole", "DatoEndret" => "2025-03-21T08:38:18.143+01:00" },
-        { "OrgNr" => "995922770", "Navn" => "Aalesund International School Sti",
+        { "Organisasjonsnummer" => "975279154", "Navn" => "Aa skole", "DatoEndret" => "2025-03-21T08:38:18.143+01:00" },
+        { "Organisasjonsnummer" => "995922770", "Navn" => "Aalesund International School Sti",
           "DatoEndret" => "2025-03-21T08:38:18.143+01:00" },
-        { "OrgNr" => "975283046", "Navn" => "Abel skole", "DatoEndret" => "2025-03-21T08:38:18.143+01:00" }
+        { "Organisasjonsnummer" => "975283046", "Navn" => "Abel skole",
+          "DatoEndret" => "2025-03-21T08:38:18.143+01:00" }
       ]
     end
 
     it "fetches details for all schools" do
-      # Mock the fetch_school_details method
-      allow(service).to receive(:details_about_school).and_return({ "data" => "test" })
-
-      result = service.send(:fetch_details_about_all_schools, schools)
-
-      # Should call fetch_school_details once per school
-      expect(service).to have_received(:details_about_school).exactly(schools.size).times
-      # Should return a hash with org numbers as keys
-      expect(result.keys).to contain_exactly("975279154", "995922770", "975283046")
+      VCR.use_cassette("nsr/enhet/multiple_schools", record: :new_episodes) do
+        result = service.send(:fetch_details_about_all_schools, schools)
+        expect(result).to be_a(Array)
+        expect(result.map { |s| s["Organisasjonsnummer"] })
+          .to contain_exactly("975279154", "995922770", "975283046")
+      end
     end
 
     it "skips schools with no organization number" do
@@ -315,15 +313,15 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
       # First and third schools succeed, second fails
       allow(service).to receive(:details_about_school)
-        .with(org_number: schools[0]["OrgNr"], date_changed_at_from_nsr: schools[0]["DatoEndret"])
+        .with(org_number: schools[0]["Organisasjonsnummer"], date_changed_at_from_nsr: schools[0]["DatoEndret"])
         .and_return({ "data" => "test1" })
 
       allow(service).to receive(:details_about_school)
-        .with(org_number: schools[1]["OrgNr"], date_changed_at_from_nsr: schools[1]["DatoEndret"])
+        .with(org_number: schools[1]["Organisasjonsnummer"], date_changed_at_from_nsr: schools[1]["DatoEndret"])
         .and_raise("API Error")
 
       allow(service).to receive(:details_about_school)
-        .with(org_number: schools[2]["OrgNr"], date_changed_at_from_nsr: schools[2]["DatoEndret"])
+        .with(org_number: schools[2]["Organisasjonsnummer"], date_changed_at_from_nsr: schools[2]["DatoEndret"])
         .and_return({ "data" => "test3" })
 
       result = service.send(:fetch_details_about_all_schools, schools)
@@ -332,9 +330,65 @@ RSpec.describe SyncingData::FromNsr::SyncService do
       expect(Rails.logger).to have_received(:error).with(/Error fetching details for school/)
       expect(Rails.logger).to have_received(:error).with(/Failed to fetch details for 1 schools/)
 
-      # Should continue processing after error
-      expect(result.keys).to contain_exactly("975279154", "975283046")
+      # Should still have processsed the other schools
       expect(result.size).to eq(2)
+    end
+  end
+
+  context "when processing several schools" do
+    let(:service) { described_class.new }
+    let(:schools_to_process) do
+      [
+        { "Organisasjonsnummer" => "975279154", "Navn" => "Aa skole", "DatoEndret" => "2025-03-21T08:38:18.143+01:00" },
+        { "Organisasjonsnummer" => "995922770", "Navn" => "Aalesund International School Sti",
+          "DatoEndret" => "2025-03-21T08:38:18.143+01:00" },
+        { "Organisasjonsnummer" => "975283046", "Navn" => "Abel skole",
+          "DatoEndret" => "2025-03-21T08:38:18.143+01:00" }
+      ]
+    end
+    let!(:schools_with_details) do
+      VCR.use_cassette("nsr/enhet/multiple_schools", record: :new_episodes) do
+        service.send(:fetch_details_about_all_schools, schools_to_process)
+      end
+    end
+
+    it "processes new schools into valid Spaces" do
+      spaces = service.send(:process_list_of_schools, schools_with_details)
+      expect(spaces.size).to eq(3)
+      expect(spaces.all? { |space| space.is_a?(Space) && space.valid? }).to be true
+    end
+  end
+
+  context "when processing Abel, a public school" do
+    let(:service) { described_class.new }
+    let(:public_school_details) do
+      VCR.use_cassette("nsr/enhet/public_school_abel") do
+        service.send(:fetch_details_about_all_schools, [{ "Organisasjonsnummer" => "975283046" }]).first
+      end
+    end
+
+    it "sets the right organization number" do
+      spaces = service.send(:process_list_of_schools, [public_school_details])
+      expect(spaces.first.organization_number).to eq("975283046")
+    end
+
+    it "sets the right space type" do
+      expect(space.space_types).to include(SpaceType.find_by(type_name: "Grunnskole"))
+    end
+
+    it "sets the right space group" do
+      expect(space.space_group).to be_present
+      expect(space.space_group.title).to include("Gjerstad kommune")
+    end
+
+    it "sets the right title" do
+      spaces = service.send(:process_list_of_schools, [public_school_details])
+      expect(spaces.first.title).to eq("Abel skole")
+    end
+
+    it "sets the right address" do
+      spaces = service.send(:process_list_of_schools, [public_school_details])
+      expect(spaces.first.address).to eq("Skjervegen 1")
     end
   end
 end
