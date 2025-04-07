@@ -22,31 +22,31 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
     it "keeps active schools regardless of organization number" do
       schools = [active_school]
-      result = service.send(:filter_schools, schools)
+      result = service.send(:select_relevant_schools_from_list, schools)
       expect(result).to eq([active_school])
     end
 
     it "filters out inactive schools with no matching spaces" do
       schools = [inactive_school]
-      result = service.send(:filter_schools, schools)
+      result = service.send(:select_relevant_schools_from_list, schools)
       expect(result).to be_empty
     end
 
     it "keeps inactive schools with organization numbers that already exist in spaces" do
       schools = [inactive_school_existing]
-      result = service.send(:filter_schools, schools)
+      result = service.send(:select_relevant_schools_from_list, schools)
       expect(result).to eq([inactive_school_existing])
     end
 
     it "filters out inactive schools with no organization number" do
       schools = [inactive_school_no_orgnr]
-      result = service.send(:filter_schools, schools)
+      result = service.send(:select_relevant_schools_from_list, schools)
       expect(result).to be_empty
     end
 
     it "correctly handles a mix of schools" do
       schools = [active_school, inactive_school, inactive_school_existing, inactive_school_no_orgnr]
-      result = service.send(:filter_schools, schools)
+      result = service.send(:select_relevant_schools_from_list, schools)
       expect(result).to contain_exactly(active_school, inactive_school_existing)
     end
   end
@@ -69,7 +69,7 @@ RSpec.describe SyncingData::FromNsr::SyncService do
           schools_passed_to_filter = []
 
           # Spy on the filter_schools method
-          allow(service).to receive(:filter_schools) do |schools|
+          allow(service).to receive(:select_relevant_schools_from_list) do |schools|
             # Just capture the schools for our test
             schools_passed_to_filter = schools
             # Return an empty array as we don't need the actual filtering for this test
@@ -105,7 +105,7 @@ RSpec.describe SyncingData::FromNsr::SyncService do
           schools_passed_to_filter = []
 
           # Spy on the filter_schools method
-          allow(service).to receive(:filter_schools) do |schools|
+          allow(service).to receive(:select_relevant_schools_from_list) do |schools|
             # Just capture the schools for our test
             schools_passed_to_filter = schools
             # Return an empty array as we don't need the actual filtering for this test
@@ -139,10 +139,10 @@ RSpec.describe SyncingData::FromNsr::SyncService do
         VCR.use_cassette("nsr/skolekategori_11_folkehoyskole") do
           # Create a test double for filter_schools that just captures the arguments
           schools_passed_to_filter = []
-          service.method(:filter_schools)
+          service.method(:select_relevant_schools_from_list)
 
           # Spy on the filter_schools method
-          allow(service).to receive(:filter_schools) do |schools|
+          allow(service).to receive(:select_relevant_schools_from_list) do |schools|
             # Just capture the schools for our test
             schools_passed_to_filter = schools
             # Return an empty array as we don't need the actual filtering for this test
@@ -187,16 +187,16 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
         # Set up HTTP tracking
         allow(HTTP).to receive(:get).and_call_original
-        http_url = "#{SyncingData::FromNsr::SyncService::NSR_BASE_URL}/enhet/#{org_number}"
+        http_url = "#{SyncingData::FromNsr::NSR_BASE_URL}/enhet/#{org_number}"
 
         # First call should fetch data and cache it
         VCR.use_cassette("nsr/enhet/#{org_number}", allow_playback_repeats: true) do
-          first_result = service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr:)
+          first_result = service.send(:details_about_school, org_number:, date_changed_at_from_nsr:)
           expect(first_result).to be_present
           expect(first_result["Organisasjonsnummer"]).to eq(org_number)
 
           # Second call should use the cache
-          second_result = service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr:)
+          second_result = service.send(:details_about_school, org_number:, date_changed_at_from_nsr:)
           expect(second_result).to eq(first_result)
 
           # Verify HTTP was called only once
@@ -220,10 +220,10 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
           # Set up HTTP tracking
           allow(HTTP).to receive(:get).and_call_original
-          http_url = "#{SyncingData::FromNsr::SyncService::NSR_BASE_URL}/enhet/#{org_number}"
+          http_url = "#{SyncingData::FromNsr::NSR_BASE_URL}/enhet/#{org_number}"
 
           # Call with newer date
-          service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr: later_date_changed_at_from_nsr)
+          service.send(:details_about_school, org_number:, date_changed_at_from_nsr: later_date_changed_at_from_nsr)
 
           # Verify HTTP was called
           expect(HTTP).to have_received(:get).with(http_url).once
@@ -234,7 +234,7 @@ RSpec.describe SyncingData::FromNsr::SyncService do
     context "when the API call is successful", :vcr do
       it "fetches detailed information for a school" do
         VCR.use_cassette("nsr/enhet/#{org_number}") do
-          school_details = service.send(:fetch_school_details, org_number:, date_changed_at_from_nsr:)
+          school_details = service.send(:details_about_school, org_number:, date_changed_at_from_nsr:)
 
           # Verify the response contains expected data
           expect(school_details).to be_a(Hash)
@@ -265,7 +265,7 @@ RSpec.describe SyncingData::FromNsr::SyncService do
         allow(service).to receive(:cache_still_fresh?).and_return(false)
 
         expect do
-          service.send(:fetch_school_details, org_number: org_number,
+          service.send(:details_about_school, org_number: org_number,
                                               date_changed_at_from_nsr: date_changed_at_from_nsr)
         end.to raise_error(/API Error/)
 
@@ -288,12 +288,12 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
     it "fetches details for all schools" do
       # Mock the fetch_school_details method
-      allow(service).to receive(:fetch_school_details).and_return({ "data" => "test" })
+      allow(service).to receive(:details_about_school).and_return({ "data" => "test" })
 
-      result = service.send(:fetch_all_school_details, schools)
+      result = service.send(:fetch_details_about_all_schools, schools)
 
       # Should call fetch_school_details once per school
-      expect(service).to have_received(:fetch_school_details).exactly(schools.size).times
+      expect(service).to have_received(:details_about_school).exactly(schools.size).times
       # Should return a hash with org numbers as keys
       expect(result.keys).to contain_exactly("975279154", "995922770", "975283046")
     end
@@ -301,12 +301,12 @@ RSpec.describe SyncingData::FromNsr::SyncService do
     it "skips schools with no organization number" do
       schools_with_missing_org = schools + [{ "Navn" => "Fiktiv skole uten organisasjonsnummer" }]
 
-      allow(service).to receive(:fetch_school_details).and_return({ "data" => "test" })
+      allow(service).to receive(:details_about_school).and_return({ "data" => "test" })
 
-      result = service.send(:fetch_all_school_details, schools_with_missing_org)
+      result = service.send(:fetch_details_about_all_schools, schools_with_missing_org)
 
       # Should only call fetch_school_details for schools with org numbers
-      expect(service).to have_received(:fetch_school_details).exactly(schools.size).times
+      expect(service).to have_received(:details_about_school).exactly(schools.size).times
       expect(result.size).to eq(schools.size)
     end
 
@@ -314,19 +314,19 @@ RSpec.describe SyncingData::FromNsr::SyncService do
       allow(Rails.logger).to receive(:error)
 
       # First and third schools succeed, second fails
-      allow(service).to receive(:fetch_school_details)
+      allow(service).to receive(:details_about_school)
         .with(org_number: schools[0]["OrgNr"], date_changed_at_from_nsr: schools[0]["DatoEndret"])
         .and_return({ "data" => "test1" })
 
-      allow(service).to receive(:fetch_school_details)
+      allow(service).to receive(:details_about_school)
         .with(org_number: schools[1]["OrgNr"], date_changed_at_from_nsr: schools[1]["DatoEndret"])
         .and_raise("API Error")
 
-      allow(service).to receive(:fetch_school_details)
+      allow(service).to receive(:details_about_school)
         .with(org_number: schools[2]["OrgNr"], date_changed_at_from_nsr: schools[2]["DatoEndret"])
         .and_return({ "data" => "test3" })
 
-      result = service.send(:fetch_all_school_details, schools)
+      result = service.send(:fetch_details_about_all_schools, schools)
 
       # Should have logged errors
       expect(Rails.logger).to have_received(:error).with(/Error fetching details for school/)
