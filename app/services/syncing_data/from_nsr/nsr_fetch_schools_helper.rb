@@ -39,9 +39,9 @@ module SyncingData
       end
 
       def school_already_in_database?(school)
-        return false if school["OrgNr"].blank?
+        return false if school["Organisasjonsnummer"].blank?
 
-        Space.exists?(organization_number: school["OrgNr"])
+        Space.exists?(organization_number: school["Organisasjonsnummer"])
       end
 
       def fetch_list_of_schools_for_category(category_id)
@@ -67,23 +67,23 @@ module SyncingData
       end
 
       def fetch_details_about_all_schools(schools)
-        result = {}
         failures = []
 
-        schools.each do |school|
-          org_number = school["OrgNr"]
+        result = schools.map do |school|
+          org_number = school["Organisasjonsnummer"]
           next if org_number.blank?
 
           begin
-            # Pass the DatoEndret from the list to avoid refetching the list
-            details = details_about_school(org_number: org_number, date_changed_at_from_nsr: school["DatoEndret"])
-            result[org_number] = details if details.present?
+            details_about_school(
+              org_number: org_number,
+              date_changed_at_from_nsr: school["DatoEndret"]
+            )
           rescue StandardError => e
             # Add to failures list but continue processing other schools
             failures << { org_number: org_number, error: e.message }
             Rails.logger.error("Error fetching details for school #{org_number}: #{e.message}")
           end
-        end
+        end.compact_blank
 
         # Log a summary of failures
         if failures.any?
