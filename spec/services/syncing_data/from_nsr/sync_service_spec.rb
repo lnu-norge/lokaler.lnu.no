@@ -352,24 +352,132 @@ RSpec.describe SyncingData::FromNsr::SyncService do
       end
     end
 
-    it "processes new schools into valid Spaces" do
-      spaces = service.send(:process_list_of_schools, schools_with_details)
+    it "processes new schools into Spaces" do
+      spaces = service.send(:process_schools_and_save_space_data, schools_with_details)
       expect(spaces.size).to eq(3)
-      expect(spaces.all? { |space| space.is_a?(Space) && space.valid? }).to be true
+      expect(spaces.all?(Space)).to be true
+    end
+
+    it "processes new schools into valid spaces" do
+      spaces = service.send(:process_schools_and_save_space_data, schools_with_details)
+      expect(spaces.all?(&:valid?)).to be true
     end
   end
 
-  context "when processing Abel, a public school" do
+  context "when processing a school we already have" do
+    let(:service) { described_class.new }
+    let!(:old_space_group_how_to_book) do
+      ActionText::Content.new("<p>Existing group how to book</p>")
+    end
+    let!(:old_space_group_terms_and_pricing) do
+      ActionText::Content.new("<p>Existing group terms and pricing</p>")
+    end
+    let!(:old_space_group_about) do
+      ActionText::Content.new("<p>Existing group about</p>")
+    end
+    let!(:old_space_group) do
+      Fabricate(:space_group,
+                title: "Old kommune",
+                how_to_book: old_space_group_how_to_book,
+                terms_and_pricing: old_space_group_terms_and_pricing,
+                about: old_space_group_about)
+    end
+    let!(:old_space_types) do
+      [
+        Fabricate(:space_type, type_name: "Old type")
+      ]
+    end
+    let!(:space_for_abel) do
+      space = Fabricate(:space,
+                        organization_number: "975283046",
+                        address: "Outdated address",
+                        space_group: old_space_group,
+                        space_types: old_space_types)
+
+      SyncingData::Shared::SafelySyncDataService.new(
+        user_or_robot_doing_the_syncing: Fabricate(:user),
+        model: space,
+        field: :title,
+        new_data: "User updated this title of Abel"
+      ).safely_sync_data
+
+      space
+    end
+    let!(:school_details) do
+      VCR.use_cassette("nsr/enhet/public_school_abel") do
+        service.send(:fetch_details_about_all_schools, [{ "Organisasjonsnummer" => "975283046" }]).first
+      end
+    end
+    let!(:synced_space_for_abel) do
+      VCR.use_cassette("nsr/enhet/processing_school_abel") do
+        spaces = service.send(:process_schools_and_save_space_data, [school_details])
+        spaces.first
+      end
+    end
+
+    it "finds the existing space based on organization number" do
+      expect(synced_space_for_abel).to eq(space_for_abel)
+    end
+
+    it "does not create a new space" do
+      expect(Space.pluck(:id)).to contain_exactly(space_for_abel.id)
+    end
+
+    it "does not overwrite the user set title" do
+      expect(synced_space_for_abel.title).to eq("User updated this title of Abel")
+    end
+
+    it "overwrites the robot set address" do
+      expect(synced_space_for_abel.address).not_to eq("Outdated address")
+      expect(synced_space_for_abel.address).to eq("Gamle Sørlandske 1304")
+    end
+
+    it "creates a new space group, as the ownership of the school changed" do
+      # Useful for when fylker or kommuner change, and thus the school has changed ownership
+      expect(synced_space_for_abel.space_group).to be_present
+      expect(synced_space_for_abel.space_group.id).not_to eq(old_space_group.id)
+    end
+
+    it "sets the right space group title" do
+      expect(synced_space_for_abel.space_group.title).to include("Gjerstad kommune")
+    end
+
+    it "preserves old space_group information in the new space group" do
+      # The old space group data might still be relevant, even though the school has changed ownership
+      # (This also preserves data if the space group just changed names)
+      new_space_group = synced_space_for_abel.space_group
+
+      expect(new_space_group.how_to_book.body).to eq(old_space_group_how_to_book)
+      expect(new_space_group.terms_and_pricing.body).to eq(old_space_group_terms_and_pricing)
+      expect(new_space_group.about.body).to eq(old_space_group_about)
+    end
+
+    it "removes unused space groups" do
+      expect(SpaceGroup.where(id: old_space_group.id)).to be_empty
+    end
+
+    it "combines the old and new space types arrays" do
+      expect(synced_space_for_abel.space_types.map(&:type_name)).to contain_exactly("Old type", "Grunnskole")
+    end
+  end
+
+  context "when processing Abel, a new public school" do
     let(:service) { described_class.new }
     let(:public_school_details) do
       VCR.use_cassette("nsr/enhet/public_school_abel") do
         service.send(:fetch_details_about_all_schools, [{ "Organisasjonsnummer" => "975283046" }]).first
       end
     end
+    let!(:space) do
+      VCR.use_cassette("nsr/enhet/processing_school_abel") do
+        spaces = service.send(:process_schools_and_save_space_data, [public_school_details])
+
+        spaces.first
+      end
+    end
 
     it "sets the right organization number" do
-      spaces = service.send(:process_list_of_schools, [public_school_details])
-      expect(spaces.first.organization_number).to eq("975283046")
+      expect(space.organization_number).to eq("975283046")
     end
 
     it "sets the right space type" do
@@ -382,13 +490,14 @@ RSpec.describe SyncingData::FromNsr::SyncService do
     end
 
     it "sets the right title" do
-      spaces = service.send(:process_list_of_schools, [public_school_details])
-      expect(spaces.first.title).to eq("Abel skole")
+      expect(space.title).to eq("Abel skole")
     end
 
-    it "sets the right address" do
-      spaces = service.send(:process_list_of_schools, [public_school_details])
-      expect(spaces.first.address).to eq("Skjervegen 1")
+    it "sets the right location" do
+      expect(space.address).to eq("Gamle Sørlandske 1304")
+      expect(space.post_number).to eq("4993")
+      expect(space.lat).to eq(5.88392e1)
+      expect(space.lng).to eq(9.09501e0)
     end
   end
 end
