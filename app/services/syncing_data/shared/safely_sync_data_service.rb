@@ -21,15 +21,15 @@ module SyncingData
         return unless should_sync_be_allowed?
 
         PaperTrail.request(whodunnit: @user.id) do
-          @model.update!(@field => @new_data)
+          @model.update(@field => @new_data)
         end
       end
 
       def should_sync_be_allowed?
         return false if new_data_is_empty_and_empty_data_is_not_allowed?
-        return true if no_existing_data_would_be_overwritten?
-        return true if existing_data_has_no_info_about_who_set_it_or_when?
+        return true if no_info_about_who_last_set_the_field?
         return false if proposed_new_data_is_old_data?
+        return true if no_existing_data_would_be_overwritten?
         return false if old_data_verifiably_set_by_other_human?
 
         true
@@ -56,22 +56,22 @@ module SyncingData
         existing_data.blank?
       end
 
-      def existing_data_has_no_info_about_who_set_it_or_when?
-        versions_of_existing_data.empty?
+      def no_info_about_who_last_set_the_field?
+        versions_of_field_for_existing_data.empty?
       end
 
       def last_version_has_no_whodunnit?
-        user_id_behind_last_version.blank?
+        user_id_behind_last_version_of_field.blank?
       end
 
       def last_version_set_by_same_user?
-        user_id_behind_last_version == @user.id.to_s
+        user_id_behind_last_version_of_field == @user.id.to_s
       end
 
       def last_version_set_by_robot?
-        return false if user_id_behind_last_version.blank?
+        return false if user_id_behind_last_version_of_field.blank?
 
-        User.find(user_id_behind_last_version).robot?
+        User.find(user_id_behind_last_version_of_field).robot?
       end
 
       def same_data_already_exists?
@@ -99,9 +99,9 @@ module SyncingData
       end
 
       def any_matching_rich_text_versions?
-        return false unless class_name_for_data == "ActionText::RichText"
+        return false unless field_is_rich_text
 
-        versions_of_existing_data.any? do |version|
+        versions_of_model_for_existing_data.any? do |version|
           old_data = version.reify(dup: true)
           next if old_data.blank?
 
@@ -110,39 +110,74 @@ module SyncingData
       end
 
       def any_matching_association_versions?
-        return false unless @new_data.respond_to?(:id)
+        return false unless data_is_association_to_other_model
 
-        id_of_new_data = @new_data.id.presence || @new_data
-        versions_of_existing_data
-          .where_object("#{@field}_id" => id_of_new_data)
+        id_of_new_data = @new_data&.id || @new_data
+        versions_of_model_for_existing_data
+          .where_object(field_name_if_association => id_of_new_data)
           .any?
       end
 
+      def field_name_if_association
+        "#{@field}_id"
+      end
+
+      def field_name
+        @field.to_s
+      end
+
+      def field_name_in_database
+        return field_name_if_association if data_is_association_to_other_model
+
+        field_name
+      end
+
+      def data_is_association_to_other_model
+        @model.class.reflect_on_association(@field).present?
+      end
+
       def any_matching_versions?
-        versions_of_existing_data
+        versions_of_model_for_existing_data
           .where_object(@field => @new_data)
           .any?
       end
 
-      def versions_of_existing_data
-        case class_name_for_data
-        when "ActionText::RichText"
+      def versions_of_model_for_existing_data
+        if field_is_rich_text
           @model.public_send(@field).versions
         else
           @model.versions
         end
       end
 
-      def last_version
-        versions_of_existing_data.last
+      def versions_of_field_for_existing_data
+        return versions_of_model_for_existing_data if field_is_rich_text
+
+        versions_of_model_for_existing_data.select do |version|
+          object_changes = YAML.safe_load(
+            version.object_changes,
+            aliases: true,
+            permitted_classes: ActiveRecord.yaml_column_permitted_classes
+          )
+
+          object_changes.key?(field_name_in_database)
+        end
       end
 
-      def user_id_behind_last_version
-        last_version.whodunnit
+      def last_version_of_field
+        versions_of_field_for_existing_data.last
+      end
+
+      def user_id_behind_last_version_of_field
+        last_version_of_field.whodunnit
       end
 
       def class_name_for_data
         existing_data.class.name
+      end
+
+      def field_is_rich_text
+        class_name_for_data == "ActionText::RichText"
       end
     end
   end

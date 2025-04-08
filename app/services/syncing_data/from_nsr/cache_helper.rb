@@ -3,7 +3,7 @@
 module SyncingData
   module FromNsr
     # Cache handling for NSR sync service
-    module NsrCacheHelper
+    module CacheHelper
       # Cache for 30 days with TTL refresh on access
       CACHE_TTL = 30.days
 

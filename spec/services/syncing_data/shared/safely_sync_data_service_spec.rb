@@ -162,6 +162,19 @@ RSpec.shared_examples "a safely sync data service" do | # rubocop:disable Metric
       expect(stored_data).to eq(second_change_to_data)
     end
 
+    it "when the proposed data has been deleted before" do
+      model.update!(field => first_change_to_data)
+      model.update!(field => empty_data)
+
+      service_proposing_first_change_to_data.safely_sync_data
+
+      expect(stored_data).not_to eq(first_change_to_data)
+      expect(stored_data).to eq(empty_data)
+    rescue ActiveRecord::RecordInvalid
+      # Some fields cannot be empty, then this test is irrelevant
+      expect(model.errors[:"#{field}"]).to be_present
+    end
+
     it "when the new data is empty" do
       model.update!(field => first_change_to_data)
 
@@ -196,6 +209,22 @@ RSpec.describe SyncingData::Shared::SafelySyncDataService do
                     second_change_to_data: "Changed title!",
                     human_change_to_data: "Human wrote this title!",
                     unknown_originator_to_data: "Unknown originator wrote this title!"
+
+    it "overwrites a robot set field, even though another field on the same model has been updated by a human" do
+      space = Fabricate(:space, address: "Outdated address")
+      PaperTrail.request(whodunnit: Fabricate(:user).id) do
+        space.update(title: "User updated this title of Abel")
+      end
+      described_class.new(
+        user_or_robot_doing_the_syncing: Fabricate(:robot),
+        model: space,
+        field: :address,
+        new_data: "New address"
+      ).safely_sync_data
+
+      expect(space.title).to eq("User updated this title of Abel")
+      expect(space.address).to eq("New address")
+    end
   end
 
   context "with a space contact" do

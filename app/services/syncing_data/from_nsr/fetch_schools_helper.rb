@@ -2,7 +2,9 @@
 
 module SyncingData
   module FromNsr
-    module NsrFetchSchoolsHelper
+    module FetchSchoolsHelper
+      include CacheHelper
+
       SCHOOL_CATEGORIES_TO_FETCH = {
         1 => "Grunnskole",
         2 => "Videregående skole",
