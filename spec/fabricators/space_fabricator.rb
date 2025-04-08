@@ -10,6 +10,7 @@ Fabricator(:space) do
   space_group
   space_types { [Fabricate(:space_type)] }
   star_rating { nil }
+  organization_number { nil }
 
   after_create do |space|
     add_some_space_facilities(space)

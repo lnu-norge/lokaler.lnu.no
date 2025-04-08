@@ -48,10 +48,10 @@ module LokalerLnuNo
     # This is needed to make the `reify` method work in the PaperTrail gem
     # as it stores the `item` as a YAML string, and the default ruby YAML parser
     # does not allow symbols as keys.
-    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time,
+    config.active_record.yaml_column_permitted_classes = [Symbol, Hash, Array,
+                                                          Date, Time, BigDecimal,
                                                           ActiveSupport::TimeWithZone,
                                                           ActiveSupport::TimeZone,
-                                                          ActiveSupport::HashWithIndifferentAccess,
-                                                          BigDecimal]
+                                                          ActiveSupport::HashWithIndifferentAccess]
   end
 end
