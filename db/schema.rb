@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_31_111400) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_08_100832) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -272,6 +272,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_31_111400) do
     t.index ["space_group_id"], name: "index_spaces_on_space_group_id"
   end
 
+  create_table "sync_statuses", force: :cascade do |t|
+    t.bigint "space_id", null: false
+    t.datetime "last_successful_sync_at"
+    t.datetime "last_attempted_sync_at"
+    t.boolean "last_attempt_was_successful"
+    t.string "source", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["space_id", "source"], name: "index_sync_statuses_on_space_id_and_source", unique: true
+    t.index ["space_id"], name: "index_sync_statuses_on_space_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -333,4 +345,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_31_111400) do
   add_foreign_key "spaces", "geographical_areas", column: "fylke_id"
   add_foreign_key "spaces", "geographical_areas", column: "kommune_id"
   add_foreign_key "spaces", "space_groups"
+  add_foreign_key "sync_statuses", "spaces"
 end
