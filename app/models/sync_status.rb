@@ -5,39 +5,30 @@ class SyncStatus < ApplicationRecord
 
   validates :source, presence: true
   validates :id_from_source, presence: true, uniqueness: { scope: :source }
-  validates :space_id, uniqueness: { scope: :source }
 
   def self.for(source:, id_from_source:)
-    find_or_initialize_by(id_from_source:, source:)
+    find_or_create_by!(id_from_source:, source:)
   end
 
   def self.for_space(space, source:)
-    find_or_initialize_by(space: space, source: source) do |sync_status|
+    find_or_create_by!(space: space, source: source) do |sync_status|
       sync_status.id_from_source = space.id
     end
   end
 
-  def log_around
-    log_start
-    result = yield
-    log_success
-
-    result
-  rescue StandardError => e
-    log_failure
-    raise e
-  end
-
   def log_start
-    update(last_attempted_sync_at: Time.current) if valid?
+    update(last_attempted_sync_at: Time.current)
   end
 
   def log_success
-    update(last_successful_sync_at: Time.current, last_attempt_was_successful: true) if valid?
+    update(last_successful_sync_at: Time.current, last_attempt_was_successful: true)
+    update(error_message: nil)
   end
 
-  def log_failure
+  def log_failure(error)
+    Rails.logger.error("Error when syncing #{source}: #{error.message}")
     update(last_attempt_was_successful: false) if valid?
+    update(error_message: error.message)
   end
 end
 
@@ -46,6 +37,7 @@ end
 # Table name: sync_statuses
 #
 #  id                          :bigint           not null, primary key
+#  error_message               :string
 #  id_from_source              :string           not null
 #  last_attempt_was_successful :boolean
 #  last_attempted_sync_at      :datetime

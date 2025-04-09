@@ -12,7 +12,7 @@ module SyncingData
       )
         @user = user_or_robot_doing_the_syncing
         @model = model
-        @field = field
+        @field = field.to_s
         @new_data = new_data
         @allow_empty_new_data = allow_empty_new_data
       end
@@ -154,6 +154,8 @@ module SyncingData
         return versions_of_model_for_existing_data if field_is_rich_text
 
         versions_of_model_for_existing_data.select do |version|
+          next false if version.object_changes.blank?
+
           object_changes = YAML.safe_load(
             version.object_changes,
             aliases: true,

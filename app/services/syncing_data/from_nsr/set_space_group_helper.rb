@@ -13,13 +13,29 @@ module SyncingData
         # Only relevant for public schools:
         return unless school_data["ErOffentligSkole"]
 
-        old_space_group = space.space_group
-
         # NB: For now we overwrite even human edited space groups
         # (preserving the old data, but not the title) we might want
         # to change that behaviour in the future.
         new_space_group_title = space_group_title(school_data)
-        new_space_group = SpaceGroup.find_or_create_by(title: new_space_group_title)
+        return unless new_space_group_title
+
+        old_space_group = space.space_group
+        return if new_space_group_title == old_space_group&.title
+
+        create_new_space_group_with_title_and_data(
+          space: space,
+          title: new_space_group_title,
+          old_space_group: old_space_group
+        )
+
+        clean_up_unused_space_group(
+          space_no_longer_belonging_to_space_group: space,
+          space_group: old_space_group
+        )
+      end
+
+      def create_new_space_group_with_title_and_data(space:, title:, old_space_group:)
+        new_space_group = SpaceGroup.find_or_create_by(title:)
 
         new_space_group.update(how_to_book: old_space_group.how_to_book) if old_space_group&.how_to_book.present?
         if old_space_group&.terms_and_pricing.present?
@@ -27,11 +43,6 @@ module SyncingData
         end
         new_space_group.update(about: old_space_group.about) if old_space_group&.about.present?
         new_space_group.save
-
-        clean_up_unused_space_group(
-          space_no_longer_belonging_to_space_group: space,
-          space_group: old_space_group
-        )
 
         space.update(space_group: new_space_group)
       end

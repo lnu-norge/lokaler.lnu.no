@@ -8,7 +8,7 @@ module SyncingData
       CACHE_TTL = 30.days
 
       def serve_cached_data(cache_key, cached_data)
-        Rails.logger.info("Using cached data for school #{cache_key.split(':').last}")
+        Rails.logger.debug { "Using cached data for school #{cache_key.split(':').last}" }
         # Extend the TTL by rewriting to cache with same data
         Rails.cache.write(cache_key, cached_data, expires_in: CACHE_TTL)
         cached_data[:data]
