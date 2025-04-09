@@ -17,6 +17,7 @@ module SyncingData
             start_sync_log(school_data)
 
             raise "This school is no longer active" if school_data["ErAktiv"] == false
+            raise "This school is outside Norway" if school_is_outside_norway?(school_data)
 
             space = find_or_initialize_space(school_data)
             set_title(space, school_data)
@@ -68,6 +69,10 @@ module SyncingData
 
           true
         end
+      end
+
+      def school_is_outside_norway?(school)
+        school["Organisasjonsnummer"].match?(/U\d+/)
       end
 
       def safely_update_field(model, field, new_data)

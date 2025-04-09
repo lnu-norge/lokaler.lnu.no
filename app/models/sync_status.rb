@@ -29,6 +29,7 @@ class SyncStatus < ApplicationRecord
     Rails.logger.error("Error when syncing #{source}: #{error.message}")
     update(last_attempt_was_successful: false) if valid?
     update(error_message: error.message)
+    update(full_error_message: error.full_message)
   end
 end
 
@@ -38,6 +39,7 @@ end
 #
 #  id                          :bigint           not null, primary key
 #  error_message               :string
+#  full_error_message          :text
 #  id_from_source              :string           not null
 #  last_attempt_was_successful :boolean
 #  last_attempted_sync_at      :datetime

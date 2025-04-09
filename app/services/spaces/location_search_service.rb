@@ -99,7 +99,13 @@ module Spaces
     def street_number_from_address
       end_of_range if address_ends_in_range?
 
-      @address.match(/(\d+)$/)[1]
+      # First remove any letters from the street number:
+      address_without_number_letters = @address&.sub(/(\d+)[\sa-zA-Z]+$/, '\\1')
+
+      address_ends_in_number = address_without_number_letters&.match(/(\d+)$/)
+      return address_ends_in_number[1] if address_ends_in_number.present?
+
+      nil
     end
 
     def street_name_from_address
@@ -107,7 +113,7 @@ module Spaces
     end
 
     def last_preceding_addresses
-      return [@address] if street_number_from_address.blank?
+      return if street_number_from_address.blank?
 
       all_previous_on_same_street = (1..street_number_from_address.to_i).to_a.map do |number|
         "#{street_name_from_address} #{number}"
@@ -126,6 +132,7 @@ module Spaces
 
       # Calculate the preceding addresses before altering @address
       preceding_addresses = last_preceding_addresses
+      return [] if preceding_addresses.blank?
 
       # Then try to see if the street exists at all
       @address = street_name_from_address
