@@ -14,6 +14,11 @@ RSpec.describe SyncingData::FromNsr::SyncService do
     let(:active_school) { { "ErAktiv" => true, "Organisasjonsnummer" => "987654321" } }
     let(:inactive_school_no_orgnr) { { "ErAktiv" => false } }
     let(:inactive_school_existing) { { "ErAktiv" => false, "Organisasjonsnummer" => "555555555" } }
+    let(:school_with_no_new_data_since_last_sync) do
+      { "Organisasjonsnummer" => "444444444", "Navn" => "Already synced school",
+        "DatoEndret" => "2022-04-08T08:38:18.143+01:00" }
+    end
+    let(:space_for_already_synced_school) { Fabricate(:space, organization_number: "444444444") }
 
     before do
       # Create a space with organization_number matching inactive_school_existing
@@ -40,6 +45,16 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
     it "filters out inactive schools with no organization number" do
       schools = [inactive_school_no_orgnr]
+      result = service.send(:select_relevant_schools_from_list, schools)
+      expect(result).to be_empty
+    end
+
+    it "filters out schools that have no new data since last successful sync" do
+      SyncStatus
+        .for(space: space_for_already_synced_school, source: "nsr")
+        .log_success
+
+      schools = [school_with_no_new_data_since_last_sync]
       result = service.send(:select_relevant_schools_from_list, schools)
       expect(result).to be_empty
     end
@@ -499,5 +514,20 @@ RSpec.describe SyncingData::FromNsr::SyncService do
       expect(space.lat).to eq(5.88392e1)
       expect(space.lng).to eq(9.09501e0)
     end
+  end
+
+  context "when a school we already have no longer is active" do
+    # TODO: This test is not implemented yet
+    # rubocop:disable RSpec/RepeatedExample
+    let(:service) { described_class.new }
+
+    it "marks the space as closed" do
+      skip "Not implemented"
+    end
+
+    it "only marks the space as closed, if it hasn't been re-opened before" do
+      skip "Not implemented"
+    end
+    # rubocop:enable RSpec/RepeatedExample
   end
 end

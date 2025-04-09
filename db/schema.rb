@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_08_100832) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_08_110711) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -273,13 +273,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_08_100832) do
   end
 
   create_table "sync_statuses", force: :cascade do |t|
-    t.bigint "space_id", null: false
+    t.bigint "space_id"
     t.datetime "last_successful_sync_at"
     t.datetime "last_attempted_sync_at"
     t.boolean "last_attempt_was_successful"
     t.string "source", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "id_from_source", null: false
+    t.index ["id_from_source", "source"], name: "index_sync_statuses_on_id_from_source_and_source", unique: true
+    t.index ["source"], name: "index_sync_statuses_on_source"
     t.index ["space_id", "source"], name: "index_sync_statuses_on_space_id_and_source", unique: true
     t.index ["space_id"], name: "index_sync_statuses_on_space_id"
   end
