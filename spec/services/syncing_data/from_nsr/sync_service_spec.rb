@@ -51,7 +51,7 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
     it "filters out schools that have no new data since last successful sync" do
       SyncStatus
-        .for(space: space_for_already_synced_school, source: "nsr")
+        .for_space(space_for_already_synced_school, source: "nsr")
         .log_success
 
       schools = [school_with_no_new_data_since_last_sync]
