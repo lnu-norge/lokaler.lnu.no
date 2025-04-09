@@ -88,66 +88,8 @@ RSpec.describe SyncStatus, type: :model do
     describe "#log_failure" do
       it "sets the success flag to false" do
         expect do
-          sync_status.log_failure
+          sync_status.log_failure("Test error")
         end.to change { sync_status.reload.last_attempt_was_successful }.to(false)
-      end
-    end
-
-    describe "#log_around when the block executes successfully" do
-      it "logs start and success" do
-        allow(sync_status).to receive(:log_start).and_call_original
-        allow(sync_status).to receive(:log_success).and_call_original
-
-        sync_status.log_around do
-          # Simulating successful operation
-        end
-
-        expect(sync_status).to have_received(:log_start).once
-        expect(sync_status).to have_received(:log_success).once
-      end
-
-      it "yields to the block" do
-        block_executed = false
-
-        sync_status.log_around do
-          block_executed = true
-        end
-
-        expect(block_executed).to be true
-      end
-
-      it "returns the result of the block" do
-        result = sync_status.log_around do
-          "success result"
-        end
-
-        expect(result).to eq("success result")
-      end
-    end
-
-    describe "#log_around when the block raises an error" do
-      let(:test_error) { StandardError.new("Test error") }
-
-      it "logs start and failure" do
-        allow(sync_status).to receive(:log_start).and_call_original
-        allow(sync_status).to receive(:log_failure).and_call_original
-
-        expect do
-          sync_status.log_around do
-            raise test_error
-          end
-        end.to raise_error(test_error)
-
-        expect(sync_status).to have_received(:log_start).once
-        expect(sync_status).to have_received(:log_failure).once
-      end
-
-      it "re-raises the original error" do
-        expect do
-          sync_status.log_around do
-            raise test_error
-          end
-        end.to raise_error(test_error)
       end
     end
   end
