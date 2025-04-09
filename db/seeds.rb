@@ -15,6 +15,11 @@
 
 # Load seeds based on environment::
 ActiveRecord::Base.transaction do
+  # The RUN_SEEDS env variable is a workaround while we are on Rails 7,
+  # where solid_cache and solid_queue will try to run seeds on db:setup for themselves.
+  # This is fixed in Rails 8, as far as I can tell.
+  next if ENV["RUN_SEEDS"].blank?
+
   possible_seed_file = ENV["SEED_FILE"] || Rails.env
   file = Rails.root.join("db", "seeds", "#{possible_seed_file}.rb")
   next unless File.exist?(file)
