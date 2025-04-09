@@ -10,13 +10,17 @@ module SyncingData
 
       def process_schools_and_save_space_data(schools)
         schools.map do |school_data|
-          space = find_or_initialize_space(school_data)
+          next if school_data["Organisasjonsnummer"].blank?
 
-          set_title(space, school_data)
-          set_location(space, school_data)
-          set_space_types(space, school_data)
-          set_space_group(space, school_data)
-          space.save! if space.changed?
+          space = SyncStatus.for(id_from_source: school_data["Organisasjonsnummer"], source: "nsr") do
+            space = find_or_initialize_space(school_data)
+
+            set_title(space, school_data)
+            set_location(space, school_data)
+            set_space_types(space, school_data)
+            set_space_group(space, school_data)
+            space.save! if space.changed?
+          end
 
           space
         end
