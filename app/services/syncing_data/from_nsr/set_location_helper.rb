@@ -20,7 +20,9 @@ module SyncingData
         unless nsr_has_lat_lng
           # If lat lon is not set from NSR, then we have to set it ourselves:
           geonorge_geo_data = get_lat_lng_from_geonorge(space)
-          return if geonorge_geo_data.nil?
+          if geonorge_geo_data.nil?
+            throw "School has no lat/lng in NSR or GeoNorge. Org nr: #{space.organization_number}"
+          end
 
           return space.update(lat: geonorge_geo_data[:lat], lng: geonorge_geo_data[:lng])
         end
@@ -29,15 +31,15 @@ module SyncingData
       end
 
       def get_lat_lng_from_geonorge(space)
+        get_lat_lng_based_on_address(space.address, space.post_number)
+      end
+
+      def get_lat_lng_based_on_address(address, post_number)
         results = Spaces::LocationSearchService.call(
-          address: space.address,
-          post_number: space.post_number,
-          post_address: space.post_address
+          address:,
+          post_number:,
+          attempt_preceding_addresses: true
         )
-      rescue StandardError
-        # Any errors? Skip this space:
-        nil
-      else
         return nil if results.empty?
 
         results.first

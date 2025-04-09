@@ -22,10 +22,8 @@ module SyncingData
       def call
         @count_logger.start
         schools = fetch_all_schools_and_data
-        spaces = process_schools_and_save_space_data(schools)
+        process_schools_and_save_space_data(schools)
         @count_logger.stop
-
-        spaces
       end
     end
   end

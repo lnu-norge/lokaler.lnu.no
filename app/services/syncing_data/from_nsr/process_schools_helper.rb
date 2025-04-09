@@ -16,6 +16,8 @@ module SyncingData
           begin
             start_sync_log(school_data)
 
+            raise "This school is no longer active" if school_data["ErAktiv"] == false
+
             space = find_or_initialize_space(school_data)
             set_title(space, school_data)
             set_location(space, school_data)
@@ -45,21 +47,27 @@ module SyncingData
 
       def set_space_types(space, school_data)
         school_category_titles = school_data["Skolekategorier"].pluck("Navn")
-        space_types = space.space_types || []
+        space_types = filter_out_old_space_types_for_schools(space.space_types)
 
-        if school_category_titles.include?("Grunnskole")
-          space_types << SpaceType.find_or_create_by(type_name: "Grunnskole")
+        space_types << SpaceType.find_by(type_name: "Grunnskole") if school_category_titles.include?("Grunnskole")
+
+        space_types << SpaceType.find_by(type_name: "VGS") if school_category_titles.include?("Videregående skole")
+
+        space_types << SpaceType.find_by(type_name: "Folkehøgskole") if school_category_titles.include?("Folkehøyskole")
+
+        safely_update_field(space, :space_types, space_types.uniq.compact)
+      end
+
+      def filter_out_old_space_types_for_schools(space_types)
+        return [] if space_types.blank?
+
+        space_types.select do |space_type|
+          # These were used in the original NSR sync, but give little value
+          next false if space_type.type_name == "Barneskole"
+          next false if space_type.type_name == "Ungdomsskole"
+
+          true
         end
-
-        if school_category_titles.include?("Videregående skole")
-          space_types << SpaceType.find_or_create_by(type_name: "VGS")
-        end
-
-        if school_category_titles.include?("Folkehøyskole")
-          space_types << SpaceType.find_or_create_by(type_name: "Folkehøgskole")
-        end
-
-        safely_update_field(space, :space_types, space_types.compact)
       end
 
       def safely_update_field(model, field, new_data)
