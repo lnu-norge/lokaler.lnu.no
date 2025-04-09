@@ -5,39 +5,59 @@ require "rails_helper"
 RSpec.describe SyncStatus, type: :model do
   let!(:space) { Fabricate(:space) }
   let(:source) { "nsr" }
+  let(:id_from_source) { "id" }
 
   describe "validations" do
-    it "requires a space" do
-      sync_status = described_class.new(source: source)
-      expect(sync_status).not_to be_valid
+    it "does not require a space" do
+      sync_status = described_class.new(source: source, id_from_source: "foo")
+      expect(sync_status).to be_valid
     end
 
-    it "requires a source" do
+    it "requires a source and id_from_source" do
       sync_status = described_class.new(space: space)
       expect(sync_status).not_to be_valid
     end
 
-    it "enforces uniqueness of space_id and source" do
+    it "enforces uniqueness of id_from_source and source" do
       # Create first sync status
-      described_class.create!(space: space, source: source)
+      described_class.create!(source: source, id_from_source: "id")
 
       # Try to create a duplicate
-      duplicate = described_class.new(space: space, source: source)
+      duplicate = described_class.new(source: source, id_from_source: "id")
+      expect(duplicate).not_to be_valid
+    end
+
+    it "enforces uniqueness of space_id and source" do
+      # Create first sync status
+      described_class.create!(space: space, source: source, id_from_source: "id")
+
+      # Try to create a duplicate
+      duplicate = described_class.new(space: space, source: source, id_from_source: "other_id")
       expect(duplicate).not_to be_valid
     end
   end
 
   describe ".for" do
     it "finds an existing sync status" do
-      existing = described_class.create!(space: space, source: source)
-      found = described_class.for(space: space, source: source)
+      existing = described_class.create!(source: source, id_from_source: "id")
+      found = described_class.for(source: source, id_from_source: "id")
+
+      expect(found).to eq(existing)
+      expect(found.persisted?).to be true
+    end
+  end
+
+  describe ".for_space" do
+    it "finds an existing sync status by space" do
+      existing = described_class.create!(space: space, source: source, id_from_source: "id")
+      found = described_class.for_space(space, source: source)
 
       expect(found).to eq(existing)
       expect(found.persisted?).to be true
     end
 
-    it "initializes a new sync status if none exists" do
-      new_sync_status = described_class.for(space: space, source: "new_source")
+    it "initializes a new sync status if none exists by space" do
+      new_sync_status = described_class.for_space(space, source: "new_source")
 
       expect(new_sync_status.persisted?).to be false
       expect(new_sync_status.space).to eq(space)
@@ -46,7 +66,7 @@ RSpec.describe SyncStatus, type: :model do
   end
 
   describe "logging methods" do
-    let(:sync_status) { described_class.create!(space: space, source: source) }
+    let(:sync_status) { described_class.create!(space: space, source: source, id_from_source: id_from_source) }
 
     describe "#log_start" do
       it "updates last_attempted_sync_at timestamp" do
@@ -72,18 +92,76 @@ RSpec.describe SyncStatus, type: :model do
         end.to change { sync_status.reload.last_attempt_was_successful }.to(false)
       end
     end
+
+    describe "#log_around when the block executes successfully" do
+      it "logs start and success" do
+        allow(sync_status).to receive(:log_start).and_call_original
+        allow(sync_status).to receive(:log_success).and_call_original
+
+        sync_status.log_around do
+          # Simulating successful operation
+        end
+
+        expect(sync_status).to have_received(:log_start).once
+        expect(sync_status).to have_received(:log_success).once
+      end
+
+      it "yields to the block" do
+        block_executed = false
+
+        sync_status.log_around do
+          block_executed = true
+        end
+
+        expect(block_executed).to be true
+      end
+
+      it "returns the result of the block" do
+        result = sync_status.log_around do
+          "success result"
+        end
+
+        expect(result).to eq("success result")
+      end
+    end
+
+    describe "#log_around when the block raises an error" do
+      let(:test_error) { StandardError.new("Test error") }
+
+      it "logs start and failure" do
+        allow(sync_status).to receive(:log_start).and_call_original
+        allow(sync_status).to receive(:log_failure).and_call_original
+
+        expect do
+          sync_status.log_around do
+            raise test_error
+          end
+        end.to raise_error(test_error)
+
+        expect(sync_status).to have_received(:log_start).once
+        expect(sync_status).to have_received(:log_failure).once
+      end
+
+      it "re-raises the original error" do
+        expect do
+          sync_status.log_around do
+            raise test_error
+          end
+        end.to raise_error(test_error)
+      end
+    end
   end
 
   describe "database constraints" do
     it "prevents duplicate records at the database level" do
       # Create a sync status
-      described_class.create!(space: space, source: source)
+      described_class.create!(space: space, source: source, id_from_source: id_from_source)
 
       # Try to insert a duplicate directly
       expect do
         ActiveRecord::Base.connection.execute(
-          "INSERT INTO sync_statuses (space_id, source, created_at, updated_at)
-          VALUES (#{space.id}, '#{source}', NOW(), NOW())"
+          "INSERT INTO sync_statuses (space_id, source, id_from_source, created_at, updated_at)
+          VALUES (#{space.id}, '#{source}', '#{id_from_source}', NOW(), NOW())"
         )
       end.to raise_error(ActiveRecord::StatementInvalid, /duplicate key value violates unique constraint/)
     end

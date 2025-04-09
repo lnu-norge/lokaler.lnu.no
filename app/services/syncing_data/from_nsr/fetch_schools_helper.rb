@@ -2,7 +2,7 @@
 
 module SyncingData
   module FromNsr
-    module FetchSchoolsHelper
+    module FetchSchoolsHelper # rubocop:disable Metrics/ModuleLength
       include CacheHelper
 
       SCHOOL_CATEGORIES_TO_FETCH = {
@@ -30,7 +30,7 @@ module SyncingData
         schools.select do |school|
           next false if school.blank?
           next true if school_is_active?(school)
-          next true if school_already_in_database?(school)
+          next true if school_in_database_and_should_be_synced?(school)
 
           false
         end
@@ -40,10 +40,26 @@ module SyncingData
         school["ErAktiv"] == true
       end
 
-      def school_already_in_database?(school)
+      def school_in_database_and_should_be_synced?(school)
         return false if school["Organisasjonsnummer"].blank?
 
-        Space.exists?(organization_number: school["Organisasjonsnummer"])
+        space = school_already_in_database(school)
+        return false unless space
+
+        sync_status = SyncStatus.for_space(space, source: "nsr")
+        return true if no_data_on_last_successful_sync?(sync_status)
+
+        sync_status.last_successful_sync_at < Time.zone.parse(school["DatoEndret"])
+      end
+
+      def no_data_on_last_successful_sync?(sync_status)
+        sync_status.last_successful_sync_at.blank?
+      end
+
+      def school_already_in_database(school)
+        return false if school["Organisasjonsnummer"].blank?
+
+        Space.find_by(organization_number: school["Organisasjonsnummer"])
       end
 
       def fetch_list_of_schools_for_category(category_id)
