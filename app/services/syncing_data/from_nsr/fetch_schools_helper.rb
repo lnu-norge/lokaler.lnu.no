@@ -15,7 +15,7 @@ module SyncingData
 
       def fetch_all_schools_and_data
         all_schools = fetch_combined_list_of_schools
-        filtered_schools = select_relevant_schools_from_list(all_schools.first(500))
+        filtered_schools = select_relevant_schools_from_list(all_schools)
 
         fetch_details_about_all_schools(filtered_schools)
       end
