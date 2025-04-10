@@ -37,14 +37,33 @@ module SyncingData
       def create_new_space_group_with_title_and_data(space:, title:, old_space_group:)
         new_space_group = SpaceGroup.find_or_create_by(title:)
 
-        new_space_group.update(how_to_book: old_space_group.how_to_book) if old_space_group&.how_to_book.present?
-        if old_space_group&.terms_and_pricing.present?
-          new_space_group.update(terms_and_pricing: old_space_group.terms_and_pricing)
-        end
-        new_space_group.update(about: old_space_group.about) if old_space_group&.about.present?
+        update_field_from_old_space_group(
+          new_space_group: new_space_group,
+          old_space_group: old_space_group,
+          field: :how_to_book
+        )
+
+        update_field_from_old_space_group(
+          new_space_group: new_space_group,
+          old_space_group: old_space_group,
+          field: :terms_and_pricing
+        )
+
+        update_field_from_old_space_group(
+          new_space_group: new_space_group,
+          old_space_group: old_space_group,
+          field: :about
+        )
+
         new_space_group.save
 
         space.update(space_group: new_space_group)
+      end
+
+      def update_field_from_old_space_group(new_space_group:, old_space_group:, field:)
+        return unless old_space_group&.send(field).present? && new_space_group.send(field).blank?
+
+        new_space_group.update(field => old_space_group.send(field))
       end
 
       def space_group_title(school_data)

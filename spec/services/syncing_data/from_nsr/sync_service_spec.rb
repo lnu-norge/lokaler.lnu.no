@@ -475,6 +475,40 @@ RSpec.describe SyncingData::FromNsr::SyncService do
       expect(new_space_group.about.body).to eq(old_space_group_about)
     end
 
+    it "does not overwrite the space group content if the new space group has data already" do
+      # Reset sync status and make space_for_abel not syncable anymore,
+      # just so we can reuse the VCR for it:
+      SyncStatus.for(id_from_source: space_for_abel.organization_number, source: "nsr").destroy
+      space_for_abel.update(organization_number: nil)
+
+      how_to_book_that_wont_be_kept = ActionText::Content.new("Do not keep this how to book")
+
+      # Create a new space with the same organization number, but with a different space group
+      new_space_to_sync = Fabricate(
+        :space,
+        organization_number: "975283046",
+        space_group:
+          Fabricate(:space_group,
+                    how_to_book: how_to_book_that_wont_be_kept)
+      )
+
+      expect(new_space_to_sync.space_group.how_to_book.body).to eq(how_to_book_that_wont_be_kept)
+
+      # Now run the sync
+      VCR.use_cassette("nsr/enhet/processing_school_abel") do
+        spaces = service.send(:process_schools_and_save_space_data, [school_details])
+        synced_new_space = spaces.first
+
+        # And expect it to have the same space group as space_for_abel, with the same data
+        expect(synced_new_space.reload.space_group.id).to eq(synced_space_for_abel.space_group.id)
+        expect(synced_new_space.reload.space_group.how_to_book.body).not_to eq("Do not keep this how to book")
+        expect(synced_new_space.reload.space_group.how_to_book.body).to eq(old_space_group_how_to_book)
+
+        # But not be the same space
+        expect(synced_new_space.id).not_to eq(space_for_abel.id)
+      end
+    end
+
     it "removes unused space groups" do
       expect(SpaceGroup.where(id: old_space_group.id)).to be_empty
     end
