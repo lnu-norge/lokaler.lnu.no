@@ -11,8 +11,9 @@ class SyncStatus < ApplicationRecord
   end
 
   def self.for_space(space, source:)
-    find_or_create_by!(space: space, source: source) do |sync_status|
-      sync_status.id_from_source = space.id
+    find_or_initialize_by(space: space, source: source) do |sync_status|
+      sync_status.update(id_from_source: space.id)
+      sync_status.save!
     end
   end
 
@@ -26,10 +27,13 @@ class SyncStatus < ApplicationRecord
   end
 
   def log_failure(error)
-    Rails.logger.error("Error when syncing #{source}: #{error.message}")
+    error_message = error.respond_to?(:message) ? error.message : error.to_s
+    full_error_message = error.respond_to?(:full_message) ? error.full_message : ""
+
+    Rails.logger.error("Error when syncing #{source}: #{error_message}")
     update(last_attempt_was_successful: false) if valid?
-    update(error_message: error.message)
-    update(full_error_message: error.full_message)
+    update(error_message:)
+    update(full_error_message:)
   end
 end
 
