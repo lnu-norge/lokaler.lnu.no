@@ -5,6 +5,7 @@ module SyncingData
     module ProcessSchoolsHelper
       include SetLocationHelper
       include SetSpaceGroupHelper
+      include SetSpaceTypesHelper
       include LogSyncStatusHelper
 
       private
@@ -13,62 +14,63 @@ module SyncingData
         schools.filter_map do |school_data|
           next if school_data["Organisasjonsnummer"].blank?
 
-          begin
-            start_sync_log(school_data)
+          next unless school_changed_since_last_successful_sync(school_data)
 
-            raise "This school is no longer active" if school_data["ErAktiv"] == false
-            raise "This school is outside Norway" if school_is_outside_norway?(school_data)
+          space = attempt_sync(school_data)
+          next unless space
 
-            space = find_or_initialize_space(school_data)
-            set_title(space, school_data)
-            set_location(space, school_data)
-            set_space_types(space, school_data)
-            set_space_group(space, school_data)
-            space.save! if space.changed?
-
-            log_successful_sync(school_data)
-
-            space
-          rescue StandardError => e
-            log_failed_sync(school_data, e)
-            nil
-          end
+          space
         end
+      end
+
+      def attempt_sync(school_data)
+        start_sync_log(school_data)
+
+        raise_if_sync_is_not_possible(school_data)
+        space = set_space_and_sync_data(school_data: school_data)
+        log_successful_sync(school_data)
+
+        space
+      rescue StandardError => e
+        log_failed_sync(school_data, e)
+
+        nil
+      end
+
+      def raise_if_sync_is_not_possible(school_data)
+        raise "This school is no longer active" if school_data["ErAktiv"] == false
+        raise "This school is outside Norway" if school_is_outside_norway?(school_data)
+      end
+
+      def set_space_and_sync_data(school_data:)
+        space = find_or_initialize_space(school_data)
+        set_title(space, school_data)
+        set_location(space, school_data)
+        set_space_types(space, school_data)
+        set_space_group(space, school_data)
+        space.save! if space.changed?
+
+        space
       end
 
       def find_or_initialize_space(school_data)
         Space.find_or_initialize_by(organization_number: school_data["Organisasjonsnummer"])
       end
 
+      def school_changed_since_last_successful_sync(school_data)
+        school_data_changed_at = Time.zone.parse(school_data["DatoEndret"])
+        return true if school_data_changed_at.blank?
+
+        last_sync = SyncStatus.for(id_from_source: school_data["Organisasjonsnummer"], source: "nsr")
+        return true if last_sync&.last_successful_sync_at.blank?
+
+        school_data_changed_at > last_sync.last_successful_sync_at
+      end
+
       def set_title(space, school_data)
         title = school_data["Navn"] || school_data["FulltNavn"]
 
         safely_update_field(space, :title, title)
-      end
-
-      def set_space_types(space, school_data)
-        school_category_titles = school_data["Skolekategorier"].pluck("Navn")
-        space_types = filter_out_old_space_types_for_schools(space.space_types)
-
-        space_types << SpaceType.find_by(type_name: "Grunnskole") if school_category_titles.include?("Grunnskole")
-
-        space_types << SpaceType.find_by(type_name: "VGS") if school_category_titles.include?("Videregående skole")
-
-        space_types << SpaceType.find_by(type_name: "Folkehøgskole") if school_category_titles.include?("Folkehøyskole")
-
-        safely_update_field(space, :space_types, space_types.uniq.compact)
-      end
-
-      def filter_out_old_space_types_for_schools(space_types)
-        return [] if space_types.blank?
-
-        space_types.select do |space_type|
-          # These were used in the original NSR sync, but give little value
-          next false if space_type.type_name == "Barneskole"
-          next false if space_type.type_name == "Ungdomsskole"
-
-          true
-        end
       end
 
       def school_is_outside_norway?(school)
