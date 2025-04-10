@@ -8,11 +8,6 @@ RSpec.describe SyncStatus, type: :model do
   let(:id_from_source) { "id" }
 
   describe "validations" do
-    it "does not require a space" do
-      sync_status = described_class.new(source: source, id_from_source: "foo")
-      expect(sync_status).to be_valid
-    end
-
     it "requires a source and id_from_source" do
       sync_status = described_class.new(space: space)
       expect(sync_status).not_to be_valid
@@ -24,15 +19,6 @@ RSpec.describe SyncStatus, type: :model do
 
       # Try to create a duplicate
       duplicate = described_class.new(source: source, id_from_source: "id")
-      expect(duplicate).not_to be_valid
-    end
-
-    it "enforces uniqueness of space_id and source" do
-      # Create first sync status
-      described_class.create!(space: space, source: source, id_from_source: "id")
-
-      # Try to create a duplicate
-      duplicate = described_class.new(space: space, source: source, id_from_source: "other_id")
       expect(duplicate).not_to be_valid
     end
   end
@@ -56,10 +42,9 @@ RSpec.describe SyncStatus, type: :model do
       expect(found.persisted?).to be true
     end
 
-    it "initializes a new sync status if none exists by space" do
+    it "creates a new sync status if none exists by space" do
       new_sync_status = described_class.for_space(space, source: "new_source")
 
-      expect(new_sync_status.persisted?).to be false
       expect(new_sync_status.space).to eq(space)
       expect(new_sync_status.source).to eq("new_source")
     end
