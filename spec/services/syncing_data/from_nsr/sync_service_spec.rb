@@ -8,6 +8,13 @@ RSpec.describe SyncingData::FromNsr::SyncService do
   let(:nsr_uri_skoler_per_skolekategori) { "#{nsr_base_uri}enheter/skolekategori" }
   let(:nsr_uri_enhet) { "#{nsr_base_uri}enhet" }
 
+  before do
+    # Set up the needed SpaceTypes
+    Fabricate(:space_type, type_name: "Grunnskole")
+    Fabricate(:space_type, type_name: "VGS")
+    Fabricate(:space_type, type_name: "Folkehøgskole")
+  end
+
   describe "#filter_schools" do
     let(:service) { described_class.new }
     let(:inactive_school) { { "ErAktiv" => false, "Organisasjonsnummer" => "123456789" } }

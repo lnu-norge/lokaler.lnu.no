@@ -20,9 +20,7 @@ module SyncingData
         unless nsr_has_lat_lng
           # If lat lon is not set from NSR, then we have to set it ourselves:
           geonorge_geo_data = get_lat_lng_from_geonorge(space)
-          if geonorge_geo_data.blank?
-            throw "School has no lat/lng in NSR or GeoNorge. Org nr: #{space.organization_number}"
-          end
+          throw "This school has no lat/lng in NSR or GeoNorge" if geonorge_geo_data.blank?
 
           return space.update(lat: geonorge_geo_data[:lat], lng: geonorge_geo_data[:lng])
         end
