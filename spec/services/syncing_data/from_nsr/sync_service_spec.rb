@@ -7,6 +7,7 @@ RSpec.describe SyncingData::FromNsr::SyncService do
   let(:nsr_base_uri) { "https://data-nsr.udir.no/v4/" }
   let(:nsr_uri_skoler_per_skolekategori) { "#{nsr_base_uri}enheter/skolekategori" }
   let(:nsr_uri_enhet) { "#{nsr_base_uri}enhet" }
+  let!(:nsr_robot_user_id) { Robot.nsr.id.to_s }
 
   before do
     # Set up the needed SpaceTypes
@@ -496,6 +497,16 @@ RSpec.describe SyncingData::FromNsr::SyncService do
 
         spaces.first
       end
+    end
+
+    it "leaves a paper trail for the space" do
+      expect(space.versions.count).not_to eq(0)
+      expect(space.versions.last.whodunnit).to eq(nsr_robot_user_id)
+    end
+
+    it "leaves a paper trail for the space group" do
+      expect(space.space_group.versions.count).not_to eq(0)
+      expect(space.space_group.versions.last.whodunnit).to eq(nsr_robot_user_id)
     end
 
     it "sets the right organization number" do

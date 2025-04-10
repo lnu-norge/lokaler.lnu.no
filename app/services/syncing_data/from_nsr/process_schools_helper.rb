@@ -43,14 +43,16 @@ module SyncingData
       end
 
       def set_space_and_sync_data(school_data:)
-        space = find_or_initialize_space(school_data)
-        set_title(space, school_data)
-        set_location(space, school_data)
-        set_space_types(space, school_data)
-        set_space_group(space, school_data)
-        space.save! if space.changed?
+        PaperTrail.request(whodunnit: Robot.nsr.id) do
+          space = find_or_initialize_space(school_data)
+          set_title(space, school_data)
+          set_location(space, school_data)
+          set_space_types(space, school_data)
+          set_space_group(space, school_data)
+          space.save! if space.changed?
 
-        space
+          space
+        end
       end
 
       def find_or_initialize_space(school_data)
