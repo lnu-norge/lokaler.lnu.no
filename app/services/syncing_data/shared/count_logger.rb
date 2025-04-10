@@ -79,11 +79,10 @@ module SyncingData
         {
           sync_status_attempts: SyncStatus.where(last_attempted_sync_at: @sync_started_at..).count,
           sync_statuses_updated_to_success:
-            SyncStatus.where(last_attempted_sync_at: @sync_started_at..)
-                      .where(last_attempt_was_successful: true).count,
+            SyncStatus.where(last_successful_sync_at: @sync_started_at..).count,
           sync_statuses_updated_to_failure:
             SyncStatus.where(last_attempted_sync_at: @sync_started_at..)
-                      .where(last_attempt_was_successful: false).count,
+                      .where(last_successful_sync_at: nil).count,
           spaces_updated: Space.where(updated_at: @sync_started_at..).count,
           space_types_updated: SpaceType.where(updated_at: @sync_started_at..).count,
           space_groups_updated: SpaceGroup.where(updated_at: @sync_started_at..).count,
@@ -98,8 +97,8 @@ module SyncingData
       def count_all
         {
           sync_statuses_total: SyncStatus.count,
-          successful_sync_statuses: SyncStatus.where(last_attempt_was_successful: true).count,
-          failed_sync_statuses: SyncStatus.where(last_attempt_was_successful: false).count,
+          successful_sync_statuses: SyncStatus.where.not(last_successful_sync_at: nil).count,
+          failed_sync_statuses: SyncStatus.where(last_successful_sync_at: nil).count,
           spaces: Space.count,
           space_types: SpaceType.count,
           space_groups: SpaceGroup.count,
