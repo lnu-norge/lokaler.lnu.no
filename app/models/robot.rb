@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Robot < User
+  include Gravtastic
+  gravtastic default: "robohash"
+
   # Helper methods for naming and creating robot users:
   def self.nsr
     bot_for("NSR", "Nasjonalt Skoleregister")
