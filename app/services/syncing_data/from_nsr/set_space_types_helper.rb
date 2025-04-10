@@ -10,7 +10,9 @@ module SyncingData
         space_types = filter_out_old_space_types_for_schools(space.space_types)
 
         space_types << SpaceType.find_by!(type_name: "Grunnskole") if school_category_titles.include?("Grunnskole")
+
         space_types << SpaceType.find_by!(type_name: "VGS") if school_category_titles.include?("Videregående skole")
+
         if school_category_titles.include?("Folkehøyskole")
           space_types << SpaceType.find_by!(type_name: "Folkehøgskole")
         end
