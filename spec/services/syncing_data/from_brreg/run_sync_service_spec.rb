@@ -338,14 +338,24 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
     end
 
     context "when parsing phone numbers" do
+      it "stores valid phone numbers" do
+        parsed_phone = service.send(:parse_phone, "22225555")
+        expect(parsed_phone).to eq("22225555")
+      end
+
       it "skips empty phone numbers" do
         parsed_phone = service.send(:parse_phone, "")
         expect(parsed_phone).to be_nil
       end
 
       it "phone numbers with spaces are stripped" do
-        parsed_phone = service.send(:parse_phone, "  +47 999 99 99 ")
-        expect(parsed_phone).to eq("+479999999")
+        parsed_phone = service.send(:parse_phone, "  +47 999 99 999 ")
+        expect(parsed_phone).to eq("+4799999999")
+      end
+
+      it "skips invalid phone numbers" do
+        parsed_phone = service.send(:parse_phone, "2222222222123")
+        expect(parsed_phone).to be_nil
       end
     end
 
