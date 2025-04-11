@@ -12,11 +12,7 @@ module SyncingData
       include ProcessSchoolsHelper
 
       def initialize
-        @count_logger = SyncingData::Shared::CountLogger.new(
-          name: "NSR sync",
-          limit_versions_to_user_id: Robot.nsr.id,
-          logger: rails_logger_with_tags
-        )
+        @count_logger = count_logger
 
         super
       end
@@ -26,6 +22,16 @@ module SyncingData
         schools = fetch_all_schools_and_data
         process_schools_and_save_space_data(schools)
         @count_logger.stop
+      end
+
+      private
+
+      def count_logger
+        @count_logger ||= SyncingData::Shared::CountLogger.new(
+          name: "NSR sync",
+          limit_versions_to_user_id: Robot.nsr.id,
+          logger: rails_logger_with_tags
+        )
       end
     end
   end
