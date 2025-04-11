@@ -171,7 +171,11 @@ Run `rails db:seed` to get sample data into your app.
 
 You can also set the ENV variable ["SEED_FILE"](https://github.com/lnu-norge/lokaler.lnu.no/pull/66) to load a different seed file than the current environment dictates. Useful for deploying tests on Heroku, as Heroku always wants you to run in production mode - but you might want to seed with development data.
 
-To get geographical data for Fylker and Kommuner, run: `rails geo:import_geographical_areas_from_geonorge`. This will hit the APIs of GeoNorge and create or update any fylker and kommuner, as well as make sure all Spaces are matched with a Fylke and a Kommune.
+### Syncing
+
+To get geographical data for Fylker and Kommuner from GeoNorge, run: `rails geo:import_geographical_areas_from_geonorge`. This will hit the APIs of GeoNorge and create or update any fylker and kommuner, as well as make sure all Spaces are matched with a Fylke and a Kommune.
+
+To get updated data from Nasjonalt Skoleregister about schools after seeding, run `rake sync:sync_schools_from_nsr`.
 
 ## Sendgrid setup
 

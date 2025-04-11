@@ -5,9 +5,11 @@ module SyncingData
     class CountLogger
       def initialize(
         name:,
-        limit_versions_to_user_id:
+        limit_versions_to_user_id:,
+        logger: Rails.logger
 
       )
+        @logger = logger
         @user_id_to_limit_versions_to = limit_versions_to_user_id
 
         @log_counts_before = {}
@@ -24,13 +26,13 @@ module SyncingData
       end
 
       def start
-        Rails.logger.info("Starting count for: #{@context_string}")
+        @logger.info("Starting count for: #{@context_string}")
         @sync_started_at = Time.zone.now
         @log_counts_before = count_all
       end
 
       def stop
-        Rails.logger.info("Stopped count for: #{@context_string}")
+        @logger.info("Stopped count for: #{@context_string}")
 
         log_all(@log_counts_before, prefix: @prefix_for_counts_before)
 
@@ -57,7 +59,7 @@ module SyncingData
 
       def log_all(counts, prefix:)
         counts.each_key do |key|
-          Rails.logger.info("#{prefix}: #{key}: #{counts[key]}")
+          @logger.info("#{prefix}: #{key}: #{counts[key]}")
         end
       end
 

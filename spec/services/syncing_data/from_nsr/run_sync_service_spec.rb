@@ -3,11 +3,13 @@
 require "rails_helper"
 require "webmock/rspec"
 
-RSpec.describe SyncingData::FromNsr::SyncService do
+RSpec.describe SyncingData::FromNsr::RunSyncService do
   let(:nsr_base_uri) { "https://data-nsr.udir.no/v4/" }
   let(:nsr_uri_skoler_per_skolekategori) { "#{nsr_base_uri}enheter/skolekategori" }
   let(:nsr_uri_enhet) { "#{nsr_base_uri}enhet" }
   let!(:nsr_robot_user_id) { Robot.nsr.id.to_s }
+  let(:service) { described_class.new }
+  let(:logger_with_tags) { service.send(:logger) }
 
   before do
     # Set up the needed SpaceTypes
@@ -280,7 +282,8 @@ RSpec.describe SyncingData::FromNsr::SyncService do
         allow(HTTP).to receive(:get).with("#{nsr_uri_enhet}/#{org_number}").and_return(
           instance_double(HTTP::Response, status: error_response, body: error_body)
         )
-        allow(Rails.logger).to receive(:error)
+        allow(service).to receive(:logger).and_return(logger_with_tags)
+        allow(logger_with_tags).to receive(:error)
       end
 
       it "raises an error and logs it" do
@@ -292,8 +295,9 @@ RSpec.describe SyncingData::FromNsr::SyncService do
                                               date_changed_at_from_nsr: date_changed_at_from_nsr)
         end.to raise_error(/API Error/)
 
-        # The error is logged and we don't care how many times, just that it happened
-        expect(Rails.logger).to have_received(:error).with(/Failed to fetch school details/).at_least(:once)
+        expect(
+          logger_with_tags
+        ).to have_received(:error).with(/Failed to fetch school details/).at_least(:once)
       end
     end
   end
@@ -332,7 +336,8 @@ RSpec.describe SyncingData::FromNsr::SyncService do
     end
 
     it "continues processing after errors with individual schools" do
-      allow(Rails.logger).to receive(:error)
+      allow(service).to receive(:logger).and_return(logger_with_tags)
+      allow(logger_with_tags).to receive(:error)
 
       # First and third schools succeed, second fails
       allow(service).to receive(:details_about_school)
@@ -350,8 +355,8 @@ RSpec.describe SyncingData::FromNsr::SyncService do
       result = service.send(:fetch_details_about_all_schools, schools)
 
       # Should have logged errors
-      expect(Rails.logger).to have_received(:error).with(/Error fetching details for school/)
-      expect(Rails.logger).to have_received(:error).with(/Failed to fetch details for 1 schools/)
+      expect(logger_with_tags).to have_received(:error).with(/Error fetching details for school/)
+      expect(logger_with_tags).to have_received(:error).with(/Failed to fetch details for 1 schools/)
 
       # Should still have processsed the other schools
       expect(result.size).to eq(2)

@@ -23,7 +23,7 @@ class SyncStatus < ApplicationRecord
   def log_failure(error)
     update_error_messages_with(error)
 
-    Rails.logger.error("Error when syncing #{source}: #{error_message}")
+    Rails.logger.tagged("SyncingData").tagged("SyncStatus").error("Error when syncing #{source}: #{error_message}")
     update(last_successful_sync_at: nil)
   end
 
