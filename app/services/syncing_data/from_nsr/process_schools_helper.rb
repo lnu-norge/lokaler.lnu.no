@@ -6,7 +6,7 @@ module SyncingData
       include SetLocationHelper
       include SetSpaceGroupHelper
       include SetSpaceTypesHelper
-      include LogSyncStatusHelper
+      include SyncStatusHelper
 
       private
 

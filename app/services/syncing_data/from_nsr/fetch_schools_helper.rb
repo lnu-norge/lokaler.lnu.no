@@ -65,7 +65,7 @@ module SyncingData
       def fetch_list_of_schools_for_category(category_id)
         url = "#{FromNsr::NSR_BASE_URL}/enheter/skolekategori/#{category_id}"
 
-        Rails.logger.debug { "Fetching schools from NSR at url: #{url}" }
+        logger.debug { "Fetching schools from NSR at url: #{url}" }
         begin
           response = HTTP.get(url)
 
@@ -74,16 +74,16 @@ module SyncingData
             parsed_json = JSON.parse(response.body.to_s)
             # Return the list of schools or an empty array if EnhetListe is missing
             schools = parsed_json["EnhetListe"] || []
-            Rails.logger.debug { "Fetched #{schools.size} schools from url: #{url}" }
+            logger.debug { "Fetched #{schools.size} schools from url: #{url}" }
 
             schools
           else
             error_msg = "Failed to fetch schools from NSR API for category #{category_id}: #{response.status}"
-            Rails.logger.error(error_msg)
+            logger.error(error_msg)
             []
           end
         rescue StandardError => e
-          Rails.logger.error("Error when fetching schools from NSR API for category #{category_id}: #{e.message}")
+          logger.error("Error when fetching schools from NSR API for category #{category_id}: #{e.message}")
           []
         end
       end
@@ -91,13 +91,13 @@ module SyncingData
       def fetch_details_about_all_schools(schools) # rubocop:disable Metrics/AbcSize
         failures = []
 
-        Rails.logger.debug { "Fetching details from NSR about #{schools.size} schools" }
+        logger.debug { "Fetching details from NSR about #{schools.size} schools" }
 
         schools_with_details = schools.map.with_index do |school, index|
           org_number = school["Organisasjonsnummer"]
           next if org_number.blank?
 
-          Rails.logger.debug do
+          logger.debug do
             "Fetch details for school ##{index + 1} / #{schools.size}, based on org_number: #{org_number}"
           end
 
@@ -109,11 +109,11 @@ module SyncingData
           rescue StandardError => e
             # Add to failures list but continue processing other schools
             failures << { org_number: org_number, error: e.message }
-            Rails.logger.error("Error fetching details for school #{org_number}: #{e.message}")
+            logger.error("Error fetching details for school #{org_number}: #{e.message}")
           end
         end.compact_blank
 
-        Rails.logger.error("Failed to fetch details for #{failures.size} schools") if failures.any?
+        logger.error("Failed to fetch details for #{failures.size} schools") if failures.any?
 
         schools_with_details
       end
@@ -130,14 +130,14 @@ module SyncingData
 
       def fetch_and_cache_details_about_school(org_number, cache_key)
         url = "#{FromNsr::NSR_BASE_URL}/enhet/#{org_number}"
-        Rails.logger.debug { "Fetching school details about #{org_number} from NSR at url: #{url}" }
+        logger.debug { "Fetching school details about #{org_number} from NSR at url: #{url}" }
 
         begin
           response = HTTP.get(url)
           cache_and_return_school_details(response, org_number, cache_key)
         rescue StandardError => e
           error_msg = "Error fetching school details for org number #{org_number}: #{e.message}"
-          Rails.logger.error(error_msg)
+          logger.error(error_msg)
           raise
         end
       end

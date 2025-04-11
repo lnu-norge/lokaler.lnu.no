@@ -2,7 +2,7 @@
 
 module SyncingData
   module FromNsr
-    module LogSyncStatusHelper
+    module SyncStatusHelper
       private
 
       def sync_id_for(school_data)
