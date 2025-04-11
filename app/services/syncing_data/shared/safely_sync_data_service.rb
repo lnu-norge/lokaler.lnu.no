@@ -57,7 +57,7 @@ module SyncingData
       end
 
       def no_info_about_who_last_set_the_field?
-        versions_of_field_for_existing_data.empty?
+        versions_of_field_for_existing_data.blank?
       end
 
       def last_version_has_no_whodunnit?
