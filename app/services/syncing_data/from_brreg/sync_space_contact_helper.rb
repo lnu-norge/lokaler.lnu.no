@@ -10,10 +10,20 @@ module SyncingData
       def sync_space_contacts_for(space)
         logger.debug { "Syncing space #{space.id}" }
 
-        contact_information = contact_information_from_brreg_for(org_number: space.organization_number)
-
         PaperTrail.request(whodunnit: Robot.brreg.id) do
-          run_sync(space:, contact_information:)
+          run_sync(
+            space:,
+            contact_information: cached_contact_information_for(org_number: space.organization_number)
+          )
+        end
+      end
+
+      def cached_contact_information_for(org_number:)
+        Rails.cache.fetch(
+          "brreg:contact_information_for:#{org_number}",
+          expires_in: 7.days
+        ) do
+          contact_information_from_brreg_for(org_number: org_number)
         end
       end
 
