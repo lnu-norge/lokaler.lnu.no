@@ -34,6 +34,7 @@ module SyncingData
       def sync_spaces
         spaces_with_organization_numbers.each_with_index do |space, index|
           logger.info "Syncing space #{index + 1} of #{spaces_with_organization_numbers.count}"
+          next if space.organization_number.blank?
 
           start_sync_log(space.organization_number)
           sync_space_contacts_for(space)
