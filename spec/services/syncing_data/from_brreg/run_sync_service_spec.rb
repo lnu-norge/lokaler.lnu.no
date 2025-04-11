@@ -17,11 +17,12 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
     Fabricate(:space, organization_number: invalid_org_number)
     Fabricate(:space, organization_number: valid_org_number)
     Fabricate(:space, organization_number: no_org_number)
-    VCR.insert_cassette "brreg/sync"
   end
 
-  after do
-    VCR.eject_cassette
+  around do |example|
+    VCR.use_cassette("brreg/sync") do
+      example.run
+    end
   end
 
   describe "#call" do
@@ -66,20 +67,88 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
   end
 
   describe "#contact_information_for" do
-    it "fetches and returns fresh contact information for an organization number" do
-      # Set up spy
-      allow(HTTP).to receive(:get).and_call_original
+    context "when fetching and returning" do
+      it "for an organization number" do
+        # Set up spy
+        allow(HTTP).to receive(:get).and_call_original
 
-      raw_contact_information = service.send(:raw_contact_information_from_brreg_for, org_number: valid_org_number)
+        contact_information = service.send(:contact_information_from_brreg_for, org_number: valid_org_number)
 
-      expect(HTTP).to have_received(:get)
-        .with("#{enhet_endpoint}/#{valid_org_number}")
-        .once
+        expect(HTTP).to have_received(:get)
+          .with("#{enhet_endpoint}/#{valid_org_number}")
+          .once
 
-      expect(raw_contact_information[:email]).to eq("postmottak@gjerstad.kommune.no")
-      expect(raw_contact_information[:phone]).to eq("37119785")
-      expect(raw_contact_information[:mobile]).to eq("45035139")
-      expect(raw_contact_information[:website]).to eq("www.abel.skole.no")
+        expect(contact_information[:email]).to eq("postmottak@gjerstad.kommune.no")
+        expect(contact_information[:phone]).to eq("37119785")
+        expect(contact_information[:mobile]).to eq("45035139")
+        expect(contact_information[:website]).to eq("http://www.abel.skole.no")
+      end
+    end
+
+    context "when parsing email" do
+      it "skips empty emails" do
+        parsed_email = service.send(:parse_email, "")
+        expect(parsed_email).to be_nil
+      end
+
+      it "valid email go through" do
+        parsed_email = service.send(:parse_email, "postmottak@gjerstad.kommune.no")
+        expect(parsed_email).to eq("postmottak@gjerstad.kommune.no")
+      end
+
+      it "emails with spaces are stripped" do
+        parsed_email = service.send(:parse_email, "  postmottak@gjerstad.kommune.no ")
+        expect(parsed_email).to eq("postmottak@gjerstad.kommune.no")
+      end
+
+      it "invalid emails without @ are skipped" do
+        parsed_email = service.send(:parse_email, "postmottakgjerstad.kommune.no")
+        expect(parsed_email).to be_nil
+      end
+
+      it "invalid emails without domain are skipped" do
+        parsed_email = service.send(:parse_email, "postmottak@")
+        expect(parsed_email).to be_nil
+      end
+
+      it "invalid emails without denomination are skipped" do
+        parsed_email = service.send(:parse_email, "@gjerstad.kommune.no")
+        expect(parsed_email).to be_nil
+      end
+    end
+
+    context "when parsing phone numbers" do
+      it "skips empty phone numbers" do
+        parsed_phone = service.send(:parse_phone, "")
+        expect(parsed_phone).to be_nil
+      end
+
+      it "phone numbers with spaces are stripped" do
+        parsed_phone = service.send(:parse_phone, "  +47 999 99 99 ")
+        expect(parsed_phone).to eq("+479999999")
+      end
+    end
+
+    context "when parsing urls" do
+      it "skips empty urls" do
+        parsed_url = service.send(:parse_url, "")
+        expect(parsed_url).to be_nil
+      end
+
+      it "strips spaces from urls" do
+        parsed_url = service.send(:parse_url, "  https://example.com ")
+        expect(parsed_url).to eq("https://example.com")
+      end
+
+      it "does not strip spaces inside urls" do
+        parsed_url = service.send(:parse_url, "https://example.com/path /to/file.html")
+        expect(parsed_url).to eq("https://example.com/path /to/file.html")
+      end
+
+      it "adds http to urls without http or https" do
+        parsed_url = service.send(:parse_url, "example.com")
+        expect(parsed_url).to eq("http://example.com")
+      end
     end
   end
 end
