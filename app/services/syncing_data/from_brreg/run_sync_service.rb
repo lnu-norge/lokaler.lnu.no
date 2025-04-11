@@ -34,7 +34,7 @@ module SyncingData
       def sync_spaces
         spaces_with_organization_numbers.each_with_index do |space, index|
           logger.info "Syncing space #{index + 1} of #{spaces_with_organization_numbers.count}"
-          next if space.organization_number.blank?
+          next if sync_not_possible_for(space)
 
           start_sync_log(space.organization_number)
           sync_space_contacts_for(space)
@@ -43,6 +43,13 @@ module SyncingData
         rescue StandardError => e
           log_failed_sync(space.organization_number, e)
         end
+      end
+
+      def sync_not_possible_for(space)
+        return true if space.organization_number.blank?
+        return true if space.organization_number.match?(/U\d+/) # Utlandet
+
+        false
       end
 
       def spaces_with_organization_numbers
