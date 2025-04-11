@@ -32,7 +32,9 @@ module SyncingData
       end
 
       def sync_spaces
-        spaces_with_organization_numbers.each do |space|
+        spaces_with_organization_numbers.each_with_index do |space, index|
+          logger.info "Syncing space #{index + 1} of #{spaces_with_organization_numbers.count}"
+
           start_sync_log(space.organization_number)
           sync_space_contacts_for(space)
 
