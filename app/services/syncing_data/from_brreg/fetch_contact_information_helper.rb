@@ -6,7 +6,7 @@ module SyncingData
       private
 
       def contact_information_from_brreg_for(org_number:)
-        raw_data = raw_contact_information_from_brreg_for(org_number: org_number)
+        raw_data = raw_contact_information_from_brreg_for(org_number:)
 
         {
           email: parse_email(raw_data[:email]),
