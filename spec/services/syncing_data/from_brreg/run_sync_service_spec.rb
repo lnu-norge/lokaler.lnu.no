@@ -114,8 +114,8 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
         expect(space_contacts.count).to eq(0)
 
         # Inject a response with only mobile number for Abel
-        allow(service).to receive(:contact_information_from_brreg_for).and_call_original
-        allow(service).to receive(:contact_information_from_brreg_for)
+        allow(service).to receive(:cached_contact_information_for).and_call_original
+        allow(service).to receive(:cached_contact_information_for)
           .with(org_number: valid_org_number)
           .and_return({
                         email: "postmottak@gjerstad.kommune.no",
@@ -140,8 +140,8 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
         expect(space_contacts.count).to eq(0)
 
         # Inject a response with no contact information for Abel
-        allow(service).to receive(:contact_information_from_brreg_for).and_call_original
-        allow(service).to receive(:contact_information_from_brreg_for)
+        allow(service).to receive(:cached_contact_information_for).and_call_original
+        allow(service).to receive(:cached_contact_information_for)
           .with(org_number: valid_org_number)
           .and_return({
                         email: nil,
@@ -360,14 +360,14 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
         expect(parsed_url).to eq("https://example.com")
       end
 
-      it "does not strip spaces inside urls" do
-        parsed_url = service.send(:parse_url, "https://example.com/path /to/file.html")
-        expect(parsed_url).to eq("https://example.com/path /to/file.html")
-      end
-
       it "adds http to urls without http or https" do
         parsed_url = service.send(:parse_url, "example.com")
         expect(parsed_url).to eq("http://example.com")
+      end
+
+      it "strips invalid urls" do
+        parsed_url = service.send(:parse_url, "melhus.kommune.no.skole/gimseskole/")
+        expect(parsed_url).to be_blank
       end
     end
   end

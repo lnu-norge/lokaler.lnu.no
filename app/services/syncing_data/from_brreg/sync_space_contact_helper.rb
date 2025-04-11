@@ -101,6 +101,8 @@ module SyncingData
         end
 
         remaining_data = after_existing_sentralbord_synced(space:, contact_information:)
+        return if remaining_data.blank?
+
         remaining_contact_information_to_sync = remaining_data[:contact_information_left_to_sync]
         remaining_space_contacts_to_sync = remaining_data[:space_contacts_left_to_sync]
 

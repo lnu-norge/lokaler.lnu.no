@@ -36,13 +36,26 @@ module SyncingData
       def parse_url(url)
         return nil if url.blank?
 
-        url_with_no_spaces_at_start_or_end = url.strip
+        url = url_with_scheme(url)
+        return nil if url.blank?
+        return nil unless validate_url(url)
 
+        url
+      end
+
+      def url_with_scheme(url)
+        url_with_no_spaces_at_start_or_end = url.strip
         uri = Addressable::URI.parse(url_with_no_spaces_at_start_or_end)
         return nil if uri.blank?
         return uri.to_s if uri.scheme # Has http or https
 
         "http://#{url_with_no_spaces_at_start_or_end}"
+      rescue Addressable::URI::InvalidURIError
+        nil
+      end
+
+      def validate_url(url)
+        UrlValidationService.new(url).valid_url?
       end
 
       def raw_contact_information_from_brreg_for(org_number:)
