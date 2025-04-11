@@ -30,7 +30,14 @@ module SyncingData
       def parse_phone(phone)
         return nil if phone.blank?
 
-        phone.strip.gsub(/\s+/, "")
+        number = phone.strip.gsub(/\s+/, "")
+        return nil unless validate_phone(number)
+
+        number
+      end
+
+      def validate_phone(phone)
+        PhoneValidationService.new(phone).valid_phone?
       end
 
       def parse_url(url)
