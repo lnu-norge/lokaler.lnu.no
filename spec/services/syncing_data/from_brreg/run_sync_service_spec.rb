@@ -134,6 +134,28 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
         expect(space_contacts.first.url).to eq("http://www.abel.skole.no")
       end
 
+      it "creates no space contact if there is no contact information in brreg" do
+        space_contacts = Space.find_by(organization_number: valid_org_number).space_contacts
+
+        expect(space_contacts.count).to eq(0)
+
+        # Inject a response with no contact information for Abel
+        allow(service).to receive(:contact_information_from_brreg_for).and_call_original
+        allow(service).to receive(:contact_information_from_brreg_for)
+          .with(org_number: valid_org_number)
+          .and_return({
+                        email: nil,
+                        phone: nil,
+                        mobile: nil,
+                        website: nil
+                      })
+
+        service.call
+
+        space_contacts.reload
+        expect(space_contacts.count).to eq(0)
+      end
+
       it "creates no space contacts for invalid org numbers" do
         space_contacts = Space.find_by(organization_number: invalid_org_number).space_contacts
 
@@ -157,13 +179,13 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
 
         service.call
 
-        expect(space.space_contacts.count).to eq(2)
+        expect(space.reload.space_contacts.count).to eq(2)
         expect(space.space_contacts.first.id).to eq(old_space_contact.id)
         expect(space.space_contacts.first.title).to eq("Sentralbord")
         expect(space.space_contacts.first.telephone).to eq("37119785")
         expect(space.space_contacts.first.email).to eq("postmottak@gjerstad.kommune.no")
         expect(space.space_contacts.first.url).to eq("http://www.abel.skole.no")
-        expect(space.space_contacts.first.versions.last.whodunnit).to eq(Robot.brreg.id)
+        expect(space.space_contacts.first.versions.last.whodunnit).to eq(Robot.brreg.id.to_s)
 
         expect(space.space_contacts.second.title).to eq("Sentralbord (mobil)")
         expect(space.space_contacts.second.telephone).to eq("45035139")
@@ -190,7 +212,7 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
         expect(space.space_contacts.first.email).to eq("menneske@gjerstad.kommune.no")
         expect(space.space_contacts.first.url).to eq("http://www.old.abel.skole.no")
         expect(space.space_contacts.first.versions.last.whodunnit).to eq(brreg_robot_user_id)
-        expect(space.space_contacts.second.title).to eq("Sentralbord (Mobil)")
+        expect(space.space_contacts.second.title).to eq("Sentralbord (mobil)")
         expect(space.space_contacts.second.telephone).to eq("45035139")
         expect(space.space_contacts.second.email).to be_nil
         expect(space.space_contacts.second.url).to be_nil
@@ -207,6 +229,11 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
 
         expect(space.space_contacts.count).to eq(3)
         expect(space.space_contacts.first.id).to eq(old_space_contact.id)
+        expect(space.space_contacts.first.title).to eq("Kontaktinfo til Abel skole")
+        expect(space.space_contacts.first.email).to eq("postmottak@gjerstad.kommune.no")
+        expect(space.space_contacts.first.url).to be_blank
+        expect(space.space_contacts.first.telephone).to be_blank
+
         expect(space.space_contacts.second.title).to eq("Sentralbord")
         expect(space.space_contacts.second.telephone).to eq("37119785")
         expect(space.space_contacts.second.email).to be_blank
