@@ -1,0 +1,213 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://data.brreg.no/enhetsregisteret/api/enheter/123456789
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - data.brreg.no
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Vary:
+      - Access-Control-Request-Headers
+      - Access-Control-Request-Method
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=157680000; includeSubDomains
+      X-Frame-Options:
+      - DENY
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Fri, 11 Apr 2025 10:13:33 GMT
+      Set-Cookie:
+      - BIGipServer~OCP-prd~ocp01.prd.base.brreg.no-router-443=1040354314.47873.0000;
+        path=/; Httponly; Secure
+      - edebf11b02298cf5c6aee3fe794f9942=9637997b88efc0c83ac6a7694be21b24; path=/;
+        HttpOnly; Secure; SameSite=None
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+  recorded_at: Fri, 11 Apr 2025 10:13:33 GMT
+- request:
+    method: get
+    uri: https://data.brreg.no/enhetsregisteret/api/underenheter/123456789
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - data.brreg.no
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Vary:
+      - Access-Control-Request-Headers
+      - Access-Control-Request-Method
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=157680000; includeSubDomains
+      X-Frame-Options:
+      - DENY
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Fri, 11 Apr 2025 10:13:34 GMT
+      Set-Cookie:
+      - BIGipServer~OCP-prd~ocp01.prd.base.brreg.no-router-443=1040354314.47873.0000;
+        path=/; Httponly; Secure
+      - edebf11b02298cf5c6aee3fe794f9942=336e12124217630460338151bbcf6fe2; path=/;
+        HttpOnly; Secure; SameSite=None
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+  recorded_at: Fri, 11 Apr 2025 10:13:33 GMT
+- request:
+    method: get
+    uri: https://data.brreg.no/enhetsregisteret/api/enheter/975283046
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - data.brreg.no
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Vary:
+      - Access-Control-Request-Headers
+      - Access-Control-Request-Method
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=157680000; includeSubDomains
+      X-Frame-Options:
+      - DENY
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Fri, 11 Apr 2025 10:13:34 GMT
+      Set-Cookie:
+      - BIGipServer~OCP-prd~ocp01.prd.base.brreg.no-router-443=1040354314.47873.0000;
+        path=/; Httponly; Secure
+      - edebf11b02298cf5c6aee3fe794f9942=e5efb3966990845dab85be838808f5b4; path=/;
+        HttpOnly; Secure; SameSite=None
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+  recorded_at: Fri, 11 Apr 2025 10:13:34 GMT
+- request:
+    method: get
+    uri: https://data.brreg.no/enhetsregisteret/api/underenheter/975283046
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - data.brreg.no
+      User-Agent:
+      - http.rb/5.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Vary:
+      - Access-Control-Request-Headers
+      - Access-Control-Request-Method
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Cache-Control:
+      - no-cache, no-store, max-age=0, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=157680000; includeSubDomains
+      X-Frame-Options:
+      - DENY
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Fri, 11 Apr 2025 10:13:34 GMT
+      Set-Cookie:
+      - BIGipServer~OCP-prd~ocp01.prd.base.brreg.no-router-443=1040354314.47873.0000;
+        path=/; Httponly; Secure
+      - edebf11b02298cf5c6aee3fe794f9942=336e12124217630460338151bbcf6fe2; path=/;
+        HttpOnly; Secure; SameSite=None
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"organisasjonsnummer":"975283046","navn":"ABEL SKOLE","organisasjonsform":{"kode":"BEDR","beskrivelse":"Underenhet
+        til næringsdrivende og offentlig forvaltning","_links":{"self":{"href":"https://data.brreg.no/enhetsregisteret/api/organisasjonsformer/BEDR"}}},"hjemmeside":"www.abel.skole.no","postadresse":{"land":"Norge","landkode":"NO","postnummer":"4980","poststed":"GJERSTAD","adresse":["Gjerstadveien
+        1335"],"kommune":"GJERSTAD","kommunenummer":"4211"},"registreringsdatoEnhetsregisteret":"1996-11-28","registrertIMvaregisteret":false,"naeringskode1":{"kode":"85.201","beskrivelse":"Ordinær
+        grunnskoleundervisning"},"antallAnsatte":66,"harRegistrertAntallAnsatte":true,"overordnetEnhet":"964964998","registreringsdatoAntallAnsatteEnhetsregisteret":"2025-02-11","registreringsdatoAntallAnsatteNAVAaregisteret":"2025-02-10","epostadresse":"postmottak@gjerstad.kommune.no","telefon":"37119785","mobil":"45035139","oppstartsdato":"1969-02-01","datoEierskifte":"2004-01-01","beliggenhetsadresse":{"land":"Norge","landkode":"NO","postnummer":"4993","poststed":"SUNDEBRU","adresse":["Gamle
+        Sørlandske 1304"],"kommune":"GJERSTAD","kommunenummer":"4211"},"_links":{"self":{"href":"https://data.brreg.no/enhetsregisteret/api/underenheter/975283046"},"overordnetEnhet":{"href":"https://data.brreg.no/enhetsregisteret/api/enheter/964964998"}},"respons_klasse":"Underenhet"}'
+  recorded_at: Fri, 11 Apr 2025 10:13:34 GMT
+recorded_with: VCR 6.3.1
