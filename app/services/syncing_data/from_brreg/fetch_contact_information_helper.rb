@@ -59,16 +59,11 @@ module SyncingData
       def brreg_data_for(org_number:)
         logger.debug { "Fetching data from BRREG for org_number: #{org_number}" }
 
-        begin
-          data = data_from_brreg_for(org_number:)
-          return data if data.present?
+        data = data_from_brreg_for(org_number:)
+        return data if data.present?
 
-          logger.debug { "No data found for org number #{org_number}" }
-          {}
-        rescue StandardError => e
-          logger.error("Error when fetching data from BRREG API for org number #{org_number}: #{e.message}")
-          {}
-        end
+        logger.debug { "No data found for org number #{org_number}" }
+        raise "No data in BRREG"
       end
 
       def data_from_brreg_for(org_number:)
