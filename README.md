@@ -175,7 +175,9 @@ You can also set the ENV variable ["SEED_FILE"](https://github.com/lnu-norge/lok
 
 To get geographical data for Fylker and Kommuner from GeoNorge, run: `rails geo:import_geographical_areas_from_geonorge`. This will hit the APIs of GeoNorge and create or update any fylker and kommuner, as well as make sure all Spaces are matched with a Fylke and a Kommune.
 
-To get updated data from Nasjonalt Skoleregister about schools after seeding, run `rake sync:sync_schools_from_nsr`.
+To get data on all schools from Nasjonalt Skoleregister about schools after seeding, run `rake sync:sync_schools_from_nsr`.
+
+To get contact information for all schools (and other spaces with an organization number) run `rake sync:brreg_space_contacts`.
 
 ## Sendgrid setup
 

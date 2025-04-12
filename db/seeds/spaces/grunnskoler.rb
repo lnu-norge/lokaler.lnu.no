@@ -1,21 +1,7 @@
 # frozen_string_literal: true
 
 ## Space Type
-bibliotek = SpaceType.create(
-  type_name: "Bibliotek",
-  facilities: [
-    Facility.find_by(title: "Møterom"),
-    Facility.find_by(title: "Wifi"),
-    Facility.find_by(title: "Prosjektor"),
-    Facility.find_by(title: "Kopimaskin / skriver"),
-    Facility.find_by(title: "Makerspace"),
-    Facility.find_by(title: "Lov å spise medbrakt"),
-    Facility.find_by(title: "Kaffemaskin / vannkoker"),
-    Facility.find_by(title: "Rullestolvennlig inngang"),
-    Facility.find_by(title: "Rullestolvennlig inne"),
-    Facility.find_by(title: "HC-toalett")
-  ]
-)
+bibliotek = SpaceType.find_by(type_name: "Bibliotek")
 
 ## Space group
 fredrikstad = SpaceGroup.create_or_find_by!(
@@ -44,18 +30,7 @@ Space.create(
 )
 
 ## Space Type
-barne_og_ungdom = SpaceType.create(
-  type_name: "1. til 10.",
-  facilities: [
-    Facility.find_by(title: "Gymsal"),
-    Facility.find_by(title: "Klasserom"),
-    Facility.find_by(title: "Sove på gulvet"),
-    Facility.find_by(title: "Kjøkken med ovn"),
-    Facility.find_by(title: "Rullestolvennlig inngang"),
-    Facility.find_by(title: "Rullestolvennlig inne"),
-    Facility.find_by(title: "HC-toalett")
-  ]
-)
+grunnskole = SpaceType.find_by(type_name: "Grunnskole")
 
 ## Empty Space, only info from NSR
 Space.create(
@@ -66,7 +41,7 @@ Space.create(
   lat: 59.205250,
   lng: 10.962680,
   space_group_id: fredrikstad.id,
-  space_types: [barne_og_ungdom],
+  space_types: [grunnskole],
   organization_number: "974766337",
   municipality_code: "3004",
   star_rating: nil
