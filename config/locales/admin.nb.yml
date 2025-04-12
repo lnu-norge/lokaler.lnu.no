@@ -8,6 +8,7 @@ nb:
     history: Endringshistorikk
     space_type: Type lokaler
     dashboard: Statistikk
+    jobs: Asynkrone jobber
     filter: Filter endringslogg
     user_id: Bruker
     user_ids: Brukere
