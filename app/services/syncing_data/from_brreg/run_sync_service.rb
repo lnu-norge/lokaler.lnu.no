@@ -32,9 +32,8 @@ module SyncingData
       end
 
       def sync_spaces
-        spaces_with_organization_numbers.each_with_index do |space, index|
-          logger.info "Syncing space #{index + 1} of #{spaces_with_organization_numbers.count}"
-          next if sync_not_possible_for(space)
+        spaces_to_sync.each_with_index do |space, index|
+          logger.info "Syncing space #{index + 1} of #{spaces_to_sync.count}"
 
           start_sync_log(space.organization_number)
           sync_space_contacts_for(space)
@@ -45,8 +44,15 @@ module SyncingData
         end
       end
 
+      def spaces_to_sync
+        spaces_with_organization_numbers.reject do |space|
+          sync_not_possible_for(space)
+        end
+      end
+
       def sync_not_possible_for(space)
         return true if space.organization_number.blank?
+        return true unless space.organization_number.match?(/\d{9}/)
         return true if space.organization_number.match?(/U\d+/) # Utlandet
 
         false
