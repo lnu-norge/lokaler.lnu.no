@@ -189,7 +189,7 @@ module Admin
       return "Ukjent modell (#{@original_model_name})" if @model_not_found
       return action_text_field_name(item) if item.is_a?(ActionText::RichText)
 
-      t("activerecord.models.#{version.item_type.downcase}", count: 1)
+      t("activerecord.models.#{version.item_type.underscore}", count: 1)
     end
 
     def action_text_field_name(item)

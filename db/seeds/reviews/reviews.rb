@@ -12,7 +12,7 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
   user = User.create(
     first_name: "Kari",
     last_name: "Nordmann",
-    email: "test@test.no",
+    email: "test@test.no"
   )
 
   Review.create(
@@ -55,7 +55,7 @@ Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!"
   negative_user = User.create(
     first_name: "Judas",
     last_name: "Beelzebub",
-    email: "test2@test.no",
+    email: "test2@test.no"
   )
 
   Review.create(

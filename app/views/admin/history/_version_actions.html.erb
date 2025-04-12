@@ -17,19 +17,29 @@
                        polymorphic_path(version.item.record) if item_exists
                      end
                    else
-                     polymorphic_path((version.item || most_recent_item)) if item_exists
+                     begin
+                       polymorphic_path((version.item || most_recent_item)) if item_exists
+                     rescue NoMethodError
+                       nil
+                     end
                    end
 
     edit_path_to_item = case version.item_type
                         when "ActionText::RichText"
                           edit_field_path(version.item.record, field: version.item.name) if item_exists
                         else
-                          polymorphic_path(version.item, action: :edit) if item_exists
+                          begin
+                            polymorphic_path(version.item, action: :edit) if item_exists
+                          rescue NoMethodError
+                            nil
+                          end
                         end
 
   %>
 
   <% if @item_model_not_found || @rich_text_model_not_found %>
+    <%# If the model isn't found, there's no actions to take %>
+  <% elsif edit_path_to_item.nil? && path_to_item.nil? %>
     <%# If the model isn't found, there's no actions to take %>
   <% elsif most_recent_item && item_exists && (version.index == most_recent_item.versions&.count - 1) %>
     <%# This is the newest version, and item exists. %>
@@ -40,7 +50,7 @@
                   data: { turbo_method: :delete, turbo_confirm: "Er du sikker på at du vil slette innholdet?" } do %>
         <%= inline_svg "delete", class: "h-4 w-4" %>
         Slett <%= field %>
-      <% end %>
+      <% end if path_to_item %>
     <% end %>
     <%= button_to edit_path_to_item,
                   data: { turbo: false },
@@ -48,13 +58,13 @@
                   class: "edit-button" do  %>
       <%= inline_svg "edit", class: "h-4 w-4" %>
       Rediger <%= field %>
-    <% end %>
+    <% end if edit_path_to_item %>
   <% elsif most_recent_item && version.index == most_recent_item.versions.count - 1 %>
     <%# This is the newest version, but item is destroyed. %>
     <%= button_to admin_history_revert_changes_path(id: version.id), method: :post, class: "edit-button" do %>
       <%= inline_svg "history", class: "h-4 w-4" %>
       Gjenopprett <%= field %>
-    <% end %>%>
+    <% end %>
   <% elsif version.event == "destroy" %>
     <%= button_to path_to_item,
                   method: :delete,
@@ -62,7 +72,7 @@
                   data: { turbo_method: :delete, turbo_confirm: "Er du sikker på at du vil slette innholdet?" } do %>
       <%= inline_svg "delete", class: "h-4 w-4" %>
       Slett <%= field %> på ny
-    <% end %>
+    <% end  if path_to_item %>
   <% elsif !most_recent_item %>
     <%# We don't have the item anymore, but we can restore this version if user wants %>
     <%= button_to admin_history_revert_changes_path(id: version.id), method: :post, class: "edit-button" do %>
