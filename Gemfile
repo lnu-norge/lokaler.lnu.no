@@ -14,10 +14,6 @@ gem "pg", "~> 1.5"
 gem "puma", "~> 6.4"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.13"
-# Use Redis adapter to run Action Cable in production
-gem "redis", "~> 5.3"
-# Use Active Model has_secure_password
-# gem "bcrypt", "~> 3.1.7"
 
 # Still using sprockets, might remove later
 gem "sprockets-rails", require: "sprockets/railtie"

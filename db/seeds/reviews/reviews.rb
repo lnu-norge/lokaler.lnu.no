@@ -13,8 +13,6 @@ Fikk ikke bruke kjøkkenet (pga allergier), men fikk lov til å bruke spisesal o
     first_name: "Kari",
     last_name: "Nordmann",
     email: "test@test.no",
-    password: "password",
-    password_confirmation: "password"
   )
 
   Review.create(
@@ -58,8 +56,6 @@ Greit nok at vi rota litt sist vi var der, men det går nå raskt å vaske!"
     first_name: "Judas",
     last_name: "Beelzebub",
     email: "test2@test.no",
-    password: "password",
-    password_confirmation: "password"
   )
 
   Review.create(

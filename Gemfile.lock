@@ -431,10 +431,6 @@ GEM
       ffi (~> 1.0)
     rdoc (6.13.1)
       psych (>= 4.0.0)
-    redis (5.4.0)
-      redis-client (>= 0.22.0)
-    redis-client (0.24.0)
-      connection_pool
     regexp_parser (2.10.0)
     reline (0.6.0)
       io-console (~> 0.5)
@@ -652,7 +648,6 @@ DEPENDENCIES
   rails-erd
   rails-i18n
   rails_real_favicon
-  redis (~> 5.3)
   rgeo-geojson
   rspec-benchmark
   rspec-rails
