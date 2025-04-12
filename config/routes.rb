@@ -50,6 +50,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     resources "history", only: [:index, :show]
     post "history/revert_changes", to: "history#revert_changes"
     resources "space_types"
+    mount MissionControl::Jobs::Engine, at: "/jobs"
   end
 
   # Spaces routes
