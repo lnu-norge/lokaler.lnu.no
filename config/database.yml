@@ -10,6 +10,16 @@ default_cache: &default_cache
   adapter: postgresql
   migrations_paths: db/cache_migrate
 
+default_queue: &default_queue
+  <<: *default
+  adapter: postgresql
+  migrations_paths: db/queue_migrate
+
+default_cable: &default_cable
+  <<: *default
+  adapter: postgresql
+  migrations_paths: db/cable_migrate
+
 development:
   primary:
     <<: *default
@@ -17,6 +27,12 @@ development:
   cache:
     <<: *default_cache
     database: lokaler_lnu_no_development_cache
+  queue:
+    <<: *default_queue
+    database: lokaler_lnu_no_development_queue
+  cable:
+    <<: *default_cable
+    database: lokaler_lnu_no_development_cable
 
 test:
   primary:
@@ -27,6 +43,9 @@ test:
   cache:
     <<: *default_cache
     database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_cache
+  queue:
+    <<: *default_queue
+    database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_queue
 
 production:
   primary:
@@ -37,5 +56,11 @@ production:
   cache:
     <<: *default_cache
     database: lokaler_lnu_no_production_cache
+  queue:
+    <<: *default_queue
+    database: lokaler_lnu_no_production_queue
+  cable:
+    <<: *default_cable
+    database: lokaler_lnu_no_production_cable
 
 
