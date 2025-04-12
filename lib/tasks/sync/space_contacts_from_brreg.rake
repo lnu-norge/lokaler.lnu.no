@@ -8,6 +8,6 @@ namespace :sync do
 
   desc "Fetch data from BRREG even if it has been synced recently, and sync with spaces"
   task force_brreg_space_contacts: :environment do
-    SyncingData::FromBrreg::RunSyncService.call(time_between_syncs: 0.seconds)
+    SyncingData::FromBrreg::RunSyncService.call(force_fresh_syncs: true)
   end
 end
