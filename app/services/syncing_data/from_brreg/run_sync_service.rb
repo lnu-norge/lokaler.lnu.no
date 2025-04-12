@@ -9,9 +9,10 @@ module SyncingData
       include SyncStatusHelper
       include SyncSpaceContactHelper
 
-      def initialize(time_between_syncs: 7.days)
+      def initialize(force_fresh_syncs: false) # rubocop:disable Lint/MissingSuper
         @count_logger = count_logger
-        @time_between_syncs = time_between_syncs
+        @force_fresh_sync = force_fresh_syncs
+        @time_between_syncs = 7.days
       end
 
       def call
@@ -33,7 +34,7 @@ module SyncingData
       def sync_spaces
         spaces = spaces_to_sync
 
-        logger.debug "#{spaces.count} will be synced"
+        logger.debug "#{spaces.count} spaces will be synced"
         spaces.each_with_index do |space, index|
           logger.debug "Syncing space #{index + 1} of #{spaces.count} (space_id: #{space.id})"
 
@@ -48,9 +49,13 @@ module SyncingData
       end
 
       def spaces_to_sync
-        logger.debug "#{spaces_that_can_be_synced.count} can be synced"
+        logger.debug "#{spaces_that_can_be_synced.count} spaces could be synced."
+        return spaces_that_can_be_synced if @force_fresh_sync
+
+        logger.debug "Removing any that have synced in the last #{@time_between_syncs.in_days.to_i} days"
+
         spaces_that_can_be_synced.reject do |space|
-          logger.debug("Recently synced space_id #{space.id}") if recently_synced_successfully?(space)
+          recently_synced_successfully?(space)
         end
       end
 

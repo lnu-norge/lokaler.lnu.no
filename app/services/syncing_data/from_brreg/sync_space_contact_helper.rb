@@ -17,9 +17,14 @@ module SyncingData
       end
 
       def cached_contact_information_for(org_number:)
+        return contact_information_from_brreg_for(org_number: org_number) if @force_fresh_sync
+
+        cache_expires_in = @time_between_syncs - 1.day
+        cache_expires_in = 1.day if cache_expires_in.negative?
+
         Rails.cache.fetch(
           "brreg:contact_information_for:#{org_number}",
-          expires_in: 1.day
+          expires_in: cache_expires_in
         ) do
           contact_information_from_brreg_for(org_number: org_number)
         end
