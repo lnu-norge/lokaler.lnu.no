@@ -9,10 +9,9 @@ module SyncingData
       include SyncStatusHelper
       include SyncSpaceContactHelper
 
-      def initialize
+      def initialize(time_between_syncs: 7.days)
         @count_logger = count_logger
-
-        super
+        @time_between_syncs = time_between_syncs
       end
 
       def call
@@ -32,8 +31,11 @@ module SyncingData
       end
 
       def sync_spaces
-        spaces_to_sync.each_with_index do |space, index|
-          logger.info "Syncing space #{index + 1} of #{spaces_to_sync.count}"
+        spaces = spaces_to_sync
+
+        logger.debug "#{spaces.count} will be synced"
+        spaces.each_with_index do |space, index|
+          logger.debug "Syncing space #{index + 1} of #{spaces.count} (space_id: #{space.id})"
 
           start_sync_log(space.organization_number)
           sync_space_contacts_for(space)
@@ -42,12 +44,28 @@ module SyncingData
         rescue StandardError => e
           log_failed_sync(space.organization_number, e)
         end
+        logger.debug("Finished syncing")
       end
 
       def spaces_to_sync
+        logger.debug "#{spaces_that_can_be_synced.count} can be synced"
+        spaces_that_can_be_synced.reject do |space|
+          logger.debug("Recently synced space_id #{space.id}") if recently_synced_successfully?(space)
+        end
+      end
+
+      def spaces_that_can_be_synced
         spaces_with_organization_numbers.reject do |space|
           sync_not_possible_for(space)
         end
+      end
+
+      def recently_synced_successfully?(space)
+        return false if space.organization_number.blank?
+
+        SyncStatus
+          .where(id_from_source: space.organization_number, source: "brreg")
+          .exists?(last_successful_sync_at: @time_between_syncs.ago..)
       end
 
       def sync_not_possible_for(space)
