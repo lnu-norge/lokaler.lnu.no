@@ -8,8 +8,6 @@ module SyncingData
       private
 
       def sync_space_contacts_for(space)
-        logger.debug { "Syncing space #{space.id}" }
-
         PaperTrail.request(whodunnit: Robot.brreg.id) do
           run_sync(
             space:,
