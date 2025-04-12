@@ -12,7 +12,7 @@ def import_spaces_from_nsr_schools
 
   # Load json file
   file = File.read(Rails.root.join("db", "seeds", "imports", "nsr", "nsrParsedSchools.json"))
-  data = remove_irrelevant_schools_from_list(JSON.parse(file))
+  data = filter_schools(JSON.parse(file))
 
   p raw_schools_to_parse: data.length
 
