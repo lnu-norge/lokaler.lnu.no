@@ -19,7 +19,7 @@ module SyncingData
       def cached_contact_information_for(org_number:)
         Rails.cache.fetch(
           "brreg:contact_information_for:#{org_number}",
-          expires_in: 7.days
+          expires_in: 1.day
         ) do
           contact_information_from_brreg_for(org_number: org_number)
         end
