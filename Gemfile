@@ -46,6 +46,7 @@ gem "high_voltage"
 gem "http"
 gem "inline_svg"
 gem "jsbundling-rails"
+gem "mission_control-jobs" # for seeing solid_queue jobs
 gem "pagy"
 gem "paper_trail"
 gem "parallel"
