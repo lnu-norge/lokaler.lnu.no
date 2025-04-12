@@ -76,8 +76,8 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.cache_store = :solid_cache_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter = :resque
-  # config.active_job.queue_name_prefix = "lokaler_lnu_no_production"
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Set up URL
   Rails.application.routes.default_url_options[:host] =
