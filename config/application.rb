@@ -41,6 +41,10 @@ module LokalerLnuNo
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    # Mission control
+    config.mission_control.jobs.base_controller_class = "BaseControllers::AuthenticateAsAdminController"
+    config.mission_control.jobs.http_basic_auth_enabled = false
+
     # Set default i18n translation to norwegian
     config.i18n.available_locales = %i[nb en]
     config.i18n.default_locale = :nb
