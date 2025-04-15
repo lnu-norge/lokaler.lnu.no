@@ -46,7 +46,7 @@ module SyncingData
         space = school_already_in_database(school)
         return false unless space
 
-        sync_status = SyncStatus.for(id_from_source: space.organization_number, source: "nsr")
+        sync_status = Admin::SyncStatus.for(id_from_source: space.organization_number, source: "nsr")
         return true if no_data_on_last_successful_sync?(sync_status)
 
         sync_status.last_successful_sync_at < Time.zone.parse(school["DatoEndret"])

@@ -67,14 +67,14 @@ RSpec.describe SyncingData::FromBrreg::RunSyncService do
     end
 
     it "logs sync status for each org number" do
-      expect(SyncStatus.count).to eq(0)
+      expect(Admin::SyncStatus.count).to eq(0)
 
       service.call
 
-      expect(SyncStatus.count).to eq(2)
+      expect(Admin::SyncStatus.count).to eq(2)
 
-      valid_sync_status = SyncStatus.for(id_from_source: valid_org_number, source: "brreg")
-      invalid_sync_status = SyncStatus.for(id_from_source: invalid_org_number, source: "brreg")
+      valid_sync_status = Admin::SyncStatus.for(id_from_source: valid_org_number, source: "brreg")
+      invalid_sync_status = Admin::SyncStatus.for(id_from_source: invalid_org_number, source: "brreg")
 
       expect(valid_sync_status.last_successful_sync_at).not_to be_nil
       expect(invalid_sync_status.last_successful_sync_at).to be_nil
