@@ -20,30 +20,73 @@ builder:
 env:
   clear:
     RAILS_ENV: production
+    DATABASE_HOST: db
+    DATABASE_PORT: 5432
+    DATABASE_NAME: lokaler_lnu_no_production
+    DATABASE_USERNAME: postgres
+    CACHE_DATABASE_HOST: cache_db
+    CACHE_DATABASE_PORT: 5433
+    CACHE_DATABASE_NAME: lokaler_lnu_no_production_cache
+    CACHE_DATABASE_USERNAME: postgres
+    QUEUE_DATABASE_HOST: queue_db
+    QUEUE_DATABASE_PORT: 5434
+    QUEUE_DATABASE_NAME: lokaler_lnu_no_production_queue
+    QUEUE_DATABASE_USERNAME: postgres
+    CABLE_DATABASE_HOST: cable_db
+    CABLE_DATABASE_PORT: 5435
+    CABLE_DATABASE_NAME: lokaler_lnu_no_production_cable
+    CABLE_DATABASE_USERNAME: postgres
+    RAILS_SERVE_STATIC_FILES: 'true'
+    ACTIVE_STORAGE_SERVICE: local
   secret:
     - RAILS_MASTER_KEY
+    - DATABASE_PASSWORD
 accessories:
   db:
     image: postgis/postgis:15-3.3
     host: 95.216.137.182
     port: 5432
+    env:
+      clear:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: lokaler_lnu_no_production
+      secret:
+        - DATABASE_PASSWORD:POSTGRES_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
   cache_db:
     image: postgres:15
     host: 95.216.137.182
     port: 5433
+    env:
+      clear:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: lokaler_lnu_no_production_cache
+      secret:
+        - DATABASE_PASSWORD:POSTGRES_PASSWORD
     directories:
       - cache_data:/var/lib/postgresql/data
   queue_db:
     image: postgres:15
     host: 95.216.137.182
     port: 5434
+    env:
+      clear:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: lokaler_lnu_no_production_queue
+      secret:
+        - DATABASE_PASSWORD:POSTGRES_PASSWORD
     directories:
       - queue_data:/var/lib/postgresql/data
   cable_db:
     image: postgres:15
     host: 95.216.137.182
     port: 5435
+    env:
+      clear:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: lokaler_lnu_no_production_cable
+      secret:
+        - DATABASE_PASSWORD:POSTGRES_PASSWORD
     directories:
       - cable_data:/var/lib/postgresql/data

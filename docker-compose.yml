@@ -57,7 +57,6 @@ services:
       - .env
     environment:
       # Database configurations that override .env for Docker
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       DATABASE_HOST: db
       DATABASE_PORT: 5432
       DATABASE_USERNAME: postgres
