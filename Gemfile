@@ -10,6 +10,8 @@ ruby File.read(".ruby-version").strip
 gem "rails", "~> 7.2.2"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.5"
+# Use sqlite3 for solid trifecta
+gem "sqlite3", ">= 2.1"
 # Use Puma as the app server
 gem "puma", "~> 6.4"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

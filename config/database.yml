@@ -1,75 +1,67 @@
 default: &default
-  adapter: postgis # Uses postgis, see guide at https://medium.com/@Evert_Salinas/creating-a-basic-geolocation-search-application-with-postgis-and-rails-part-i-6f7c8985b6da
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-default_cache: &default_cache
+postgis: &postgis
   <<: *default
-  adapter: postgresql
+  adapter: postgis
+
+sqlite_cache: &sqlite_cache
+  <<: *default
+  adapter: sqlite3
   migrations_paths: db/cache_migrate
 
-default_queue: &default_queue
+sqlite_queue: &sqlite_queue
   <<: *default
-  adapter: postgresql
+  adapter: sqlite3
   migrations_paths: db/queue_migrate
 
-default_cable: &default_cable
+sqlite_cable: &sqlite_cable
   <<: *default
-  adapter: postgresql
+  adapter: sqlite3
   migrations_paths: db/cable_migrate
 
 development:
   primary:
-    <<: *default
+    <<: *postgis
     database: lokaler_lnu_no_development
   cache:
-    <<: *default_cache
-    database: lokaler_lnu_no_develpment_cache
+    <<: *sqlite_cache
+    database: storage/lokaler_lnu_no_develpment_cache.sqlite3
   queue:
-    <<: *default_queue
-    database: lokaler_lnu_no_development_queue
+    <<: *sqlite_queue
+    database: storage/lokaler_lnu_no_development_queue.sqlite3
   cable:
-    <<: *default_cable
-    database: lokaler_lnu_no_development_cable
+    <<: *sqlite_cable
+    database: storage/lokaler_lnu_no_development_cable.sqlite3
 
 test:
   primary:
-    <<: *default
+    <<: *postgis
     database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
   cache:
-    <<: *default_cache
-    database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_cache
+    <<: *sqlite_cache
+    database: storage/lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_cache.sqlite3
   queue:
-    <<: *default_queue
-    database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_queue
-
-production_database: &production_database
-  port: <%= ENV.fetch("DATABASE_PORT", 5432) %>
-  username: <%= ENV.fetch("POSTGRES_USER", "") %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD", "") %>
+    <<: *sqlite_queue
+    database: storage/lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_queue.sqlite3
 
 production:
   primary:
-    <<: *default
-    <<: *production_database
+    <<: *postgis
+    port: <%= ENV.fetch("DATABASE_PORT", 5432) %>
+    username: <%= ENV.fetch("POSTGRES_USER", "") %>
+    password: <%= ENV.fetch("POSTGRES_PASSWORD", "") %>
     host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
     database: "lokaler_lnu_no_production"
   cache:
-    <<: *default_cache
-    <<: *production_database
-    host: <%= ENV.fetch("CACHE_DATABASE_HOST", "localhost") %>
-    database: "lokaler_lnu_no_production_cache"
+    <<: *sqlite_cache
+    database: storage/lokaler_lnu_no_production_cache.sqlite3
   queue:
-    <<: *default_queue
-    <<: *production_database
-    host: <%= ENV.fetch("QUEUE_DATABASE_HOST", "localhost") %>
-    database: "lokaler_lnu_no_production_queue"
+    <<: *sqlite_queue
+    database: storage/lokaler_lnu_no_production_queue.sqlite3
   cable:
-    <<: *default_cable
-    <<: *production_database
-    host: <%= ENV.fetch("CABLE_DATABASE_HOST", "localhost") %>
-    database: "lokaler_lnu_no_production_cable"
+    <<: *sqlite_cable
+    database: storage/lokaler_lnu_no_production_cable.sqlite3
 
 
