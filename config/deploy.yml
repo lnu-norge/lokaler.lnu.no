@@ -11,6 +11,9 @@ servers:
 proxy:
   ssl: true
   host: staging-lokaler.digitalfrivillighet.no
+healthcheck:
+  path: /up
+  port: 3000
 registry:
   username: danieljacksonnor
   password:
