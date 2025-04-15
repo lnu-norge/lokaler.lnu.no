@@ -8,3 +8,18 @@
 #     command: "SoftDeletedRecord.due.delete_all"
 #     priority: 2
 #     schedule: at 5am every day
+
+syncing_data_on_sundays: &syncing_data_on_sundays
+  sync_schools_from_nsr:
+    class: SyncNsrSchoolsJob
+    schedule: every sunday at 22:00
+  sync_space_contacts_from_brreg:
+    class: SyncBrregContactInformationJob
+    schedule: every sunday at 23:00
+
+# Uncomment to test if syncing queues work
+# development:
+#   <<: *syncing_data_on_sundays
+
+production:
+  <<: *syncing_data_on_sundays
