@@ -9,29 +9,29 @@ module SyncingData
     class RunSyncService < ApplicationService
       include TaggedLogHelper
       include FetchSchoolsHelper
-      include ProcessSchoolsHelper
-
-      def initialize
-        @count_logger = count_logger
-
-        super
-      end
 
       def call
-        @count_logger.start
-        schools = fetch_all_schools_and_data
-        process_schools_and_save_space_data(schools)
-        @count_logger.stop
+        schools_list = fetch_combined_list_of_schools
+        filtered_schools = select_relevant_schools_from_list(schools_list)
+        sync_jobs = sync_jobs_for_schools(filtered_schools)
+
+        ActiveJob.perform_all_later(sync_jobs.compact)
       end
 
       private
 
-      def count_logger
-        @count_logger ||= SyncingData::Shared::CountLogger.new(
-          name: "NSR sync",
-          limit_versions_to_user_id: Robot.nsr.id,
-          logger: rails_logger_with_tags
-        )
+      def sync_jobs_for_schools(schools)
+        schools.map do |school|
+          org_number = school["Organisasjonsnummer"]
+          date_changed = school["DatoEndret"]
+
+          next if school.blank? || org_number.blank? || date_changed.blank?
+
+          SyncNsrSchoolJob.new(
+            org_number: org_number,
+            date_changed_at_from_nsr: date_changed
+          )
+        end
       end
     end
   end

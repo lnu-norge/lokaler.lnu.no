@@ -10,17 +10,14 @@ module SyncingData
 
       private
 
-      def process_schools_and_save_space_data(schools)
-        schools.filter_map do |school_data|
-          next if school_data["Organisasjonsnummer"].blank?
+      def process_school_and_save_space_data(school_data)
+        return if school_data["Organisasjonsnummer"].blank?
+        return unless school_changed_since_last_successful_sync(school_data)
 
-          next unless school_changed_since_last_successful_sync(school_data)
+        space = attempt_sync(school_data)
+        return unless space
 
-          space = attempt_sync(school_data)
-          next unless space
-
-          space
-        end
+        space
       end
 
       def attempt_sync(school_data)
