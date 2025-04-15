@@ -158,8 +158,12 @@ If you are on Windows we recommend using Windows Subsystem for Linux version 2 i
 
 ## Deploying to Heroku
 
-To deploy to production on Heroku, you  need to log in to Heroku and manaully deploy a git branch. 
+To deploy to production on Heroku, you  need to log in to Heroku and manaully deploy a git branch.
 
+### Clearing build cache if svgs or other assets are not updated
+
+SVGs someties don't get updated when you push to heroku. Then we need to clear the build cache, as 
+described here: https://help.heroku.com/18PI5RSY/how-do-i-clear-the-build-cache
 
 ## Seeding
 
