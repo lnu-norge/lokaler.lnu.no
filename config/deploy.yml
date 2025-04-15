@@ -20,10 +20,11 @@ builder:
 env:
   clear:
     RAILS_ENV: production
-    POSTGRES_USERNAME: postgres
+    POSTGRES_USER: postgres
     RAILS_SERVE_STATIC_FILES: 'true'
     ACTIVE_STORAGE_SERVICE: local
-    DATABASE_HOST: db
+    DATABASE_HOST: lokaler-lnu-no-db
+    DATABASE_PORT: 5432
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
@@ -33,9 +34,10 @@ accessories:
   db:
     image: postgis/postgis:15-3.3
     host: 95.216.137.182
-    port: 5432
+    port: "127.0.0.1:5432:5432"
     env:
       clear:
+        DATABASE_HOST: lokaler-lnu-no-db
         POSTGRES_USER: postgres
         POSTGRES_DB: lokaler_lnu_no_production
       secret:
