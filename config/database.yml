@@ -5,34 +5,10 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-default_cache: &default_cache
-  <<: *default
-  adapter: postgresql
-  migrations_paths: db/cache_migrate
-
-default_queue: &default_queue
-  <<: *default
-  adapter: postgresql
-  migrations_paths: db/queue_migrate
-
-default_cable: &default_cable
-  <<: *default
-  adapter: postgresql
-  migrations_paths: db/cable_migrate
-
 development:
   primary:
     <<: *default
     database: lokaler_lnu_no_development
-  cache:
-    <<: *default_cache
-    database: lokaler_lnu_no_development_cache
-  queue:
-    <<: *default_queue
-    database: lokaler_lnu_no_development_queue
-  cable:
-    <<: *default_cable
-    database: lokaler_lnu_no_development_cable
 
 test:
   primary:
@@ -40,12 +16,6 @@ test:
     # For details on connection pooling, see Rails configuration guide
     # https://guides.rubyonrails.org/configuring.html#database-pooling
     database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
-  cache:
-    <<: *default_cache
-    database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_cache
-  queue:
-    <<: *default_queue
-    database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_queue
 
 production:
   primary:
@@ -53,14 +23,5 @@ production:
     # This fixes an Heroku bug where it doesn't respect the postgis adapter,
     # see https://devcenter.heroku.com/articles/rails-database-connection-behavior
     url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
-  cache:
-    <<: *default_cache
-    url: <%= ENV.fetch('SOLID_TRIFECTA_DB_URL', '') %>
-  queue:
-    <<: *default_queue
-    url: <%= ENV.fetch('SOLID_TRIFECTA_DB_URL', '') %>
-  cable:
-    <<: *default_cable
-    url: <%= ENV.fetch('SOLID_TRIFECTA_DB_URL', '') %>
 
 

@@ -81,7 +81,6 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # Use Solid Queue in Development.
   config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
