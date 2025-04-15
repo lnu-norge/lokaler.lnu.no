@@ -6,15 +6,15 @@ module SyncingData
       private
 
       def start_sync_log(id_from_source)
-        SyncStatus.for(id_from_source:, source: "brreg").log_start
+        Admin::SyncStatus.for(id_from_source:, source: "brreg").log_start
       end
 
       def log_successful_sync(id_from_source)
-        SyncStatus.for(id_from_source:, source: "brreg").log_success
+        Admin::SyncStatus.for(id_from_source:, source: "brreg").log_success
       end
 
       def log_failed_sync(id_from_source, error)
-        SyncStatus.for(id_from_source:, source: "brreg").log_failure(error)
+        Admin::SyncStatus.for(id_from_source:, source: "brreg").log_failure(error)
       end
     end
   end

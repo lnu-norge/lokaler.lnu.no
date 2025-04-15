@@ -63,7 +63,7 @@ module SyncingData
         school_data_changed_at = Time.zone.parse(school_data["DatoEndret"])
         return true if school_data_changed_at.blank?
 
-        last_sync = SyncStatus.for(id_from_source: school_data["Organisasjonsnummer"], source: "nsr")
+        last_sync = Admin::SyncStatus.for(id_from_source: school_data["Organisasjonsnummer"], source: "nsr")
         return true if last_sync&.last_successful_sync_at.blank?
 
         school_data_changed_at > last_sync.last_successful_sync_at

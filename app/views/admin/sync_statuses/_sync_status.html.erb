@@ -1,0 +1,37 @@
+<div id="<%= dom_id sync_status %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Source:</strong>
+        <%= sync_status.source %>
+    </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Last attempted sync at:</strong>
+        <%= sync_status.last_attempted_sync_at %>
+    </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Last successful sync:</strong>
+        <%= sync_status.last_successful_sync_at %>
+    </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Id from source:</strong>
+        <%= sync_status.id_from_source %>
+    </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Error message:</strong>
+        <%= sync_status.error_message %>
+    </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Full error message:</strong>
+        <%= sync_status.full_error_message %>
+    </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this sync status", admin_sync_status_path(sync_status), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this sync status', edit_admin_sync_status_path(sync_status), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

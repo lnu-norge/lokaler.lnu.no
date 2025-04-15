@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe SyncStatus, type: :model do
+RSpec.describe Admin::SyncStatus, type: :model do
   let(:source) { "nsr" }
   let(:id_from_source) { "id" }
 
