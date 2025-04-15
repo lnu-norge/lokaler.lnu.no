@@ -55,12 +55,15 @@ production:
     url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
   cache:
     <<: *default_cache
+    url: <%= ENV.fetch('SOLID_TRIFECTA_DB_URL') %>
     database: lokaler_lnu_no_production_cache
   queue:
     <<: *default_queue
+    url: <%= ENV.fetch('SOLID_TRIFECTA_DB_URL') %>
     database: lokaler_lnu_no_production_queue
   cable:
     <<: *default_cable
+    url: <%= ENV.fetch('SOLID_TRIFECTA_DB_URL') %>
     database: lokaler_lnu_no_production_cable
 
 
