@@ -51,7 +51,7 @@ accessories:
         POSTGRES_USER: postgres
         POSTGRES_DB: lokaler_lnu_no_production
       secret:
-        - DATABASE_PASSWORD:POSTGRES_PASSWORD
+        - POSTGRES_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
   cache_db:
@@ -63,7 +63,7 @@ accessories:
         POSTGRES_USER: postgres
         POSTGRES_DB: lokaler_lnu_no_production_cache
       secret:
-        - DATABASE_PASSWORD:POSTGRES_PASSWORD
+        - POSTGRES_PASSWORD
     directories:
       - cache_data:/var/lib/postgresql/data
   queue_db:
@@ -75,7 +75,7 @@ accessories:
         POSTGRES_USER: postgres
         POSTGRES_DB: lokaler_lnu_no_production_queue
       secret:
-        - DATABASE_PASSWORD:POSTGRES_PASSWORD
+        - POSTGRES_PASSWORD
     directories:
       - queue_data:/var/lib/postgresql/data
   cable_db:
@@ -87,6 +87,6 @@ accessories:
         POSTGRES_USER: postgres
         POSTGRES_DB: lokaler_lnu_no_production_cable
       secret:
-        - DATABASE_PASSWORD:POSTGRES_PASSWORD
+        - POSTGRES_PASSWORD
     directories:
       - cable_data:/var/lib/postgresql/data
