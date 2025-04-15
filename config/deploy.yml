@@ -23,10 +23,7 @@ env:
     POSTGRES_USERNAME: postgres
     RAILS_SERVE_STATIC_FILES: 'true'
     ACTIVE_STORAGE_SERVICE: local
-    DATABASE_HOST: db
-    QUEUE_DATABASE_HOST: queue_db
-    CABLE_DATABASE_HOST: cable_db
-    CACHE_DATABASE_HOST: cache_db
+    DATABASE_HOST: localhost
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
@@ -43,39 +40,3 @@ accessories:
         - POSTGRES_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
-  cache_db:
-    image: postgres:15
-    host: 95.216.137.182
-    port: 127.0.0.1:5433:5433
-    env:
-      clear:
-        POSTGRES_USER: postgres
-        POSTGRES_DB: lokaler_lnu_no_production_cache
-      secret:
-        - POSTGRES_PASSWORD
-    directories:
-      - cache_data:/var/lib/postgresql/data
-  queue_db:
-    image: postgres:15
-    host: 95.216.137.182
-    port: 5434
-    env:
-      clear:
-        POSTGRES_USER: postgres
-        POSTGRES_DB: lokaler_lnu_no_production_queue
-      secret:
-        - POSTGRES_PASSWORD
-    directories:
-      - queue_data:/var/lib/postgresql/data
-  cable_db:
-    image: postgres:15
-    host: 95.216.137.182
-    port: 5435
-    env:
-      clear:
-        POSTGRES_USER: postgres
-        POSTGRES_DB: lokaler_lnu_no_production_cable
-      secret:
-        - POSTGRES_PASSWORD
-    directories:
-      - cable_data:/var/lib/postgresql/data
