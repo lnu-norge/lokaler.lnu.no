@@ -7,6 +7,9 @@ import { application } from "./application"
 import AutofilladdressController from "./autofilladdress_controller"
 application.register("autofilladdress", AutofilladdressController)
 
+import ClickableRowController from "./clickable_row_controller"
+application.register("clickable-row", ClickableRowController)
+
 import AutosaveWhileTypingController from "./autosave_while_typing_controller"
 application.register("autosave-while-typing", AutosaveWhileTypingController)
 

@@ -30,9 +30,13 @@
             <%= f.label :id_from_source, "#{t('admin.sync_statuses.id_from_source')}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= f.text_field :id_from_source, value: params[:id_from_source], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
           </div>
+          <div>
+            <%= f.label :last_attempted_after, "#{t('admin.sync_statuses.last_attempted_after')}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.date_field :last_attempted_after, value: params[:last_attempted_after], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+          </div>
           <div class="flex items-center gap-4">
             <%= f.submit t('admin.sync_statuses.filter_button'), class: "button" %>
-            <% if params[:source].present? || params[:status].present? || params[:id_from_source].present? %>
+            <% if params[:source].present? || params[:status].present? || params[:id_from_source].present? || params[:last_attempted_after].present? %>
               <%= link_to t('admin.sync_statuses.remove_filter'), admin_sync_statuses_path, data: { turbo_frame: "_top" }, class: "text-gray-600 hover:text-gray-900" %>
             <% end %>
           </div>
@@ -55,13 +59,13 @@
           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.id_from_source') %></th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.status') %></th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.last_attempt') %></th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.last_success') %></th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.error_message') %></th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.actions') %></th>
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <% @sync_statuses.each do |sync_status| %>
-          <tr>
+          <tr class="hover:bg-gray-50 cursor-pointer" data-controller="clickable-row" data-action="click->clickable-row#click" data-clickable-row-url-value="<%= admin_sync_status_path(sync_status) %>">
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= sync_status.id %></td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sync_status.source %></td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sync_status.id_from_source %></td>
@@ -73,9 +77,14 @@
               <% end %>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sync_status.last_attempted_sync_at&.strftime("%Y-%m-%d %H:%M") %></td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sync_status.last_successful_sync_at&.strftime("%Y-%m-%d %H:%M") %></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <% if sync_status.error_message.present? %>
+                <span class="text-red-600 truncate max-w-[200px] inline-block" title="<%= sync_status.error_message %>">
+                  <%= sync_status.error_message %>
+                </span>
+              <% end %>
+            </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <%= link_to t('admin.sync_statuses.show'), admin_sync_status_path(sync_status), class: "text-indigo-600 hover:text-indigo-900 mr-2" %>
               <%= link_to t('admin.sync_statuses.edit'), edit_admin_sync_status_path(sync_status), class: "text-blue-600 hover:text-blue-900 mr-2" %>
               <%= link_to t('admin.sync_statuses.delete'), admin_sync_status_path(sync_status), method: :delete, data: { turbo_method: :delete, turbo_confirm: t('admin.sync_statuses.confirm_delete') }, class: "text-red-600 hover:text-red-900" %>
             </td>
