@@ -23,6 +23,10 @@ env:
     POSTGRES_USERNAME: postgres
     RAILS_SERVE_STATIC_FILES: 'true'
     ACTIVE_STORAGE_SERVICE: local
+    DATABASE_HOST: db
+    QUEUE_DATABASE_HOST: queue_db
+    CABLE_DATABASE_HOST: cable_db
+    CACHE_DATABASE_HOST: cache_db
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD

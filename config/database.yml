@@ -46,7 +46,6 @@ test:
     database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_queue
 
 production_database: &production_database
-  host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
   port: <%= ENV.fetch("DATABASE_PORT", 5432) %>
   username: <%= ENV.fetch("POSTGRES_USER", "") %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD", "") %>
@@ -55,18 +54,22 @@ production:
   primary:
     <<: *default
     <<: *production_database
+    host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
     database: "lokaler_lnu_no_production"
   cache:
     <<: *default_cache
     <<: *production_database
+    host: <%= ENV.fetch("CACHE_DATABASE_HOST", "localhost") %>
     database: "lokaler_lnu_no_production_cache"
   queue:
     <<: *default_queue
     <<: *production_database
+    host: <%= ENV.fetch("QUEUE_DATABASE_HOST", "localhost") %>
     database: "lokaler_lnu_no_production_queue"
   cable:
     <<: *default_cable
     <<: *production_database
+    host: <%= ENV.fetch("CABLE_DATABASE_HOST", "localhost") %>
     database: "lokaler_lnu_no_production_cable"
 
 
