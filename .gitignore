@@ -29,6 +29,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/kamal_keys
 
 /public/packs
 /public/packs-test
