@@ -29,7 +29,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-/config/kamal_keys
+/config/kamal_registry_password.key
 
 /public/packs
 /public/packs-test
