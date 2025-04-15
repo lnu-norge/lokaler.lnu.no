@@ -45,6 +45,7 @@ nb:
       status: "Status"
       last_attempt: "Siste forsøk"
       last_success: "Siste vellykket"
+      error_message: "Feilmelding"
       actions: "Handlinger"
       show: "Vis"
       edit: "Rediger"
@@ -53,3 +54,4 @@ nb:
       all: "Alle"
       successful: "Vellykket"
       failed: "Mislykket"
+      last_attempted_after: "Forsøkt etter"

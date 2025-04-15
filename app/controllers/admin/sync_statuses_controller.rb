@@ -76,14 +76,23 @@ module Admin
     end
 
     def filter_params
-      params.permit(:source, :status, :id_from_source)
+      params.permit(:source, :status, :id_from_source, :last_attempted_after)
     end
 
-    def filtered_sync_statuses
+    def filtered_sync_statuses # rubocop:disable Metrics/AbcSize
       sync_statuses = SyncStatus.order(created_at: :desc)
       sync_statuses = sync_statuses.where(source: params[:source]) if params[:source].present?
       sync_statuses = filter_by_status(sync_statuses) if params[:status].present?
       sync_statuses = sync_statuses.where(id_from_source: params[:id_from_source]) if params[:id_from_source].present?
+      sync_statuses = filter_by_last_attempted_date(sync_statuses) if params[:last_attempted_after].present?
+      sync_statuses
+    end
+
+    def filter_by_last_attempted_date(sync_statuses)
+      date = Date.parse(params[:last_attempted_after])
+      sync_statuses.where(last_attempted_sync_at: date.beginning_of_day..)
+    rescue ArgumentError
+      # If date parsing fails, return the original collection
       sync_statuses
     end
 
