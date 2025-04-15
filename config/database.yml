@@ -56,12 +56,12 @@ production:
     database: "lokaler_lnu_no_production"
   cache:
     <<: *sqlite_cache
-    database: storage/lokaler_lnu_no_production_cache.sqlite3
+    database: <%= Rails.root.join("storage", "lokaler_lnu_no_production_cache.sqlite3") %>
   queue:
     <<: *sqlite_queue
-    database: storage/lokaler_lnu_no_production_queue.sqlite3
+    database: <%= Rails.root.join("storage", "lokaler_lnu_no_production_queue.sqlite3") %>
   cable:
     <<: *sqlite_cable
-    database: storage/lokaler_lnu_no_production_cable.sqlite3
+    database: <%= Rails.root.join("storage", "lokaler_lnu_no_production_cable.sqlite3") %>
 
 

@@ -23,15 +23,17 @@ env:
     POSTGRES_USERNAME: postgres
     RAILS_SERVE_STATIC_FILES: 'true'
     ACTIVE_STORAGE_SERVICE: local
-    DATABASE_HOST: localhost
+    DATABASE_HOST: db
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
+volumes:
+  - storage:/rails/storage
 accessories:
   db:
     image: postgis/postgis:15-3.3
     host: 95.216.137.182
-    port: 127.0.0.1:5432:5432
+    port: 5432
     env:
       clear:
         POSTGRES_USER: postgres
