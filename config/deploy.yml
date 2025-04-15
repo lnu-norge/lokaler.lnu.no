@@ -22,6 +22,7 @@ env:
     RAILS_ENV: production
     POSTGRES_USER: postgres
     RAILS_SERVE_STATIC_FILES: 'true'
+    SOLID_QUEUE_IN_PUMA: true
     ACTIVE_STORAGE_SERVICE: local
     DATABASE_HOST: lokaler-lnu-no-db
     DATABASE_PORT: 5432

@@ -54,7 +54,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.force_ssl = ENV.fetch("FORCE_SSL", "true") == "true"
 
   # Skip http-to-https redirect for the default health check endpoint.
-  config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
+  # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
