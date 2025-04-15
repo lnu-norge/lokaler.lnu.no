@@ -39,7 +39,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :amazon
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "amazon").to_sym
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -51,10 +51,10 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = ENV.fetch("FORCE_SSL", "true") == "true"
 
   # Skip http-to-https redirect for the default health check endpoint.
-  # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
+  config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
@@ -80,8 +80,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Set up URL
-  Rails.application.routes.default_url_options[:host] =
-    ENV["DEFAULT_HOST"] || "#{ENV.fetch('HEROKU_APP_NAME')}.herokuapp.com"
+  Rails.application.routes.default_url_options[:host] = ENV.fetch("DEFAULT_HOST", "lokaler.lnu.no")
 
   # ActionMailer setup: Sendgrid over SMTP
   config.action_mailer.delivery_method = :smtp
@@ -91,7 +90,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.action_mailer.perform_caching = false
   ActionMailer::Base.smtp_settings = {
     user_name: "apikey", # NB: This is the string literal 'apikey', NOT the ID of your API key. Do not change this.
-    password: ENV.fetch("SENDGRID_API_KEY"),
+    password: ENV.fetch("SENDGRID_API_KEY", "dummy_key_for_asset_precompilation"),
     domain: "lnu.no", # We should probably have our own sub domain for transactional emails eventually
     address: "smtp.sendgrid.net",
     port: 587,

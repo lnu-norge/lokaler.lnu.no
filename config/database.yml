@@ -26,7 +26,7 @@ development:
     database: lokaler_lnu_no_development
   cache:
     <<: *default_cache
-    database: lokaler_lnu_no_development_cache
+    database: lokaler_lnu_no_develpment_cache
   queue:
     <<: *default_queue
     database: lokaler_lnu_no_development_queue
@@ -37,8 +37,6 @@ development:
 test:
   primary:
     <<: *default
-    # For details on connection pooling, see Rails configuration guide
-    # https://guides.rubyonrails.org/configuring.html#database-pooling
     database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
   cache:
     <<: *default_cache
@@ -50,17 +48,31 @@ test:
 production:
   primary:
     <<: *default
-    # This fixes an Heroku bug where it doesn't respect the postgis adapter,
-    # see https://devcenter.heroku.com/articles/rails-database-connection-behavior
-    url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
+    host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
+    port: <%= ENV.fetch("DATABASE_PORT", 5432) %>
+    database: <%= ENV.fetch("DATABASE_NAME", "lokaler_lnu_no_production") %>
+    username: <%= ENV.fetch("DATABASE_USERNAME", "") %>
+    password: <%= ENV.fetch("DATABASE_PASSWORD", "") %>
   cache:
     <<: *default_cache
-    url: <%= ENV.fetch('SOLID_TRIFECTA_DB_URL', '') %>
+    host: <%= ENV.fetch("CACHE_DATABASE_HOST", "localhost") %>
+    port: <%= ENV.fetch("CACHE_DATABASE_PORT", 5432) %>
+    database: <%= ENV.fetch("CACHE_DATABASE_NAME", "lokaler_lnu_no_production_cache") %>
+    username: <%= ENV.fetch("CACHE_DATABASE_USERNAME", "") %>
+    password: <%= ENV.fetch("CACHE_DATABASE_PASSWORD", "") %>
   queue:
     <<: *default_queue
-    url: <%= ENV.fetch('SOLID_TRIFECTA_DB_URL', '') %>
+    host: <%= ENV.fetch("QUEUE_DATABASE_HOST", "localhost") %>
+    port: <%= ENV.fetch("QUEUE_DATABASE_PORT", 5432) %>
+    database: <%= ENV.fetch("QUEUE_DATABASE_NAME", "lokaler_lnu_no_production_queue") %>
+    username: <%= ENV.fetch("QUEUE_DATABASE_USERNAME", "") %>
+    password: <%= ENV.fetch("QUEUE_DATABASE_PASSWORD", "") %>
   cable:
     <<: *default_cable
-    url: <%= ENV.fetch('SOLID_TRIFECTA_DB_URL', '') %>
+    host: <%= ENV.fetch("CABLE_DATABASE_HOST", "localhost") %>
+    port: <%= ENV.fetch("CABLE_DATABASE_PORT", 5432) %>
+    database: <%= ENV.fetch("CABLE_DATABASE_NAME", "lokaler_lnu_no_production_cable") %>
+    username: <%= ENV.fetch("CABLE_DATABASE_USERNAME", "") %>
+    password: <%= ENV.fetch("CABLE_DATABASE_PASSWORD", "") %>
 
 

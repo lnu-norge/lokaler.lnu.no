@@ -108,3 +108,5 @@ group :test do
   gem "vcr"
   gem "webmock"
 end
+
+gem "dockerfile-rails", ">= 1.7", group: :development

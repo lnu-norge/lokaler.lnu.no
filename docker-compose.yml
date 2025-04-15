@@ -1,38 +1,89 @@
-version: "3"
+version: '3'
 services:
   db:
-    image: postgres
+    image: postgis/postgis:15-3.3
     volumes:
-      - lokaler_db:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
-  web:
-    build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+      POSTGRES_USER: postgres
+      POSTGRES_DB: lokaler_lnu_no_production
+    ports:
+      - "5432:5432"
+
+  cache_db:
+    image: postgres:15
     volumes:
-      - .:/myapp
+      - postgres_cache_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: lokaler_lnu_no_production_cache
+    ports:
+      - "5433:5432"
+
+  queue_db:
+    image: postgres:15
+    volumes:
+      - postgres_queue_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: lokaler_lnu_no_production_queue
+    ports:
+      - "5434:5432"
+
+  cable_db:
+    image: postgres:15
+    volumes:
+      - postgres_cable_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: lokaler_lnu_no_production_cable
+    ports:
+      - "5435:5432"
+
+  web:
+    image: lokaler
+    depends_on:
+      - db
+      - cache_db
+      - queue_db
+      - cable_db
     ports:
       - "3000:3000"
-    depends_on:
-      - db
+    env_file:
+      - .env
     environment:
-      DOCKERIZED: "true"
-      DATABASE_URL: "postgresql://postgres:password@db/lokaler_lnu_no_development?pool=5"
-
-  webpack:
-    build: .
-    volumes:
-      - .:/myapp
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: "postgresql://postgres:password@db/lokaler_lnu_no_development?pool=5"
-      CONTAINER_ROLE: webpack
-  
+      # Database configurations that override .env for Docker
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: lokaler_lnu_no_production
+      CACHE_DATABASE_HOST: cache_db
+      CACHE_DATABASE_PORT: 5432
+      CACHE_DATABASE_USERNAME: postgres
+      CACHE_DATABASE_PASSWORD: password
+      CACHE_DATABASE_NAME: lokaler_lnu_no_production_cache
+      QUEUE_DATABASE_HOST: queue_db
+      QUEUE_DATABASE_PORT: 5432
+      QUEUE_DATABASE_USERNAME: postgres
+      QUEUE_DATABASE_PASSWORD: password
+      QUEUE_DATABASE_NAME: lokaler_lnu_no_production_queue
+      CABLE_DATABASE_HOST: cable_db
+      CABLE_DATABASE_PORT: 5432
+      CABLE_DATABASE_USERNAME: postgres
+      CABLE_DATABASE_PASSWORD: password
+      CABLE_DATABASE_NAME: lokaler_lnu_no_production_cable
+      RAILS_ENV: production
+      RAILS_SERVE_STATIC_FILES: 'true'
+      FORCE_SSL: 'false'
 
 volumes:
-  lokaler_db:
-    driver: local
-
-  ## Run the following after the server has started for the first time:
-  ## docker-compose run web rake db:create db:migrate
+  postgres_data:
+  postgres_cache_data:
+  postgres_queue_data:
+  postgres_cable_data:
