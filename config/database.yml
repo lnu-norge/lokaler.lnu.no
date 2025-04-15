@@ -55,18 +55,18 @@ production:
   primary:
     <<: *default
     <<: *production_database
-    database: <%= ENV.fetch("DATABASE_NAME", "lokaler_lnu_no_production") %>
+    database: "lokaler_lnu_no_production"
   cache:
     <<: *default_cache
     <<: *production_database
-    database: <%= ENV.fetch("CACHE_DATABASE_NAME", "lokaler_lnu_no_production_cache") %>
+    database: "lokaler_lnu_no_production_cache"
   queue:
     <<: *default_queue
     <<: *production_database
-    database: <%= ENV.fetch("QUEUE_DATABASE_NAME", "lokaler_lnu_no_production_queue") %>
+    database: "lokaler_lnu_no_production_queue"
   cable:
     <<: *default_cable
     <<: *production_database
-    database: <%= ENV.fetch("CABLE_DATABASE_NAME", "lokaler_lnu_no_production_cable") %>
+    database: "lokaler_lnu_no_production_cable"
 
 

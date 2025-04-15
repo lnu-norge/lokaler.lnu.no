@@ -8,9 +8,9 @@ image: danieljacksonnor/lokaler-lnu-no
 servers:
   web:
     - 95.216.137.182
-#proxy:
-#  ssl: true
-#  host: staging.lokaler.lnu.no
+proxy:
+  ssl: true
+  host: staging-lokaler.digitalfrivillighet.no
 registry:
   username: danieljacksonnor
   password:
@@ -20,27 +20,12 @@ builder:
 env:
   clear:
     RAILS_ENV: production
-    DATABASE_HOST: db
-    DATABASE_PORT: 5432
-    DATABASE_NAME: lokaler_lnu_no_production
-    DATABASE_USERNAME: postgres
-    CACHE_DATABASE_HOST: cache_db
-    CACHE_DATABASE_PORT: 5433
-    CACHE_DATABASE_NAME: lokaler_lnu_no_production_cache
-    CACHE_DATABASE_USERNAME: postgres
-    QUEUE_DATABASE_HOST: queue_db
-    QUEUE_DATABASE_PORT: 5434
-    QUEUE_DATABASE_NAME: lokaler_lnu_no_production_queue
-    QUEUE_DATABASE_USERNAME: postgres
-    CABLE_DATABASE_HOST: cable_db
-    CABLE_DATABASE_PORT: 5435
-    CABLE_DATABASE_NAME: lokaler_lnu_no_production_cable
-    CABLE_DATABASE_USERNAME: postgres
+    POSTGRES_USERNAME: postgres
     RAILS_SERVE_STATIC_FILES: 'true'
     ACTIVE_STORAGE_SERVICE: local
   secret:
     - RAILS_MASTER_KEY
-    - DATABASE_PASSWORD
+    - POSTGRES_PASSWORD
 accessories:
   db:
     image: postgis/postgis:15-3.3
