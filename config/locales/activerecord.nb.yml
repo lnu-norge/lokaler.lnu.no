@@ -19,6 +19,9 @@ nb:
       space_contact:
           one: 'kontaktinformasjon'
           other: 'kontaktinformasjon'
+      sync_status:
+          one: "Synkroniseringsstatus"
+          other: "Synkroniseringsstatuser"
       facility_review:
         one: 'fasilitetserfaring'
         other: 'fasilitetserfaringer'
