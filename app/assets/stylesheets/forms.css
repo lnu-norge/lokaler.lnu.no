@@ -42,6 +42,9 @@
         @apply text-white bg-black border-lnu-pink;
       }
     }
+    &.button--small {
+      @apply py-1 px-2 text-sm;
+    }
   }
 
   .focused-outline {

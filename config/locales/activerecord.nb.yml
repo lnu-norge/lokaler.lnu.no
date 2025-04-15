@@ -20,8 +20,8 @@ nb:
           one: 'kontaktinformasjon'
           other: 'kontaktinformasjon'
       sync_status:
-          one: "Synkroniseringsstatus"
-          other: "Synkroniseringsstatuser"
+          one: "synkroniseringsstatus"
+          other: "synkroniseringsstatuser"
       facility_review:
         one: 'fasilitetserfaring'
         other: 'fasilitetserfaringer'
