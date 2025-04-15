@@ -45,34 +45,28 @@ test:
     <<: *default_queue
     database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>_queue
 
+production_database: &production_database
+  host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
+  port: <%= ENV.fetch("DATABASE_PORT", 5432) %>
+  username: <%= ENV.fetch("POSTGRES_USER", "") %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD", "") %>
+
 production:
   primary:
     <<: *default
-    host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>
-    port: <%= ENV.fetch("DATABASE_PORT", 5432) %>
+    <<: *production_database
     database: <%= ENV.fetch("DATABASE_NAME", "lokaler_lnu_no_production") %>
-    username: <%= ENV.fetch("DATABASE_USERNAME", "") %>
-    password: <%= ENV.fetch("DATABASE_PASSWORD", "") %>
   cache:
     <<: *default_cache
-    host: <%= ENV.fetch("CACHE_DATABASE_HOST", "localhost") %>
-    port: <%= ENV.fetch("CACHE_DATABASE_PORT", 5432) %>
+    <<: *production_database
     database: <%= ENV.fetch("CACHE_DATABASE_NAME", "lokaler_lnu_no_production_cache") %>
-    username: <%= ENV.fetch("CACHE_DATABASE_USERNAME", "") %>
-    password: <%= ENV.fetch("CACHE_DATABASE_PASSWORD", "") %>
   queue:
     <<: *default_queue
-    host: <%= ENV.fetch("QUEUE_DATABASE_HOST", "localhost") %>
-    port: <%= ENV.fetch("QUEUE_DATABASE_PORT", 5432) %>
+    <<: *production_database
     database: <%= ENV.fetch("QUEUE_DATABASE_NAME", "lokaler_lnu_no_production_queue") %>
-    username: <%= ENV.fetch("QUEUE_DATABASE_USERNAME", "") %>
-    password: <%= ENV.fetch("QUEUE_DATABASE_PASSWORD", "") %>
   cable:
     <<: *default_cable
-    host: <%= ENV.fetch("CABLE_DATABASE_HOST", "localhost") %>
-    port: <%= ENV.fetch("CABLE_DATABASE_PORT", 5432) %>
+    <<: *production_database
     database: <%= ENV.fetch("CABLE_DATABASE_NAME", "lokaler_lnu_no_production_cable") %>
-    username: <%= ENV.fetch("CABLE_DATABASE_USERNAME", "") %>
-    password: <%= ENV.fetch("CABLE_DATABASE_PASSWORD", "") %>
 
 
