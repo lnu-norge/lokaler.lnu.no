@@ -68,7 +68,7 @@ module SyncingData
       def recently_synced_successfully?(space)
         return false if space.organization_number.blank?
 
-        SyncStatus
+        Admin::SyncStatus
           .where(id_from_source: space.organization_number, source: "brreg")
           .exists?(last_successful_sync_at: @time_between_syncs.ago..)
       end

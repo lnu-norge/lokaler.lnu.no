@@ -60,7 +60,7 @@ RSpec.describe SyncingData::FromNsr::RunSyncService do
     end
 
     it "filters out schools that have no new data since last successful sync" do
-      SyncStatus
+      Admin::SyncStatus
         .for(id_from_source: space_for_already_synced_school.organization_number, source: "nsr")
         .log_success
 
@@ -483,7 +483,7 @@ RSpec.describe SyncingData::FromNsr::RunSyncService do
     it "does not overwrite the space group content if the new space group has data already" do
       # Reset sync status and make space_for_abel not syncable anymore,
       # just so we can reuse the VCR for it:
-      SyncStatus.for(id_from_source: space_for_abel.organization_number, source: "nsr").destroy
+      Admin::SyncStatus.for(id_from_source: space_for_abel.organization_number, source: "nsr").destroy
       space_for_abel.update(organization_number: nil)
 
       how_to_book_that_wont_be_kept = ActionText::Content.new("Do not keep this how to book")

@@ -31,3 +31,7 @@ nb:
         update: "Endret"
         create: "Laget"
         destroy: "Slettet"
+    sync_statuses:
+      created: "Synkroniseringsstatus ble opprettet."
+      updated: "Synkroniseringsstatus ble oppdatert."
+      destroyed: "Synkroniseringsstatus ble slettet."
