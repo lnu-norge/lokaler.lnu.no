@@ -11,9 +11,6 @@ servers:
 proxy:
   ssl: true
   host: staging-lokaler.digitalfrivillighet.no
-  healthcheck:
-    path: /
-    timeout: 5
 registry:
   username: danieljacksonnor
   password:
@@ -33,6 +30,7 @@ env:
     - POSTGRES_PASSWORD
 volumes:
   - storage:/rails/storage
+asset_path: /rails/public/assets
 accessories:
   db:
     image: postgis/postgis:15-3.3
