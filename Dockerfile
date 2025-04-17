@@ -33,7 +33,7 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install JavaScript dependencies
-ARG NODE_VERSION=23.x
+ARG NODE_VERSION=23.2.0
 ARG YARN_VERSION=1.22.21
 ENV PATH=/usr/local/node/bin:$PATH
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
@@ -42,7 +42,7 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
     rm -rf /tmp/node-build-master
 
 # Install application gems
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock .ruby-version ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
