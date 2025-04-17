@@ -50,24 +50,29 @@ RSpec.describe SyncingData::FromNsr::SyncSchoolService do
     end
 
     it "caches school details and uses cache on subsequent requests" do
-      # Use the real Rails cache for this test
-      Rails.cache.clear
-
       # Set up HTTP tracking
       allow(HTTP).to receive(:get).and_call_original
       http_url = "#{SyncingData::FromNsr::NSR_BASE_URL}/enhet/#{org_number}"
 
+      # Set up cache tracking
+      allow(Rails.cache).to receive(:read).and_call_original
+      allow(Rails.cache).to receive(:write).and_call_original
+
       # First call should fetch data and cache it
-      VCR.use_cassette("nsr/enhet/#{org_number}", allow_playback_repeats: true) do
-        first_result = service.send(:details_about_school, org_number: org_number,
+      VCR.use_cassette("nsr/enhet/#{org_number}") do
+        result_before_cache = service.send(:details_about_school, org_number: org_number,
                                                            date_changed_at_from_nsr: date_changed_at_from_nsr)
-        expect(first_result).to be_present
-        expect(first_result["Organisasjonsnummer"]).to eq(org_number)
+        expect(result_before_cache).to be_present
+        expect(result_before_cache["Organisasjonsnummer"]).to eq(org_number)
+        expect(Rails.cache).to have_received(:read).once
+        expect(Rails.cache).to have_received(:write).once
 
         # Second call should use the cache
-        second_result = service.send(:details_about_school, org_number: org_number,
+        result_after_cache = service.send(:details_about_school, org_number: org_number,
                                                             date_changed_at_from_nsr: date_changed_at_from_nsr)
-        expect(second_result).to eq(first_result)
+        expect(result_after_cache).to eq(result_before_cache)
+        expect(Rails.cache).to have_received(:read).twice # one for each call
+        expect(Rails.cache).to have_received(:write).twice # Resets date for cache
 
         # Verify HTTP was called only once
         expect(HTTP).to have_received(:get).with(http_url).once
@@ -75,9 +80,6 @@ RSpec.describe SyncingData::FromNsr::SyncSchoolService do
     end
 
     it "uses cache when data has not changed" do
-      # Use the real Rails cache for this test
-      Rails.cache.clear
-
       # First call to populate cache
       VCR.use_cassette("nsr/enhet/#{org_number}", allow_playback_repeats: true) do
         # Set up cache manually to ensure date_changed_at_from_nsr matching
@@ -91,7 +93,6 @@ RSpec.describe SyncingData::FromNsr::SyncSchoolService do
 
         # Set up HTTP tracking
         allow(HTTP).to receive(:get).and_call_original
-        http_url = "#{SyncingData::FromNsr::NSR_BASE_URL}/enhet/#{org_number}"
 
         # Call with matching date - should use cache
         result = service.send(:details_about_school,
@@ -102,7 +103,7 @@ RSpec.describe SyncingData::FromNsr::SyncSchoolService do
         expect(result).to eq(test_data)
 
         # HTTP is not called, so we expect the cache to be used
-        expect(HTTP).not_to have_received(:get).with(http_url)
+        expect(HTTP).not_to have_received(:get)
       end
     end
   end
