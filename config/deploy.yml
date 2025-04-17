@@ -16,7 +16,7 @@ servers:
     - 95.216.137.182
 proxy:
   ssl: true
-  host: staging-lokaler.digitalfrivillighet.no
+  host: lokaler-staging.digitalfrivillighet.no
   healthcheck:
     path: /up
     interval: 2
