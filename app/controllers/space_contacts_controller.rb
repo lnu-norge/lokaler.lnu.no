@@ -1,18 +1,36 @@
 # frozen_string_literal: true
 
-class SpaceContactsController < BaseControllers::AuthenticateController
+class SpaceContactsController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
   include SpaceContactHelper
   before_action :set_space_contact, except: [:create]
 
   def create
     @space_contact = SpaceContact.new(space_contact_params)
-    return successful_save if @space_contact.save
+    if @space_contact.save
+      # Broadcast the new contact to all subscribers
+      Turbo::StreamsChannel.broadcast_prepend_later_to(
+        dom_id_for_relevant_space_contacts_stream,
+        target: dom_id_for_relevant_space_contacts_stream,
+        partial: "space_contacts/space_contact",
+        locals: { space_contact: @space_contact }
+      )
+      return successful_save
+    end
 
     error_handling
   end
 
   def update
-    return successful_update if @space_contact.update(space_contact_params)
+    if @space_contact.update(space_contact_params)
+      # Broadcast the updated contact to all subscribers
+      Turbo::StreamsChannel.broadcast_replace_later_to(
+        dom_id_for_relevant_space_contacts_stream,
+        target: @space_contact,
+        partial: "space_contacts/space_contact",
+        locals: { space_contact: @space_contact }
+      )
+      return successful_update
+    end
 
     render turbo_stream: turbo_stream.replace(
       @space_contact,
@@ -22,12 +40,25 @@ class SpaceContactsController < BaseControllers::AuthenticateController
   end
 
   def destroy
-    return successful_delete if @space_contact.destroy
+    contact_id = @space_contact.id
+    stream_id = dom_id_for_relevant_space_contacts_stream
+    if @space_contact.destroy
+      # Broadcast the deletion to all subscribers
+      Turbo::StreamsChannel.broadcast_remove_to(
+        stream_id,
+        target: "space_contact_#{contact_id}"
+      )
+      return successful_delete
+    end
 
     flash.now[:error] = t("space_contacts.contact_not_deleted")
   end
 
   private
+
+  def dom_id_for_relevant_space_contacts_stream
+    dom_id_for_space_contacts_stream(@space_contact.space || @space_contact.space_group)
+  end
 
   def turbo_update_flash(flash_message:, flash_type: :notice)
     flash.now[flash_type] = flash_message

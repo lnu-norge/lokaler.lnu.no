@@ -8,17 +8,6 @@ class SpaceContact < ApplicationRecord
   belongs_to :space, optional: true
   belongs_to :space_group, optional: true
 
-  after_create_commit do
-    broadcast_prepend_later_to dom_id_for_relevant_space_contacts_stream,
-                               target: dom_id_for_relevant_space_contacts_stream
-  end
-  after_update_commit do
-    broadcast_replace_later_to dom_id_for_relevant_space_contacts_stream
-  end
-  after_destroy_commit do
-    broadcast_remove_to dom_id_for_relevant_space_contacts_stream
-  end
-
   include ParseUrlHelper
   before_validation :parse_url
 
