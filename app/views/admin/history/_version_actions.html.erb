@@ -4,14 +4,14 @@
 
     item_exists = case version.item_type
                   when "ActionText::RichText"
-                    version.item.record.present? unless @rich_text_model_not_found
+                    version.item&.record.present? unless @rich_text_model_not_found
                   else
-                    version.item.present? unless @item_model_not_found
+                    version.item&.present? unless @item_model_not_found
                   end
 
     path_to_item = case version.item_type
                    when "ActionText::RichText"
-                     if (version.item.record_type == "Space")
+                     if (version.item&.record_type == "Space")
                        edit_field_path(version.item.record, field: version.item.name) if item_exists
                      else
                        polymorphic_path(version.item.record) if item_exists
