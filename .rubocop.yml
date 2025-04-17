@@ -51,6 +51,10 @@ AllCops:
     - 'Guardfile'
     - 'spec/rails_helper.rb'
     - 'db/migrate/**/*'
+    - 'db/schema.rb'
+    - 'db/queue_schema.rb'
+    - 'db/cache_schema.rb'
+    - 'db/cable_schema.rb'
     - 'vendor/**/*'
 
 Style/SymbolArray:

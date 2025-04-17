@@ -17,7 +17,7 @@
             <%= t('space_contacts.phone') %>
           </dt>
           <dd>
-            <%= phone_to space_contact.telephone %>
+            <%= phone_to format_phone_number(space_contact.telephone) %>
             <% if space_contact.telephone_opening_hours? %>
               <em title="<%= t('space_contacts.opening_hours') %>">
                 (<%= space_contact.telephone_opening_hours %>)

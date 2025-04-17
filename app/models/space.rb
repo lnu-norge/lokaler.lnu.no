@@ -30,6 +30,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_and_belongs_to_many :personal_space_lists
   has_many :personal_data_on_space_in_lists, dependent: :destroy
+  has_many :sync_statuses, dependent: :destroy
 
   scope :filter_on_title, ->(title) { where("title ILIKE ?", "%#{title}%") }
   scope :filter_on_space_types, lambda { |space_type_ids|

@@ -1,0 +1,47 @@
+<%= form_with(model: sync_status, class: "contents") do |form| %>
+  <% if sync_status.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(sync_status.errors.count, "error") %> prohibited this sync_status from being saved:</h2>
+
+      <ul>
+        <% sync_status.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+      <div class="my-5">
+            <%= form.label :source %>
+            <%= form.text_field :source, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+            </div>
+
+      <div class="my-5">
+            <%= form.label :last_attempted_sync_at %>
+            <%= form.datetime_field :last_attempted_sync_at, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+            </div>
+
+      <div class="my-5">
+            <%= form.label :last_successful_sync_at %>
+            <%= form.datetime_field :last_successful_sync_at, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+            </div>
+
+      <div class="my-5">
+            <%= form.label :id_from_source %>
+            <%= form.text_field :id_from_source, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+            </div>
+
+      <div class="my-5">
+            <%= form.label :error_message %>
+            <%= form.text_field :error_message, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+            </div>
+
+      <div class="my-5">
+            <%= form.label :full_error_message %>
+            <%= form.text_area :full_error_message, rows: 4, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+            </div>
+
+    <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium" %>
+  </div>
+<% end %>
