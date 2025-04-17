@@ -1,0 +1,68 @@
+# Load environment variables from .env file
+<%
+  require "dotenv"
+  Dotenv.load(".env.staging")
+%>
+
+# Name of your application. Used to uniquely configure containers.
+service: lokaler-lnu-no
+
+# Name of the container image.
+image: danieljacksonnor/lokaler-lnu-no
+
+# Deploy to these servers.
+servers:
+  web:
+    - 95.216.137.182
+proxy:
+  ssl: true
+  host: staging-lokaler.digitalfrivillighet.no
+registry:
+  username: danieljacksonnor
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+builder:
+  arch: amd64
+env:
+  clear:
+    RAILS_ENV: production
+    POSTGRES_USER: postgres
+    RAILS_SERVE_STATIC_FILES: 'true'
+    RAILS_LOG_TO_STDOUT: true
+    SOLID_QUEUE_IN_PUMA: true
+    DATABASE_HOST: lokaler-lnu-no-db
+    DATABASE_PORT: 5432
+  secret:
+    - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
+    - DEFAULT_HOST
+    - SENDGRID_API_KEY
+    - RAILS_MASTER_KEY
+    - SENDGRID_API_KEY
+    - SENDGRID_FROM_EMAIL
+    - SENDGRID_RESET_TEMPLATE_ID
+    - GOOGLE_OAUTH_CLIENT_ID
+    - GOOGLE_OAUTH_CLIENT_SECRET
+    - POSTHOG_API_KEY
+    - MAPBOX_API_KEY
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_S3_BUCKET
+    - AWS_S3_BUCKET_REGION
+volumes:
+  - storage:/rails/storage
+asset_path: /rails/public/assets
+accessories:
+  db:
+    image: postgis/postgis:15-3.3
+    host: 95.216.137.182
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        DATABASE_HOST: lokaler-lnu-no-db
+        POSTGRES_USER: postgres
+        POSTGRES_DB: lokaler_lnu_no_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
