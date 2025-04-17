@@ -13,12 +13,15 @@ nb:
       space_type:
         one: 'type lokale'
         other: 'typer lokale'
-      spacegroup:
+      space_group:
         one: 'gruppe'
         other: 'grupper'
-      spacecontact:
+      space_contact:
           one: 'kontaktinformasjon'
           other: 'kontaktinformasjon'
+      sync_status:
+          one: "synkroniseringsstatus"
+          other: "synkroniseringsstatuser"
       facility_review:
         one: 'fasilitetserfaring'
         other: 'fasilitetserfaringer'
@@ -51,6 +54,11 @@ nb:
         title: 'Tittel'
         facility_reviews: 'Fasilitetserfaringer'
         organization: 'Organisasjon'
+      space_group:
+        how_to_book: 'Hvordan booker vi?'
+        terms_and_pricing: 'Pris og vilkår'
+        about: 'Om'
+        title: 'Tittel'
       space_contact:
         title: "Tittel"
         telephone: "Telefon"

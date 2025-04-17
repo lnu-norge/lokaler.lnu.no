@@ -14,10 +14,6 @@ gem "pg", "~> 1.5"
 gem "puma", "~> 6.4"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.13"
-# Use Redis adapter to run Action Cable in production
-gem "redis", "~> 5.3"
-# Use Active Model has_secure_password
-# gem "bcrypt", "~> 3.1.7"
 
 # Still using sprockets, might remove later
 gem "sprockets-rails", require: "sprockets/railtie"
@@ -50,6 +46,7 @@ gem "high_voltage"
 gem "http"
 gem "inline_svg"
 gem "jsbundling-rails"
+gem "mission_control-jobs" # for seeing solid_queue jobs
 gem "pagy"
 gem "paper_trail"
 gem "parallel"
@@ -58,6 +55,9 @@ gem "rails-i18n"
 gem "rgeo-geojson" # For parsing geo json when importing from Geo Norge
 gem "simple_form"
 gem "simple_form-tailwind"
+gem "solid_cable"
+gem "solid_cache"
+gem "solid_queue"
 gem "stimulus-rails"
 gem "tailwindcss-rails-webpacker"
 gem "turbo-rails"

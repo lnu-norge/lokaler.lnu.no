@@ -8,6 +8,7 @@ nb:
     history: Endringshistorikk
     space_type: Type lokaler
     dashboard: Statistikk
+    jobs: Asynkrone jobber
     filter: Filter endringslogg
     user_id: Bruker
     user_ids: Brukere
@@ -30,3 +31,27 @@ nb:
         update: "Endret"
         create: "Laget"
         destroy: "Slettet"
+    sync_statuses:
+      menu_item: "Synkroniseringsstatuser"
+      created: "Synkroniseringsstatus ble opprettet."
+      updated: "Synkroniseringsstatus ble oppdatert."
+      destroyed: "Synkroniseringsstatus ble slettet."
+      title: "Synkroniseringsstatus"
+      new: "Ny synkroniseringsstatus"
+      filter_button: "Filtrer"
+      remove_filter: "Fjern filter"
+      source: "Kilde"
+      id_from_source: "ID fra kilde"
+      status: "Status"
+      last_attempt: "Siste forsøk"
+      last_success: "Siste vellykket"
+      error_message: "Feilmelding"
+      actions: "Handlinger"
+      show: "Vis"
+      edit: "Rediger"
+      delete: "Slett"
+      confirm_delete: "Er du sikker?"
+      all: "Alle"
+      successful: "Vellykket"
+      failed: "Mislykket"
+      last_attempted_after: "Forsøkt etter"
