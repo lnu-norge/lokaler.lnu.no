@@ -80,6 +80,7 @@ end
 
 group :development do
   gem "annotate"
+  gem "dockerfile-rails"
   gem "foreman"
   gem "guard"
   gem "guard-livereload", require: false
