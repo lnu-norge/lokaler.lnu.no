@@ -26,12 +26,13 @@ builder:
 env:
   clear:
     RAILS_ENV: production
-    POSTGRES_USER: postgres
     RAILS_SERVE_STATIC_FILES: 'true'
     RAILS_LOG_TO_STDOUT: true
     SOLID_QUEUE_IN_PUMA: true
-    DATABASE_HOST: lokaler-lnu-no-db
-    DATABASE_PORT: 5432
+    POSTGRES_DB: lokaler_lnu_no_production
+    POSTGRES_USER: postgres
+    POSTGRES_HOST: lokaler-lnu-no-db
+    POSTGRES_PORT: 5432
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
