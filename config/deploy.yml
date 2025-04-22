@@ -1,11 +1,10 @@
-# Load environment variables from .env file
-<%
-  require "dotenv"
-  Dotenv.load(".env.staging")
-%>
+# These are common configs for both staging and production
 
-# Name of your application. Used to uniquely configure containers.
-service: lokaler-lnu-no
+# Require destinations to be explicitly set to push:
+require_destination: true
+
+# Name of the application. Used to uniquely configure containers:
+# service: Set in destination deploy.DESTINATION.yml
 
 # Name of the container image.
 image: danieljacksonnor/lokaler-lnu-no
@@ -16,7 +15,7 @@ servers:
     - 95.216.137.182
 proxy:
   ssl: true
-  host: lokaler-staging.digitalfrivillighet.no
+#  host: Set in destination deploy.yml
 registry:
   username: danieljacksonnor
   password:
@@ -29,7 +28,7 @@ env:
     RAILS_SERVE_STATIC_FILES: 'true'
     RAILS_LOG_TO_STDOUT: true
     SOLID_QUEUE_IN_PUMA: true
-    POSTGRES_DB: lokaler_lnu_no_production
+    # POSTGRES_DB: Set in deploy.DESTINATION.yml
     POSTGRES_USER: postgres
     POSTGRES_HOST: lokaler-lnu-no-db
     POSTGRES_PORT: 5432
@@ -62,7 +61,7 @@ accessories:
       clear:
         DATABASE_HOST: lokaler-lnu-no-db
         POSTGRES_USER: postgres
-        POSTGRES_DB: lokaler_lnu_no_production
+        # POSTGRES_DB: Set in deploy.DESTINATION.yml
       secret:
         - POSTGRES_PASSWORD
     directories:
