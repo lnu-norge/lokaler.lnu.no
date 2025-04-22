@@ -1,0 +1,26 @@
+# These are only for PRODUCTION
+# They will be merged with the common ones in deploy.yml
+
+# Load environment variables from .env file
+<%
+  require "dotenv"
+  Dotenv.load(".env.production")
+%>
+
+
+# Name of your application. Used to uniquely configure containers.
+service: production-lokaler-lnu-no
+proxy:
+  ssl: true
+  hosts:
+    - lokaler-production.digitalfrivillighet.no
+    - lokaler.lnu.no
+env:
+  clear:
+    POSTGRES_HOST: production-lokaler-lnu-no-db
+    POSTGRES_DB: lokaler_lnu_no_production
+accessories:
+  db:
+    env:
+      clear:
+        POSTGRES_DB: lokaler_lnu_no_production

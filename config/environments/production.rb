@@ -48,7 +48,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
-  # config.assume_ssl = true
+  config.assume_ssl = true
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
@@ -80,7 +80,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # Set up URL
   Rails.application.routes.default_url_options[:host] =
-    ENV["DEFAULT_HOST"] || "#{ENV.fetch('HEROKU_APP_NAME')}.herokuapp.com"
+    ENV.fetch("DEFAULT_HOST", nil)
 
   # ActionMailer setup: Sendgrid over SMTP
   config.action_mailer.delivery_method = :smtp
@@ -90,7 +90,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   config.action_mailer.perform_caching = false
   ActionMailer::Base.smtp_settings = {
     user_name: "apikey", # NB: This is the string literal 'apikey', NOT the ID of your API key. Do not change this.
-    password: ENV.fetch("SENDGRID_API_KEY"),
+    password: ENV.fetch("SENDGRID_API_KEY", "dummy_api_key_for_non_sending_environments"),
     domain: "lnu.no", # We should probably have our own sub domain for transactional emails eventually
     address: "smtp.sendgrid.net",
     port: 587,

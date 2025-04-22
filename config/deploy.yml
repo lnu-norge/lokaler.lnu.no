@@ -1,0 +1,67 @@
+# These are common configs for both staging and production
+
+# Require destinations to be explicitly set to push:
+require_destination: true
+
+# Name of the application. Used to uniquely configure containers:
+# service: Set in destination deploy.DESTINATION.yml
+
+# Name of the container image.
+image: danieljacksonnor/lokaler-lnu-no
+
+# Deploy to these servers.
+servers:
+  web:
+    - 95.216.137.182
+#proxy:
+#  ssl: true
+#  host: Set in destination deploy.yml
+registry:
+  username: danieljacksonnor
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+builder:
+  arch: amd64
+env:
+  clear:
+    RAILS_ENV: production
+    RAILS_SERVE_STATIC_FILES: 'true'
+    RAILS_LOG_TO_STDOUT: true
+    SOLID_QUEUE_IN_PUMA: true
+    # POSTGRES_DB: Set in deploy.DESTINATION.yml
+    POSTGRES_USER: postgres
+    # POSTGRES_HOST: Set in deploy.DESTINATION.yml
+    POSTGRES_PORT: 5432
+  secret:
+    - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
+    - DEFAULT_HOST
+    - SENDGRID_API_KEY
+    - RAILS_MASTER_KEY
+    - SENDGRID_API_KEY
+    - SENDGRID_FROM_EMAIL
+    - SENDGRID_RESET_TEMPLATE_ID
+    - GOOGLE_OAUTH_CLIENT_ID
+    - GOOGLE_OAUTH_CLIENT_SECRET
+    - POSTHOG_API_KEY
+    - MAPBOX_API_KEY
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_S3_BUCKET
+    - AWS_S3_BUCKET_REGION
+volumes:
+  - storage:/rails/storage
+asset_path: /rails/public/assets
+accessories:
+  db:
+    image: postgis/postgis:15-3.3
+    host: 95.216.137.182
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: postgres
+        # POSTGRES_DB: Set in deploy.DESTINATION.yml
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data

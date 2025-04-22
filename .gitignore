@@ -68,3 +68,6 @@ config/kamal_secrets
 # Ignore Claude's memory file
 CLAUDE.md
 
+
+/config/credentials/staging.key
+/config/credentials/production.key
