@@ -18,7 +18,7 @@ env:
   clear:
     POSTGRES_HOST: staging-db
     POSTGRES_DB: lokaler_lnu_no_staging
-    POSTGRES_PORT: 5433
+    POSTGRES_PORT: 5432
 accessories:
   db:
     port: "127.0.0.1:5433:5432"
