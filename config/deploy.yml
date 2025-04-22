@@ -3,10 +3,6 @@
 # Require destinations to be explicitly set to push:
 require_destination: true
 
-aliases:
-  staging: --destination staging
-  production: --destination production
-
 # Name of the application. Used to uniquely configure containers:
 # service: Set in destination deploy.DESTINATION.yml
 

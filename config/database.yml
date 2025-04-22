@@ -19,7 +19,7 @@ production:
   <<: *default
   # Use explicit connection details for the database
   database: <%= ENV.fetch('POSTGRES_DB') %>
-  username: <%= ENV.fetch('POSTGRES_USERNAME') %>
+  username: <%= ENV.fetch('POSTGRES_USER') %>
   password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
   host: <%= ENV.fetch('POSTGRES_HOST') %>
   port: <%= ENV.fetch('POSTGRES_PORT') %>

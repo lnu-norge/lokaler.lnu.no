@@ -8,7 +8,7 @@
 %>
 
 # Name of your application. Used to uniquely configure containers.
-service: staging-lokaler-lnu-no
+service: staging
 proxy:
   ssl: true
   hosts:
@@ -16,10 +16,12 @@ proxy:
     - staging.lokaler.lnu.no
 env:
   clear:
-    POSTGRES_HOST: staging-lokaler-lnu-no-db
+    POSTGRES_HOST: staging-db
     POSTGRES_DB: lokaler_lnu_no_staging
+    POSTGRES_PORT: 5433
 accessories:
   db:
+    port: "127.0.0.1:5433:5432"
     env:
       clear:
         POSTGRES_DB: lokaler_lnu_no_staging
