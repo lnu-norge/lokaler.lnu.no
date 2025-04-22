@@ -18,9 +18,9 @@ test:
 production:
   <<: *default
   # Use explicit connection details for the database
-  database: <%= ENV.fetch('POSTGRES_DB', 'lokaler_lnu_no_production') %>
-  username: <%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>
-  password: <%= ENV.fetch('POSTGRES_PASSWORD', 'password') %>
-  host: <%= ENV.fetch('POSTGRES_HOST', 'localhost') %>
-  port: <%= ENV.fetch('POSTGRES_PORT', '5432') %>
+  database: <%= ENV.fetch('POSTGRES_DB') %>
+  username: <%= ENV.fetch('POSTGRES_USERNAME') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
+  host: <%= ENV.fetch('POSTGRES_HOST') %>
+  port: <%= ENV.fetch('POSTGRES_PORT') %>
 

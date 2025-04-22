@@ -3,6 +3,10 @@
 # Require destinations to be explicitly set to push:
 require_destination: true
 
+aliases:
+  staging: --destination staging
+  production: --destination production
+
 # Name of the application. Used to uniquely configure containers:
 # service: Set in destination deploy.DESTINATION.yml
 
@@ -13,8 +17,8 @@ image: danieljacksonnor/lokaler-lnu-no
 servers:
   web:
     - 95.216.137.182
-proxy:
-  ssl: true
+#proxy:
+#  ssl: true
 #  host: Set in destination deploy.yml
 registry:
   username: danieljacksonnor
@@ -30,7 +34,7 @@ env:
     SOLID_QUEUE_IN_PUMA: true
     # POSTGRES_DB: Set in deploy.DESTINATION.yml
     POSTGRES_USER: postgres
-    POSTGRES_HOST: lokaler-lnu-no-db
+    # POSTGRES_HOST: Set in deploy.DESTINATION.yml
     POSTGRES_PORT: 5432
   secret:
     - RAILS_MASTER_KEY
@@ -59,7 +63,6 @@ accessories:
     port: "127.0.0.1:5432:5432"
     env:
       clear:
-        DATABASE_HOST: lokaler-lnu-no-db
         POSTGRES_USER: postgres
         # POSTGRES_DB: Set in deploy.DESTINATION.yml
       secret:
