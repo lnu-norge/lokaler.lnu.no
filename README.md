@@ -156,20 +156,22 @@ If you are on Windows we recommend using Windows Subsystem for Linux version 2 i
 > TIP! You can use any terminal you want, but it makes things a bit harder. Google it if you want.
 5. After everything is finished you will need a Code Editor if you want to contribute (Sublime, VS-Code, or any other).
 
-## Deploying to Heroku
+## Deploying to staging or production with Kamal
 
-To deploy to production on Heroku, you  need to log in to Heroku and manaully deploy a git branch.
+The app uses Kamal for deployments, and is currently set up to deploy to Hetzner.
 
-### Clearing build cache if svgs or other assets are not updated
+To deploy, you need to have the right .env variables set up, including the Kamal Registry Password. You also need a SSH key for the prod server.
 
-SVGs someties don't get updated when you push to heroku. Then we need to clear the build cache, as 
-described here: https://help.heroku.com/18PI5RSY/how-do-i-clear-the-build-cache
+After you have that, you can deploy new versions with:
+
+`kamal deploy --destination production` for production
+`kamal deploy --destination staging` for staging
 
 ## Seeding
 
 Run `rails db:seed` to get sample data into your app. 
 
-You can also set the ENV variable ["SEED_FILE"](https://github.com/lnu-norge/lokaler.lnu.no/pull/66) to load a different seed file than the current environment dictates. Useful for deploying tests on Heroku, as Heroku always wants you to run in production mode - but you might want to seed with development data.
+You can also set the ENV variable ["SEED_FILE"](https://github.com/lnu-norge/lokaler.lnu.no/pull/66) to load a different seed file than the current environment dictates.
 
 ### Syncing
 
@@ -179,9 +181,6 @@ To get data on all schools from Nasjonalt Skoleregister about schools after seed
 
 To get contact information for all schools (and other spaces with an organization number) run `rake sync:brreg_space_contacts`.
 
-## Sendgrid setup
-
-You need to set the right sendgrid environment variables, and to get sendgrid to work you will also need to set the ENV variable ["HOST"] to equal to the domain you are using, example: `ENV["HOST"] = "app.herokuapp.com`
 
 # Want to learn to code or learn Rails?
 ---
@@ -204,4 +203,3 @@ Let us know if we can help you out in any way, and feel free to clone this proje
 
 # Backups and restoring
 
-If you have Parity, you can follow the instructions here to back up and restore the database: https://thoughtbot.com/blog/how-to-back-up-a-heroku-production-database-to-staging
