@@ -41,6 +41,10 @@ module LokalerLnuNo
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    # Mission control
+    config.mission_control.jobs.base_controller_class = "BaseControllers::AuthenticateAsAdminController"
+    config.mission_control.jobs.http_basic_auth_enabled = false
+
     # Set default i18n translation to norwegian
     config.i18n.available_locales = %i[nb en]
     config.i18n.default_locale = :nb
@@ -48,10 +52,10 @@ module LokalerLnuNo
     # This is needed to make the `reify` method work in the PaperTrail gem
     # as it stores the `item` as a YAML string, and the default ruby YAML parser
     # does not allow symbols as keys.
-    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time,
+    config.active_record.yaml_column_permitted_classes = [Symbol, Hash, Array,
+                                                          Date, Time, BigDecimal,
                                                           ActiveSupport::TimeWithZone,
                                                           ActiveSupport::TimeZone,
-                                                          ActiveSupport::HashWithIndifferentAccess,
-                                                          BigDecimal]
+                                                          ActiveSupport::HashWithIndifferentAccess]
   end
 end

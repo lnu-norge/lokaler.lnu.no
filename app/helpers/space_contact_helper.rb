@@ -16,4 +16,8 @@ module SpaceContactHelper
   def dom_id_for_space_contacts_stream(space)
     "space_contacts_for_space_#{space.id}"
   end
+
+  def format_phone_number(number)
+    number.gsub(/\s/, "").split(/(\+?\d{2})/).join(" ")
+  end
 end

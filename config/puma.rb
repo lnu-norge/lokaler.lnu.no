@@ -36,5 +36,8 @@ pidfile ENV.fetch("PIDFILE", "tmp/pids/server.pid")
 # Specifies the `environment` that Puma will run in.
 environment ENV.fetch("RAILS_ENV", "development")
 
+# Allow solid queue to run with puma:
+plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"] || Rails.env.development?
+
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart

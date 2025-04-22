@@ -5,18 +5,7 @@ require "./db/seeds/space_groups/viken"
 viken = create_viken
 
 ## Space Type
-vgs = SpaceType.create(
-  type_name: "VGS",
-  facilities: [
-    Facility.find_by(title: "Gymsal"),
-    Facility.find_by(title: "Klasserom"),
-    Facility.find_by(title: "Sove på gulvet"),
-    Facility.find_by(title: "Kjøkken med ovn"),
-    Facility.find_by(title: "Rullestolvennlig inngang"),
-    Facility.find_by(title: "Rullestolvennlig inne"),
-    Facility.find_by(title: "HC-toalett")
-  ]
-)
+vgs = SpaceType.find_by(type_name: "VGS")
 
 ## Rich text fields
 how_to_book = "<p>All booking foregår gjennom resepsjonen.

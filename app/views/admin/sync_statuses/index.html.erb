@@ -1,0 +1,117 @@
+<div class="mx-auto">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+
+  <div class="bg-gray-50 p-4 rounded-lg mb-4">
+    <nav class="flex justify-around">
+      <div>
+        <%= form_with url: admin_sync_statuses_path, method: :get, class: "flex flex-wrap items-end gap-4", data: { turbo_frame: "_top" } do |f| %>
+          <div>
+            <%= f.label :source, "#{t('admin.sync_statuses.source')}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.select :source,
+                         [[t('admin.sync_statuses.all'), ""],
+                          ["BRREG", "brreg"],
+                          ["NSR", "nsr"]],
+                         { selected: params[:source] },
+                         { class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" } %>
+          </div>
+          <div>
+            <%= f.label :status, "#{t('admin.sync_statuses.status')}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.select :status,
+                         [[t('admin.sync_statuses.all'), ""],
+                          [t('admin.sync_statuses.successful'), "successful"],
+                          [t('admin.sync_statuses.failed'), "failed"]],
+                         { selected: params[:status] },
+                         { class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" } %>
+          </div>
+          <div>
+            <%= f.label :id_from_source, "#{t('admin.sync_statuses.id_from_source')}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.text_field :id_from_source, value: params[:id_from_source], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+          </div>
+          <div>
+            <%= f.label :last_attempted_after, "#{t('admin.sync_statuses.last_attempted_after')}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.date_field :last_attempted_after, value: params[:last_attempted_after], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+          </div>
+          <div class="flex items-center gap-4">
+            <%= f.submit t('admin.sync_statuses.filter_button'), class: "button" %>
+            <% if params[:source].present? || params[:status].present? || params[:id_from_source].present? || params[:last_attempted_after].present? %>
+              <%= link_to t('admin.sync_statuses.remove_filter'), admin_sync_statuses_path, data: { turbo_frame: "_top" }, class: "text-gray-600 hover:text-gray-900" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </nav>
+  </div>
+
+  <div class="my-4">
+    <%== pagy_info(@pagy) %>
+    <%== pagy_nav(@pagy) %>
+  </div>
+
+  <div id="sync_statuses" class="overflow-x-auto mx-8">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.source') %></th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.id_from_source') %></th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= "#{t('admin.sync_statuses.status')} / #{t('admin.sync_statuses.last_attempt')}" %></th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.error_message') %></th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.sync_statuses.actions') %></th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @sync_statuses.each do |sync_status| %>
+          <tr class="hover:bg-gray-50 cursor-pointer" data-controller="clickable-row" data-action="click->clickable-row#click" data-clickable-row-url-value="<%= admin_sync_status_path(sync_status) %>">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= sync_status.id %></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sync_status.source %></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= sync_status.id_from_source %></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <div class="flex flex-row gap-2 items-baseline">
+                <div>
+                  <% if sync_status.last_successful_sync_at.present? %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"><%= t('admin.sync_statuses.successful') %></span>
+                  <% else %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"><%= t('admin.sync_statuses.failed') %></span>
+                  <% end %>
+                </div>
+                <div class="text-xs mt-1 text-gray-500">
+                  <%= sync_status.last_attempted_sync_at&.strftime("%Y-%m-%d %H:%M") %>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500">
+              <% if sync_status.error_message.present? %>
+                <span class="text-red-600 inline-block" title="<%= sync_status.error_message %>">
+                  <%= sync_status.error_message %>
+                </span>
+              <% end %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <div class="flex items-center space-x-2">
+                <%= link_to edit_admin_sync_status_path(sync_status), class: "button button--small flex items-center gap-1" do %>
+                  <%= inline_svg "edit", class: "w-4 h-4" %>
+                  <span><%= t('admin.sync_statuses.edit') %></span>
+                <% end %>
+                <%= link_to admin_sync_status_path(sync_status), method: :delete, data: { turbo_method: :delete, turbo_confirm: t('admin.sync_statuses.confirm_delete') }, class: "link flex items-center gap-1" do %>
+                  <%= inline_svg "delete", class: "w-4 h-4" %>
+                  <span><%= t('admin.sync_statuses.delete') %></span>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-4">
+    <%== pagy_nav(@pagy) %>
+  </div>
+
+  <div class="flex justify-between items-center mb-4">
+    <%= link_to t('admin.sync_statuses.new'), new_admin_sync_status_path, class: "button" %>
+  </div>
+</div>
