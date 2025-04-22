@@ -69,4 +69,5 @@ config/kamal_secrets
 CLAUDE.md
 
 
+/config/credentials/staging.key
 /config/credentials/production.key
