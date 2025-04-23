@@ -15,7 +15,7 @@ test:
    # https://guides.rubyonrails.org/configuring.html#database-pooling
   database: lokaler_lnu_no_test<%= ENV['TEST_ENV_NUMBER'] %>
 
-production:
+production: &production
   <<: *default
   # Use explicit connection details for the database
   database: <%= ENV.fetch('POSTGRES_DB') %>
@@ -24,3 +24,6 @@ production:
   host: <%= ENV.fetch('POSTGRES_HOST') %>
   port: <%= ENV.fetch('POSTGRES_PORT') %>
 
+# Staging uses production config
+staging:
+  <<: *production
