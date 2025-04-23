@@ -19,9 +19,9 @@
             <% @space.images.each_with_index do |image, index| %>
               <li class="splide__slide">
                <div class="splide__slide__container flex flex-col">
-                <img class="h-1 object-scale-down flex-auto w-auto mx-auto" data-splide-lazy="<%= image.url %>" />
+                 <%= image_tag image.large, class: "h-1 object-scale-down flex-auto w-auto mx-auto" %>
                  <noscript>
-                   <img src="<%= image.url %>" />
+                   <%= image_tag image.large %>
                  </noscript>
                  <div class="max-w-prose w-full mx-auto p-4 relative">
                    <div class="bold text-white text-opacity-80">

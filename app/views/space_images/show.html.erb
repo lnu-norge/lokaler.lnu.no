@@ -5,7 +5,7 @@
 <h1><%= t('images.edit_images') %> | <%= @space.title %></h1>
 <p><%= link_to t('images.back_to_space', title: @space.title),@space %></p>
   <% @space.images.each do |image| %>
-    <%= image_tag image.url, class: "w-64" %>
+    <%= image_tag image.large, class: "w-64" %>
     <%= simple_form_for image, url: space_image_path(@space, image_id: image) do |f| %>
       <%= f.input :credits %>
       <%= f.input :caption %>
