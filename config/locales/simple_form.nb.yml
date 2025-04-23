@@ -50,7 +50,7 @@ nb:
         session:
           heading_new: "Velkommen!"
           login_with_google: "Bruk Google-konto"
-          login_with_email: "Få engangskode på e-post"
+          login_with_email: "Få innloggingslenke på e-post"
       space:
         title: "Navn på lokalet"
         address: "Gatenavn"

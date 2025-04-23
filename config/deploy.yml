@@ -16,6 +16,10 @@ servers:
 #proxy:
 #  ssl: true
 #  host: Set in destination deploy.yml
+ssh:
+  user: lokaler
+  port: 22
+  keys: [ "~/.ssh/id_lnu_lokaler_hetzner" ]
 registry:
   username: danieljacksonnor
   password:
