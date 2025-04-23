@@ -12,7 +12,7 @@ RSpec.describe "User signs in" do
     visit new_user_session_path
     within ".new_user" do
       fill_in_email user.email
-      click_on "Send kode"
+      click_on "Send lenke"
     end
 
     expect(page).to have_text I18n.t("devise.passwordless.magic_link_sent", email: user.email)
