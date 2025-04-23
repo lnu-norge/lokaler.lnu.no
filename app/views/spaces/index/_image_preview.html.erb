@@ -1,7 +1,8 @@
 <% if images.any? %>
   <div class="rounded-t-md overflow-hidden">
     <%= render partial: 'space_images/image_slider', locals: {
-      images: images
+      images: images,
+      image_size: :preview
     } %>
   </div>
 <% end %>

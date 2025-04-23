@@ -4,6 +4,7 @@
     - link_to_fullscreen: boolean
     - images[]
     - show_caption_credits: :thumbnail | :full
+    - image_size: :large | :preview
 %>
 <div
   class="splide
@@ -16,13 +17,20 @@
   <div class="splide__track">
     <ul class="splide__list">
       <% images.each_with_index do |image, index| %>
+        <%
+          image_record = if defined?(image_size) && image_size == :preview
+                         image.preview
+                       else
+                         image.large
+                       end
+        %>
         <li
             class="splide__slide"
             <% if defined?(space) && defined?(link_to_fullscreen) && link_to_fullscreen %>
               onclick="window.location = '<%= fullscreen_images_path(space.id, index) %>'"
             <% end %>
         >
-          <img data-splide-lazy="<%= image.url %>" />
+          <%= image_tag image_record %>
           <div class="absolute bottom-2 left-2 right-2 flex justify-between gap-2">
             <% if defined?(show_caption_credits) && show_caption_credits %>
               <% if image.caption&.present? %>
@@ -36,7 +44,7 @@
             </div>
           </div>
           <noscript>
-            <img src="<%= image.url %>" />
+            <%= image_tag image_record %>
           </noscript>
         </li>
       <% end %>
