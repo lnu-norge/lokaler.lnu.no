@@ -28,7 +28,7 @@ builder:
   arch: amd64
 env:
   clear:
-    RAILS_ENV: production
+    # RAILS_ENV: Set in deploy.DESTINATION.yml
     RAILS_SERVE_STATIC_FILES: 'true'
     RAILS_LOG_TO_STDOUT: true
     SOLID_QUEUE_IN_PUMA: true

@@ -17,6 +17,7 @@ proxy:
     - lokaler.lnu.no
 env:
   clear:
+    RAILS_ENV: production
     POSTGRES_HOST: production-lokaler-lnu-no-db
     POSTGRES_DB: lokaler_lnu_no_production
 accessories:

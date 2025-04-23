@@ -16,6 +16,7 @@ proxy:
     - staging.lokaler.lnu.no
 env:
   clear:
+    RAILS_ENV: staging
     POSTGRES_HOST: staging-db
     POSTGRES_DB: lokaler_lnu_no_staging
     POSTGRES_PORT: 5432
