@@ -18,8 +18,8 @@ syncing_data_on_sundays: &syncing_data_on_sundays
     schedule: every sunday at 23:00
 
 # Uncomment to test if syncing queues work
-development:
-  <<: *syncing_data_on_sundays
+#development:
+#  <<: *syncing_data_on_sundays
 
 production:
   <<: *syncing_data_on_sundays
