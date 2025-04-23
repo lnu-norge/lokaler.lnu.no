@@ -15,7 +15,7 @@ if (process.env.POSTHOG_API_KEY) {
 }
 
 
-if (process.env.RAILS_ENV !== "production" || process.env.RAILS_ENV !== "test") {
+if (!process.env.RAILS_ENV) {
     // If nothing else set, we are probably in dev
     define["window.RAILS_ENV"] = JSON.stringify("development")
 } else {

@@ -9,5 +9,8 @@ development:
 test:
   adapter: test
 
+staging:
+  <<: *default
+
 production:
   <<: *default

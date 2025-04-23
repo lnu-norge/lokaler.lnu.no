@@ -20,8 +20,7 @@ RUN apt-get update -qq && \
 # Set production environment
 ENV BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development:test" \
-    RAILS_ENV="production"
+    BUNDLE_WITHOUT="development:test"
 
 
 # Throw-away build stage to reduce size of final image
@@ -59,7 +58,7 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY or other env variables needed to precompile
-RUN SECRET_KEY_BASE_DUMMY=1 POSTGRES_DB=dummy POSTGRES_USER=dummy POSTGRES_PASSWORD=dummy POSTGRES_HOST=dummy POSTGRES_PORT=5432 ./bin/rails assets:precompile
+RUN RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 POSTGRES_DB=dummy POSTGRES_USER=dummy POSTGRES_PASSWORD=dummy POSTGRES_HOST=dummy POSTGRES_PORT=5432 ./bin/rails assets:precompile
 
 
 # Final stage for app image
