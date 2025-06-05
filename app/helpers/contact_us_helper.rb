@@ -20,11 +20,15 @@ module ContactUsHelper
 
 Kjapp tilbakemelding om LNU Lokaler:
 
+#{signature}"
+  end
 
+  def signature
+    "" if current_user.blank?
 
-Mvh
-#{current_user.name}
-#{current_user.organization_name.presence}
-"
+    "Mvh
+    #{current_user.name}
+    #{current_user.organization_name.presence}
+    "
   end
 end
