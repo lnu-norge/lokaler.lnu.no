@@ -88,8 +88,8 @@ module Admin
       sort_by = params[:sort_by] || "created_at"
       sort_direction = params[:sort_direction] == "asc" ? "asc" : "desc"
 
-      # Skip database sorting for edit count and last edit - we'll handle it in add_edit_counts
-      return if %w[edits last_edit].include?(sort_by)
+      # Skip database sorting for edit count, last edit, and space lists - we'll handle it in add_edit_counts
+      return if %w[edits last_edit space_lists].include?(sort_by)
 
       @users = apply_sorting(@users, sort_by, sort_direction)
     end
@@ -117,23 +117,33 @@ module Admin
                         .group(:whodunnit)
                         .maximum(:created_at)
 
+      space_list_counts = PersonalSpaceList
+                          .where(user_id: user_ids)
+                          .group(:user_id)
+                          .count
+
       @users_with_edit_counts = @users.map do |user|
-        [user, edit_counts[user.id.to_s] || 0, last_edit_dates[user.id.to_s]]
+        [user, edit_counts[user.id.to_s] || 0, last_edit_dates[user.id.to_s], space_list_counts[user.id] || 0]
       end
 
-      # If sorting by edits or last edit, return the sorted users as an ActiveRecord relation
-      return unless %w[edits last_edit].include?(params[:sort_by])
+      # If sorting by edits, last edit, or space lists, return the sorted users as an ActiveRecord relation
+      return unless %w[edits last_edit space_lists].include?(params[:sort_by])
 
       sort_direction = params[:sort_direction] == "asc" ? 1 : -1
 
-      sorted_users = if params[:sort_by] == "edits"
-                       @users_with_edit_counts.sort_by { |_, count, _| count * sort_direction }.map(&:first)
-                     else # last_edit
-                       sorted_data = @users_with_edit_counts.sort_by do |_, _, last_edit|
+      sorted_users = case params[:sort_by]
+                     when "edits"
+                       @users_with_edit_counts.sort_by { |_, count, _, _| count * sort_direction }.map(&:first)
+                     when "last_edit"
+                       sorted_data = @users_with_edit_counts.sort_by do |_, _, last_edit, _|
                          last_edit || Time.zone.at(0) # Use epoch time for users with no edits
                        end
                        sorted_data = sorted_data.reverse if sort_direction == -1
                        sorted_data.map(&:first)
+                     when "space_lists"
+                       @users_with_edit_counts.sort_by do |_, _, _, space_list_count|
+                         space_list_count * sort_direction
+                       end.map(&:first)
                      end
 
       sorted_ids = sorted_users.map(&:id)
@@ -160,13 +170,14 @@ module Admin
 
     def csv_headers
       ["ID", "Navn", "Fornavn", "Etternavn", "E-post", "Organisasjon", "Type", "Admin", "Endringer", "Siste endring",
-       "Opprettet", "Sist oppdatert"]
+       "Lister", "Opprettet", "Sist oppdatert"]
     end
 
-    def csv_row_for_user(user) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
-      user_data = @users_with_edit_counts.find { |u, _, _| u.id == user.id }
+    def csv_row_for_user(user) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      user_data = @users_with_edit_counts.find { |u, _, _, _| u.id == user.id }
       edit_count = user_data&.second || 0
       last_edit = user_data&.third
+      space_list_count = user_data&.fourth || 0
 
       [
         user.id,
@@ -179,6 +190,7 @@ module Admin
         user.admin? ? "Ja" : "Nei",
         edit_count,
         last_edit&.strftime("%Y-%m-%d %H:%M") || "-",
+        space_list_count,
         user.created_at.strftime("%Y-%m-%d %H:%M"),
         user.updated_at.strftime("%Y-%m-%d %H:%M")
       ]

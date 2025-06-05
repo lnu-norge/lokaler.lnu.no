@@ -4,56 +4,63 @@
     <table class="min-w-full divide-y divide-gray-200">
     <thead class="bg-gray-50">
       <tr>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
           <%= link_to "Navn", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "name", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
               class: "hover:text-lnu-blue" %>
           <% if @permitted_params[:sort_by] == "name" %>
             <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
           <% end %>
         </th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
           <%= link_to "E-post", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "email", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
               class: "hover:text-lnu-blue" %>
           <% if @permitted_params[:sort_by] == "email" %>
             <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
           <% end %>
         </th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
           <%= link_to "Organisasjon", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "organization", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
               class: "hover:text-lnu-blue" %>
           <% if @permitted_params[:sort_by] == "organization" %>
             <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
           <% end %>
         </th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
           <%= link_to "Type", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "type", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
               class: "hover:text-lnu-blue" %>
           <% if @permitted_params[:sort_by] == "type" %>
             <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
           <% end %>
         </th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
           <%= link_to "Admin", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "admin", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
               class: "hover:text-lnu-blue" %>
           <% if @permitted_params[:sort_by] == "admin" %>
             <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
           <% end %>
         </th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-          <%= link_to "Endringer", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "edits", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+          <%= link_to "# Endringer", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "edits", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")),
               class: "hover:text-lnu-blue" %>
           <% if @permitted_params[:sort_by] == "edits" %>
             <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
           <% end %>
         </th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
           <%= link_to "Siste endring", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "last_edit", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
               class: "hover:text-lnu-blue" %>
           <% if @permitted_params[:sort_by] == "last_edit" %>
             <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
           <% end %>
         </th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+          <%= link_to "# Lister", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "space_lists", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")),
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "space_lists" %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
           <%= link_to "Opprettet", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "created_at", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
               class: "hover:text-lnu-blue" %>
           <% if @permitted_params[:sort_by] == "created_at" || @permitted_params[:sort_by].blank? %>
@@ -115,6 +122,14 @@
               <%= l(last_edit, format: :long) %>
             <% else %>
               <span class="text-gray-400">-</span>
+            <% end %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <% space_list_count = user_data&.fourth || 0 %>
+            <% if space_list_count > 0 %>
+              <%= space_list_count %>
+            <% else %>
+              <span class="text-gray-400">0</span>
             <% end %>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

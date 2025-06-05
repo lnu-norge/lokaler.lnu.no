@@ -129,6 +129,11 @@ RSpec.describe "Admin::UserLists", type: :request do
           get admin_user_lists_path, params: { sort_by: "last_edit", sort_direction: "desc" }
           expect(response).to have_http_status(:success)
         end
+
+        it "sorts users by space lists count" do
+          get admin_user_lists_path, params: { sort_by: "space_lists", sort_direction: "desc" }
+          expect(response).to have_http_status(:success)
+        end
       end
 
       context "when exporting CSV" do
@@ -149,7 +154,7 @@ RSpec.describe "Admin::UserLists", type: :request do
           get admin_user_lists_path(format: :csv)
           csv_content = response.body
           # rubocop:disable Layout/LineLength
-          expected_headers = "ID,Navn,Fornavn,Etternavn,E-post,Organisasjon,Type,Admin,Endringer,Siste endring,Opprettet,Sist oppdatert"
+          expected_headers = "ID,Navn,Fornavn,Etternavn,E-post,Organisasjon,Type,Admin,Endringer,Siste endring,Lister,Opprettet,Sist oppdatert"
           # rubocop:enable Layout/LineLength
           expect(csv_content).to include(expected_headers)
         end
