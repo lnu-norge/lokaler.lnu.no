@@ -24,7 +24,7 @@ Kjapp tilbakemelding om LNU Lokaler:
   end
 
   def signature
-    "" if current_user.blank?
+    return "" if current_user.blank?
 
     "Mvh
     #{current_user.name}
