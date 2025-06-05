@@ -40,6 +40,20 @@
           <% end %>
         </th>
         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= link_to "Endringer", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "edits", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "edits" %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= link_to "Siste endring", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "last_edit", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "last_edit" %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
           <%= link_to "Opprettet", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "created_at", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
               class: "hover:text-lnu-blue" %>
           <% if @permitted_params[:sort_by] == "created_at" || @permitted_params[:sort_by].blank? %>
@@ -58,7 +72,7 @@
               </div>
               <div class="ml-4">
                 <div class="text-sm font-medium text-gray-900">
-                  <%= user.first_name + " " + user.last_name || "Ingen navn" %>
+                  <%= user.full_name || "Ingen navn" %>
                 </div>
               </div>
             </div>
@@ -86,7 +100,25 @@
             <% end %>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            <%= l(user.created_at, format: :short) %>
+            <% user_data = @users_with_edit_counts.find { |u, _, _| u.id == user.id } %>
+            <% edit_count = user_data&.second || 0 %>
+            <% if edit_count > 0 %>
+              <%= link_to edit_count, admin_history_index_path(user_ids: [user.id]), 
+                  class: "text-lnu-blue hover:underline" %>
+            <% else %>
+              <span class="text-gray-400">0</span>
+            <% end %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <% last_edit = user_data&.third %>
+            <% if last_edit %>
+              <%= l(last_edit, format: :long) %>
+            <% else %>
+              <span class="text-gray-400">-</span>
+            <% end %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <%= l(user.created_at, format: :long) %>
           </td>
         </tr>
       <% end %>

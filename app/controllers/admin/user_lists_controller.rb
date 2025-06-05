@@ -5,6 +5,7 @@ module Admin
     def index
       @users = User.all
       filter_users
+      add_edit_counts
 
       respond_to do |format|
         format.html do
@@ -86,6 +87,10 @@ module Admin
     def sort_users
       sort_by = params[:sort_by] || "created_at"
       sort_direction = params[:sort_direction] == "asc" ? "asc" : "desc"
+
+      # Skip database sorting for edit count and last edit - we'll handle it in add_edit_counts
+      return if %w[edits last_edit].include?(sort_by)
+
       @users = apply_sorting(@users, sort_by, sort_direction)
     end
 
@@ -98,6 +103,46 @@ module Admin
       else
         users.order("#{sort_by} #{sort_direction}")
       end
+    end
+
+    def add_edit_counts # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
+      user_ids = @users.pluck(:id)
+      edit_counts = PaperTrail::Version
+                    .where(whodunnit: user_ids)
+                    .group(:whodunnit)
+                    .count
+
+      last_edit_dates = PaperTrail::Version
+                        .where(whodunnit: user_ids)
+                        .group(:whodunnit)
+                        .maximum(:created_at)
+
+      @users_with_edit_counts = @users.map do |user|
+        [user, edit_counts[user.id.to_s] || 0, last_edit_dates[user.id.to_s]]
+      end
+
+      # If sorting by edits or last edit, return the sorted users as an ActiveRecord relation
+      return unless %w[edits last_edit].include?(params[:sort_by])
+
+      sort_direction = params[:sort_direction] == "asc" ? 1 : -1
+
+      sorted_users = if params[:sort_by] == "edits"
+                       @users_with_edit_counts.sort_by { |_, count, _| count * sort_direction }.map(&:first)
+                     else # last_edit
+                       sorted_data = @users_with_edit_counts.sort_by do |_, _, last_edit|
+                         last_edit || Time.zone.at(0) # Use epoch time for users with no edits
+                       end
+                       sorted_data = sorted_data.reverse if sort_direction == -1
+                       sorted_data.map(&:first)
+                     end
+
+      sorted_ids = sorted_users.map(&:id)
+
+      # Create a new relation with the sorted order using a CASE statement
+      @users = User.where(id: sorted_ids)
+                   .order(Arel.sql("CASE #{sorted_ids.map.with_index do |id, index|
+                     "WHEN id = #{id} THEN #{index}"
+                   end.join(' ')} END"))
     end
 
     def paginate_users
@@ -114,19 +159,26 @@ module Admin
     end
 
     def csv_headers
-      ["ID", "Navn", "Fornavn", "Etternavn", "E-post", "Organisasjon", "Type", "Admin", "Opprettet", "Sist oppdatert"]
+      ["ID", "Navn", "Fornavn", "Etternavn", "E-post", "Organisasjon", "Type", "Admin", "Endringer", "Siste endring",
+       "Opprettet", "Sist oppdatert"]
     end
 
-    def csv_row_for_user(user)
+    def csv_row_for_user(user) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
+      user_data = @users_with_edit_counts.find { |u, _, _| u.id == user.id }
+      edit_count = user_data&.second || 0
+      last_edit = user_data&.third
+
       [
         user.id,
-        user.name,
+        user.full_name,
         user.first_name,
         user.last_name,
         user.email,
         user.organization_name,
         user.robot? ? "Robot" : "Menneske",
         user.admin? ? "Ja" : "Nei",
+        edit_count,
+        last_edit&.strftime("%Y-%m-%d %H:%M") || "-",
         user.created_at.strftime("%Y-%m-%d %H:%M"),
         user.updated_at.strftime("%Y-%m-%d %H:%M")
       ]
