@@ -2,7 +2,6 @@
 
 require "rails_helper"
 
-# rubocop:disable RSpec/NestedGroups
 RSpec.describe "Admin::UserLists", type: :request do
   let(:admin_user) { Fabricate(:user, admin: true) }
   let(:regular_user) { Fabricate(:user) }
