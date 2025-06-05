@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class UserListsController < BaseControllers::AuthenticateAsAdminController
+  class UserListsController < BaseControllers::AuthenticateAsAdminController # rubocop:disable Metrics/ClassLength
     def index
       @users = User.all
       filter_users
@@ -86,15 +86,18 @@ module Admin
     def sort_users
       sort_by = params[:sort_by] || "created_at"
       sort_direction = params[:sort_direction] == "asc" ? "asc" : "desc"
+      @users = apply_sorting(@users, sort_by, sort_direction)
+    end
 
-      @users = case sort_by
-               when "name"
-                 @users.order("first_name #{sort_direction}, last_name #{sort_direction}")
-               when "organization"
-                 @users.order("organization_name #{sort_direction}")
-               else
-                 @users.order("#{sort_by} #{sort_direction}")
-               end
+    def apply_sorting(users, sort_by, sort_direction)
+      case sort_by
+      when "name"
+        users.order("first_name #{sort_direction}, last_name #{sort_direction}")
+      when "organization"
+        users.order("organization_name #{sort_direction}")
+      else
+        users.order("#{sort_by} #{sort_direction}")
+      end
     end
 
     def paginate_users
@@ -105,24 +108,28 @@ module Admin
       require "csv"
 
       CSV.generate(headers: true) do |csv|
-        csv << ["ID", "Navn", "Fornavn", "Etternavn", "E-post", "Organisasjon", "Type", "Admin", "Opprettet",
-                "Sist oppdatert"]
-
-        users.find_each do |user|
-          csv << [
-            user.id,
-            user.name,
-            user.first_name,
-            user.last_name,
-            user.email,
-            user.organization_name,
-            user.robot? ? "Robot" : "Menneske",
-            user.admin? ? "Ja" : "Nei",
-            user.created_at.strftime("%Y-%m-%d %H:%M"),
-            user.updated_at.strftime("%Y-%m-%d %H:%M")
-          ]
-        end
+        csv << csv_headers
+        users.find_each { |user| csv << csv_row_for_user(user) }
       end
+    end
+
+    def csv_headers
+      ["ID", "Navn", "Fornavn", "Etternavn", "E-post", "Organisasjon", "Type", "Admin", "Opprettet", "Sist oppdatert"]
+    end
+
+    def csv_row_for_user(user)
+      [
+        user.id,
+        user.name,
+        user.first_name,
+        user.last_name,
+        user.email,
+        user.organization_name,
+        user.robot? ? "Robot" : "Menneske",
+        user.admin? ? "Ja" : "Nei",
+        user.created_at.strftime("%Y-%m-%d %H:%M"),
+        user.updated_at.strftime("%Y-%m-%d %H:%M")
+      ]
     end
   end
 end
