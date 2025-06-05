@@ -1,0 +1,96 @@
+<!-- Users Table -->
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <div class="overflow-x-auto w-screen">
+    <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= link_to "Navn", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "name", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "name" %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= link_to "E-post", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "email", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "email" %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= link_to "Organisasjon", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "organization", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "organization" %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= link_to "Type", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "type", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "type" %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= link_to "Admin", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "admin", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "admin" %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= link_to "Opprettet", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "created_at", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "created_at" || @permitted_params[:sort_by].blank? %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% @users.each do |user| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 h-10 w-10">
+                <%= image_tag user.gravatar_url, alt: user.name, class: "h-10 w-10 rounded-full" %>
+              </div>
+              <div class="ml-4">
+                <div class="text-sm font-medium text-gray-900">
+                  <%= user.first_name + " " + user.last_name || "Ingen navn" %>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="text-sm flex gap-1.5 text-gray-900"><%= user.email %><%= link_to "mailto:#{user.email}" do %><%= inline_svg "email", class: "hover:bg-lnu-pink hover:text-white rounded-full" %><% end %></div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="text-sm text-gray-900">
+              <%= user.organization_name.presence || "-" %>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full <%= user.robot? ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800' %>">
+              <%= user.robot? ? "Robot" : "Menneske" %>
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <% if user.admin? %>
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                Admin
+              </span>
+            <% else %>
+              <span class="text-gray-400">-</span>
+            <% end %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <%= l(user.created_at, format: :short) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</div>

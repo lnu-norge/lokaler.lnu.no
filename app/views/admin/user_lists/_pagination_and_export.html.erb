@@ -1,0 +1,9 @@
+<div class="flex flex-col md:flex-row md:justify-between items-center md:items-end md:gap-4 m-10 md:my-0">
+  <div class="hidden md:block"></div>
+  <div class="my-4">
+    <%== pagy_info(@pagy, item_name: "brukere") %>
+    <%== pagy_nav(@pagy) %>
+  </div>
+  <%= link_to "Eksporter til CSV", admin_user_lists_path(@permitted_params.merge(format: :csv)),
+              class: "button mb-4" %>
+</div>

@@ -5,7 +5,17 @@ module Admin
     def index
       @users = User.all
       filter_users
-      paginate_users
+
+      respond_to do |format|
+        format.html do
+          paginate_users
+        end
+        format.csv do
+          # Don't paginate for CSV export - export all filtered results
+          send_data generate_csv(@users), filename: "users-#{Date.current}.csv"
+        end
+      end
+
       @permitted_params = params.permit(:search, :type, :admin, :sort_by, :sort_direction, :page, :start_date,
                                         :end_date, organization_names: [])
       @available_organizations = User.where.not(organization_name: [nil, ""]).distinct.pluck(:organization_name).sort
@@ -89,6 +99,30 @@ module Admin
 
     def paginate_users
       @pagy, @users = pagy(@users, limit: 50)
+    end
+
+    def generate_csv(users)
+      require "csv"
+
+      CSV.generate(headers: true) do |csv|
+        csv << ["ID", "Navn", "Fornavn", "Etternavn", "E-post", "Organisasjon", "Type", "Admin", "Opprettet",
+                "Sist oppdatert"]
+
+        users.find_each do |user|
+          csv << [
+            user.id,
+            user.name,
+            user.first_name,
+            user.last_name,
+            user.email,
+            user.organization_name,
+            user.robot? ? "Robot" : "Menneske",
+            user.admin? ? "Ja" : "Nei",
+            user.created_at.strftime("%Y-%m-%d %H:%M"),
+            user.updated_at.strftime("%Y-%m-%d %H:%M")
+          ]
+        end
+      end
     end
   end
 end
