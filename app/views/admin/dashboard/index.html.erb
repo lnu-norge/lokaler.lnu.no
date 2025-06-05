@@ -71,6 +71,11 @@
     <% end %>
 
     <%= render "admin/dashboard/statistics_box",
+               header: "#{number_with_delimiter @login_attempts_count} innloggingsforsøk" do %>
+      <%= column_chart @login_attempts, label: "Innloggingsforsøk", stacked: true, colors: colors_for_stacked_charts %>
+    <% end %>
+
+    <%= render "admin/dashboard/statistics_box",
                header: "#{number_with_delimiter @changes_created_by_users_count} brukerinitierte loggførte endringer" do %>
       <%= column_chart @changes_created_by_users, label: "Endringer", stacked: true, colors: colors_for_stacked_charts %>
     <% end %>

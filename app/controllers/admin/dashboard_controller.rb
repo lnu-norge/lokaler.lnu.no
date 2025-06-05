@@ -28,6 +28,7 @@ module Admin
       space_group_statistics
       user_statistics
       user_activity_statistics
+      login_attempt_statistics
       list_statistics
     end
 
@@ -43,9 +44,9 @@ module Admin
       @changes_created_by_system = PaperTrail::Version
                                    .where(whodunnit: nil)
                                    .group("item_type")
-                                   .group_by_period(@period_grouping, :created_at, range: @date_range).count
+                                   .group_by_period(@period_grouping, :created_at, range: @datetime_range).count
       @changes_created_by_system_count = PaperTrail::Version
-                                         .where(created_at: @date_range)
+                                         .where(created_at: @datetime_range)
                                          .where(whodunnit: nil)
                                          .count
 
@@ -57,20 +58,20 @@ module Admin
       @changes_created_by_users = PaperTrail::Version
                                   .where.not(whodunnit: nil)
                                   .group("item_type")
-                                  .group_by_period(@period_grouping, :created_at, range: @date_range).count
+                                  .group_by_period(@period_grouping, :created_at, range: @datetime_range).count
       @changes_created_by_users_count = PaperTrail::Version
-                                        .where(created_at: @date_range)
+                                        .where(created_at: @datetime_range)
                                         .where.not(whodunnit: nil)
                                         .count
 
       @unique_users_creating_changes = PaperTrail::Version
                                        .where.not(whodunnit: nil)
                                        .group_by_period(@period_grouping, :created_at,
-                                                        range: @date_range)
+                                                        range: @datetime_range)
                                        .distinct
                                        .count(:whodunnit)
       @unique_users_creating_changes_count = PaperTrail::Version
-                                             .where(created_at: @date_range)
+                                             .where(created_at: @datetime_range)
                                              .where.not(whodunnit: nil)
                                              .distinct
                                              .count(:whodunnit)
@@ -78,7 +79,7 @@ module Admin
 
     def most_users_creating_changes
       @most_changes_per_user = PaperTrail::Version
-                               .where(created_at: @date_range)
+                               .where(created_at: @datetime_range)
                                .where.not(whodunnit: nil)
                                .group(:whodunnit)
                                .count
@@ -88,8 +89,8 @@ module Admin
     end
 
     def space_statistics
-      @spaces_created = Space.group_by_period(@period_grouping, :created_at, range: @date_range).count
-      @spaces_created_count = Space.where(created_at: @date_range).count
+      @spaces_created = Space.group_by_period(@period_grouping, :created_at, range: @datetime_range).count
+      @spaces_created_count = Space.where(created_at: @datetime_range).count
       @space_count = Space.count
     end
 
@@ -113,16 +114,16 @@ module Admin
 
     def review_statistics
       @reviews_created = Review
-                         .group_by_period(@period_grouping, :created_at, range: @date_range).count
-      @reviews_created_count = Review.where(created_at: @date_range).count
+                         .group_by_period(@period_grouping, :created_at, range: @datetime_range).count
+      @reviews_created_count = Review.where(created_at: @datetime_range).count
     end
 
     def facility_review_statistics
       @facility_reviews_created = FacilityReview
                                   .group("experience")
                                   .group_by_period(@period_grouping, :created_at,
-                                                   range: @date_range).count
-      @facility_reviews_created_count = FacilityReview.where(created_at: @date_range).count
+                                                   range: @datetime_range).count
+      @facility_reviews_created_count = FacilityReview.where(created_at: @datetime_range).count
     end
 
     def space_facility_statistics
@@ -135,7 +136,7 @@ module Admin
 
     def user_statistics # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       top_organizations = User
-                          .where(created_at: @date_range)
+                          .where(created_at: @datetime_range)
                           .group(:organization_name)
                           .count.sort_by { |_, count| -count }
                           .take(6).filter(&:last).map(&:first)
@@ -172,10 +173,10 @@ module Admin
                        .group_by_period(
                          @period_grouping,
                          :created_at,
-                         range: @date_range
+                         range: @datetime_range
                        ).count
 
-      @users_created_count = User.where(created_at: @date_range).count
+      @users_created_count = User.where(created_at: @datetime_range).count
       @users_count = User.count
       @users_with_reviews = User.joins(:reviews)
                                 .where.not(reviews: { id: nil })
@@ -195,14 +196,21 @@ module Admin
     end
 
     def list_statistics
-      @lists_created = PersonalSpaceList.group_by_period(@period_grouping, :created_at, range: @date_range).count
-      @lists_created_count = PersonalSpaceList.where(created_at: @date_range).count
+      @lists_created = PersonalSpaceList.group_by_period(@period_grouping, :created_at, range: @datetime_range).count
+      @lists_created_count = PersonalSpaceList.where(created_at: @datetime_range).count
     end
 
     def user_activity_statistics
       @active_users = UserPresenceLog.group_by_period(@period_grouping, :date,
                                                       range: @date_range).distinct.count(:user_id)
       @active_users_count = UserPresenceLog.where(date: @date_range).distinct.count(:user_id)
+    end
+
+    def login_attempt_statistics
+      @login_attempts = LoginAttempt
+                        .group("status")
+                        .group_by_period(@period_grouping, :created_at, range: @datetime_range).count
+      @login_attempts_count = LoginAttempt.where(created_at: @datetime_range).count
     end
 
     def set_period_grouping
@@ -231,6 +239,7 @@ module Admin
       end_date = params[:end_date]&.to_date || Date.current
 
       @date_range = start_date..end_date
+      @datetime_range = start_date.beginning_of_day..end_date.end_of_day
     end
 
     def spaces_with_rich_text(field)
