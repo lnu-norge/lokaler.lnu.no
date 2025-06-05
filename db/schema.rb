@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_15_105828) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_05_113918) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -132,6 +132,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_105828) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["space_id"], name: "index_images_on_space_id"
+  end
+
+  create_table "login_attempts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "email", null: false
+    t.string "login_method", null: false
+    t.string "failed_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status", default: "pending", null: false
+    t.index ["email"], name: "index_login_attempts_on_email"
+    t.index ["status"], name: "index_login_attempts_on_status"
+    t.index ["user_id"], name: "index_login_attempts_on_user_id"
   end
 
   create_table "personal_data_on_space_in_lists", primary_key: ["space_id", "personal_space_list_id"], force: :cascade do |t|
@@ -427,6 +440,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_105828) do
     t.index ["source"], name: "index_sync_statuses_on_source"
   end
 
+  create_table "user_presence_logs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_user_presence_logs_on_date"
+    t.index ["user_id", "date"], name: "index_user_presence_logs_on_user_id_and_date", unique: true
+    t.index ["user_id"], name: "index_user_presence_logs_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -471,6 +494,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_105828) do
   add_foreign_key "geographical_area_types", "geographical_area_types", column: "parent_id"
   add_foreign_key "geographical_areas", "geographical_area_types"
   add_foreign_key "geographical_areas", "geographical_areas", column: "parent_id"
+  add_foreign_key "login_attempts", "users"
   add_foreign_key "personal_data_on_space_in_lists", "personal_space_lists"
   add_foreign_key "personal_data_on_space_in_lists", "spaces"
   add_foreign_key "personal_space_lists_shared_with_mes", "personal_space_lists"
@@ -494,4 +518,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_105828) do
   add_foreign_key "spaces", "geographical_areas", column: "fylke_id"
   add_foreign_key "spaces", "geographical_areas", column: "kommune_id"
   add_foreign_key "spaces", "space_groups"
+  add_foreign_key "user_presence_logs", "users"
 end

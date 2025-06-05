@@ -2,7 +2,6 @@
 
 require "rails_helper"
 
-# rubocop:disable RSpec/NestedGroups
 RSpec.describe "Admin::UserLists", type: :request do
   let(:admin_user) { Fabricate(:user, admin: true) }
   let(:regular_user) { Fabricate(:user) }
@@ -154,7 +153,7 @@ RSpec.describe "Admin::UserLists", type: :request do
           get admin_user_lists_path(format: :csv)
           csv_content = response.body
           # rubocop:disable Layout/LineLength
-          expected_headers = "ID,Navn,Fornavn,Etternavn,E-post,Organisasjon,Type,Admin,Endringer,Siste endring,Lister,Opprettet,Sist oppdatert"
+          expected_headers = "ID,Navn,Fornavn,Etternavn,E-post,Organisasjon,Type,Admin,Endringer,Siste endring,Lister,Aktive dager,Sist aktiv,Opprettet,Sist oppdatert"
           # rubocop:enable Layout/LineLength
           expect(csv_content).to include(expected_headers)
         end

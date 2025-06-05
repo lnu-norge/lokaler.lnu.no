@@ -61,9 +61,23 @@
           <% end %>
         </th>
         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+          <%= link_to "# Aktive dager", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "active_days", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")),
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "active_days" %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+          <%= link_to "Sist aktiv", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "last_active", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")),
+              class: "hover:text-lnu-blue" %>
+          <% if @permitted_params[:sort_by] == "last_active" || @permitted_params[:sort_by].blank? %>
+            <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
+          <% end %>
+        </th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
           <%= link_to "Opprettet", admin_user_lists_path(@permitted_params.except(:sort_by, :sort_direction).merge(sort_by: "created_at", sort_direction: @permitted_params[:sort_direction] == "asc" ? "desc" : "asc")), 
               class: "hover:text-lnu-blue" %>
-          <% if @permitted_params[:sort_by] == "created_at" || @permitted_params[:sort_by].blank? %>
+          <% if @permitted_params[:sort_by] == "created_at" %>
             <%= @permitted_params[:sort_direction] == "asc" ? "↑" : "↓" %>
           <% end %>
         </th>
@@ -80,6 +94,7 @@
               <div class="ml-4">
                 <div class="text-sm font-medium text-gray-900">
                   <%= user.full_name || "Ingen navn" %>
+                  <span class="text-gray-400">(id: <%= user.id %>)</span>
                 </div>
               </div>
             </div>
@@ -107,8 +122,8 @@
             <% end %>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            <% user_data = @users_with_edit_counts.find { |u, _, _| u.id == user.id } %>
-            <% edit_count = user_data&.second || 0 %>
+            <% user_data = @users_with_data.find { |data| data[:user].id == user.id } %>
+            <% edit_count = user_data&.dig(:edit_count) || 0 %>
             <% if edit_count > 0 %>
               <%= link_to edit_count, admin_history_index_path(user_ids: [user.id]), 
                   class: "text-lnu-blue hover:underline" %>
@@ -117,7 +132,7 @@
             <% end %>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            <% last_edit = user_data&.third %>
+            <% last_edit = user_data&.dig(:last_edit_date) %>
             <% if last_edit %>
               <%= l(last_edit, format: :long) %>
             <% else %>
@@ -125,11 +140,27 @@
             <% end %>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-            <% space_list_count = user_data&.fourth || 0 %>
+            <% space_list_count = user_data&.dig(:space_list_count) || 0 %>
             <% if space_list_count > 0 %>
               <%= space_list_count %>
             <% else %>
               <span class="text-gray-400">0</span>
+            <% end %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <% active_days_count = user_data&.dig(:active_days_count) || 0 %>
+            <% if active_days_count > 0 %>
+              <%= active_days_count %>
+            <% else %>
+              <span class="text-gray-400">0</span>
+            <% end %>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <% last_active = user_data&.dig(:last_active_date) %>
+            <% if last_active %>
+              <%= l(last_active, format: :long) %>
+            <% else %>
+              <span class="text-gray-400">-</span>
             <% end %>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
