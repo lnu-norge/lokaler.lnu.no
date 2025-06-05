@@ -2,7 +2,7 @@
 <div class="bg-gray-50 p-4 rounded-lg mb-4">
   <nav class="flex justify-around">
     <div>
-      <%= form_with url: admin_history_index_path, method: :get, class: "flex flex-wrap items-end gap-4", data: { turbo_frame: "_top" } do |f| %>
+      <%= form_with url: admin_history_index_path, method: :get, class: "flex flex-wrap items-end justify-center gap-4", data: { turbo_frame: "_top" } do |f| %>
         <div>
           <%= f.label :user_ids, "#{t("admin.user_ids")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
           <%= f.select :user_ids,

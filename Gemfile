@@ -39,6 +39,7 @@ gem "activerecord-postgis-adapter" # For PostGIS and Geo commands in Active reco
 gem "addressable"
 gem "chartkick" # Charts
 gem "cssbundling-rails"
+gem "csv"
 gem "diffy"
 gem "gravtastic"
 gem "groupdate" # for grouping models by date

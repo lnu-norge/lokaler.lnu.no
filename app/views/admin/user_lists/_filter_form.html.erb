@@ -1,0 +1,65 @@
+<!-- Search and Filters -->
+<div class="bg-gray-50 p-4 rounded-lg mb-4 flex justify-around">
+  <%= form_tag admin_user_lists_path, method: :get, local: true, class: "flex flex-wrap items-end justify-center gap-4" do %>
+    <div>
+      <%= label_tag :search, "Navn, e-post eller organisasjon:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= text_field_tag :search, @permitted_params[:search], placeholder: "", class: "mt-1 block w-80 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= label_tag :type, "Type:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= select_tag :type, 
+          options_for_select([
+            ["Alle", ""],
+            ["Mennesker", "humans"],
+            ["Roboter", "robots"]
+          ], @permitted_params[:type]), 
+          class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= label_tag :organization_names, "Organisasjoner:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= select_tag :organization_names,
+          options_for_select(@available_organizations.map { |org| [org, org] }, @permitted_params[:organization_names]),
+          {
+            multiple: true,
+            class: "mt-1 block w-80 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+            data: {
+              controller: "tom-select",
+              tom_select_options_value: {
+                plugins: ["remove_button"],
+                placeholder: "Velg organisasjoner..."
+              }.to_json
+            }
+          } %>
+    </div>
+
+    <div>
+      <%= label_tag :admin, "Admin:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= select_tag :admin, 
+          options_for_select([
+            ["Alle", ""],
+            ["Admin", "true"],
+            ["Ikke admin", "false"]
+          ], @permitted_params[:admin]), 
+          class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= label_tag :start_date, "Opprettet fra:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= date_field_tag :start_date, @permitted_params[:start_date], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+    
+    <div>
+      <%= label_tag :end_date, "Opprettet til:", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= date_field_tag :end_date, @permitted_params[:end_date], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <%= submit_tag "Filtrer", class: "button" %>
+      <% if @permitted_params[:search].present? || @permitted_params[:type].present? || @permitted_params[:admin].present? || @permitted_params[:start_date].present? || @permitted_params[:end_date].present? || @permitted_params[:organization_names].present? %>
+        <%= link_to "Fjern filter", admin_user_lists_path, class: "text-gray-600 hover:text-gray-900" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

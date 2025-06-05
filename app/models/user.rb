@@ -40,6 +40,14 @@ class User < ApplicationRecord
     "#{first_name} #{last_name[0]&.upcase}."
   end
 
+  def full_name
+    return nil if first_name.blank? && last_name.blank?
+    return first_name if last_name.blank?
+    return last_name if first_name.blank?
+
+    "#{first_name} #{last_name}"
+  end
+
   def organization
     return organization_name if in_organization == true
     return "Privatperson" if in_organization == false
