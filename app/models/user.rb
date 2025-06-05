@@ -17,6 +17,9 @@ class User < ApplicationRecord
   has_many :personal_space_lists_shared_with_mes, dependent: :destroy
   has_one :active_personal_space_list, dependent: :destroy
 
+  has_many :login_attempts, dependent: :destroy
+  has_many :user_presence_logs, dependent: :destroy
+
   validates :organization_name, presence: true, if: -> { in_organization == true }
 
   # Scopes for STI
