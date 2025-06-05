@@ -21,6 +21,14 @@
     <%= link_to t('session.my_experiences'),
                 reviews_path %>
   </p>
+  <div class="shadow-2xl p-4 -mx-4 my-10 py-6 border-2 rounded-lg border-lnu-pink">
+    <h2 class="h3 no-mt">Tilbakemeldinger?</h2>
+    <p>Tilbakemeldinger er veldig nyttige!</p>
+    <%= link_to mailto_contact_us_path, class: "flex gap-2 items-center" do %>
+      <%= inline_svg "email" %>
+      Send oss en epost
+    <% end %>
+  </div>
   <% if current_user.admin? %>
     <%= render "admin/menu/admin_boxed_menu" %>
   <% end %>
