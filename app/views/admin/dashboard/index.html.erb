@@ -66,6 +66,11 @@
     <% colors_for_stacked_charts = ["#C40066", "#618467", "#175278", "#C4006630", "#61846730", "#17527830"] %>
 
     <%= render "admin/dashboard/statistics_box",
+               header: "#{number_with_delimiter @active_users_count} aktive brukere" do %>
+      <%= column_chart @active_users, label: "Aktive brukere" %>
+    <% end %>
+
+    <%= render "admin/dashboard/statistics_box",
                header: "#{number_with_delimiter @changes_created_by_users_count} brukerinitierte loggførte endringer" do %>
       <%= column_chart @changes_created_by_users, label: "Endringer", stacked: true, colors: colors_for_stacked_charts %>
     <% end %>

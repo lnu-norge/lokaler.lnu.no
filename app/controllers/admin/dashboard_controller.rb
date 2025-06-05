@@ -27,6 +27,7 @@ module Admin
       space_facility_statistics
       space_group_statistics
       user_statistics
+      user_activity_statistics
       list_statistics
     end
 
@@ -196,6 +197,12 @@ module Admin
     def list_statistics
       @lists_created = PersonalSpaceList.group_by_period(@period_grouping, :created_at, range: @date_range).count
       @lists_created_count = PersonalSpaceList.where(created_at: @date_range).count
+    end
+
+    def user_activity_statistics
+      @active_users = UserPresenceLog.group_by_period(@period_grouping, :date,
+                                                      range: @date_range).distinct.count(:user_id)
+      @active_users_count = UserPresenceLog.where(date: @date_range).distinct.count(:user_id)
     end
 
     def set_period_grouping
