@@ -27,8 +27,7 @@ Kjapp tilbakemelding om LNU Lokaler:
     return "" if current_user.blank?
 
     "Mvh
-    #{current_user.name}
-    #{current_user.organization_name.presence}
-    "
+#{current_user.name}
+#{current_user.organization_name.presence}"
   end
 end
