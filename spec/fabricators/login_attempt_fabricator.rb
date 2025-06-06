@@ -2,7 +2,7 @@
 
 Fabricator(:login_attempt) do
   user
-  email { |attrs| attrs[:user]&.email || "user@example.com" }
+  identifier Faker::Internet.user_name
   login_method "magic_link"
   status "pending"
   failed_reason nil
@@ -13,8 +13,8 @@ end
 # Table name: login_attempts
 #
 #  id            :bigint           not null, primary key
-#  email         :string           not null
 #  failed_reason :string
+#  identifier    :string           not null
 #  login_method  :string           not null
 #  status        :string           default("pending"), not null
 #  created_at    :datetime         not null
@@ -23,9 +23,8 @@ end
 #
 # Indexes
 #
-#  index_login_attempts_on_email    (email)
-#  index_login_attempts_on_status   (status)
-#  index_login_attempts_on_user_id  (user_id)
+#  index_login_attempts_on_identifier_and_login_method  (identifier,login_method)
+#  index_login_attempts_on_user_id                      (user_id)
 #
 # Foreign Keys
 #

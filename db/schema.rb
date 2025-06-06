@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_05_113918) do
+ActiveRecord::Schema[7.2].define(version: 2025_06_06_084930) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -136,14 +136,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_05_113918) do
 
   create_table "login_attempts", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "email", null: false
     t.string "login_method", null: false
     t.string "failed_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", default: "pending", null: false
-    t.index ["email"], name: "index_login_attempts_on_email"
-    t.index ["status"], name: "index_login_attempts_on_status"
+    t.string "identifier", null: false
+    t.index ["identifier", "login_method"], name: "index_login_attempts_on_identifier_and_login_method"
     t.index ["user_id"], name: "index_login_attempts_on_user_id"
   end
 

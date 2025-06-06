@@ -10,6 +10,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
                edit: "rediger"
              },
              controllers: {
+               magic_links: "users/magic_links",
                sessions: "users/sessions",
                registrations: "users/registrations",
                omniauth_callbacks: "users/omniauth_callbacks"

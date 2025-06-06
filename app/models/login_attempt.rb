@@ -3,12 +3,12 @@
 class LoginAttempt < ApplicationRecord
   belongs_to :user, optional: true
 
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :identifier, presence: true
   validates :login_method, presence: true
   validates :status, presence: true
 
   scope :recent, -> { order(created_at: :desc) }
-  scope :for_email, ->(email) { where(email: email) }
+  scope :for_identifier, ->(identifier) { where(identifier:) }
   scope :since, ->(date) { where(created_at: date..) }
 
   enum :login_method, {
@@ -28,8 +28,8 @@ end
 # Table name: login_attempts
 #
 #  id            :bigint           not null, primary key
-#  email         :string           not null
 #  failed_reason :string
+#  identifier    :string           not null
 #  login_method  :string           not null
 #  status        :string           default("pending"), not null
 #  created_at    :datetime         not null
@@ -38,9 +38,8 @@ end
 #
 # Indexes
 #
-#  index_login_attempts_on_email    (email)
-#  index_login_attempts_on_status   (status)
-#  index_login_attempts_on_user_id  (user_id)
+#  index_login_attempts_on_identifier_and_login_method  (identifier,login_method)
+#  index_login_attempts_on_user_id                      (user_id)
 #
 # Foreign Keys
 #

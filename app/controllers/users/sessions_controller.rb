@@ -2,33 +2,19 @@
 
 module Users
   class SessionsController < Devise::Passwordless::SessionsController
-    def show
-      # This handles the magic link token authentication
-      result = super
-
-      if user_signed_in?
-        session[:user_just_signed_in] = true
-      else
-        # Extract email from token if possible for failed login logging
-        email = extract_email_from_token(params[:id])
-        log_failed_login(email || "unknown", "Invalid or expired magic link token")
-      end
-
-      result
-    end
+    include LoginAttemptLogger
 
     def create
       user = resource_class.find_or_create_by!(email: create_params[:email])
       unless user.persisted?
-        log_failed_login(create_params[:email], "User not found in database")
+        log_failed_login_by(create_params[:email], reason: "User not found in database", login_method: "magic_link")
         set_flash_message!(:alert, :not_found_in_database, now: true)
         return render :new, status: devise_error_status
       end
 
       # Log the magic link request as an attempted login
-      log_magic_link_request(user)
+      send_and_log_magic_link(user)
 
-      send_magic_link(user)
       set_flash_message!(:success, :magic_link_sent, email: user.email)
       redirect_to(after_magic_link_sent_path_for(user), status: devise_redirect_status)
     end
@@ -39,29 +25,26 @@ module Users
 
     private
 
-    def log_magic_link_request(user)
-      LoginAttempt.create!(
-        user: user,
-        email: user.email,
-        status: "pending",
-        login_method: "magic_link"
-      )
+    def send_and_log_magic_link(user)
+      email_message = send_magic_link(user)
+      log_magic_link_request(email_message:, user:)
+    end
+
+    def log_magic_link_request(email_message:, user:)
+      identifier = extract_identifier_from(email_message)
+      log_pending_login_by(identifier, user:, login_method: "magic_link")
     rescue StandardError => e
-      # Don't let logging break the authentication flow
       Rails.logger.error "Failed to log magic link request: #{e.message}"
     end
 
-    def extract_email_from_token(token)
-      return nil unless token
+    def extract_identifier_from(email_message)
+      html_part = email_message.parts.find { |part| part.content_type.include?("text/html") }
+      html_body = html_part.body.decoded
+      magic_link_from_html = html_body.match(/href="(.+)"/)[1]
+      magic_link_from_html.gsub!("&amp;", "&")
 
-      # Devise Passwordless uses SignedGlobalIDTokenizer
-      # The token is a signed GlobalID of the user
-      user = GlobalID::Locator.locate_signed(token, for: "passwordless_login")
-      user&.email
-    rescue StandardError => e
-      # Token is invalid, expired, or malformed
-      Rails.logger.debug { "Failed to extract email from token: #{e.message}" }
-      nil
+      # extract
+      URI.parse(magic_link_from_html).query
     end
   end
 end
