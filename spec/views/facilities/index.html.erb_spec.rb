@@ -7,7 +7,7 @@ RSpec.describe "facilities/index.html.erb", type: :view do
 
   it "renders the page" do
     assign(:facilities, facilities)
-    assign(:facilty, Facility.new)
+    assign(:facility, Facility.new)
     render
 
     expect(rendered).to match(/h1/)

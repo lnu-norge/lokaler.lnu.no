@@ -6,6 +6,7 @@ RSpec.describe "space_groups/index.html.erb", type: :view do
   let(:space_groups) { Fabricate.times(3, :space_group) }
 
   it "renders the page" do
+    assign(:space_group, SpaceGroup.new)
     assign(:space_groups, space_groups)
     render
 
