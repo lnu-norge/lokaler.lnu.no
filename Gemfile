@@ -9,11 +9,11 @@ ruby File.read(".ruby-version").strip
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.5"
+gem "pg", "~> 1.6"
 # Use Puma as the app server
-gem "puma", "~> 6.4"
+gem "puma", "~> 6.6"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem "jbuilder", "~> 2.13"
+gem "jbuilder", "~> 2.14"
 
 # Still using sprockets, might remove later
 gem "sprockets-rails", require: "sprockets/railtie"
@@ -22,7 +22,7 @@ gem "sprockets-rails", require: "sprockets/railtie"
 gem "image_processing"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.4.4", require: false
+gem "bootsnap", ">= 1.18.6", require: false
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
