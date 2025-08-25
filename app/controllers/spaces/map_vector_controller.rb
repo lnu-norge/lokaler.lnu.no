@@ -4,6 +4,7 @@ module Spaces
   class MapVectorController < ApplicationController
     include MapVectorDataForTile
     include FilterableSpaces
+
     before_action :set_permitted_params, :define_tile_coordinates
 
     private

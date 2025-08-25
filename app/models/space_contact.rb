@@ -9,6 +9,7 @@ class SpaceContact < ApplicationRecord
   belongs_to :space_group, optional: true
 
   include ParseUrlHelper
+
   before_validation :parse_url
 
   validates :telephone, phone: { allow_blank: true }

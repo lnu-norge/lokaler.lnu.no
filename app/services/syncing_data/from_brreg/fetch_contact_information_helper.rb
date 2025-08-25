@@ -31,12 +31,12 @@ module SyncingData
         return nil if phone.blank?
 
         number = phone.strip.gsub(/\s+/, "")
-        return nil unless validate_phone(number)
+        return nil unless valid_phone?(number)
 
         number
       end
 
-      def validate_phone(phone)
+      def valid_phone?(phone)
         PhoneValidationService.new(phone).valid_phone?
       end
 
@@ -45,7 +45,7 @@ module SyncingData
 
         url = url_with_scheme(url)
         return nil if url.blank?
-        return nil unless validate_url(url)
+        return nil unless valid_url?(url)
 
         url
       end
@@ -61,7 +61,7 @@ module SyncingData
         nil
       end
 
-      def validate_url(url)
+      def valid_url?(url)
         UrlValidationService.new(url).valid_url?
       end
 

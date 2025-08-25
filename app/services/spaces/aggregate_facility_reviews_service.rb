@@ -32,7 +32,7 @@ module Spaces
     def aggregate_reviews(facility)
       space_facility = find_or_create_space_facility(facility)
       reviews = most_recent_facility_reviews_for(facility)
-      belongs_to_space_type = facility_belongs_to_space_type(facility)
+      belongs_to_space_type = facility_belongs_to_space_type?(facility)
 
       return handle_zero_facility_reviews(space_facility, belongs_to_space_type) if reviews.blank?
 
@@ -68,7 +68,7 @@ module Spaces
       space_facility.update(experience: "unknown", relevant: false)
     end
 
-    def facility_belongs_to_space_type(facility)
+    def facility_belongs_to_space_type?(facility)
       @space_types.find do |space_type|
         space_type.facilities.include? facility
       end.present?

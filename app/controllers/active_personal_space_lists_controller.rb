@@ -2,6 +2,7 @@
 
 class ActivePersonalSpaceListsController < BaseControllers::AuthenticateController
   include AccessToPersonalSpaceListVerifiable
+
   before_action :set_personal_space_list, :verify_that_user_has_access_to_personal_space_list
 
   def create

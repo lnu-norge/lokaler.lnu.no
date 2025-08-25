@@ -3,6 +3,7 @@
 module Spaces
   class MapMarkerController < ApplicationController
     include AccessibleActivePersonalSpaceList
+
     before_action :access_active_personal_list, only: %i[show]
 
     def show

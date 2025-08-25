@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ModalHelper
-  def button_to_modal(modal_id, **options, &block)
+  def button_to_modal(modal_id, **, &block)
     aria_options = {
       "aria-haspopup": "dialog",
       "aria-expanded": "false"
@@ -9,7 +9,7 @@ module ModalHelper
 
     button_tag(
       type: "button",
-      **options,
+      **,
       **aria_options,
       data: {
         controller: "modal",

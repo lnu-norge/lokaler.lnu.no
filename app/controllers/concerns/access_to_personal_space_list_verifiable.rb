@@ -23,7 +23,7 @@ module AccessToPersonalSpaceListVerifiable
   end
 
   def set_as_shared_with_me
-    return if @personal_space_list.already_shared_with_user(user: current_user)
+    return if @personal_space_list.already_shared_with_user?(user: current_user)
 
     @personal_space_list.add_to_shared_with_user(user: current_user)
     flash.now[:notice] = t("personal_space_lists.list_added")

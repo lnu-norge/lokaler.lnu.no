@@ -3,6 +3,7 @@
 module Admin
   class SyncStatusesController < BaseControllers::AuthenticateAsAdminController
     include Pagy::Backend
+
     before_action :set_sync_status, only: %i[show edit update destroy]
     before_action :filter_params, only: :index
 

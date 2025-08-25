@@ -5,6 +5,7 @@ require "support/devise_helpers"
 
 RSpec.describe "User signs out" do
   include DeviseHelpers
+
   it "user signed in" do
     user = Fabricate :user
 

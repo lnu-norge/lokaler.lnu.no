@@ -2,6 +2,7 @@
 
 class Robot < User
   include Gravtastic
+
   gravtastic default: "robohash"
 
   # Helper methods for naming and creating robot users:

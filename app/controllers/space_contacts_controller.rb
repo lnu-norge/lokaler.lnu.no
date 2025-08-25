@@ -2,6 +2,7 @@
 
 class SpaceContactsController < BaseControllers::AuthenticateController # rubocop:disable Metrics/ClassLength
   include SpaceContactHelper
+
   before_action :set_space_contact, except: [:create]
 
   def create

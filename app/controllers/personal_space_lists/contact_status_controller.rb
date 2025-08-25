@@ -3,6 +3,7 @@
 module PersonalSpaceLists
   class ContactStatusController < BaseControllers::AuthenticateController
     include SettablePersonalDataOnSpaceInListFromParams
+
     before_action :set_personal_data_on_space_in_list
 
     def edit; end

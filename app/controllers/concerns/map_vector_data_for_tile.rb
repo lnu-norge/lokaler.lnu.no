@@ -47,8 +47,8 @@ module MapVectorDataForTile
     ActiveRecord::Base.connection.unescape_bytea(first_row_of_result["mvt"])
   end
 
-  def cached_mvt_data_for_tile(cache_key_prefix: "", cache_options: {})
-    Rails.cache.fetch("#{cache_key_prefix}#{mvt_data_cache_key}", *cache_options) do
+  def cached_mvt_data_for_tile(cache_key_prefix: "")
+    Rails.cache.fetch("#{cache_key_prefix}#{mvt_data_cache_key}") do
       mvt_data_for_tile
     end
   end

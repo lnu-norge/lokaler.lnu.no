@@ -12,7 +12,7 @@ module SyncingData
 
       def process_school_and_save_space_data(school_data)
         return if school_data["Organisasjonsnummer"].blank?
-        return unless school_changed_since_last_successful_sync(school_data)
+        return unless school_changed_since_last_successful_sync?(school_data)
 
         space = attempt_sync(school_data)
         return unless space
@@ -56,7 +56,7 @@ module SyncingData
         Space.find_or_initialize_by(organization_number: school_data["Organisasjonsnummer"])
       end
 
-      def school_changed_since_last_successful_sync(school_data)
+      def school_changed_since_last_successful_sync?(school_data)
         school_data_changed_at = Time.zone.parse(school_data["DatoEndret"])
         return true if school_data_changed_at.blank?
 

@@ -3,6 +3,7 @@
 class PersonalSpaceListsController < BaseControllers::AuthenticateController
   include SettableFilteredFacilities
   include AccessToPersonalSpaceListVerifiable
+
   before_action :set_personal_space_list, only: %i[show edit update destroy]
   before_action :new_personal_space_list, only: [:create]
   before_action :add_spaces_to_list, only: [:create, :update]

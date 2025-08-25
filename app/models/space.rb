@@ -216,7 +216,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     )
 
     full_information = post_number&.length == 4 && address.present? && results.present?
-    return results.first if results.count == 1 || full_information
+    return results.first if results.one? || full_information
 
     # Otherwise, return nil
     nil
