@@ -104,7 +104,6 @@ GEM
     base64 (0.2.0)
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
-    bcrypt_pbkdf (1.1.1-arm64-darwin)
     benchmark (0.4.0)
     benchmark-malloc (0.2.0)
     benchmark-perf (0.6.0)
@@ -645,6 +644,7 @@ PLATFORMS
   aarch64-linux
   arm64-darwin-21
   arm64-darwin-23
+  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES
@@ -729,7 +729,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.3.6p108
+   ruby 3.4.5p51
 
 BUNDLED WITH
    2.5.23
