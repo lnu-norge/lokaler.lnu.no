@@ -179,23 +179,23 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   def space_params
-    params.require(:space).permit(
-      :title,
-      :address,
-      :lat,
-      :lng,
-      :location_description,
-      { space_type_ids: [] },
-      :space_group_id,
-      :post_number,
-      :post_address,
-      :municipality_code,
-      :organization_number,
-      :how_to_book,
-      :terms_and_pricing,
-      :more_info,
-      :facility_description,
-      space_group_attributes: %i[id how_to_book terms_and_pricing]
+    params.expect(
+      space: [:title,
+              :address,
+              :lat,
+              :lng,
+              :location_description,
+              { space_type_ids: [] },
+              :space_group_id,
+              :post_number,
+              :post_address,
+              :municipality_code,
+              :organization_number,
+              :how_to_book,
+              :terms_and_pricing,
+              :more_info,
+              :facility_description,
+              { space_group_attributes: %i[id how_to_book terms_and_pricing] }]
     )
   end
 end

@@ -61,7 +61,7 @@ module SyncingData
 
       def spaces_that_can_be_synced
         spaces_with_organization_numbers.reject do |space|
-          sync_not_possible_for(space)
+          sync_not_possible_for?(space)
         end
       end
 
@@ -73,7 +73,7 @@ module SyncingData
           .exists?(last_successful_sync_at: @time_between_syncs.ago..)
       end
 
-      def sync_not_possible_for(space)
+      def sync_not_possible_for?(space)
         return true if space.organization_number.blank?
         return true unless space.organization_number.match?(/\d{9}/)
         return true if space.organization_number.match?(/U\d+/) # Utlandet

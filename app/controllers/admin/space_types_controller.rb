@@ -46,7 +46,7 @@ module Admin
     end
 
     def space_type_params
-      params.require(:space_type).permit(:type_name, facility_ids: [])
+      params.expect(space_type: [:type_name, { facility_ids: [] }])
     end
   end
 end

@@ -3,6 +3,7 @@
 class PersonalSpaceListsController < BaseControllers::AuthenticateController
   include SettableFilteredFacilities
   include AccessToPersonalSpaceListVerifiable
+
   before_action :set_personal_space_list, only: %i[show edit update destroy]
   before_action :new_personal_space_list, only: [:create]
   before_action :add_spaces_to_list, only: [:create, :update]
@@ -105,8 +106,8 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
 
   # Only allow a list of trusted parameters through.
   def personal_space_list_params
-    allowed_params = params.require(:personal_space_list).permit({ spaces_ids: [] }, :title, :active,
-                                                                 :shared_with_public)
+    allowed_params = params.expect(personal_space_list: [{ spaces_ids: [] }, :title, :active,
+                                                         :shared_with_public])
 
     @active_param = allowed_params[:active].to_s
     allowed_params.delete(:active) # Not part of the model, but used by the controller

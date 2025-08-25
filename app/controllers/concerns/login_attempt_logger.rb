@@ -51,7 +51,7 @@ module LoginAttemptLogger
   def existing_or_new_login_attempt(identifier:, login_method:)
     last_matching_login_attempt = LoginAttempt.where(identifier:, login_method:).last
 
-    return last_matching_login_attempt if login_attempt_valid_and_recent(last_matching_login_attempt)
+    return last_matching_login_attempt if login_attempt_valid_and_recent?(last_matching_login_attempt)
 
     LoginAttempt.new(
       identifier:,
@@ -59,7 +59,7 @@ module LoginAttemptLogger
     )
   end
 
-  def login_attempt_valid_and_recent(attempt)
+  def login_attempt_valid_and_recent?(attempt)
     return false if attempt.blank?
     return false unless attempt.persisted?
     return false if attempt.created_at < 1.day.ago

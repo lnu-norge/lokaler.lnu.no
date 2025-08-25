@@ -106,11 +106,11 @@ class ReviewsController < BaseControllers::AuthenticateController
   end
 
   def review_params
-    params.require(:review).permit(
-      :comment,
-      :star_rating,
-      :space_id,
-      :organization
+    params.expect(
+      review: %i[comment
+                 star_rating
+                 space_id
+                 organization]
     )
   end
 end

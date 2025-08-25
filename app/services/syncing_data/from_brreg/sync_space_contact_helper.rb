@@ -30,7 +30,7 @@ module SyncingData
         end
       end
 
-      def sync_any_existing_sentralbord(space_contacts_for_space:, contact_information:)
+      def sync_any_existing_sentralbord?(space_contacts_for_space:, contact_information:)
         existing_sentralbord = space_contacts_for_space.filter do |space_contact|
           space_contact_is_sentralbord?(space_contact:)
         end
@@ -48,7 +48,7 @@ module SyncingData
         end
       end
 
-      def sync_any_existing_sentralbord_mobile_number(space_contacts_for_space:, contact_information:)
+      def sync_any_existing_sentralbord_mobile_number?(space_contacts_for_space:, contact_information:)
         existing_sentralbord_for_mobile_number = space_contacts_for_space.filter do |space_contact|
           space_contact_is_mobile_number_for_sentralbord?(space_contact:)
         end
@@ -70,10 +70,10 @@ module SyncingData
       def after_existing_sentralbord_synced(space:, contact_information:) # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
         space_contacts_for_space = space.space_contacts
 
-        synced_existing_sentralbord = sync_any_existing_sentralbord(space_contacts_for_space:, contact_information:)
+        synced_existing_sentralbord = sync_any_existing_sentralbord?(space_contacts_for_space:, contact_information:)
         space_contacts_for_space = remove_sentralbord_from(space_contacts_for_space:) if synced_existing_sentralbord
-        synced_mobile_number = sync_any_existing_sentralbord_mobile_number(space_contacts_for_space:,
-                                                                           contact_information:)
+        synced_mobile_number = sync_any_existing_sentralbord_mobile_number?(space_contacts_for_space:,
+                                                                            contact_information:)
 
         if synced_mobile_number
           space_contacts_for_space = remove_mobile_number_from(space_contacts_for_space:)

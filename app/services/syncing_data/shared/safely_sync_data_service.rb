@@ -99,7 +99,7 @@ module SyncingData
       end
 
       def any_matching_rich_text_versions?
-        return false unless field_is_rich_text
+        return false unless field_is_rich_text?
 
         versions_of_model_for_existing_data.any? do |version|
           old_data = version.reify(dup: true)
@@ -110,7 +110,7 @@ module SyncingData
       end
 
       def any_matching_association_versions?
-        return false unless data_is_association_to_other_model
+        return false unless data_is_association_to_other_model?
 
         id_of_new_data = @new_data&.id || @new_data
         versions_of_model_for_existing_data
@@ -127,12 +127,12 @@ module SyncingData
       end
 
       def field_name_in_database
-        return field_name_if_association if data_is_association_to_other_model
+        return field_name_if_association if data_is_association_to_other_model?
 
         field_name
       end
 
-      def data_is_association_to_other_model
+      def data_is_association_to_other_model?
         @model.class.reflect_on_association(@field).present?
       end
 
@@ -143,7 +143,7 @@ module SyncingData
       end
 
       def versions_of_model_for_existing_data
-        if field_is_rich_text
+        if field_is_rich_text?
           @model.public_send(@field).versions
         else
           @model.versions
@@ -151,7 +151,7 @@ module SyncingData
       end
 
       def versions_of_field_for_existing_data
-        return versions_of_model_for_existing_data if field_is_rich_text
+        return versions_of_model_for_existing_data if field_is_rich_text?
 
         versions_of_model_for_existing_data.select do |version|
           next false if version.object_changes.blank?
@@ -178,7 +178,7 @@ module SyncingData
         existing_data.class.name
       end
 
-      def field_is_rich_text
+      def field_is_rich_text?
         class_name_for_data == "ActionText::RichText"
       end
     end

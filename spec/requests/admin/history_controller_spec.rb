@@ -114,7 +114,7 @@ RSpec.describe "Admin::History", type: :request do
         expect do
           post admin_history_revert_changes_path(id: version.id),
                headers: { Accept: "text/vnd.turbo-stream.html" }
-        end.to raise_error(NoMethodError, /undefined method `save!' for nil/)
+        end.to raise_error(NoMethodError, /nil/)
       end
 
       it "reverts changes made in an update" do

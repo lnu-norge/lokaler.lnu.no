@@ -3,6 +3,7 @@
 module PersonalSpaceLists
   class PersonalNotesController < BaseControllers::AuthenticateController
     include SettablePersonalDataOnSpaceInListFromParams
+
     before_action :set_personal_data_on_space_in_list
 
     def edit; end
@@ -16,7 +17,7 @@ module PersonalSpaceLists
     private
 
     def personal_notes_params
-      params.require(:personal_data_on_space_in_list).permit(:personal_notes)
+      params.expect(personal_data_on_space_in_list: [:personal_notes])
     end
   end
 end

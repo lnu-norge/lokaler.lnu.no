@@ -98,7 +98,7 @@ class PersonalSpaceList < ApplicationRecord
     PersonalSpaceListsSharedWithMe.find_or_create_by(personal_space_list: self, user:)
   end
 
-  def already_shared_with_user(user:)
+  def already_shared_with_user?(user:)
     PersonalSpaceListsSharedWithMe.find_by(personal_space_list: self, user:).present?
   end
 

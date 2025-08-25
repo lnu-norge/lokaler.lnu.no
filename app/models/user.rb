@@ -8,6 +8,7 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2]
 
   include Gravtastic
+
   gravtastic default: "retro"
 
   has_many :reviews, dependent: :restrict_with_exception
