@@ -33,11 +33,11 @@ class SpaceGroupsController < BaseControllers::AuthenticateController
   private
 
   def space_group_params
-    params.require(:space_group).permit(
-      :title,
-      :how_to_book,
-      :about,
-      :terms_and_pricing
+    params.expect(
+      space_group: %i[title
+                      how_to_book
+                      about
+                      terms_and_pricing]
     )
   end
 end

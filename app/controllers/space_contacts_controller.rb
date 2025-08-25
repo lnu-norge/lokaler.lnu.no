@@ -117,16 +117,16 @@ class SpaceContactsController < BaseControllers::AuthenticateController # ruboco
   end
 
   def space_contact_params
-    params.require(:space_contact).permit(
-      :title,
-      :telephone,
-      :telephone_opening_hours,
-      :email,
-      :url,
-      :description,
-      :priority,
-      :space_id,
-      :space_group_id
+    params.expect(
+      space_contact: %i[title
+                        telephone
+                        telephone_opening_hours
+                        email
+                        url
+                        description
+                        priority
+                        space_id
+                        space_group_id]
     )
   end
 end

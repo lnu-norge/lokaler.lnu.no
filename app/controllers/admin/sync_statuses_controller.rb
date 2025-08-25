@@ -72,8 +72,8 @@ module Admin
 
     # Only allow a list of trusted parameters through.
     def sync_status_params
-      params.require(:sync_status).permit(:source, :last_attempted_sync_at, :last_successful_sync, :id_from_source,
-                                          :error_message, :full_error_message)
+      params.expect(sync_status: %i[source last_attempted_sync_at last_successful_sync id_from_source
+                                    error_message full_error_message])
     end
 
     def filter_params

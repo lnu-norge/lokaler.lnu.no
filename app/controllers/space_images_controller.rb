@@ -36,7 +36,7 @@ class SpaceImagesController < BaseControllers::AuthenticateController
   private
 
   def image_params
-    params.require(:image).permit(:caption, :credits)
+    params.expect(image: [:caption, :credits])
   end
 
   def set_space

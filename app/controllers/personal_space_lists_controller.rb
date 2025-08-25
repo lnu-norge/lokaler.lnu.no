@@ -106,8 +106,8 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
 
   # Only allow a list of trusted parameters through.
   def personal_space_list_params
-    allowed_params = params.require(:personal_space_list).permit({ spaces_ids: [] }, :title, :active,
-                                                                 :shared_with_public)
+    allowed_params = params.expect(personal_space_list: [{ spaces_ids: [] }, :title, :active,
+                                                         :shared_with_public])
 
     @active_param = allowed_params[:active].to_s
     allowed_params.delete(:active) # Not part of the model, but used by the controller

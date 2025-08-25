@@ -17,7 +17,7 @@ module PersonalSpaceLists
     private
 
     def personal_notes_params
-      params.require(:personal_data_on_space_in_list).permit(:personal_notes)
+      params.expect(personal_data_on_space_in_list: [:personal_notes])
     end
   end
 end
