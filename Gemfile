@@ -52,6 +52,7 @@ gem "pagy"
 gem "paper_trail"
 gem "parallel"
 gem "phonelib"
+gem "postmark-rails"
 gem "rails-i18n"
 gem "rgeo-geojson" # For parsing geo json when importing from Geo Norge
 gem "simple_form"
