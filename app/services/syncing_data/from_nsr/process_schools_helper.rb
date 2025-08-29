@@ -35,7 +35,7 @@ module SyncingData
       end
 
       def raise_if_sync_is_not_possible(school_data)
-        raise "This school is no longer active" if school_data["ErAktiv"] == false
+        raise "School is inactive and not in database" if school_inactive_and_not_in_database?(school_data)
         raise "This school is outside Norway" if school_is_outside_norway?(school_data)
       end
 
@@ -46,6 +46,7 @@ module SyncingData
           set_location(space, school_data)
           set_space_types(space, school_data)
           set_space_group(space, school_data)
+          set_deleted_status(space, school_data)
           space.save! if space.changed?
 
           space
@@ -74,6 +75,19 @@ module SyncingData
 
       def school_is_outside_norway?(school)
         school["Organisasjonsnummer"].match?(/U\d+/)
+      end
+
+      def school_inactive_and_not_in_database?(school_data)
+        return false if school_data["ErAktiv"] != false
+        return false if school_data["Organisasjonsnummer"].blank?
+        return false if Space.find_by(organization_number: school_data["Organisasjonsnummer"])
+
+        true
+      end
+
+      def set_deleted_status(space, school_data)
+        deleted_status = school_data["ErAktiv"] == false
+        safely_update_field(space, :deleted, deleted_status)
       end
 
       def safely_update_field(model, field, new_data)
