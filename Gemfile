@@ -109,7 +109,7 @@ end
 group :test do
   gem "capybara"
   gem "capybara-playwright-driver"
-  gem "playwright-ruby-client"
+  gem "playwright-ruby-client", "~> 1.45.0"
   gem "rspec-benchmark"
   gem "rspec-rails"
   gem "vcr"

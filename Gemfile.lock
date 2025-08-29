@@ -407,7 +407,7 @@ GEM
     pg (1.6.1-x86_64-linux)
     pg (1.6.1-x86_64-linux-musl)
     phonelib (0.10.11)
-    playwright-ruby-client (1.55.0)
+    playwright-ruby-client (1.45.0)
       concurrent-ruby (>= 1.1.6)
       mime-types (>= 3.0)
     pp (0.6.2)
@@ -722,7 +722,7 @@ DEPENDENCIES
   parallel_tests
   pg (~> 1.6)
   phonelib
-  playwright-ruby-client
+  playwright-ruby-client (~> 1.45.0)
   puma (~> 6.6)
   rack-livereload
   rack-mini-profiler
