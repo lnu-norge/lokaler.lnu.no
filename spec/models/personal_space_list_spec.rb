@@ -163,3 +163,24 @@ RSpec.describe PersonalSpaceList, type: :model do
     expect(users_space_list.space_said_no_count).to eq(1)
   end
 end
+
+# == Schema Information
+#
+# Table name: personal_space_lists
+#
+#  id                        :bigint           not null, primary key
+#  shared_with_public        :boolean          default(FALSE)
+#  space_count               :integer          default(0)
+#  space_not_contacted_count :integer          default(0)
+#  space_said_maybe_count    :integer          default(0)
+#  space_said_no_count       :integer          default(0)
+#  space_said_yes_count      :integer          default(0)
+#  title                     :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  user_id                   :bigint
+#
+# Indexes
+#
+#  index_personal_space_lists_on_user_id  (user_id)
+#

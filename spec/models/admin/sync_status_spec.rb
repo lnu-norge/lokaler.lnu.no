@@ -89,3 +89,23 @@ RSpec.describe Admin::SyncStatus, type: :model do
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: sync_statuses
+#
+#  id                      :bigint           not null, primary key
+#  error_message           :string
+#  full_error_message      :text
+#  id_from_source          :string           not null
+#  last_attempted_sync_at  :datetime
+#  last_successful_sync_at :datetime
+#  source                  :string           not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#
+# Indexes
+#
+#  index_sync_statuses_on_id_from_source_and_source  (id_from_source,source) UNIQUE
+#  index_sync_statuses_on_source                     (source)
+#

@@ -1,0 +1,7 @@
+# Annotaterb configuration
+# https://github.com/drwl/annotaterb
+
+position_in_class: after
+position_in_test: after
+position_in_fixture: after
+position_in_factory: after

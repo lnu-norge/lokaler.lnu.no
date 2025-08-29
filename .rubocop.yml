@@ -8,6 +8,10 @@ plugins:
 Style/Documentation:
   Enabled: false
 
+Layout/LineLength:
+  Exclude:
+    - 'config/routes.rb'
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes # To always allow #{interpolation}, and reduce fatigue from changing strings
 

@@ -84,7 +84,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "annotate"
+  gem "annotaterb"
   gem "dockerfile-rails"
   gem "foreman"
   gem "guard"
