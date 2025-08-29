@@ -20,7 +20,7 @@ module FilterableSpaces
     set_filterable_space_types
     set_filtered_facilities
 
-    @filtered_spaces = Space.all
+    @filtered_spaces = Space.not_deleted
     @filtered_spaces = filter_by_fylker_and_kommuner
     @filtered_spaces = filter_by_map_bounds
     @filtered_spaces = filter_by_title
@@ -31,7 +31,7 @@ module FilterableSpaces
   def filter_spaces_for_vector_tiles
     set_filters_from_session_or_params
 
-    @filtered_spaces = Space.all
+    @filtered_spaces = Space.not_deleted
     @filtered_spaces = filter_by_fylker_and_kommuner
     @filtered_spaces = filter_by_title
     @filtered_spaces = filter_by_space_types

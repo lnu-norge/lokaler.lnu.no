@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_06_06_084930) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_29_075503) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
-  enable_extension "plpgsql"
   enable_extension "postgis"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -113,7 +113,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_06_084930) do
     t.string "name"
     t.boolean "filterable", default: true
     t.integer "order"
-    t.geometry "geo_area", limit: {:srid=>0, :type=>"geometry"}, null: false
+    t.geometry "geo_area", limit: {srid: 0, type: "geometry"}, null: false
     t.bigint "parent_id"
     t.bigint "geographical_area_type_id"
     t.datetime "created_at", null: false
@@ -417,9 +417,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_06_06_084930) do
     t.string "municipality_code"
     t.decimal "star_rating", precision: 2, scale: 1
     t.text "location_description"
-    t.geography "geo_point", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}, null: false
+    t.geography "geo_point", limit: {srid: 4326, type: "st_point", geographic: true}, null: false
     t.bigint "fylke_id"
     t.bigint "kommune_id"
+    t.boolean "deleted", default: false, null: false
     t.index ["fylke_id"], name: "index_spaces_on_fylke_id"
     t.index ["geo_point"], name: "index_spaces_on_geo_point", using: :gist
     t.index ["kommune_id"], name: "index_spaces_on_kommune_id"
