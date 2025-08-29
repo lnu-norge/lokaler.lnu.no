@@ -84,7 +84,7 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # ActionMailer setup:
   config.action_mailer.delivery_method = :postmark
-  config.action_mailer.postmark_settings = { api_token: ENV.fetch("POSTMARK_API_KEY") }
+  config.action_mailer.postmark_settings = { api_token: ENV.fetch("POSTMARK_API_KEY", "dummy_key_for_building") }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
