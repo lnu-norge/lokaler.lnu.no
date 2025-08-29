@@ -66,20 +66,20 @@ jobs:
         run: |
           bundle exec rubocop
 
-      - name: Cache Playwright Chromium browser
+      - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          key: playwright-browsers-ruby-${{ runner.os }}-${{ hashFiles('Gemfile.lock') }}
 
-      - name: Install Playwright Chromium browser (with deps)
+      - name: Install Playwright browsers for Ruby
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: yarn run playwright install --with-deps chromium
+        run: bundle exec playwright install chromium --with-deps
 
-      - name: Install Playwright Chromium browser deps
+      - name: Install Playwright browser deps for Ruby
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: yarn run playwright install-deps chromium
+        run: bundle exec playwright install-deps chromium
 
       - name: Run tests
         run: |
