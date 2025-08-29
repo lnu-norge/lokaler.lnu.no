@@ -195,6 +195,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
               :terms_and_pricing,
               :more_info,
               :facility_description,
+              :deleted,
               { space_group_attributes: %i[id how_to_book terms_and_pricing] }]
     )
   end
