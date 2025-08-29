@@ -84,7 +84,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "annotate"
+  gem "annotaterb"
   gem "dockerfile-rails"
   gem "foreman"
   gem "guard"
@@ -109,6 +109,7 @@ end
 group :test do
   gem "capybara"
   gem "capybara-playwright-driver"
+  gem "playwright-ruby-client", "~> 1.45.0"
   gem "rspec-benchmark"
   gem "rspec-rails"
   gem "vcr"

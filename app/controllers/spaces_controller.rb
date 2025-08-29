@@ -92,6 +92,8 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   def update_space_group_from(params)
+    return unless params[:space]&.key?(:space_group_title)
+
     if params[:space][:space_group_title].present?
       @space.update!(
         space_group: SpaceGroup.find_or_create_by!(title: params[:space][:space_group_title])
@@ -172,6 +174,9 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
   end
 
   def get_address_params(params)
+    address_params_passed = params[:space]&.key?(:address) && params[:space].key?(:post_number)
+    return {} unless address_params_passed
+
     Space.search_for_address(
       address: params[:space][:address],
       post_number: params[:space][:post_number]
@@ -195,6 +200,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
               :terms_and_pricing,
               :more_info,
               :facility_description,
+              :deleted,
               { space_group_attributes: %i[id how_to_book terms_and_pricing] }]
     )
   end

@@ -32,6 +32,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :personal_data_on_space_in_lists, dependent: :destroy
   has_many :sync_statuses, dependent: :destroy
 
+  scope :not_deleted, -> { where(deleted: false) }
   scope :filter_on_title, ->(title) { where("title ILIKE ?", "%#{title}%") }
   scope :filter_on_space_types, lambda { |space_type_ids|
     joins(:space_types).where(space_types: { id: space_type_ids })
@@ -169,6 +170,12 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     aggregate_star_rating
   end
 
+  def title_text
+    return "<span class='line-through'>#{title}</span> (nedlagt)" if deleted?
+
+    title
+  end
+
   def reviews_for_facility(facility)
     space_facilities.find_by(facility:).experience
   end
@@ -186,7 +193,7 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     # Eventually this method will take some search parameters
     # but currently we just use the all the spaces in the db
-    Space.find_each do |space|
+    Space.not_deleted.find_each do |space|
       next unless space.lat.present? && space.lng.present?
 
       south_west_lat = space.lat if space.lat < south_west_lat
@@ -391,6 +398,7 @@ end
 #
 #  id                   :bigint           not null, primary key
 #  address              :string
+#  deleted              :boolean          default(FALSE), not null
 #  geo_point            :geography        not null, point, 4326
 #  lat                  :decimal(, )
 #  lng                  :decimal(, )

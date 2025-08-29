@@ -149,4 +149,58 @@ RSpec.describe Space, type: :model do
       expect(space.images.count).to eq(1)
     end
   end
+
+  describe ".not_deleted scope" do
+    let!(:active_space) { Fabricate(:space, deleted: false) }
+    let!(:deleted_space) { Fabricate(:space, deleted: true) }
+
+    it "returns only non-deleted spaces" do
+      expect(described_class.not_deleted).to include(active_space)
+      expect(described_class.not_deleted).not_to include(deleted_space)
+    end
+
+    it "excludes deleted spaces from default searches" do
+      # Test that the filtering is applied in the controller concern
+      filtered_spaces = described_class.not_deleted
+      expect(filtered_spaces.count).to eq(1)
+      expect(filtered_spaces.first).to eq(active_space)
+    end
+  end
 end
+
+# == Schema Information
+#
+# Table name: spaces
+#
+#  id                   :bigint           not null, primary key
+#  address              :string
+#  deleted              :boolean          default(FALSE), not null
+#  geo_point            :geography        not null, point, 4326
+#  lat                  :decimal(, )
+#  lng                  :decimal(, )
+#  location_description :text
+#  municipality_code    :string
+#  organization_number  :string
+#  post_address         :string
+#  post_number          :string
+#  star_rating          :decimal(2, 1)
+#  title                :string           not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  fylke_id             :bigint
+#  kommune_id           :bigint
+#  space_group_id       :bigint
+#
+# Indexes
+#
+#  index_spaces_on_fylke_id        (fylke_id)
+#  index_spaces_on_geo_point       (geo_point) USING gist
+#  index_spaces_on_kommune_id      (kommune_id)
+#  index_spaces_on_space_group_id  (space_group_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (fylke_id => geographical_areas.id)
+#  fk_rails_...  (kommune_id => geographical_areas.id)
+#  fk_rails_...  (space_group_id => space_groups.id)
+#

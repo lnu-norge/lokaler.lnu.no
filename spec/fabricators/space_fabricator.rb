@@ -17,37 +17,13 @@ Fabricator(:space) do
   end
 end
 
-def add_some_space_facilities(space)
-  space_type = space.space_types.first
-
-  relevant_facility_one = Fabricate(:facility)
-  relevant_facility_two = Fabricate(:facility)
-
-  # Make them relevant by connecting them to our space_type
-  # This also runs aggregate facility reviews, so creates
-  # space_facilities for them (with unknown experience)
-  Fabricate(:space_types_facility,
-            space_type:,
-            facility: relevant_facility_one)
-  Fabricate(:space_types_facility,
-            space_type:,
-            facility: relevant_facility_two)
-
-  # Then create four irrelevant facilities and connect them to our space
-  Fabricate.times(4,
-                  :space_facility,
-                  space:)
-
-  # Then aggregate reviews
-  space.aggregate_facility_reviews
-end
-
 # == Schema Information
 #
 # Table name: spaces
 #
 #  id                   :bigint           not null, primary key
 #  address              :string
+#  deleted              :boolean          default(FALSE), not null
 #  geo_point            :geography        not null, point, 4326
 #  lat                  :decimal(, )
 #  lng                  :decimal(, )
@@ -77,3 +53,28 @@ end
 #  fk_rails_...  (kommune_id => geographical_areas.id)
 #  fk_rails_...  (space_group_id => space_groups.id)
 #
+
+def add_some_space_facilities(space)
+  space_type = space.space_types.first
+
+  relevant_facility_one = Fabricate(:facility)
+  relevant_facility_two = Fabricate(:facility)
+
+  # Make them relevant by connecting them to our space_type
+  # This also runs aggregate facility reviews, so creates
+  # space_facilities for them (with unknown experience)
+  Fabricate(:space_types_facility,
+            space_type:,
+            facility: relevant_facility_one)
+  Fabricate(:space_types_facility,
+            space_type:,
+            facility: relevant_facility_two)
+
+  # Then create four irrelevant facilities and connect them to our space
+  Fabricate.times(4,
+                  :space_facility,
+                  space:)
+
+  # Then aggregate reviews
+  space.aggregate_facility_reviews
+end

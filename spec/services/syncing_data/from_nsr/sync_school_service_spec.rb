@@ -312,4 +312,175 @@ RSpec.describe SyncingData::FromNsr::SyncSchoolService do
       expect(space.lng).to eq(9.09501e0)
     end
   end
+
+  describe "inactive school handling" do
+    let(:org_number) { "888888888" }
+    let(:date_changed_at_from_nsr) { "2025-03-21T10:00:00.000+01:00" }
+
+    before do
+      # Stub the HTTP call to return inactive school data
+      stub_request(:get, "#{nsr_base_uri}enhet/#{org_number}")
+        .to_return(
+          status: 200,
+          body: {
+            "Organisasjonsnummer" => org_number,
+            "Navn" => "Inactive School",
+            "FulltNavn" => "Inactive Test School",
+            "ErAktiv" => false,
+            "ErSkole" => true,
+            "ErGrunnskole" => true,
+            "DatoEndret" => date_changed_at_from_nsr,
+            "Beliggenhetsadresse" => {
+              "Adresse" => "Test Street 1",
+              "Postnummer" => "0001",
+              "Poststed" => "Test City",
+              "Land" => "Norge"
+            },
+            "Koordinat" => {
+              "Lengdegrad" => 10.75,
+              "Breddegrad" => 59.91,
+              "Zoom" => 12,
+              "GeoKilde" => "GeoNorge"
+            },
+            "Kommune" => {
+              "Navn" => "Test Kommune",
+              "Kommunenummer" => "0001",
+              "Organisasjonsnummer" => "999999999",
+              "ErNedlagt" => false,
+              "Fylkesnummer" => "01"
+            },
+            "Skolekategorier" => [
+              { "Id" => "1", "Navn" => "Grunnskole" }
+            ],
+            "ForeldreRelasjoner" => [
+              {
+                "Enhet" => {
+                  "Organisasjonsnummer" => "999999999",
+                  "Navn" => "Test Kommune"
+                },
+                "Relasjonstype" => { "Id" => "1", "Navn" => "Eierstruktur" }
+              }
+            ]
+          }.to_json,
+          headers: { "Content-Type" => "application/json; charset=utf-8" }
+        )
+    end
+
+    context "when inactive school already exists in database" do
+      let!(:existing_space) { Fabricate(:space, organization_number: org_number, deleted: false) }
+
+      it "sets deleted: true for existing inactive school" do
+        service = described_class.new(org_number: org_number, date_changed_at_from_nsr: date_changed_at_from_nsr)
+
+        result = service.call
+        existing_space.reload
+
+        expect(result).to eq(existing_space)
+        expect(existing_space.deleted).to be true
+      end
+
+      it "creates paper trail version tracking deleted status change" do
+        service = described_class.new(org_number: org_number, date_changed_at_from_nsr: date_changed_at_from_nsr)
+
+        expect { service.call }.to(change(PaperTrail::Version, :count))
+
+        # Find the version that tracked the deleted field change
+        deleted_version = PaperTrail::Version.where(item: existing_space)
+                                             .where("object_changes LIKE '%deleted%'")
+                                             .last
+        existing_space.reload
+        expect(deleted_version).to be_present
+        changes = YAML.unsafe_load(deleted_version.object_changes)
+        expect(changes["deleted"]).to eq([false, true])
+        expect(deleted_version.whodunnit).to eq(Robot.nsr.id.to_s)
+      end
+
+      it "allows reverting deleted status through paper trail" do
+        service = described_class.new(org_number: org_number, date_changed_at_from_nsr: date_changed_at_from_nsr)
+
+        service.call
+        existing_space.reload
+        expect(existing_space.deleted).to be true
+
+        # Revert to previous version
+        version = PaperTrail::Version.last
+        previous_version = version.previous
+        existing_space.update!(previous_version.reify.attributes.slice("deleted"))
+
+        expect(existing_space.deleted).to be false
+      end
+    end
+
+    context "when inactive school does not exist in database" do
+      let(:nonexistent_org_number) { "777777777" }
+
+      before do
+        # Additional stub for the non-existent school
+        stub_request(:get, "#{nsr_base_uri}enhet/#{nonexistent_org_number}")
+          .to_return(
+            status: 200,
+            body: {
+              "Organisasjonsnummer" => nonexistent_org_number,
+              "Navn" => "Another Inactive School",
+              "FulltNavn" => "Another Inactive Test School",
+              "ErAktiv" => false,
+              "ErSkole" => true,
+              "ErGrunnskole" => true,
+              "DatoEndret" => date_changed_at_from_nsr,
+              "Beliggenhetsadresse" => {
+                "Adresse" => "Test Street 2",
+                "Postnummer" => "0002",
+                "Poststed" => "Test City 2",
+                "Land" => "Norge"
+              },
+              "Koordinat" => {
+                "Lengdegrad" => 11.75,
+                "Breddegrad" => 60.91,
+                "Zoom" => 12,
+                "GeoKilde" => "GeoNorge"
+              },
+              "Kommune" => {
+                "Navn" => "Test Kommune 2",
+                "Kommunenummer" => "0002",
+                "Organisasjonsnummer" => "888888888",
+                "ErNedlagt" => false,
+                "Fylkesnummer" => "02"
+              },
+              "Skolekategorier" => [
+                { "Id" => "1", "Navn" => "Grunnskole" }
+              ],
+              "ForeldreRelasjoner" => [
+                {
+                  "Enhet" => {
+                    "Organisasjonsnummer" => "888888888",
+                    "Navn" => "Test Kommune 2"
+                  },
+                  "Relasjonstype" => { "Id" => "1", "Navn" => "Eierstruktur" }
+                }
+              ]
+            }.to_json,
+            headers: { "Content-Type" => "application/json; charset=utf-8" }
+          )
+      end
+
+      it "does not create new space and does not create paper trail versions" do
+        initial_space_count = Space.count
+        initial_version_count = PaperTrail::Version.count
+
+        service = described_class.new(org_number: nonexistent_org_number,
+                                      date_changed_at_from_nsr: date_changed_at_from_nsr)
+        result = service.call
+
+        # No new space should be created
+        expect(Space.count).to eq(initial_space_count)
+        expect(Space.find_by(organization_number: nonexistent_org_number)).to be_nil
+
+        # No paper trail versions should be created (no changes made)
+        expect(PaperTrail::Version.count).to eq(initial_version_count)
+
+        # Service should return nil (indicating no sync occurred)
+        expect(result).to be_nil
+      end
+    end
+  end
 end
