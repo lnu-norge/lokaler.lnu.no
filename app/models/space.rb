@@ -170,6 +170,12 @@ class Space < ApplicationRecord # rubocop:disable Metrics/ClassLength
     aggregate_star_rating
   end
 
+  def title_text
+    return "<span class='line-through'>#{title}</span> (nedlagt)" if deleted?
+
+    title
+  end
+
   def reviews_for_facility(facility)
     space_facilities.find_by(facility:).experience
   end

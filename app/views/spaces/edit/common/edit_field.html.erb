@@ -9,6 +9,29 @@
         <% end  %>
         <%= link_to t('space_edit.cancel_changed_space'), @space %>
       </nav>
+      <% if @field == "basics" %>
+        <div class="mt-6 pt-4 flex justify-end border-t border-gray-200">
+          <% if @space.deleted? %>
+            <%= form_with model: @space, local: false, class: "inline" do |form| %>
+              <%= form.hidden_field :deleted, value: false %>
+              <%= form.button type: "submit",
+                              data: { turbo_confirm: "Er du sikker på at du vil gjenopprette dette lokalet?" },
+                              class: "link flex items-center gap-2 bg-transparent border-none cursor-pointer" do %>
+                <%= inline_svg "reload.svg" %> Gjennopprett lokale
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= form_with model: @space, local: false, class: "inline" do |form| %>
+              <%= form.hidden_field :deleted, value: true %>
+              <%= form.button type: "submit",
+                              data: { turbo_confirm: "Er du sikker på at du vil markere lokalet som nedlagt?" },
+                              class: "link text-red-800 flex items-center gap-2 bg-transparent border-none cursor-pointer" do %>
+                <%= inline_svg "delete.svg" %> Sett som nedlagt
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+    <% end %>
     </section>
   <% end %>
 <% end %>
