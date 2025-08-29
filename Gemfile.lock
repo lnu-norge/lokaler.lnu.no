@@ -722,6 +722,7 @@ DEPENDENCIES
   parallel_tests
   pg (~> 1.6)
   phonelib
+  playwright-ruby-client
   puma (~> 6.6)
   rack-livereload
   rack-mini-profiler
