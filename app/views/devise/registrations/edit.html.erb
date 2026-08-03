@@ -23,8 +23,8 @@
       Danger zone ⚡
     </h2>
     <%= link_to registration_path(resource_name),
-                data: { confirm: t('simple_form.labels.user.delete_account_confirmation') },
-                method: :delete,
+                data: { turbo_method: :delete,
+                        turbo_confirm: t('simple_form.labels.user.delete_account_confirmation') },
                 class: 'inline-flex gap-1 font-medium text-lnu-pink hover:text-lnu-blue' do  %>
       <%= inline_svg_tag "delete" %>
       <%= t('simple_form.labels.user.delete_account') %>

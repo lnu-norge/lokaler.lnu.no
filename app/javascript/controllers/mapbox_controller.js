@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 import { Controller } from "@hotwired/stimulus";
-import Rails from "@rails/ujs";
+import { railsFetch } from "../custom/rails_fetch";
 
 export default class extends Controller {
   static targets = [
@@ -523,17 +523,14 @@ export default class extends Controller {
   }
 
   loadHoverMarkerForSpaceId(spaceId) {
-    Rails.ajax({
-      url: `/lokaler/${spaceId}/map_marker`,
-      type: "GET",
-      dataType: "json",
-      success: (data) => {
+    railsFetch(`/lokaler/${spaceId}/map_marker`, { headers: { Accept: 'application/json' } })
+      .then((response) => response.json())
+      .then((data) => {
         this.setHoverMarker(data);
-      },
-      error: (error) => {
+      })
+      .catch((error) => {
         console.error('Error:', error)
-      }
-    })
+      })
   }
 
   setHoverMarker(spaceData) {

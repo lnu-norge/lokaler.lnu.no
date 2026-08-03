@@ -27,8 +27,8 @@
 
         <div class="grow justify-end inline-flex items-center">
           <%= link_to space_contact_path(space_contact),
-                      method: :delete,
-                      data: { confirm: t('space_contacts.delete_confirmation') },
+                      data: { turbo_method: :delete,
+                              turbo_confirm: t('space_contacts.delete_confirmation') },
                       class: 'link inline-flex gap-0 items-center' do %>
             <%= inline_svg_tag 'delete' %>
             <%= t('space_contacts.delete') %>

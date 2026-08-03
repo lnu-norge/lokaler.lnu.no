@@ -8,7 +8,7 @@
   <p>
     <%= link_to t("simple_form.labels.user.signout"),
                 destroy_user_session_path,
-                method: :delete %>
+                data: { turbo_method: :delete } %>
   </p>
   <p>
     <%= link_to t("simple_form.labels.user.edit_account"),

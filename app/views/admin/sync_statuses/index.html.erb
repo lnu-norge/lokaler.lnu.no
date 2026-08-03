@@ -95,7 +95,7 @@
                   <%= inline_svg "edit", class: "w-4 h-4" %>
                   <span><%= t('admin.sync_statuses.edit') %></span>
                 <% end %>
-                <%= link_to admin_sync_status_path(sync_status), method: :delete, data: { turbo_method: :delete, turbo_confirm: t('admin.sync_statuses.confirm_delete') }, class: "link flex items-center gap-1" do %>
+                <%= link_to admin_sync_status_path(sync_status), data: { turbo_method: :delete, turbo_confirm: t('admin.sync_statuses.confirm_delete') }, class: "link flex items-center gap-1" do %>
                   <%= inline_svg "delete", class: "w-4 h-4" %>
                   <span><%= t('admin.sync_statuses.delete') %></span>
                 <% end %>
