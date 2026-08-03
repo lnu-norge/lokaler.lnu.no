@@ -53,7 +53,7 @@ class SpacesController < BaseControllers::AuthenticateController # rubocop:disab
     if @space.save
       redirect_to space_path(@space)
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

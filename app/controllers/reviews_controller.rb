@@ -41,7 +41,7 @@ class ReviewsController < BaseControllers::AuthenticateController
     if @review.update(params)
       create_success
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -49,7 +49,7 @@ class ReviewsController < BaseControllers::AuthenticateController
     @review = Review.find(params[:id])
     @review.destroy
     flash[:alert] = t("reviews.deleted_review")
-    redirect_back(fallback_location: space_path(@review.space))
+    redirect_back_or_to(space_path(@review.space))
   end
 
   private
@@ -61,7 +61,7 @@ class ReviewsController < BaseControllers::AuthenticateController
     # TODO: This t(string) should be something like "You are not authorized".
     # TODO: Change it when the devise nb translations hit main.
     flash[:alert] = t("devise.failure.unauthenticated")
-    redirect_back fallback_location: spaces_path
+    redirect_back_or_to(spaces_path)
   end
 
   def set_review_from_id
@@ -93,7 +93,7 @@ class ReviewsController < BaseControllers::AuthenticateController
   end
 
   def create_error
-    render :new, status: :unprocessable_entity
+    render :new, status: :unprocessable_content
   end
 
   def parse_before_update(review_params, _review)

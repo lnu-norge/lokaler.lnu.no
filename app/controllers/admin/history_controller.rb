@@ -3,13 +3,13 @@
 module Admin
   class HistoryController < BaseControllers::AuthenticateAsAdminController # rubocop:disable Metrics/ClassLength
     include HistoryHelper
-    include Pagy::Backend
+    include Pagy::Method
 
     before_action :filter_params, only: :index
 
     def index
       versions = filtered_versions
-      @pagy, @versions = pagy(versions, items: 10)
+      @pagy, @versions = pagy(versions, limit: 10)
     end
 
     def show

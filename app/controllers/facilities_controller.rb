@@ -26,7 +26,7 @@ class FacilitiesController < BaseControllers::AuthenticateController
     if @facility.update(facility_params)
       redirect_to facilities_path
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

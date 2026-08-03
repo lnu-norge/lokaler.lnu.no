@@ -91,8 +91,8 @@ describe "User creates facility reviews for", :js do
     )
 
     # Expect both descriptions to be present:
-    expect(page).to have_content(description_of_first_facility)
-    expect(page).to have_content(description_of_second_facility)
+    expect(page).to have_text(description_of_first_facility)
+    expect(page).to have_text(description_of_second_facility)
   end
 
   it "a single facility twice, adding a description the second time" do

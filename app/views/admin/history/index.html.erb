@@ -53,8 +53,8 @@
 </div>
 
 <div class="my-4">
-  <%== pagy_info(@pagy) %>
-  <%== pagy_nav(@pagy) %>
+  <%== @pagy.info_tag %>
+  <%== @pagy.series_nav %>
 </div>
 
 <%= turbo_frame_tag "paper_trail_versions", class: "flex flex-col gap-4" do %>
@@ -64,5 +64,5 @@
 <% end %>
 
 <div class="mt-4">
-  <%== pagy_nav(@pagy) %>
+  <%== @pagy.series_nav %>
 </div>

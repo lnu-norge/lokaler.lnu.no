@@ -26,7 +26,7 @@ class SpaceGroupsController < BaseControllers::AuthenticateController
     if @space_group.update(space_group_params)
       redirect_to space_groups_path
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

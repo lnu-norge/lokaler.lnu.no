@@ -2,14 +2,14 @@
 
 module Admin
   class SyncStatusesController < BaseControllers::AuthenticateAsAdminController
-    include Pagy::Backend
+    include Pagy::Method
 
     before_action :set_sync_status, only: %i[show edit update destroy]
     before_action :filter_params, only: :index
 
     # GET /sync_statuses or /sync_statuses.json
     def index
-      @pagy, @sync_statuses = pagy(filtered_sync_statuses, items: 10)
+      @pagy, @sync_statuses = pagy(filtered_sync_statuses, limit: 10)
     end
 
     # GET /sync_statuses/1 or /sync_statuses/1.json
@@ -32,8 +32,8 @@ module Admin
           format.html { redirect_to @sync_status, notice: t("admin.sync_statuses.created") }
           format.json { render :show, status: :created, location: @sync_status }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @sync_status.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @sync_status.errors, status: :unprocessable_content }
         end
       end
     end
@@ -45,8 +45,8 @@ module Admin
           format.html { redirect_to @sync_status, notice: t("admin.sync_statuses.updated") }
           format.json { render :show, status: :ok, location: @sync_status }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @sync_status.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @sync_status.errors, status: :unprocessable_content }
         end
       end
     end

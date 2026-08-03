@@ -10,9 +10,9 @@ RSpec.describe "facilities/index.html.erb", type: :view do
     assign(:facility, Facility.new)
     render
 
-    expect(rendered).to match(/h1/)
-    expect(rendered).to match(/form/)
-    expect(rendered).to match(/h2/)
+    expect(rendered).to include("h1")
+    expect(rendered).to include("form")
+    expect(rendered).to include("h2")
 
     expect(rendered).to match(/#{facilities.first.title}/)
     expect(rendered).to match(/#{facilities.second.title}/)

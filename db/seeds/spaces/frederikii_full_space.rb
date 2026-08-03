@@ -51,13 +51,14 @@ credit_only = "Ola Nordmann"
 
 def attach_image(space, path, caption, credit)
   filename = File.basename(path)
-  file = File.open(path)
   img = Image.new(
     space_id: space.id,
     caption:,
     credits: credit
   )
-  img.image.attach io: file, filename:, content_type: "image/jpg"
+  File.open(path) do |file|
+    img.image.attach io: file, filename:, content_type: "image/jpg"
+  end
 
   img.save!
 end

@@ -25,7 +25,7 @@ describe "User creates review", :js do
 
       click_on(I18n.t("multistep_form_navigation.save"))
 
-      expect(page).to have_content("Review Comment!")
+      expect(page).to have_text("Review Comment!")
     end
   end
 end

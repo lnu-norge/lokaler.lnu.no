@@ -24,7 +24,7 @@ class PersonalDataOnSpaceInList < ApplicationRecord
   private
 
   def update_personal_space_list_counters
-    personal_space_list.update_counter_caches if personal_space_list.present?
+    personal_space_list.presence&.update_counter_caches
   end
 end
 

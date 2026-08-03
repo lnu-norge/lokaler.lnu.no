@@ -10,8 +10,8 @@ RSpec.describe "spaces/show", type: :view do
     assign(:space_contact, SpaceContact.new)
     render
 
-    expect(rendered).to match(/h1/)
-    expect(rendered).to match(/Space Title/)
+    expect(rendered).to include("h1")
+    expect(rendered).to include("Space Title")
     expect(rendered).to match(/space_#{space.id}-contact_information/)
     expect(rendered).to match(/space_#{space.id}-terms_and_pricing/)
     expect(rendered).to match(/space_#{space.id}-where/)

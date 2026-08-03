@@ -49,8 +49,8 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
         end
         format.json { render :show, status: :created, location: @personal_space_list }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @personal_space_list.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @personal_space_list.errors, status: :unprocessable_content }
       end
     end
   end
@@ -64,8 +64,8 @@ class PersonalSpaceListsController < BaseControllers::AuthenticateController
         end
         format.json { render :show, status: :ok, location: @personal_space_list }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @personal_space_list.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @personal_space_list.errors, status: :unprocessable_content }
       end
     end
   end

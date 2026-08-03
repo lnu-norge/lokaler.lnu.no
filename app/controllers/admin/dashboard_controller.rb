@@ -139,7 +139,7 @@ module Admin
                           .where(created_at: @datetime_range)
                           .group(:organization_name)
                           .count.sort_by { |_, count| -count }
-                          .take(6).filter(&:last).map(&:first)
+                                .take(6).filter(&:last).map(&:first)
 
       # Generate appropriate SQL based on whether we have top organizations or not
       sql_for_gropuing_by_organization = if top_organizations.empty?
