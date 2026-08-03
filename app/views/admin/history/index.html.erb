@@ -10,7 +10,7 @@
                        { selected: params[:user_ids], include_blank: false },
                        {
                          multiple: true,
-                         class: "mt-1 block w-80 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                         class: "mt-1 block w-80 rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
                          data: {
                            controller: "tom-select",
                            tom_select_options_value: {
@@ -30,15 +30,15 @@
                         [t("admin.item_types.contact"), "SpaceContact"],
                         [t("admin.item_types.group"), "SpaceGroup"]],
                        { selected: params[:item_type] },
-                       { class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" } %>
+                       { class: "mt-1 block w-44 rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" } %>
         </div>
         <div>
           <%= f.label :item_id, "#{t("admin.item_id")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
-          <%= f.text_field :item_id, value: params[:item_id], class: "mt-1 block w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+          <%= f.text_field :item_id, value: params[:item_id], class: "mt-1 block w-32 rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
         </div>
         <div>
           <%= f.label :space_id, "#{t("admin.space_id")}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
-          <%= f.text_field :space_id, value: params[:space_id], class: "mt-1 block w-32 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+          <%= f.text_field :space_id, value: params[:space_id], class: "mt-1 block w-32 rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
         </div>
         <div class="flex items-center gap-4">
           <%= f.submit t("admin.filter_button"), class: "button" %>
@@ -53,8 +53,8 @@
 </div>
 
 <div class="my-4">
-  <%== pagy_info(@pagy) %>
-  <%== pagy_nav(@pagy) %>
+  <%== @pagy.info_tag %>
+  <%== @pagy.series_nav %>
 </div>
 
 <%= turbo_frame_tag "paper_trail_versions", class: "flex flex-col gap-4" do %>
@@ -64,5 +64,5 @@
 <% end %>
 
 <div class="mt-4">
-  <%== pagy_nav(@pagy) %>
+  <%== @pagy.series_nav %>
 </div>

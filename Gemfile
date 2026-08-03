@@ -7,11 +7,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby File.read(".ruby-version").strip
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.1.3"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.6"
 # Use Puma as the app server
-gem "puma", "~> 6.6"
+gem "puma", "~> 8.0"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.14"
 
@@ -20,14 +20,17 @@ gem "sprockets-rails", require: "sprockets/railtie"
 
 # Use Active Storage variant
 gem "image_processing"
+# image_processing 2.0 no longer depends on a backend itself; Active Storage
+# defaults to the vips processor, so declare ruby-vips explicitly.
+gem "ruby-vips", "~> 2.0"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.18.6", require: false
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+gem "tzinfo-data", platforms: %i[windows jruby]
 
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 gem "devise-i18n"
 gem "devise-passwordless"
 gem "omniauth"
@@ -76,7 +79,7 @@ end
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
-  gem "byebug", platforms: %i[mri mingw x64_mingw]
+  gem "byebug", platforms: %i[mri windows]
   gem "dotenv-rails"
   gem "fabrication"
   gem "faker"
@@ -108,9 +111,11 @@ group :development do
 end
 
 group :test do
+  # No longer a default gem from Ruby 3.5 on; required by spec/support/performance_benchmark.rb
+  gem "benchmark"
   gem "capybara"
   gem "capybara-playwright-driver"
-  gem "playwright-ruby-client", "~> 1.45.0"
+  gem "playwright-ruby-client", "~> 1.62.0"
   gem "rspec-benchmark"
   gem "rspec-rails"
   gem "vcr"

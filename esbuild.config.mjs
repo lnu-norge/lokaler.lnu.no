@@ -5,7 +5,8 @@ import path from 'path'
 import esbuild from 'esbuild'
 import railsPlugin from 'esbuild-rails'
 import dotenv from 'dotenv'
-dotenv.config()
+// quiet: dotenv 17 prints an "injected env" banner on every build otherwise
+dotenv.config({ quiet: true })
 
 // Add ENV variables needed for JS here (if you don't inject them from ruby instead)
 const define = {}

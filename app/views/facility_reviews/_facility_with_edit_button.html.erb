@@ -1,4 +1,4 @@
-<%# locals: ( facility_category:, space_facility:, facility: %>
+<%# locals: (facility_category:, space_facility:, facility:) %>
 
 <%= turbo_frame_tag target_id_for_categorized_facility(
                       facility_id: facility.id, category_id: facility_category.id, space_id: space_facility.space_id
@@ -17,7 +17,7 @@
               <%= "line-through text-gray-600" if space_facility.experience == "impossible" %>"
     ><%= facility.title %></h4>
 
-    <span class="text-sm font-normal items-center inline-flex gap-1 overflow-ellipsis text-nowrap">
+    <span class="text-sm font-normal items-center inline-flex gap-1 text-ellipsis text-nowrap">
         <%= render 'facility_reviews/form_components/others_experience',
                    space_facility:
         %>

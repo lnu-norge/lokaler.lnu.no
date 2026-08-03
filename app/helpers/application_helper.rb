@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  include Pagy::Frontend
-
   def helper_flash_type(msg_type, message)
     case msg_type
     when "alert"

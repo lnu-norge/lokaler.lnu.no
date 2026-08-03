@@ -80,3 +80,19 @@ RSpec/DescribeClass:
 # InferredSpecType is going to be depreciated, and causes problems for view files together with DescribeClass
 RSpecRails/InferredSpecType:
   Enabled: false
+
+# params.expect raises ParameterMissing (400) where params[:x] returned nil (404 via
+# RecordNotFound). Adopting it is a deliberate behaviour change, not an upgrade concern —
+# left disabled so the dependency upgrade stays behaviour-neutral. Worth revisiting on its own.
+Rails/StrongParametersExpect:
+  Enabled: false
+
+# The benchmark helper's whole job is to print timings to the console
+RSpec/Output:
+  Exclude:
+    - 'spec/support/performance_benchmark.rb'
+
+# Request specs are named after the controller they exercise, not the model they describe
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - 'spec/requests/**/*'

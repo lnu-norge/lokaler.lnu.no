@@ -14,7 +14,7 @@
 
     <%= button_to personal_space_list_path(@personal_space_list),
                   method: :delete,
-                  data: { confirm: "Sikker på at du vil slette?" },
+                  data: { turbo_confirm: "Sikker på at du vil slette?" },
                   class: "link inline-flex gap-1" do %>
       <%= inline_svg_tag "delete" %> Slett listen
     <% end %>

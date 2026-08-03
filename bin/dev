@@ -1,11 +1,13 @@
 #!/usr/bin/env sh
 
-if ! gem list foreman -i --silent; then
-  echo "Installing foreman..."
-  gem install foreman
-fi
+# foreman is declared in the Gemfile's development group, so there is no need to
+# probe for it with `gem list` or install it globally. Running it through Bundler
+# also keeps gem activation inside the bundle — the bare `gem`/`foreman` path
+# loads RDoc's plugin discovery outside Bundler, which activates both the rdoc
+# version Ruby ships and the one in the lockfile and prints "already initialized
+# constant RDoc::..." warnings on every boot.
 
 # Default to port 3000 if not specified
 export PORT="${PORT:-3000}"
 
-exec foreman start -f Procfile.dev "$@"
+exec bundle exec foreman start -f Procfile.dev "$@"

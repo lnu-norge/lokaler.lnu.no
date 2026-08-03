@@ -1,4 +1,4 @@
-<li class="shadow-lg rounded-xl overflow-clip border border-gray-20 flex flex-col flex-shrink-0 ">
+<li class="shadow-lg rounded-xl overflow-clip border border-gray-20 flex flex-col shrink-0 ">
 
   <%= render partial: 'reviews/review', locals: { review: review}   %>
   <% if current_user == review.user %>
@@ -12,7 +12,7 @@
         <% end %>
       <% end %>
 
-      <%= link_to review_path(review), method: :delete, data: { confirm: t('reviews.delete_confirmation') }, class: 'link inline-flex gap-1 items-center' do %>
+      <%= link_to review_path(review), data: { turbo_method: :delete, turbo_confirm: t('reviews.delete_confirmation') }, class: 'link inline-flex gap-1 items-center' do %>
         <%= inline_svg_tag 'delete', class: 'h-5 w-5' %>
         <%= t('reviews.delete') %>
       <% end %>

@@ -36,8 +36,8 @@ describe "User views homepage", :js do
     login_and_logout_with_warden do
       visit root_path
 
-      expect(page).to have_content(space_one.title)
-      expect(page).to have_content(space_two.title)
+      expect(page).to have_text(space_one.title)
+      expect(page).to have_text(space_two.title)
 
       # If on mobile, we need to toggle the search box first:
       click_on("toggle_search_box") unless page.has_text?(facility_toilet.title)
@@ -60,12 +60,12 @@ describe "User views homepage", :js do
       uncheck(facility_beds.title)
       check(space_one.space_types.first.type_name)
 
-      expect(page).to have_no_content(space_two.title, wait: 2.0)
+      expect(page).to have_no_text(space_two.title, wait: 2.0)
 
       uncheck(space_one.space_types.first.type_name)
       check(space_two.space_types.first.type_name)
 
-      expect(page).to have_no_content(space_one.title, wait: 2.0)
+      expect(page).to have_no_text(space_one.title, wait: 2.0)
     end
   end
 end

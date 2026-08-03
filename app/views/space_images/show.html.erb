@@ -11,6 +11,6 @@
       <%= f.input :caption %>
       <%= f.submit "Update" %>
     <% end %>
-    <%= link_to "Delete", space_image_path(@space, image: image), method: :delete, data: { confirm: t('space_contacts.delete_confirmation') } %>
+    <%= link_to "Delete", space_image_path(@space, image: image), data: { turbo_method: :delete, turbo_confirm: t('space_contacts.delete_confirmation') } %>
   <% end %>
 </main>

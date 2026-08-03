@@ -62,7 +62,7 @@ RSpec.describe Admin::SyncStatusesController, type: :request do
         post admin_sync_statuses_path, params: { sync_status: invalid_attributes }
       end.not_to change(Admin::SyncStatus, :count)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it "updates a sync status with valid parameters" do
@@ -75,7 +75,7 @@ RSpec.describe Admin::SyncStatusesController, type: :request do
 
     it "doesn't update a sync status with invalid parameters" do
       patch admin_sync_status_path(sync_status), params: { sync_status: invalid_attributes }
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it "destroys a sync status" do

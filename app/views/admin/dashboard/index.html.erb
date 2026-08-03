@@ -1,8 +1,8 @@
 <h1 class="font-bold text-lnu-blue mb-8 sr-only">Statistikk</h1>
 
-<div class="grid grid-cols-1 items-baseline justify-items-center 4xl:grid-cols-2 gap-8 p-8 max-w-screen-4xl mx-auto">
+<div class="grid grid-cols-1 items-baseline justify-items-center 4xl:grid-cols-2 gap-8 p-8 max-w-(--breakpoint-4xl) mx-auto">
 
-<section class="bg-gray-50 p-4 rounded-lg border border-gray-200 w-full max-w-screen-2xl">
+<section class="bg-gray-50 p-4 rounded-lg border border-gray-200 w-full max-w-(--breakpoint-2xl)">
   <header class="mb-8 pt-4 max-w-prose mx-auto w-screen">
 
     <h2 class="text-center uppercase text-lnu-blue/90 font-normal tracking-wider text-sm">Filtrert på dato</h2>
@@ -31,7 +31,7 @@
     <% end %>
   </header>
 
-  <main class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 max-w-screen-2xl mx-auto">
+  <main class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 max-w-(--breakpoint-2xl) mx-auto">
 
     <%= render "admin/dashboard/statistics_box",
                append_css_classes: "lg:col-span-2",
@@ -112,12 +112,12 @@
   </main>
 </section>
 
-<section class="bg-gray-50 p-4 rounded-lg border border-gray-200 w-full  max-w-screen-2xl">
+<section class="bg-gray-50 p-4 rounded-lg border border-gray-200 w-full  max-w-(--breakpoint-2xl)">
   <header class="mb-8 pt-4 max-w-prose mx-auto w-screen">
     <h2 class="text-center uppercase text-lnu-blue/90 font-normal tracking-wider text-sm">Øyeblikksbilde (ikke filtrert)</h2>
   </header>
 
-  <main class="flex flex-col gap-4 max-w-screen-2xl mx-auto">
+  <main class="flex flex-col gap-4 max-w-(--breakpoint-2xl) mx-auto">
     <%= render "admin/dashboard/statistics_box",
                header: "Alle #{number_with_delimiter @space_count} lokaler" do %>
 

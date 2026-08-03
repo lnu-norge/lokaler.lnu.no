@@ -10,7 +10,7 @@ jobs:
     # https://github.com/actions/example-services/tree/master/.github/workflows
     services:
       postgres:
-        image: postgis/postgis:16-3.4
+        image: postgis/postgis:18-3.6
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: "password"
@@ -18,9 +18,12 @@ jobs:
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
-        # tmpfs makes DB faster by using RAM
+        # tmpfs makes DB faster by using RAM. Mounted at /var/lib/postgresql
+        # rather than .../data: from 18 on, these images keep data in a
+        # major-version subdirectory and refuse to start if the old path is
+        # mounted. See https://github.com/docker-library/postgres/pull/1259
         options: >-
-          --mount type=tmpfs,destination=/var/lib/postgresql/data
+          --mount type=tmpfs,destination=/var/lib/postgresql
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
@@ -28,7 +31,6 @@ jobs:
 
     env:
       RAILS_ENV: test
-      GEMFILE_RUBY_VERSION: 3.3.6
       PGHOST: localhost
       POSTGRES_HOST: localhost
       PGUSER: postgres
@@ -42,19 +44,34 @@ jobs:
       MAPBOX_API_KEY: pk.eyJ1IjoibWF0aGlhczIzNCIsImEiOiJja3U1N2o0MGoybGl5MnVxaDcyaHdjZDFpIn0.S-c3HtdhqhyAR6izLxY-iQ
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version-file: 'package.json'
+
+      # image_processing 2.0 no longer bundles a backend, so ruby-vips is an
+      # explicit dependency and loads libvips.so.42 at boot. The runner image
+      # does not ship it. Production has it via the Dockerfile.
+      - name: Install libvips
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libvips
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           # runs 'bundle install' and caches installed gems automatically
           bundler-cache: true
+      # Node 25 dropped the bundled Corepack, which is what provides the yarn
+      # binary matching packageManager in package.json.
+      - name: Enable Corepack
+        run: |
+          npm install -g corepack@latest
+          corepack enable
+
       - name: Run Yarn and build js and css
         run: |
-          yarn
+          yarn install --immutable
           yarn build
           yarn build:css
 
@@ -68,7 +85,7 @@ jobs:
 
       - name: Cache Playwright browsers
         id: playwright-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-browsers-ruby-${{ runner.os }}-${{ hashFiles('Gemfile.lock') }}

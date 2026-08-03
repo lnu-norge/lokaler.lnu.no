@@ -6,7 +6,7 @@
   @apply -mx-8;
   .horizontal-card {
     @apply w-[400px] p-6 shadow-lg rounded-xl border border-gray-200;
-    @apply flex flex-col gap-2 flex-shrink-0;
+    @apply flex flex-col gap-2 shrink-0;
   }
 }
 

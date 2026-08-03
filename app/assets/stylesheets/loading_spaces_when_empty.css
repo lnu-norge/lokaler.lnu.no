@@ -11,7 +11,7 @@
     &::before {
         content: "Leter etter lokaler...";
         display: block;
-        @apply w-full h-48 rounded-sm flex items-center justify-center;
+        @apply w-full h-48 rounded-xs flex items-center justify-center;
         @apply bg-gray-100;
     }
 }

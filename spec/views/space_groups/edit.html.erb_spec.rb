@@ -9,11 +9,11 @@ RSpec.describe "space_groups/edit", type: :view do
     assign(:space_group, space_group)
     render
 
-    expect(rendered).to match(/form/)
+    expect(rendered).to include("form")
     expect(rendered).to match(/#{space_group.title}/)
-    expect(rendered).to match(/space_group_how_to_book/)
-    expect(rendered).to match(/space_group_terms_and_pricing/)
-    expect(rendered).to match(/space_group_about/)
-    expect(rendered).to match(/submit/)
+    expect(rendered).to include("space_group_how_to_book")
+    expect(rendered).to include("space_group_terms_and_pricing")
+    expect(rendered).to include("space_group_about")
+    expect(rendered).to include("submit")
   end
 end

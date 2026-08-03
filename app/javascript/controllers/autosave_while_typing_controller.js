@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import Rails from '@rails/ujs';
+import { railsFetch } from '../custom/rails_fetch';
 
 // Connects to data-controller="autosave-while-typing"
 export default class extends Controller {
@@ -17,17 +17,13 @@ export default class extends Controller {
 
     this.setCssClass("saving")
 
-    Rails.ajax({
-      url: form.action,
-      type: "PATCH",
-      data: formData,
-      success: () => {
+    railsFetch(form.action, { method: "PATCH", body: formData })
+      .then(() => {
         this.setCssClass("success")
-      },
-      error: (error) => {
+      })
+      .catch(() => {
         this.setCssClass("error")
-      },
-    });
+      });
   }
 
   addStatusElement() {

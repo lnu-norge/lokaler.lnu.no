@@ -1,12 +1,13 @@
 module.exports = {
   plugins: {
-    'postcss-import': {}, // Allows @import on top of css files
-    'tailwindcss/nesting': {}, // Allows scss style nesting, e.g. h2 { xxx .fancy { yyy }  } will compile to h2 { xxx }; h2.fancy { yyy };
-    'postcss-extend-rule': {}, // Allows scss style extending with @extend
-    tailwindcss: {}, // Allows tailwind
+    // Tailwind v4 also handles @import, nesting and vendor prefixing, so
+    // postcss-import, tailwindcss/nesting and autoprefixer are no longer needed.
+    // postcss-extend-rule is gone too: @extend depended on postcss-import having
+    // already inlined every stylesheet, and its targets are all @utility blocks
+    // now, so they are pulled in with @apply instead.
+    '@tailwindcss/postcss': {},
     'postcss-url': {
       url: 'inline', // Converts all css images to base64
     },
-    autoprefixer: {}, // Adds vendor prefixes to stuff
   },
 }

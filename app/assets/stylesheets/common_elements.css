@@ -2,11 +2,11 @@ a,
 .link {
   @apply cursor-pointer;
   @apply text-pink-700;
-  @apply rounded;
+  @apply rounded-sm;
   &:hover {
     @apply underline;
   }
-  @extend .focused-outline;
+  @apply focused-outline;
 }
 
 .collapsable {

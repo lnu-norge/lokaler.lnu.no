@@ -11,11 +11,11 @@ RSpec.describe "reviews/edit", type: :request do
     get edit_review_path(review)
 
     rendered = response.body
-    expect(rendered).to match(/form/)
+    expect(rendered).to include("form")
     expect(rendered).to match(/#{review.comment}/)
     expect(rendered).to match(/#{review.star_rating}/)
-    expect(rendered).to match(/review_comment/)
-    expect(rendered).to match(/review_star_rating/)
-    expect(rendered).to match(/submit/)
+    expect(rendered).to include("review_comment")
+    expect(rendered).to include("review_star_rating")
+    expect(rendered).to include("submit")
   end
 end
