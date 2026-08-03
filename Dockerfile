@@ -36,11 +36,14 @@ RUN apt-get update -qq && \
 
 # Install JavaScript dependencies
 ARG NODE_VERSION=26.5.1
-ARG YARN_VERSION=1.22.21
 ENV PATH=/usr/local/node/bin:$PATH
+# Node 25 dropped the bundled Corepack, so install it explicitly. Corepack reads
+# the packageManager field in package.json and provides the matching yarn on
+# PATH, which the Rails asset tasks shell out to.
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
     /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
-    npm install -g yarn@$YARN_VERSION && \
+    npm install -g corepack@latest && \
+    corepack enable && \
     rm -rf /tmp/node-build-master
 
 # Install application gems
@@ -50,9 +53,9 @@ RUN bundle install && \
     bundle exec bootsnap precompile --gemfile
 
 # Install node modules
-COPY .yarnrc package.json yarn.lock ./
+COPY .yarnrc.yml package.json yarn.lock ./
 COPY .yarn/releases/* .yarn/releases/
-RUN yarn install --frozen-lockfile
+RUN yarn install --immutable
 
 # Copy application code
 COPY . .
