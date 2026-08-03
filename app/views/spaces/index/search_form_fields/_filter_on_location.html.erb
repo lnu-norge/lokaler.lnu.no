@@ -3,7 +3,7 @@
 <%= form.label :filter_by_map_bounds, class: "flex gap-1 items-top" do %>
       <%= form.check_box :filter_by_map_bounds,
                          {
-                           class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                           class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded-sm",
                            onchange: "this.form.requestSubmit()",
                            checked: params[:filter_by_map_bounds] == "off" ? nil : "checked"
                          },
@@ -29,7 +29,7 @@
                              data: {
                                'nested-checkbox-filter-target': fylke.kommuner.any? ? 'parent' : nil,
                              },
-                             class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                             class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded-sm",
                              onchange: "this.form.requestSubmit()",
                              checked: fylke_checked
                            },
@@ -50,7 +50,7 @@
                                  data: {
                                    'nested-checkbox-filter-target': 'child',
                                  },
-                                 class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                                 class: "h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded-sm",
                                  onchange: "this.form.requestSubmit()",
                                  checked: params[:kommuner]&.include?(kommune.id.to_s)
                                },

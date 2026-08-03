@@ -15,7 +15,7 @@
                           ["BRREG", "brreg"],
                           ["NSR", "nsr"]],
                          { selected: params[:source] },
-                         { class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" } %>
+                         { class: "mt-1 block w-44 rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" } %>
           </div>
           <div>
             <%= f.label :status, "#{t('admin.sync_statuses.status')}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
@@ -24,15 +24,15 @@
                           [t('admin.sync_statuses.successful'), "successful"],
                           [t('admin.sync_statuses.failed'), "failed"]],
                          { selected: params[:status] },
-                         { class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" } %>
+                         { class: "mt-1 block w-44 rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" } %>
           </div>
           <div>
             <%= f.label :id_from_source, "#{t('admin.sync_statuses.id_from_source')}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
-            <%= f.text_field :id_from_source, value: params[:id_from_source], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            <%= f.text_field :id_from_source, value: params[:id_from_source], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
           </div>
           <div>
             <%= f.label :last_attempted_after, "#{t('admin.sync_statuses.last_attempted_after')}:", class: "block text-sm font-medium text-gray-700 mb-1" %>
-            <%= f.date_field :last_attempted_after, value: params[:last_attempted_after], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+            <%= f.date_field :last_attempted_after, value: params[:last_attempted_after], class: "mt-1 block w-44 rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
           </div>
           <div class="flex items-center gap-4">
             <%= f.submit t('admin.sync_statuses.filter_button'), class: "button" %>

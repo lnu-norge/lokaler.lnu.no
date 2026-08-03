@@ -14,7 +14,7 @@
           button_to personal_space_list_shared_with_public_path(personal_space_list),
                     method: :delete,
                     title: "Skru av deling",
-                    class: "inline-flex gap-1 items-center cursor-pointer group focus:outline-none" do %>
+                    class: "inline-flex gap-1 items-center cursor-pointer group focus:outline-hidden" do %>
           <%= render 'shared/toggle_switch', checked: true, text: "Delt offentlig" %>
         <% end %>
       </div>
@@ -25,7 +25,7 @@
         button_to personal_space_list_shared_with_public_path(personal_space_list),
                   method: :post,
                   title: "Skru på deling",
-                  class: "inline-flex gap-1 items-center cursor-pointer group focus:outline-none" do %>
+                  class: "inline-flex gap-1 items-center cursor-pointer group focus:outline-hidden" do %>
         <%= render 'shared/toggle_switch', checked: false, text: "Skru på deling" %>
       <% end %>
     <% end %>
@@ -35,7 +35,7 @@
     <% else %>
       <div class="inline-flex gap-1 items-center text-gray-700 text-sm">
           Tilhører <%= personal_space_list.user.name %>
-          <%= image_tag personal_space_list.user.gravatar_url, class: "h-6 w-6 rounded-full shadow-sm" %>
+          <%= image_tag personal_space_list.user.gravatar_url, class: "h-6 w-6 rounded-full shadow-xs" %>
       </div>
       <%  if current_user.admin? %>
         <div class="font-bold">Ikke delt. Du er admin og har tilgang</div>

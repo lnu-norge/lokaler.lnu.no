@@ -8,7 +8,7 @@
         checked="<%= params[:space_types]&.any? ? "checked" : "" %>"
         data-nested-checkbox-filter-target="parent"
         id="checkbox_for_all_space_types"
-        class="h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded">
+        class="h-5 w-5 relative top-0.5 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded-sm">
     Alle typer
   </label>
   <hr class="my-3 border-gray-200" />
@@ -24,7 +24,7 @@
           },
           class: "h-5 w-5
                   relative top-0.5
-                  text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded",
+                  text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded-sm",
           onchange: "!this.id.startsWith('duplicate-') && this.form.requestSubmit()",
           checked: params[:space_types]&.include?(space_type.id.to_s)
 
