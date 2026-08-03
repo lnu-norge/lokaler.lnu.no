@@ -20,7 +20,7 @@
           %>
           <%= form.input :post_address,
                          wrapper_html: {
-                           class: "flex-grow",
+                           class: "grow",
                          },
                          input_html: {
                            "disabled": true,
@@ -33,13 +33,13 @@
         <div class="flex gap-2">
           <%= form.input :location_description,
                           wrapper_html: {
-                            class: "flex-grow",
+                            class: "grow",
                           },
                           label_html: { class: 'sr-only'}
           %>
         </div>
       </div>
-      <div data-autofilladdress-target="mapHolder" class="flex-grow">
+      <div data-autofilladdress-target="mapHolder" class="grow">
         <%= static_map_of @space %>
       </div>
     </div>

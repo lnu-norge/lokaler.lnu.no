@@ -9,7 +9,7 @@
     @apply gap-y-1.5;
   }
   &:focus-within {
-    @apply outline-none ring-2 ring-offset-2 ring-lnu-pink;
+    @apply outline-hidden ring-2 ring-offset-2 ring-lnu-pink;
   }
   input[type="radio"] {
     @apply sr-only;
@@ -33,10 +33,10 @@
 
   &:hover {
     input:checked + label {
-      @apply bg-opacity-50;
+      @apply bg-white/50;
       @apply cursor-pointer;
       &:hover {
-        @apply bg-opacity-100;
+        @apply bg-white;
       }
     }
   }

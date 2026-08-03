@@ -1,7 +1,7 @@
 <%# locals: (space_contact:) %>
   <div class="my-2 p-4 border border-lnu-blue/20 rounded">
     <h4 class="font-bold"><%= space_contact.title %></h4>
-    <dl class="break-words">
+    <dl class="wrap-break-word">
       <% if space_contact.telephone? %>
         <dt class="sr-only">
           <%= t('space_contacts.phone') %>

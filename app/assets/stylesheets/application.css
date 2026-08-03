@@ -1,26 +1,44 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss';
 
-@import "./_avatar.css";
-@import "./_horizontal_card.css";
-@import "./actiontext.css";
-@import "./autosave-while-typing.css";
-@import "./common_elements.css";
-@import "./content.css";
-@import "./devise.css";
-@import "./diffy.css";
-@import "./editable.css";
-@import "./flash.css";
-@import "./forms.css";
-@import "./image_slider.css";
-@import "./loading_spaces_when_empty.css";
-@import "./map.css";
-@import "./modal.css";
-@import "./radio_slider.css";
-@import "./show-only-if-inside-space-open-in-sidebar.css";
-@import "./space_index.css";
-@import "./space_table.css";
-@import "./star_picker.css";
-@import "./pagy.css";
-@import "./tom_select.css";
+@import './_avatar.css' layer(utilities);
+@import './_horizontal_card.css' layer(utilities);
+@import './actiontext.css' layer(utilities);
+@import './autosave-while-typing.css' layer(utilities);
+@import './common_elements.css' layer(utilities);
+@import './content.css';
+@import './devise.css' layer(utilities);
+@import './diffy.css' layer(utilities);
+@import './editable.css' layer(utilities);
+@import './flash.css' layer(utilities);
+@import './forms.css';
+@import './image_slider.css' layer(utilities);
+@import './loading_spaces_when_empty.css' layer(utilities);
+@import './map.css' layer(utilities);
+@import './modal.css' layer(utilities);
+@import './radio_slider.css' layer(utilities);
+@import './show-only-if-inside-space-open-in-sidebar.css' layer(utilities);
+@import './space_index.css' layer(utilities);
+@import './space_table.css' layer(utilities);
+@import './star_picker.css' layer(utilities);
+@import './pagy.css' layer(utilities);
+@import './tom_select.css' layer(utilities);
+
+@config '../../../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}

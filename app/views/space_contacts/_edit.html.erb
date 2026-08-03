@@ -25,7 +25,7 @@
         </button>
         <%= link_to t('space_contacts.abort'), space_contact if action_name == "edit" || action_name == "update" %>
 
-        <div class="flex-grow justify-end inline-flex items-center">
+        <div class="grow justify-end inline-flex items-center">
           <%= link_to space_contact_path(space_contact),
                       method: :delete,
                       data: { confirm: t('space_contacts.delete_confirmation') },

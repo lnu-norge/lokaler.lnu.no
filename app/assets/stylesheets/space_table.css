@@ -14,7 +14,7 @@ body.view-as-table {
         @apply sticky top-0;
         @apply bg-gray-100;
         @apply z-5;
-        @apply shadow-sm;
+        @apply shadow-xs;
         tr {
             @apply border-b border-gray-200;
         }
@@ -29,7 +29,7 @@ body.view-as-table {
     tbody tr th:first-child {
         @apply md:sticky md:left-0 md:z-4;
     }
-    @media (min-width: theme('screens.md')) {
+    @media (min-width: --theme(--breakpoint-md)) {
         thead tr th:nth-of-type(2) {
             @apply relative;
         }

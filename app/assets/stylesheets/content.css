@@ -1,14 +1,76 @@
-@layer components {
-  .content {
-    > hr {
-      @apply my-8;
+@utility content {
+  > hr {
+    @apply my-8;
+  }
+  .h1,
+  .h2,
+  .h3,
+  h1,
+  h2,
+  h3 {
+    @apply mt-6 font-bold block;
+    &.small-mt {
+      @apply mt-4;
+    }
+    &.no-mt {
+      @apply mt-0;
+    }
+    &.reset-header-styles {
+      @apply mt-0 font-normal text-base;
     }
   }
 
-  .content,
-  trix-editor.rich_text_area,
-  .trix-content {
-    .h1, .h2, .h3, h1, h2, h3 {
+  .h1,
+  .h2,
+  .h3,
+  p,
+  ul,
+  ol,
+  h3,
+  h2,
+  h1 {
+    @apply mb-3;
+    &.reset-header-styles {
+      @apply mb-0;
+    }
+  }
+
+  .h1,
+  h1 {
+    @apply text-3xl;
+  }
+
+  .h2,
+  h2 {
+    @apply text-2xl;
+  }
+
+  .h3,
+  h3 {
+    @apply text-xl;
+  }
+
+  legend {
+    .h2 {
+      @apply mb-0;
+    }
+  }
+  header {
+    .h2,
+    h2 {
+      @apply mt-0;
+    }
+  }
+}
+
+@utility rich_text_area {
+  & trix-editor {
+    .h1,
+    .h2,
+    .h3,
+    h1,
+    h2,
+    h3 {
       @apply mt-6 font-bold block;
       &.small-mt {
         @apply mt-4;
@@ -21,22 +83,33 @@
       }
     }
 
-    .h1, .h2, .h3, p, ul, ol, h3, h2, h1 {
+    .h1,
+    .h2,
+    .h3,
+    p,
+    ul,
+    ol,
+    h3,
+    h2,
+    h1 {
       @apply mb-3;
       &.reset-header-styles {
         @apply mb-0;
       }
     }
 
-    .h1, h1 {
+    .h1,
+    h1 {
       @apply text-3xl;
     }
 
-    .h2, h2 {
+    .h2,
+    h2 {
       @apply text-2xl;
     }
 
-    .h3, h3 {
+    .h3,
+    h3 {
       @apply text-xl;
     }
 
@@ -46,18 +119,78 @@
       }
     }
     header {
-      .h2, h2 {
+      .h2,
+      h2 {
         @apply mt-0;
       }
     }
   }
+}
 
-  .trix-content {
-    ul li {
-      list-style: disc;
+@utility trix-content {
+  .h1,
+  .h2,
+  .h3,
+  h1,
+  h2,
+  h3 {
+    @apply mt-6 font-bold block;
+    &.small-mt {
+      @apply mt-4;
     }
-    ol li {
-      list-style: decimal;
+    &.no-mt {
+      @apply mt-0;
     }
+    &.reset-header-styles {
+      @apply mt-0 font-normal text-base;
+    }
+  }
+
+  .h1,
+  .h2,
+  .h3,
+  p,
+  ul,
+  ol,
+  h3,
+  h2,
+  h1 {
+    @apply mb-3;
+    &.reset-header-styles {
+      @apply mb-0;
+    }
+  }
+
+  .h1,
+  h1 {
+    @apply text-3xl;
+  }
+
+  .h2,
+  h2 {
+    @apply text-2xl;
+  }
+
+  .h3,
+  h3 {
+    @apply text-xl;
+  }
+
+  legend {
+    .h2 {
+      @apply mb-0;
+    }
+  }
+  header {
+    .h2,
+    h2 {
+      @apply mt-0;
+    }
+  }
+  ul li {
+    list-style: disc;
+  }
+  ol li {
+    list-style: decimal;
   }
 }
