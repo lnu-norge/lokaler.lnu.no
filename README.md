@@ -21,9 +21,16 @@ If you find bugs, please submit them.
 
 ### Pre-requisites
 
-- Rails 7.2
-- Ruby 3.3.6
-- Node 23 and yarn
+- **Ruby 4.0.6** — the exact version lives in `.ruby-version`, so most version
+  managers (chruby, rbenv, mise, asdf) will pick it up on their own
+- **Rails 8.1** — installed by `bundle install`, no need to install it yourself
+- **Node 26.5.1** — the exact version lives in `.nvmrc` (`nvm use` reads it)
+- **Yarn 4** — provided by Corepack, see below
+- **PostgreSQL 15 or newer, with the PostGIS extension** — PostGIS is not
+  optional, the app uses the `postgis` adapter and geo columns throughout
+
+Production runs PostgreSQL 18 with PostGIS 3.6, so that is the safest pairing to
+develop against.
 
 ### Pull the code locally
 
@@ -34,9 +41,20 @@ Use `git clone git@github.com:lnu-norge/lokaler.lnu.no.git` to pull the code.
 Go into the folder lokaler.lnu.no, and run the command: `bundle install`
 > TIP! After this command you  should see a long list of green and white lines
 
-### Install node package
+### Install node packages
 
-Run the command: `yarn`
+The project uses Yarn 4, which comes from Corepack. Node stopped bundling
+Corepack in version 25, so install it once:
+
+```
+> npm install -g corepack
+> corepack enable
+```
+
+Without it, `yarn` resolves to whatever old global Yarn 1 you happen to have,
+which cannot read `.yarnrc.yml` and will fail.
+
+Then run: `yarn install`
 
 ### Set up database
 
@@ -50,7 +68,7 @@ Congratulations! You have now setup the project.
 
 ## Set up ENV variables for third party services
 
-See the file `env.example` for a list of third party services you can use with the app. 
+See the file `.env.example` for a list of third party services you can use with the app. 
 
 Locally you need a `MAPBOX_API_KEY` to test the map functionality, and `GOOGLE_OAUTH_CLIENT_ID` as well as `GOOGLE_OAUTH_CLIENT_SECRET` to test logging in with Google. 
 
@@ -80,7 +98,7 @@ There are four commands to run everything for dev  mode:
 ```bash
 bin/rails s -p 3000 # Runs the rails server
 bundle exec guard # Reloads the rails server and browser if rails files change
-yarn build:dev --watch # Builds and rebuilds CSS when files change
+yarn build:dev --watch # Builds and rebuilds JS when files change
 yarn build:css --watch # Builds and rebuilds CSS when files change
 ```
 
@@ -111,36 +129,39 @@ After that you can run the tests with
 
 # Install instructions Ruby on Rails
 ---
-To get this project up and running on your computer you will need to install a few things on your system - Ruby, Rails, Yarn and PostgresQL. It is slightly different how you do this depending on whether you are on Ubuntu, Mac or Windows.
+To get this project up and running on your computer you will need Ruby, Node and
+PostgreSQL with PostGIS. Rails and the other gems are installed by `bundle
+install`, so you do not install those separately.
+
+Do not hard-code versions from a guide. This project pins its own in
+`.ruby-version` and `.nvmrc`, and those files are the source of truth — follow a
+guide for the tooling, then let the version manager read the pinned version.
 
 ## Ubuntu or other Linux versions
-1. Follow the instructions in this guide: https://gorails.com/setup/ubuntu/20.04
-2. We recommend using the Rbenv option, only because we can support you if issues.
-3. Skip the git setup if you already have it
-4. The MySQL part is optional, but you have to setup Postgres.
+1. Follow the GoRails setup guide for your Ubuntu release:
+   https://gorails.com/setup/ubuntu — pick your actual version from the list.
+2. Any Ruby version manager works. We use chruby and rbenv, so those are the
+   ones we can help debug.
+3. Skip the git setup if you already have it.
+4. You can skip the MySQL section. You do need PostgreSQL, and you also need the
+   PostGIS extension:
+   ```
+   > sudo apt install postgresql postgis postgresql-<version>-postgis-3
+   ```
 
-That should be it.
 ## Apple MacOS
-1. Follow the instructions in this guide: https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-macos
-> IMPORTANT- for  STEP 2
-> When prompted to run the command: rbenv install 2.6.3
-> Use the command: rbenv install 3.3.6
->
-> After that it asks you to run: rbenv global 2.6.3
-> Run: rbenv global 3.3.6 instead
->
-> This is the version of Ruby we are using.
-
-> IMPORTANT - for STEP 4
-> -   gem install rails -v 5.2.3 should be changed to: gem install rails -v 6.1.4.1
->
-> This is the version of Rails we are using
-
-2. You can skip STEP 5 and the rest of the steps.
-3. You now need Postgresql, download the installer here. Latest version should be okay.
-https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
-> TIP - If you want to follow a guide then this guide is okay. They install a much older version then you will be doing but it should be very similar.
->https://www.postgresqltutorial.com/install-postgresql-macos/
+1. Install a Ruby version manager. [chruby](https://github.com/postmodern/chruby)
+   with [ruby-install](https://github.com/postmodern/ruby-install), or rbenv, or
+   [mise](https://mise.jdx.dev/) — all fine. Then install the version named in
+   `.ruby-version`.
+2. Install Node with [nvm](https://github.com/nvm-sh/nvm), then run `nvm use` in
+   the project folder to pick up `.nvmrc`.
+3. Install PostgreSQL with PostGIS. The simplest route is
+   [Postgres.app](https://postgresapp.com/), which bundles PostGIS. With
+   Homebrew you need both:
+   ```
+   > brew install postgresql@18 postgis
+   ```
 
 ## Windows
 If you are on Windows we recommend using Windows Subsystem for Linux version 2 if possible.
@@ -149,7 +170,7 @@ If you are on Windows we recommend using Windows Subsystem for Linux version 2 i
 1. Follow this guide. The simplified version should be fine. https://docs.microsoft.com/en-us/windows/wsl/install-win10
 2. Now try to search on your start menu for Ubuntu (it should show up and have a orange icon). If it doesn't, then restart your computer and try again.
 
-3. If it still does not appear, then go to Windows Store (it is Windows own app store) and search for Ubuntu 20.04 or any other Linux distribution that you may want. [Windows Store](https://www.microsoft.com/store/productId/9N6SVWS3RX71)
+3. If it still does not appear, then go to Windows Store (it is Windows own app store) and search for Ubuntu 24.04 or a newer Ubuntu LTS. [Windows Store](https://www.microsoft.com/store/productId/9N6SVWS3RX71)
 	*	Install Ubuntu from the Windows store, launch the software and follow the guide.
 	*	You now should have Ubuntu installed. This will be your "window" into the world of Linux.
 4. Now that you have Ubuntu, or other Linux, installed on your Windows computer you are ready to install the rest. You can now follow the Ubuntu guide above - just make sure you are using the newly installed Ubuntu terminal instead of Powershell or CMD.

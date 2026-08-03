@@ -49,6 +49,14 @@ jobs:
         with:
           node-version-file: 'package.json'
 
+      # image_processing 2.0 no longer bundles a backend, so ruby-vips is an
+      # explicit dependency and loads libvips.so.42 at boot. The runner image
+      # does not ship it. Production has it via the Dockerfile.
+      - name: Install libvips
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libvips
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
