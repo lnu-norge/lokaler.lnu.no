@@ -10,7 +10,6 @@ export default class extends Controller {
   }
 
   disableFilterById(event) {
-    console.log("disableFilterById", event)
     const idToClear = event.target.dataset.idToClear
 
     if (idToClear) {

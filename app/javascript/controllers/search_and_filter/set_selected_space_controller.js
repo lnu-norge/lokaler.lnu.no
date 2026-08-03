@@ -4,13 +4,13 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["space"]
 
-  spaceTargetConnected(target) {
+  spaceTargetConnected() {
     const space_id = this.spaceTarget.dataset.space
     this.setSelectedSpace(space_id)
     this.scrollToTopOfSpace()
   }
 
-  spaceTargetDisconnected(target) {
+  spaceTargetDisconnected() {
     const space_id = this.spaceTarget.dataset.space
     this.unsetSelectedSpace(space_id)
   }

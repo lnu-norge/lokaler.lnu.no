@@ -83,6 +83,12 @@ jobs:
         run: |
           bundle exec rubocop
 
+      # Nothing ran ESLint between the v9 upgrade and 2026, which is how the
+      # config silently stopped applying. Keep it in CI so that cannot recur.
+      - name: ESLint
+        run: |
+          npx eslint app/javascript
+
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@v6
