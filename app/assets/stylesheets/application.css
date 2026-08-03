@@ -1,5 +1,53 @@
 @import 'tailwindcss';
 
+@plugin "@tailwindcss/forms";
+
+/* Was a JS plugin calling addVariant(). Both drive the two view modes on the
+   spaces index; 27 usages across the templates. */
+@custom-variant view-as-table (body.view-as-table &);
+@custom-variant view-as-map (body.view-as-map &);
+/* Was a `raw` screen in the JS config, which is a media query rather than a
+   breakpoint, so it belongs here and not in --breakpoint-*. */
+@custom-variant any-hover (@media (any-hover: hover));
+
+@theme {
+  --color-lnu-pink: #C40066;
+  --color-lnu-green: #618467;
+  --color-lnu-blue: #175278;
+
+  --breakpoint-xs: 360px;
+  --breakpoint-3xl: 1792px;
+  --breakpoint-4xl: 2560px;
+
+  --spacing-desktop-menu-height: 3.5rem;
+  --spacing-screen-below-desktop-menu: calc(100vh - 3.5rem);
+  --spacing-90vh: 90vh;
+  --spacing-2\/5: 40%;
+  --spacing-1\/2: 50%;
+  --spacing-2\/3: 66.666667%;
+  --spacing-1\/1: 100%;
+  --spacing-screen-3\/5: 60vh;
+  --spacing-screen-2\/3: 66.666667vh;
+
+  --shadow-inner-2xl-top: inset 0 10px 30px -40px rgb(0 0 0 / 1);
+  --shadow-inner-2xl-left: inset 10px 0 30px -40px rgb(0 0 0 / 1);
+
+  --animate-shake-on-load: shake 0.3s ease-in-out;
+  --animate-pulse-on-load: pulse 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(1px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-2px, 0, 0); }
+  40%, 60% { transform: translate3d(2px, 0, 0); }
+}
+
+/* v4 has no --cursor-* theme namespace, so this stays a utility. */
+@utility cursor-zoom {
+  cursor: zoom-in;
+}
+
 @import './_avatar.css' layer(components);
 @import './_horizontal_card.css' layer(components);
 @import './actiontext.css' layer(components);
@@ -22,8 +70,6 @@
 @import './star_picker.css' layer(components);
 @import './pagy.css' layer(components);
 @import './tom_select.css' layer(components);
-
-@config '../../../tailwind.config.js';
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
