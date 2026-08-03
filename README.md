@@ -222,6 +222,12 @@ Two things to know before starting:
   not newer. Debian trixie — what the app image is built on — ships
   `postgresql-client` 17, whose `pg_dump` will refuse an 18 server later on. Run
   the dump from a `postgis/postgis:18-3.6` container instead.
+- **The volume mount path changes.** From 18 on, these images keep data in a
+  major-version subdirectory and expect a single mount at
+  `/var/lib/postgresql`. The accessory currently mounts
+  `data:/var/lib/postgresql/data`, which an 18 image treats as a stray volume
+  and refuses to start on. That line has to change together with the image.
+  See https://github.com/docker-library/postgres/pull/1259
 - **Do staging first.** It is the same host and the same accessory definition, so
   it is a genuine rehearsal.
 
