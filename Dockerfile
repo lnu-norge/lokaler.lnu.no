@@ -3,7 +3,10 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
 ARG RUBY_VERSION=4.0.6
-FROM ruby:$RUBY_VERSION-slim AS base
+# Pin the Debian release explicitly. Plain `-slim` follows whatever release the
+# Ruby image currently defaults to, which silently moved bookworm -> trixie when
+# Ruby went 3.4 -> 4.0. Pinning makes the base OS an intentional upgrade.
+FROM ruby:$RUBY_VERSION-slim-trixie AS base
 
 # Rails app lives here
 WORKDIR /rails
@@ -60,14 +63,19 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY or other env variables needed to precompile
 RUN RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 POSTGRES_DB=dummy POSTGRES_USER=dummy POSTGRES_PASSWORD=dummy POSTGRES_HOST=dummy POSTGRES_PORT=5432 ./bin/rails assets:precompile
 
+# Assets are compiled into app/assets/builds and public/assets by this point, and
+# nothing rebuilds them at runtime (the precompile_assets_once hook only runs in
+# development and test), so ~240MB of node_modules does not need to be shipped.
+RUN rm -rf node_modules
+
 
 # Final stage for app image
 FROM base
 
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y imagemagick libvips && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+# No extra runtime packages needed: base already provides libvips (the Active
+# Storage variant processor), libjemalloc2, curl and postgresql-client.
+# imagemagick used to be installed here but nothing references it — Active
+# Storage uses the vips processor via ruby-vips — and it pulled in 122 packages.
 
 # Copy built artifacts: gems, application
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
