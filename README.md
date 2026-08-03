@@ -203,3 +203,44 @@ Let us know if we can help you out in any way, and feel free to clone this proje
 
 # Backups and restoring
 
+## Upgrading PostgreSQL / PostGIS
+
+The database runs as a Kamal accessory (`db` in `config/deploy.yml`), currently
+`postgis/postgis:15-3.3`, with its data in the `data` volume. Staging and
+production share that image definition and both live on the same host.
+
+PostgreSQL cannot read a data directory written by a different major version, so
+moving 15 → 18 is a dump and restore, not an image bump. Changing the image
+without migrating the data leaves the container unable to start.
+
+The application itself is already verified against the target: the full suite
+passes against PostgreSQL 18.4 / PostGIS 3.6.4, and CI runs `postgis:18-3.6`.
+
+Two things to know before starting:
+
+- **Dump with an 18 client.** `pg_dump` can read servers older than itself but
+  not newer. Debian trixie — what the app image is built on — ships
+  `postgresql-client` 17, whose `pg_dump` will refuse an 18 server later on. Run
+  the dump from a `postgis/postgis:18-3.6` container instead.
+- **Do staging first.** It is the same host and the same accessory definition, so
+  it is a genuine rehearsal.
+
+Rough sequence, per destination:
+
+1. Put the app in maintenance and stop writes: `kamal app stop -d production`.
+2. Dump from the running 15 server using an 18 client, writing outside the
+   volume you are about to replace.
+3. Verify the dump is complete and non-empty before touching anything else.
+4. `kamal accessory stop db -d production`, then rename the data directory on the
+   host rather than deleting it — that renamed directory is the rollback.
+5. Change the `db` accessory image in `config/deploy.yml` to
+   `postgis/postgis:18-3.6` and commit.
+6. `kamal accessory boot db -d production` to initialise a fresh 18 data dir.
+7. Restore the dump, then confirm `SELECT postgis_full_version();` reports 3.6
+   and spot-check row counts against the dump.
+8. `kamal app boot -d production` and smoke-test.
+9. Keep the renamed 15 data directory until you are satisfied, then remove it.
+
+`config/deploy.yml` is deliberately still on `15-3.3`, so step 5 is the point of
+no return — nothing before it changes production.
+
