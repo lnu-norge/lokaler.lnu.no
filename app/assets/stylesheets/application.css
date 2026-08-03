@@ -1,27 +1,27 @@
 @import 'tailwindcss';
 
-@import './_avatar.css' layer(utilities);
-@import './_horizontal_card.css' layer(utilities);
-@import './actiontext.css' layer(utilities);
-@import './autosave-while-typing.css' layer(utilities);
-@import './common_elements.css' layer(utilities);
+@import './_avatar.css' layer(components);
+@import './_horizontal_card.css' layer(components);
+@import './actiontext.css' layer(components);
+@import './autosave-while-typing.css' layer(components);
+@import './common_elements.css' layer(components);
 @import './content.css';
-@import './devise.css' layer(utilities);
-@import './diffy.css' layer(utilities);
-@import './editable.css' layer(utilities);
-@import './flash.css' layer(utilities);
+@import './devise.css' layer(components);
+@import './diffy.css' layer(components);
+@import './editable.css' layer(components);
+@import './flash.css' layer(components);
 @import './forms.css';
-@import './image_slider.css' layer(utilities);
-@import './loading_spaces_when_empty.css' layer(utilities);
-@import './map.css' layer(utilities);
-@import './modal.css' layer(utilities);
-@import './radio_slider.css' layer(utilities);
-@import './show-only-if-inside-space-open-in-sidebar.css' layer(utilities);
-@import './space_index.css' layer(utilities);
-@import './space_table.css' layer(utilities);
-@import './star_picker.css' layer(utilities);
-@import './pagy.css' layer(utilities);
-@import './tom_select.css' layer(utilities);
+@import './image_slider.css' layer(components);
+@import './loading_spaces_when_empty.css' layer(components);
+@import './map.css' layer(components);
+@import './modal.css' layer(components);
+@import './radio_slider.css' layer(components);
+@import './show-only-if-inside-space-open-in-sidebar.css' layer(components);
+@import './space_index.css' layer(components);
+@import './space_table.css' layer(components);
+@import './star_picker.css' layer(components);
+@import './pagy.css' layer(components);
+@import './tom_select.css' layer(components);
 
 @config '../../../tailwind.config.js';
 

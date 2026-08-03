@@ -111,7 +111,7 @@
   width: 100%;
   background: transparent;
   @apply ring-1;
-  @extend .text_field;
+  @apply text_field;
 }
 .ts-wrapper.plugin-input_autogrow.has-items .ts-control > input {
   min-width: 0;
@@ -201,7 +201,7 @@
 }
 
 .ts-control {
-  @extend .text_field;
+  @apply text_field;
   min-height: calc(1.25rem + 1rem + 2px);
   width: 100%;
   overflow: hidden;

@@ -32,7 +32,7 @@
       @apply bg-gray-300 text-gray-600 cursor-not-allowed border-gray-300 shadow-none;
     }
   }
-  @extend .focused-outline;
+  @apply focused-outline;
   &.button--white {
     @apply bg-white border-gray-200;
   }
@@ -77,7 +77,7 @@
   /*
    Input for boolean (aka checkboxes)
    */
-  @extend .vertical_form;
+  @apply vertical_form;
   @apply mb-4 flex items-center;
   .label {
     @apply mt-1.5 mb-1.5;
@@ -88,7 +88,7 @@
   /*
    Collection input for radio buttons and check boxes
    */
-  @extend .vertical_form;
+  @apply vertical_form;
   @apply flex items-center;
   @apply mb-0.5;
 
@@ -155,7 +155,7 @@
 }
 
 @utility label--error {
-  @extend .error_text;
+  @apply error_text;
 }
 
 @utility text_field {
@@ -168,13 +168,13 @@
 }
 
 @utility select_field {
-  @extend .text_field;
+  @apply text_field;
   @apply pr-8;
 }
 
 @utility file_field {
   @apply w-full text-gray-500 px-3 py-2 border rounded-sm;
-  @extend .focused-outline;
+  @apply focused-outline;
 }
 
 @utility checkbox-wrapper {
@@ -182,7 +182,7 @@
 }
 
 @utility checkbox {
-  @extend .focused-outline;
+  @apply focused-outline;
   @apply h-4 w-4 text-lnu-pink focus:ring-lnu-pink border-gray-300 rounded-sm;
 }
 
@@ -191,7 +191,7 @@
 }
 
 @utility range_field {
-  @extend .focused-outline;
+  @apply focused-outline;
   @apply rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full text-gray-300;
 }
 
@@ -204,7 +204,7 @@
 }
 
 @utility multi_select {
-  @extend .focused-outline;
+  @apply focused-outline;
   @apply flex w-auto w-auto shadow-sm appearance-none border border-gray-300;
   @apply rounded-sm w-full p-2 bg-white;
   @apply text-gray-400 leading-4 transition-colors duration-200 ease-in-out;

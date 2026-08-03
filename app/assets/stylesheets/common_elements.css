@@ -6,7 +6,7 @@ a,
   &:hover {
     @apply underline;
   }
-  @extend .focused-outline;
+  @apply focused-outline;
 }
 
 .collapsable {
