@@ -1,1 +1,11 @@
-defaults
+# Tailwind 4 compiles to CSS that relies on cascade layers, @property and
+# color-mix(), which means Safari 16.4+, Chrome 111+ and Firefox 128+.
+# "defaults" resolves to browsers older than that, so it quietly promised
+# support we cannot actually deliver. These floors match Tailwind's own
+# documented baseline.
+Chrome >= 111
+Edge >= 111
+Firefox >= 128
+Safari >= 16.4
+iOS >= 16.4
+not dead

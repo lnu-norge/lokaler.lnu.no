@@ -64,7 +64,6 @@ gem "solid_cable"
 gem "solid_cache"
 gem "solid_queue"
 gem "stimulus-rails"
-gem "tailwindcss-rails-webpacker"
 gem "turbo-rails"
 gem "validate_url"
 
