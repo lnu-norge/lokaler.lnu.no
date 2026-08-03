@@ -1,21 +1,19 @@
-// Flat config, replacing the old .eslintrc.js.
-// ESLint 9 stopped reading .eslintrc by default and ESLint 10 dropped it entirely,
-// so the previous config had silently stopped applying.
+// Flat config. Replaces the old .eslintrc.js, which ESLint 9 stopped reading by
+// default and ESLint 10 dropped support for entirely.
 //
-// airbnb-base still ships as an eslintrc-style config, so it is loaded through
-// FlatCompat rather than rewritten by hand — this keeps the same rule set the
-// project has always used (see CLAUDE.md: "JS: Follows Airbnb base style").
+// Deliberately NOT airbnb-base. That config is unmaintained for flat config, its
+// peer range does not overlap ESLint 10, and it could only be loaded through a
+// FlatCompat shim. More to the point, ~75% of what it reported here was pure
+// formatting (semicolons, quote style, indentation) with no bug-catching value,
+// and a chunk of the rest fought idiomatic Stimulus and Rails naming.
+//
+// What is left is the part that earns its keep: js.configs.recommended catches
+// real defects (undefined variables, unused bindings, unreachable code, dupe
+// keys), plus a handful of rules below that prevent genuine footguns. Formatting
+// is intentionally not linted — that is a formatter's job, not a reviewer's.
 
-import path from 'path';
-import { fileURLToPath } from 'url';
 import js from '@eslint/js';
 import globals from 'globals';
-import { FlatCompat } from '@eslint/eslintrc';
-
-const compat = new FlatCompat({
-  baseDirectory: path.dirname(fileURLToPath(import.meta.url)),
-  recommendedConfig: js.configs.recommended,
-});
 
 export default [
   {
@@ -31,16 +29,38 @@ export default [
       'app/javascript/controllers/index.js',
     ],
   },
-  ...compat.extends('airbnb-base'),
+  js.configs.recommended,
   {
     files: ['app/javascript/**/*.js'],
     languageOptions: {
-      ecmaVersion: 2021,
+      // "latest", not a pinned year: Stimulus controllers use class fields
+      // (`static targets = [...]`), which is ES2022. The old config said 2021,
+      // so 17 of 28 files failed to parse and were silently never linted.
+      ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
         ...globals.browser,
       },
     },
-    rules: {},
+    rules: {
+      // Signals that a binding is never reassigned, and catches the cases where
+      // you thought it was.
+      'prefer-const': 'error',
+      // var is function-scoped and hoisted; let/const are not.
+      'no-var': 'error',
+      // == does type coercion, which surprises people. null is exempted so the
+      // common `x == null` (null or undefined) idiom still works.
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
+      // Left-behind debug logging. A warning rather than an error, since
+      // console.warn/error are legitimate.
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      // Recommended already enables this; widened so a leading underscore marks
+      // an argument as deliberately ignored, which is the usual convention for
+      // callbacks whose signature you do not control.
+      'no-unused-vars': ['error', {
+        argsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      }],
+    },
   },
 ];

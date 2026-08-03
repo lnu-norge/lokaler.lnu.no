@@ -36,7 +36,6 @@ export default class extends Controller {
   }
 
   async setup() {
-    console.log("Setting up mapbox, this should only happen once")
     await this.runStoredFilters();
   }
 
@@ -71,7 +70,6 @@ export default class extends Controller {
       });
       this.setupEventCallbacks();
     } else {
-      console.log("Map already exists");
       this.map.fitBounds(options.bounds)
     }
 
@@ -448,7 +446,7 @@ export default class extends Controller {
 
 
     // Get the bounds of the source data
-    let bounds = new mapboxgl.LngLatBounds();
+    const bounds = new mapboxgl.LngLatBounds();
 
     features.forEach(function(feature) {
       switch (feature.geometry.type) {
@@ -534,7 +532,6 @@ export default class extends Controller {
   }
 
   setHoverMarker(spaceData) {
-    console.log("Setting hover marker")
     // If a marker is already added, then just update that element, otherwise, create a new one
     const html_element = this.hoveringMarker
       ? this.hoveringMarker.getElement()
@@ -548,7 +545,7 @@ export default class extends Controller {
 
   }
 
-  removeCurrentHoverMarker(spaceId) {
+  removeCurrentHoverMarker() {
     this.hoveringMarker?.remove();
     this.hoveringMarker = null;
   }

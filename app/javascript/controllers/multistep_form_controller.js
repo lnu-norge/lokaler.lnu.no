@@ -10,7 +10,7 @@ export default class extends Controller {
   }
 
   previousStep() {
-    if(this.steps == 0) {
+    if(this.steps === 0) {
       return;
     }
 
@@ -19,7 +19,7 @@ export default class extends Controller {
   }
 
   nextStep() {
-    if(this.steps == this.stepTargets.length - 1) {
+    if(this.steps === this.stepTargets.length - 1) {
       return;
     }
 
@@ -37,7 +37,7 @@ export default class extends Controller {
     this.hide(this.saveTarget);
     this.hide(this.backToMainFormTarget);
 
-    if(this.steps == 0) {
+    if(this.steps === 0) {
       this.hide(this.previousTarget);
       this.show(this.backToMainFormTarget);
     }
@@ -45,7 +45,7 @@ export default class extends Controller {
       this.show(this.previousTarget);
     }
 
-    if(this.steps == this.stepTargets.length - 1) {
+    if(this.steps === this.stepTargets.length - 1) {
       this.hide(this.nextTarget);
       this.show(this.saveTarget);
     }

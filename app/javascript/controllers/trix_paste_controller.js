@@ -14,7 +14,7 @@ export default class extends Controller {
       return;
     }
 
-    const regex = /^(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})$/ig
+    const regex = /^(https?:\/\/(?:www\.|(?!www))[^\s.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})$/ig
 
     const pastedText = event.clipboardData?.getData?.("Text")
     if (!!pastedText && !!pastedText.match(regex)) {
@@ -25,10 +25,10 @@ export default class extends Controller {
   pasteUrl(pastedText) {
     const editor = this.element.editor
 
-    let currentText = editor.getDocument().toString()
-    let currentSelection = editor.getSelectedRange()
-    let textWeAreInterestedIn = currentText.substring(0, currentSelection[0])
-    let startOfPastedText = textWeAreInterestedIn.lastIndexOf(pastedText)
+    const currentText = editor.getDocument().toString()
+    const currentSelection = editor.getSelectedRange()
+    const textWeAreInterestedIn = currentText.substring(0, currentSelection[0])
+    const startOfPastedText = textWeAreInterestedIn.lastIndexOf(pastedText)
     editor.recordUndoEntry("Auto Link Paste")
     editor.setSelectedRange([startOfPastedText, currentSelection[0]])
     editor.activateAttribute('href', pastedText)

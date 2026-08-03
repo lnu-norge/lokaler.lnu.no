@@ -30,7 +30,7 @@ export default class extends Controller {
     });
 
     const titleField = form.querySelector("#space_title")
-    titleField.addEventListener('input', (e) => {
+    titleField.addEventListener('input', () => {
       this.checkDuplicates()
     })
   }

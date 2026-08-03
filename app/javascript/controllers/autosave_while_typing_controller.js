@@ -33,7 +33,6 @@ export default class extends Controller {
   }
 
   setCssClass(state) {
-    console.log("Setting state", state)
     this.removeCssClasses()
     this.statusElement.classList.add(this.cssClassFor(state))
   }
