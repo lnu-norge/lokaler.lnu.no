@@ -29,8 +29,8 @@ class FacilityReviewsController < BaseControllers::AuthenticateController
   private
 
   def save_review_data
-    # Data to save:
-    params.permit(facility_review: [:user_id, :experience, :description])
+    # Data to save. Read as scalars and passed to update one key at a time
+    # below, so there is no mass assignment to permit.
     @user_id = params[:facility_review][:user_id]
     @experience = params[:facility_review][:experience]
     @description = params[:facility_review][:description]
