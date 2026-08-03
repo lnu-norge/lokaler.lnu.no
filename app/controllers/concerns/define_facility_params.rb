@@ -6,8 +6,10 @@ module DefineFacilityParams
   private
 
   def require_facility_params
+    # Raises ParameterMissing unless both are present. facility_category_id is
+    # optional and read directly in #set_category; there is no mass assignment
+    # in this flow, so there is nothing for permit to guard.
     params.require([:space_id, :facility_id])
-    params.permit([:facility_category_id])
     @space = Space.find(params[:space_id])
     @facility = Facility.find(params[:facility_id])
     @space_facility = SpaceFacility.find_by(space: @space, facility: @facility)
