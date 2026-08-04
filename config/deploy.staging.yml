@@ -22,6 +22,19 @@ env:
     POSTGRES_PORT: 5432
 accessories:
   db:
+    # PostgreSQL 18 ahead of production, which is still on the 15-3.3 defined in
+    # deploy.yml. Overridden here rather than there so the shared file keeps
+    # describing what production actually runs — otherwise any accessory command
+    # aimed at production would boot 18 against a 15 data directory and fail.
+    # Promote to deploy.yml once production has been migrated too.
+    #
+    # The mount path moves with the image: from 18 on these images keep data in
+    # a major-version subdirectory and expect a single mount at
+    # /var/lib/postgresql. Mounting the old .../data makes the container treat it
+    # as a stray volume and refuse to start.
+    image: postgis/postgis:18-3.6
+    directories:
+      - data:/var/lib/postgresql
     port: "127.0.0.1:5433:5432"
     env:
       clear:
