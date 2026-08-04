@@ -13,7 +13,6 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
   # manually precompile assets to see changes made
   # after the app was booted.
   if ENV["ASSETS_COMPILED_LIKE_IN_PROD"].present?
-    config.assets.compile = false
     config.serve_static_files = true
     system("rake precompile_assets_once")
   end
@@ -81,9 +80,6 @@ Rails.application.configure do # rubocop:disable Metrics/BlockLength
 
   # Use Solid Queue in Development.
   config.active_job.queue_adapter = :solid_queue
-
-  # Suppress logger output for asset requests.
-  config.assets.quiet = true
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

@@ -30,6 +30,28 @@ module LokalerLnuNo
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Propshaft publishes everything on its asset paths, where Sprockets only
+    # precompiled what app/assets/config/manifest.js explicitly linked. These
+    # three are inputs to postcss and esbuild rather than servable assets, so
+    # without excluding them every partial stylesheet and every Stimulus
+    # controller gets digested and shipped next to the real bundles.
+    # Has to be set here: Propshaft applies excluded_paths in its own
+    # append_assets_path initializer, which runs after config/initializers.
+    config.assets.excluded_paths = [
+      Rails.root.join("app/assets/stylesheets"),
+      Rails.root.join("app/javascript"),
+      Rails.root.join("vendor/javascript")
+    ]
+
+    # excluded_paths only catches part of it. Propshaft applies it as
+    # `paths - excluded.collect(&:to_s)`, and the entries for app/javascript and
+    # vendor/javascript are Pathname rather than String, so `-` never matches
+    # them. Compare as strings once the paths are final.
+    config.after_initialize do
+      excluded = config.assets.excluded_paths.map(&:to_s)
+      config.assets.paths.reject! { |path| excluded.include?(path.to_s) }
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

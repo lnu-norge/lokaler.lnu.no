@@ -16,7 +16,6 @@ Rails.application.configure do
   # This requires us to run yarn build, yarn build:css and rails assets:precompile before running tests
   # This should be automatically done for you.
   config.assets.prefix = "/assets-test"
-  config.assets.compile = false
   config.serve_static_files = true
 
   # Run precompilation before tests are run

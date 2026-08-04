@@ -15,8 +15,7 @@ gem "puma", "~> 8.0"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.14"
 
-# Still using sprockets, might remove later
-gem "sprockets-rails", require: "sprockets/railtie"
+gem "propshaft"
 
 # Use Active Storage variant
 gem "image_processing"
@@ -99,7 +98,6 @@ group :development do
   gem "rack-livereload", require: false
   gem "rack-mini-profiler"
   gem "rails-erd"
-  gem "rails_real_favicon"
   gem "rubocop", require: false
   gem "rubocop-capybara", require: false
   gem "rubocop-performance", require: false
