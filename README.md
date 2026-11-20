@@ -21,7 +21,7 @@ If you find bugs, please submit them.
 
 ### Pre-requisites
 
-- **Ruby 4.0.6** — the exact version lives in `.ruby-version`, so most version
+- **Ruby 4.0.10** — the exact version lives in `.ruby-version`, so most version
   managers (chruby, rbenv, mise, asdf) will pick it up on their own
 - **Rails 8.1** — installed by `bundle install`, no need to install it yourself
 - **Node 26.5.1** — the exact version lives in `.nvmrc` (`nvm use` reads it)

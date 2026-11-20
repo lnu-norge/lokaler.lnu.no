@@ -2,7 +2,7 @@
 # check=error=true
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-ARG RUBY_VERSION=4.0.6
+ARG RUBY_VERSION=4.0.10
 # Pin the Debian release explicitly. Plain `-slim` follows whatever release the
 # Ruby image currently defaults to, which silently moved bookworm -> trixie when
 # Ruby went 3.4 -> 4.0. Pinning makes the base OS an intentional upgrade.
